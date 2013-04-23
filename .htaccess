@@ -1,0 +1,10 @@
+RewriteEngine on
+
+ErrorDocument 404 /404.php
+
+# client-side URI mapping
+RewriteBase /
+
+# rewrite urls
+#RewriteRule ^([a-z_]+)/$        $1         [R,QSA]
+RewriteRule ^([a-z_]+)$         $1.php     [L,QSA]
