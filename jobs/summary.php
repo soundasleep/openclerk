@@ -18,6 +18,14 @@ switch ($summary['summary_type']) {
 		require("jobs/summary/totalbtc.php");
 		break;
 
+	case "totalltc":
+		require("jobs/summary/totalltc.php");
+		break;
+
+	case "totalnmc":
+		require("jobs/summary/totalnmc.php");
+		break;
+
 	default:
 		throw new JobException("Unknown summary type " . $summary['summary_type']);
 		break;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Summary job: total BTC.
+ * Summary job: total LTC.
  */
 
 $total = 0;
@@ -10,12 +10,12 @@ $total = 0;
 $q = db()->prepare("SELECT * FROM address_balances
 	JOIN addresses ON address_balances.address_id=addresses.id
 	WHERE address_balances.user_id=? AND is_recent=1 AND currency=?");
-$q->execute(array($job['user_id'], 'btc'));
+$q->execute(array($job['user_id'], 'ltc'));
 while ($balance = $q->fetch()) {
 	$total += $balance['balance'];
 }
 
-crypto_log("Total BTC balance for user " . $job['user_id'] . ": " . $total);
+crypto_log("Total LTC balance for user " . $job['user_id'] . ": " . $total);
 
 // update old summaries
 $q = db()->prepare("UPDATE summary_instances SET is_recent=0 WHERE is_recent=1 AND user_id=? AND summary_type=?");
