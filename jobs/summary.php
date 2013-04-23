@@ -13,6 +13,8 @@ if (!$summary) {
 }
 
 // what kind of summary is it?
+// this will set a runtime value $total.
+$total = 0;
 switch ($summary['summary_type']) {
 	case "totalbtc":
 		require("jobs/summary/totalbtc.php");
@@ -26,7 +28,24 @@ switch ($summary['summary_type']) {
 		require("jobs/summary/totalnmc.php");
 		break;
 
+	case "all2btc":
+		require("jobs/summary/all2btc.php");
+		break;
+
 	default:
 		throw new JobException("Unknown summary type " . $summary['summary_type']);
 		break;
 }
+
+// update old summaries
+$q = db()->prepare("UPDATE summary_instances SET is_recent=0 WHERE is_recent=1 AND user_id=? AND summary_type=?");
+$q->execute(array($job['user_id'], $summary['summary_type']));
+
+// insert new summary
+$q = db()->prepare("INSERT INTO summary_instances SET is_recent=1, user_id=:user_id, summary_type=:summary_type, balance=:balance");
+$q->execute(array(
+	"user_id" => $job['user_id'],
+	"summary_type" => $summary['summary_type'],
+	"balance" => $total,
+));
+crypto_log("Inserted new summary_instances id=" . db()->lastInsertId());

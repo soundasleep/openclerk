@@ -19,6 +19,7 @@ function added_job($job) {
 
 // standard jobs involve an 'id' from a table and a 'user_id' from the same table
 $standard_jobs = array(
+	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'addresses', 'type' => 'blockchain'),
 	array('table' => 'summaries', 'type' => 'summary'),
 );
@@ -30,7 +31,7 @@ foreach ($standard_jobs as $standard) {
 		$job = array(
 			"priority" => $priority,
 			"type" => $standard['type'],
-			"user_id" => $address['user_id'],
+			"user_id" => isset($standard['user_id']) ? $standard['user_id'] : $address['user_id'],
 			"arg_id" => $address['id'],
 		);
 

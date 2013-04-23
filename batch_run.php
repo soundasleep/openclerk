@@ -37,16 +37,13 @@ function crypto_wrap_url($url) {
 }
 
 // otherwise, we'll want to actually execute something, based on the job type
+crypto_log("Executing job " . htmlspecialchars(print_r($job, true)));
 $runtime_exception = null;
 try {
 	switch ($job['job_type']) {
 		// ticker jobs
-		case "ticker-btce":
-			require("jobs/ticker-btce.php");
-			break;
-
-		case "ticker-bitnz":
-			require("jobs/ticker-bitnz.php");
+		case "ticker":
+			require("jobs/ticker.php");
 			break;
 
 		// address jobs
@@ -58,6 +55,7 @@ try {
 			require("jobs/generic.php");
 			break;
 
+		// summary jobs
 		case "summary":
 			require("jobs/summary.php");
 			break;
