@@ -49,12 +49,12 @@ CREATE TABLE accounts_btce (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	created_at datetime not null default now(),
-	last_update datetime,
+	last_queue datetime,
 
 	api_key varchar(255) not null,
 	api_secret varchar(255) not null,
 
-	INDEX(user_id)
+	INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_poolx;
@@ -63,11 +63,11 @@ CREATE TABLE accounts_poolx (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	created_at datetime not null default now(),
-	last_update datetime,
+	last_queue datetime,
 	
 	api_key varchar(255) not null,
 	
-	INDEX(user_id)
+	INDEX(user_id), INDEX(last_queue)
 );
 
 -- generic API requests
@@ -78,16 +78,16 @@ CREATE TABLE accounts_generic (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	created_at datetime not null default now(),
-	last_update datetime,
+	last_queue datetime,
 	
 	title varchar(255),
 	currency varchar(3),
 	api_url varchar(255) not null,
 	
-	INDEX(user_id), INDEX(currency)
+	INDEX(user_id), INDEX(currency), INDEX(last_queue)
 );
 
--- all accounts and addresses are summarised into balances
+-- all accounts (but not addresses) are summarised into balances
 
 DROP TABLE IF EXISTS balances;
 
@@ -95,17 +95,17 @@ CREATE TABLE balances (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	created_at datetime not null default now(),
-	last_update datetime,
+	last_queue datetime,
 	
 	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz
 	-- we dont need to worry too much about precision
-	balance float not null,
+	balance decimal(16,8) not null,
 	currency varchar(3) not null,
 	
-	INDEX(user_id), INDEX(exchange), INDEX(currency)
+	INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(last_queue)
 );
 
--- all of the different crypto addresses that users can have --
+-- all of the different crypto addresses that users can have, and their balances --
 
 DROP TABLE IF EXISTS addresses;
 
@@ -113,11 +113,25 @@ CREATE TABLE addresses (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	created_at datetime not null default now(),
+	last_queue datetime,
 
 	currency varchar(3) not null,
 	address varchar(36) not null,
 	
-	INDEX(currency), INDEX(user_id)
+	INDEX(currency), INDEX(user_id), INDEX(last_queue)
+);
+
+DROP TABLE IF EXISTS address_balances;
+
+CREATE TABLE address_balances (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	address_id int not null,
+	created_at datetime not null default now(),
+	
+	balance decimal(16,8) not null,
+	
+	INDEX(user_id), INDEX(address_id)
 );
 
 -- users can also specify offsets for non-API values --
@@ -130,7 +144,7 @@ CREATE TABLE offsets (
 	created_at datetime not null default now(),
 	
 	currency varchar(3) not null,
-	balance float not null,
+	balance decimal(16,8) not null,
 	
 	-- TODO titles/descriptions?
 	
@@ -146,11 +160,11 @@ CREATE TABLE exchanges (
 	created_at datetime not null default now(),
 	
 	name varchar(32) not null unique,
-	last_update datetime,
+	last_queue datetime,
 	-- this just stores last updated, not what currencies to download etc (defined in PHP)
 	-- and also defines unique names for exchanges
 
-	INDEX(last_update), INDEX(name)
+	INDEX(last_queue), INDEX(name)
 );
 
 INSERT INTO exchanges SET name='btce';
@@ -168,10 +182,10 @@ CREATE TABLE ticker (
 	currency2 varchar(3),
 
 	-- we don't need to worry too much about precision
-	last_trade float,
-	buy float,
-	sell float,
-	volume float,
+	last_trade decimal(16,8),
+	buy decimal(16,8),
+	sell decimal(16,8),
+	volume decimal(16,8),
 
 	INDEX(exchange), INDEX(currency1), INDEX(currency2)
 );
@@ -198,7 +212,7 @@ CREATE TABLE summary_instances (
 	summary_type varchar(32) not null,
 	
 	-- we dont need to worry too much about precision
-	balance float,
+	balance decimal(16,8),
 	
 	INDEX(summary_type), INDEX(user_id)
 );
@@ -211,12 +225,15 @@ CREATE TABLE jobs (
 	id int not null auto_increment primary key,
 	created_at datetime not null default now(),
 	
-	priority tinyint not null default 0, -- lower value = higher priority
+	priority tinyint not null default 10, -- lower value = higher priority
 	
 	job_type varchar(32) not null,
 	user_id int not null,	-- requesting user ID, may be system ID (100)
+	arg_id int,	-- argument for the job, a foreign key ID; may be null
+	
+	is_executed tinyint not null default 0,
 	
 	executed_at datetime,
 	
-	INDEX(job_type), INDEX(priority), INDEX(user_id)
+	INDEX(job_type), INDEX(priority), INDEX(user_id), INDEX(is_executed)
 );
