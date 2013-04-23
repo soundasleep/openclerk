@@ -3,8 +3,11 @@ RewriteEngine on
 ErrorDocument 404 /404.php
 
 # client-side URI mapping
-RewriteBase /
+# if you are running in a top-level domain, you should use this:
+# RewriteBase /
+# if you are running in a subfolder, you should instead use this:
+RewriteBase /clerk
 
 # rewrite urls
-#RewriteRule ^([a-z_]+)/$        $1         [R,QSA]
-RewriteRule ^([a-z_]+)$         $1.php     [L,QSA]
+#RewriteRule ^([0-9a-z_]+)/$        $1         [R,QSA]
+RewriteRule ^([0-9a-z_]+)$         $1.php     [L,QSA]
