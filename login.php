@@ -101,7 +101,7 @@ try {
 
 		// redirect
 		if (!$destination)
-			$destination = url_for('status');
+			$destination = url_for('profile');
 
 		// possible injection here... strip all protocol information to prevent redirection to external site
 		$destination = str_replace('#[a-z]+://#im', '', $destination);
@@ -143,7 +143,7 @@ page_header("Login", "page_login");
 	</tr>
 	<tr>
 		<th></th>
-		<td><label><input type="checkbox" name="autologin"<?php if ($autologin) echo " checked"; ?>> Automatically log in</label></td>
+		<td><label><input type="checkbox" name="autologin" checked> Automatically log in</label></td>
 	</tr>
 	<tr>
 		<td colspan="2" class="buttons">

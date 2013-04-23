@@ -9,11 +9,11 @@ CREATE TABLE users (
 	created_at datetime not null default now(),
 	updated_at datetime not null default now() on update now(),
 	last_login datetime,
+	
 	INDEX(openid_identity)
 );
 
 INSERT INTO users SET id=100,name='System',openid_identity='http://openclerk.org/',email='support@openclerk.org',is_admin=0;
-INSERT INTO users SET name='Admin',openid_identity='http://www.jevon.org/',email='jevon@jevon.org',is_admin=1;
 
 DROP TABLE IF EXISTS valid_user_keys;
 
@@ -80,9 +80,11 @@ CREATE TABLE accounts_generic (
 	created_at datetime not null default now(),
 	last_update datetime,
 	
+	title varchar(255),
+	currency varchar(3),
 	api_url varchar(255) not null,
 	
-	INDEX(user_id)
+	INDEX(user_id), INDEX(currency)
 );
 
 -- all accounts and addresses are summarised into balances
@@ -116,6 +118,23 @@ CREATE TABLE addresses (
 	address varchar(36) not null,
 	
 	INDEX(currency), INDEX(user_id)
+);
+
+-- users can also specify offsets for non-API values --
+
+DROP TABLE IF EXISTS offsets;
+
+CREATE TABLE offsets (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at datetime not null default now(),
+	
+	currency varchar(3) not null,
+	balance float not null,
+	
+	-- TODO titles/descriptions?
+	
+	INDEX(user_id), INDEX(currency)
 );
 
 -- all of the different exchanges that provide ticker data --
@@ -159,17 +178,29 @@ CREATE TABLE ticker (
 
 -- and we want to provide summary data for users --
 
-DROP TABLE IF EXISTS user_summaries;
+DROP TABLE IF EXISTS summaries;
 
-CREATE TABLE user_summaries (
+CREATE TABLE summaries (
 	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at datetime not null default now(),
+	summary_type varchar(32) not null,
+	
+	INDEX(summary_type), INDEX(user_id)
+);
+
+DROP TABLE IF EXISTS summary_instances;
+
+CREATE TABLE summary_instances (
+	id int not null auto_increment primary key,
+	user_id int not null,
 	created_at datetime not null default now(),
 	summary_type varchar(32) not null,
 	
 	-- we dont need to worry too much about precision
 	balance float,
 	
-	INDEX(summary_type)
+	INDEX(summary_type), INDEX(user_id)
 );
 
 -- to request data, we insert in jobs
