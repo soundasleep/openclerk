@@ -20,11 +20,12 @@ function added_job($job) {
 // standard jobs involve an 'id' from a table and a 'user_id' from the same table
 $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'blockchain'),
+	array('table' => 'summaries', 'type' => 'summary'),
 );
 
 foreach ($standard_jobs as $standard) {
-	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE last_queue < DATE_SUB(NOW(), INTERVAL 1 DAY) OR ISNULL(last_queue)");
-	$q->execute();
+	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE last_queue < DATE_SUB(NOW(), INTERVAL ? HOUR) OR ISNULL(last_queue)");
+	$q->execute(array(get_site_config('refresh_queue_hours')));
 	while ($address = $q->fetch()) {
 		$job = array(
 			"priority" => $priority,
@@ -34,7 +35,7 @@ foreach ($standard_jobs as $standard) {
 		);
 
 		// make sure the new job doesn't already exist
-		$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id LIMIT 1");
+		$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND is_executed=0 LIMIT 1");
 		$q2->execute(array('type' => $job['type'], 'arg_id' => $job['arg_id']));
 		if (!$q2->fetch()) {
 			$q2 = db()->prepare("INSERT INTO jobs SET priority=:priority, job_type=:type, user_id=:user_id, arg_id=:arg_id");

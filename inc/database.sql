@@ -101,8 +101,9 @@ CREATE TABLE balances (
 	-- we dont need to worry too much about precision
 	balance decimal(16,8) not null,
 	currency varchar(3) not null,
+	is_recent tinyint not null default 0,
 	
-	INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(last_queue)
+	INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(last_queue), INDEX(is_recent)
 );
 
 -- all of the different crypto addresses that users can have, and their balances --
@@ -130,8 +131,9 @@ CREATE TABLE address_balances (
 	created_at datetime not null default now(),
 	
 	balance decimal(16,8) not null,
+	is_recent tinyint not null default 0,
 	
-	INDEX(user_id), INDEX(address_id)
+	INDEX(user_id), INDEX(address_id), INDEX(is_recent)
 );
 
 -- users can also specify offsets for non-API values --
@@ -146,9 +148,11 @@ CREATE TABLE offsets (
 	currency varchar(3) not null,
 	balance decimal(16,8) not null,
 	
+	is_recent tinyint not null default 0,
+	
 	-- TODO titles/descriptions?
 	
-	INDEX(user_id), INDEX(currency)
+	INDEX(user_id), INDEX(currency), INDEX(is_recent)
 );
 
 -- all of the different exchanges that provide ticker data --
@@ -187,7 +191,9 @@ CREATE TABLE ticker (
 	sell decimal(16,8),
 	volume decimal(16,8),
 
-	INDEX(exchange), INDEX(currency1), INDEX(currency2)
+	is_recent tinyint not null default 0,
+
+	INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(is_recent)
 );
 
 -- and we want to provide summary data for users --
@@ -198,9 +204,11 @@ CREATE TABLE summaries (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	created_at datetime not null default now(),
+	last_queue datetime,
+	
 	summary_type varchar(32) not null,
 	
-	INDEX(summary_type), INDEX(user_id)
+	INDEX(summary_type), INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS summary_instances;
@@ -211,10 +219,12 @@ CREATE TABLE summary_instances (
 	created_at datetime not null default now(),
 	summary_type varchar(32) not null,
 	
+	is_recent tinyint not null default 0,
+	
 	-- we dont need to worry too much about precision
 	balance decimal(16,8),
 	
-	INDEX(summary_type), INDEX(user_id)
+	INDEX(summary_type), INDEX(user_id), INDEX(is_recent)
 );
 
 -- to request data, we insert in jobs
