@@ -21,6 +21,7 @@ $messages = array();
 
 // is there a command to the page?
 // TODO eventually replace this with ajax stuff
+$enable_editing = false;
 require("_profile_move.php");
 
 // get all pages
@@ -60,14 +61,23 @@ if ($pages) {
 <?php } ?>
 </ul>
 
-<label><input type="checkbox" id="enable_editing"> Enable layout editing</label>
+<label><input type="checkbox" id="enable_editing"<?php if ($enable_editing) echo " checked"; ?>> Enable layout editing</label>
 
 <!-- graphs for this page -->
 <div class="graph_collection">
-<?php foreach ($graphs as $graph) { ?>
-<div class="graph" id="graph<?php echo htmlspecialchars($graph['id']); ?>">
+<?php foreach ($graphs as $graph) {
+
+if ($graph['graph_type'] == "linebreak") { ?>
+<div style="clear:both;">
+<div class="graph_controls">
+<?php } ?>
+<div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>" id="graph<?php echo htmlspecialchars($graph['id']); ?>">
 	<?php render_graph($graph); ?>
 </div>
+<?php if ($graph['graph_type'] == "linebreak") { ?>
+</div>
+</div>
+<?php } ?>
 <?php } ?>
 </div>
 

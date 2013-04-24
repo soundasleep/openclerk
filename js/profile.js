@@ -40,5 +40,6 @@ $(document).ready(function() {
 				targets.hide();
 			}
 		});
+		e.change(); // in case it's already checked at page generation time
 	}
 });

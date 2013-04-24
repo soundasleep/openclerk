@@ -92,6 +92,10 @@ function render_graph($graph) {
 			render_table_vertical($graph, $data);
 			break;
 
+		case "linebreak":
+			// implemented by profile.php
+			break;
+
 		default:
 			throw new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
 	}
@@ -107,6 +111,8 @@ function graph_types() {
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox BTC', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies.'),
 		'fiat_converted_table' => array('title' => 'Converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted into fiat currencies via BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+
+		'linebreak' => array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.'),
 	);
 }
 

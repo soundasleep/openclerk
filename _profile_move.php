@@ -1,6 +1,8 @@
 <?php
 
 if (require_get("move_up", false)) {
+	$enable_editing = true;
+
 	// current graph
 	$graph_id = require_get("move_up");
 	$q = db()->prepare("SELECT graphs.* FROM graphs
@@ -37,6 +39,8 @@ if (require_get("move_up", false)) {
 }
 
 if (require_get("move_down", false)) {
+	$enable_editing = true;
+
 	// current graph
 	$graph_id = require_get("move_down");
 	$q = db()->prepare("SELECT graphs.* FROM graphs
@@ -73,6 +77,8 @@ if (require_get("move_down", false)) {
 }
 
 if (require_get("remove", false)) {
+	$enable_editing = true;
+
 	// current graph
 	$graph_id = require_get("remove");
 	$q = db()->prepare("SELECT graphs.* FROM graphs
@@ -95,6 +101,8 @@ if (require_get("remove", false)) {
 }
 
 if (require_get("restore", false)) {
+	$enable_editing = true;
+
 	// current graph
 	$graph_id = require_get("restore");
 	$q = db()->prepare("SELECT graphs.* FROM graphs
