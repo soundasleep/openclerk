@@ -1,3 +1,8 @@
+<Files "_*">
+	Order deny,allow
+	Deny from all
+</Files>
+
 RewriteEngine on
 
 ErrorDocument 404 /404.php
