@@ -27,19 +27,19 @@ function render_graph($graph) {
 
 			// create data
 			$data = array();
-			if (isset($balances['totalbtc']) && $balances['totalbtc']) {
+			if (isset($balances['totalbtc']) && $balances['totalbtc']['balance'] != 0) {
 				$data['BTC'] = ($balances['totalbtc']['balance']);
 			}
-			if (isset($balances['totalltc']) && $balances['totalltc'] && isset($rates['btcltc'])) {
+			if (isset($balances['totalltc']) && $balances['totalltc']['balance'] != 0 && isset($rates['btcltc'])) {
 				$data['LTC'] = ($balances['totalltc']['balance'] * $rates['btcltc']['sell']);
 			}
-			if (isset($balances['totalnmc']) && $balances['totalnmc'] && isset($rates['btcnmc'])) {
+			if (isset($balances['totalnmc']) && $balances['totalnmc']['balance'] != 0 && isset($rates['btcnmc'])) {
 				$data['NMC'] = ($balances['totalnmc']['balance'] * $rates['btcnmc']['sell']);
 			}
-			if (isset($balances['totalusd']) && $balances['totalusd'] && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
+			if (isset($balances['totalusd']) && $balances['totalusd']['balance'] != 0 && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
 				$data['USD'] = ($balances['totalusd']['balance'] / $rates['usdbtc']['buy']);
 			}
-			if (isset($balances['totalnzd']) && $balances['totalnzd'] && isset($rates['nzdbtc']) && $rates['nzdbtc'] /* no div by 0 */) {
+			if (isset($balances['totalnzd']) && $balances['totalnzd']['balance'] != 0 && isset($rates['nzdbtc']) && $rates['nzdbtc'] /* no div by 0 */) {
 				$data['NZD'] = ($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']);
 			}
 
@@ -56,7 +56,23 @@ function render_graph($graph) {
 			);
 
 			render_table_vertical($graph, $data);
+			break;
 
+		case "balances_table":
+			// a table of each currency
+			// get all balances
+			$balances = get_all_summary_instances();
+
+			// create data
+			$data = array();
+			$currencies = array('btc', 'ltc', 'nmc', 'usd', 'nzd');
+			foreach ($currencies as $c) {
+				if (isset($balances['total'.$c]) && $balances['total'.$c]['balance'] != 0) {
+					$data[] = array(strtoupper($c), currency_format($c, $balances['total'.$c]['balance'], 4));
+				}
+			}
+
+			render_table_vertical($graph, $data);
 			break;
 
 		default:
@@ -72,6 +88,7 @@ function graph_types() {
 	return array(
 		'btc_equivalent' => array('title' => 'Equivalent BTC balances', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox BTC', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
+		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies.'),
 	);
 }
 
