@@ -105,6 +105,10 @@ try {
 			require("jobs/btce.php");
 			break;
 
+		case "poolx":
+			require("jobs/poolx.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");

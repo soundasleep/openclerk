@@ -56,6 +56,7 @@ foreach ($exchange_data as $exchange => $pairs) {
 $balances_data = array(
 	"Generic API" => array('btc', 'ltc', 'nmc', 'nzd', 'usd'),
 	"BTC-E" => array('btc', 'ltc', 'nmc', 'usd'),
+	"Pool-x.eu" => array('ltc'),
 );
 
 // summarise
@@ -77,6 +78,42 @@ foreach ($balances_data as $exchange => $currencies) {
 </thead>
 <tbody>
 	<?php foreach ($balances_data as $exchange => $currencies) { ?>
+	<tr>
+		<td><?php echo htmlspecialchars($exchange); ?></td>
+		<?php foreach ($all_currencies as $p) { ?>
+		<?php echo in_array($p, $currencies) ? "<td class=\"yes\">Y</td>" : "<td class=\"no\"></td>"; ?>
+		<?php } ?>
+	</tr>
+	<?php } ?>
+</tbody>
+</table>
+
+<h2>Supported addresses</h2>
+
+<?php
+$addresses_data = array(
+	"Blockchain" => array('btc'),
+);
+
+// summarise
+$all_currencies = array();
+foreach ($addresses_data as $exchange => $currencies) {
+	foreach ($currencies as $p) {
+		$all_currencies[$p] = $p;
+	}
+}
+?>
+<table>
+<thead>
+	<tr>
+		<th>Source</th>
+		<?php foreach ($all_currencies as $p) { ?>
+		<th><?php echo htmlspecialchars($p); ?></th>
+		<?php } ?>
+	</tr>
+</thead>
+<tbody>
+	<?php foreach ($addresses_data as $exchange => $currencies) { ?>
 	<tr>
 		<td><?php echo htmlspecialchars($exchange); ?></td>
 		<?php foreach ($all_currencies as $p) { ?>

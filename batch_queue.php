@@ -24,6 +24,7 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'blockchain'),
 	array('table' => 'accounts_generic', 'type' => 'generic'),
 	array('table' => 'accounts_btce', 'type' => 'btce'),
+	array('table' => 'accounts_poolx', 'type' => 'poolx'),
 	array('table' => 'summaries', 'type' => 'summary'),
 );
 
