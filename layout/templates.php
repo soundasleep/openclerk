@@ -100,23 +100,25 @@ function ltc_address($address) {
 	return "<span class=\"ltc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/address/" . $address) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
 }
 
-function ltc_format($n) {
+function ltc_transaction($txid) {
+	return "<span class=\"ltc_transaction\" title=\"" . htmlspecialchars($txid) . "\"><a href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/tx/" . $txid) . "\">" . htmlspecialchars(substr($txid, 0, 8) . "...") . "</a>
+		 <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/tx/" . $txid) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
+}
+
+function currency_format($currency_code, $n, $max_digits = 8) {
+	$currency = strtoupper($currency_code);
+
 	if (!is_numeric($n)) {
-		return "<span class=\"error\">" . $n . " LTC</span>";
+		return "<span class=\"error\">" . $n . " $currency</span>";
 	}
 
 	// find the lowest precision that we need
-	$prec = 8;
-	for ($i = 0; $i < 7; $i++) {
+	$prec = $max_digits;
+	for ($i = 0; $i < $prec - 1; $i++) {
 		if (number_format($n, $i) == $n) {
 			$prec = $i;
 			break;
 		}
 	}
-	return "<span class=\"ltc_format\" title=\"" . number_format($n, 8) . " LTC\">" . number_format($n, $prec) . " LTC</span>";
-}
-
-function ltc_transaction($txid) {
-	return "<span class=\"ltc_transaction\" title=\"" . htmlspecialchars($txid) . "\"><a href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/tx/" . $txid) . "\">" . htmlspecialchars(substr($txid, 0, 8) . "...") . "</a>
-		 <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/tx/" . $txid) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
+	return "<span class=\"" . strtolower($currency) . "_format\" title=\"" . number_format($n, 8) . " $currency\">" . number_format($n, $prec) . " $currency</span>";
 }

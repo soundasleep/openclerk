@@ -7,6 +7,13 @@ function render_graph($graph) {
 
 	$graph_types = graph_types();
 	$graph_type = $graph_types[$graph['graph_type']];
+	if (!$graph_type) {
+		throw new GraphException("Unknown graph type " . htmlspecialchars($graph['graph_type']));
+	}
+
+	echo "<h2>" . htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']) . "</h2>\n";
+	render_graph_controls($graph);
+
 	switch ($graph['graph_type']) {
 
 		case "btc_equivalent":
@@ -36,13 +43,24 @@ function render_graph($graph) {
 				$data['NZD'] = ($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']);
 			}
 
-			echo "<h2>" . htmlspecialchars($graph_type['title']) . "</h2>\n";
-			render_graph_controls($graph);
 			render_pie_chart($graph, $data, 'Currency', 'BTC', 'graph_format_btc');
 			break;
 
+		case "mtgox_btc_table":
+			// a table of just BTC/USD rates
+			$rates = get_all_recent_rates();
+
+			$data = array(
+				array('Buy', currency_format('usd', $rates['usdbtc']['buy'], 4)),
+				array('Sell', currency_format('usd', $rates['usdbtc']['sell'], 4)),
+			);
+
+			render_table_vertical($graph, $data);
+
+			break;
+
 		default:
-			throw new GraphException("Unknown graph type " . $graph['graph_type']);
+			throw new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
 	}
 
 }
@@ -52,8 +70,29 @@ function render_graph($graph) {
  */
 function graph_types() {
 	return array(
-		'btc_equivalent' => array('id' => 'btc_equivalent', 'title' => 'Equivalent BTC balances', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox BTC', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 	);
+}
+
+function render_table_vertical($graph, $data) {
+	$graph_id = htmlspecialchars($graph['id']);
+?>
+<div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
+<table class="standard">
+<?php foreach ($data as $row) {
+	echo "<tr>";
+	foreach ($row as $i => $item) {
+		echo ($i == 0 ? "<th>" : "<td>");
+		echo $item;	// assumed to be html escaped
+		echo ($i == 0 ? "</th>" : "</td>");
+	}
+	echo "</tr>\n";
+}
+?>
+</table>
+</div>
+<?php
 }
 
 function graph_format_btc($value) {
@@ -105,8 +144,12 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
   }
 </script>
 
-<div id="graph_<?php echo $graph_id; ?>" style="width: <?php echo get_site_config('default_graph_width') * $graph['width']; ?>px; height: <?php echo get_site_config('default_graph_height') * $graph['height']; ?>px;"></div>
+<div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
 <?php
+}
+
+function get_dimensions($graph) {
+	return ' style="width: ' . (get_site_config('default_graph_width') * $graph['width']) . 'px; height: ' . (get_site_config('default_graph_height') * $graph['height']) . 'px;"';
 }
 
 // cached

@@ -39,8 +39,8 @@
 
 <script type="text/javascript">
 var graph_types = [
-<?php foreach (graph_types() as $graph) {
-	echo "{ 'id' : '" . htmlspecialchars($graph['id']) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) . "},\n";
+<?php foreach (graph_types() as $id => $graph) {
+	echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) . "},\n";
 } ?>
 ];
 
@@ -54,15 +54,17 @@ $(document).ready(function() {
 		temp.text(graph_types[i]['title']);
 		temp.data('index', i);
 		temp.attr('id', '');
-		temp.select({'index': i}, function(event) {
-			$("#graph_description").html(graph_types[event.data['index']]['description']);
-		});
 		e.append(temp);
 		temp.show();
 		if (i == 0) {
 			temp.select();
 			temp.attr('selected', 'selected');
+			$("#graph_description").html(graph_types[i]['description']);
 		}
 	}
+	e.change(function(event) {
+		var data = $(event.target).find("option:selected").data('index');
+		$("#graph_description").html(graph_types[data]['description']);
+	});
 });
 </script>
