@@ -30,13 +30,13 @@ $pages = $q->fetchAll();
 
 // a user might not have any pages displayed
 if ($pages) {
-	// get this current page
+	// get this current page's graphs
 	$page_id = require_get("page", $pages[0]['id']);
 	$q = db()->prepare("SELECT * FROM graph_pages
 		JOIN graphs ON graph_pages.id=graphs.page_id
-		WHERE graph_pages.user_id=? AND graphs.is_removed=0
+		WHERE graph_pages.user_id=? AND graphs.page_id=? AND graphs.is_removed=0
 		ORDER BY graphs.page_order ASC, graphs.id ASC");
-	$q->execute(array(user_id()));
+	$q->execute(array(user_id(), $page_id));
 	$graphs = $q->fetchAll();
 
 ?>
@@ -71,6 +71,8 @@ if ($pages) {
 
 </div>
 
+<?php require("_profile_add_graph.php"); ?>
+
 <?php } else {
 	/* no pages */ ?>
 
@@ -78,7 +80,7 @@ if ($pages) {
 
 <?php } ?>
 
-<?php require("_profile_add_graph.php"); ?>
+<?php require("_profile_add_page.php"); ?>
 
 <?php
 page_footer();
