@@ -1,24 +1,68 @@
 <?php
 
+/**
+ * This page does all of the real hard work - taking database values and translating them
+ * into graphs and such.
+ */
+
 require("inc/global.php");
+require("layout/graphs.php");
 require_login();
 
 require("layout/templates.php");
-page_header("Your Profile", "page_profile");
+page_header("Your Profile", "page_profile", array('jsapi' => true));
 
 $user = get_user(user_id());
 if (!$user) {
 	throw new Exception("Could not find self user.");
 }
 
-?>
-<h1>Your Profile</h1>
+// get all pages
+$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? ORDER BY page_order ASC, id ASC");
+$q->execute(array(user_id()));
+$pages = $q->fetchAll();
 
-<p>
-<pre>
-<?php print_r($user); ?>
-</pre>
-</p>
+// a user might not have any pages displayed
+if ($pages) {
+	// get this current page
+	$page_id = require_get("page", $pages[0]['id']);
+	$q = db()->prepare("SELECT * FROM graph_pages
+		JOIN graphs ON graph_pages.id=graphs.page_id
+		WHERE graph_pages.user_id=?
+		ORDER BY graphs.page_order ASC, graphs.id ASC");
+	$q->execute(array(user_id()));
+	$graphs = $q->fetchAll();
+
+?>
+
+<div id="page<?php echo htmlspecialchars($page_id); ?>">
+
+<!-- list of pages -->
+<ul class="page_list">
+<?php foreach ($pages as $page) { ?>
+	<li class="page_tab<?php echo htmlspecialchars($page['id']); ?>"><a href="<?php echo htmlspecialchars(url_for('profile', array('page' => $page['id']))); ?>">
+		<?php echo htmlspecialchars($page['title']); ?>
+	</a></li>
+<?php } ?>
+</ul>
+
+<!-- graphs for this page -->
+<div class="graph_collection">
+<?php foreach ($graphs as $graph) { ?>
+<div class="graph" id="graph<?php echo htmlspecialchars($graph['id']); ?>">
+	<?php render_graph($graph); ?>
+</div>
+<?php } ?>
+</div>
+
+</div>
+
+<?php } else {
+	/* no pages */ ?>
+
+<p><i>No pages to display.</i></p>
+
+<?php } ?>
 
 <?php
 page_footer();

@@ -1,6 +1,6 @@
 <?php
 
-function page_header($page_title, $page_id = false, $is_admin = false, $options = array()) {
+function page_header($page_title, $page_id = false, $options = array()) {
 
 	define('PAGE_RENDER_START', microtime(true));
 	header('Content-type: text/html; charset=utf-8');
@@ -9,9 +9,9 @@ function page_header($page_title, $page_id = false, $is_admin = false, $options 
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title><?php echo htmlspecialchars($page_title); ?><?php if ($is_admin) echo " [admin]"; ?></title>
+    <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
     <link rel="stylesheet" type="text/css" href="default.css" />
-    <?php if ($is_admin) { ?>
+    <?php if (has_required_admin()) { ?>
     <link rel="stylesheet" type="text/css" href="admin.css" />
     <?php } ?>
     <?php if (isset($options["refresh"])) { ?>
@@ -19,6 +19,9 @@ function page_header($page_title, $page_id = false, $is_admin = false, $options 
     <?php } ?>
     <?php if (isset($options["jquery"]) && $options["jquery"]) { ?>
     <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+    <?php } ?>
+    <?php if (isset($options['jsapi']) && $options['jsapi']) { ?>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <?php } ?>
     <?php if (isset($options["common_js"]) && $options["common_js"]) { ?>
     <script type="text/javascript" src="js/common.js"></script>

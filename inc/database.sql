@@ -250,3 +250,36 @@ CREATE TABLE jobs (
 	
 	INDEX(job_type), INDEX(priority), INDEX(user_id), INDEX(is_executed)
 );
+
+-- users define graphs for their home page, split across pages
+
+DROP TABLE IF EXISTS graph_pages;
+
+CREATE TABLE graph_pages (
+	id int not null auto_increment primary key,
+	created_at datetime not null default now(),
+	updated_at datetime not null default now() on update now(),
+	user_id int not null,	-- requesting user ID, may be system ID (100)
+	
+	title varchar(64) not null,
+	page_order tinyint default 0,		-- probably a good maximum number of pages, 256	
+	
+	INDEX(user_id)
+);
+
+DROP TABLE IF EXISTS graphs;
+
+CREATE TABLE graphs (
+	id int not null auto_increment primary key,
+	page_id int not null,
+	
+	graph_type varchar(32) not null,
+	arg0 int, 		-- some graphs have integer arguments
+	width tinyint default 2,	-- e.g. 1 = half size, 2 = normal size, 4 = extra wide
+	height tinyint default 2,		
+	page_order tinyint default 0,		-- probably a good maximum number of graphs, 256	
+	
+	INDEX(page_id)
+
+);
+

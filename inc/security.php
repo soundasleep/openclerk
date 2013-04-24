@@ -129,12 +129,22 @@ function is_admin() {
 	return $global_is_admin;
 }
 
+// so we don't have to have 'is_admin' flag in templates (which doesn't guarantee we've checked)
+$has_required_admin = false;
+
 function require_admin() {
+	global $has_required_admin;
+	$has_required_admin = true;
 	require_login();
 	if (!is_admin()) {
 		// only supports GET relogins; TODO support POST relogins
 		redirect(url_for('login', array('need_admin' => 1, 'destination' => $_SERVER['REQUEST_URI'])));
 	}
+}
+
+function has_required_admin() {
+	global $has_required_admin;
+	return $has_required_admin;
 }
 
 /**

@@ -77,3 +77,6 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 
 h1 { font-size: 120%; }
 h2 { font-size: 110%; }
+
+.graph_collection .graph { float: left; }
+#copyright { clear: both; }
