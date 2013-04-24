@@ -51,6 +51,7 @@ CREATE TABLE accounts_btce (
 	created_at datetime not null default now(),
 	last_queue datetime,
 
+	title varchar(255),
 	api_key varchar(255) not null,
 	api_secret varchar(255) not null,
 
@@ -65,6 +66,7 @@ CREATE TABLE accounts_poolx (
 	created_at datetime not null default now(),
 	last_queue datetime,
 	
+	title varchar(255),
 	api_key varchar(255) not null,
 	
 	INDEX(user_id), INDEX(last_queue)
@@ -95,15 +97,15 @@ CREATE TABLE balances (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	created_at datetime not null default now(),
-	last_queue datetime,
 	
-	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz
+	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
+	account_id int not null,
 	-- we dont need to worry too much about precision
 	balance decimal(16,8) not null,
 	currency varchar(3) not null,
 	is_recent tinyint not null default 0,
 	
-	INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(last_queue), INDEX(is_recent)
+	INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(is_recent), INDEX(account_id)
 );
 
 -- all of the different crypto addresses that users can have, and their balances --

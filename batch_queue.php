@@ -21,6 +21,7 @@ function added_job($job) {
 $standard_jobs = array(
 	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'addresses', 'type' => 'blockchain'),
+	array('table' => 'accounts_generic', 'type' => 'generic'),
 	array('table' => 'summaries', 'type' => 'summary'),
 );
 
