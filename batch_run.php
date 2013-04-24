@@ -11,14 +11,8 @@ require("inc/global.php");
 if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_get("key") != get_site_config("automated_key"))
 	throw new Exception("Invalid key");
 
-if (require_get("job", false)) {
-	// is a job defined in the query string?
-	$job = unserialize(require_get("job"));
-	if (!$job) {
-		throw new Exception("Could not read that job parameter");
-	}
-} else if (require_get("job_id", false)) {
-	// run a particular job
+if (require_get("job_id", false)) {
+	// run a particular job, even if it's already been executed
 	$q = db()->prepare("SELECT * FROM jobs WHERE id=?");
 	$q->execute(array(require_get("job_id")));
 	$job = $q->fetch();
@@ -82,7 +76,7 @@ function crypto_get_contents($url) {
 // otherwise, we'll want to actually execute something, based on the job type
 // TODO remove the navigation links once we have an actual job admin interface
 crypto_log("Executing job " . htmlspecialchars(print_r($job, true)) . " (<a href=\"" . htmlspecialchars(url_for('batch_run',
-	array('key' => require_get("key", false), 'job' => serialize($job)))) . "\">re-run job</a>) (<a href=\"" . htmlspecialchars(url_for('batch_run',
+	array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">re-run job</a>) (<a href=\"" . htmlspecialchars(url_for('batch_run',
 	array('key' => require_get("key", false)))) . "\">next job</a>)");
 $runtime_exception = null;
 try {

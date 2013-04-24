@@ -85,7 +85,7 @@ function render_graph($graph) {
 			$summaries = array('all2usd_mtgox' => 'usd', 'all2nzd' => 'nzd');
 			foreach ($summaries as $key => $c) {
 				if (isset($balances[$key]) && $balances[$key]['balance'] != 0) {
-					$data[] = array(strtoupper($c), currency_format($c, $balances[$key]['balance'], 2));
+					$data[] = array(strtoupper($c), currency_format($c, $balances[$key]['balance'], 4));
 				}
 			}
 

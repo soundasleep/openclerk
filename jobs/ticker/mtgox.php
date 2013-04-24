@@ -8,7 +8,14 @@ $rates_list = array(
 	array('cur1' => 'USD', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
 );
 
+$first = true;
 foreach ($rates_list as $rl) {
+	// sleep between requests
+	if (!$first) {
+		sleep(get_site_config('sleep_mtgox_ticker'));
+	}
+	$first = false;
+
 	$rates = json_decode(crypto_get_contents(crypto_wrap_url('https://data.mtgox.com/api/1/' . $rl["cur2"] . $rl["cur1"] . '/ticker')), true);
 	if ($rates === null) {
 		throw new ExternalAPIException("Invalid JSON detected (null).");

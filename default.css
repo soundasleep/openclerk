@@ -22,8 +22,8 @@ p,li {
 table.standard { background: #222; }
 table.standard th { text-align: left; background: #333; font-weight: bold; }
 table.standard th, table.standard td { line-height: 1.3em; }
-table.standard th { min-width: 45px; }
-table.standard td { min-width: 65px; }
+table.standard th { min-width: 40px; }
+table.standard td { min-width: 70px; }
 table.full-width { width: 100%; }
 table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 

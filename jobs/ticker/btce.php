@@ -11,7 +11,14 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'nmc'), // all flipped around
 );
 
+$first = true;
 foreach ($rates_list as $rl) {
+	// sleep between requests
+	if (!$first) {
+		sleep(get_site_config('sleep_btce_ticker'));
+	}
+	$first = false;
+
 	$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://btc-e.com/api/2/" . $rl["cur2"] . "_" . $rl["cur1"] . "/ticker")), true);
 	if ($rates === null) {
 		throw new ExternalAPIException("Invalid JSON detected.");

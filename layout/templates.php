@@ -108,20 +108,24 @@ function ltc_transaction($txid) {
 		 <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/tx/" . $txid) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
 }
 
-function currency_format($currency_code, $n, $max_digits = 8) {
+function currency_format($currency_code, $n, $precision = 8) {
 	$currency = strtoupper($currency_code);
 
 	if (!is_numeric($n)) {
 		return "<span class=\"error\">" . $n . " $currency</span>";
 	}
 
+	// if we have 100.x, we only want $precision = 6
+	if ($n > 1) {
+		$precision -= (log($n) / log(10) - 1);
+	}
+
 	// find the lowest precision that we need
-	$prec = $max_digits;
-	for ($i = 0; $i < $prec - 1; $i++) {
+	for ($i = 0; $i < $precision - 1; $i++) {
 		if (number_format($n, $i) == $n) {
-			$prec = $i;
+			$precision = $i;
 			break;
 		}
 	}
-	return "<span class=\"" . strtolower($currency) . "_format\" title=\"" . number_format($n, 8) . " $currency\">" . number_format($n, $prec) . " $currency</span>";
+	return "<span class=\"" . strtolower($currency) . "_format\" title=\"" . number_format($n, 8) . " $currency\">" . number_format($n, $precision) . " $currency</span>";
 }
