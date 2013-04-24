@@ -5,6 +5,8 @@
  */
 function render_graph($graph) {
 
+	$graph_types = graph_types();
+	$graph_type = $graph_types[$graph['graph_type']];
 	switch ($graph['graph_type']) {
 
 		case "btc_equivalent":
@@ -34,7 +36,7 @@ function render_graph($graph) {
 				$data['NZD'] = ($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']);
 			}
 
-			echo "<h2>Equivalent BTC balances</h2>\n";
+			echo "<h2>" . htmlspecialchars($graph_type['title']) . "</h2>\n";
 			render_graph_controls($graph);
 			render_pie_chart($graph, $data, 'Currency', 'BTC', 'graph_format_btc');
 			break;
@@ -43,6 +45,15 @@ function render_graph($graph) {
 			throw new GraphException("Unknown graph type " . $graph['graph_type']);
 	}
 
+}
+
+/**
+ * Get all of the defined graph types. Used for display and validation.
+ */
+function graph_types() {
+	return array(
+		'btc_equivalent' => array('id' => 'btc_equivalent', 'title' => 'Equivalent BTC balances', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+	);
 }
 
 function graph_format_btc($value) {

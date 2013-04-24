@@ -18,7 +18,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <meta http-equiv="refresh" content="<?php echo htmlspecialchars($options['refresh']); ?>">
     <?php } ?>
     <?php if (isset($options["jquery"]) && $options["jquery"]) { ?>
-    <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <?php } ?>
     <?php if (isset($options['jsapi']) && $options['jsapi']) { ?>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>

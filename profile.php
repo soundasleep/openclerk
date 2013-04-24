@@ -10,7 +10,7 @@ require("layout/graphs.php");
 require_login();
 
 require("layout/templates.php");
-page_header("Your Profile", "page_profile", array('jsapi' => true));
+page_header("Your Profile", "page_profile", array('jsapi' => true, 'jquery' => true));
 
 $user = get_user(user_id());
 if (!$user) {
@@ -77,6 +77,8 @@ if ($pages) {
 <p><i>No pages to display.</i></p>
 
 <?php } ?>
+
+<?php require("_profile_add_graph.php"); ?>
 
 <?php
 page_footer();
