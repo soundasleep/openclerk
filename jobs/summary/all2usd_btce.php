@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Summary job: convert all to USD (via BTC) using BTC_E.
+ * Summary job: convert all cryptocurrencies to USD (via BTC) using BTC-E, and add any USD balances.
  */
 
 // get last value of all BTC
@@ -22,4 +22,11 @@ if ($balance = $q->fetch()) {
 
 }
 
-crypto_log("Total converted USD balance for user " . $job['user_id'] . ": " . $total);
+// add total USD balances
+$q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
+$q->execute(array("totalusd", $job['user_id']));
+if ($balance = $q->fetch()) {
+	$total += $balance['balance'];
+}
+
+crypto_log("Total converted USD BTC-E balance for user " . $job['user_id'] . ": " . $total);

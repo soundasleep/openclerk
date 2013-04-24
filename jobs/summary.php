@@ -28,6 +28,10 @@ switch ($summary['summary_type']) {
 		require("jobs/summary/totalnmc.php");
 		break;
 
+	case "totalusd":
+		require("jobs/summary/totalusd.php");
+		break;
+
 	case "all2btc":
 		require("jobs/summary/all2btc.php");
 		break;

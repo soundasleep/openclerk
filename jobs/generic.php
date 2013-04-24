@@ -14,7 +14,7 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-// divide by 1e8 to get btc balance
+// TODO maybe add support for custom divisors in API calls
 $balance = crypto_get_contents(crypto_wrap_url($account['api_url']));
 
 if (!is_numeric($balance)) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Summary job: convert all to NZD (via BTC).
+ * Summary job: convert all cryptocurrencies to NZD (via BTC).
  */
 
 // get last value of all BTC

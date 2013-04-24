@@ -14,7 +14,8 @@ if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_g
 $priority = 10;	// default priority
 
 function added_job($job) {
-	echo "\n<li>Added job " . htmlspecialchars(print_r($job, true)) . "</li>";
+	echo "\n<li>Added job " . htmlspecialchars(print_r($job, true)) . " (<a href=\"" . htmlspecialchars(url_for('batch_run',
+			array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">run job now</a>)</li>";
 }
 
 // standard jobs involve an 'id' from a table and a 'user_id' from the same table
@@ -22,6 +23,7 @@ $standard_jobs = array(
 	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'addresses', 'type' => 'blockchain'),
 	array('table' => 'accounts_generic', 'type' => 'generic'),
+	array('table' => 'accounts_btce', 'type' => 'btce'),
 	array('table' => 'summaries', 'type' => 'summary'),
 );
 

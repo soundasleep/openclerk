@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Summary job: convert all to BTC.
+ * Summary job: convert all cryptocurrencies to BTC.
  */
 
 // BTC is kept as-is

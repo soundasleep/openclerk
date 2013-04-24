@@ -11,12 +11,17 @@ require("inc/global.php");
 if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_get("key") != get_site_config("automated_key"))
 	throw new Exception("Invalid key");
 
-// is a job defined in the query string?
 if (require_get("job", false)) {
+	// is a job defined in the query string?
 	$job = unserialize(require_get("job"));
 	if (!$job) {
 		throw new Exception("Could not read that job parameter");
 	}
+} else if (require_get("job_id", false)) {
+	// run a particular job
+	$q = db()->prepare("SELECT * FROM jobs WHERE id=?");
+	$q->execute(array(require_get("job_id")));
+	$job = $q->fetch();
 } else {
 	// select the most important job to execute next
 	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 ORDER BY priority ASC, id ASC");
@@ -96,12 +101,18 @@ try {
 			require("jobs/generic.php");
 			break;
 
+		case "btce":
+			require("jobs/btce.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");
 			break;
 
 		// cleanup jobs, admin jobs etc
+		default:
+			throw new JobException("Unknown job type '" . htmlspecialchars($job['job_type']) . "'");
 
 	}
 } catch (Exception $e) {
