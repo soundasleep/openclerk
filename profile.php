@@ -17,8 +17,14 @@ if (!$user) {
 	throw new Exception("Could not find self user.");
 }
 
+$messages = array();
+
+// is there a command to the page?
+// TODO eventually replace this with ajax stuff
+require("_profile_move.php");
+
 // get all pages
-$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? ORDER BY page_order ASC, id ASC");
+$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 ORDER BY page_order ASC, id ASC");
 $q->execute(array(user_id()));
 $pages = $q->fetchAll();
 
@@ -28,7 +34,7 @@ if ($pages) {
 	$page_id = require_get("page", $pages[0]['id']);
 	$q = db()->prepare("SELECT * FROM graph_pages
 		JOIN graphs ON graph_pages.id=graphs.page_id
-		WHERE graph_pages.user_id=?
+		WHERE graph_pages.user_id=? AND graphs.is_removed=0
 		ORDER BY graphs.page_order ASC, graphs.id ASC");
 	$q->execute(array(user_id()));
 	$graphs = $q->fetchAll();
@@ -36,6 +42,14 @@ if ($pages) {
 ?>
 
 <div id="page<?php echo htmlspecialchars($page_id); ?>">
+
+<?php if ($messages) { ?>
+<div class="message">
+<ul>
+	<?php foreach ($messages as $m) { echo "<li>" . $m . "</li>"; } /* do NOT accept user input for messages! */ ?>
+</ul>
+</div>
+<?php } ?>
 
 <!-- list of pages -->
 <ul class="page_list">

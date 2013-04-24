@@ -74,6 +74,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
     padding: 10px; 
     margin: 5px auto 5px auto; 
 }
+.error ul, .success ul, .message ul { margin: 0; padding: 0; list-style: none; }
 
 h1 { font-size: 120%; }
 h2 { font-size: 110%; }

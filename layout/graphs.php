@@ -35,6 +35,7 @@ function render_graph($graph) {
 			}
 
 			echo "<h2>Equivalent BTC balances</h2>\n";
+			render_graph_controls($graph);
 			render_pie_chart($graph, $data, 'Currency', 'BTC', 'graph_format_btc');
 			break;
 
@@ -46,6 +47,22 @@ function render_graph($graph) {
 
 function graph_format_btc($value) {
 	return number_format($value, 4, '.', '');
+}
+
+function render_graph_controls($graph) {
+?>
+<ul class="graph_controls">
+	<li class="move_up"><a href="<?php echo htmlspecialchars(url_for('profile', array(
+		'page' => $graph['page_id'],
+		'move_up' => $graph['id']))); ?>">Move up</a></li>
+	<li class="move_down"><a href="<?php echo htmlspecialchars(url_for('profile', array(
+		'page' => $graph['page_id'],
+		'move_down' => $graph['id']))); ?>">Move down</a></li>
+	<li class="remove"><a href="<?php echo htmlspecialchars(url_for('profile', array(
+		'page' => $graph['page_id'],
+		'remove' => $graph['id']))); ?>">Remove</a></li>
+</ul>
+<?php
 }
 
 /**

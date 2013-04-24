@@ -263,8 +263,10 @@ CREATE TABLE graph_pages (
 	
 	title varchar(64) not null,
 	page_order tinyint default 0,		-- probably a good maximum number of pages, 256	
+
+	is_removed tinyint not null default 0,		-- not displayed; not deleted in case we want to undo
 	
-	INDEX(user_id)
+	INDEX(user_id), INDEX(is_removed)
 );
 
 DROP TABLE IF EXISTS graphs;
@@ -279,7 +281,9 @@ CREATE TABLE graphs (
 	height tinyint default 2,		
 	page_order tinyint default 0,		-- probably a good maximum number of graphs, 256	
 	
-	INDEX(page_id)
+	is_removed tinyint not null default 0,		-- not displayed; not deleted in case we want to undo
+	
+	INDEX(page_id), INDEX(is_removed)
 
 );
 
