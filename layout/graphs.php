@@ -75,6 +75,23 @@ function render_graph($graph) {
 			render_table_vertical($graph, $data);
 			break;
 
+		case "fiat_converted_table":
+			// a table of each all2fiat value
+			// get all balances
+			$balances = get_all_summary_instances();
+
+			// create data
+			$data = array();
+			$summaries = array('all2usd_mtgox' => 'usd', 'all2nzd' => 'nzd');
+			foreach ($summaries as $key => $c) {
+				if (isset($balances[$key]) && $balances[$key]['balance'] != 0) {
+					$data[] = array(strtoupper($c), currency_format($c, $balances[$key]['balance'], 2));
+				}
+			}
+
+			render_table_vertical($graph, $data);
+			break;
+
 		default:
 			throw new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
 	}
@@ -86,9 +103,10 @@ function render_graph($graph) {
  */
 function graph_types() {
 	return array(
-		'btc_equivalent' => array('title' => 'Equivalent BTC balances', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox BTC', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies.'),
+		'fiat_converted_table' => array('title' => 'Converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted into fiat currencies via BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
 	);
 }
 

@@ -26,6 +26,9 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <?php if (isset($options["common_js"]) && $options["common_js"]) { ?>
     <script type="text/javascript" src="js/common.js"></script>
     <?php } ?>
+    <?php if (isset($options["js"]) && $options["js"]) { ?>
+    <script type="text/javascript" src="js/<?php echo htmlspecialchars($options['js']); ?>.js"></script>
+    <?php } ?>
 </head>
 <body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?>>
 <div class="body_wrapper">

@@ -38,33 +38,11 @@
 </div>
 
 <script type="text/javascript">
-var graph_types = [
+function graph_types() {
+	return [
 <?php foreach (graph_types() as $id => $graph) {
 	echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) . "},\n";
 } ?>
-];
-
-$(document).ready(function() {
-	var i;
-	var e = $(document).find("#graph_type"), template = $(document).find("#graph_type_template");
-	template.hide();
-	for (i = 0; i < graph_types.length; i++) {
-		var temp = template.clone();
-		temp.attr('value', graph_types[i]['id']);
-		temp.text(graph_types[i]['title']);
-		temp.data('index', i);
-		temp.attr('id', '');
-		e.append(temp);
-		temp.show();
-		if (i == 0) {
-			temp.select();
-			temp.attr('selected', 'selected');
-			$("#graph_description").html(graph_types[i]['description']);
-		}
-	}
-	e.change(function(event) {
-		var data = $(event.target).find("option:selected").data('index');
-		$("#graph_description").html(graph_types[data]['description']);
-	});
-});
+	];
+}
 </script>

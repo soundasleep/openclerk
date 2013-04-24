@@ -10,7 +10,7 @@ require("layout/graphs.php");
 require_login();
 
 require("layout/templates.php");
-page_header("Your Profile", "page_profile", array('jsapi' => true, 'jquery' => true));
+page_header("Your Profile", "page_profile", array('jsapi' => true, 'jquery' => true, 'js' => 'profile'));
 
 $user = get_user(user_id());
 if (!$user) {
@@ -59,6 +59,8 @@ if ($pages) {
 	</a></li>
 <?php } ?>
 </ul>
+
+<label><input type="checkbox" id="enable_editing"> Enable layout editing</label>
 
 <!-- graphs for this page -->
 <div class="graph_collection">

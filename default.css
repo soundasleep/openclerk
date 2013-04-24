@@ -87,3 +87,5 @@ h2 { font-size: 110%; }
 #copyright { clear: both; }
 
 #page_profile .add_graph { clear: both; }
+
+.graph_controls { display: none; }
