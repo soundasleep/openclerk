@@ -24,6 +24,10 @@ switch ($exchange['name']) {
 		require("jobs/ticker/bitnz.php");
 		break;
 
+	case "mtgox":
+		require("jobs/ticker/mtgox.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;

@@ -40,6 +40,10 @@ switch ($summary['summary_type']) {
 		require("jobs/summary/all2usd_btce.php");
 		break;
 
+	case "all2usd_mtgox":
+		require("jobs/summary/all2usd_mtgox.php");
+		break;
+
 	default:
 		throw new JobException("Unknown summary type " . $summary['summary_type']);
 		break;
