@@ -7,7 +7,7 @@
 
 $bitnz = array();
 require('inc/html5lib/Parser.php');
-$html = file_get_contents(crypto_wrap_url("https://bitnz.com/orders"));
+$html = crypto_get_contents(crypto_wrap_url("https://bitnz.com/orders"));
 $dom = HTML5_Parser::parse($html);
 
 // now load as XML

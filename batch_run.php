@@ -33,6 +33,7 @@ if (!$job) {
 class JobException extends Exception { }
 function crypto_log($log) {
 	echo "\n<li>$log</li>";
+	// flush();
 }
 class ExternalAPIException extends Exception { } // expected exceptions
 function crypto_wrap_url($url) {
@@ -42,6 +43,35 @@ function crypto_wrap_url($url) {
 	$url_clean = preg_replace('#hash=([^&]{3})[^&]+#im', 'hash=\\1...', $url_clean);
 	crypto_log("Requesting <a href=\"" . htmlspecialchars($url_clean) . "\">" . htmlspecialchars($url_clean) . "</a>...");
 	return $url;
+}
+// wraps file_get_contents() with timeout information etc
+function crypto_get_contents($url) {
+	// normally file_get_contents is OK, but if URLs are down etc, the timeout has no value and we can just stall here forever
+	// this also means we don't have to enable OpenSSL on windows (etc), which is just a bit of a mess
+	$ch = null;
+	if (is_null($ch)) {
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Openclerk PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
+	}
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_TIMEOUT, get_site_config('get_contents_timeout') * 1000);
+	// curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+	// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+	// run the query
+	$res = curl_exec($ch);
+	if ($res === false) throw new ExternalAPIException('Could not get reply: '.curl_error($ch));
+
+	return $res;
+
+	// disabled
+	$context = stream_context_create(array(
+		'http' => array('timeout' => get_site_config('get_contents_timeout')),
+		'https' => array('timeout' => get_site_config('get_contents_timeout')),
+	));
+	return file_get_contents($url, false /* $use_include_path */, $context);
 }
 
 // otherwise, we'll want to actually execute something, based on the job type
@@ -89,4 +119,4 @@ if ($runtime_exception !== null) {
 	throw $runtime_exception;
 }
 
-echo "Job " . htmlspecialchars(print_r($job, true)) . " successful.";
+echo "\n<li>Job successful.";

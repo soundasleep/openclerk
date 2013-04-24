@@ -13,7 +13,7 @@ if (!$address) {
 }
 
 // divide by 1e8 to get btc balance
-$balance = file_get_contents(crypto_wrap_url("http://blockchain.info/q/addressbalance/" . urlencode($address['address']) . "?confirmations=6"));
+$balance = crypto_get_contents(crypto_wrap_url("http://blockchain.info/q/addressbalance/" . urlencode($address['address']) . "?confirmations=6"));
 $divisor = 1e8;
 
 if (!is_numeric($balance)) {

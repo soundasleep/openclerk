@@ -25,7 +25,7 @@ $standard_jobs = array(
 );
 
 foreach ($standard_jobs as $standard) {
-	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE last_queue < DATE_SUB(NOW(), INTERVAL ? HOUR) OR ISNULL(last_queue)");
+	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE last_queue <= DATE_SUB(NOW(), INTERVAL ? HOUR) OR ISNULL(last_queue)");
 	$q->execute(array(get_site_config('refresh_queue_hours')));
 	while ($address = $q->fetch()) {
 		$job = array(

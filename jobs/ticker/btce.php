@@ -12,7 +12,7 @@ $rates_list = array(
 );
 
 foreach ($rates_list as $rl) {
-	$rates = json_decode(file_get_contents(crypto_wrap_url("https://btc-e.com/api/2/" . $rl["cur2"] . "_" . $rl["cur1"] . "/ticker")), true);
+	$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://btc-e.com/api/2/" . $rl["cur2"] . "_" . $rl["cur1"] . "/ticker")), true);
 	if ($rates === null) {
 		throw new ExternalAPIException("Invalid JSON detected.");
 	}
