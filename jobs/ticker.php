@@ -20,7 +20,7 @@ switch ($exchange['name']) {
 		require("jobs/ticker/btce.php");
 		break;
 
-	case "bitnz_disabled":
+	case "bitnz":
 		require("jobs/ticker/bitnz.php");
 		break;
 
