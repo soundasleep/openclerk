@@ -300,7 +300,7 @@ function set_temporary_errors($m) {
 }
 
 $global_temporary_errors = isset($_SESSION["temporary_errors"]) ? $_SESSION["temporary_errors"] : null;	// only lasts a single request
-get_temporary_errors(null);	// reset
+set_temporary_errors(null);	// reset
 function get_temporary_errors() {
 	global $global_temporary_errors;
 	return $global_temporary_errors === null ? array() : $global_temporary_errors;
