@@ -18,6 +18,9 @@ if (!$user) {
 }
 
 $messages = array();
+if (get_temporary_messages()) {
+	$messages += get_temporary_messages();
+}
 
 // is there a command to the page?
 // TODO eventually replace this with ajax stuff

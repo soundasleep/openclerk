@@ -92,6 +92,32 @@ function render_graph($graph) {
 			render_table_vertical($graph, $data);
 			break;
 
+		case "balances_offset_table":
+			// a table of each currency, along with an offset field
+			$balances = get_all_summary_instances();
+			$offsets = get_all_offset_instances();
+
+			// create data
+			$data = array();
+			$data[] = array('Currency', 'Balance', 'Offset', 'Total');
+			$currencies = array('btc', 'ltc', 'nmc', 'usd', 'nzd');
+			foreach ($currencies as $c) {
+				$balance = isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0;
+				$offset = isset($offsets[$c]) ? $offsets[$c]['balance'] : 0;
+				$data[] = array(
+					strtoupper($c),
+					currency_format($c, $balance - $offset, 4),
+					// HTML quirk: "When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form."
+					'<form action="' . htmlspecialchars(url_for('set_offset', array('page' => $graph['page_id']))) . '" method="post">' .
+						'<input type="text" name="' . htmlspecialchars($c) . '" value="' . htmlspecialchars($offset == 0 ? '' : $offset) . '" maxlength="32">' .
+						'</form>',
+					currency_format($c, $balance /* balance includes offset */, 4),
+				);
+			}
+
+			render_table_horizontal_vertical($graph, $data);
+			break;
+
 		case "linebreak":
 			// implemented by profile.php
 			break;
@@ -111,6 +137,7 @@ function graph_types() {
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox BTC', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies.'),
 		'fiat_converted_table' => array('title' => 'Converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted into fiat currencies via BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+		"balances_offset_table" => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies, along with text fields to set offset values for each currency directly.'),
 
 		'linebreak' => array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.'),
 	);
@@ -127,6 +154,26 @@ function render_table_vertical($graph, $data) {
 		echo ($i == 0 ? "<th>" : "<td>");
 		echo $item;	// assumed to be html escaped
 		echo ($i == 0 ? "</th>" : "</td>");
+	}
+	echo "</tr>\n";
+}
+?>
+</table>
+</div>
+<?php
+}
+
+function render_table_horizontal_vertical($graph, $data) {
+	$graph_id = htmlspecialchars($graph['id']);
+?>
+<div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
+<table class="standard">
+<?php foreach ($data as $rowid => $row) {
+	echo "<tr>";
+	foreach ($row as $i => $item) {
+		echo (($i == 0 || $rowid == 0) ? "<th>" : "<td>");
+		echo $item;	// assumed to be html escaped
+		echo (($i == 0 || $rowid == 0) ? "</th>" : "</td>");
 	}
 	echo "</tr>\n";
 }
@@ -206,6 +253,21 @@ function get_all_summary_instances() {
 		}
 	}
 	return $global_all_summary_instances;
+}
+
+// cached
+$global_all_offset_instances = null;
+function get_all_offset_instances() {
+	global $global_all_offset_instances;
+	if ($global_all_offset_instances === null) {
+		$global_all_offset_instances = array();
+		$q = db()->prepare("SELECT * FROM offsets WHERE user_id=? AND is_recent=1");
+		$q->execute(array(user_id()));
+		while ($offset = $q->fetch()) {
+			$global_all_offset_instances[$offset['currency']] = $offset;
+		}
+	}
+	return $global_all_offset_instances;
 }
 
 // cached

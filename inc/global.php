@@ -261,3 +261,20 @@ class ServiceException extends Exception { }
 class WebException extends Exception { }
 
 class IllegalArgumentException extends Exception { }
+
+function set_temporary_messages($m) {
+	if ($m === null) {
+		unset($_SESSION["temporary_messages"]);
+	} else {
+		if (!is_array($m))
+			$m = array($m);
+		$_SESSION["temporary_messages"] = $m;
+	}
+}
+
+$global_temporary_messages = isset($_SESSION["temporary_messages"]) ? $_SESSION["temporary_messages"] : null;	// only lasts a single request
+set_temporary_messages(null);
+function get_temporary_messages() {
+	global $global_temporary_messages;
+	return $global_temporary_messages === null ? array() : $global_temporary_messages;
+}
