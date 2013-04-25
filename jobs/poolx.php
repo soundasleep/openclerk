@@ -6,8 +6,6 @@
 
 $exchange = "poolx";
 
-throw new JobException("Expected uncaught exception: meow!");
-
 // get the relevant address
 $q = db()->prepare("SELECT * FROM accounts_poolx WHERE user_id=? AND id=?");
 $q->execute(array($job['user_id'], $job['arg_id']));

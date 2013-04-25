@@ -37,7 +37,8 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <ul>
 	<li class="home"><a href="<?php echo url_for('index'); ?>">Home</a></li>
 	<?php if (user_logged_in()) { ?>
-		<li><a href="<?php echo url_for('profile'); ?>">Your Account</a></li>
+		<li><a href="<?php echo url_for('profile'); ?>">Your Summary</a></li>
+		<li><a href="<?php echo url_for('accounts'); ?>">Your Accounts</a></li>
 		<li><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
 		<?php if (is_admin()) { ?>
 			<li class="admin"><a href="<?php echo url_for('status'); ?>">System Status</a></li>
@@ -100,12 +101,11 @@ function page_footer() {
 }
 
 function ltc_address($address) {
-	return "<span class=\"ltc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/address/" . $address) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
+	return "<span class=\"address ltc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ltc_address_url") . $address) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
 }
 
-function ltc_transaction($txid) {
-	return "<span class=\"ltc_transaction\" title=\"" . htmlspecialchars($txid) . "\"><a href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/tx/" . $txid) . "\">" . htmlspecialchars(substr($txid, 0, 8) . "...") . "</a>
-		 <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("public_explorer_url") . "/tx/" . $txid) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
+function btc_address($address) {
+	return "<span class=\"address btc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("btc_address_url") . $address) . "\" title=\"Inspect with Blockchain\">?</a></span>";
 }
 
 function currency_format($currency_code, $n, $precision = 8) {
