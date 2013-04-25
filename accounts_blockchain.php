@@ -1,10 +1,5 @@
 <?php
 
-/**
- * This page does the hard work of displaying what accounts a user currently has enabled.
- * We delegate adding/deleting accounts to each of the separate account pages.
- */
-
 require("inc/global.php");
 require_login();
 
@@ -75,7 +70,7 @@ page_header("Your Accounts: BTC Addresses", "page_accounts_blockchain");
 
 <h1>Your BTC Addresses</h1>
 
-<table class="standard">
+<table class="standard standard_account_list">
 <thead>
 	<tr>
 		<th>Address</th>
@@ -86,11 +81,23 @@ page_header("Your Accounts: BTC Addresses", "page_accounts_blockchain");
 	</tr>
 </thead>
 <tbody>
-<?php foreach ($accounts as $a) { ?>
+<?php foreach ($accounts as $a) {
+	$last_updated = $a['last_updated'];
+
+	// was the last request successful?
+	$q = db()->prepare("SELECT * FROM jobs WHERE user_id=? AND arg_id=? AND job_type=? ORDER BY id DESC");
+	$q->execute(array(user_id(), $a['id'], 'blockchain'));
+	$job = $q->fetch();
+	if (!$last_updated && $job) {
+		$last_updated = $job['executed_at'];
+	}
+?>
 	<tr>
 		<td><?php echo btc_address($a['address']); ?></td>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
-		<td><?php echo recent_format_html($a['last_updated']); ?></td>
+		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
+			<?php echo recent_format_html($last_updated); ?>
+		</td>
 		<td><?php echo $a['balance'] === null ? "-" : currency_format('btc', $a['balance']); ?></td>
 		<td>
 			<form action="<?php echo htmlspecialchars(url_for('accounts_blockchain')); ?>" method="post">

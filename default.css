@@ -81,11 +81,16 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 h1 { font-size: 120%; }
 h2 { font-size: 110%; }
 
+#copyright { clear: both; }
+
+/* maybe move following into user-only css */
+
 .graph_collection .graph { float: left; border: 1px solid #333; margin: 5px; padding: 5px; }
 .graph_collection .graph h2 { margin: 5px; }
 .graph_collection .graph table.standard { width: 100%; }
-#copyright { clear: both; }
 
 #page_profile .add_graph { clear: both; }
 
 .graph_controls { display: none; }
+.standard_account_list .job_error { background: #993333; }
+.standard_account_list .job_success { background: #336633; }

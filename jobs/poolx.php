@@ -16,13 +16,13 @@ if (!$account) {
 
 $poolx = json_decode(crypto_get_contents(crypto_wrap_url("http://pool-x.eu/api?api_key=" . $account['api_key'])), true);
 if ($poolx === null) {
-	throw new RemoteAPIException("Invalid JSON detected (null).");
+	throw new ExternalAPIException("Invalid JSON detected (null).");
 } else {
 	$balance = $poolx['confirmed_rewards'];
 	$currency = 'ltc';
 
 	if (!is_numeric($balance)) {
-		throw new RemoteAPIException("$exchange $currency balance is not numeric");
+		throw new ExternalAPIException("$exchange $currency balance is not numeric");
 	}
 	crypto_log("$exchange $currency balance for user " . $job['user_id'] . ": " . $balance);
 

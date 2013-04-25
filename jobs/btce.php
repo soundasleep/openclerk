@@ -57,15 +57,16 @@ $btce_info = btce_query($account['api_key'], $account['api_secret'], "getInfo");
 foreach ($currencies as $currency) {
 	crypto_log($exchange . " balance for " . $currency . ": " . $btce_info['return']['funds'][$currency]);
 	if (!isset($btce_info['return']['funds'][$currency])) {
-		throw new ExternalAPIException("Did not find funds for currency $currency in $exchange", $btce_info);
+		throw new ExternalAPIException("Did not find funds for currency $currency in $exchange");
 	}
 
 	// disable old instances
-	$q = db()->prepare("UPDATE balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND account_id=:account_id");
+	$q = db()->prepare("UPDATE balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND currency=:currency AND account_id=:account_id");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"account_id" => $account['id'],
 		"exchange" => $exchange,
+		"currency" => $currency,
 	));
 
 	// we have a balance; update the database

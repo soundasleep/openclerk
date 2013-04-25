@@ -24,9 +24,28 @@ if (get_temporary_messages()) {
 // get all of our accounts
 $accounts = array();
 
-$q = db()->prepare("SELECT COUNT(*) AS c FROM addresses WHERE user_id=?");
-$q->execute(array(user_id()));
-$accounts['blockchain'] = $q->fetch()['c'];
+$account_data_grouped = array(
+	'Addresses' => array(
+		'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses'),
+	),
+	'Mining pools' => array(
+		'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx'),
+	),
+	'Exchanges' => array(
+		'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce'),
+	),
+	'Other' => array(
+		'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic'),
+	),
+);
+
+foreach ($account_data_grouped as $group) {
+	foreach ($group as $key => $data) {
+		$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?");
+		$q->execute(array(user_id()));
+		$accounts[$key] = $q->fetch()['c'];
+	}
+}
 
 ?>
 
@@ -42,20 +61,6 @@ $accounts['blockchain'] = $q->fetch()['c'];
 
 <ul class="account_list">
 <?php
-$account_data_grouped = array(
-	'Addresses' => array(
-		'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses'),
-	),
-	'Mining pools' => array(
-		'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account'),
-	),
-	'Exchanges' => array(
-		'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account'),
-	),
-	'Other' => array(
-		'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API'),
-	),
-);
 
 foreach ($account_data_grouped as $label => $account_data) {
 	echo "<li>" . htmlspecialchars($label) . "\n<ul>\n";
