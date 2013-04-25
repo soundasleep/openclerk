@@ -283,8 +283,25 @@ function set_temporary_messages($m) {
 }
 
 $global_temporary_messages = isset($_SESSION["temporary_messages"]) ? $_SESSION["temporary_messages"] : null;	// only lasts a single request
-set_temporary_messages(null);
+set_temporary_messages(null);	// reset
 function get_temporary_messages() {
 	global $global_temporary_messages;
 	return $global_temporary_messages === null ? array() : $global_temporary_messages;
+}
+
+function set_temporary_errors($m) {
+	if ($m === null) {
+		unset($_SESSION["temporary_errors"]);
+	} else {
+		if (!is_array($m))
+			$m = array($m);
+		$_SESSION["temporary_errors"] = $m;
+	}
+}
+
+$global_temporary_errors = isset($_SESSION["temporary_errors"]) ? $_SESSION["temporary_errors"] : null;	// only lasts a single request
+get_temporary_errors(null);	// reset
+function get_temporary_errors() {
+	global $global_temporary_errors;
+	return $global_temporary_errors === null ? array() : $global_temporary_errors;
 }

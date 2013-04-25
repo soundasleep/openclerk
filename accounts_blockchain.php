@@ -18,14 +18,11 @@ if (!$user) {
 
 $messages = array();
 $errors = array();
-if (get_temporary_messages()) {
-	$messages += get_temporary_messages();
-}
 
 // process add/delete
 if (require_post("add", false) && require_post("address", false)) {
 	if (!is_valid_btc_address(require_post("address"))) {
-		$errors[] = "'" . htmlspecialchars(require_post("address")) . "' is an invalid BTC address.";
+		$errors[] = "'" . htmlspecialchars(require_post("address")) . "' is not a valid BTC address.";
 	} else {
 		// we don't care if the address already exists
 		$q = db()->prepare("INSERT INTO addresses SET user_id=?, address=?, currency=?");
@@ -70,21 +67,6 @@ $q->execute(array(user_id(), user_id(), 'btc'));
 $accounts = $q->fetchAll();
 
 ?>
-
-<?php if ($messages) { ?>
-<div class="message">
-<ul>
-	<?php foreach ($messages as $m) { echo "<li>" . $m . "</li>"; } /* do NOT accept user input for messages! */ ?>
-</ul>
-</div>
-<?php } ?>
-<?php if ($errors) { ?>
-<div class="error">
-<ul>
-	<?php foreach ($errors as $m) { echo "<li>" . $m . "</li>"; } /* do NOT accept user input for messages! */ ?>
-</ul>
-</div>
-<?php } ?>
 
 <p>
 <a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>

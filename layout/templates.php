@@ -60,6 +60,9 @@ function page_header($page_title, $page_id = false, $options = array()) {
 	<div id="page_content">
 <?php
 
+	// always display messages on every page as necessary
+	display_messages();
+
 }
 
 function page_footer() {
@@ -97,6 +100,40 @@ function page_footer() {
 		$time_diff = ($end_time - PAGE_RENDER_START) * 1000;
 		echo "<!-- rendered in " . number_format($time_diff, 2) . " ms -->";
 	}
+
+}
+
+/**
+ * Display any errors or messages, including those passed through temporary_messages/errors.
+ */
+function display_messages() {
+	global $messages;
+	global $errors;
+
+	if (!isset($messages)) $messages = array();
+	if (!isset($errors)) $errors = array();
+
+	if (get_temporary_messages()) {
+		$messages = array_join($messages, get_temporary_messages());
+	}
+	if (get_temporary_errors()) {
+		$errors = array_join($errors, get_temporary_errors());
+	}
+
+	if ($messages) { ?>
+<div class="message">
+<ul>
+	<?php foreach ($messages as $m) { echo "<li>" . $m . "</li>"; } /* do NOT accept user input for messages! */ ?>
+</ul>
+</div>
+<?php }
+	if ($errors) { ?>
+<div class="error">
+<ul>
+	<?php foreach ($errors as $m) { echo "<li>" . $m . "</li>"; } /* do NOT accept user input for messages! */ ?>
+</ul>
+</div>
+<?php }
 
 }
 

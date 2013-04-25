@@ -18,9 +18,7 @@ if (!$user) {
 }
 
 $messages = array();
-if (get_temporary_messages()) {
-	$messages += get_temporary_messages();
-}
+$errors = array();
 
 // is there a command to the page?
 // TODO eventually replace this with ajax stuff
@@ -46,14 +44,6 @@ if ($pages) {
 ?>
 
 <div id="page<?php echo htmlspecialchars($page_id); ?>">
-
-<?php if ($messages) { ?>
-<div class="message">
-<ul>
-	<?php foreach ($messages as $m) { echo "<li>" . $m . "</li>"; } /* do NOT accept user input for messages! */ ?>
-</ul>
-</div>
-<?php } ?>
 
 <!-- list of pages -->
 <ul class="page_list">
