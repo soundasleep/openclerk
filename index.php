@@ -57,6 +57,7 @@ $balances_data = array(
 	"Generic API" => get_all_currencies(),
 	"BTC-E" => array('btc', 'ltc', 'nmc', 'usd'),
 	"Pool-x.eu" => array('ltc'),
+	"Mt.Gox" => array('btc', 'usd'),
 );
 
 // summarise

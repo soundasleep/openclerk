@@ -59,5 +59,14 @@ function is_valid_currency($c) {
 }
 
 function is_valid_generic_url($url) {
-	return preg_match("#^https?://.+$#im", $url);
+	return preg_match("#^https?://.+$#im", $url) && strlen($url) < 255;
 }
+
+function is_valid_name($s) {
+	return strlen($s) < 64;
+}
+
+function is_valid_title($s) {
+	return strlen($s) < 64;
+}
+

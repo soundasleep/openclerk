@@ -39,6 +39,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 	<?php if (user_logged_in()) { ?>
 		<li><a href="<?php echo url_for('profile'); ?>">Your Summary</a></li>
 		<li><a href="<?php echo url_for('accounts'); ?>">Your Accounts</a></li>
+		<li><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
 		<li><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
 		<?php if (is_admin()) { ?>
 			<li class="admin"><a href="<?php echo url_for('status'); ?>">System Status</a></li>

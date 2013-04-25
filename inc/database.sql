@@ -10,7 +10,10 @@ CREATE TABLE users (
 	updated_at datetime not null default now() on update now(),
 	last_login datetime,
 	
-	INDEX(openid_identity)
+	is_premium tinyint not null default 0,
+	premium_expires datetime,
+	
+	INDEX(openid_identity), INDEX(is_premium), INDEX(is_admin)
 );
 
 INSERT INTO users SET id=100,name='System',openid_identity='http://openclerk.org/',email='support@openclerk.org',is_admin=0;

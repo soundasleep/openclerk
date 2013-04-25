@@ -154,7 +154,7 @@ function array_join($a1, $a2) {
 	return $a1;
 }
 
-function recent_format($date = null) {
+function recent_format($date = null, $suffix = " ago") {
 	if ($date == null || $date == 0)
 		return "<em>never</em>";
 
@@ -162,20 +162,25 @@ function recent_format($date = null) {
 		$date = strtotime($date);
 
 	$secs = time() - $date;
+	if ($secs < 0)
+		return seconds_to_string(-$secs, " in the future");
+	else
+		return seconds_to_string($secs, $suffix);
+}
+
+function seconds_to_string($secs, $suffix = " ago") {
 	if ($secs == 0)
 		return "<em>now</em>";
-	elseif ($secs < 0)
-		return sprintf("%s sec in the future", number_format($secs));
 	else if ($secs < 60)
-		return sprintf("%s sec ago", number_format($secs));
+		return sprintf("%s sec" . $suffix, number_format($secs));
 	else if ($secs < 60 * 60)
-		return sprintf("%s min ago", number_format($secs / 60));
+		return sprintf("%s min" . $suffix, number_format($secs / 60));
 	else if ($secs < (60 * 60 * 24))
-		return sprintf("%s hours ago", number_format($secs / (60 * 60)));
+		return sprintf("%s hours" . $suffix, number_format($secs / (60 * 60)));
 	else if (year_count($secs) < 1)
-		return sprintf("%s days ago", number_format($secs / (60 * 60 * 24)));
+		return sprintf("%s days" . $suffix, number_format($secs / (60 * 60 * 24)));
 	else
-		return sprintf("%s years ago", number_format(year_count($secs), 1));
+		return sprintf("%s years" . $suffix, number_format(year_count($secs), 1));
 }
 
 function recent_format_html($date) {

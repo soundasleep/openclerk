@@ -27,6 +27,9 @@ if (require_post("add", false)) {
 			$args[] = require_post($key);
 		}
 	}
+	if (!is_valid_title(require_post("title", false))) {
+		$errors[] = "That is not a valid title.";
+	}
 	if (!$errors) {
 		// we don't care if the address already exists
 		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, title=? $query");
