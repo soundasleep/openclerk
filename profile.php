@@ -10,7 +10,6 @@ require("layout/graphs.php");
 require_login();
 
 require("layout/templates.php");
-page_header("Your Profile", "page_profile", array('jsapi' => true, 'jquery' => true, 'js' => 'profile'));
 
 $user = get_user(user_id());
 if (!$user) {
@@ -40,6 +39,8 @@ if ($pages) {
 		ORDER BY graphs.page_order ASC, graphs.id ASC");
 	$q->execute(array(user_id(), $page_id));
 	$graphs = $q->fetchAll();
+
+page_header("Your Profile", "page_profile", array('jsapi' => true, 'jquery' => true, 'js' => 'profile'));
 
 ?>
 

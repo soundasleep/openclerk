@@ -9,7 +9,6 @@ require("inc/global.php");
 require_login();
 
 require("layout/templates.php");
-page_header("Your Accounts: BTC Addresses", "page_accounts_blockchain");
 
 $user = get_user(user_id());
 if (!$user) {
@@ -66,6 +65,8 @@ $q = db()->prepare("SELECT
 $q->execute(array(user_id(), user_id(), 'btc'));
 $accounts = $q->fetchAll();
 
+page_header("Your Accounts: BTC Addresses", "page_accounts_blockchain");
+
 ?>
 
 <p>
@@ -102,7 +103,7 @@ $accounts = $q->fetchAll();
 	<tr>
 		<td colspan="5">
 			<form action="<?php echo htmlspecialchars(url_for('accounts_blockchain')); ?>" method="post">
-				<input type="text" name="address" size="36" maxlength="36" value="<?php echo htmlspecialchars(require_post("address", "")); ?>">
+				<label>BTC address: <input type="text" name="address" size="36" maxlength="36" value="<?php echo htmlspecialchars(require_post("address", "")); ?>"></li>
 				<input type="submit" name="add" value="Add address" class="add">
 			</form>
 		</td>
