@@ -49,6 +49,9 @@ require("_accounts_standard.php");
 	<li><?php echo htmlspecialchars(get_site_config('site_name')); ?> does not perform any verification
 		on the return value; as long as it is a valid number, it will be accepted as a balance.</li>
 
+	<li>Your API URLs will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
+		site, even if you have logged in.</li>
+
 	<li>The ability to retract or remove generic API access depends entirely on your access to the generic API itself.</li>
 </ul>
 </div>

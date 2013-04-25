@@ -99,7 +99,7 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 	}
 
 	// was the last request successful?
-	$q = db()->prepare("SELECT * FROM jobs WHERE user_id=? AND arg_id=? AND job_type=? ORDER BY id DESC");
+	$q = db()->prepare("SELECT * FROM jobs WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 ORDER BY id DESC LIMIT 1");
 	$q->execute(array(user_id(), $a['id'], $account_data['exchange']));
 	$job = $q->fetch();
 	if (!$last_updated && $job) {

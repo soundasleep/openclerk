@@ -54,7 +54,10 @@ require("_accounts_standard.php");
 		mean that the API key can only be used to retrieve account status, and it should not be possible
 		to perform trades or withdraw funds using that key.</li>
 
-	<li>Through the BTC-E interface you can remove an API key&apos;s access at any time by clicking <i>Disable</i>.</li>
+	<li>Your BTC-E keys and secrets will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
+		site, even if you have logged in.</li>
+
+	<li>Through the BTC-E interface you can revoke an API key&apos;s access at any time by clicking <i>Disable</i>.</li>
 </ul>
 </div>
 

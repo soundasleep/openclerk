@@ -47,6 +47,9 @@ require("_accounts_standard.php");
 	<li>At the time of writing, a Pool-x.eu API key can only be used to retrieve account balances and
 		worker status; it is not possible to perform transactions or change user details using the API key.</li>
 
+	<li>Your Pool-x.eu API keys will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
+		site, even if you have logged in.</li>
+
 	<li>At the time of writing, it is not possible to change or reset your Pool-x.eu API key.</li>
 </ul>
 </div>

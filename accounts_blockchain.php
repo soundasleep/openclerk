@@ -85,7 +85,7 @@ page_header("Your Accounts: BTC Addresses", "page_accounts_blockchain");
 	$last_updated = $a['last_updated'];
 
 	// was the last request successful?
-	$q = db()->prepare("SELECT * FROM jobs WHERE user_id=? AND arg_id=? AND job_type=? ORDER BY id DESC");
+	$q = db()->prepare("SELECT * FROM jobs WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 ORDER BY id DESC");
 	$q->execute(array(user_id(), $a['id'], 'blockchain'));
 	$job = $q->fetch();
 	if (!$last_updated && $job) {

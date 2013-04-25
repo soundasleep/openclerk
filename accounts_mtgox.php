@@ -31,32 +31,32 @@ require("_accounts_standard.php");
 <div class="instructions_add">
 <h2>Adding a Mt.Gox account</h2>
 
-TODO
-
 <ol class="steps">
-	<li>Log into your <a href="https://btc-e.com/profile">BTC-E profile</a>.<br>
-	<img src="img/accounts/btce1.png"></li>
+	<li>Log into your <a href="https://mtgox.com/security">Mt.Gox account</a> and visit the <i>security centere</i>.<br>
+		<img src="img/accounts/mtgox1.png"></li>
 
-	<li>From the profile, select <i>API keys</i>.<br>
-	<img src="img/accounts/btce2.png"></li>
+	<li>Under <i>Advanced API Key Creation</i>, create a name for a new key (such as "<?php echo htmlspecialchars(get_site_config('site_name')); ?>");
+		give the key <i>Get Info</i> rights; and click <i>Create</i>.<br>
+		<img src="img/accounts/mtgox2.png"></li>
 
-	<li>Create a name for a new key (such as "<?php echo htmlspecialchars(get_site_config('site_name')); ?>") and click <i>Create</i>.<br>
-	<img src="img/accounts/btce3.png"></li>
-
-	<li>Select the <i>info</i> permission, and click <i>Save</i>. Once the key has been saved, copy and paste the <i>Key</i> and <i>Secret</i> into the form above, and click "Add account".<br>
-	<img src="img/accounts/btce4.png"></li>
+	<li>Copy and paste the <i>API Key</i> and <i>Secret</i> into the form above, and click "Add account". Click "Update" on the Mt.Gox site to save your changes.<br>
+		<img src="img/accounts/mtgox3.png"></li>
 </ol>
 </div>
 
 <div class="instructions_safe">
-<h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a BTC-E API key?</h2>
+<h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a Mt.Gox API key?</h2>
 
 <ul>
-	<li>You need to make sure that the API key <em>only</em> has the <i>info</i> permission. This should
+	<li>You need to make sure that the API key <em>only</em> has the <i>Get Info</i> permission. This should
 		mean that the API key can only be used to retrieve account status, and it should not be possible
 		to perform trades or withdraw funds using that key.</li>
 
-	<li>Through the BTC-E interface you can remove an API key&apos;s access at any time by clicking <i>Disable</i>.</li>
+	<li>Your Mt.Gox keys and secrets will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
+		site, even if you have logged in.</li>
+
+	<li>Through the Mt.Gox interface you can revoke an API key&apos;s access at any time by
+		going to <i>Current API Keys</i> and clicking on the red <i>Delete</i> icon.</li>
 </ul>
 </div>
 
