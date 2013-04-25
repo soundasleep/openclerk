@@ -76,6 +76,21 @@ CREATE TABLE accounts_poolx (
 	INDEX(user_id), INDEX(last_queue)
 );
 
+DROP TABLE IF EXISTS accounts_mtgox;
+
+CREATE TABLE accounts_mtgox (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at datetime not null default now(),
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	api_secret varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
+
 -- generic API requests
 
 DROP TABLE IF EXISTS accounts_generic;

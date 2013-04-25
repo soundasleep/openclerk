@@ -44,6 +44,16 @@ function is_valid_btce_apisecret($key) {
 	return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
 }
 
+function is_valid_mtgox_apikey($key) {
+	// not sure what the format should be
+	return strlen($key) == 36 && preg_match("#^[a-z0-9\-]+$#", $key);
+}
+
+function is_valid_mtgox_apisecret($key) {
+	// not sure what the format should be, looks to be similar to base64 encoding
+	return strlen($key) > 36 && preg_match('#^[A-Za-z0-9/\\+=]+$#', $key);
+}
+
 function is_valid_currency($c) {
 	return in_array($c, get_all_currencies());
 }

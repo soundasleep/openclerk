@@ -114,6 +114,10 @@ try {
 			require("jobs/btce.php");
 			break;
 
+		case "mtgox":
+			require("jobs/mtgox.php");
+			break;
+
 		case "poolx":
 			require("jobs/poolx.php");
 			break;

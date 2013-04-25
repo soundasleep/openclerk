@@ -144,7 +144,8 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 					<th><label for="title">Title:</label></th>
 					<td><input id="title" type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_post("title", "")); ?>"> (optional)</td>
 				</tr>
-				<?php foreach ($account_data['inputs'] as $key => $data) { ?>
+				<?php foreach ($account_data['inputs'] as $key => $data) {
+					$length = isset($data['length']) ? $data['length'] : 64; ?>
 				<tr>
 					<th><label for="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data['title']); ?>:</label></th>
 					<td>
@@ -159,7 +160,7 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 							</select>
 						<?php } else { ?>
 							<input id="<?php echo htmlspecialchars($key); ?>" type="text" name="<?php echo htmlspecialchars($key); ?>"
-								size="48" maxlength="64" value="<?php echo htmlspecialchars(require_post($key, "")); ?>"></td>
+								size="<?php echo htmlspecialchars($length * 2/3); ?>" maxlength="<?php echo htmlspecialchars($length); ?>" value="<?php echo htmlspecialchars(require_post($key, "")); ?>"></td>
 						<?php } ?>
 				</tr>
 				<?php } ?>

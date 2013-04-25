@@ -32,6 +32,7 @@ $account_data_grouped = array(
 		'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx'),
 	),
 	'Exchanges' => array(
+		'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox'),
 		'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce'),
 	),
 	'Other' => array(
@@ -71,7 +72,7 @@ foreach ($account_data_grouped as $label => $account_data) {
 
 		echo "<li><strong>" . htmlspecialchars($value['title']) . ":</strong> ";
 		echo "<a href=\"" . url_for($value['url']) . "\">";
-		echo isset($accounts[$key]) ? (number_format($accounts[$key]) . " " . ($accounts[$key] == 1 ? $value['label'] : $value['labels'])) : "<i>none</i>";
+		echo (isset($accounts[$key]) && $accounts[$key]) ? (number_format($accounts[$key]) . " " . ($accounts[$key] == 1 ? $value['label'] : $value['labels'])) : "<i>none</i>";
 		echo "</a>";
 		echo "</li>\n";
 	}
