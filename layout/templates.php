@@ -54,7 +54,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 
 <?php if (did_autologin()) { ?>
 <div id="autologin">
-	Automatically logged in. Hi, <a href="<?php echo url_for('profile'); ?>" class="disabled"><?php echo $_SESSION["user_name"] ? htmlspecialchars($_SESSION["user_name"]) : "<i>anonymous</i>"; ?></a>! (<a href="<?php echo url_for('login', array('logout' => 1)); ?>">This isn't me.</a>)	<?php /* remove quoted string: '*/ ?>
+	Automatically logged in. Hi, <a href="<?php echo url_for('user'); ?>" class="disabled"><?php echo $_SESSION["user_name"] ? htmlspecialchars($_SESSION["user_name"]) : "<i>anonymous</i>"; ?></a>! (<a href="<?php echo url_for('login', array('logout' => 1)); ?>">This isn't me.</a>)	<?php /* remove quoted string: '*/ ?>
 </div>
 <?php } ?>
 

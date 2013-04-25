@@ -6,6 +6,7 @@ CREATE TABLE users (
 	openid_identity varchar(255) not null unique,
 	email varchar(255),
 	is_admin tinyint not null default 0,
+	is_system tinyint not null default 0,
 	created_at datetime not null default now(),
 	updated_at datetime not null default now() on update now(),
 	last_login datetime,
@@ -13,10 +14,10 @@ CREATE TABLE users (
 	is_premium tinyint not null default 0,
 	premium_expires datetime,
 	
-	INDEX(openid_identity), INDEX(is_premium), INDEX(is_admin)
+	INDEX(openid_identity), INDEX(is_premium), INDEX(is_admin), INDEX(is_system)
 );
 
-INSERT INTO users SET id=100,name='System',openid_identity='http://openclerk.org/',email='support@openclerk.org',is_admin=0;
+INSERT INTO users SET id=100,name='System',openid_identity='http://openclerk.org/',email='support@openclerk.org',is_admin=0,is_system=1;
 
 DROP TABLE IF EXISTS valid_user_keys;
 
@@ -297,6 +298,7 @@ DROP TABLE IF EXISTS graphs;
 CREATE TABLE graphs (
 	id int not null auto_increment primary key,
 	page_id int not null,
+	created_at datetime not null default now(),
 	
 	graph_type varchar(32) not null,
 	arg0 int, 		-- some graphs have integer arguments
@@ -310,3 +312,46 @@ CREATE TABLE graphs (
 
 );
 
+-- premium account requests
+
+DROP TABLE IF EXISTS outstanding_premiums;
+
+CREATE TABLE outstanding_premiums (
+	id int not null auto_increment primary key,
+	user_id int not null,
+
+	created_at datetime not null default now(),
+	paid_at datetime not null default 0,
+	is_paid tinyint not null default 0,
+	last_queue datetime,
+	
+	premium_address_id int not null, -- source address
+	balance decimal(16,8),
+	
+	-- premium information
+	months tinyint not null,
+	years tinyint not null,
+
+	-- we might as well reuse the existing infrastructure we have for checking address balances
+	address_id int, -- target address (should be the same)
+	
+	INDEX(user_id), INDEX(address_id), INDEX(premium_address_id), INDEX(is_paid)
+);
+
+-- when making a new purchase, we add the address as an address to the System user,
+-- which is then checked as normal. we can then check on the balance of that address
+-- to find out when it has been paid.
+DROP TABLE IF EXISTS premium_addresses;
+
+CREATE TABLE premium_addresses (
+	id int not null auto_increment primary key,
+	created_at datetime not null default now(),
+	
+	is_used tinyint not null default 0,	-- i.e. is used in an outstanding_premiums
+	used_at datetime,
+	
+	address varchar(36) not null,
+	currency varchar(3) not null,
+	
+	INDEX(is_used), INDEX(currency)
+);

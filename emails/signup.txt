@@ -1,0 +1,10 @@
+Welcome to {$site_name}
+Hello {$email},
+
+Welcome to {$site_name}! This e-mail address will be used to notify you of changes to your {$site_name} user profile.
+
+If you did not recently register to this site, please visit the following link, and your e-mail address will be removed from the system: {$url}
+
+Thanks,
+{$site_name}
+{$site_url}

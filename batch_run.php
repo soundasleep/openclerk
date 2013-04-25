@@ -128,6 +128,10 @@ try {
 			break;
 
 		// cleanup jobs, admin jobs etc
+		case "outstanding":
+			require("jobs/outstanding.php");
+			break;
+
 		default:
 			throw new JobException("Unknown job type '" . htmlspecialchars($job['job_type']) . "'");
 

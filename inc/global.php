@@ -154,7 +154,10 @@ function array_join($a1, $a2) {
 	return $a1;
 }
 
-function recent_format($date = null, $suffix = " ago") {
+function recent_format($date = null, $suffix = false, $future_suffix = false) {
+	if ($suffix === false) $suffix = " ago";
+	if ($future_suffix === false) $future_suffix = " in the future";
+
 	if ($date == null || $date == 0)
 		return "<em>never</em>";
 
@@ -163,7 +166,7 @@ function recent_format($date = null, $suffix = " ago") {
 
 	$secs = time() - $date;
 	if ($secs < 0)
-		return seconds_to_string(-$secs, " in the future");
+		return seconds_to_string(-$secs, $future_suffix);
 	else
 		return seconds_to_string($secs, $suffix);
 }
@@ -183,8 +186,8 @@ function seconds_to_string($secs, $suffix = " ago") {
 		return sprintf("%s years" . $suffix, number_format(year_count($secs), 1));
 }
 
-function recent_format_html($date) {
-	return '<span title="' . htmlspecialchars(iso_date($date)) . '">' . recent_format($date) . '</span>';
+function recent_format_html($date, $suffix = false, $future_suffix = false) {
+	return '<span title="' . htmlspecialchars(iso_date($date)) . '">' . recent_format($date, $suffix, $future_suffix) . '</span>';
 }
 
 function year_count($sec) {

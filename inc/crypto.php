@@ -9,6 +9,25 @@ function get_all_currencies() {
 	return array("btc", "ltc", "nmc", "usd", "nzd");
 }
 
+function get_currency_name($n) {
+	switch ($n) {
+		case "btc":	return "Bitcoin";
+		case "ltc":	return "Litecoin";
+		case "nmc":	return "Namecoin";
+		case "usd":	return "United States dollar";
+		case "nzd":	return "New Zealand dollar";
+		default:	return "Unknown";
+	}
+}
+
+function crypto_address($currency, $address) {
+	switch ($currency) {
+		case 'btc': return btc_address($address);
+		case 'ltc': return ltc_address($address);
+		default: return htmlspecialchars($address);
+	}
+}
+
 /**
  * Just returns an array of ('ltc' => 'LTC', 'btc' => 'BTC', ...)
  */
