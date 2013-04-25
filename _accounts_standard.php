@@ -1,7 +1,16 @@
 <?php
 
+// we will have set $account_data already
+if (!isset($account_data)) {
+	throw new Exception("account_data needs to be set");
+}
+
 if (!isset($account_data['titles'])) {
 	$account_data['titles'] = $account_data['title'] . "s";
+}
+
+if (!isset($account_data['display'])) {
+	$account_data['display'] = array();
 }
 
 // process add/delete
@@ -68,6 +77,9 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 <thead>
 	<tr>
 		<th>Title</th>
+		<?php foreach ($account_data['display'] as $key => $value) { ?>
+			<th><?php echo htmlspecialchars($value['title']); ?></th>
+		<?php } ?>
 		<th>Added</th>
 		<th>Last checked</th>
 		<th>Balances</th>
@@ -96,6 +108,10 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 ?>
 	<tr>
 		<td><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></td>
+		<?php foreach ($account_data['display'] as $key => $value) {
+			$format_callback = $value['format']; ?>
+			<td><?php echo $format_callback($a[$key]); ?></td>
+		<?php } ?>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
 			<?php echo recent_format_html($last_updated); ?>
@@ -131,8 +147,20 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 				<?php foreach ($account_data['inputs'] as $key => $data) { ?>
 				<tr>
 					<th><label for="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data['title']); ?>:</label></th>
-					<td><input id="<?php echo htmlspecialchars($key); ?>" type="text" name="<?php echo htmlspecialchars($key); ?>"
-						size="48" maxlength="64" value="<?php echo htmlspecialchars(require_post($key, "")); ?>"></td>
+					<td>
+						<?php if (isset($data['dropdown'])) { ?>
+							<select id="<?php echo htmlspecialchars($key); ?>" name="<?php echo htmlspecialchars($key); ?>">
+								<?php $options = $data['dropdown']();
+								foreach ($options as $dkey => $dvalue) {
+									echo "<option value=\"" . htmlspecialchars($dkey) . "\"" . (require_post($key, "") == $dkey ? " select" : "") . ">";
+									echo htmlspecialchars($dvalue);
+									echo "</option>\n";
+								} ?>
+							</select>
+						<?php } else { ?>
+							<input id="<?php echo htmlspecialchars($key); ?>" type="text" name="<?php echo htmlspecialchars($key); ?>"
+								size="48" maxlength="64" value="<?php echo htmlspecialchars(require_post($key, "")); ?>"></td>
+						<?php } ?>
 				</tr>
 				<?php } ?>
 				<tr>

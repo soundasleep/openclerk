@@ -9,6 +9,17 @@ function get_all_currencies() {
 	return array("btc", "ltc", "nmc", "usd", "nzd");
 }
 
+/**
+ * Just returns an array of ('ltc' => 'LTC', 'btc' => 'BTC', ...)
+ */
+function dropdown_currency_list() {
+	$result = array();
+	foreach (get_all_currencies() as $c) {
+		$result[$c] = strtoupper($c);
+	}
+	return $result;
+}
+
 function is_valid_btc_address($address) {
 	// very simple check according to https://bitcoin.it/wiki/Address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "1" || substr($address, 0, 1) == "3")
@@ -31,4 +42,12 @@ function is_valid_btce_apikey($key) {
 function is_valid_btce_apisecret($key) {
 	// not sure what the format should be
 	return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
+}
+
+function is_valid_currency($c) {
+	return in_array($c, get_all_currencies());
+}
+
+function is_valid_generic_url($url) {
+	return preg_match("#^https?://.+$#im", $url);
 }
