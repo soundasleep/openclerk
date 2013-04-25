@@ -36,7 +36,11 @@ CREATE TABLE uncaught_exceptions (
 	filename varchar(255),
 	line_number int,
 	raw blob not null,
-	created_at datetime not null
+	created_at datetime not null,
+	
+	job_id int,	-- may have been generated as part of a job
+	
+	INDEX(job_id)
 );
 
 -- OpenClerk information starts here
@@ -245,10 +249,11 @@ CREATE TABLE jobs (
 	arg_id int,	-- argument for the job, a foreign key ID; may be null
 	
 	is_executed tinyint not null default 0,
+	is_error tinyint not null default 0,	-- was an exception thrown while processing?
 	
 	executed_at datetime,
 	
-	INDEX(job_type), INDEX(priority), INDEX(user_id), INDEX(is_executed)
+	INDEX(job_type), INDEX(priority), INDEX(user_id), INDEX(is_executed), INDEX(is_error)
 );
 
 -- users define graphs for their home page, split across pages

@@ -65,7 +65,7 @@ function render_graph($graph) {
 
 			// create data
 			$data = array();
-			$currencies = array('btc', 'ltc', 'nmc', 'usd', 'nzd');
+			$currencies = get_all_currencies();
 			foreach ($currencies as $c) {
 				if (isset($balances['total'.$c]) && $balances['total'.$c]['balance'] != 0) {
 					$data[] = array(strtoupper($c), currency_format($c, $balances['total'.$c]['balance'], 4));
@@ -100,7 +100,7 @@ function render_graph($graph) {
 			// create data
 			$data = array();
 			$data[] = array('Currency', 'Balance', 'Offset', 'Total');
-			$currencies = array('btc', 'ltc', 'nmc', 'usd', 'nzd');
+			$currencies = get_all_currencies();
 			foreach ($currencies as $c) {
 				$balance = isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0;
 				$offset = isset($offsets[$c]) ? $offsets[$c]['balance'] : 0;

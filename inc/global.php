@@ -8,6 +8,7 @@ require("inc/config.php");
 require("inc/security.php");
 require("inc/email.php");
 require("inc/recaptcha.php");
+require("inc/crypto.php");
 
 $db_instance = false;
 function db() {
@@ -62,7 +63,7 @@ function print_exception_trace($e) {
 	echo "<li><b>" . htmlspecialchars($e->getMessage()) . "</b> (<i>" . get_class($e) . "</i>)</li>\n";
 	echo "<li>" . htmlspecialchars($e->getFile()) . "#" . htmlspecialchars($e->getLine()) . "</li>\n";
 	foreach ($e->getTrace() as $e2) {
-		echo "<li>" . htmlspecialchars($e2['file']) . "#" . htmlspecialchars($e2['line']) . ": " . htmlspecialchars($e2['function']) . "(" . htmlspecialchars("" . $e2['args']) . ")</li>\n";
+		echo "<li>" . htmlspecialchars($e2['file']) . "#" . htmlspecialchars($e2['line']) . ": " . htmlspecialchars($e2['function']) . "(" . htmlspecialchars(isset($e2['args']) ? $e2['args'] : "") . ")</li>\n";
 	}
 	if ($e->getPrevious()) {
 		echo "<li>Caused by:";
@@ -72,6 +73,15 @@ function print_exception_trace($e) {
 	echo "</ul>";
 }
 function my_exception_handler($e) {
+	$extra_args = array();
+	$extra_query = "";
+	if ($e instanceof WrappedJobException) {
+		// unwrap it
+		$extra_args[] = $e->getJobId();
+		$extra_query .= ", job_id=?";
+		$e = $e->getCause();
+	}
+
 	header('HTTP/1.0 500 Internal Server Error');
 	echo "Error: " . htmlspecialchars($e->getMessage());
 	if ($_SERVER['SERVER_NAME'] === 'localhost') {
@@ -86,14 +96,14 @@ function my_exception_handler($e) {
 		filename=?,
 		line_number=?,
 		raw=?,
-		created_at=NOW()");
-	$q->execute(array(
+		created_at=NOW() $extra_query");
+	$q->execute(array_join(array(
 		$e->getMessage(),
 		$e->getPrevious() ? $e->getPrevious()->getMessage() : "",
 		$e->getFile(),
 		$e->getLine(),
 		serialize($e),
-	));
+	), $extra_args));
 	die;
 }
 set_exception_handler('my_exception_handler');

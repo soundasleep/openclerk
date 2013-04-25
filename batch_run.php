@@ -72,6 +72,21 @@ function crypto_get_contents($url) {
 	));
 	return file_get_contents($url, false /* $use_include_path */, $context);
 }
+class WrappedJobException extends Exception {
+	public $job_id;
+	public $cause;
+	public function __construct($cause, $job_id) {
+		parent::__construct($cause->getMessage());
+		$this->cause = $cause;
+		$this->job_id = $job_id;
+	}
+	public function getCause() {
+		return $this->cause;
+	}
+	public function getJobId() {
+		return $this->job_id;
+	}
+}
 
 // otherwise, we'll want to actually execute something, based on the job type
 // TODO remove the navigation links once we have an actual job admin interface
@@ -120,12 +135,12 @@ try {
 }
 
 // delete job
-$q = db()->prepare("UPDATE jobs SET is_executed=1 WHERE id=? LIMIT 1");
-$q->execute(array($job['id']));
+$q = db()->prepare("UPDATE jobs SET is_executed=1,is_error=? WHERE id=? LIMIT 1");
+$q->execute(array(($runtime_exception === null ? 0 : 1), $job['id']));
 
 // rethrow exception if necessary
 if ($runtime_exception !== null) {
-	throw $runtime_exception;
+	throw new WrappedJobException($runtime_exception, $job['id']);
 }
 
 echo "\n<li>Job successful.";

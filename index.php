@@ -54,7 +54,7 @@ foreach ($exchange_data as $exchange => $pairs) {
 
 <?php
 $balances_data = array(
-	"Generic API" => array('btc', 'ltc', 'nmc', 'nzd', 'usd'),
+	"Generic API" => get_all_currencies(),
 	"BTC-E" => array('btc', 'ltc', 'nmc', 'usd'),
 	"Pool-x.eu" => array('ltc'),
 );

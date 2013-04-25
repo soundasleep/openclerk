@@ -7,7 +7,7 @@ require_login();
 require("layout/templates.php");	// for currency_format
 
 // adding offset
-$currencies = array('usd', 'nzd', 'btc', 'ltc', 'nmc');
+$currencies = get_all_currencies();
 $messages = array();
 foreach ($currencies as $c) {
 	if (require_post($c, false) !== false) {
