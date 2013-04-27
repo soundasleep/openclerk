@@ -3,7 +3,7 @@
 require("inc/global.php");
 
 require("layout/templates.php");
-page_header("Home", "page_home", false, array('common_js' => true));
+page_header("Home", "page_home", array('common_js' => true));
 
 ?>
 <h1><?php echo htmlspecialchars(get_site_config('site_name')); ?></h1>

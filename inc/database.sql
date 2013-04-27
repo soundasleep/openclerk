@@ -387,3 +387,20 @@ CREATE TABLE premium_addresses (
 	
 	INDEX(is_used), INDEX(currency)
 );
+
+-- keep track of external APIs; rather than pulling this from the database in real time, we
+-- have a job that will regularly update this data. this data will be constant
+-- outside of the update period.
+DROP TABLE IF EXISTS external_status;
+
+CREATE TABLE external_status (
+	id int not null auto_increment primary key,
+	created_at datetime not null default now(),
+	
+	job_type varchar(32) not null,
+	job_count int not null,
+	job_errors int not null,
+	job_first datetime not null,
+	job_last datetime not null,
+	sample_size int not null
+);

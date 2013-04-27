@@ -79,7 +79,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox'),
 	array('table' => 'accounts_poolx', 'type' => 'poolx'),
 	array('table' => 'summaries', 'type' => 'summary'),
-	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0', 'user_id' => get_site_config('system_user_id')),
+	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
 		AND is_reminder_sent=0
 		AND NOT ISNULL(email) AND LENGTH(email) > 0
