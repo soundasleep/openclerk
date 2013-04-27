@@ -4,28 +4,6 @@
  * Various functionality related to premium accounts and limits.
  */
 
-function account_data_grouped() {
-	return array(
-		'Addresses' => array(
-			'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses'),
-		),
-		'Mining pools' => array(
-			'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts'),
-		),
-		'Exchanges' => array(
-			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
-			'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
-		),
-		'Other' => array(
-			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
-		),
-		'Hidden' => array(
-			'graph_pages' => array('label' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0'),
-			'summaries' => array('label' => 'Currency summaryies', 'table' => 'summaries', 'group' => 'summaries'),
-		),
-	);
-}
-
 $global_user_limits_summary = null;
 function user_limits_summary($user_id) {
 	global $global_user_limits_summary;

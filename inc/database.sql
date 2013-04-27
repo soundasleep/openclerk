@@ -162,6 +162,22 @@ CREATE TABLE address_balances (
 	INDEX(user_id), INDEX(address_id), INDEX(is_recent)
 );
 
+-- Litecoin explorer does not let you specify confirmations parameter,
+-- so we need to keep track of current block number (stored locally
+-- so we don't have to request Explorer twice)
+DROP TABLE IF EXISTS litecoin_blocks;
+
+CREATE TABLE litecoin_blocks (
+	id int not null auto_increment primary key,
+	created_at datetime not null default now(),
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);
+
 -- users can also specify offsets for non-API values --
 
 DROP TABLE IF EXISTS offsets;

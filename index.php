@@ -88,9 +88,7 @@ foreach ($balances_data as $exchange => $currencies) {
 <h2>Supported addresses</h2>
 
 <?php
-$addresses_data = array(
-	"Blockchain" => get_blockchain_currencies(),
-);
+$addresses_data = get_blockchain_currencies();
 
 // summarise
 $all_currencies = array();

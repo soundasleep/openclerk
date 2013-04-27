@@ -48,7 +48,14 @@ page_header("Premium Accounts", "page_premium");
 </thead>
 <tbody>
 	<?php
-	$currencies = get_blockchain_currencies();
+	$blockchain = get_blockchain_currencies();
+	$currencies = array();
+	foreach ($blockchain as $currency_list) {
+		foreach ($currency_list as $c) {
+			$currencies[$c] = $c;
+		}
+	}
+
 	$currencies = array_map('get_currency_name', $currencies);
 	$predef = array(
 		'addresses' => 'Tracked addresses (' . implode(", ", $currencies) . ')',

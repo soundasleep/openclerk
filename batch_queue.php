@@ -29,7 +29,7 @@ if (require_get("key", false)) {
 	require("layout/templates.php");
 	$options = array();
 	if (require_get("refresh", false)) {
-		$options["refresh"] = 10;
+		$options["refresh"] = require_get("refresh");
 	}
 	page_header("Queue", "page_batch_queue", $options);
 }
@@ -72,7 +72,8 @@ function added_job($job) {
 // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
 $standard_jobs = array(
 	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id')),
-	array('table' => 'addresses', 'type' => 'blockchain'),
+	array('table' => 'addresses', 'type' => 'blockchain', 'query' => ' AND currency=\'btc\''),
+	array('table' => 'addresses', 'type' => 'litecoin', 'query' => ' AND currency=\'ltc\''),
 	array('table' => 'accounts_generic', 'type' => 'generic'),
 	array('table' => 'accounts_btce', 'type' => 'btce'),
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox'),
@@ -129,24 +130,39 @@ foreach ($standard_jobs as $standard) {
 			"arg_id" => $address['id'],
 		);
 
-		// make sure the new job doesn't already exist
-		$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND priority=:priority AND is_executed=0 LIMIT 1");
-		$q2->execute(array(
-			'type' => $job['type'],
-			'arg_id' => $job['arg_id'],
-			'priority' => $priority, // so we can override priorities as necessary
-		));
-		if (!$q2->fetch()) {
-			$q2 = db()->prepare("INSERT INTO jobs SET priority=:priority, job_type=:type, user_id=:user_id, arg_id=:arg_id");
-			$q2->execute($job);
-			$job['id'] = db()->lastInsertId();
-			added_job($job);
-		}
+		insert_new_job($job);
 
 		// update the address
 		$q2 = db()->prepare("UPDATE addresses SET last_queue=NOW() WHERE id=?");
 		$q2->execute(array($address['id']));
 	}
+}
+
+// as often as we can, run litecoin_block jobs
+if (!$premium_only && !$job_type) {
+	insert_new_job(array(
+		'priority' => $priority,
+		'type' => 'litecoin_block',
+		'user_id' => get_site_config('system_user_id'),
+		'arg_id' => 0,
+	));
+}
+
+function insert_new_job($job) {
+	// make sure the new job doesn't already exist
+	$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND priority=:priority AND is_executed=0 LIMIT 1");
+	$q2->execute(array(
+		'type' => $job['type'],
+		'arg_id' => $job['arg_id'],
+		'priority' => $job['priority'], // so we can override priorities as necessary
+	));
+	if (!$q2->fetch()) {
+		$q2 = db()->prepare("INSERT INTO jobs SET priority=:priority, job_type=:type, user_id=:user_id, arg_id=:arg_id");
+		$q2->execute($job);
+		$job['id'] = db()->lastInsertId();
+		added_job($job);
+	}
+
 }
 
 echo "\n<li>Complete.";

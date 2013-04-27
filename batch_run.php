@@ -16,7 +16,7 @@ if (require_get("key", false)) {
 	require("layout/templates.php");
 	$options = array();
 	if (require_get("refresh", false)) {
-		$options["refresh"] = 10;
+		$options["refresh"] = require_get("refresh");
 	}
 	page_header("Run", "page_batch_run", $options);
 }
@@ -114,6 +114,14 @@ try {
 		// address jobs
 		case "blockchain":
 			require("jobs/blockchain.php");
+			break;
+
+		case "litecoin":
+			require("jobs/litecoin.php");
+			break;
+
+		case "litecoin_block":
+			require("jobs/litecoin_block.php");
 			break;
 
 		case "generic":

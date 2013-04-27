@@ -21,7 +21,10 @@ function get_currency_name($n) {
 }
 
 function get_blockchain_currencies() {
-	return array('btc');
+	return array(
+		"Blockchain" => array('btc'),
+		"Litecoin Explorer" => array('ltc'),
+	);
 }
 
 function get_exchange_name($n) {
@@ -69,6 +72,29 @@ function get_total_conversion_summary_types() {
 		'nzd' => array('currency' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
 		'usd_btce' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through BTC-E)", 'short_title' => 'USD (BTC-E)'),
 		'usd_mtgox' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
+	);
+}
+
+function account_data_grouped() {
+	return array(
+		'Addresses' => array(
+			'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'btc\''),
+			'litecoin' => array('url' => 'accounts_litecoin', 'title' => 'LTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ltc\''),
+		),
+		'Mining pools' => array(
+			'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts'),
+		),
+		'Exchanges' => array(
+			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
+			'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
+		),
+		'Other' => array(
+			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
+		),
+		'Hidden' => array(
+			'graph_pages' => array('label' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0'),
+			'summaries' => array('label' => 'Currency summaryies', 'table' => 'summaries', 'group' => 'summaries'),
+		),
 	);
 }
 
@@ -131,7 +157,16 @@ function dropdown_currency_list() {
 
 function is_valid_btc_address($address) {
 	// very simple check according to https://bitcoin.it/wiki/Address
-	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "1" || substr($address, 0, 1) == "3")
+	if (strlen($address) >= 27 && strlen($address) <= 34 && ((substr($address, 0, 1) == "1" || substr($address, 0, 1) == "3"))
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_ltc_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "L")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}
