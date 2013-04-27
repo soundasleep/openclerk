@@ -16,7 +16,7 @@ $q->execute();
 if (!($block = $q->fetch())) {
 	throw new JobException("Could not calculate current Litecoin block number");
 }
-$block = $block['blockcount'] - get_site_config('litecoin_confirmations');			// will be decimal
+$block = $block['blockcount'] - get_site_config('ltc_confirmations');			// will be decimal
 crypto_log("Cached Litecoin block count: " . number_format($block));
 
 // get the relevant address
@@ -49,7 +49,7 @@ if (preg_match('#<p>Balance: ([0-9\.]+) LTC#i', $html, $matches)) {
 			}
 		}
 
-		crypto_log("Confirmed balance after " . get_site_config('litecoin_confirmations') . " confirmations: " . $balance);
+		crypto_log("Confirmed balance after " . get_site_config('ltc_confirmations') . " confirmations: " . $balance);
 
 		// disable old instances
 		$q = db()->prepare("UPDATE address_balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND address_id=:address_id");

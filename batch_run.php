@@ -178,3 +178,9 @@ if ($runtime_exception !== null) {
 }
 
 echo "\n<li>Job successful.";
+
+if (require_get("key", false)) {
+	// we're running from a web browser
+	// include page gen times etc
+	page_footer();
+}

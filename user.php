@@ -29,9 +29,10 @@ if (require_post("name", false)) {
 	}
 }
 
-$q = db()->prepare("SELECT outstanding_premiums.*,
+$q = db()->prepare("SELECT outstanding_premiums.*, ab.created_at AS last_check,
 	addresses.address, addresses.currency FROM outstanding_premiums
 	JOIN addresses ON outstanding_premiums.address_id=addresses.id
+	LEFT JOIN (SELECT * FROM address_balances WHERE is_recent=1) AS ab ON ab.address_id=addresses.id
 	WHERE outstanding_premiums.user_id=? AND is_paid=0");
 $q->execute(array(user_id()));
 $outstanding = $q->fetchAll();
@@ -43,7 +44,7 @@ if (require_get("new_purchase", false)) {
 			$messages[] = "Your premium purchase is now pending on payment - please deposit " .
 				currency_format($p['currency'], $p['balance']) . " into the address " .
 				crypto_address($p['currency'], $p['address']) . ". Once the " .
-				get_currency_name($p['currency']) . " network has confirmed the transaction, your account will be credited with premium status. Thank you!";
+				get_currency_name($p['currency']) . " network has confirmed the transaction (after " . get_site_config($p['currency'] . '_confirmations') . " blocks), your account will be credited with premium status. Thank you!";
 		}
 	}
 }
@@ -93,6 +94,7 @@ page_header("User Account", "page_user");
 		<th>Address</th>
 		<th>Amount</th>
 		<th>Since</th>
+		<th>Last checked</th>
 	</tr>
 </thead>
 <tbody>
@@ -102,6 +104,7 @@ page_header("User Account", "page_user");
 		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
 		<td><?php echo currency_format($o['currency'], $o['balance']); ?></td>
 		<td><?php echo recent_format_html($o['created_at']); ?></td>
+		<td><?php echo recent_format_html($o['last_check']); ?></td>
 	</tr>
 <?php } ?>
 </tbody>
@@ -126,13 +129,7 @@ page_header("User Account", "page_user");
 		} ?>
 	</td>
 </tr>
-<?php if ($user['is_admin'] || $user['is_system']) { ?>
-<tr>
-	<th>Expires in:</th>
-	<td><i>never</i></td>
-</tr>
-<?php }
-if ($user['is_premium']) { ?>
+<?php if ($user['is_premium']) { ?>
 <tr>
 	<th>Expires in:</th>
 	<td><?php echo recent_format_html($user['premium_expires'], " ago", "" /* no 'in the future' */); ?></td>

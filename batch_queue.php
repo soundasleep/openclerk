@@ -15,8 +15,8 @@
  *   batch_queue?key=...&priority=10
  * (premium user jobs, 30 mins)
  *   batch_queue?key=...&priority=5&premium_only=1
- * (admin jobs, 30 mins)
- *   batch_queue?key=...&user=100&priority=-20&job_type=blockchain,outstanding,expiring,expire
+ * (admin jobs, 5 mins) [5 mins for LTC transactions]
+ *   batch_queue?key=...&user=100&priority=-20&job_type=blockchain,litecoin,outstanding,expiring,expire
  */
 
 require("inc/global.php");
@@ -116,7 +116,8 @@ foreach ($standard_jobs as $standard) {
 				$query_extra .= " AND user_id IN (SELECT id AS user_id FROM users WHERE is_premium=1)";
 			}
 		} else {
-			$args[] = get_site_config('refresh_queue_hours');
+			// we want to run system jobs at least every 0.1 hours = 6 minutes
+			$args[] = ($user_id == get_site_config('system_user_id')) ? get_site_config('refresh_queue_hours_system') : get_site_config('refresh_queue_hours');
 		}
 	}
 
@@ -166,3 +167,9 @@ function insert_new_job($job) {
 }
 
 echo "\n<li>Complete.";
+
+if (require_get("key", false)) {
+	// we're running from a web browser
+	// include page gen times etc
+	page_footer();
+}
