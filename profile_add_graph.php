@@ -21,6 +21,9 @@ $errors = array();
 $messages = array();
 
 // check premium account limits
+$user = get_user(user_id());
+require_user($user);
+
 $q = db()->prepare("SELECT COUNT(*) AS c FROM graphs WHERE page_id=? AND is_removed=0 AND graph_type <> 'linebreak'");
 $q->execute(array($page_id));
 $count = $q->fetch()['c'];
