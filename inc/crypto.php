@@ -44,6 +44,49 @@ function get_summary_types() {
 }
 
 /**
+ * Reset currencies, graph data etc to their defaults.
+ */
+function reset_user_settings($user_id) {
+
+	$q = db()->prepare("DELETE FROM summaries WHERE user_id=?");
+	$q->execute(array($user_id));
+	$q = db()->prepare("DELETE FROM summary_instances WHERE user_id=?");
+	$q->execute(array($user_id));
+
+	// default currencies
+	$q = db()->prepare("INSERT INTO summaries SET user_id=?,summary_type=?");
+	$q->execute(array($user_id, 'summary_btc'));
+	$q = db()->prepare("INSERT INTO summaries SET user_id=?,summary_type=?");
+	$q->execute(array($user_id, 'summary_usd_mtgox'));
+
+	reset_user_graphs($user_id);
+
+}
+
+function reset_user_graphs($user_id) {
+
+	$q = db()->prepare("DELETE FROM graphs WHERE page_id IN (SELECT id AS page_id FROM graph_pages WHERE user_id=?)");
+	$q->execute(array($user_id));
+
+	$q = db()->prepare("DELETE FROM graph_pages WHERE user_id=?");
+	$q->execute(array($user_id));
+
+	// default page
+	$q = db()->prepare("INSERT INTO graph_pages SET user_id=?,title=?");
+	$q->execute(array($user_id, "Summary"));
+	$page_id = db()->lastInsertId();
+
+	// default graphs
+	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='btc_equivalent',width=2,height=2,page_order=1");
+	$q->execute(array($page_id));
+	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='fiat_converted_table',width=2,height=1,page_order=2");
+	$q->execute(array($page_id));
+	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='mtgox_btc_table',width=1,height=1,page_order=1");
+	$q->execute(array($page_id));
+
+}
+
+/**
  * Just returns an array of ('ltc' => 'LTC', 'btc' => 'BTC', ...)
  */
 function dropdown_currency_list() {

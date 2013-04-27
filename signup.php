@@ -65,6 +65,7 @@ if ($openid && $submit) {
 			"identity" => $light->identity,
 		);
 		$query->execute($user);
+		$user['id'] = db()->lastInsertId();
 
 		// try sending email
 		if ($email) {
@@ -73,6 +74,9 @@ if ($openid && $submit) {
 				"url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),
 			));
 		}
+
+		// create default summary pages and cryptocurrencies and graphs contents
+		reset_user_settings($user['id']);
 
 		// success!
 		$messages[] = "New account creation successful; you may now login.";

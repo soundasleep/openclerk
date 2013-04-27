@@ -88,5 +88,19 @@ if ($graph['graph_type'] == "linebreak") { ?>
 
 <?php require("_profile_add_page.php"); ?>
 
+<h3>Reset User Graphs</h3>
+
+<p>
+	Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete
+	any historical summary data associated with this account.
+</p>
+
+<form action="<?php echo htmlspecialchars(url_for('reset_graphs')); ?>" method="post">
+<label>
+	<input type="checkbox" name="confirm" value="1"> Reset all of my graphs and pages.
+</label>
+<input type="submit" value="Reset graphs and pages">
+</form>
+
 <?php
 page_footer();
