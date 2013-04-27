@@ -81,7 +81,20 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 h1 { font-size: 120%; }
 h2 { font-size: 110%; }
 
-#copyright { clear: both; }
+#footer_nav, #copyright { clear: both; }
+#footer_nav .footer_nav_list { width: 75%; padding: 0; margin: 0; margin: 30px auto 10px auto; padding: 10px; border-top: 1px solid #333; border-bottom: 1px solid #333; }
+#footer_nav .footer_nav_list li { display: inline-block; width: 32%; padding: 0; margin: 0; line-height: 1.5em; vertical-align: top; }
+#footer_nav .footer_nav_list .title { font-weight: bold; display: inline-block; margin-bottom: 5px; }
+#footer_nav .footer_nav_list ul { display: block; margin: 0; padding: 0; }
+#footer_nav .footer_nav_list ul li { display: block; margin: 0; padding: 0; width: auto; }
+#copyright { text-align: center; font-size: 80%; }
+
+/* basic tabs implementation */
+.tabs .tab_list { margin: 0; padding: 5px; padding-bottom: 0; }
+.tabs .tab_list > ul, .tabs .tab_list > li { margin: 0; padding: 0; list-style: none; }
+.tabs .tab_list > li { display: inline-block; min-width: 120px; border: 1px outset #ccc; margin: 0; border-bottom: none; padding: 5px; cursor: pointer; }
+.tabs .tab_groups { border: 1px outset #ccc; margin: 0; padding: 10px; list-style: none; background: #222; }
+.tabs .tab_selected { font-weight: bold; background: #334455; }
 
 #page_external .external_list li { padding-bottom: 5px; }
 #page_external .external_list .title, #page_external .external_list .status_percent { display: inline-block; width: 240px; padding: 5px; }

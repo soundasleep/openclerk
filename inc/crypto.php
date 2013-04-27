@@ -44,6 +44,15 @@ function get_exchange_pairs() {
 	);
 }
 
+function get_supported_wallets() {
+	return array(
+		"Generic API" => get_all_currencies(),
+		"BTC-E" => array('btc', 'ltc', 'nmc', 'usd'),
+		"Pool-x.eu" => array('ltc'),
+		"Mt.Gox" => array('btc', 'usd'),
+	);
+}
+
 function crypto_address($currency, $address) {
 	switch ($currency) {
 		case 'btc': return btc_address($address);

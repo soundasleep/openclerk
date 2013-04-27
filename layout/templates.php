@@ -10,10 +10,9 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <html>
 <head>
     <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
+    <link rel="stylesheet" type="text/css" href="default.css" />
     <?php if (get_site_config('custom_css')) { ?>
     <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(get_site_config('custom_css')); ?>" />
-    <?php } else { ?>
-    <link rel="stylesheet" type="text/css" href="default.css" />
     <?php } ?>
     <?php if (has_required_admin()) { ?>
     <link rel="stylesheet" type="text/css" href="admin.css" />
@@ -77,9 +76,42 @@ function page_footer() {
 	</div>
 </div>
 
-<div id="copyright">
-	<?php echo htmlspecialchars(get_site_config('site_name')); ?> &copy; 2013<?php if (date('Y') != 2013) echo "-" . date('Y'); ?><br>
-	<a href="mailto:<?php echo htmlspecialchars(get_site_config('site_email')); ?>">Contact</a>
+<div id="footer_nav">
+	<ul class="footer_nav_list">
+		<li><span class="title"><?php echo htmlspecialchars(get_site_config('site_name')); ?></span>
+			<ul>
+				<li><a href="<?php echo htmlspecialchars(url_for('index')); ?>">About</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('premium')); ?>">Get Premium</a></li>
+				<li><a href="http://openclerk.org" target="_blank">Openclerk.org</a></li>
+			</ul>
+		</li>
+		<li><span class="title">Your Account</span>
+			<ul>
+				<?php if (user_logged_in()) { ?>
+				<li><a href="<?php echo htmlspecialchars(url_for('user')); ?>">User Profile</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">Your Accounts</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Your Summaries</a></li>
+				<?php } else { ?>
+				<li><a href="<?php echo htmlspecialchars(url_for('signup')); ?>">Signup</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('login')); ?>">Login</a></li>
+				<?php } ?>
+			</ul>
+		</li>
+		<li><span class="title">Support</span>
+			<ul>
+				<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>">Help Centre</a></li>
+				<?php if (get_site_config('forum_link')) { ?>
+				<li><a href="<?php echo htmlspecialchars(get_site_config('forum_link')); ?>" target="_blank">Forums</a></li>
+				<?php } ?>
+				<li><a href="mailto:<?php echo htmlspecialchars(get_site_config('site_email')); ?>">Contact Us</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('external')); ?>">External API Status</a></li>
+			</ul>
+		</li>
+	</ul>
+
+	<div id="copyright">
+		<?php echo htmlspecialchars(get_site_config('site_name')); ?> &copy; 2013<?php if (date('Y') != 2013) echo "-" . date('Y'); ?>, powered by <a href="http://openclerk.org" target="_blank">openclerk.org</a><br>
+	</div>
 </div>
 <script type="text/javascript">
 
@@ -172,4 +204,17 @@ function currency_format($currency_code, $n, $precision = 9) {
 		}
 	}
 	return "<span class=\"" . strtolower($currency) . "_format\" title=\"" . number_format($n, 8) . " $currency\">" . number_format($n, $precision) . " $currency</span>";
+}
+
+function require_template($id) {
+	// sanity checking for security
+	$id = str_replace(".", "", $id);
+	$id = str_replace("/", "", $id);
+	$id = str_replace("\\", "", $id);
+
+	if (isset(get_site_config()["custom_" . $id]) && get_site_config("custom_" . $id)) {
+		require(get_site_config("custom_" . $id));
+	} else {
+		require("templates/" . $id . ".php");
+	}
 }
