@@ -4,12 +4,27 @@ require("inc/global.php");
 require("layout/graphs.php");
 require_login();
 
+$user = get_user(user_id());
+if (!$user) {
+	throw new Exception("Could not find user");
+}
+
 // adding a new page?
 $title = require_post("title");
 
 $title = substr($title, 0, 64); // limit to 64 characters
 if (!$title) {
 	$title = "Untitled";
+}
+
+$errors = array();
+$messages = array();
+// check premium account limits
+if (!can_user_add($user, 'graph_pages')) {
+	$errors[] = "Cannot add graph page: too many existing graph pages." .
+			($user['is_premium'] ? "" : " To add more graph pages, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	set_temporary_errors($errors);
+	redirect(url_for('profile', array('page' => require_post("page", ""))));
 }
 
 // it's OK - let's add a new one
@@ -27,6 +42,8 @@ $q->execute(array(
 	'page_order' => $new_order,
 ));
 $new_page_id = db()->lastInsertId();
+$messages[] = "Added new graph page " . ($title ? "<i>untitled</i>" : htmlspecialchars($title)) . ".";
 
 // redirect
+set_temporary_messages($messages);
 redirect(url_for('profile', array('page' => $new_page_id)));

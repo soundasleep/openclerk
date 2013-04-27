@@ -27,7 +27,11 @@ if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_g
 if (require_get("key", false)) {
 	// we're running from a web browser
 	require("layout/templates.php");
-	page_header("Queue", "page_batch_queue");
+	$options = array();
+	if (require_get("refresh", false)) {
+		$options["refresh"] = 10;
+	}
+	page_header("Queue", "page_batch_queue", $options);
 }
 
 // TODO all of these need to be duplicated for e.g. premium users

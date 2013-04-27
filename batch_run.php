@@ -14,7 +14,11 @@ if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_g
 if (require_get("key", false)) {
 	// we're running from a web browser
 	require("layout/templates.php");
-	page_header("Run", "page_batch_run");
+	$options = array();
+	if (require_get("refresh", false)) {
+		$options["refresh"] = 10;
+	}
+	page_header("Run", "page_batch_run", $options);
 }
 
 if (require_get("job_id", false)) {

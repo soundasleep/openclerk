@@ -19,6 +19,9 @@ function account_data_grouped() {
 		'Other' => array(
 			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
 		),
+		'Hidden' => array(
+			'graph_pages' => array('label' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0'),
+		),
 	);
 }
 
@@ -30,7 +33,7 @@ function user_limits_summary($user_id) {
 
 		foreach (account_data_grouped() as $group) {
 			foreach ($group as $key => $data) {
-				$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?");
+				$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?" . (isset($data['query']) ? $data['query'] : ""));
 				$q->execute(array($user_id));
 				$accounts[$key] = $q->fetch()['c'];
 

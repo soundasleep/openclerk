@@ -40,6 +40,9 @@ $accounts = user_limits_summary(user_id());
 <?php
 
 foreach (account_data_grouped() as $label => $account_data) {
+	if ($label == "Hidden")
+		continue;
+
 	echo "<li>" . htmlspecialchars($label) . "\n<ul>\n";
 	foreach ($account_data as $key => $value) {
 		// if we don't specify a plural, we assume it's just adding 's'
@@ -62,6 +65,7 @@ foreach (account_data_grouped() as $label => $account_data) {
 <ul>
 	<li>Tracked addresses: <?php echo number_format($accounts['total_addresses']); ?> (out of <?php echo number_format(get_premium_config('addresses_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
 	<li>Tracked accounts: <?php echo number_format($accounts['total_accounts']); ?> (out of <?php echo number_format(get_premium_config('accounts_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
+	<li>Summary pages: <?php echo number_format($accounts['total_graph_pages']); ?> (out of <?php echo number_format(get_premium_config('graph_pages_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
 	<?php if (!$user['is_premium']) { ?>
 	<li>Increaes these limits with a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>!</li>
 	<?php } ?>

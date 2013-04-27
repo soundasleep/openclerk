@@ -17,6 +17,21 @@ if (!$q->fetch()) {
 	throw new Exception("Cannot find page " . htmlspecialchars($page_id));
 }
 
+$errors = array();
+$messages = array();
+
+// check premium account limits
+$q = db()->prepare("SELECT COUNT(*) AS c FROM graphs WHERE page_id=? AND is_removed=0");
+$q->execute(array($page_id));
+$count = $q->fetch()['c'];
+
+if ($count >= get_premium_config('graphs_per_page_' . ($user['is_premium'] ? 'premium' : 'free'))) {
+	$errors[] = "Cannot add graph: too many existing graphs on this page." .
+			($user['is_premium'] ? "" : " To add more graphs on this page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	set_temporary_errors($errors);
+	redirect(url_for('profile', array('page' => $page_id)));
+}
+
 // only permit valid values
 $graph_types = graph_types();
 if (!isset($graph_types[$graph_type])) {
@@ -44,5 +59,7 @@ if (!isset($graph_types[$graph_type])) {
 	));
 
 	// redirect
+	$messages[] = "Added new " . $graph_types[$graph_type]['heading'] . " graph.";
+	set_temporary_messages($messages);
 	redirect(url_for('profile', array('page' => $page_id)));
 }
