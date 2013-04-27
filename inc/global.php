@@ -64,7 +64,7 @@ function print_exception_trace($e) {
 	echo "<li><b>" . htmlspecialchars($e->getMessage()) . "</b> (<i>" . get_class($e) . "</i>)</li>\n";
 	echo "<li>" . htmlspecialchars($e->getFile()) . "#" . htmlspecialchars($e->getLine()) . "</li>\n";
 	foreach ($e->getTrace() as $e2) {
-		echo "<li>" . htmlspecialchars($e2['file']) . "#" . htmlspecialchars($e2['line']) . ": " . htmlspecialchars($e2['function']) . "(" . htmlspecialchars(isset($e2['args']) ? $e2['args'] : "") . ")</li>\n";
+		echo "<li>" . htmlspecialchars($e2['file']) . "#" . htmlspecialchars($e2['line']) . ": " . htmlspecialchars($e2['function']) . htmlspecialchars(isset($e2['args']) ? format_args_list($e2['args']) : "") . "</li>\n";
 	}
 	if ($e->getPrevious()) {
 		echo "<li>Caused by:";
@@ -72,6 +72,20 @@ function print_exception_trace($e) {
 		echo "</li>";
 	}
 	echo "</ul>";
+}
+function format_args_list($a, $count = 0) {
+	if (is_array($a)) {
+		$data = array();
+		$i = 0;
+		foreach ($a as $key => $value) {
+			if ($i++ >= 3) {
+				$data[] = "..."; break;
+			}
+			$data[$key] = format_args_list($value);
+		}
+		return "(" . implode(",", $data) . ")";
+	}
+	return $a;
 }
 function my_exception_handler($e) {
 	$extra_args = array();

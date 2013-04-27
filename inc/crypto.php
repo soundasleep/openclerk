@@ -51,12 +51,12 @@ function crypto_address($currency, $address) {
 
 function get_summary_types() {
 	return array(
-		'summary_btc' => array('title' => get_currency_name('btc'), 'short_title' => 'BTC'),
-		'summary_ltc' => array('title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
-		'summary_nmc' => array('title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
-		'summary_usd_btce' => array('title' => get_currency_name('usd') . " (converted through BTC-E)", 'short_title' => 'USD (BTC-E)'),
-		'summary_usd_mtgox' => array('title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
-		'summary_nzd' => array('title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
+		'summary_btc' => array('currency' => 'btc', 'title' => get_currency_name('btc'), 'short_title' => 'BTC'),
+		'summary_ltc' => array('currency' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
+		'summary_nmc' => array('currency' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
+		'summary_usd_btce' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through BTC-E)", 'short_title' => 'USD (BTC-E)'),
+		'summary_usd_mtgox' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
+		'summary_nzd' => array('currency' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
 	);
 }
 

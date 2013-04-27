@@ -258,7 +258,14 @@ CREATE TABLE summary_instances (
 	-- we dont need to worry too much about precision
 	balance decimal(16,8),
 	
-	INDEX(summary_type), INDEX(user_id), INDEX(is_recent)
+	-- derived indexes; rather than creating some query 'GROUP BY date_format(created_at, '%d-%m-%Y')',
+	-- we can use a simple flag to mark daily data.
+	-- only a single row with this index will ever be present for a single day.
+	-- this same logic could be further composed into hourly/etc data.
+	-- this field is updated when jobs are executed.
+	is_daily_data tinyint not null default 0,
+	
+	INDEX(summary_type), INDEX(user_id), INDEX(is_recent), INDEX(is_daily_data)
 );
 
 -- to request data, we insert in jobs

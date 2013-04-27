@@ -156,6 +156,17 @@ function render_graph($graph) {
 				}
 			}
 
+			// total summary graphs are generated programatically
+			if (substr($graph['graph_type'], 0, strlen("total_")) == "total_") {
+				$split = explode("_", $graph['graph_type'], 3);
+				if (count($split) == 3 && strlen($split[1]) == 3) {
+					// we will assume that it is the current user
+					// (otherwise it might be possible to view other users' data)
+					render_summary_graph($graph, 'total' . $split[1], $split[1], user_id());
+					break;
+				}
+			}
+
 			throw new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
 	}
 
@@ -163,8 +174,8 @@ function render_graph($graph) {
 
 function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 
-	$q = db()->prepare("SELECT * FROM ticker WHERE is_daily_data=1 AND exchange=:exchange
-			AND currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT 45"); // TODO add days_to_display as parameter
+	$q = db()->prepare("SELECT * FROM ticker WHERE is_daily_data=1 AND exchange=:exchange AND
+			currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT 45"); // TODO add days_to_display as parameter
 	$q->execute(array(
 		'exchange' => $exchange,
 		'currency1' => $cur1,
@@ -184,6 +195,31 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 
 }
 
+function render_summary_graph($graph, $summary_type, $currency, $user_id) {
+
+	$q = db()->prepare("SELECT * FROM summary_instances WHERE is_daily_data=1 AND summary_type=:summary_type AND
+			user_id=:user_id ORDER BY created_at DESC LIMIT 45"); // TODO add days_to_display as parameter
+	$q->execute(array(
+		'summary_type' => $summary_type,
+		'user_id' => $user_id,
+	));
+	$data = array();
+	$data[] = array("Date", strtoupper($currency));
+	while ($ticker = $q->fetch()) {
+		$data[] = array(
+			'new Date(' . date('Y, n-1, j', strtotime($ticker['created_at'])) . ')',
+			graph_number_format($ticker['balance']),
+		);
+	}
+	if (count($data) > 1) {
+		render_linegraph_date($graph, $data);
+	} else {
+		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated.
+					<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");
+	}
+
+}
+
 // a simple alias
 function graph_number_format($n) {
 	return number_format($n, 4, '.', '');
@@ -196,9 +232,9 @@ function graph_types() {
 	$data = array(
 		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
-		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversion).'),
+		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),
 		'fiat_converted_table' => array('title' => 'Converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted into fiat currencies via BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
-		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversion), along with text fields to set offset values for each currency directly.'),
+		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.'),
 	);
 
 	// we can generate a list of daily graphs from all of the exchanges that we support
@@ -206,11 +242,21 @@ function graph_types() {
 		foreach ($pairs as $pair) {
 			$pp = strtoupper($pair[0]) . "/" . strtoupper($pair[1]);
 			$data[$key . "_" . $pair[0] . $pair[1] . "_daily"] = array(
-				'title' => get_exchange_name($key) . " $pp (graph)",
+				'title' => get_exchange_name($key) . " historical $pp (graph)",
 				'heading' => get_exchange_name($key) . " $pp",
 				'description' => "A line graph displaying the historical buy/sell values for $pp on " . get_exchange_name($key) . ".",
 			);
 		}
+	}
+
+	// we can generate a list of summary daily graphs from all the currencies that we support
+	foreach (get_summary_types() as $key => $summary) {
+		$cur = $summary['currency'];
+		$data["total_" . $cur . "_daily"] = array(
+			'title' => "Total " . $summary['title'] . " historical (graph)",
+			'heading' => "Total " . $summary['short_title'],
+			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions)",
+		);
 	}
 
 	$data['linebreak'] = array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.');
