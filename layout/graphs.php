@@ -6,10 +6,14 @@
 function render_graph($graph) {
 
 	$graph_types = graph_types();
-	$graph_type = $graph_types[$graph['graph_type']];
-	if (!$graph_type) {
-		throw new GraphException("Unknown graph type " . htmlspecialchars($graph['graph_type']));
+	if (!isset($graph_types[$graph['graph_type']])) {
+		// let's not crash with an exception, let's just display an error
+		render_graph_controls($graph);
+		render_text($graph, "Unknown graph type " . htmlspecialchars($graph['graph_type']));
+		log_uncaught_exception(new GraphException("Unknown graph type " . htmlspecialchars($graph['graph_type'])));
+		return;
 	}
+	$graph_type = $graph_types[$graph['graph_type']];
 
 	echo "<h2>" . htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']) . "</h2>\n";
 	render_graph_controls($graph);
@@ -145,7 +149,7 @@ function render_graph($graph) {
 		default:
 			// ticker graphs are generated programatically
 			if (substr($graph['graph_type'], -strlen("_daily")) == "_daily") {
-				$split = explode("_", $graph['graph_type'], 3);
+				$split = explode("_", $graph['graph_type']);
 				if (count($split) == 3 && strlen($split[1]) == 6) {
 					// checks
 					if (isset(get_exchange_pairs()[$split[0]])) {
@@ -158,7 +162,7 @@ function render_graph($graph) {
 
 			// total summary graphs are generated programatically
 			if (substr($graph['graph_type'], 0, strlen("total_")) == "total_") {
-				$split = explode("_", $graph['graph_type'], 3);
+				$split = explode("_", $graph['graph_type']);
 				if (count($split) == 3 && strlen($split[1]) == 3) {
 					// we will assume that it is the current user
 					// (otherwise it might be possible to view other users' data)
@@ -167,7 +171,10 @@ function render_graph($graph) {
 				}
 			}
 
-			throw new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
+			// let's not throw an exception, let's just render an error message
+			render_text($graph, "Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
+			log_uncaught_exception(new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type'])));
+			return;
 	}
 
 }
@@ -237,7 +244,10 @@ function graph_types() {
 		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.'),
 	);
 
+	$summaries = get_all_summary_currencies();
+
 	// we can generate a list of daily graphs from all of the exchanges that we support
+	// but we'll only want to display currency pairs that we're interested in
 	foreach (get_exchange_pairs() as $key => $pairs) {
 		foreach ($pairs as $pair) {
 			$pp = strtoupper($pair[0]) . "/" . strtoupper($pair[1]);
@@ -245,6 +255,7 @@ function graph_types() {
 				'title' => get_exchange_name($key) . " historical $pp (graph)",
 				'heading' => get_exchange_name($key) . " $pp",
 				'description' => "A line graph displaying the historical buy/sell values for $pp on " . get_exchange_name($key) . ".",
+				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]]))
 			);
 		}
 	}
@@ -253,9 +264,10 @@ function graph_types() {
 	foreach (get_summary_types() as $key => $summary) {
 		$cur = $summary['currency'];
 		$data["total_" . $cur . "_daily"] = array(
-			'title' => "Total " . $summary['title'] . " historical (graph)",
-			'heading' => "Total " . $summary['short_title'],
+			'title' => "Total " . get_currency_name($cur) . " historical (graph)",
+			'heading' => "Total " . strtoupper($cur),
 			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions)",
+			'hide' => !isset($summaries[$cur]),
 		);
 	}
 

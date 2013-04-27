@@ -105,6 +105,12 @@ function my_exception_handler($e) {
 		print_exception_trace($e);
 	}
 	// logging
+	log_uncaught_exception($e, $extra_args, $extra_query);
+	die;
+}
+set_exception_handler('my_exception_handler');
+function log_uncaught_exception($e, $extra_args = array(), $extra_query = "") {
+	// logging
 	$q = db()->prepare("INSERT INTO uncaught_exceptions SET
 		message=?,
 		previous_message=?,
@@ -119,9 +125,7 @@ function my_exception_handler($e) {
 		$e->getLine(),
 		serialize($e),
 	), $extra_args));
-	die;
 }
-set_exception_handler('my_exception_handler');
 
 function redirect($url) {
 	header('Location: ' . $url);

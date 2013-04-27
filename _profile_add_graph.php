@@ -41,7 +41,10 @@
 function graph_types() {
 	return [
 <?php foreach (graph_types() as $id => $graph) {
-	echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) . "},\n";
+	if (!(isset($graph['hide']) && $graph['hide'])) {
+		// we don't want to display graph types that we aren't interested in
+		echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) . "},\n";
+	}
 } ?>
 	];
 }
