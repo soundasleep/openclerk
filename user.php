@@ -78,6 +78,12 @@ page_header("User Account", "page_user");
 </table>
 </form>
 
+<h2>Currency Settings</h1>
+
+<form action="<?php echo htmlspecialchars(url_for('user_currencies')); ?>" method="post">
+<?php require("_user_currencies.php"); ?>
+<input type="submit" value="Update Currency Settings">
+</form>
 
 <?php if ($outstanding) { ?>
 <h2>Outstanding Payments</h2>

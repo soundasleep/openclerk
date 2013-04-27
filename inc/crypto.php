@@ -32,6 +32,17 @@ function crypto_address($currency, $address) {
 	}
 }
 
+function get_summary_types() {
+	return array(
+		'summary_btc' => array('title' => get_currency_name('btc')),
+		'summary_ltc' => array('title' => get_currency_name('ltc')),
+		'summary_nmc' => array('title' => get_currency_name('nmc')),
+		'summary_usd_btce' => array('title' => get_currency_name('usd') . " (converted through BTC-E)"),
+		'summary_usd_mtgox' => array('title' => get_currency_name('usd') . " (converted through Mt.Gox)"),
+		'summary_nzd' => array('title' => get_currency_name('nzd')),
+	);
+}
+
 /**
  * Just returns an array of ('ltc' => 'LTC', 'btc' => 'BTC', ...)
  */

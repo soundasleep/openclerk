@@ -21,6 +21,7 @@ function account_data_grouped() {
 		),
 		'Hidden' => array(
 			'graph_pages' => array('label' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0'),
+			'summaries' => array('label' => 'Currency summaryies', 'table' => 'summaries', 'group' => 'summaries'),
 		),
 	);
 }

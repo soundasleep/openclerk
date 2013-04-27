@@ -55,6 +55,7 @@ page_header("Premium Accounts", "page_premium");
 		'accounts' => 'Tracked accounts (BTC-E, Mt.Gox, ...)',
 		'graph_pages' => 'Summary pages',
 		'graphs_per_page' => 'Graphs per summary page',
+		'summaries' => 'Currency summaries',
 	);
 	foreach ($predef as $key => $title) { ?>
 	<tr>

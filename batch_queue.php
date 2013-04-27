@@ -92,6 +92,10 @@ foreach ($standard_jobs as $standard) {
 		echo "\n<li>Skipping " . htmlspecialchars($standard['type']) . ": not in job types [" . htmlspecialchars(implode(", ", $job_type)) . "].</li>";
 		continue;
 	}
+	if ($premium_only && isset($standard['user_id'])) {
+		echo "\n<li>Skipping " . htmlspecialchars($standard['type']) . ": not premium user type job.</li>";
+		continue;
+	}
 
 	$always = isset($standard['always']) && $standard['always'];
 
