@@ -49,7 +49,7 @@ if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
 	$priority = require_get("priority");
 }
 
-$job_type = null;
+$job_type = array();
 if (isset($argv[4]) && $argv[4] && $argv[4] != "-") {
 	$job_type = explode(",", $argv[4]);
 } else if (require_get("job_type", false)) {
@@ -139,14 +139,27 @@ foreach ($standard_jobs as $standard) {
 	}
 }
 
-// as often as we can, run litecoin_block jobs
-if (!$premium_only && !$job_type) {
-	insert_new_job(array(
-		'priority' => $priority,
-		'type' => 'litecoin_block',
-		'user_id' => get_site_config('system_user_id'),
-		'arg_id' => 0,
-	));
+if (!$premium_only) {
+	// as often as we can (or on request), run litecoin_block jobs
+	if (!$job_type || in_array("litecoin_block", $job_type)) {
+		insert_new_job(array(
+			'priority' => $priority,
+			'type' => 'litecoin_block',
+			'user_id' => get_site_config('system_user_id'),
+			'arg_id' => -1,
+		));
+	}
+
+	// once a day (at 6am) (or on request), run cleanup jobs
+	if (date('H') == 6 || in_array("cleanup", $job_type)) {
+		insert_new_job(array(
+			'priority' => $priority,
+			'type' => 'cleanup',
+			'user_id' => get_site_config('system_user_id'),
+			'arg_id' => -1,
+		));
+	}
+
 }
 
 function insert_new_job($job) {

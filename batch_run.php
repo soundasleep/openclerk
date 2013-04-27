@@ -158,6 +158,10 @@ try {
 			require("jobs/expire.php");
 			break;
 
+		case "cleanup":
+			require("jobs/cleanup.php");
+			break;
+
 		default:
 			throw new JobException("Unknown job type '" . htmlspecialchars($job['job_type']) . "'");
 

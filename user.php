@@ -31,9 +31,9 @@ if (require_post("name", false)) {
 
 $q = db()->prepare("SELECT outstanding_premiums.*, ab.created_at AS last_check,
 	addresses.address, addresses.currency FROM outstanding_premiums
-	JOIN addresses ON outstanding_premiums.address_id=addresses.id
+	LEFT JOIN addresses ON outstanding_premiums.address_id=addresses.id
 	LEFT JOIN (SELECT * FROM address_balances WHERE is_recent=1) AS ab ON ab.address_id=addresses.id
-	WHERE outstanding_premiums.user_id=? AND is_paid=0");
+	WHERE outstanding_premiums.user_id=? AND is_paid=0 AND is_unpaid=0");
 $q->execute(array(user_id()));
 $outstanding = $q->fetchAll();
 

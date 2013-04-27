@@ -354,6 +354,7 @@ CREATE TABLE outstanding_premiums (
 	created_at datetime not null default now(),
 	paid_at datetime not null default 0,
 	is_paid tinyint not null default 0,
+	is_unpaid tinyint not null default 0,		-- this has never been paid after a very long time, so it's abandoned
 	last_queue datetime,
 	
 	premium_address_id int not null, -- source address
@@ -364,7 +365,7 @@ CREATE TABLE outstanding_premiums (
 	years tinyint not null,
 
 	-- we might as well reuse the existing infrastructure we have for checking address balances
-	address_id int, -- target address (should be the same)
+	address_id int, -- target address in addresses 
 	
 	INDEX(user_id), INDEX(address_id), INDEX(premium_address_id), INDEX(is_paid)
 );

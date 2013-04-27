@@ -53,6 +53,15 @@ if (!$balance) {
 		$q = db()->prepare("UPDATE outstanding_premiums SET is_paid=1,paid_at=NOW() WHERE id=?");
 		$q->execute(array($address['id']));
 
+		// remove the address from the system account
+		// (otherwise we will be continuing to try and check this address forever, even after it's paid)
+		$q = db()->prepare("DELETE FROM addresses WHERE id=?");
+		$q->execute(array($balance['address_id']));
+
+		$q = db()->prepare("DELETE FROM address_balances WHERE address_id=?");
+		$q->execute(array($balance['address_id']));
+		crypto_log("Deleted old address and address balances");
+
 		// try sending email, if an email address has been registered
 		if ($user['email']) {
 			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_payment", array(
