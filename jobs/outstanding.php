@@ -46,7 +46,7 @@ if (!$balance) {
 		crypto_log("New premium expiry date: " . db_date($expires));
 
 		// apply premium data to user account
-		$q = db()->prepare("UPDATE users SET is_premium=1, premium_expires=? WHERE id=? LIMIT 1");
+		$q = db()->prepare("UPDATE users SET is_premium=1, premium_expires=?, is_reminder_sent=0 WHERE id=? LIMIT 1");
 		$q->execute(array(db_date($expires), $address['user_id']));
 
 		// update outstanding premium as paid

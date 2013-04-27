@@ -11,7 +11,7 @@
  *
  * For example, there should both be a generic job queue script call, and another script call
  * just to check for updated payment balances:
- *   batch_queue?key=...&user=100&priority=-20&job_type=blockchain,outstanding
+ *   batch_queue?key=...&user=100&priority=-20&job_type=blockchain,outstanding,expiring,expire
  */
 
 require("inc/global.php");
@@ -46,7 +46,8 @@ function added_job($job) {
 			array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">run job now</a>)</li>";
 }
 
-// standard jobs involve an 'id' from a table and a 'user_id' from the same table
+// standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
+// the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
 $standard_jobs = array(
 	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'addresses', 'type' => 'blockchain'),
@@ -56,6 +57,12 @@ $standard_jobs = array(
 	array('table' => 'accounts_poolx', 'type' => 'poolx'),
 	array('table' => 'summaries', 'type' => 'summary'),
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0', 'user_id' => get_site_config('system_user_id')),
+	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
+		AND is_reminder_sent=0
+		AND NOT ISNULL(email) AND LENGTH(email) > 0
+		AND NOW() > DATE_SUB(premium_expires, INTERVAL ' . get_site_config('premium_reminder_days') . ' DAY)', 'user_id' => get_site_config('system_user_id'), 'always' => true),
+	array('table' => 'users', 'type' => 'expire', 'query' => ' AND is_premium=1
+		AND NOW() > premium_expires', 'user_id' => get_site_config('system_user_id'), 'always' => true),
 );
 
 foreach ($standard_jobs as $standard) {
@@ -64,6 +71,8 @@ foreach ($standard_jobs as $standard) {
 		continue;
 	}
 
+	$always = isset($standard['always']) && $standard['always'];
+
 	$query_extra = isset($standard['query']) ? $standard['query'] : "";
 	$args_extra = isset($standard['args']) ? $standard['args'] : array();
 	if ($user_id && !isset($standard['user_id'])) {
@@ -71,8 +80,10 @@ foreach ($standard_jobs as $standard) {
 		$args_extra[] = $user_id;
 	}
 
-	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE (last_queue <= DATE_SUB(NOW(), INTERVAL ? HOUR) OR ISNULL(last_queue)) $query_extra");
-	$q->execute(array_join(array(get_site_config('refresh_queue_hours')), $args_extra));
+	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "(last_queue <= DATE_SUB(NOW(), INTERVAL ? HOUR) OR ISNULL(last_queue))") . " $query_extra");
+	$args = array();
+	if (!$always) $args[] = get_site_config('refresh_queue_hours');
+	$q->execute(array_join($args, $args_extra));
 	while ($address = $q->fetch()) {
 		$job = array(
 			"priority" => $priority,

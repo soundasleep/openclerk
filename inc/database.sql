@@ -13,6 +13,7 @@ CREATE TABLE users (
 	
 	is_premium tinyint not null default 0,
 	premium_expires datetime,
+	is_reminder_sent tinyint not null default 0,
 	
 	INDEX(openid_identity), INDEX(is_premium), INDEX(is_admin), INDEX(is_system)
 );

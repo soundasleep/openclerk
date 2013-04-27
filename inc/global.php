@@ -175,15 +175,25 @@ function seconds_to_string($secs, $suffix = " ago") {
 	if ($secs == 0)
 		return "<em>now</em>";
 	else if ($secs < 60)
-		return sprintf("%s sec" . $suffix, number_format($secs));
+		return plural(number_format($secs), "sec", "sec") . $suffix;
 	else if ($secs < 60 * 60)
-		return sprintf("%s min" . $suffix, number_format($secs / 60));
+		return plural(number_format($secs / 60), "min", "min") . $suffix;
 	else if ($secs < (60 * 60 * 24))
-		return sprintf("%s hours" . $suffix, number_format($secs / (60 * 60)));
+		return plural(number_format($secs / (60 * 60)), "hour", "hours") . $suffix;
+	else if ($secs < (60 * 60 * 24 * 31))
+		return plural(number_format($secs / (60 * 60 * 24)), "day", "days") . $suffix;
 	else if (year_count($secs) < 1)
-		return sprintf("%s days" . $suffix, number_format($secs / (60 * 60 * 24)));
+		return plural(number_format($secs / (60 * 60 * 24 * (365.242/12))), "month", "months") . $suffix;
 	else
-		return sprintf("%s years" . $suffix, number_format(year_count($secs), 1));
+		return plural(number_format(year_count($secs), 1), "year", "years") . $suffix;
+}
+
+function plural($n, $s, $ss) {
+	if ($n == 1) {
+		return sprintf("%s %s", $n, $s);
+	} else {
+		return sprintf("%s %s", $n, $ss);
+	}
 }
 
 function recent_format_html($date, $suffix = false, $future_suffix = false) {

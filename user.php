@@ -137,8 +137,12 @@ if ($user['is_premium']) { ?>
 </table>
 
 <p>
+<?php if (!$user['is_premium']) { ?>
 Support <?php echo htmlspecialchars(get_site_config('site_name')); ?> and get access to
 more features with a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>!
+<?php } else { ?>
+Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a> here:
+<?php } ?>
 
 <?php require("_premium_prices.php"); ?>
 </p>

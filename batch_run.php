@@ -132,6 +132,14 @@ try {
 			require("jobs/outstanding.php");
 			break;
 
+		case "expiring":
+			require("jobs/expiring.php");
+			break;
+
+		case "expire":
+			require("jobs/expire.php");
+			break;
+
 		default:
 			throw new JobException("Unknown job type '" . htmlspecialchars($job['job_type']) . "'");
 
