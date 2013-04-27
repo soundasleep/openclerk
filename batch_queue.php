@@ -3,14 +3,19 @@
 /**
  * Batch script: look to see if we need to queue in any jobs, and then insert them in.
  *
- * Arguments:
- *   $key required the automated key
- *   $user optional restrict job generation to only this user ID (e.g. the system user)
- *   $priority optional priority for generated jobs (defaults to 10, lower = higher priority)
- *   $job_type optional restrict job generation to only this type of job, comma-separated list
+ * Arguments (in command line, use "-" for no argument):
+ *   $key/1 required the automated key
+ *   $user/2 optional restrict job generation to only this user ID (e.g. the system user)
+ *   $priority/3 optional priority for generated jobs (defaults to 10, lower = higher priority)
+ *   $job_type/4 optional restrict job generation to only this type of job, comma-separated list
+ *   $premium_only/5 optional only execute premium jobs
  *
- * For example, there should both be a generic job queue script call, and another script call
- * just to check for updated payment balances:
+ * For example, when deploying, you should have the following job queue script calls:
+ * (normal jobs, 6 hours)
+ *   batch_queue?key=...&priority=10
+ * (premium user jobs, 30 mins)
+ *   batch_queue?key=...&priority=5&premium_only=1
+ * (admin jobs, 30 mins)
  *   batch_queue?key=...&user=100&priority=-20&job_type=blockchain,outstanding,expiring,expire
  */
 
@@ -27,24 +32,31 @@ if (require_get("key", false)) {
 
 // TODO all of these need to be duplicated for e.g. premium users
 $user_id = false;
-if (isset($argv[2])) {
+if (isset($argv[2]) && $argv[2] && $argv[2] != "-") {
 	$user_id = $argv[2];
 } else if (require_get("user", false)) {
 	$user_id = require_get("user");
 }
 
 $priority = 10;	// default priority
-if (isset($argv[2])) {
-	$priority = $argv[2];
+if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
+	$priority = $argv[3];
 } else if (require_get("priority", false)) {
 	$priority = require_get("priority");
 }
 
 $job_type = null;
-if (isset($argv[2])) {
-	$job_type = explode(",", $argv[2]);
+if (isset($argv[4]) && $argv[4] && $argv[4] != "-") {
+	$job_type = explode(",", $argv[4]);
 } else if (require_get("job_type", false)) {
 	$job_type = explode(",", require_get("job_type"));
+}
+
+$premium_only = false;
+if (isset($argv[5]) && $argv[5] && $argv[5] != "-") {
+	$premium_only = explode(",", $argv[5]);
+} else if (require_get("premium_only", false)) {
+	$premium_only = explode(",", require_get("premium_only"));
 }
 
 function added_job($job) {
@@ -86,9 +98,20 @@ foreach ($standard_jobs as $standard) {
 		$args_extra[] = $user_id;
 	}
 
-	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "(last_queue <= DATE_SUB(NOW(), INTERVAL ? HOUR) OR ISNULL(last_queue))") . " $query_extra");
 	$args = array();
-	if (!$always) $args[] = get_site_config('refresh_queue_hours');
+
+	if (!$always) {
+		if ($premium_only) {
+			$args[] = get_site_config('refresh_queue_hours_premium');
+			if (!isset($standard['user_id'])) {
+				$query_extra .= " AND user_id IN (SELECT id AS user_id FROM users WHERE is_premium=1)";
+			}
+		} else {
+			$args[] = get_site_config('refresh_queue_hours');
+		}
+	}
+
+	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "(last_queue <= DATE_SUB(NOW(), INTERVAL ? HOUR) OR ISNULL(last_queue))") . " $query_extra");
 	$q->execute(array_join($args, $args_extra));
 	while ($address = $q->fetch()) {
 		$job = array(

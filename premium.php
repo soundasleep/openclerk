@@ -64,6 +64,11 @@ page_header("Premium Accounts", "page_premium");
 	</tr>
 	<?php } ?>
 	<tr>
+		<th>Data updated at least every</th>
+		<td><?php echo plural(get_site_config('refresh_queue_hours'), 'hour', 'hours'); ?></td>
+		<td><?php echo plural(get_site_config('refresh_queue_hours_premium'), 'hour', 'hours'); ?></td>
+	</tr>
+	<tr>
 		<th>Advanced reporting functionality</th>
 		<td>-</td>
 		<td>Coming soon...</td>
