@@ -10,7 +10,11 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <html>
 <head>
     <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
+    <?php if (get_site_config('custom_css')) { ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(get_site_config('custom_css')); ?>" />
+    <?php } else { ?>
     <link rel="stylesheet" type="text/css" href="default.css" />
+    <?php } ?>
     <?php if (has_required_admin()) { ?>
     <link rel="stylesheet" type="text/css" href="admin.css" />
     <?php } ?>
