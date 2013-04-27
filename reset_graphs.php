@@ -4,11 +4,6 @@ require("inc/global.php");
 require("layout/graphs.php");
 require_login();
 
-$user = get_user(user_id());
-if (!$user) {
-	throw new Exception("Could not find that user.");
-}
-
 $messages = array();
 $errors = array();
 if (require_post("confirm", false)) {

@@ -13,9 +13,7 @@ $messages = array();
 $errors = array();
 
 $user = get_user(user_id());
-if (!$user) {
-	throw new Exception("Could not find self user.");
-}
+require_user($user);
 
 $currency = require_post("currency", require_get("currency", false));
 if (!$currency || !is_valid_currency($currency) || !in_array($currency, get_site_config('premium_currencies'))) {

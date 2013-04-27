@@ -5,9 +5,7 @@ require("layout/graphs.php");
 require_login();
 
 $user = get_user(user_id());
-if (!$user) {
-	throw new Exception("Could not find user");
-}
+require_user($user);
 
 // adding a new page?
 $title = require_post("title");

@@ -5,9 +5,7 @@ require("layout/graphs.php");
 require_login();
 
 $user = get_user(user_id());
-if (!$user) {
-	throw new Exception("Could not find user");
-}
+require_user($user);
 
 $added = array();
 $messages = array();

@@ -198,3 +198,15 @@ function valid_password_reason() {
 }
 
 class SecurityException extends Exception { }
+
+function require_user($user) {
+	global $errors;
+	if (!$user) {
+		if (!$errors) {
+			$errors = array();
+		}
+		$errors[] = "Could not find your profile on the system. You will need to login or signup again.";
+		set_temporary_errors($errors);
+		redirect(url_for('login'));
+	}
+}

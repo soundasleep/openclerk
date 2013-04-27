@@ -10,9 +10,7 @@ require_login();
 require("layout/templates.php");
 
 $user = get_user(user_id());
-if (!$user) {
-	throw new Exception("Could not find self user.");
-}
+require_user($user);
 
 $messages = array();
 $errors = array();

@@ -12,9 +12,7 @@ require("layout/templates.php");
 page_header("Your Accounts", "page_accounts");
 
 $user = get_user(user_id());
-if (!$user) {
-	throw new Exception("Could not find self user.");
-}
+require_user($user);
 
 $messages = array();
 if (get_temporary_messages()) {
