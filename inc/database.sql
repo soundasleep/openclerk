@@ -219,8 +219,15 @@ CREATE TABLE ticker (
 	volume decimal(16,8),
 
 	is_recent tinyint not null default 0,
+	
+	-- derived indexes; rather than creating some query 'GROUP BY date_format(created_at, '%d-%m-%Y')',
+	-- we can use a simple flag to mark daily data.
+	-- only a single row with this index will ever be present for a single day.
+	-- this same logic could be further composed into hourly/etc data.
+	-- this field is updated when jobs are executed.
+	is_daily_data tinyint not null default 0,
 
-	INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(is_recent)
+	INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(is_recent), INDEX(is_daily_data)
 );
 
 -- and we want to provide summary data for users --

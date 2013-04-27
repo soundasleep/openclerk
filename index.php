@@ -15,17 +15,13 @@ Welcome to <b><?php echo htmlspecialchars(get_site_config('site_name')); ?></b>.
 <h2>Supported exchanges</h2>
 
 <?php
-$exchange_data = array(
-	"BitNZ" => array('nzd/btc'),
-	"BTC-E" => array('btc/ltc', 'usd/btc', 'usd/ltc', 'btc/nmc'),
-	"Mt.Gox" => array('usd/btc'),
-);
+$exchange_data = get_exchange_pairs();
 
 // summarise
 $all_currencies = array();
 foreach ($exchange_data as $exchange => $pairs) {
 	foreach ($pairs as $p) {
-		$all_currencies[$p] = $p;
+		$all_currencies[implode('/', $p)] = $p;
 	}
 }
 ?>
@@ -33,7 +29,7 @@ foreach ($exchange_data as $exchange => $pairs) {
 <thead>
 	<tr>
 		<th>Exchange</th>
-		<?php foreach ($all_currencies as $p) { ?>
+		<?php foreach ($all_currencies as $p => $pairs) { ?>
 		<th><?php echo htmlspecialchars($p); ?></th>
 		<?php } ?>
 	</tr>
@@ -41,7 +37,7 @@ foreach ($exchange_data as $exchange => $pairs) {
 <tbody>
 	<?php foreach ($exchange_data as $exchange => $pairs) { ?>
 	<tr>
-		<td><?php echo htmlspecialchars($exchange); ?></td>
+		<td><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></td>
 		<?php foreach ($all_currencies as $p) { ?>
 		<?php echo in_array($p, $pairs) ? "<td class=\"yes\">Y</td>" : "<td class=\"no\"></td>"; ?>
 		<?php } ?>

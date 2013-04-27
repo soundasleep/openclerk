@@ -24,6 +24,23 @@ function get_blockchain_currencies() {
 	return array('btc');
 }
 
+function get_exchange_name($n) {
+	switch ($n) {
+		case "bitnz": 	return "BitNZ";
+		case "btce": 	return "BTC-E";
+		case "mtgox": 	return "Mt.Gox";
+		default:		return "Unknown";
+	}
+}
+
+function get_exchange_pairs() {
+	return array(
+		"bitnz" => array(array('nzd', 'btc')),
+		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc')),
+		"mtgox" => array(array('usd', 'btc')),
+	);
+}
+
 function crypto_address($currency, $address) {
 	switch ($currency) {
 		case 'btc': return btc_address($address);

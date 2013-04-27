@@ -30,23 +30,23 @@ function render_graph($graph) {
 			// create data
 			$data = array();
 			if (isset($balances['totalbtc']) && $balances['totalbtc']['balance'] != 0) {
-				$data['BTC'] = ($balances['totalbtc']['balance']);
+				$data['BTC'] = graph_number_format($balances['totalbtc']['balance']);
 			}
 			if (isset($balances['totalltc']) && $balances['totalltc']['balance'] != 0 && isset($rates['btcltc'])) {
-				$data['LTC'] = ($balances['totalltc']['balance'] * $rates['btcltc']['sell']);
+				$data['LTC'] = graph_number_format($balances['totalltc']['balance'] * $rates['btcltc']['sell']);
 			}
 			if (isset($balances['totalnmc']) && $balances['totalnmc']['balance'] != 0 && isset($rates['btcnmc'])) {
-				$data['NMC'] = ($balances['totalnmc']['balance'] * $rates['btcnmc']['sell']);
+				$data['NMC'] = graph_number_format($balances['totalnmc']['balance'] * $rates['btcnmc']['sell']);
 			}
 			if (isset($balances['totalusd']) && $balances['totalusd']['balance'] != 0 && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
-				$data['USD'] = ($balances['totalusd']['balance'] / $rates['usdbtc']['buy']);
+				$data['USD'] = graph_number_format($balances['totalusd']['balance'] / $rates['usdbtc']['buy']);
 			}
 			if (isset($balances['totalnzd']) && $balances['totalnzd']['balance'] != 0 && isset($rates['nzdbtc']) && $rates['nzdbtc'] /* no div by 0 */) {
-				$data['NZD'] = ($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']);
+				$data['NZD'] = graph_number_format($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']);
 			}
 
 			if ($data) {
-				render_pie_chart($graph, $data, 'Currency', 'BTC', 'graph_format_btc');
+				render_pie_chart($graph, $data, 'Currency', 'BTC');
 			} else {
 				render_text($graph, "Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated.
 					<br><a href=\"" . htmlspecialchars(url_for('accounts')) . "\">Add accounts and addresses</a>");
@@ -143,24 +143,78 @@ function render_graph($graph) {
 			break;
 
 		default:
+			// ticker graphs are generated programatically
+			if (substr($graph['graph_type'], -strlen("_daily")) == "_daily") {
+				$split = explode("_", $graph['graph_type'], 3);
+				if (count($split) == 3 && strlen($split[1]) == 6) {
+					// checks
+					if (isset(get_exchange_pairs()[$split[0]])) {
+						// we won't check pairs, we just won't get any data
+						render_ticker_graph($graph, $split[0], substr($split[1], 0, 3), substr($split[1], 3));
+						break;
+					}
+				}
+			}
+
 			throw new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
 	}
 
+}
+
+function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
+
+	$q = db()->prepare("SELECT * FROM ticker WHERE is_daily_data=1 AND exchange=:exchange
+			AND currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT 45"); // TODO add days_to_display as parameter
+	$q->execute(array(
+		'exchange' => $exchange,
+		'currency1' => $cur1,
+		'currency2' => $cur2,
+	));
+	$data = array();
+	$data[] = array("Date", strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy", strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell");
+	while ($ticker = $q->fetch()) {
+		$data[] = array(
+			'new Date(' . date('Y, n-1, j', strtotime($ticker['created_at'])) . ')',
+			graph_number_format($ticker['buy']),
+			graph_number_format($ticker['sell']),
+		);
+	}
+
+	render_linegraph_date($graph, $data);
+
+}
+
+// a simple alias
+function graph_number_format($n) {
+	return number_format($n, 4, '.', '');
 }
 
 /**
  * Get all of the defined graph types. Used for display and validation.
  */
 function graph_types() {
-	return array(
+	$data = array(
 		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
-		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox BTC', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
+		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversion).'),
 		'fiat_converted_table' => array('title' => 'Converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted into fiat currencies via BTC.<p>Exchanges used: BTC-E for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
-		"balances_offset_table" => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversion), along with text fields to set offset values for each currency directly.'),
-
-		'linebreak' => array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.'),
+		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversion), along with text fields to set offset values for each currency directly.'),
 	);
+
+	// we can generate a list of daily graphs from all of the exchanges that we support
+	foreach (get_exchange_pairs() as $key => $pairs) {
+		foreach ($pairs as $pair) {
+			$pp = strtoupper($pair[0]) . "/" . strtoupper($pair[1]);
+			$data[$key . "_" . $pair[0] . $pair[1] . "_daily"] = array(
+				'title' => get_exchange_name($key) . " $pp (graph)",
+				'heading' => get_exchange_name($key) . " $pp",
+				'description' => "A line graph displaying the historical buy/sell values for $pp on " . get_exchange_name($key) . ".",
+			);
+		}
+	}
+
+	$data['linebreak'] = array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.');
+	return $data;
 }
 
 function render_text($graph, $text) {
@@ -215,10 +269,6 @@ function render_table_horizontal_vertical($graph, $data) {
 <?php
 }
 
-function graph_format_btc($value) {
-	return number_format($value, 4, '.', '');
-}
-
 function render_graph_controls($graph) {
 ?>
 <ul class="graph_controls">
@@ -238,7 +288,7 @@ function render_graph_controls($graph) {
 /**
  * @param $data an associative array of (label => numeric value)
  */
-function render_pie_chart($graph, $data, $key_label, $value_label, $callback = 'number_format') {
+function render_pie_chart($graph, $data, $key_label, $value_label, $callback = 'graph_number_format') {
 	$graph_id = htmlspecialchars($graph['id']);
 ?>
 <script type="text/javascript">
@@ -260,6 +310,49 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 	};
 
 	var chart = new google.visualization.PieChart(document.getElementById('graph_<?php echo $graph_id; ?>'));
+	chart.draw(data, options);
+  }
+</script>
+
+<div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
+<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
+<?php
+}
+
+function render_linegraph_date($graph, $data) {
+	$graph_id = htmlspecialchars($graph['id']);
+?>
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart<?php echo $graph_id; ?>);
+  function drawChart<?php echo $graph_id; ?>() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        <?php for ($i = 1; $i < count($data[0]); $i++) { ?>
+        	data.addColumn('number', '<?php echo htmlspecialchars($data[0][$i]); ?>');
+        <?php } ?>
+
+        data.addRows([
+        <?php for ($i = 1; $i < count($data); $i++) {
+        	echo "[" . implode(", ", $data[$i]) . "],\n";
+        } ?>
+        ]);
+
+        var options = {
+			legend: {position: 'none'},
+			hAxis: {
+				gridlines: { color: '#333' },
+				textStyle: { color: 'white' },
+				format: 'd-MMM',
+			},
+			vAxis: {
+				gridlines: { color: '#333' },
+				textStyle: { color: 'white' },
+			},
+			backgroundColor: '#111',
+        };
+
+	var chart = new google.visualization.LineChart(document.getElementById('graph_<?php echo $graph_id; ?>'));
 	chart.draw(data, options);
   }
 </script>
