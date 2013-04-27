@@ -9,6 +9,7 @@ require("inc/security.php");
 require("inc/email.php");
 require("inc/recaptcha.php");
 require("inc/crypto.php");
+require("inc/premium.php");
 
 $db_instance = false;
 function db() {

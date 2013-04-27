@@ -19,6 +19,12 @@ require("inc/global.php");
 if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_get("key") != get_site_config("automated_key"))
 	throw new Exception("Invalid key");
 
+if (require_get("key", false)) {
+	// we're running from a web browser
+	require("layout/templates.php");
+	page_header("Queue", "page_batch_queue");
+}
+
 // TODO all of these need to be duplicated for e.g. premium users
 $user_id = false;
 if (isset($argv[2])) {

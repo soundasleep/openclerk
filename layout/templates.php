@@ -48,6 +48,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 		<li><a href="<?php echo url_for('signup'); ?>">Signup</a></li>
 		<li><a href="<?php echo url_for('login'); ?>">Login</a></li>
 	<?php } ?>
+	<li><a href="<?php echo url_for('premium'); ?>">Premium</a></li>
 	<li><a href="<?php echo url_for('help'); ?>">Help</a></li>
 </ul>
 </div>

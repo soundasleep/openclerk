@@ -15,13 +15,18 @@ $errors = array();
 
 // process add/delete
 if (require_post("add", false) && require_post("address", false)) {
-	if (!is_valid_btc_address(require_post("address"))) {
-		$errors[] = "'" . htmlspecialchars(require_post("address")) . "' is not a valid BTC address.";
+	$address = trim(require_post("address"));
+
+	if (!is_valid_btc_address($address)) {
+		$errors[] = "'" . htmlspecialchars($address) . "' is not a valid BTC address.";
+	} else if (!can_user_add($user, "blockchain")) {
+		$errors[] = "Cannot add BTC address: too many existing addresses." .
+				($user['is_premium'] ? "" : " To add more addresses, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 	} else {
 		// we don't care if the address already exists
 		$q = db()->prepare("INSERT INTO addresses SET user_id=?, address=?, currency=?");
-		$q->execute(array(user_id(), require_post("address"), 'btc'));
-		$messages[] = "Added new BTC address " . btc_address(require_post("address")) . ".";
+		$q->execute(array(user_id(), $address, 'btc'));
+		$messages[] = "Added new BTC address " . btc_address($address) . ".";
 
 		// redirect to GET
 		set_temporary_messages($messages);

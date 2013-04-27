@@ -11,6 +11,12 @@ require("inc/global.php");
 if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_get("key") != get_site_config("automated_key"))
 	throw new Exception("Invalid key");
 
+if (require_get("key", false)) {
+	// we're running from a web browser
+	require("layout/templates.php");
+	page_header("Run", "page_batch_run");
+}
+
 if (require_get("job_id", false)) {
 	// run a particular job, even if it's already been executed
 	$q = db()->prepare("SELECT * FROM jobs WHERE id=?");

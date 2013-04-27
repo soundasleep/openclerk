@@ -22,31 +22,7 @@ if (get_temporary_messages()) {
 }
 
 // get all of our accounts
-$accounts = array();
-
-$account_data_grouped = array(
-	'Addresses' => array(
-		'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses'),
-	),
-	'Mining pools' => array(
-		'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx'),
-	),
-	'Exchanges' => array(
-		'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox'),
-		'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce'),
-	),
-	'Other' => array(
-		'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic'),
-	),
-);
-
-foreach ($account_data_grouped as $group) {
-	foreach ($group as $key => $data) {
-		$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?");
-		$q->execute(array(user_id()));
-		$accounts[$key] = $q->fetch()['c'];
-	}
-}
+$accounts = user_limits_summary(user_id());
 
 ?>
 
@@ -63,7 +39,7 @@ foreach ($account_data_grouped as $group) {
 <ul class="account_list">
 <?php
 
-foreach ($account_data_grouped as $label => $account_data) {
+foreach (account_data_grouped() as $label => $account_data) {
 	echo "<li>" . htmlspecialchars($label) . "\n<ul>\n";
 	foreach ($account_data as $key => $value) {
 		// if we don't specify a plural, we assume it's just adding 's'
@@ -79,6 +55,16 @@ foreach ($account_data_grouped as $label => $account_data) {
 	echo "</ul></li>\n";
 }
 ?>
+</ul>
+
+<h2>Your Account Limits</h2>
+
+<ul>
+	<li>Tracked addresses: <?php echo number_format($accounts['total_addresses']); ?> (out of <?php echo number_format(get_premium_config('addresses_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
+	<li>Tracked accounts: <?php echo number_format($accounts['total_accounts']); ?> (out of <?php echo number_format(get_premium_config('accounts_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
+	<?php if (!$user['is_premium']) { ?>
+	<li>Increaes these limits with a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>!</li>
+	<?php } ?>
 </ul>
 
 <?php

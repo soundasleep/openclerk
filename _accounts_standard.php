@@ -30,12 +30,18 @@ if (require_post("add", false)) {
 	if (!is_valid_title(require_post("title", false))) {
 		$errors[] = "That is not a valid title.";
 	}
+	if (!can_user_add($user, $account_data['exchange'])) {
+		$errors[] = "Cannot add " . $account_data['title'] . ": too many existing " . $account_data['titles'] . " for your account.<br>" .
+				($user['is_premium'] ? "" : " To add more " . $account_data['titles'] . ", upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	}
 	if (!$errors) {
 		// we don't care if the address already exists
 		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, title=? $query");
 		$full_args = array_join(array(user_id(), require_post("title", false)), $args);
 		$q->execute($full_args);
-		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . htmlspecialchars(require_post("title", "(untitled)")) . "</i>.";
+		$title = htmlspecialchars(require_post("title", ""));
+		if (!$title) $title = "<i>(untitled)</i>";
+		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . $title . "</i>.";
 
 		// redirect to GET
 		set_temporary_messages($messages);

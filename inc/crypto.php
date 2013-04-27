@@ -20,6 +20,10 @@ function get_currency_name($n) {
 	}
 }
 
+function get_blockchain_currencies() {
+	return array('btc');
+}
+
 function crypto_address($currency, $address) {
 	switch ($currency) {
 		case 'btc': return btc_address($address);
