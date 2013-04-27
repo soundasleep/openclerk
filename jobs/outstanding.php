@@ -42,7 +42,7 @@ if (!$balance) {
 		$expires = max(strtotime($user['premium_expires']), time());
 		crypto_log("Old expiry date: " . db_date($expires));
 
-		$expires = strtotime(db_date($expires) . " +" . $address['months'] . " months +" . $address['years'] . " years");
+		$expires = strtotime(db_date($expires) . " +" . max(0, $address['months']) . " months +" . max(0, $address['years']) . " years");
 		crypto_log("New premium expiry date: " . db_date($expires));
 
 		// apply premium data to user account
@@ -62,9 +62,10 @@ if (!$balance) {
 				"currency_name" => get_currency_name($address['currency']),
 				"expires" => db_date($expires),
 				"address" => $address['address'],
-				"explorer" => get_site_config($currency . '_address_url'),
+				"explorer" => get_site_config($address['currency'] . '_address_url'),
 				"url" => absolute_url(url_for("user")),
 			));
+			crypto_log("Sent e-mail to " . htmlspecialchars($user['email']) . ".");
 		}
 
 	} else {

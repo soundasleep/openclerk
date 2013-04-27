@@ -112,7 +112,7 @@ page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' =>
 	<td>Purchase months (<?php echo currency_format($currency, get_site_config('premium_' . $currency . '_monthly')); ?>/month)</td>
 	<td>
 		<select name="months" id="monthly">
-			<option value="-1" selected></option>
+			<option value="0" selected></option>
 			<?php for ($i = 1; $i <= 11; $i++) {
 				echo "<option value=\"$i\">" . number_format($i) . " months: " . currency_format($currency, get_site_config('premium_' . $currency . '_monthly') * $i, 4) . "</option>\n";
 			} ?>
@@ -128,7 +128,7 @@ page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' =>
 	<td>Purchase years (<?php echo currency_format($currency, get_site_config('premium_' . $currency . '_monthly')); ?>/year)</td>
 	<td>
 		<select name="years" id="yearly">
-			<option value="-1" selected></option>
+			<option value="0" selected></option>
 			<?php for ($i = 1; $i <= 5; $i++) {
 				echo "<option value=\"$i\">" . number_format($i) . " years: " . currency_format($currency, get_site_config('premium_' . $currency . '_yearly') * $i, 4) . "</option>\n";
 			} ?>
