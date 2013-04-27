@@ -14,6 +14,8 @@ function render_graph($graph) {
 	echo "<h2>" . htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']) . "</h2>\n";
 	render_graph_controls($graph);
 
+	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('user')) . "\">Add more currencies</a>";
+
 	switch ($graph['graph_type']) {
 
 		case "btc_equivalent":
@@ -43,7 +45,12 @@ function render_graph($graph) {
 				$data['NZD'] = ($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']);
 			}
 
-			render_pie_chart($graph, $data, 'Currency', 'BTC', 'graph_format_btc');
+			if ($data) {
+				render_pie_chart($graph, $data, 'Currency', 'BTC', 'graph_format_btc');
+			} else {
+				render_text($graph, "Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated.
+					<br><a href=\"" . htmlspecialchars(url_for('accounts')) . "\">Add accounts and addresses</a>");
+			}
 			break;
 
 		case "mtgox_btc_table":
@@ -62,16 +69,19 @@ function render_graph($graph) {
 			// a table of each currency
 			// get all balances
 			$balances = get_all_summary_instances();
+			$summaries = get_all_summary_currencies();
+			$currencies = get_all_currencies();
 
 			// create data
 			$data = array();
-			$currencies = get_all_currencies();
 			foreach ($currencies as $c) {
-				if (isset($balances['total'.$c]) && $balances['total'.$c]['balance'] != 0) {
-					$data[] = array(strtoupper($c), currency_format($c, $balances['total'.$c]['balance'], 4));
+				if (isset($summaries[$c])) {
+					$balance = isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0;
+					$data[] = array(strtoupper($c), currency_format($c, $balance, 4));
 				}
 			}
 
+			$graph["extra"] = $add_more_currencies;
 			render_table_vertical($graph, $data);
 			break;
 
@@ -79,41 +89,51 @@ function render_graph($graph) {
 			// a table of each all2fiat value
 			// get all balances
 			$balances = get_all_summary_instances();
+			$summaries = get_all_summary_currencies();
+			$currencies = get_all_currencies();
 
 			// create data
 			$data = array();
-			$summaries = array('all2usd_mtgox' => 'usd', 'all2nzd' => 'nzd');
-			foreach ($summaries as $key => $c) {
-				if (isset($balances[$key]) && $balances[$key]['balance'] != 0) {
-					$data[] = array(strtoupper($c), currency_format($c, $balances[$key]['balance'], 4));
+			foreach ($currencies as $c) {
+				if (isset($summaries[$c])) {
+					$key = $summaries[$c];
+					$key1 = "all2" . substr($key, strlen("summary_"));
+					$balance = isset($balances[$key1]['balance']) ? $balances[$key1]['balance'] : 0;
+					$data[] = array(get_summary_types()[$key]['short_title'], currency_format($c, $balance, 4));
 				}
 			}
 
+			$graph["extra"] = $add_more_currencies;
 			render_table_vertical($graph, $data);
 			break;
 
 		case "balances_offset_table":
 			// a table of each currency, along with an offset field
 			$balances = get_all_summary_instances();
+			$summaries = get_all_summary_currencies();
 			$offsets = get_all_offset_instances();
+			$currencies = get_all_currencies();
 
 			// create data
 			$data = array();
 			$data[] = array('Currency', 'Balance', 'Offset', 'Total');
-			$currencies = get_all_currencies();
 			foreach ($currencies as $c) {
-				$balance = isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0;
-				$offset = isset($offsets[$c]) ? $offsets[$c]['balance'] : 0;
-				$data[] = array(
-					strtoupper($c),
-					currency_format($c, $balance - $offset, 4),
-					// HTML quirk: "When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form."
-					'<form action="' . htmlspecialchars(url_for('set_offset', array('page' => $graph['page_id']))) . '" method="post">' .
-						'<input type="text" name="' . htmlspecialchars($c) . '" value="' . htmlspecialchars($offset == 0 ? '' : $offset) . '" maxlength="32">' .
-						'</form>',
-					currency_format($c, $balance /* balance includes offset */, 4),
-				);
+				if (isset($summaries[$c])) {
+					$balance = isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0;
+					$offset = isset($offsets[$c]) ? $offsets[$c]['balance'] : 0;
+					$data[] = array(
+						strtoupper($c),
+						currency_format($c, $balance - $offset, 4),
+						// HTML quirk: "When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form."
+						'<form action="' . htmlspecialchars(url_for('set_offset', array('page' => $graph['page_id']))) . '" method="post">' .
+							'<input type="text" name="' . htmlspecialchars($c) . '" value="' . htmlspecialchars($offset == 0 ? '' : $offset) . '" maxlength="32">' .
+							'</form>',
+						currency_format($c, $balance /* balance includes offset */, 4),
+					);
+				}
 			}
+
+			$graph['extra'] = $add_more_currencies;
 
 			render_table_horizontal_vertical($graph, $data);
 			break;
@@ -143,6 +163,16 @@ function graph_types() {
 	);
 }
 
+function render_text($graph, $text) {
+	$graph_id = htmlspecialchars($graph['id']);
+?>
+<div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
+<?php echo $text; ?>
+<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
+</div>
+<?php
+}
+
 function render_table_vertical($graph, $data) {
 	$graph_id = htmlspecialchars($graph['id']);
 ?>
@@ -159,6 +189,7 @@ function render_table_vertical($graph, $data) {
 }
 ?>
 </table>
+<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
 </div>
 <?php
 }
@@ -179,6 +210,7 @@ function render_table_horizontal_vertical($graph, $data) {
 }
 ?>
 </table>
+<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
 </div>
 <?php
 }
@@ -233,6 +265,7 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 </script>
 
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
+<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
 <?php
 }
 
@@ -256,6 +289,21 @@ function get_all_summary_instances() {
 }
 
 // cached
+$global_all_summaries = null;
+function get_all_summaries() {
+	global $global_all_summaries;
+	if ($global_all_summaries === null) {
+		$global_all_summaries = array();
+		$q = db()->prepare("SELECT * FROM summaries WHERE user_id=?");
+		$q->execute(array(user_id()));
+		while ($summary = $q->fetch()) {
+			$global_all_summaries[$summary['summary_type']] = $summary;
+		}
+	}
+	return $global_all_summaries;
+}
+
+// cached
 $global_all_offset_instances = null;
 function get_all_offset_instances() {
 	global $global_all_offset_instances;
@@ -268,6 +316,17 @@ function get_all_offset_instances() {
 		}
 	}
 	return $global_all_offset_instances;
+}
+
+function get_all_summary_currencies() {
+	$summaries = get_all_summaries();
+	$result = array();
+	foreach ($summaries as $s) {
+		// assumes all summaries start with 'summary_CUR_optional'
+		$c = substr($s['summary_type'], strlen("summary_"), 3);
+		$result[$c] = $s['summary_type'];
+	}
+	return $result;
 }
 
 // cached

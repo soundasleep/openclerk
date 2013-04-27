@@ -34,12 +34,12 @@ function crypto_address($currency, $address) {
 
 function get_summary_types() {
 	return array(
-		'summary_btc' => array('title' => get_currency_name('btc')),
-		'summary_ltc' => array('title' => get_currency_name('ltc')),
-		'summary_nmc' => array('title' => get_currency_name('nmc')),
-		'summary_usd_btce' => array('title' => get_currency_name('usd') . " (converted through BTC-E)"),
-		'summary_usd_mtgox' => array('title' => get_currency_name('usd') . " (converted through Mt.Gox)"),
-		'summary_nzd' => array('title' => get_currency_name('nzd')),
+		'summary_btc' => array('title' => get_currency_name('btc'), 'short_title' => 'BTC'),
+		'summary_ltc' => array('title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
+		'summary_nmc' => array('title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
+		'summary_usd_btce' => array('title' => get_currency_name('usd') . " (converted through BTC-E)", 'short_title' => 'USD (BTC-E)'),
+		'summary_usd_mtgox' => array('title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
+		'summary_nzd' => array('title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
 	);
 }
 
@@ -79,9 +79,11 @@ function reset_user_graphs($user_id) {
 	// default graphs
 	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='btc_equivalent',width=2,height=2,page_order=1");
 	$q->execute(array($page_id));
-	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='fiat_converted_table',width=2,height=1,page_order=2");
+	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='fiat_converted_table',width=2,height=2,page_order=2");
 	$q->execute(array($page_id));
-	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='mtgox_btc_table',width=1,height=1,page_order=1");
+	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='mtgox_btc_table',width=1,height=2,page_order=1");
+	$q->execute(array($page_id));
+	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='balances_offset_table',width=1,height=2,page_order=1");
 	$q->execute(array($page_id));
 
 }
