@@ -61,6 +61,18 @@ function get_summary_types() {
 }
 
 /**
+ * Total conversions: all currencies to a single currency
+ * TODO I don't think these take into account e.g. NZD -> USD
+ */
+function get_total_conversion_summary_types() {
+	return array(
+		'nzd' => array('currency' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
+		'usd_btce' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through BTC-E)", 'short_title' => 'USD (BTC-E)'),
+		'usd_mtgox' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
+	);
+}
+
+/**
  * Reset currencies, graph data etc to their defaults.
  */
 function reset_user_settings($user_id) {

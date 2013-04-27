@@ -158,17 +158,39 @@ function render_graph($graph) {
 						break;
 					}
 				}
-			}
 
-			// total summary graphs are generated programatically
-			if (substr($graph['graph_type'], 0, strlen("total_")) == "total_") {
-				$split = explode("_", $graph['graph_type']);
-				if (count($split) == 3 && strlen($split[1]) == 3) {
-					// we will assume that it is the current user
-					// (otherwise it might be possible to view other users' data)
-					render_summary_graph($graph, 'total' . $split[1], $split[1], user_id());
-					break;
+				// total summary graphs are generated programatically
+				if (substr($graph['graph_type'], 0, strlen("total_")) == "total_") {
+					$split = explode("_", $graph['graph_type']);
+					if (count($split) == 3 && strlen($split[1]) == 3) {
+						// we will assume that it is the current user
+						// (otherwise it might be possible to view other users' data)
+						render_summary_graph($graph, 'total' . $split[1], $split[1], user_id());
+						break;
+					}
 				}
+
+				if (substr($graph['graph_type'], 0, strlen("all2")) == "all2") {
+					$split = explode("_", $graph['graph_type']);
+					if (count($split) == 2 && strlen($split[0]) == strlen("all2") + 3) {
+						$cur = substr($split[0], strlen("all2"));
+						// e.g. all2nzd
+
+						// we will assume that it is the current user
+						// (otherwise it might be possible to view other users' data)
+						render_summary_graph($graph, 'all2' . $cur, $cur, user_id());
+						break;
+					} else if (count($split) == 3 && strlen($split[0]) == strlen("all2") + 3) {
+						$cur = substr($split[0], strlen("all2"));
+						// e.g. all2usd_mtgox
+
+						// we will assume that it is the current user
+						// (otherwise it might be possible to view other users' data)
+						render_summary_graph($graph, 'all2' . $cur . '_' . $split[1], $cur, user_id());
+						break;
+					}
+				}
+
 			}
 
 			// let's not throw an exception, let's just render an error message
@@ -245,6 +267,7 @@ function graph_types() {
 	);
 
 	$summaries = get_all_summary_currencies();
+	$conversions = get_all_conversion_currencies();
 
 	// we can generate a list of daily graphs from all of the exchanges that we support
 	// but we'll only want to display currency pairs that we're interested in
@@ -268,6 +291,16 @@ function graph_types() {
 			'heading' => "Total " . strtoupper($cur),
 			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions)",
 			'hide' => !isset($summaries[$cur]),
+		);
+	}
+
+	foreach (get_total_conversion_summary_types() as $key => $summary) {
+		$cur = $summary['currency'];
+		$data["all2" . $key . "_daily"] = array(
+			'title' => 'Converted ' . $summary['title'] . " historical (graph)",
+			'heading' => 'Converted ' . $summary['short_title'],
+			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted to " . $summary['title'] . ".",
+			'hide' => !isset($conversions['summary_' . $key]),
 		);
 	}
 
@@ -476,6 +509,17 @@ function get_all_summary_currencies() {
 		// assumes all summaries start with 'summary_CUR_optional'
 		$c = substr($s['summary_type'], strlen("summary_"), 3);
 		$result[$c] = $s['summary_type'];
+	}
+	return $result;
+}
+
+function get_all_conversion_currencies() {
+	$summaries = get_all_summaries();
+	$result = array();
+	foreach ($summaries as $s) {
+		// assumes all summaries start with 'summary_CUR_optional'
+		$c = substr($s['summary_type'], strlen("summary_"), 3);
+		$result[$s['summary_type']] = $c;
 	}
 	return $result;
 }
