@@ -410,7 +410,7 @@ function render_text($graph, $text) {
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <?php echo $text; ?>
-<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
+<?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 </div>
 <?php
 }
@@ -432,7 +432,7 @@ function render_table_vertical($graph, $data) {
 }
 ?>
 </table>
-<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
+<?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 </div>
 <?php
 }
@@ -454,7 +454,7 @@ function render_table_horizontal_vertical($graph, $data) {
 }
 ?>
 </table>
-<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
+<?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 </div>
 <?php
 }
@@ -512,7 +512,7 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 </script>
 
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
-<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
+<?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 <?php
 }
 
@@ -556,7 +556,7 @@ function render_linegraph_date($graph, $data) {
 </script>
 
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
-<?php if (isset($graph['extra'])) echo '<div class=\"graph_extra\">' . $graph['extra'] . '</div>'; ?>
+<?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 <?php
 }
 
