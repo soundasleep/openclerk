@@ -111,6 +111,10 @@ function my_exception_handler($e) {
 set_exception_handler('my_exception_handler');
 function log_uncaught_exception($e, $extra_args = array(), $extra_query = "") {
 	// logging
+	if (get_class($e) !== false) {
+		$extra_args[] = get_class($e);
+		$extra_query .= ", class_name=?";
+	}
 	$q = db()->prepare("INSERT INTO uncaught_exceptions SET
 		message=?,
 		previous_message=?,

@@ -41,11 +41,12 @@ CREATE TABLE uncaught_exceptions (
 	filename varchar(255),
 	line_number int,
 	raw blob not null,
+	class_name varchar(64),
 	created_at datetime not null,
 	
 	job_id int,	-- may have been generated as part of a job
 	
-	INDEX(job_id)
+	INDEX(job_id), INDEX(class_name)
 );
 
 -- OpenClerk information starts here
