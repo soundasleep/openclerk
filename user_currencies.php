@@ -44,7 +44,8 @@ foreach (get_summary_types() as $key => $data) {
 			// check premium account status, need to recheck after every add
 			$q = db()->prepare("SELECT COUNT(*) AS c FROM summaries WHERE user_id=?");
 			$q->execute(array(user_id()));
-			$count = $q->fetch()["c"];
+			$count = $q->fetch();
+			$count = $count["c"];
 
 			if ($count >= get_premium_config('summaries_' . ($user['is_premium'] ? 'premium' : 'free'))) {
 				// too many

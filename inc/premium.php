@@ -14,7 +14,8 @@ function user_limits_summary($user_id) {
 			foreach ($group as $key => $data) {
 				$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?" . (isset($data['query']) ? $data['query'] : ""));
 				$q->execute(array($user_id));
-				$accounts[$key] = $q->fetch()['c'];
+				$accounts[$key] = $q->fetch();
+				$accounts[$key] = $accounts[$key]['c'];
 
 				if (!isset($accounts['total_' . $data['group']])) {
 					$accounts['total_' . $data['group']] = 0;

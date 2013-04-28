@@ -26,7 +26,8 @@ require_user($user);
 
 $q = db()->prepare("SELECT COUNT(*) AS c FROM graphs WHERE page_id=? AND is_removed=0 AND graph_type <> 'linebreak'");
 $q->execute(array($page_id));
-$count = $q->fetch()['c'];
+$count = $q->fetch();
+$count = $count['c'];
 
 if ($count >= get_premium_config('graphs_per_page_' . ($user['is_premium'] ? 'premium' : 'free'))) {
 	$errors[] = "Cannot add graph: too many existing graphs on this page." .

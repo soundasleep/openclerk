@@ -217,7 +217,8 @@ function require_template($id) {
 	$id = str_replace("/", "", $id);
 	$id = str_replace("\\", "", $id);
 
-	if (isset(get_site_config()["custom_" . $id]) && get_site_config("custom_" . $id)) {
+	$config = get_site_config();
+	if (isset($config["custom_" . $id]) && get_site_config("custom_" . $id)) {
 		require(get_site_config("custom_" . $id));
 	} else {
 		require("templates/" . $id . ".php");

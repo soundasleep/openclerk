@@ -127,7 +127,8 @@ function render_graph($graph) {
 					$key = $summaries[$c];
 					$key1 = "all2" . substr($key, strlen("summary_"));
 					$balance = isset($balances[$key1]['balance']) ? $balances[$key1]['balance'] : 0;
-					$data[] = array(get_summary_types()[$key]['short_title'], currency_format($c, $balance, 4));
+					$summary_types = get_summary_types();
+					$data[] = array($summary_types[$key]['short_title'], currency_format($c, $balance, 4));
 				}
 			}
 
@@ -177,7 +178,8 @@ function render_graph($graph) {
 				$split = explode("_", $graph['graph_type']);
 				if (count($split) == 3 && strlen($split[1]) == 6) {
 					// checks
-					if (isset(get_exchange_pairs()[$split[0]])) {
+					$exchange_pairs = get_exchange_pairs();
+					if (isset($exchange_pairs[$split[0]])) {
 						// we won't check pairs, we just won't get any data
 						render_ticker_graph($graph, $split[0], substr($split[1], 0, 3), substr($split[1], 3));
 						break;
