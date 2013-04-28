@@ -32,7 +32,7 @@ require("_accounts_standard.php");
 <h2>Adding a Mt.Gox account</h2>
 
 <ol class="steps">
-	<li>Log into your <a href="https://mtgox.com/security">Mt.Gox account</a> and visit the <i>security centere</i>.<br>
+	<li>Log into your <a href="https://mtgox.com/security">Mt.Gox account</a> and visit the <i>security center</i>.<br>
 		<img src="img/accounts/mtgox1.png"></li>
 
 	<li>Under <i>Advanced API Key Creation</i>, create a name for a new key (such as "<?php echo htmlspecialchars(get_site_config('site_name')); ?>");

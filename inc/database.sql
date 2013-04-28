@@ -96,6 +96,37 @@ CREATE TABLE accounts_mtgox (
 	INDEX(user_id), INDEX(last_queue)
 );
 
+DROP TABLE IF EXISTS accounts_litecoinglobal;
+
+CREATE TABLE accounts_litecoinglobal (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at datetime not null default now(),
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
+
+-- litecoinglobal has a range of securities; as we find new securities
+-- (through users) we add these as normal queued jobs as well (using the securities user)
+-- and can then use these to calculate balances. this however means that
+-- we don't keep track of security counts/etc per user over time, just overall balance.
+
+DROP TABLE IF EXISTS securities_litecoinglobal;
+
+CREATE TABLE securities_litecoinglobal (
+	id int not null auto_increment primary key,
+	created_at datetime not null default now(),
+	last_queue datetime,
+	
+	name varchar(64) not null,
+	
+	INDEX(last_queue)
+);
+
 -- generic API requests
 
 DROP TABLE IF EXISTS accounts_generic;

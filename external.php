@@ -47,12 +47,14 @@ $external_apis = array(
 	"Exchange wallets" => array(
 		'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 		'btce' => '<a href="http://btc-e.com">BTC-E</a>',
+		'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 	),
 
 	"Exchange tickers" => array(
 		'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 		'ticker_btce' => '<a href="http://btc-e.com">BTC-E</a>',
 		'ticker_bitnz' => '<a href="http://bitnz.com">BitNZ</a>',
+		'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 	),
 
 	"Other" => array(

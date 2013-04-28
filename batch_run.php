@@ -140,6 +140,14 @@ try {
 			require("jobs/poolx.php");
 			break;
 
+		case "litecoinglobal":
+			require("jobs/litecoinglobal.php");
+			break;
+
+		case "securities_litecoinglobal":
+			require("jobs/securities_litecoinglobal.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");

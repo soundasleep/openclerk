@@ -16,7 +16,7 @@ function get_currency_name($n) {
 		case "nmc":	return "Namecoin";
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
-		default:	return "Unknown";
+		default:	return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
 
@@ -32,7 +32,8 @@ function get_exchange_name($n) {
 		case "bitnz": 	return "BitNZ";
 		case "btce": 	return "BTC-E";
 		case "mtgox": 	return "Mt.Gox";
-		default:		return "Unknown";
+		case "litecoinglobal": return "Litecoin Global";
+		default:		return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
 
@@ -44,12 +45,19 @@ function get_exchange_pairs() {
 	);
 }
 
+function get_security_exchange_pairs() {
+	return array(
+		"litecoinglobal" => array('ltc'),
+	);
+}
+
 function get_supported_wallets() {
 	return array(
 		"Generic API" => get_all_currencies(),
 		"BTC-E" => array('btc', 'ltc', 'nmc', 'usd'),
 		"Pool-x.eu" => array('ltc'),
 		"Mt.Gox" => array('btc', 'usd'),
+		"Litecoin Global" => array('ltc'),
 	);
 }
 
@@ -96,6 +104,7 @@ function account_data_grouped() {
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
 			'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
+			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'title' => 'Litecoin Global accounts', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts'),
 		),
 		'Other' => array(
 			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
@@ -205,6 +214,11 @@ function is_valid_mtgox_apikey($key) {
 function is_valid_mtgox_apisecret($key) {
 	// not sure what the format should be, looks to be similar to base64 encoding
 	return strlen($key) > 36 && preg_match('#^[A-Za-z0-9/\\+=]+$#', $key);
+}
+
+function is_valid_litecoinglobal_apikey($key) {
+	// not sure what the format should be, seems to be 64 character hex
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
