@@ -1,6 +1,26 @@
 <?php
 
 /**
+ * Goes through an array (which may also contain other arrays) and find
+ * the most latest 'created_at' value.
+ */
+function find_latest_created_at($a, $prefix = false) {
+	if (!is_array($a))
+		return false;
+	$created_at = false;
+	foreach ($a as $k => $v) {
+		if ($k == "created_at") {
+			$created_at = max($created_at, strtotime($v));
+		} else if (is_array($v)) {
+			if (!$prefix || substr($k, 0, strlen($prefix)) == $prefix) {
+				$created_at = max($created_at, find_latest_created_at($v));
+			}
+		}
+	}
+	return $created_at;
+}
+
+/**
  * Renders a particular graph.
  */
 function render_graph($graph) {
@@ -27,6 +47,7 @@ function render_graph($graph) {
 
 			// get all balances
 			$balances = get_all_summary_instances();
+			$graph['last_updated'] = find_latest_created_at($balances, "total");
 
 			// and convert them using the most recent rates
 			$rates = get_all_recent_rates();
@@ -60,6 +81,7 @@ function render_graph($graph) {
 		case "mtgox_btc_table":
 			// a table of just BTC/USD rates
 			$rates = get_all_recent_rates();
+			$graph['last_updated'] = find_latest_created_at($rates['usdbtc']);
 
 			$data = array(
 				array('Buy', currency_format('usd', $rates['usdbtc']['buy'], 4)),
@@ -75,6 +97,7 @@ function render_graph($graph) {
 			$balances = get_all_summary_instances();
 			$summaries = get_all_summary_currencies();
 			$currencies = get_all_currencies();
+			$graph['last_updated'] = find_latest_created_at($balances, "total");
 
 			// create data
 			$data = array();
@@ -95,6 +118,7 @@ function render_graph($graph) {
 			$balances = get_all_summary_instances();
 			$summaries = get_all_summary_currencies();
 			$currencies = get_all_currencies();
+			$graph['last_updated'] = find_latest_created_at($balances, "all2");
 
 			// create data
 			$data = array();
@@ -117,6 +141,7 @@ function render_graph($graph) {
 			$summaries = get_all_summary_currencies();
 			$offsets = get_all_offset_instances();
 			$currencies = get_all_currencies();
+			$graph['last_updated'] = find_latest_created_at($balances, "total");
 
 			// create data
 			$data = array();
@@ -212,14 +237,17 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 	));
 	$data = array();
 	$data[] = array("Date", strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy", strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell");
+	$last_updated = false;
 	while ($ticker = $q->fetch()) {
 		$data[] = array(
 			'new Date(' . date('Y, n-1, j', strtotime($ticker['created_at'])) . ')',
 			graph_number_format($ticker['buy']),
 			graph_number_format($ticker['sell']),
 		);
+		$last_updated = max($last_updated, strtotime($ticker['created_at']));
 	}
 
+	$graph['last_updated'] = $last_updated;
 	render_linegraph_date($graph, $data);
 
 }
@@ -234,12 +262,16 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id) {
 	));
 	$data = array();
 	$data[] = array("Date", strtoupper($currency));
+	$last_updated = false;
 	while ($ticker = $q->fetch()) {
 		$data[] = array(
 			'new Date(' . date('Y, n-1, j', strtotime($ticker['created_at'])) . ')',
 			graph_number_format($ticker['balance']),
 		);
+		$last_updated = max($last_updated, strtotime($ticker['created_at']));
 	}
+
+	$graph['last_updated'] = $last_updated;
 	if (count($data) > 1) {
 		render_linegraph_date($graph, $data);
 	} else {
@@ -310,6 +342,7 @@ function graph_types() {
 
 function render_text($graph, $text) {
 	$graph_id = htmlspecialchars($graph['id']);
+	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <?php echo $text; ?>
@@ -320,6 +353,7 @@ function render_text($graph, $text) {
 
 function render_table_vertical($graph, $data) {
 	$graph_id = htmlspecialchars($graph['id']);
+	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <table class="standard">
@@ -341,6 +375,7 @@ function render_table_vertical($graph, $data) {
 
 function render_table_horizontal_vertical($graph, $data) {
 	$graph_id = htmlspecialchars($graph['id']);
+	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <table class="standard">
@@ -376,11 +411,18 @@ function render_graph_controls($graph) {
 <?php
 }
 
+function render_graph_last_updated($graph) {
+	if (isset($graph['last_updated']) && $graph['last_updated']) { ?>
+		<div class="last_updated"><?php echo recent_format_html($graph['last_updated']); ?></div>
+	<?php }
+}
+
 /**
  * @param $data an associative array of (label => numeric value)
  */
 function render_pie_chart($graph, $data, $key_label, $value_label, $callback = 'graph_number_format') {
 	$graph_id = htmlspecialchars($graph['id']);
+	render_graph_last_updated($graph);
 ?>
 <script type="text/javascript">
   google.load("visualization", "1", {packages:["corechart"]});
@@ -412,6 +454,7 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 
 function render_linegraph_date($graph, $data) {
 	$graph_id = htmlspecialchars($graph['id']);
+	render_graph_last_updated($graph);
 ?>
 <script type="text/javascript">
   google.load("visualization", "1", {packages:["corechart"]});
