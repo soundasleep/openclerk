@@ -11,7 +11,7 @@ if (!$user) {
 	throw new JobException("Cannot find user ID " . $job['arg_id']);
 }
 
-$q = db()->prepare("UPDATE users SET is_premium=0 WHERE id=? LIMIT 1");
+$q = db()->prepare("UPDATE users SET updated_at=NOW(),is_premium=0 WHERE id=? LIMIT 1");
 $q->execute(array($user['id']));
 crypto_log("Disabled premium status on user " . $user['id'] . ".");
 

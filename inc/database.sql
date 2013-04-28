@@ -1,3 +1,9 @@
+-- needs MySQL 5.1
+-- for MySQL 5.5, you can replace:
+--    created_at datetime not null default now()
+--    updated_at datetime not null default now() on update now()
+-- and remove the update_at logic in the application
+
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -7,8 +13,8 @@ CREATE TABLE users (
 	email varchar(255),
 	is_admin tinyint not null default 0,
 	is_system tinyint not null default 0,
-	created_at datetime not null default now(),
-	updated_at datetime not null default now() on update now(),
+	created_at timestamp not null default current_timestamp,
+	updated_at datetime,
 	last_login datetime,
 	
 	is_premium tinyint not null default 0,
@@ -26,7 +32,7 @@ CREATE TABLE valid_user_keys (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	user_key varchar(64) not null unique,
-	created_at datetime not null,
+	created_at timestamp not null default current_timestamp,
 	INDEX (user_id),
 	INDEX (user_key)
 );
@@ -42,7 +48,7 @@ CREATE TABLE uncaught_exceptions (
 	line_number int,
 	raw blob not null,
 	class_name varchar(64),
-	created_at datetime not null,
+	created_at timestamp not null default current_timestamp,
 	
 	job_id int,	-- may have been generated as part of a job
 	
@@ -58,7 +64,7 @@ DROP TABLE IF EXISTS accounts_btce;
 CREATE TABLE accounts_btce (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 
 	title varchar(255),
@@ -73,7 +79,7 @@ DROP TABLE IF EXISTS accounts_poolx;
 CREATE TABLE accounts_poolx (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	title varchar(255),
@@ -87,7 +93,7 @@ DROP TABLE IF EXISTS accounts_mtgox;
 CREATE TABLE accounts_mtgox (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	title varchar(255),
@@ -102,7 +108,7 @@ DROP TABLE IF EXISTS accounts_vircurex;
 CREATE TABLE accounts_vircurex (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	title varchar(255),
@@ -117,7 +123,7 @@ DROP TABLE IF EXISTS accounts_litecoinglobal;
 CREATE TABLE accounts_litecoinglobal (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	title varchar(255),
@@ -135,7 +141,7 @@ DROP TABLE IF EXISTS securities_litecoinglobal;
 
 CREATE TABLE securities_litecoinglobal (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	name varchar(64) not null,
@@ -148,7 +154,7 @@ DROP TABLE IF EXISTS accounts_btct;
 CREATE TABLE accounts_btct (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	title varchar(255),
@@ -163,7 +169,7 @@ DROP TABLE IF EXISTS securities_btct;
 
 CREATE TABLE securities_btct (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	name varchar(64) not null,
@@ -178,7 +184,7 @@ DROP TABLE IF EXISTS accounts_generic;
 CREATE TABLE accounts_generic (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	title varchar(255),
@@ -195,7 +201,7 @@ DROP TABLE IF EXISTS balances;
 CREATE TABLE balances (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
 	account_id int not null,
@@ -214,7 +220,7 @@ DROP TABLE IF EXISTS addresses;
 CREATE TABLE addresses (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 
 	currency varchar(3) not null,
@@ -229,7 +235,7 @@ CREATE TABLE address_balances (
 	id int not null auto_increment primary key,
 	user_id int not null,
 	address_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	balance decimal(16,8) not null,
 	is_recent tinyint not null default 0,
@@ -244,7 +250,7 @@ DROP TABLE IF EXISTS litecoin_blocks;
 
 CREATE TABLE litecoin_blocks (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	blockcount int not null,
 	
@@ -260,7 +266,7 @@ DROP TABLE IF EXISTS offsets;
 CREATE TABLE offsets (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	currency varchar(3) not null,
 	balance decimal(16,8) not null,
@@ -278,7 +284,7 @@ DROP TABLE IF EXISTS exchanges;
 
 CREATE TABLE exchanges (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	name varchar(32) not null unique,
 	last_queue datetime,
@@ -297,7 +303,7 @@ DROP TABLE IF EXISTS ticker;
 
 CREATE TABLE ticker (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	exchange varchar(32) not null, -- no point to have exchange_id, that's just extra queries
 	
@@ -329,7 +335,7 @@ DROP TABLE IF EXISTS summaries;
 CREATE TABLE summaries (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	last_queue datetime,
 	
 	summary_type varchar(32) not null,
@@ -342,7 +348,7 @@ DROP TABLE IF EXISTS summary_instances;
 CREATE TABLE summary_instances (
 	id int not null auto_increment primary key,
 	user_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	summary_type varchar(32) not null,
 	
 	is_recent tinyint not null default 0,
@@ -366,7 +372,7 @@ DROP TABLE IF EXISTS jobs;
 
 CREATE TABLE jobs (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	priority tinyint not null default 10, -- lower value = higher priority
 	
@@ -388,8 +394,8 @@ DROP TABLE IF EXISTS graph_pages;
 
 CREATE TABLE graph_pages (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
-	updated_at datetime not null default now() on update now(),
+	created_at timestamp not null default current_timestamp,
+	updated_at datetime,
 	user_id int not null,	-- requesting user ID, may be system ID (100)
 	
 	title varchar(64) not null,
@@ -405,7 +411,7 @@ DROP TABLE IF EXISTS graphs;
 CREATE TABLE graphs (
 	id int not null auto_increment primary key,
 	page_id int not null,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	graph_type varchar(32) not null,
 	arg0 int, 		-- some graphs have integer arguments
@@ -427,7 +433,7 @@ CREATE TABLE outstanding_premiums (
 	id int not null auto_increment primary key,
 	user_id int not null,
 
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	paid_at datetime not null default 0,
 	is_paid tinyint not null default 0,
 	is_unpaid tinyint not null default 0,		-- this has never been paid after a very long time, so it's abandoned
@@ -453,7 +459,7 @@ DROP TABLE IF EXISTS premium_addresses;
 
 CREATE TABLE premium_addresses (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	is_used tinyint not null default 0,	-- i.e. is used in an outstanding_premiums
 	used_at datetime,
@@ -471,7 +477,7 @@ DROP TABLE IF EXISTS external_status;
 
 CREATE TABLE external_status (
 	id int not null auto_increment primary key,
-	created_at datetime not null default now(),
+	created_at timestamp not null default current_timestamp,
 	
 	job_type varchar(32) not null,
 	job_count int not null,

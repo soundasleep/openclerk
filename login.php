@@ -70,7 +70,7 @@ try {
 		}
 
 		// update login time
-		$query = db()->prepare("UPDATE users SET last_login=NOW() WHERE id=?");
+		$query = db()->prepare("UPDATE users SET updated_at=NOW(),last_login=NOW() WHERE id=?");
 		$query->execute(array($user["id"]));
 
 		// delete old web keys

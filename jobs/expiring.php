@@ -22,7 +22,7 @@ if ($user['email']) {
 	crypto_log("Sent premium expiring soon e-mail to " . htmlspecialchars($user['email']) . ".");
 
 	// update user
-	$q = db()->prepare("UPDATE users SET is_reminder_sent=1 WHERE id=? LIMIT 1");
+	$q = db()->prepare("UPDATE users SET updated_at=NOW(),is_reminder_sent=1 WHERE id=? LIMIT 1");
 	$q->execute(array($user['id']));
 } else {
 	crypto_log("User had no valid e-mail address.");

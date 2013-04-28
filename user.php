@@ -19,7 +19,7 @@ if (require_post("name", false)) {
 		$errors[] = "Invalid name.";
 	} else {
 		// we can have any name
-		$q = db()->prepare("UPDATE users SET name=? WHERE id=? LIMIT 1");
+		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=? WHERE id=? LIMIT 1");
 		$q->execute(array(require_post("name"), user_id()));
 		$messages[] = "Updated account name.";
 
