@@ -7,7 +7,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 
 ?>
 <!DOCTYPE HTML>
-<html>
+<html<?php if (has_required_admin()) { echo " class=\"body_admin\""; } ?>>
 <head>
     <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
     <link rel="stylesheet" type="text/css" href="default.css" />
@@ -45,7 +45,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 		<li><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
 		<li><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
 		<?php if (is_admin()) { ?>
-			<li class="admin"><a href="<?php echo url_for('status'); ?>">System Status</a></li>
+			<li class="admin"><a href="<?php echo url_for('admin'); ?>">System Status</a></li>
 		<?php } ?>
 	<?php } else { ?>
 		<li><a href="<?php echo url_for('signup'); ?>">Signup</a></li>

@@ -28,7 +28,7 @@ if (require_get("job_id", false)) {
 	$job = $q->fetch();
 } else {
 	// select the most important job to execute next
-	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 ORDER BY priority ASC, id ASC");
+	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 ORDER BY priority ASC, id ASC LIMIT 1");
 	$q->execute();
 	$job = $q->fetch();
 }
