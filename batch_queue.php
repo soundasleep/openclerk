@@ -169,7 +169,7 @@ if (!$premium_only) {
 
 function insert_new_job($job) {
 	// make sure the new job doesn't already exist
-	$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND priority=:priority AND is_executed=0 LIMIT 1");
+	$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND priority <= :priority AND is_executed=0 LIMIT 1");
 	$q2->execute(array(
 		'type' => $job['type'],
 		'arg_id' => $job['arg_id'],
