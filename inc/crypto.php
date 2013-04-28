@@ -30,7 +30,7 @@ function get_blockchain_currencies() {
 function get_exchange_name($n) {
 	switch ($n) {
 		case "bitnz": 	return "BitNZ";
-		case "btce": 	return "BTC-E";
+		case "btce": 	return "BTC-e";
 		case "mtgox": 	return "Mt.Gox";
 		case "litecoinglobal": return "Litecoin Global";
 		case "btct": return "BTC Trading Co.";
@@ -84,7 +84,7 @@ function get_summary_types() {
 		'summary_btc' => array('currency' => 'btc', 'key' => 'btc', 'title' => get_currency_name('btc'), 'short_title' => 'BTC'),
 		'summary_ltc' => array('currency' => 'ltc', 'key' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
 		'summary_nmc' => array('currency' => 'nmc', 'key' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
-		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-E)", 'short_title' => 'USD (BTC-E)'),
+		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)'),
 		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
 		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)'),
 		'summary_nzd' => array('currency' => 'nzd', 'key' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
@@ -98,7 +98,7 @@ function get_summary_types() {
 function get_total_conversion_summary_types() {
 	return array(
 		'nzd' => array('currency' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
-		'usd_btce' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through BTC-E)", 'short_title' => 'USD (BTC-E)'),
+		'usd_btce' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)'),
 		'usd_mtgox' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
 		'usd_vircurex' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)'),
 	);
@@ -115,7 +115,7 @@ function account_data_grouped() {
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
-			'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
+			'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-e accounts', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
 			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'title' => 'Litecoin Global accounts', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts'),
 			'btct' => array('url' => 'accounts_btct', 'title' => 'BTC Trading Co. accounts', 'label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts'),
 			'vircurex' => array('url' => 'accounts_vircurex', 'title' => 'Vircurex accounts', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts'),

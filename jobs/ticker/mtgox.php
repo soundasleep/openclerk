@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BTC-E ticker job.
+ * Mt.Gox ticker job.
  */
 
 $rates_list = array(

@@ -59,7 +59,7 @@ page_header("Premium Accounts", "page_premium");
 	$currencies = array_map('get_currency_name', $currencies);
 	$predef = array(
 		'addresses' => 'Tracked addresses (' . implode(", ", $currencies) . ')',
-		'accounts' => 'Tracked accounts (BTC-E, Mt.Gox, ...)',
+		'accounts' => 'Tracked accounts (BTC-e, Mt.Gox, ...)',
 		'graph_pages' => 'Summary pages',
 		'graphs_per_page' => 'Graphs per summary page',
 		'summaries' => 'Currency summaries',

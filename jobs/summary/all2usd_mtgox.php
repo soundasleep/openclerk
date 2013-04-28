@@ -9,7 +9,7 @@ $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND use
 $q->execute(array("all2btc", $job['user_id']));
 if ($balance = $q->fetch()) {
 
-	// BTC is converted at BTC-E last sell rate
+	// BTC is converted at BTC-e last sell rate
 	$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
 	$q->execute(array(
 		"exchange" => "mtgox",

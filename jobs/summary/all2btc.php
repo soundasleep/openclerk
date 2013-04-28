@@ -11,7 +11,7 @@ if ($balance = $q->fetch()) {
 	$total += $balance['balance'];
 }
 
-// LTC is converted at BTC-E ticker rate sell
+// LTC is converted at BTC-e ticker rate sell
 $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
 $q->execute(array("totalltc", $job['user_id']));
 if ($balance = $q->fetch()) {
@@ -26,7 +26,7 @@ if ($balance = $q->fetch()) {
 	}
 }
 
-// NMC is converted at BTC-E ticker rate sell
+// NMC is converted at BTC-e ticker rate sell
 $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
 $q->execute(array("totalnmc", $job['user_id']));
 if ($balance = $q->fetch()) {

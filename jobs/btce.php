@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BTC-E balance job.
+ * BTC-e balance job.
  */
 
 $exchange = "btce";

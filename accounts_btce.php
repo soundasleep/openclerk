@@ -17,7 +17,7 @@ $account_data = array(
 		'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btce_apisecret'),
 	),
 	'table' => 'accounts_btce',
-	'title' => 'BTC-E account',
+	'title' => 'BTC-e account',
 	'url' => 'accounts_btce',
 	'exchange' => 'btce',
 );
@@ -27,10 +27,10 @@ require("_accounts_standard.php");
 ?>
 
 <div class="instructions_add">
-<h2>Adding a BTC-E account</h2>
+<h2>Adding a BTC-e account</h2>
 
 <ol class="steps">
-	<li>Log into your <a href="https://btc-e.com/profile">BTC-E profile</a>.<br>
+	<li>Log into your <a href="https://btc-e.com/profile">BTC-e profile</a>.<br>
 	<img src="img/accounts/btce1.png"></li>
 
 	<li>From the profile, select <i>API keys</i>.<br>
@@ -45,17 +45,17 @@ require("_accounts_standard.php");
 </div>
 
 <div class="instructions_safe">
-<h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a BTC-E API key?</h2>
+<h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a BTC-e API key?</h2>
 
 <ul>
 	<li>You need to make sure that the API key <em>only</em> has the <i>info</i> permission. This should
 		mean that the API key can only be used to retrieve account status, and it should not be possible
 		to perform trades or withdraw funds using that key.</li>
 
-	<li>Your BTC-E keys and secrets will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
+	<li>Your BTC-e keys and secrets will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
 		site, even if you have logged in.</li>
 
-	<li>Through the BTC-E interface you can revoke an API key&apos;s access at any time by clicking <i>Disable</i>.</li>
+	<li>Through the BTC-e interface you can revoke an API key&apos;s access at any time by clicking <i>Disable</i>.</li>
 </ul>
 </div>
 
