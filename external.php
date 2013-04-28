@@ -56,6 +56,7 @@ $external_apis = array(
 		'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 		'ticker_btce' => '<a href="http://btc-e.com">BTC-E</a>',
 		'ticker_bitnz' => '<a href="http://bitnz.com">BitNZ</a>',
+		'ticker_vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
 		'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 		'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 	),

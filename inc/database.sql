@@ -290,6 +290,7 @@ CREATE TABLE exchanges (
 INSERT INTO exchanges SET name='btce';
 INSERT INTO exchanges SET name='bitnz';
 INSERT INTO exchanges SET name='mtgox';
+INSERT INTO exchanges SET name='vircurex';
 
 DROP TABLE IF EXISTS ticker;
 

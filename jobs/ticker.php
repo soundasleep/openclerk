@@ -28,6 +28,10 @@ switch ($exchange['name']) {
 		require("jobs/ticker/mtgox.php");
 		break;
 
+	case "vircurex":
+		require("jobs/ticker/vircurex.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;
