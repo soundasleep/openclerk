@@ -12,7 +12,7 @@ function get_site_config($key = null) {
 		"site_email" => "support@example.com",
 		"openid_host" => "localhost",
 		"absolute_url" => "http://localhost/clerk/",
-		
+
 		"database_url" => "mysql:host=localhost;dbname=clerk",
 		"database_username" => "clerk",
 		"database_password" => "clerk",
@@ -26,11 +26,82 @@ function get_site_config($key = null) {
 
 		"admin_email" => "example@gmail.com",
 		"password_salt" => "abc123",
+		"unsubscribe_salt" => "123abc",
 		"recaptcha_public_key" => "6L...1", // you got this from the signup page
 		"recaptcha_private_key" => "6L...1", // you got this from the signup page
 		"google_analytics_account" => "UA-12345678-1",	// _setAccount
 		"google_analytics_domain" => "example.com",	// _setDomainName
-		
+
 		// site-specific config values go here
+		"automated_key" => "abc123",
+		"refresh_queue_hours" => 2, // should be 24 for production, in hours
+		"refresh_queue_hours_premium" => 1, // can be whatever, in hours
+		"refresh_queue_hours_system" => 0.1, // should be frequent for litecoin payments, in hours
+		"system_user_id" => 100,
+		"get_contents_timeout" => 5, // in seconds
+		"default_login" => 'user',		// default login destination
+
+		// debug control
+		"timed_sql" => false,
+
+		// job control
+		"sleep_btce_ticker" => 5,	// how many seconds to wait between repeated btc-e ticker queries
+		"sleep_mtgox_ticker" => 5,
+		"sleep_vircurex_balance" => 5,
+
+		// layout properties
+		"default_graph_width" => 120, // in px, default *2
+		"default_graph_height" => 120, // in px, default *2
+
+		// external URLs
+		"ltc_address_url" => "http://explorer.litecoin.net/address/",
+		"btc_address_url" => "http://blockchain.info/address/",
+		"btc_confirmations" => 6,
+		"ltc_confirmations" => 6,
+
+		// premium properties
+		"premium_currencies" => array('btc', 'ltc'),
+		"premium_btc_monthly" => 0.02,
+		"premium_btc_yearly" => 0.2,
+		"premium_ltc_monthly" => 1,
+		"premium_ltc_yearly" => 10,
+		"premium_reminder_days" => 7,	// when premium will expire in X days, send a reminder email
+
+		// custom settings
+		"custom_css" => false,
+		"custom_home" => false,
+		"forum_link" => "http://bitcointalk.org/",
+
 	);
+}
+
+/**
+ * Premium account properties.
+ */
+function get_premium_config($key = null) {
+	if ($key !== null) {
+		$k = get_premium_config(null);
+		return $k[$key];
+	}
+
+	return array(
+		"addresses_free" => 20,
+		"addresses_premium" => 200,
+
+		"accounts_free" => 5,
+		"accounts_premium" => 200,
+
+		"graph_pages_free" => 1,
+		"graph_pages_premium" => 20,
+
+		"graphs_per_page_free" => 10,
+		"graphs_per_page_premium" => 30,
+
+		"refresh_queue_hours_free" => get_site_config('refresh_queue_hours'), // in hours
+		"refresh_queue_hours_premium" => get_site_config('refresh_queue_hours_premium'), // in hours
+
+		"summaries_free" => 5,
+		"summaries_premium" => 100,
+	);
+
 }
