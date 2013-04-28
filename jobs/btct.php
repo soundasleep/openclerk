@@ -61,7 +61,7 @@ foreach ($data['securities'] as $security => $detail) {
 		} else {
 
 			$calculated = $security_value['balance'] * $detail['quantity'];
-			crypto_log(htmlspecialchars($security) . " @ " . currency_format($currency, $security_value['balance']) . " x " . number_format($detail['quantity']) . " = " . currency_format($currency, $calculated));
+			crypto_log(htmlspecialchars($security) . " @ " . htmlspecialchars($security_value['balance']) . " x " . number_format($detail['quantity']) . " = " . htmlspecialchars($calculated));
 
 			$balance += $calculated;
 

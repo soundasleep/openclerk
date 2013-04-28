@@ -40,7 +40,7 @@ foreach ($currencies as $i => $currency) {
 		throw new ExternalAPIException("Invalid JSON detected.");
 	}
 
-	crypto_log($exchange . " balance for " . $currency . ": " . currency_format($currency, $balance["balance"]));
+	crypto_log($exchange . " balance for " . $currency . ": " . htmlspecialchars($balance["balance"]));
 
 	// sanity check
 	if ($balance["currency"] !== strtoupper($currency)) {
