@@ -136,6 +136,10 @@ try {
 			require("jobs/mtgox.php");
 			break;
 
+		case "vircurex":
+			require("jobs/vircurex.php");
+			break;
+
 		case "poolx":
 			require("jobs/poolx.php");
 			break;

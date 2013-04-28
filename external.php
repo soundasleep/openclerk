@@ -46,6 +46,7 @@ $external_apis = array(
 
 	"Exchange wallets" => array(
 		'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
+		'vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
 		'btce' => '<a href="http://btc-e.com">BTC-E</a>',
 		'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 		'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',

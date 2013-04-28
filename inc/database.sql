@@ -96,6 +96,21 @@ CREATE TABLE accounts_mtgox (
 	INDEX(user_id), INDEX(last_queue)
 );
 
+DROP TABLE IF EXISTS accounts_vircurex;
+
+CREATE TABLE accounts_vircurex (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at datetime not null default now(),
+	last_queue datetime,
+	
+	title varchar(255),
+	api_username varchar(255) not null,
+	api_secret varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
+
 DROP TABLE IF EXISTS accounts_litecoinglobal;
 
 CREATE TABLE accounts_litecoinglobal (

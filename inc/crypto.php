@@ -38,6 +38,7 @@ function get_exchange_name($n) {
 		case "offsets":	return "Offsets";
 		case "blockchain": return "Blockchain";	// generic
 		case "poolx":	return "Pool-x.eu";
+		case "vircurex": return "Vircurex";
 		default:		return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -65,6 +66,7 @@ function get_supported_wallets() {
 		get_exchange_name("mtgox") => array('btc', 'usd'),
 		get_exchange_name("litecoinglobal") => array('ltc'),
 		get_exchange_name("btct") => array('btc'),
+		get_exchange_name("vircurex") => array('btc', 'ltc', 'nmc', 'usd'),
 	);
 }
 
@@ -113,6 +115,7 @@ function account_data_grouped() {
 			'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
 			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'title' => 'Litecoin Global accounts', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts'),
 			'btct' => array('url' => 'accounts_btct', 'title' => 'BTC Trading Co. accounts', 'label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts'),
+			'vircurex' => array('url' => 'accounts_vircurex', 'title' => 'Vircurex accounts', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts'),
 		),
 		'Other' => array(
 			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
@@ -232,6 +235,16 @@ function is_valid_litecoinglobal_apikey($key) {
 function is_valid_btct_apikey($key) {
 	// not sure what the format should be, seems to be 64 character hex
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_vircurex_apiusername($key) {
+	// this could probably be in any format
+	return true;
+}
+
+function is_valid_vircurex_apisecret($key) {
+	// this could probably be in any format
+	return true;
 }
 
 function is_valid_currency($c) {
