@@ -9,7 +9,7 @@ function find_latest_created_at($a, $prefix = false) {
 		return false;
 	$created_at = false;
 	foreach ($a as $k => $v) {
-		if ($k == "created_at") {
+		if (!is_numeric($k) && $k == "created_at") {
 			$created_at = max($created_at, strtotime($v));
 		} else if (is_array($v)) {
 			if (!$prefix || substr($k, 0, strlen($prefix)) == $prefix) {
@@ -218,6 +218,58 @@ function render_graph($graph) {
 
 			}
 
+			// composition charts
+			if (substr($graph['graph_type'], 0, strlen("composition_")) == "composition_") {
+				$split = explode("_", $graph['graph_type']);
+				if (count($split) == 3 && strlen($split[1]) == 3 && in_array($split[1], get_all_currencies())) {
+					// get data
+					// TODO could probably cache this
+					$currency = $split[1];
+					$q = db()->prepare("SELECT SUM(balance) AS balance, exchange, MAX(created_at) AS created_at FROM balances WHERE user_id=? AND is_recent=1 AND currency=? GROUP BY exchange");
+					$q->execute(array(user_id(), $currency));
+					$balances = $q->fetchAll();
+
+					// need to also get address balances
+					$summary_balances = get_all_summary_instances();
+
+					// create data
+					$data = array();
+					if (isset($summary_balances['blockchain' . $currency]) && $summary_balances['blockchain' . $currency]['balance'] != 0) {
+						$balances[] = array(
+							"balance" => $summary_balances['blockchain' . $currency]['balance'],
+							"exchange" => "blockchain",
+							"created_at" => $summary_balances['blockchain' . $currency]['created_at'],
+						);
+					}
+					if (isset($summary_balances['offsets' . $currency]) && $summary_balances['offsets' . $currency]['balance'] != 0) {
+						$balances[] = array(
+							"balance" => $summary_balances['offsets' . $currency]['balance'],
+							"exchange" => "offsets",
+							"created_at" => $summary_balances['offsets' . $currency]['created_at'],
+						);
+					}
+
+					$graph['last_updated'] = find_latest_created_at($balances);
+
+					if ($split[2] == "pie") {
+						$data = array();
+						foreach ($balances as $b) {
+							if ($b['balance'] != 0) {
+								$data[get_exchange_name($b['exchange'])] = $b['balance'];
+							}
+						}
+
+						if ($data) {
+							render_pie_chart($graph, $data, 'Source', strtoupper($currency));
+						} else {
+							render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated.
+								<br><a href=\"" . htmlspecialchars(url_for('accounts')) . "\">Add accounts and addresses</a>");
+						}
+						break;
+					}
+				}
+			}
+
 			// let's not throw an exception, let's just render an error message
 			render_text($graph, "Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
 			log_uncaught_exception(new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type'])));
@@ -333,6 +385,16 @@ function graph_types() {
 			'heading' => 'Converted ' . $summary['short_title'],
 			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted to " . $summary['title'] . ".",
 			'hide' => !isset($conversions['summary_' . $key]),
+		);
+	}
+
+	// we can generate a list of composition graphs from all of the currencies that we support
+	foreach (get_all_currencies() as $currency) {
+		$data["composition_" . $currency . "_pie"] = array(
+			'title' => "Total " . get_currency_name($currency) . " balance composition (pie)",
+			'heading' => "Total " . strtoupper($currency),
+			'description' => "A pie chart representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
+			'hide' => !isset($summaries[$cur]),
 		);
 	}
 

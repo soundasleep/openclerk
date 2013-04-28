@@ -33,6 +33,10 @@ function get_exchange_name($n) {
 		case "btce": 	return "BTC-E";
 		case "mtgox": 	return "Mt.Gox";
 		case "litecoinglobal": return "Litecoin Global";
+		case "generic":	return "Generic API";
+		case "offsets":	return "Offsets";
+		case "blockchain": return "Blockchain";	// generic
+		case "poolx":	return "Pool-x.eu";
 		default:		return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }

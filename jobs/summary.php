@@ -23,6 +23,8 @@ switch ($summary['summary_type']) {
 		$total = 0;
 		require("jobs/summary/all2btc.php");
 		add_summary_instance($job, 'all2btc', $total);
+		add_summary_instance($job, 'blockchainbtc', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsbtc', $total_offsets_balance);
 		break;
 
 	case "summary_ltc":
@@ -30,6 +32,8 @@ switch ($summary['summary_type']) {
 		require("jobs/summary/totalltc.php");
 		add_summary_instance($job, 'totalltc', $total);
 		// TODO all2ltc
+		add_summary_instance($job, 'blockchainltc', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsltc', $total_offsets_balance);
 		break;
 
 	case "summary_nmc":
@@ -37,6 +41,8 @@ switch ($summary['summary_type']) {
 		require("jobs/summary/totalnmc.php");
 		add_summary_instance($job, 'totalnmc', $total);
 		// TODO all2nmc
+		add_summary_instance($job, 'blockchainnmc', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsnmc', $total_offsets_balance);
 		break;
 
 	case "summary_usd_btce":
@@ -46,6 +52,8 @@ switch ($summary['summary_type']) {
 		$total = 0;
 		require("jobs/summary/all2usd_btce.php");
 		add_summary_instance($job, 'all2usd_btce', $total);
+		add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsusd', $total_offsets_balance);
 		break;
 
 	case "summary_usd_mtgox":
@@ -55,6 +63,8 @@ switch ($summary['summary_type']) {
 		$total = 0;
 		require("jobs/summary/all2usd_mtgox.php");
 		add_summary_instance($job, 'all2usd_mtgox', $total);
+		add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsusd', $total_offsets_balance);
 		break;
 
 	case "summary_nzd":
@@ -64,6 +74,8 @@ switch ($summary['summary_type']) {
 		$total = 0;
 		require("jobs/summary/all2nzd.php");
 		add_summary_instance($job, 'all2nzd', $total);
+		add_summary_instance($job, 'blockchainnzd', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsnzd', $total_offsets_balance);
 		break;
 
 	default:
