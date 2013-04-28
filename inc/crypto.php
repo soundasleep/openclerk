@@ -33,6 +33,7 @@ function get_exchange_name($n) {
 		case "btce": 	return "BTC-E";
 		case "mtgox": 	return "Mt.Gox";
 		case "litecoinglobal": return "Litecoin Global";
+		case "btct": return "BTC Trading Co.";
 		case "generic":	return "Generic API";
 		case "offsets":	return "Offsets";
 		case "blockchain": return "Blockchain";	// generic
@@ -52,16 +53,18 @@ function get_exchange_pairs() {
 function get_security_exchange_pairs() {
 	return array(
 		"litecoinglobal" => array('ltc'),
+		"btct" => array('btc'),
 	);
 }
 
 function get_supported_wallets() {
 	return array(
-		"Generic API" => get_all_currencies(),
-		"BTC-E" => array('btc', 'ltc', 'nmc', 'usd'),
-		"Pool-x.eu" => array('ltc'),
-		"Mt.Gox" => array('btc', 'usd'),
-		"Litecoin Global" => array('ltc'),
+		get_exchange_name("generic") => get_all_currencies(),
+		get_exchange_name("btce") => array('btc', 'ltc', 'nmc', 'usd'),
+		get_exchange_name("poolx") => array('ltc'),
+		get_exchange_name("mtgox") => array('btc', 'usd'),
+		get_exchange_name("litecoinglobal") => array('ltc'),
+		get_exchange_name("btct") => array('btc'),
 	);
 }
 
@@ -109,6 +112,7 @@ function account_data_grouped() {
 			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
 			'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-E accounts', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
 			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'title' => 'Litecoin Global accounts', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts'),
+			'btct' => array('url' => 'accounts_btct', 'title' => 'BTC Trading Co. accounts', 'label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts'),
 		),
 		'Other' => array(
 			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
@@ -221,6 +225,11 @@ function is_valid_mtgox_apisecret($key) {
 }
 
 function is_valid_litecoinglobal_apikey($key) {
+	// not sure what the format should be, seems to be 64 character hex
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_btct_apikey($key) {
 	// not sure what the format should be, seems to be 64 character hex
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }

@@ -127,6 +127,34 @@ CREATE TABLE securities_litecoinglobal (
 	INDEX(last_queue)
 );
 
+DROP TABLE IF EXISTS accounts_btct;
+
+CREATE TABLE accounts_btct (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at datetime not null default now(),
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
+
+-- same with btct
+
+DROP TABLE IF EXISTS securities_btct;
+
+CREATE TABLE securities_btct (
+	id int not null auto_increment primary key,
+	created_at datetime not null default now(),
+	last_queue datetime,
+	
+	name varchar(64) not null,
+	
+	INDEX(last_queue)
+);
+
 -- generic API requests
 
 DROP TABLE IF EXISTS accounts_generic;

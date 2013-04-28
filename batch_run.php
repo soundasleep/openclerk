@@ -148,6 +148,14 @@ try {
 			require("jobs/securities_litecoinglobal.php");
 			break;
 
+		case "btct":
+			require("jobs/btct.php");
+			break;
+
+		case "securities_btct":
+			require("jobs/securities_btct.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");

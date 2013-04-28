@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Litecoin Global securities value job.
+ * BTC Trading Co. securities value job.
  * Retrieves the current 'bid' value for a particular security.
  */
 
-$exchange = "securities_litecoinglobal";
-$currency = 'ltc';
+$exchange = "securities_btct";
+$currency = 'btc';
 
 // get the relevant security
-$q = db()->prepare("SELECT * FROM securities_litecoinglobal WHERE id=?");
+$q = db()->prepare("SELECT * FROM securities_btct WHERE id=?");
 $q->execute(array($job['arg_id']));
 $security = $q->fetch();
 if (!$security) {
 	throw new JobException("Cannot find a $exchange security " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-$content = crypto_get_contents(crypto_wrap_url('https://www.litecoinglobal.com/api/ticker/' . urlencode($security['name'])));
+$content = crypto_get_contents(crypto_wrap_url('https://btct.co/api/ticker/' . urlencode($security['name'])));
 if (!$content) {
 	throw new ExternalAPIException("API returned empty data");
 }
