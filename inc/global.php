@@ -16,9 +16,101 @@ function db() {
 	global $db_instance;
 	if (!$db_instance) {
 		$db_instance = new PDO(get_site_config('database_url'), get_site_config('database_username'), get_site_config('database_password'));
+		if (get_site_config('timed_sql')) {
+			$db_instance = new DebugPDOWrapper($db_instance);
+		}
 		$db_instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 	return $db_instance;
+}
+
+if (get_site_config('timed_sql')) {
+	$global_timed_sql = array(
+		'setAttribute' => array('count' => 0, 'time' => 0),
+		'prepare' => array('count' => 0, 'time' => 0),
+		'execute' => array('count' => 0, 'time' => 0),
+		'fetch' => array('count' => 0, 'time' => 0),
+		'fetchAll' => array('count' => 0, 'time' => 0),
+		'lastInsertId' => array('count' => 0, 'time' => 0),
+	);
+}
+
+/**
+ * Wraps arbitrary PDO objects and passes along methods, arguments etc.
+ */
+class DebugPDOWrapper {
+	var $wrap;
+
+	public function __construct($wrap) {
+		$this->wrap = $wrap;
+	}
+
+	public function setAttribute($a, $b) {
+		global $global_timed_sql;
+		$start_time = microtime(true);
+		$result = $this->wrap->setAttribute($a, $b);
+		$end_time = microtime(true);
+		$time_diff = ($end_time - $start_time) * 1000;
+		$global_timed_sql['setAttribute']['count']++;
+		$global_timed_sql['setAttribute']['time'] += $time_diff;
+		return $result;
+	}
+
+	public function prepare($a) {
+		global $global_timed_sql;
+		$start_time = microtime(true);
+		$result = new DebugPDOWrapper($this->wrap->prepare($a));
+		$end_time = microtime(true);
+		$time_diff = ($end_time - $start_time) * 1000;
+		$global_timed_sql['prepare']['count']++;
+		$global_timed_sql['prepare']['time'] += $time_diff;
+		return $result;
+	}
+
+	public function execute($a = array()) {
+		global $global_timed_sql;
+		$start_time = microtime(true);
+		$result = $this->wrap->execute($a);
+		$end_time = microtime(true);
+		$time_diff = ($end_time - $start_time) * 1000;
+		$global_timed_sql['execute']['count']++;
+		$global_timed_sql['execute']['time'] += $time_diff;
+		return $result;
+	}
+
+	public function fetch() {
+		global $global_timed_sql;
+		$start_time = microtime(true);
+		$result = $this->wrap->fetch();
+		$end_time = microtime(true);
+		$time_diff = ($end_time - $start_time) * 1000;
+		$global_timed_sql['fetch']['count']++;
+		$global_timed_sql['fetch']['time'] += $time_diff;
+		return $result;
+	}
+
+	public function fetchAll() {
+		global $global_timed_sql;
+		$start_time = microtime(true);
+		$result = $this->wrap->fetchAll();
+		$end_time = microtime(true);
+		$time_diff = ($end_time - $start_time) * 1000;
+		$global_timed_sql['fetchAll']['count']++;
+		$global_timed_sql['fetchAll']['time'] += $time_diff;
+		return $result;
+	}
+
+	public function lastInsertId() {
+		global $global_timed_sql;
+		$start_time = microtime(true);
+		$result = $this->wrap->lastInsertId();
+		$end_time = microtime(true);
+		$time_diff = ($end_time - $start_time) * 1000;
+		$global_timed_sql['lastInsertId']['count']++;
+		$global_timed_sql['lastInsertId']['time'] += $time_diff;
+		return $result;
+	}
+
 }
 
 function require_get($key, $default = null) {

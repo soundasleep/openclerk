@@ -137,6 +137,11 @@ function page_footer() {
 		$end_time = microtime(true);
 		$time_diff = ($end_time - PAGE_RENDER_START) * 1000;
 		echo "<!-- rendered in " . number_format($time_diff, 2) . " ms -->";
+
+		if (get_site_config('timed_sql')) {
+			global $global_timed_sql;
+			echo "\n<!-- SQL debug: \n " . print_r($global_timed_sql, true) . "\n-->";
+		}
 	}
 
 }
