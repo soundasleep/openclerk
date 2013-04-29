@@ -40,6 +40,8 @@ function get_site_config($key = null) {
 		"system_user_id" => 100,
 		"get_contents_timeout" => 5, // in seconds
 		"default_login" => 'user',		// default login destination
+		"autologin_expire_days" => 30,
+		"autologin_cookie_seconds" => 60 * 60 * 24 * 30,
 
 		// debug control
 		"timed_sql" => false,

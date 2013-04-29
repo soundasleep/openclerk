@@ -75,7 +75,7 @@ try {
 
 		// delete old web keys
 		$query = db()->prepare("DELETE FROM valid_user_keys WHERE user_id=? AND DATEDIFF(NOW(), created_at) > ?");
-		$query->execute(array($user["id"], 30 /* maximum length of autologin key or web key */ ));
+		$query->execute(array($user["id"], get_site_config("autologin_expire_days") /* maximum length of autologin key or web key */ ));
 
 		// create new login key
 		$user_key = sprintf("%04x%04x%04x%04x", rand(0,0xffff), rand(0,0xffff), rand(0,0xffff), rand(0,0xffff));
