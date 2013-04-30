@@ -310,7 +310,7 @@ function render_graph($graph) {
 	if (is_admin()) {
 		$end_time = microtime(true);
 		$time_diff = ($end_time - $start_time) * 1000;
-		echo "<span class=\"render_time\">" . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . "</span>";
+		echo "<span class=\"render_time\">" . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . ", order " . number_format($graph['page_order']) . "</span>";
 	}
 
 }

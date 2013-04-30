@@ -106,4 +106,20 @@ if ($graph['graph_type'] == "linebreak") { ?>
 </form>
 
 <?php
+
+if (require_get("move_up", false) || require_get("move_down", false)) {
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+	var e = $("#graph<?php echo htmlspecialchars(require_get("move_up", require_get("move_down", false))); ?>");
+	if (e) {
+		e.css({ backgroundColor: '#221111' });
+		// can't fade backgroundColor without JQuery color plugin
+		window.scrollTo(e.position().left, e.position().top);
+	}
+});
+</script>
+<?php
+}
+
 page_footer();
