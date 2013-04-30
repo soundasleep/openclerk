@@ -196,19 +196,32 @@ function currency_format($currency_code, $n, $precision = 9) {
 		return "<span class=\"error\">" . $n . " $currency</span>";
 	}
 
+	return "<span class=\"" . strtolower($currency) . "_format\" title=\"" . number_format_autoprecision($n, 8) . " $currency\">" . number_format_precision($n, $precision) . " $currency</span>";
+}
+
+function number_format_precision($n, $precision) {
 	// if we have 100.x, we only want $precision = 6
 	if ($n > 1) {
 		$precision -= (log($n) / log(10) - 1);
 	}
 
+	return number_format_autoprecision($n, $precision);
+}
+
+function number_format_autoprecision($n, $precision = 8) {
 	// find the lowest precision that we need
 	for ($i = 0; $i < $precision - 1; $i++) {
-		if (number_format($n, $i) == $n) {
-			$precision = $i;
+		if (number_format($n, (int) $i, ".", "") == $n) {
+			$precision = (int) $i;
 			break;
 		}
 	}
-	return "<span class=\"" . strtolower($currency) . "_format\" title=\"" . number_format($n, 8) . " $currency\">" . number_format($n, $precision) . " $currency</span>";
+
+	return number_format($n, $precision);
+}
+
+function number_format_html($n, $precision) {
+	return "<span title=\"" . number_format_autoprecision($n, 8) . "\">" . number_format_precision($n, $precision) . "</span>";
 }
 
 function require_template($id) {

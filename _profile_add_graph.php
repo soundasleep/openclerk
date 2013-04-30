@@ -13,17 +13,19 @@
 <tr>
 	<th>Width:</th>
 	<td><select name="width">
-		<option value="1">Small</option>
-		<option value="2" selected>Medium</option>
-		<option value="4">Large</option>
+		<option value="1">Small (120px)</option>
+		<option value="2" selected>Medium (240px)</option>
+		<option value="4">Large (480px)</option>
+		<option value="6">Very Large (720px)</option>
 	</select></td>
 </tr>
 <tr>
 	<th>Height:</th>
 	<td><select name="height">
-		<option value="1">Small</option>
-		<option value="2" selected>Medium</option>
-		<option value="4">Large</option>
+		<option value="1">Small (120px)</option>
+		<option value="2" selected>Medium (240px)</option>
+		<option value="4">Large (480px)</option>
+		<option value="6">Very Large (720px)</option>
 	</select></td>
 </tr>
 <tr>

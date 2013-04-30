@@ -190,6 +190,93 @@ function render_graph($graph) {
 			render_table_horizontal_vertical($graph, $data);
 			break;
 
+		case "ticker_matrix":
+			// a matrix table of each currency vs. each currency, and their current
+			// last_trade and volume on each exchange the user is interested in
+			$currencies = get_all_currencies();
+			$summaries = get_all_summary_currencies();
+			$conversion = get_all_conversion_currencies();
+
+			$graph["last_updated"] = 0;
+			$header = array("");
+			$interested = array();
+			foreach ($currencies as $c) {
+				if (isset($summaries[$c])) {
+					$header[] = strtoupper($c);
+					$interested[] = $c;
+				}
+			}
+			$data[] = $header;
+
+			foreach ($interested as $c1) {
+				$row = array(strtoupper($c1));
+				foreach ($interested as $c2) {
+					// go through each exchange pair
+					$cell = "";
+					foreach (get_exchange_pairs() as $exchange => $pairs) {
+						foreach ($pairs as $pair) {
+							if ($c1 == $pair[0] && $c2 == $pair[1]) {
+								$q = db()->prepare("SELECT * FROM ticker WHERE exchange=? AND currency1=? AND currency2=? AND is_recent=1 LIMIT 1");
+								$q->execute(array($exchange, $c1, $c2));
+								if ($ticker = $q->fetch()) {
+									// TODO currency_format should be a graph option
+									$cell .= "<li><span class=\"rate\">" . number_format_html($ticker['last_trade'], 4) . "</span> <span class=\"volume\">(" . number_format_html($ticker['volume'], 4) . ")</span> <span class=\"exchange\">[" . htmlspecialchars($exchange) . "]</span></li>\n";
+									$graph['last_updated'] = max($graph['last_updated'], strtotime($ticker['created_at']));
+								} else {
+									$cell .= "<li class=\"warning\">Could not find rate for " . htmlspecialchars($exchange . ": " . $c1 . "/" . $c2) . "</li>\n";
+								}
+							}
+						}
+					}
+					if ($cell) {
+						$cell = "<ul class=\"rate_matrix\">" . $cell . "</ul>";
+					}
+					$row[] = $cell;
+				}
+				$data[] = $row;
+			}
+
+			// now delete any empty rows or columns
+			// columns
+			$deleteRows = array();
+			$deleteColumns = array();
+			for ($i = 1; $i < count($data); $i++) {
+				$empty = true;
+				for ($j = 1; $j < count($data[$i]); $j++) {
+					if ($data[$i][$j]) {
+						$empty = false;
+						break;
+					}
+				}
+				if ($empty) $deleteRows[] = $i;
+			}
+			for ($i = 1; $i < count($data); $i++) {
+				$empty = true;
+				for ($j = 1; $j < count($data[$i]); $j++) {
+					if ($data[$j][$i]) {
+						$empty = false;
+						break;
+					}
+				}
+				if ($empty) $deleteColumns[] = $i;
+			}
+
+			$new_data = array();
+			foreach ($data as $i => $row) {
+				if (in_array($i, $deleteRows)) continue;
+				$x = array();
+				foreach ($data[$i] as $j => $cell) {
+					if (in_array($j, $deleteColumns)) continue;
+					$x[] = $cell;
+				}
+				$new_data[] = $x;
+			}
+
+			$graph['extra'] = $add_more_currencies;
+			render_table_horizontal_vertical($graph, $new_data);
+
+			break;
+
 		case "linebreak":
 			// implemented by profile.php
 			break;
@@ -419,6 +506,7 @@ function graph_types() {
 	$data = array(
 		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
+		'ticker_matrix' => array('title' => 'All currencies exchange rates (matrix)', 'heading' => 'All exchanges', 'description' => 'A matrix displaying the current buy/sell of all of the currencies and exchanges <a href="' . htmlspecialchars(url_for('user')) .'">you are interested in</a>.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),
 		'total_converted_table' => array('title' => 'Total converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.<p>Supports ' . $total_fiat_currencies . '.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
 		'crypto_converted_table' => array('title' => 'Total converted crypto balances (table)', 'heading' => 'Converted crypto', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies -if they were immediately converted into other cryptocurrencies.<p>Exchanges used: BTC-e for LTC/NMC.'),
