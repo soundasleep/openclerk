@@ -27,7 +27,7 @@ $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 O
 $q->execute(array(user_id()));
 $pages = $q->fetchAll();
 
-page_header("Your Profile", "page_profile", array('jsapi' => true, 'jquery' => true, 'js' => 'profile'));
+page_header("Your Profile", "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
 
 // reset stats
 if (get_site_config('timed_sql')) {
@@ -51,14 +51,16 @@ if ($pages) {
 
 <!-- list of pages -->
 <ul class="page_list">
-<?php foreach ($pages as $page) { ?>
-	<li class="page_tab<?php echo htmlspecialchars($page['id']); ?>"><a href="<?php echo htmlspecialchars(url_for('profile', array('page' => $page['id']))); ?>">
+<?php $first = true; foreach ($pages as $page) { ?>
+	<li class="page_tab<?php echo htmlspecialchars($page['id']); ?><?php if (!$page_id || $page['id'] == $page_id) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('profile', array('page' => $page['id']))); ?>">
 		<?php echo htmlspecialchars($page['title']); ?>
 	</a></li>
-<?php } ?>
+<?php $first = false; } ?>
 </ul>
 
-<label><input type="checkbox" id="enable_editing"<?php if ($enable_editing) echo " checked"; ?>> Enable layout editing</label>
+<div class="enable_editing">
+	<label><input type="checkbox" id="enable_editing"<?php if ($enable_editing) echo " checked"; ?>> Enable layout editing</label>
+</div>
 
 <!-- graphs for this page -->
 <div class="graph_collection">
@@ -75,15 +77,37 @@ if ($graph['graph_type'] == "linebreak") { ?>
 </div>
 </div>
 <?php } ?>
+<?php }
+
+if (!$graphs) { ?>
+	<div class="graph_collection_empty">No graphs to display! You might want to add one below.</div>
 <?php } ?>
 </div>
 
 </div>
 
+<div class="tabs" id="tabs_profile">
+	<ul class="tab_list">
+		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
+		<li id="tab_profile_addgraph">Add Graph</li><li id="tab_profile_addpage">Add Page</li><li id="tab_profile_deletepage">Remove Page</li><li id="tab_profile_reset">Reset</li>
+	</ul>
+
+	<ul class="tab_groups">
+		<li id="tab_profile_addgraph_tab">
+
 <?php require("_profile_add_graph.php"); ?>
+		</li>
 
 <?php } else {
 	/* no pages */ ?>
+
+<div class="tabs" id="tabs_profile">
+	<ul class="tab_list">
+		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
+		<li id="tab_profile_addpage">Add Page</li><li id="tab_profile_deletepage">Remove Page</li><li id="tab_profile_reset">Reset</li>
+	</ul>
+
+	<ul class="tab_groups">
 
 <p><i>No pages to display.</i></p>
 
@@ -91,7 +115,8 @@ if ($graph['graph_type'] == "linebreak") { ?>
 
 <?php require("_profile_add_page.php"); ?>
 
-<h3>Reset User Graphs</h3>
+<li id="tab_profile_reset_tab">
+<h2>Reset User Graphs</h2>
 
 <p>
 	Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete
@@ -99,11 +124,23 @@ if ($graph['graph_type'] == "linebreak") { ?>
 </p>
 
 <form action="<?php echo htmlspecialchars(url_for('reset_graphs')); ?>" method="post">
-<label>
-	<input type="checkbox" name="confirm" value="1"> Reset all of my graphs and pages.
-</label>
-<input type="submit" value="Reset graphs and pages">
+<table class="form">
+<tr>
+	<td>
+	<label>
+		<input type="checkbox" name="confirm" value="1"> Reset all of my graphs and pages.
+	</label>
+	</td>
+</tr>
+<tr>
+	<td class="buttons">
+	<input type="submit" value="Reset graphs and pages">
+	</td>
+</tr>
+</table>
 </form>
+</li>
+</ul>
 
 <?php
 

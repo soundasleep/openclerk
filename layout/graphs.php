@@ -504,7 +504,7 @@ function graph_types() {
 	$total_fiat_currencies = implode_english($total_fiat_currencies);
 
 	$data = array(
-		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD.'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'ticker_matrix' => array('title' => 'All currencies exchange rates (matrix)', 'heading' => 'All exchanges', 'description' => 'A matrix displaying the current buy/sell of all of the currencies and exchanges <a href="' . htmlspecialchars(url_for('user')) .'">you are interested in</a>.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),
@@ -572,6 +572,18 @@ function graph_types() {
 	}
 
 	$data['linebreak'] = array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.');
+
+	// add sample images
+	$example_prefix = "<div class=\"example\"><div>Example:</div><img src=\"img/graphs/";
+	$example_suffix = "\"></div>";
+	foreach ($data as $key => $value) {
+		switch ($key) {
+			case "btc_equivalent":
+				$data[$key]['description'] .= $example_prefix . htmlspecialchars("btc_equivalent.png") . $example_suffix;
+				break;
+		}
+	}
+
 	return $data;
 }
 

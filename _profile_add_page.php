@@ -1,3 +1,4 @@
+<li id="tab_profile_addpage_tab">
 <div class="add_page">
 <h2>Add new page</h2>
 
@@ -16,7 +17,9 @@
 </table>
 </form>
 </div>
+</li>
 
+<li id="tab_profile_deletepage_tab">
 <div class="delete_page">
 <h2>Remove this page</h2>
 
@@ -35,3 +38,4 @@
 </table>
 </form>
 </div>
+</li>

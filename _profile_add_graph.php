@@ -8,7 +8,7 @@
 	<td><select name="type" id="graph_type">
 		<option id="graph_type_template">Loading...</option>
 	</select></td>
-	<td rowspan="3"><div id="graph_description">Select an option</div></td>
+	<td rowspan="4" class="graph_description_td"><div id="graph_description">Select an option</div></td>
 </tr>
 <tr>
 	<th>Width:</th>

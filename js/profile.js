@@ -19,9 +19,18 @@ $(document).ready(function() {
 			$("#graph_description").html(graph_types()[i]['description']);
 		}
 	}
+	template.remove();	// so we can't select it while hidden
+	e.keyup(function(event) {
+		var data = $(event.target).find("option:selected").data('index');
+		if (typeof data != 'undefined') {
+			$("#graph_description").html(graph_types()[data]['description']);
+		}
+	});
 	e.change(function(event) {
 		var data = $(event.target).find("option:selected").data('index');
-		$("#graph_description").html(graph_types()[data]['description']);
+		if (typeof data != 'undefined') {
+			$("#graph_description").html(graph_types()[data]['description']);
+		}
 	});
 });
 
@@ -49,3 +58,11 @@ $(document).ready(function() {
 		e.change(); // in case it's already checked at page generation time
 	}
 });
+
+/**
+ * Enable add graph/pages tabs.
+ */
+$(document).ready(function() {
+	initialise_tabs('#tabs_profile');
+});
+
