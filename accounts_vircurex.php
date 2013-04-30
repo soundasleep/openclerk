@@ -31,18 +31,16 @@ require("_accounts_standard.php");
 <div class="instructions_add">
 <h2>Adding a Vircurex account</h2>
 
-<div class="error">TODO  update</div>
-
 <ol class="steps">
-	<li>Log into your <a href="https://mtgox.com/security">Mt.Gox account</a> and visit the <i>security center</i>.<br>
-		<img src="img/accounts/mtgox1.png"></li>
+	<li>Log into your <a href="https://mtgox.com/security">Vircurex account</a> and visit <i>Settings</i> in the top right navigation.<br>
+		<img src="img/accounts/vircurex1.png"></li>
 
-	<li>Under <i>Advanced API Key Creation</i>, create a name for a new key (such as "<?php echo htmlspecialchars(get_site_config('site_name')); ?>");
-		give the key <i>Get Info</i> rights; and click <i>Create</i>.<br>
-		<img src="img/accounts/mtgox2.png"></li>
+	<li>Under the <i>API tab</i>, check <i>Get balance</i>, insert in any random secret string - for example,
+		you can use <a href="https://www.grc.com/passwords.htm">GRC&apos;s random password generator</a> to generate
+		a 63-character random alphanumeric string - and click <i>Save</i>.
+		<img src="img/accounts/vircurex2.png">
 
-	<li>Copy and paste the <i>API Key</i> and <i>Secret</i> into the form above, and click "Add account". Click "Update" on the Mt.Gox site to save your changes.<br>
-		<img src="img/accounts/mtgox3.png"></li>
+	<li>Copy and paste your both your username and your chosen random secret string into the form above, and click "Add account".</li>
 </ol>
 </div>
 
@@ -50,15 +48,15 @@ require("_accounts_standard.php");
 <h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> your Vircurex API data?</h2>
 
 <ul>
-	<li>You need to make sure that the API key <em>only</em> has the <i>Get Info</i> permission. This should
+	<li>You need to make sure that the API key <em>only</em> has the <i>Get balance</i> permission. This should
 		mean that the API key can only be used to retrieve account status, and it should not be possible
 		to perform trades or withdraw funds using that key.</li>
 
-	<li>Your Mt.Gox keys and secrets will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
-		site, even if you have logged in.</li>
+	<li>Your Vircurex username and secret will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
+		site, even if you have logged in. Your secrets will also not be displayed on the Vircurex site.</li>
 
-	<li>Through the Mt.Gox interface you can revoke an API key&apos;s access at any time by
-		going to <i>Current API Keys</i> and clicking on the red <i>Delete</i> icon.</li>
+	<li>Through the Vircurex interface you can revoke an API key&apos;s access at any time by
+		going to the <i>API</i> tab and either unchecking <i>Get balance</i>, or replacing the secret.</li>
 </ul>
 </div>
 

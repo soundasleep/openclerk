@@ -241,13 +241,13 @@ function is_valid_btct_apikey($key) {
 }
 
 function is_valid_vircurex_apiusername($key) {
-	// this could probably be in any format
-	return true;
+	// this could probably be in any format but should be at least one character
+	return strlen($key) >= 1 && strlen($key) <= 255;
 }
 
 function is_valid_vircurex_apisecret($key) {
-	// this could probably be in any format
-	return true;
+	// this could probably be in any format but should be at least one character
+	return strlen($key) >= 1 && strlen($key) <= 255;
 }
 
 function is_valid_currency($c) {

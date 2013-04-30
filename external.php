@@ -105,7 +105,7 @@ foreach ($external_apis as $group_name => $group) {
 </ul>
 
 <p>
-This data is refreshed automatically once every hour.
+This data is refreshed automatically once per hour.
 </p>
 
 <?php
