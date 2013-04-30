@@ -292,52 +292,83 @@ function render_graph($graph) {
 
 function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 
-	$q = db()->prepare("SELECT * FROM ticker WHERE is_daily_data=1 AND exchange=:exchange AND
-			currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT 45"); // TODO add days_to_display as parameter
-	$q->execute(array(
-		'exchange' => $exchange,
-		'currency1' => $cur1,
-		'currency2' => $cur2,
-	));
 	$data = array();
-	$data[] = array("Date", strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy", strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell");
+	$data[0] = array("Date", strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy", strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell");
 	$last_updated = false;
-	while ($ticker = $q->fetch()) {
-		$data[] = array(
-			'new Date(' . date('Y, n-1, j', strtotime($ticker['created_at'])) . ')',
-			graph_number_format($ticker['buy']),
-			graph_number_format($ticker['sell']),
-		);
-		$last_updated = max($last_updated, strtotime($ticker['created_at']));
+
+	$sources = array(
+		// first get summarised data
+		array('query' => "SELECT * FROM graph_data_ticker WHERE exchange=:exchange AND
+			currency1=:currency1 AND currency2=:currency2 AND data_date > DATE_SUB(NOW(), INTERVAL 45 DAY) ORDER BY data_date", 'key' => 'data_date'),
+		// and then get more recent data
+		array('query' => "SELECT * FROM ticker WHERE is_daily_data=1 AND exchange=:exchange AND
+			currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT 45", 'key' => 'created_at'),
+	);
+
+	foreach ($sources as $source) {
+		$q = db()->prepare($source['query']); // TODO add days_to_display as parameter
+		$q->execute(array(
+			'exchange' => $exchange,
+			'currency1' => $cur1,
+			'currency2' => $cur2,
+		));
+		while ($ticker = $q->fetch()) {
+			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(
+				'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
+				graph_number_format($ticker['buy']),
+				graph_number_format($ticker['sell']),
+			);
+			$last_updated = max($last_updated, strtotime($ticker['created_at']));
+		}
 	}
 
+	// sort by key, but we only want values
+	uksort($data, 'cmp_time');
 	$graph['last_updated'] = $last_updated;
-	render_linegraph_date($graph, $data);
+	render_linegraph_date($graph, array_values($data));
+}
 
+function cmp_time($a, $b) {
+	if ($a === 0) return -1;
+	if ($b === 0) return 1;
+	return strtotime($a) < strtotime($b);
 }
 
 function render_summary_graph($graph, $summary_type, $currency, $user_id) {
 
-	$q = db()->prepare("SELECT * FROM summary_instances WHERE is_daily_data=1 AND summary_type=:summary_type AND
-			user_id=:user_id ORDER BY created_at DESC LIMIT 45"); // TODO add days_to_display as parameter
-	$q->execute(array(
-		'summary_type' => $summary_type,
-		'user_id' => $user_id,
-	));
 	$data = array();
-	$data[] = array("Date", strtoupper($currency));
+	$data[0] = array("Date", strtoupper($currency));
 	$last_updated = false;
-	while ($ticker = $q->fetch()) {
-		$data[] = array(
-			'new Date(' . date('Y, n-1, j', strtotime($ticker['created_at'])) . ')',
-			graph_number_format($ticker['balance']),
-		);
-		$last_updated = max($last_updated, strtotime($ticker['created_at']));
+
+	$sources = array(
+		// first get summarised data
+		array('query' => "SELECT * FROM graph_data_summary WHERE user_id=:user_id AND summary_type=:summary_type AND
+			data_date >= DATE_SUB(NOW(), INTERVAL 45 DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
+		// and then get more recent data
+		array('query' => "SELECT * FROM summary_instances WHERE is_daily_data=1 AND summary_type=:summary_type AND
+			user_id=:user_id ORDER BY created_at DESC LIMIT 45", 'key' => 'created_at', 'balance_key' => 'balance'),
+	);
+
+	foreach ($sources as $source) {
+		$q = db()->prepare($source['query']); // TODO add days_to_display as parameter
+		$q->execute(array(
+			'summary_type' => $summary_type,
+			'user_id' => $user_id,
+		));
+		while ($ticker = $q->fetch()) {
+			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(
+				'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
+				graph_number_format($ticker[$source['balance_key']]),
+			);
+			$last_updated = max($last_updated, strtotime($ticker['created_at']));
+		}
 	}
 
+	uksort($data, 'cmp_time');
 	$graph['last_updated'] = $last_updated;
+
 	if (count($data) > 1) {
-		render_linegraph_date($graph, $data);
+		render_linegraph_date($graph, array_values($data));
 	} else {
 		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated.
 					<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");

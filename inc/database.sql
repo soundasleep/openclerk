@@ -3,6 +3,7 @@
 --    created_at datetime not null default now()
 --    updated_at datetime not null default now() on update now()
 -- and remove the update_at logic in the application
+-- timestamp is also not y2038-compliant; datetime is up to y9999
 
 DROP TABLE IF EXISTS users;
 
@@ -486,3 +487,81 @@ CREATE TABLE external_status (
 	job_last datetime not null,
 	sample_size int not null
 );
+
+-- updates since 0.1
+
+-- eventually summary and ticker data is converted into a "graph" format
+DROP TABLE IF EXISTS graph_data_ticker;
+
+CREATE TABLE graph_data_ticker (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	exchange varchar(32) not null, -- no point to have exchange_id, that's just extra queries
+	
+	currency1 varchar(3),
+	currency2 varchar(3),
+	
+	-- currently all stored graph data is daily
+	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
+	samples int not null,	-- how many samples was this data obtained from?
+
+	buy decimal(16,8),	-- last buy of the day: preserves current behaviour
+	sell decimal(16,8),	-- last sell of the day: preserves current behaviour
+	volume decimal(16,8),	-- maximum volume of the day
+	
+	-- for candlestick plots (eventually)
+	last_trade_min decimal(16,8),
+	last_trade_opening decimal(16,8),
+	last_trade_closing decimal(16,8),
+	last_trade_max decimal(16,8),
+
+	INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(data_date), UNIQUE(exchange, currency1, currency2, data_date)
+);
+
+DROP TABLE IF EXISTS graph_data_summary;
+
+CREATE TABLE graph_data_summary (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	user_id int not null,
+	summary_type varchar(32) not null,
+	
+	-- currently all stored graph data is daily
+	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
+	samples int not null,	-- how many samples was this data obtained from?
+	
+	-- for candlestick plots (eventually)
+	balance_min decimal(16,8),
+	balance_opening decimal(16,8),
+	balance_closing decimal(16,8),	-- also preserves current behaviour
+	balance_max decimal(16,8),
+
+	INDEX(user_id), INDEX(summary_type), INDEX(data_date), UNIQUE(user_id, summary_type, data_date)
+);
+
+DROP TABLE IF EXISTS graph_data_balances;
+
+CREATE TABLE graph_data_balances (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+
+	user_id int not null,
+	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
+	account_id int not null,
+	currency varchar(3) not null,
+	
+	-- currently all stored graph data is daily
+	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
+	samples int not null,	-- how many samples was this data obtained from?
+	
+	-- for candlestick plots (eventually)
+	balance_min decimal(16,8),
+	balance_opening decimal(16,8),
+	balance_closing decimal(16,8),
+	balance_max decimal(16,8),
+
+	INDEX(user_id), INDEX(exchange), INDEX(account_id), INDEX(currency), INDEX(data_date)
+);
+

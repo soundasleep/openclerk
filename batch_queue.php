@@ -20,19 +20,10 @@
  */
 
 require("inc/global.php");
+require("_batch.php");
 
-if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_get("key") != get_site_config("automated_key"))
-	throw new Exception("Invalid key");
-
-if (require_get("key", false)) {
-	// we're running from a web browser
-	require("layout/templates.php");
-	$options = array();
-	if (require_get("refresh", false)) {
-		$options["refresh"] = require_get("refresh");
-	}
-	page_header("Queue", "page_batch_queue", $options);
-}
+require_batch_key();
+batch_header("Batch queue", "batch_queue");
 
 // TODO all of these need to be duplicated for e.g. premium users
 $user_id = false;
@@ -63,11 +54,6 @@ if (isset($argv[5]) && $argv[5] && $argv[5] != "-") {
 	$premium_only = explode(",", require_get("premium_only"));
 }
 
-function added_job($job) {
-	echo "\n<li>Added job " . htmlspecialchars(print_r($job, true)) . " (<a href=\"" . htmlspecialchars(url_for('batch_run',
-			array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">run job now</a>)</li>";
-}
-
 // standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
 // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
 $standard_jobs = array(
@@ -95,11 +81,11 @@ $standard_jobs = array(
 
 foreach ($standard_jobs as $standard) {
 	if ($job_type && !in_array($standard['type'], $job_type)) {
-		echo "\n<li>Skipping " . htmlspecialchars($standard['type']) . ": not in job types [" . htmlspecialchars(implode(", ", $job_type)) . "].</li>";
+		crypto_log("Skipping " . htmlspecialchars($standard['type']) . ": not in job types [" . htmlspecialchars(implode(", ", $job_type)) . "].");
 		continue;
 	}
 	if ($premium_only && isset($standard['user_id'])) {
-		echo "\n<li>Skipping " . htmlspecialchars($standard['type']) . ": not premium user type job.</li>";
+		crypto_log("<li>Skipping " . htmlspecialchars($standard['type']) . ": not premium user type job.");
 		continue;
 	}
 
@@ -122,7 +108,7 @@ foreach ($standard_jobs as $standard) {
 			}
 		} else {
 			// we want to run system jobs at least every 0.1 hours = 6 minutes
-			$args[] = ($user_id == get_site_config('system_user_id')) ? get_site_config('refresh_queue_hours_system') : get_site_config('refresh_queue_hours');
+			$args[] = isset($standard['hours']) ? $standard['hours'] : (($user_id == get_site_config('system_user_id')) ? get_site_config('refresh_queue_hours_system') : get_site_config('refresh_queue_hours'));
 		}
 	}
 
@@ -184,10 +170,11 @@ function insert_new_job($job) {
 
 }
 
-echo "\n<li>Complete.";
-
-if (require_get("key", false)) {
-	// we're running from a web browser
-	// include page gen times etc
-	page_footer();
+function added_job($job) {
+	echo crypto_log("Added job " . htmlspecialchars(print_r($job, true)) . " (<a href=\"" . htmlspecialchars(url_for('batch_run',
+			array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">run job now</a>)");
 }
+
+crypto_log("Complete.");
+
+batch_footer();
