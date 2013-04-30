@@ -29,6 +29,11 @@ $pages = $q->fetchAll();
 
 page_header("Your Profile", "page_profile", array('jsapi' => true, 'jquery' => true, 'js' => 'profile'));
 
+// reset stats
+if (get_site_config('timed_sql')) {
+	echo "<!-- " . db()->stats() . " -->\n";
+}
+
 // a user might not have any pages displayed
 if ($pages) {
 	// get this current page's graphs

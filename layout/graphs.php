@@ -25,6 +25,10 @@ function find_latest_created_at($a, $prefix = false) {
  */
 function render_graph($graph) {
 
+	if (is_admin()) {
+		$start_time = microtime(true);
+	}
+
 	$graph_types = graph_types();
 	if (!isset($graph_types[$graph['graph_type']])) {
 		// let's not crash with an exception, let's just display an error
@@ -275,7 +279,13 @@ function render_graph($graph) {
 			// let's not throw an exception, let's just render an error message
 			render_text($graph, "Couldn't render graph type " . htmlspecialchars($graph['graph_type']));
 			log_uncaught_exception(new GraphException("Couldn't render graph type " . htmlspecialchars($graph['graph_type'])));
-			return;
+			break;
+	}
+
+	if (is_admin()) {
+		$end_time = microtime(true);
+		$time_diff = ($end_time - $start_time) * 1000;
+		echo "<span class=\"render_time\">" . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . "</span>";
 	}
 
 }

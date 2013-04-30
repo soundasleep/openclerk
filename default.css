@@ -113,6 +113,7 @@ h2 { font-size: 110%; }
 .graph_collection .graph h2 { margin: 5px; }
 .graph_collection .graph table.standard { width: 100%; }
 .graph_collection .graph .last_updated { float: right; text-align: right; width: 120px; position: relative; top: -1.75em; color: #333; font-size: 80%; }
+.graph_collection .graph .render_time { display: block; width: 100%; text-align: right; position: relative; color: #333; font-size: 80%; }
 
 #page_profile .add_graph { clear: both; }
 

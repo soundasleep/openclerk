@@ -35,6 +35,11 @@ if (get_site_config('timed_sql')) {
 	);
 }
 
+// query statistics
+$stats_queries = 0;
+$stats_fetch = 0;
+$stats_fetchAll = 0;
+
 /**
  * Wraps arbitrary PDO objects and passes along methods, arguments etc.
  */
@@ -75,6 +80,8 @@ class DebugPDOWrapper {
 		$time_diff = ($end_time - $start_time) * 1000;
 		$global_timed_sql['execute']['count']++;
 		$global_timed_sql['execute']['time'] += $time_diff;
+		global $stats_queries;
+		$stats_queries++;
 		return $result;
 	}
 
@@ -86,6 +93,8 @@ class DebugPDOWrapper {
 		$time_diff = ($end_time - $start_time) * 1000;
 		$global_timed_sql['fetch']['count']++;
 		$global_timed_sql['fetch']['time'] += $time_diff;
+		global $stats_fetch;
+		$stats_fetch++;
 		return $result;
 	}
 
@@ -97,6 +106,8 @@ class DebugPDOWrapper {
 		$time_diff = ($end_time - $start_time) * 1000;
 		$global_timed_sql['fetchAll']['count']++;
 		$global_timed_sql['fetchAll']['time'] += $time_diff;
+		global $stats_fetchAll;
+		$stats_fetchAll++;
 		return $result;
 	}
 
@@ -109,6 +120,16 @@ class DebugPDOWrapper {
 		$global_timed_sql['lastInsertId']['count']++;
 		$global_timed_sql['lastInsertId']['time'] += $time_diff;
 		return $result;
+	}
+
+	/**
+	 * Return a string of current (relevant) stats, and reset these statistics count.
+	 */
+	public function stats() {
+		global $stats_queries, $stats_fetch, $stats_fetchAll;
+		$s = number_format($stats_queries) . " queries" . ($stats_fetch ? ", " . number_format($stats_fetch) . " fetch" : "") . ($stats_fetchAll ? ", " . number_format($stats_fetchAll) . " fetchAll" : "");
+		$stats_queries = $stats_fetch = $stats_fetchAll = 0;
+		return $s;
 	}
 
 }

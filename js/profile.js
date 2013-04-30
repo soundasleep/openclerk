@@ -39,6 +39,12 @@ $(document).ready(function() {
 			} else {
 				targets.hide();
 			}
+			var targets = $(document).find(".render_time");
+			if (enabled) {
+				targets.show();
+			} else {
+				targets.hide();
+			}
 		});
 		e.change(); // in case it's already checked at page generation time
 	}
