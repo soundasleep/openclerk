@@ -116,23 +116,41 @@ function render_graph($graph) {
 			render_table_vertical($graph, $data);
 			break;
 
-		case "fiat_converted_table":
+		case "total_converted_table":
 			// a table of each all2fiat value
 			// get all balances
-			$balances = get_all_summary_instances();
-			$summaries = get_all_summary_currencies();
-			$currencies = get_all_currencies();
-			$graph['last_updated'] = find_latest_created_at($balances, "all2");
+			$currencies = get_total_conversion_summary_types();
+			$graph['last_updated'] = 0;
 
 			// create data
 			$data = array();
-			foreach ($currencies as $c) {
-				if (isset($summaries[$c])) {
-					$key = $summaries[$c];
-					$key1 = "all2" . substr($key, strlen("summary_"));
-					$balance = isset($balances[$key1]['balance']) ? $balances[$key1]['balance'] : 0;
-					$summary_types = get_summary_types();
-					$data[] = array($summary_types[$key]['short_title'], currency_format($c, $balance, 4));
+			foreach ($currencies as $key => $c) {
+				$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND summary_type=? AND is_recent=1");
+				$q->execute(array(user_id(), "all2".$key));
+				if ($balance = $q->fetch()) {
+					$data[] = array($c['short_title'], currency_format($c['currency'], $balance['balance'], 4));
+					$graph['last_updated'] = max($graph['last_updated'], strtotime($balance['created_at']));
+				}
+			}
+
+			$graph["extra"] = $add_more_currencies;
+			render_table_vertical($graph, $data);
+			break;
+
+		case "crypto_converted_table":
+			// a table of each crypto2xxx value
+			// get all balances
+			$currencies = get_crypto_conversion_summary_types();
+			$graph['last_updated'] = 0;
+
+			// create data
+			$data = array();
+			foreach ($currencies as $key => $c) {
+				$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND summary_type=? AND is_recent=1");
+				$q->execute(array(user_id(), "crypto2".$key));
+				if ($balance = $q->fetch()) {
+					$data[] = array($c['short_title'], currency_format($c['currency'], $balance['balance'], 4));
+					$graph['last_updated'] = max($graph['last_updated'], strtotime($balance['created_at']));
 				}
 			}
 
@@ -392,11 +410,18 @@ function graph_number_format($n) {
  * Get all of the defined graph types. Used for display and validation.
  */
 function graph_types() {
+	$total_fiat_currencies = array();
+	foreach (get_total_conversion_summary_types() as $c) {
+		$total_fiat_currencies[] = $c['title'];
+	}
+	$total_fiat_currencies = implode_english($total_fiat_currencies);
+
 	$data = array(
 		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),
-		'fiat_converted_table' => array('title' => 'Converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted into fiat currencies via BTC.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+		'total_converted_table' => array('title' => 'Total converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.<p>Supports ' . $total_fiat_currencies . '.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
+		'crypto_converted_table' => array('title' => 'Total converted crypto balances (table)', 'heading' => 'Converted crypto', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies -if they were immediately converted into other cryptocurrencies.<p>Exchanges used: BTC-e for LTC/NMC.'),
 		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.'),
 	);
 

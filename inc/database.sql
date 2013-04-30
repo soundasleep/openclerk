@@ -546,4 +546,4 @@ CREATE TABLE graph_data_summary (
 -- all2btc is actually crypto2btc, since it doesn't consider fiat
 UPDATE summary_instances SET summary_type='crypto2btc' WHERE summary_type='all2btc';
 
-
+UPDATE graphs SET graph_type='total_converted_table' WHERE graph_type='fiat_converted_table';

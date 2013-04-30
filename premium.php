@@ -24,16 +24,7 @@ page_header("Premium Accounts", "page_premium");
 		foreach (get_site_config('premium_currencies') as $currency) {
 			$result[] = get_currency_name($currency);
 		}
-		for ($i = 0; $i < count($result) - 2; $i++) {
-			echo $result[$i] . ", ";
-		}
-		for ($i = count($result) - 2; $i >= 0 && $i < count($result) - 1; $i++) {
-			echo $result[$i] . " and ";
-		}
-		for ($i = count($result) - 1; $i >= 0 && $i < count($result); $i++) {
-			echo $result[$i];
-		}
-		?> currencies. You will also get access to exclusive, premium-only functionality such as
+		echo implode_english($result); ?> currencies. You will also get access to exclusive, premium-only functionality such as
 	vastly increased limits on the number of addresses and accounts you may track at once,
 	and advanced reporting and notification functionality.
 </p>

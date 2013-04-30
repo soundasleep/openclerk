@@ -341,6 +341,27 @@ function year_count($sec) {
 }
 
 /**
+ * Translates an array into e.g.:
+ *   'a'
+ *   'a and b'
+ *   'a, b and c'
+ *   'a, b, c and d'
+ */
+function implode_english($result) {
+	$s = "";
+	for ($i = 0; $i < count($result) - 2; $i++) {
+		$s .= $result[$i] . ", ";
+	}
+	for ($i = count($result) - 2; $i >= 0 && $i < count($result) - 1; $i++) {
+		$s .= $result[$i] . " and ";
+	}
+	for ($i = count($result) - 1; $i >= 0 && $i < count($result); $i++) {
+		$s .= $result[$i];
+	}
+	return $s;
+}
+
+/**
  * Wrap the given number to the given number of decimal places.
  * Probably returns 0 if this is not a number.
  */

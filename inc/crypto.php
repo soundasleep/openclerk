@@ -180,7 +180,7 @@ function reset_user_graphs($user_id) {
 	$q->execute(array($page_id));
 	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='mtgox_btc_table',width=1,height=2,page_order=" . $order++);
 	$q->execute(array($page_id));
-	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='fiat_converted_table',width=2,height=2,page_order=" . $order++);
+	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='total_converted_table',width=2,height=2,page_order=" . $order++);
 	$q->execute(array($page_id));
 	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='balances_offset_table',width=4,height=2,page_order=" . $order++);
 	$q->execute(array($page_id));

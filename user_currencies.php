@@ -25,6 +25,10 @@ foreach (get_summary_types() as $key => $data) {
 			$messages[] = "Removed currency " . $data['title'] . ".";
 		}
 
+		// one summary will create many summary_instances
+		// TODO should delete e.g. old all2btc, crypto2btc, totalbtc, ...
+		// (but some jobs such as all2usd_mtgox depend on all2btc)
+
 		// no point in keeping old data: delete it
 		$q = db()->prepare("DELETE FROM summary_instances WHERE user_id=? AND summary_type=?");
 		$q->execute(array(user_id(), $key));
