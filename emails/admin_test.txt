@@ -1,0 +1,7 @@
+Test e-mail {$email} at {$date}
+Hello {$email},
+
+This is a test e-mail sent at {$date} to {$email}.
+
+{$site_name}
+{$site_url}

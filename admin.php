@@ -20,6 +20,7 @@ page_header("Status", "page_admin");
 
 <ul>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_jobs")); ?>">Job status</a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for("admin_email")); ?>">Send test e-mail</a></li>
 </ul>
 
 <p>

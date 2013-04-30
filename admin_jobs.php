@@ -12,7 +12,7 @@ require("layout/templates.php");
 $messages = array();
 $errors = array();
 
-page_header("Status: Jobs", "page_admin_jobs");
+page_header("Admin: Jobs Status", "page_admin_jobs");
 
 ?>
 
