@@ -201,26 +201,33 @@ function render_graph($graph) {
 					}
 				}
 
-				if (substr($graph['graph_type'], 0, strlen("all2")) == "all2") {
-					$split = explode("_", $graph['graph_type']);
-					if (count($split) == 2 && strlen($split[0]) == strlen("all2") + 3) {
-						$cur = substr($split[0], strlen("all2"));
-						// e.g. all2nzd
+				$summary_types = array('all2', 'crypto2');
+				$was_summary_type = false;
+				foreach ($summary_types as $st) {
+					if (substr($graph['graph_type'], 0, strlen($st)) == $st) {
+						$split = explode("_", $graph['graph_type']);
+						if (count($split) == 2 && strlen($split[0]) == strlen($st) + 3) {
+							$cur = substr($split[0], strlen($st));
+							// e.g. all2nzd
 
-						// we will assume that it is the current user
-						// (otherwise it might be possible to view other users' data)
-						render_summary_graph($graph, 'all2' . $cur, $cur, user_id());
-						break;
-					} else if (count($split) == 3 && strlen($split[0]) == strlen("all2") + 3) {
-						$cur = substr($split[0], strlen("all2"));
-						// e.g. all2usd_mtgox
+							// we will assume that it is the current user
+							// (otherwise it might be possible to view other users' data)
+							render_summary_graph($graph, $st . $cur, $cur, user_id());
+							$was_summary_type = true;
+							break;
+						} else if (count($split) == 3 && strlen($split[0]) == strlen($st) + 3) {
+							$cur = substr($split[0], strlen($st));
+							// e.g. all2usd_mtgox
 
-						// we will assume that it is the current user
-						// (otherwise it might be possible to view other users' data)
-						render_summary_graph($graph, 'all2' . $cur . '_' . $split[1], $cur, user_id());
-						break;
+							// we will assume that it is the current user
+							// (otherwise it might be possible to view other users' data)
+							render_summary_graph($graph, $st . $cur . '_' . $split[1], $cur, user_id());
+							$was_summary_type = true;
+							break;
+						}
 					}
 				}
+				if ($was_summary_type) break;
 
 			}
 
@@ -421,12 +428,22 @@ function graph_types() {
 		);
 	}
 
+	foreach (get_crypto_conversion_summary_types() as $key => $summary) {
+		$cur = $summary['currency'];
+		$data["crypto2" . $key . "_daily"] = array(
+			'title' => 'Converted ' . $summary['title'] . " historical (graph)",
+			'heading' => 'Converted ' . $summary['short_title'],
+			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted to " . $summary['title'] . ".",
+			'hide' => !isset($conversions['summary_' . $key]),
+		);
+	}
+
 	foreach (get_total_conversion_summary_types() as $key => $summary) {
 		$cur = $summary['currency'];
 		$data["all2" . $key . "_daily"] = array(
 			'title' => 'Converted ' . $summary['title'] . " historical (graph)",
 			'heading' => 'Converted ' . $summary['short_title'],
-			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted to " . $summary['title'] . ".",
+			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted to " . $summary['title'] . " (where possible).",
 			'hide' => !isset($conversions['summary_' . $key]),
 		);
 	}

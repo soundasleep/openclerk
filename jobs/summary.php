@@ -20,35 +20,51 @@ switch ($summary['summary_type']) {
 		$total = 0;
 		require("jobs/summary/totalbtc.php");
 		add_summary_instance($job, 'totalbtc', $total);
-		$total = 0;
-		require("jobs/summary/all2btc.php");
-		add_summary_instance($job, 'all2btc', $total);
 		add_summary_instance($job, 'blockchainbtc', $total_blockchain_balance);
 		add_summary_instance($job, 'offsetsbtc', $total_offsets_balance);
+
+		$total = 0;
+		require("jobs/summary/crypto2btc.php");
+		add_summary_instance($job, 'crypto2btc', $total);
+
+		// TODO all2btc
 		break;
 
 	case "summary_ltc":
 		$total = 0;
 		require("jobs/summary/totalltc.php");
 		add_summary_instance($job, 'totalltc', $total);
-		// TODO all2ltc
 		add_summary_instance($job, 'blockchainltc', $total_blockchain_balance);
 		add_summary_instance($job, 'offsetsltc', $total_offsets_balance);
+
+		$total = 0;
+		require("jobs/summary/crypto2ltc.php");
+		add_summary_instance($job, 'crypto2ltc', $total);
+
+		// TODO all2ltc
 		break;
 
 	case "summary_nmc":
 		$total = 0;
 		require("jobs/summary/totalnmc.php");
 		add_summary_instance($job, 'totalnmc', $total);
-		// TODO all2nmc
 		add_summary_instance($job, 'blockchainnmc', $total_blockchain_balance);
 		add_summary_instance($job, 'offsetsnmc', $total_offsets_balance);
+
+		$total = 0;
+		require("jobs/summary/crypto2nmc.php");
+		add_summary_instance($job, 'crypto2nmc', $total);
+
+		// TODO all2nmc
 		break;
 
 	case "summary_usd_btce":
 		$total = 0;
 		require("jobs/summary/totalusd.php");
 		add_summary_instance($job, 'totalusd', $total);
+
+		// TODO fiat2usd
+
 		$total = 0;
 		require("jobs/summary/all2usd_btce.php");
 		add_summary_instance($job, 'all2usd_btce', $total);
@@ -61,6 +77,9 @@ switch ($summary['summary_type']) {
 		require("jobs/summary/totalusd.php");
 		add_summary_instance($job, 'totalusd', $total);
 		$total = 0;
+
+		// TODO fiat2usd
+
 		require("jobs/summary/all2usd_mtgox.php");
 		add_summary_instance($job, 'all2usd_mtgox', $total);
 		add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);
@@ -72,6 +91,9 @@ switch ($summary['summary_type']) {
 		require("jobs/summary/totalnzd.php");
 		add_summary_instance($job, 'totalnzd', $total);
 		$total = 0;
+
+		// TODO fiat2nzd
+
 		require("jobs/summary/all2nzd.php");
 		add_summary_instance($job, 'all2nzd', $total);
 		add_summary_instance($job, 'blockchainnzd', $total_blockchain_balance);

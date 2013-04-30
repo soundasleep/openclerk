@@ -6,7 +6,7 @@
 
 // get last value of all BTC
 $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
-$q->execute(array("all2btc", $job['user_id']));
+$q->execute(array("crypto2btc", $job['user_id']));
 if ($balance = $q->fetch()) {
 
 	// BTC is converted at BTC-e last sell rate

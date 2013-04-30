@@ -92,8 +92,8 @@ function get_summary_types() {
 }
 
 /**
- * Total conversions: all currencies to a single currency
- * TODO I don't think these take into account e.g. NZD -> USD
+ * Total conversions: all currencies to a single currency, where possible.
+ * (e.g. there's no exchange defined yet that converts NZD -> USD)
  */
 function get_total_conversion_summary_types() {
 	return array(
@@ -101,6 +101,17 @@ function get_total_conversion_summary_types() {
 		'usd_btce' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)'),
 		'usd_mtgox' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
 		'usd_vircurex' => array('currency' => 'nzd', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)'),
+	);
+}
+
+/**
+ * Crypto conversions: all cryptocurrencies to a single currency.
+ */
+function get_crypto_conversion_summary_types() {
+	return array(
+		'btc' => array('currency' => 'btc', 'title' => get_currency_name('btc'), 'short_title' => 'BTC'),
+		'ltc' => array('currency' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
+		'nmc' => array('currency' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
 	);
 }
 
