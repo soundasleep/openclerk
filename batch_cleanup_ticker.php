@@ -18,7 +18,7 @@ batch_header("Batch cleanup ticker", "batch_cleanup_ticker");
 // TODO currently all database dates and PHP logic is based on server side timezone, not GMT/UTC
 // database values need to all be modified to GMT before we can add '+00:00' for example
 $cutoff_date = date('Y-m-d', strtotime(get_site_config('archive_ticker_data'))) . ' 23:59:59'; // +00:00';
-$summary_date = date('Y-m-d', strtotime(get_site_config('archive_ticker_data'))) . ' 00:00:00'; // +00:00';
+$summary_date_prefix = " 00:00:00"; // +00:00
 crypto_log("Cleaning up ticker data earlier than " . htmlspecialchars($cutoff_date) . " into summaries set to " . htmlspecialchars($summary_date) . "...");
 
 $q = db()->prepare("SELECT * FROM ticker WHERE created_at <= :date ORDER BY created_at ASC");
