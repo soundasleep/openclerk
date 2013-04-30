@@ -91,7 +91,7 @@ foreach ($stored as $date => $a) {
 		}
 	}
 }
-crypto_log("Inserted " . number_format($insert_count) . " summary entries into graph_data_ticker");
+crypto_log("Inserted " . number_format($insert_count) . " summary entries into graph_data_summary");
 
 // finally, delete all the old data
 // we've exhausted over everything so this should be safe

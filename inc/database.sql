@@ -541,27 +541,4 @@ CREATE TABLE graph_data_summary (
 	INDEX(user_id), INDEX(summary_type), INDEX(data_date), UNIQUE(user_id, summary_type, data_date)
 );
 
-DROP TABLE IF EXISTS graph_data_balances;
-
-CREATE TABLE graph_data_balances (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-
-	user_id int not null,
-	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
-	account_id int not null,
-	currency varchar(3) not null,
-	
-	-- currently all stored graph data is daily
-	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
-	samples int not null,	-- how many samples was this data obtained from?
-	
-	-- for candlestick plots (eventually)
-	balance_min decimal(16,8),
-	balance_opening decimal(16,8),
-	balance_closing decimal(16,8),
-	balance_max decimal(16,8),
-
-	INDEX(user_id), INDEX(exchange), INDEX(account_id), INDEX(currency), INDEX(data_date)
-);
-
+-- in the future we could add graph_data_balances as necessary
