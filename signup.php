@@ -91,29 +91,41 @@ if ($openid && $submit) {
 }
 
 require("layout/templates.php");
-page_header("Signup", "page_signup");
+page_header("Signup", "page_signup", array('jquery' => true, 'common_js' => true));
 
 ?>
 <h1>Signup</h1>
 
+<?php require_template("signup"); ?>
+
 <div class="columns2">
     <div class="column">
+
+<div class="tabs" id="tabs_signup1">
+	<ul class="tab_list">
+		<li id="tab_signup1_openid">OpenID</li>
+	</ul>
+	<ul class="tab_groups">
+		<li id="tab_signup1_openid_tab">
         <h2>Signup with OpenID</h2>
 
         <form action="<?php echo url_for('signup'); ?>" method="POST">
         <table class="login_form">
         <tr>
             <th>OpenID URL</th>
-            <td><input type="text" name="openid" size="60" value="<?php if ($openid) echo htmlspecialchars($openid); ?>" maxlength="255"></td>
+            <td><input type="text" name="openid" size="60" value="<?php if ($openid) echo htmlspecialchars($openid); ?>" maxlength="255" class="openid_url"></td>
         </tr>
         <tr>
-            <th>Name (optional)</th>
-            <td><input type="text" name="name" size="32" value="<?php if ($name) echo htmlspecialchars($name); ?>" maxlength="255"></td>
+            <th>Name</th>
+            <td><input type="text" name="name" size="20" value="<?php if ($name) echo htmlspecialchars($name); ?>" maxlength="255"> (optional)</td>
         </tr>
         <tr>
-            <th>Email (optional)</th>
-            <td><input type="text" name="email" size="32" value="<?php if ($email) echo htmlspecialchars($email); ?>" maxlength="255">
-            	<br><small>(Will be used to notify you if necessary.)</small></td>
+            <th>Email</th>
+            <td><input type="text" name="email" size="20" value="<?php if ($email) echo htmlspecialchars($email); ?>" maxlength="255"> (optional)</td>
+        </tr>
+        <tr>
+        	<th></th>
+        	<td><small>(Will be used to notify you if necessary.)</small></td>
         </tr>
 		<tr>
 			<td colspan="2" class="buttons">
@@ -123,36 +135,72 @@ page_header("Signup", "page_signup");
 		</tr>
         </table>
         </form>
+        </li>
+    </ul>
+</div>
 
     </div>
 
     <div class="column">
-        <h2>Signup with Google Accounts</h2>
+
+<?php $openid = array(
+	'google' => array('Google Accounts', 'https://www.google.com/accounts/o8/id'),
+	'stackexchange' => array('StackExchange', 'https://openid.stackexchange.com'),
+	'yahoo' => array('Yahoo', 'https://me.yahoo.com'),
+	'blogspot' => array('Blogspot', 'https://www.blogspot.com/'),
+); ?>
+<div class="tabs" id="tabs_signup">
+	<ul class="tab_list">
+		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
+		<?php foreach ($openid as $key => $data) {
+			echo "<li id=\"tab_signup_$key\">" . htmlspecialchars($data[0]) . "</li>";
+		} ?>
+	</ul>
+
+	<ul class="tab_groups">
+	<?php foreach ($openid as $key => $data) { ?>
+		<li id="tab_signup_<?php echo $key; ?>_tab">
+
+        <h2>Signup with <?php echo htmlspecialchars($data[0]); ?></h2>
 
         <form action="<?php echo url_for('signup'); ?>" method="POST">
         <table class="login_form">
         <tr>
-            <th>Name (optional)</th>
-            <td><input type="text" name="name" size="32" value="<?php if ($name) echo htmlspecialchars($name); ?>" maxlength="255"></td>
+            <th>Name</th>
+            <td><input type="text" name="name" size="32" value="<?php if ($name) echo htmlspecialchars($name); ?>" maxlength="255"> (optional)</td>
         </tr>
         <tr>
-            <th>Email (optional)</th>
-            <td><input type="text" name="email" size="32" value="<?php if ($email) echo htmlspecialchars($email); ?>" maxlength="255">
-            	<br><small>(Will be used to notify you if necessary.)</small></td>
+            <th>Email</th>
+            <td><input type="text" name="email" size="32" value="<?php if ($email) echo htmlspecialchars($email); ?>" maxlength="255"> (optional)</td>
+        </tr>
+        <tr>
+        	<th></th>
+        	<td><small>(Will be used to notify you if necessary.)</small></td>
         </tr>
 		<tr>
 			<td colspan="2" class="buttons">
-				<input type="hidden" name="openid" value="https://www.google.com/accounts/o8/id">
+				<input type="hidden" name="openid" value="<?php echo htmlspecialchars($data[1]); ?>">
 				<input type="hidden" name="submit" value="1">
 				<input type="submit" value="Signup">
 			</td>
 		</tr>
         </table>
         </form>
+        </li>
+    <?php } ?>
+    </ul>
+</div>
 
     </div>
 </div>
 <div style="clear:both;"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	initialise_tabs('#tabs_signup');
+	initialise_tabs('#tabs_signup1');
+});
+</script>
 
 <?php
 page_footer();
