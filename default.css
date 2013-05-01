@@ -156,3 +156,4 @@ h2 { font-size: 110%; }
 .help_name_twitter { background: url('img/twitter.png') top left no-repeat; padding-left: 20px; } 
 .help_name_email { background: url('img/gmail.png') top left no-repeat; padding-left: 20px; } 
 .help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 
+.discounted { color: #666; text-decoration: line-through; }

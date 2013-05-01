@@ -35,10 +35,10 @@ if (require_post("months", false) || require_post("years", false)) {
 
 		$cost = 0;
 		if ($months > 0) {
-			$cost += get_site_config('premium_' . $currency . '_monthly') * $months;
+			$cost += wrap_number(get_premium_price($currency, 'monthly') * $months, 8);
 		}
 		if ($years > 0) {
-			$cost += get_site_config('premium_' . $currency . '_yearly') * $years;
+			$cost += wrap_number(get_premium_price($currency, 'yearly') * $years, 8);
 		}
 		if ($cost == 0) {
 			throw new PurchaseException("Could not calculate any cost");
@@ -107,12 +107,12 @@ page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' =>
 <form action="<?php echo htmlspecialchars(url_for('purchase')); ?>" method="post">
 <table class="form">
 <tr>
-	<td>Purchase months (<?php echo currency_format($currency, get_site_config('premium_' . $currency . '_monthly')); ?>/month)</td>
+	<td>Purchase months (<?php echo currency_format($currency, get_premium_price($currency, 'monthly')); ?>/month)</td>
 	<td>
 		<select name="months" id="monthly">
 			<option value="0" selected></option>
 			<?php for ($i = 1; $i <= 11; $i++) {
-				echo "<option value=\"$i\">" . number_format($i) . " months: " . currency_format($currency, get_site_config('premium_' . $currency . '_monthly') * $i, 4) . "</option>\n";
+				echo "<option value=\"$i\">" . number_format($i) . " months: " . currency_format($currency, wrap_number(get_premium_price($currency, 'monthly') * $i, 8), 8) . "</option>\n";
 			} ?>
 		</select>
 	</td>
@@ -123,12 +123,12 @@ page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' =>
 	</td>
 </tr>
 <tr>
-	<td>Purchase years (<?php echo currency_format($currency, get_site_config('premium_' . $currency . '_monthly')); ?>/year)</td>
+	<td>Purchase years (<?php echo currency_format($currency, get_premium_price($currency, 'yearly')); ?>/year)</td>
 	<td>
 		<select name="years" id="yearly">
 			<option value="0" selected></option>
 			<?php for ($i = 1; $i <= 5; $i++) {
-				echo "<option value=\"$i\">" . number_format($i) . " years: " . currency_format($currency, get_site_config('premium_' . $currency . '_yearly') * $i, 4) . "</option>\n";
+				echo "<option value=\"$i\">" . number_format($i) . " years: " . currency_format($currency, wrap_number(get_premium_price($currency, 'yearly') * $i, 8), 8) . "</option>\n";
 			} ?>
 		</select>
 	</td>

@@ -56,3 +56,11 @@ function can_user_add($user, $keytype) {
 function get_premium_value($user, $group) {
 	return get_premium_config($group . "_" . ($user['is_premium'] ? 'premium' : 'free'));
 }
+
+/**
+ * @param $period monthly or yearly
+ */
+function get_premium_price($currency, $period) {
+	// because of floating point inaccuracy we need to round it to 8 decimal places, particularly before displaying it
+	return wrap_number(get_site_config('premium_' . $currency . '_' . $period) * (1-get_site_config('premium_' . $currency . '_discount')), 8);
+}
