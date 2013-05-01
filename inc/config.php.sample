@@ -69,9 +69,19 @@ function get_site_config($key = null) {
 		"premium_ltc_yearly" => 10,
 		"premium_reminder_days" => 7,	// when premium will expire in X days, send a reminder email
 
+		"premium_btc_discount" => 0, // in %, e.g. 1=100%
+		"premium_ltc_discount" => 0, // in %
+
+		// archive settings
+		"archive_ticker_data" => "-31 days",
+		"archive_summary_data" => "-31 days",
+		"archive_balances_data" => "-31 days",
+
 		// custom settings
 		"custom_css" => false,
 		"custom_index" => false,
+		"custom_signup" =>false,
+		"custom_help" => false,
 		"forum_link" => "http://bitcointalk.org/",
 
 	);
