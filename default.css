@@ -45,10 +45,17 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 #navigation li { list-style: none; display: inline; display: inline-block; padding: 2px 9px 2px 9px; border: 1px solid #543; background: #321; margin: 0 2px 0 2px; }
 #navigation li a { text-decoration: none; }
 #navigation li a:hover { text-decoration: hover; }
-#navigation li.home { font-weight: bold; }
-#navigation li.home a { text-decoration: none; color: white; }
-x#navigation li+li:before { content: ' - '; }
-x#navigation li.home+li:before { content: ': '; }
+
+#page_home #navigation li.home a,
+#page_profile #navigation li.profile a,
+#page_accounts #navigation li.accounts a,
+#page_user #navigation li.user a,
+#page_login #navigation li.login a,
+#page_admin #navigation li.admin a,
+#page_premium #navigation li.premium a,
+#page_help #navigation li.help a { 
+	font-weight: bold; color: white; 
+}
 
 #autologin { 
     font-size: 80%; 

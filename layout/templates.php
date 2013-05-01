@@ -40,19 +40,19 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <ul>
 	<li class="home"><a href="<?php echo url_for('index'); ?>"><?php echo htmlspecialchars(get_site_config('site_name')); ?></a></li>
 	<?php if (user_logged_in()) { ?>
-		<li><a href="<?php echo url_for('profile'); ?>">Your Graphs</a></li>
-		<li><a href="<?php echo url_for('accounts'); ?>">Your Accounts</a></li>
-		<li><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
-		<li><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
+		<li class="profile"><a href="<?php echo url_for('profile'); ?>">Your Graphs</a></li>
+		<li class="accounts"><a href="<?php echo url_for('accounts'); ?>">Your Accounts</a></li>
+		<li class="user"><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
+		<li class="login"><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
 		<?php if (is_admin()) { ?>
 			<li class="admin"><a href="<?php echo url_for('admin'); ?>">System Status</a></li>
 		<?php } ?>
 	<?php } else { ?>
-		<li><a href="<?php echo url_for('signup'); ?>">Signup</a></li>
-		<li><a href="<?php echo url_for('login'); ?>">Login</a></li>
+		<li class="signup"><a href="<?php echo url_for('signup'); ?>">Signup</a></li>
+		<li class="login"><a href="<?php echo url_for('login'); ?>">Login</a></li>
 	<?php } ?>
-	<li><a href="<?php echo url_for('premium'); ?>">Premium</a></li>
-	<li><a href="<?php echo url_for('help'); ?>">Help</a></li>
+	<li class="premium"><a href="<?php echo url_for('premium'); ?>">Premium</a></li>
+	<li class="help"><a href="<?php echo url_for('help'); ?>">Help</a></li>
 </ul>
 </div>
 
