@@ -113,16 +113,24 @@ foreach ($accounts as $a) {
 		</td>
 	</tr>
 <?php } ?>
-	<tr>
-		<td colspan="5">
-			<form action="<?php echo htmlspecialchars(url_for('accounts_litecoin')); ?>" method="post">
-				<label>LTC address: <input type="text" name="address" size="36" maxlength="36" value="<?php echo htmlspecialchars(require_post("address", "")); ?>"></li>
-				<input type="submit" name="add" value="Add address" class="add">
-			</form>
-		</td>
-	</tr>
 </tbody>
 </table>
+
+<p>
+<form action="<?php echo htmlspecialchars(url_for('accounts_litecoin')); ?>" method="post">
+<table class="standard">
+<tr>
+	<th><label for="address">LTC address:</label></th>
+	<td><input type="text" name="address" size="36" maxlength="36" value="<?php echo htmlspecialchars(require_post("address", "")); ?>"></td>
+</tr>
+<tr>
+	<td colspan="2" class="buttons">
+	<input type="submit" name="add" value="Add address" class="add">
+	</td>
+</tr>
+</table>
+</form>
+</p>
 
 <?php
 page_footer();

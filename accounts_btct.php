@@ -32,7 +32,7 @@ require("_accounts_standard.php");
 
 <ol class="steps">
 	<li>Log into your <a href="https://btct.co/account">BTC Trading Co. account</a> and visit your <i>Account</i>.<br>
-		<img src="img/accounts/btctl1.png"></li>
+		<img src="img/accounts/btct1.png"></li>
 
 	<li>In the <i>Account Information</i> tab, copy and paste the <i>Read-Only API Key</i> into the form above, and click "Add account".<br>
 		<img src="img/accounts/btct2.png"></li>

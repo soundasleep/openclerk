@@ -33,7 +33,7 @@ TODO
 <thead>
 	<tr>
 		<th>ID</th>
-		<th>Date</th>
+		<th class="date">Date</th>
 		<th>Type</th>
 		<th>Message</th>
 		<th>Source</th>
@@ -51,7 +51,7 @@ TODO
 		$path = str_replace("\\", "/", $e['filename']); ?>
 	<tr>
 		<td><?php echo number_format($e['id']); ?></td>
-		<td><?php echo recent_format_html($e['created_at']); ?></td>
+		<td class="date"><?php echo recent_format_html($e['created_at']); ?></td>
 		<td><?php echo htmlspecialchars($e['class_name']); ?></td>
 		<td><?php echo htmlspecialchars($e['message']); ?></td>
 		<td><?php echo htmlspecialchars(substr($path, strrpos($path, '/') + 1) . ":" . $e['line_number']); ?></td>

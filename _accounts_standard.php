@@ -145,42 +145,41 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 		</td>
 	</tr>
 <?php } ?>
-	<tr>
-		<td colspan="5">
-			<form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post">
-				<table class="form">
-				<tr>
-					<th><label for="title">Title:</label></th>
-					<td><input id="title" type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_post("title", "")); ?>"> (optional)</td>
-				</tr>
-				<?php foreach ($account_data['inputs'] as $key => $data) {
-					$length = isset($data['length']) ? $data['length'] : 64; ?>
-				<tr>
-					<th><label for="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data['title']); ?>:</label></th>
-					<td>
-						<?php if (isset($data['dropdown'])) { ?>
-							<select id="<?php echo htmlspecialchars($key); ?>" name="<?php echo htmlspecialchars($key); ?>">
-								<?php $options = $data['dropdown']();
-								foreach ($options as $dkey => $dvalue) {
-									echo "<option value=\"" . htmlspecialchars($dkey) . "\"" . (require_post($key, "") == $dkey ? " select" : "") . ">";
-									echo htmlspecialchars($dvalue);
-									echo "</option>\n";
-								} ?>
-							</select>
-						<?php } else { ?>
-							<input id="<?php echo htmlspecialchars($key); ?>" type="text" name="<?php echo htmlspecialchars($key); ?>"
-								size="<?php echo htmlspecialchars($length * 2/3); ?>" maxlength="<?php echo htmlspecialchars($length); ?>" value="<?php echo htmlspecialchars(require_post($key, "")); ?>"></td>
-						<?php } ?>
-				</tr>
-				<?php } ?>
-				<tr>
-					<td colspan="2" class="buttons">
-						<input type="submit" name="add" value="Add account" class="add">
-					</td>
-				</tr>
-				</table>
-			</form>
-		</td>
-	</tr>
 </tbody>
 </table>
+
+<p>
+<form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post">
+	<table class="standard">
+	<tr>
+		<th><label for="title">Title:</label></th>
+		<td><input id="title" type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_post("title", "")); ?>"> (optional)</td>
+	</tr>
+	<?php foreach ($account_data['inputs'] as $key => $data) {
+		$length = isset($data['length']) ? $data['length'] : 64; ?>
+	<tr>
+		<th><label for="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data['title']); ?>:</label></th>
+		<td>
+			<?php if (isset($data['dropdown'])) { ?>
+				<select id="<?php echo htmlspecialchars($key); ?>" name="<?php echo htmlspecialchars($key); ?>">
+					<?php $options = $data['dropdown']();
+					foreach ($options as $dkey => $dvalue) {
+						echo "<option value=\"" . htmlspecialchars($dkey) . "\"" . (require_post($key, "") == $dkey ? " select" : "") . ">";
+						echo htmlspecialchars($dvalue);
+						echo "</option>\n";
+					} ?>
+				</select>
+			<?php } else { ?>
+				<input id="<?php echo htmlspecialchars($key); ?>" type="text" name="<?php echo htmlspecialchars($key); ?>"
+					size="<?php echo htmlspecialchars($length * 2/3); ?>" maxlength="<?php echo htmlspecialchars($length); ?>" value="<?php echo htmlspecialchars(require_post($key, "")); ?>"></td>
+			<?php } ?>
+	</tr>
+	<?php } ?>
+	<tr>
+		<td colspan="2" class="buttons">
+			<input type="submit" name="add" value="Add account" class="add">
+		</td>
+	</tr>
+	</table>
+</form>
+</p>
