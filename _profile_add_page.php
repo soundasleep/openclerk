@@ -11,7 +11,7 @@
 <tr>
 	<td colspan="2" class="buttons">
 		<input type="hidden" name="page" value="<?php echo htmlspecialchars($page_id); ?>">
-		<input type="submit" value="Add page">
+		<input type="submit" value="Add page"> (<a href="<?php echo htmlspecialchars(url_for('premium')); ?>">maximum <?php echo number_format(get_premium_value($user, 'graph_pages')); ?></a>)
 	</td>
 </tr>
 </table>
