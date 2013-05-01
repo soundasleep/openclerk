@@ -10,6 +10,7 @@ $openid = require_post("openid", require_get("openid", false));
 
 $messages = array();
 $errors = array();
+
 if ($openid && $submit) {
 	// to sign up with OpenID, we must first authenticate to see if the identity already exists
 	try {
@@ -143,12 +144,7 @@ page_header("Signup", "page_signup", array('jquery' => true, 'common_js' => true
 
     <div class="column">
 
-<?php $openid = array(
-	'google' => array('Google Accounts', 'https://www.google.com/accounts/o8/id'),
-	'stackexchange' => array('StackExchange', 'https://openid.stackexchange.com'),
-	'yahoo' => array('Yahoo', 'https://me.yahoo.com'),
-	'blogspot' => array('Blogspot', 'https://www.blogspot.com/'),
-); ?>
+<?php $openid = get_default_openid_providers(); ?>
 <div class="tabs" id="tabs_signup">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>

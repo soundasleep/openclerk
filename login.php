@@ -9,6 +9,9 @@ $error = "";
 $logout = require_post("logout", require_get("logout", false));
 $openid = require_post("openid", require_get("openid", false));
 
+$messages = array();
+$errors = array();
+
 // try logging in?
 try {
 	if ($logout) {
@@ -20,7 +23,7 @@ try {
 		// disable autologin for this session
 		$_SESSION["autologin_disable"] = 1;
 
-		$success = "Successfully logged out. You may login again here.";
+		$messages[] = "Successfully logged out. You may login again here.";
 
 	} elseif ($openid) {
 		require("inc/lightopenid/openid.php");
@@ -109,37 +112,41 @@ try {
 
 	}
 } catch (Exception $e) {
-	$error = $e->getMessage();
+	$errors[] = $e->getMessage();
 }
 
 if (require_get("need_admin", false)) {
-	$error .= "\nYou need to be logged in as an administrator to do that.";
+	$errors[] = "You need to be logged in as an administrator to do that.";
 }
 if ($destination) {
-	$error .= "\nYou need to be logged in to proceed.";
+	$errors[] = "You need to be logged in to proceed.";
 }
 
 require("layout/templates.php");
-page_header("Login", "page_login");
+page_header("Login", "page_login", array('jquery' => true, 'common_js' => true));
 
 ?>
 <h1>Login</h1>
 
-<?php if (isset($error) && $error) { ?>
-<div class="error"><?php echo $error; ?></div>
-<?php } ?>
-<?php if (isset($success) && $success) { ?>
-<div class="success"><?php echo $success; ?></div>
-<?php } ?>
+<?php require_template("login"); ?>
 
-<div class="column0">
+<div class="columns2">
+<div class="column">
+
+<div class="tabs" id="tabs_login1">
+	<ul class="tab_list">
+		<li id="tab_login1_openid">OpenID</li>
+	</ul>
+	<ul class="tab_groups">
+		<li id="tab_login1_openid_tab">
+
 	<h2>Login with OpenID</h2>
 
 	<form action="<?php echo url_for('login'); ?>" method="POST" class="login">
 	<table class="login_form">
 	<tr>
 		<th>OpenID URL</th>
-		<td><input type="text" name="openid" value="<?php if ($openid) echo htmlspecialchars($openid); ?>" maxlength="255"></td>
+		<td><input type="text" name="openid" value="<?php if ($openid) echo htmlspecialchars($openid); ?>" class="openid_url" maxlength="255"></td>
 	</tr>
 	<tr>
 		<th></th>
@@ -157,33 +164,58 @@ page_header("Login", "page_login");
 	</table>
 	</form>
 
+		</li>
+	</ul>
 </div>
 
-<div class="column1">
-	<h2>Login with Google Accounts</h2>
+</div>
 
-	<form action="<?php echo url_for('login'); ?>" method="POST" class="login">
-	<table class="login_form">
-	<tr>
-		<th></th>
-		<td><label><input type="checkbox" name="autologin"<?php if ($autologin) echo " checked"; ?>> Automatically log in</label></td>
-	</tr>
-	<tr>
-		<td colspan="2" class="buttons">
-			<?php $destination = require_get("destination", require_post("destination", false));
-			if ($destination) { ?>
-			<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
-			<?php } ?>
-			<input type="hidden" name="openid" value="https://www.google.com/accounts/o8/id">
-			<input type="submit" value="Login">
-		</td>
-	</tr>
-	</table>
-	</form>
+<div class="column">
 
+<?php $openid = get_default_openid_providers(); ?>
+<div class="tabs" id="tabs_login">
+	<ul class="tab_list">
+		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
+		<?php foreach ($openid as $key => $data) {
+			echo "<li id=\"tab_login_$key\">" . htmlspecialchars($data[0]) . "</li>";
+		} ?>
+	</ul>
+
+	<ul class="tab_groups">
+	<?php foreach ($openid as $key => $data) { ?>
+		<li id="tab_login_<?php echo $key; ?>_tab">
+
+        <h2>Login with <?php echo htmlspecialchars($data[0]); ?></h2>
+
+        <form action="<?php echo url_for('login'); ?>" method="POST">
+        <table class="login_form">
+		<tr>
+			<td><label><input type="checkbox" name="autologin"<?php if ($autologin) echo " checked"; ?>> Automatically log in</label></td>
+		</tr>
+		<tr>
+			<td class="buttons">
+				<input type="hidden" name="openid" value="<?php echo htmlspecialchars($data[1]); ?>">
+				<input type="submit" value="Login">
+			</td>
+		</tr>
+        </table>
+        </form>
+        </li>
+    <?php } ?>
+    </ul>
+</div>
+
+</div>
 </div>
 
 <div style="clear:both;"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	initialise_tabs('#tabs_login');
+	initialise_tabs('#tabs_login1');
+});
+</script>
 
 <?php
 page_footer();
