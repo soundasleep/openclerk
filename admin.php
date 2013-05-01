@@ -23,9 +23,54 @@ page_header("Status", "page_admin");
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_email")); ?>">Send test e-mail</a></li>
 </ul>
 
-<p>
-TODO
-</p>
+<table class="standard">
+<thead>
+	<tr>
+		<th></th>
+		<th>Total</th>
+		<th>Last week</th>
+		<th>Last day</th>
+		<th>Last hour</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+	$summary = array(
+		'users' => array('title' => 'Users'),
+		'addresses' => array('title' => 'Addresses'),
+		'jobs' => array('title' => 'Jobs'),
+		'outstanding_premiums' => array('title' => 'Premiums'),
+		'uncaught_exceptions' => array('title' => 'Uncaught exceptions'),
+		'summaries' => array('title' => 'Summaries'),
+		'graphs' => array('title' => 'Graphs'),
+		'graph_pages' => array('title' => 'Graph pages'),
+		'ticker' => array('title' => 'Ticker instances'),
+		'balances' => array('title' => 'Balance instances'),
+		'summary_instances' => array('title' => 'Summary instances'),
+	);
+	foreach ($summary as $key => $data) {
+		echo "<tr>";
+		echo "<th>" . $data['title'] . "</th>\n";
+		$parts = array('1', 'date_add(created_at, interval 7 day) >= now()', 'date_add(created_at, interval 1 day) >= now()', 'date_add(created_at, interval 1 hour) >= now()');
+		foreach ($parts as $query) {
+			$q = db()->prepare("SELECT COUNT(*) AS c FROM $key WHERE $query");
+			$q->execute();
+			$c = $q->fetch();
+			echo "<td class=\"number\">" . number_format($c['c']) . "</td>\n";
+		}
+		echo "</tr>";
+	}
+	echo "<tr>";
+	echo "<th>Unused Premium Addresses</th>";
+	$q = db()->prepare("SELECT currency, COUNT(*) AS c FROM premium_addresses WHERE is_used=0 GROUP BY currency");
+	$q->execute();
+	while ($c = $q->fetch()) {
+		echo "<td class=\"number\">" . number_format($c['c']) . " (" . strtoupper($c['currency']) . ")</td>";
+	}
+	echo "</tr>";
+?>
+</tbody>
+</table>
 
 <h2>Recent Exceptions</h2>
 
