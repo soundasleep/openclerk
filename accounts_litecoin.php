@@ -24,7 +24,7 @@ if (require_post("add", false) && require_post("address", false)) {
 		// we don't care if the address already exists
 		$q = db()->prepare("INSERT INTO addresses SET user_id=?, address=?, currency=?");
 		$q->execute(array(user_id(), $address, 'ltc'));
-		$messages[] = "Added new LTC address " . btc_address($address) . ".";
+		$messages[] = "Added new LTC address " . ltc_address($address) . ".";
 
 		// redirect to GET
 		set_temporary_messages($messages);
@@ -84,7 +84,10 @@ page_header("Your Accounts: LTC Addresses", "page_accounts_litecoin");
 	</tr>
 </thead>
 <tbody>
-<?php foreach ($accounts as $a) {
+<?php
+$count = 0;
+foreach ($accounts as $a) {
+	$count++;
 	$last_updated = $a['last_updated'];
 
 	// was the last request successful?
@@ -95,7 +98,7 @@ page_header("Your Accounts: LTC Addresses", "page_accounts_litecoin");
 		$last_updated = $job['executed_at'];
 	}
 ?>
-	<tr>
+	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
 		<td><?php echo ltc_address($a['address']); ?></td>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>

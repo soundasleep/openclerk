@@ -84,7 +84,10 @@ page_header("Your Accounts: BTC Addresses", "page_accounts_blockchain");
 	</tr>
 </thead>
 <tbody>
-<?php foreach ($accounts as $a) {
+<?php
+$count = 0;
+foreach ($accounts as $a) {
+	$count++;
 	$last_updated = $a['last_updated'];
 
 	// was the last request successful?
@@ -95,7 +98,7 @@ page_header("Your Accounts: BTC Addresses", "page_accounts_blockchain");
 		$last_updated = $job['executed_at'];
 	}
 ?>
-	<tr>
+	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
 		<td><?php echo btc_address($a['address']); ?></td>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
