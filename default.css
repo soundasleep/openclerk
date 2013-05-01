@@ -39,14 +39,16 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
     background: #432;
     border: 1px solid #654;
     padding: 5px;
-    font-size: 90%;
+    font-size: 100%;
 }
 #navigation ul { margin: 0; padding: 0; }
-#navigation li { list-style: none; display: inline; }
+#navigation li { list-style: none; display: inline; display: inline-block; padding: 2px 9px 2px 9px; border: 1px solid #543; background: #321; margin: 0 2px 0 2px; }
+#navigation li a { text-decoration: none; }
+#navigation li a:hover { text-decoration: hover; }
 #navigation li.home { font-weight: bold; }
 #navigation li.home a { text-decoration: none; color: white; }
-#navigation li+li:before { content: ' - '; }
-#navigation li.home+li:before { content: ': '; }
+x#navigation li+li:before { content: ' - '; }
+x#navigation li.home+li:before { content: ': '; }
 
 #autologin { 
     font-size: 80%; 

@@ -38,9 +38,9 @@ function page_header($page_title, $page_id = false, $options = array()) {
 
 <div id="navigation">
 <ul>
-	<li class="home"><a href="<?php echo url_for('index'); ?>">Home</a></li>
+	<li class="home"><a href="<?php echo url_for('index'); ?>"><?php echo htmlspecialchars(get_site_config('site_name')); ?></a></li>
 	<?php if (user_logged_in()) { ?>
-		<li><a href="<?php echo url_for('profile'); ?>">Your Summary</a></li>
+		<li><a href="<?php echo url_for('profile'); ?>">Your Graphs</a></li>
 		<li><a href="<?php echo url_for('accounts'); ?>">Your Accounts</a></li>
 		<li><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
 		<li><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
