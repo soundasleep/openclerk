@@ -62,42 +62,56 @@ switch ($summary['summary_type']) {
 		$total = 0;
 		require("jobs/summary/totalusd.php");
 		add_summary_instance($job, 'totalusd', $total);
+		add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsusd', $total_offsets_balance);
 
 		// TODO fiat2usd
 
 		$total = 0;
 		require("jobs/summary/all2usd_btce.php");
 		add_summary_instance($job, 'all2usd_btce', $total);
-		add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);
-		add_summary_instance($job, 'offsetsusd', $total_offsets_balance);
 		break;
 
 	case "summary_usd_mtgox":
 		$total = 0;
 		require("jobs/summary/totalusd.php");
 		add_summary_instance($job, 'totalusd', $total);
-		$total = 0;
+		add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsusd', $total_offsets_balance);
 
 		// TODO fiat2usd
 
+		$total = 0;
 		require("jobs/summary/all2usd_mtgox.php");
 		add_summary_instance($job, 'all2usd_mtgox', $total);
+		break;
+
+	case "summary_usd_vircurex":
+		$total = 0;
+		require("jobs/summary/totalusd.php");
+		add_summary_instance($job, 'totalusd', $total);
 		add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);
 		add_summary_instance($job, 'offsetsusd', $total_offsets_balance);
+
+		// TODO fiat2usd
+
+		$total = 0;
+		require("jobs/summary/all2usd_vircurex.php");
+		add_summary_instance($job, 'all2usd_vircurex', $total);
 		break;
 
 	case "summary_nzd":
 		$total = 0;
 		require("jobs/summary/totalnzd.php");
 		add_summary_instance($job, 'totalnzd', $total);
-		$total = 0;
+		add_summary_instance($job, 'blockchainnzd', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsnzd', $total_offsets_balance);
 
 		// TODO fiat2nzd
 
+		$total = 0;
 		require("jobs/summary/all2nzd.php");
 		add_summary_instance($job, 'all2nzd', $total);
-		add_summary_instance($job, 'blockchainnzd', $total_blockchain_balance);
-		add_summary_instance($job, 'offsetsnzd', $total_offsets_balance);
 		break;
 
 	default:
