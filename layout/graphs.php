@@ -576,11 +576,30 @@ function graph_types() {
 	// add sample images
 	$example_prefix = "<div class=\"example\"><div>Example:</div><img src=\"img/graphs/";
 	$example_suffix = "\"></div>";
+	$images = array(
+		'btc_equivalent' => 'btc_equivalent.png',
+		'composition_btc_pie' => 'composition_btc_pie.png',
+		'composition_ltc_pie' => 'composition_ltc_pie.png',
+		'composition_nmc_pie' => 'composition_nmc_pie.png',
+		'btce_btcnmc_daily' => 'btce_btcnmc_daily.png',
+		'btce_btcltc_daily' => 'btce_btcltc_daily.png',
+		'mtgox_usdbtc_daily' => 'mtgox_usdbtc_daily.png',
+		'bitnz_nzdbtc_daily' => 'bitnz_nzdbtc_daily.png',
+		'all2usd_mtgox_daily' => 'all2usd_mtgox_daily.png',
+		'all2nzd_daily' => 'all2nzd_daily.png',
+		'total_btc_daily' => 'total_btc_daily.png',
+		'total_ltc_daily' => 'total_ltc_daily.png',
+		'balances_table' => 'balances_table.png',
+		'balances_offset_table' => 'balances_offset_table.png',
+		'crypto_converted_table' => 'crypto_converted_table.png',
+		'total_converted_table' => 'total_converted_table.png',
+		'ticker_matrix' => 'ticker_matrix.png',
+	);
+
 	foreach ($data as $key => $value) {
-		switch ($key) {
-			case "btc_equivalent":
-				$data[$key]['description'] .= $example_prefix . htmlspecialchars("btc_equivalent.png") . $example_suffix;
-				break;
+		if (isset($images[$key])) {
+			$data[$key]['description'] .= "<div class=\"example\"><div>Example:</div><img src=\"img/graphs/" .
+					htmlspecialchars($images[$key]) . "\"></div>";
 		}
 	}
 
