@@ -27,7 +27,7 @@ page_header("Premium Accounts", "page_premium");
 		}
 		echo implode_english($result); ?> currencies. You will also get access to exclusive, premium-only functionality such as
 	vastly increased limits on the number of addresses and accounts you may track at once,
-	and advanced reporting and notification functionality.
+	and advanced reporting and notification functionality. Your jobs and reports will also have higher priority over free users.
 </p>
 
 <table class="standard">

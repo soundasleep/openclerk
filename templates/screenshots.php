@@ -35,7 +35,7 @@
 		'profile_addgraph' => array(
 			'title' => 'Adding graphs',
 			'url' => 'img/screenshots/profile_addgraph.png',
-			'text' => "A simple interface lets you add new graph types, reconfigure them, and reorder them. Graphs can also be grouped together into <i>pages</i>.",
+			'text' => "A simple interface lets you add new graph types, reconfigure them, and reorder them. Graphs can also be grouped together into <i>pages</i> (premium users only).",
 		),
 
 	);

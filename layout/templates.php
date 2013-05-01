@@ -41,7 +41,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <ul>
 	<li class="home"><a href="<?php echo url_for('index'); ?>"><?php echo htmlspecialchars(get_site_config('site_name')); ?></a></li>
 	<?php if (user_logged_in()) { ?>
-		<li class="profile"><a href="<?php echo url_for('profile'); ?>">Your Graphs</a></li>
+		<li class="profile"><a href="<?php echo url_for('profile'); ?>">Your Reports</a></li>
 		<li class="accounts"><a href="<?php echo url_for('accounts'); ?>">Your Accounts</a></li>
 		<li class="user"><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
 		<li class="login"><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
