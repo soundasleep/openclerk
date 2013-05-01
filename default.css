@@ -154,8 +154,11 @@ h2 { font-size: 110%; }
 .ltc_address .inspect { background: url('img/explorer1.png') top left no-repeat; }
 .currency_name_btc { background: url('img/bitcoin.png') top left no-repeat; padding-left: 20px; } 
 .currency_name_ltc { background: url('img/litecoin.png') top left no-repeat; padding-left: 20px; } 
+.currency_name_nmc { background: url('img/namecoin.png') top left no-repeat; padding-left: 20px; } 
 .help_name_twitter { background: url('img/twitter.png') top left no-repeat; padding-left: 20px; } 
 .help_name_email { background: url('img/gmail.png') top left no-repeat; padding-left: 20px; } 
 .help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 
 .discounted { color: #666; text-decoration: line-through; }
 .twitter { background: url('img/twitter.png') 4px 0 no-repeat; padding-left: 24px; } 
+.help_list .currency_list { margin-top: 10px; }
+.help_list .currency_list li { line-height: 2em; }
