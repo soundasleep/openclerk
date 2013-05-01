@@ -6,7 +6,9 @@
  * job priority and we don't want to have to also use 'execute_after'.
  */
 
-require("inc/global.php");
+if (!defined('ADMIN_RUN_JOB')) {
+	require("inc/global.php");
+}
 require("_batch.php");
 
 require_batch_key();

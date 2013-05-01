@@ -38,6 +38,7 @@ TODO
 		<th>Message</th>
 		<th>Source</th>
 		<th>Job ID</th>
+		<th></th>
 	</tr>
 </thead>
 <tbody>
@@ -55,6 +56,7 @@ TODO
 		<td><?php echo htmlspecialchars($e['message']); ?></td>
 		<td><?php echo htmlspecialchars(substr($path, strrpos($path, '/') + 1) . ":" . $e['line_number']); ?></td>
 		<td><?php echo htmlspecialchars($e['job_id']); echo $e['job_type'] ? (": " . htmlspecialchars($e['job_type'])) : ""; ?></td>
+		<td><?php if ($e['job_id']) { ?><a href="<?php echo htmlspecialchars(url_for('admin_run_job', array('job_id' => $e['job_id']))); ?>">Run again</a><?php } ?></td>
 	</tr>
 	<?php }
 ?>
