@@ -89,7 +89,7 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 	</li>
 	<li id="tab_user_currencies_tab">
 
-<h2>Currency Settings</h1>
+<h2>Currency Settings</h2>
 
 <form action="<?php echo htmlspecialchars(url_for('user_currencies')); ?>" method="post">
 <?php require("_user_currencies.php"); ?>
@@ -132,9 +132,9 @@ more features with a <a href="<?php echo htmlspecialchars(url_for('premium')); ?
 <?php } else { ?>
 Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a> here:
 <?php } ?>
+</p>
 
 <?php require("_premium_prices.php"); ?>
-</p>
 </div>
 
 	</li>
