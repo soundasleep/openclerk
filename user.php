@@ -49,11 +49,20 @@ if (require_get("new_purchase", false)) {
 	}
 }
 
-page_header("User Account", "page_user");
+page_header("User Account", "page_user", array('jquery' => true, 'common_js' => true));
 
 ?>
 
 <h1>Your <?php echo htmlspecialchars(get_site_config('site_name')); ?> User Account</h1>
+
+<div class="tabs" id="tabs_user">
+	<ul class="tab_list">
+		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
+		<li id="tab_user_contact">Contact Details</li><li id="tab_user_currencies">Currencies</li><li id="tab_user_premium">Premium</li><li id="tab_user_outstanding">Outstanding Payments</li>
+	</ul>
+
+	<ul class="tab_groups">
+		<li id="tab_user_contact_tab">
 
 <form action="<?php echo htmlspecialchars(url_for('user')); ?>" method="post">
 <table class="standard form">
@@ -77,6 +86,9 @@ page_header("User Account", "page_user");
 </table>
 </form>
 
+	</li>
+	<li id="tab_user_currencies_tab">
+
 <h2>Currency Settings</h1>
 
 <form action="<?php echo htmlspecialchars(url_for('user_currencies')); ?>" method="post">
@@ -84,33 +96,8 @@ page_header("User Account", "page_user");
 <input type="submit" value="Update Currency Settings">
 </form>
 
-<?php if ($outstanding) { ?>
-<h2>Outstanding Payments</h2>
-
-<table class="standard">
-<thead>
-	<tr>
-		<th>Currency</th>
-		<th>Address</th>
-		<th>Amount</th>
-		<th>Since</th>
-		<th>Last checked</th>
-	</tr>
-</thead>
-<tbody>
-<?php foreach ($outstanding as $o) { ?>
-	<tr>
-		<td><?php echo htmlspecialchars(get_currency_name($o['currency'])); ?></td>
-		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
-		<td><?php echo currency_format($o['currency'], $o['balance']); ?></td>
-		<td><?php echo recent_format_html($o['created_at']); ?></td>
-		<td><?php echo recent_format_html($o['last_check']); ?></td>
-	</tr>
-<?php } ?>
-</tbody>
-</table>
-
-<?php } ?>
+	</li>
+	<li id="tab_user_premium_tab">
 
 <div class="account_status">
 <h2>Account Status</h2>
@@ -149,6 +136,48 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <?php require("_premium_prices.php"); ?>
 </p>
 </div>
+
+	</li>
+	<li id="tab_user_outstanding_tab">
+
+<?php if ($outstanding) { ?>
+<h2>Outstanding Payments</h2>
+
+<table class="standard">
+<thead>
+	<tr>
+		<th>Currency</th>
+		<th>Address</th>
+		<th>Amount</th>
+		<th>Since</th>
+		<th>Last checked</th>
+	</tr>
+</thead>
+<tbody>
+<?php foreach ($outstanding as $o) { ?>
+	<tr>
+		<td><?php echo htmlspecialchars(get_currency_name($o['currency'])); ?></td>
+		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
+		<td><?php echo currency_format($o['currency'], $o['balance']); ?></td>
+		<td><?php echo recent_format_html($o['created_at']); ?></td>
+		<td><?php echo recent_format_html($o['last_check']); ?></td>
+	</tr>
+<?php } ?>
+</tbody>
+</table>
+
+<?php } else { ?>
+	<i>No outstanding payments.</i>
+<?php } ?>
+
+	</li>
+</ul>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	initialise_tabs('#tabs_user');
+});
+</script>
 
 <?php
 page_footer();

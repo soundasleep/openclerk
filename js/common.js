@@ -7,8 +7,8 @@ function initialise_tabs(tab_query) {
 		var new_tab_id = $(e.target).attr('id') + "_tab";
 
 		// hide all tab contents except this one
-		$(tab_query).find(".tab_groups li:not(#" + new_tab_id + ")").hide();
-		$(tab_query).find(".tab_groups #" + new_tab_id).show();
+		$(tab_query).find(".tab_groups > li:not(#" + new_tab_id + ")").hide();
+		$(tab_query).find(".tab_groups > #" + new_tab_id).show();
 
 		// highlight this tab as selected
 		$(tab_query).find(".tab_list > li:not(#" + $(e.target).attr('id') + ")").removeClass("tab_selected");
