@@ -51,26 +51,30 @@ if (preg_match('#<p>Balance: ([0-9\.]+) LTC#i', $html, $matches)) {
 
 		crypto_log("Confirmed balance after " . get_site_config('ltc_confirmations') . " confirmations: " . $balance);
 
-		// disable old instances
-		$q = db()->prepare("UPDATE address_balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND address_id=:address_id");
-		$q->execute(array(
-			"user_id" => $job['user_id'],
-			"address_id" => $address['id'],
-		));
-
-		// we have a balance; update the database
-		$q = db()->prepare("INSERT INTO address_balances SET user_id=:user_id, address_id=:address_id, balance=:balance, is_recent=1");
-		$q->execute(array(
-			"user_id" => $job['user_id'],
-			"address_id" => $address['id'],
-			"balance" => $balance,
-		));
-		crypto_log("Inserted new address_balances id=" . db()->lastInsertId());
-
 	} else {
-		throw new JobException("Could not find any transactions on page");
+		throw new ExternalAPIException("Could not find any transactions on page");
 	}
+} else if (strpos($html, "Address not seen on the network.") !== false) {
+	// the address is valid, it just doesn't have a balance
+	$balance = 0;
+	crypto_log("Address is valid, but not yet seen on network");
 
 } else {
-	throw new JobException("Could not find balance on page");
+	throw new ExternalAPIException("Could not find balance on page");
 }
+
+// disable old instances
+$q = db()->prepare("UPDATE address_balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND address_id=:address_id");
+$q->execute(array(
+	"user_id" => $job['user_id'],
+	"address_id" => $address['id'],
+));
+
+// we have a balance; update the database
+$q = db()->prepare("INSERT INTO address_balances SET user_id=:user_id, address_id=:address_id, balance=:balance, is_recent=1");
+$q->execute(array(
+	"user_id" => $job['user_id'],
+	"address_id" => $address['id'],
+	"balance" => $balance,
+));
+crypto_log("Inserted new address_balances id=" . db()->lastInsertId());
