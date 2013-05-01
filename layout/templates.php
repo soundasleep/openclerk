@@ -32,6 +32,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <?php if (isset($options["js"]) && $options["js"]) { ?>
     <script type="text/javascript" src="js/<?php echo htmlspecialchars($options['js']); ?>.js"></script>
     <?php } ?>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?>>
 <div class="body_wrapper">
