@@ -37,7 +37,7 @@ require("_accounts_standard.php");
 
 	<li>Under the <i>API tab</i>, check <i>Get balance</i>, insert in any random secret string - for example,
 		you can use <a href="https://www.grc.com/passwords.htm">GRC&apos;s random password generator</a> to generate
-		a 63-character random alphanumeric string - and click <i>Save</i>.
+		a 63-character random alphanumeric string - and click <i>Save</i>.<br>
 		<img src="img/accounts/vircurex2.png">
 
 	<li>Copy and paste your both your username and your chosen random secret string into the form above, and click "Add account".</li>

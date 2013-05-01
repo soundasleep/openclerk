@@ -120,6 +120,11 @@ h2 { font-size: 110%; }
 #page_external .external_list .broken { background: #662222; }
 #page_external .external_list .dead { background: #772222; }
 
+#page_screenshots .tabs .tab_open { text-align: center; }
+#page_screenshots .tabs .tab_open img { max-width: 66%; border: 1px solid #333; }
+#page_screenshots .tabs .tab_open p { width: 75%; margin: 5px auto 5px auto; }
+#page_screenshots #tabs_screenshots { min-width: 940px; }
+
 /* maybe move following into user-only css */
 
 .page_list .page_current { font-weight: bold; }

@@ -220,7 +220,7 @@ function render_graph($graph) {
 								$q->execute(array($exchange, $c1, $c2));
 								if ($ticker = $q->fetch()) {
 									// TODO currency_format should be a graph option
-									$cell .= "<li><span class=\"rate\">" . number_format_html($ticker['last_trade'], 4) . "</span> <span class=\"volume\">(" . number_format_html($ticker['volume'], 4) . ")</span> <span class=\"exchange\">[" . htmlspecialchars($exchange) . "]</span></li>\n";
+									$cell .= "<li><span class=\"rate\">" . number_format_html($ticker['last_trade'], 4) . "</span> " . ($ticker['volume'] == 0 ? "" : "<span class=\"volume\">(" . number_format_html($ticker['volume'], 4) . ")</span>") . " <span class=\"exchange\">[" . htmlspecialchars($exchange) . "]</span></li>\n";
 									$graph['last_updated'] = max($graph['last_updated'], strtotime($ticker['created_at']));
 								} else {
 									$cell .= "<li class=\"warning\">Could not find rate for " . htmlspecialchars($exchange . ": " . $c1 . "/" . $c2) . "</li>\n";
