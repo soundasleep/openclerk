@@ -12,7 +12,7 @@ while ($s = $q->fetch()) {
 ?>
 
 <p>
-I would like currency summaries provided in...
+I would like currency summaries provided in... (<a href="<?php echo htmlspecialchars(url_for('premium')); ?>">up to <?php echo number_format(get_premium_value($user, 'summaries')); ?></a>)
 </p>
 
 <ul>

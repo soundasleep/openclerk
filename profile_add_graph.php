@@ -29,7 +29,7 @@ $q->execute(array($page_id));
 $count = $q->fetch();
 $count = $count['c'];
 
-if ($count >= get_premium_config('graphs_per_page_' . ($user['is_premium'] ? 'premium' : 'free'))) {
+if ($count >= get_premium_value($user, 'graphs_per_page')) {
 	$errors[] = "Cannot add graph: too many existing graphs on this page." .
 			($user['is_premium'] ? "" : " To add more graphs on this page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 	set_temporary_errors($errors);

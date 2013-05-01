@@ -15,6 +15,7 @@ page_header("Premium Accounts", "page_premium");
 
 ?>
 
+<div class="premium_info">
 <h1>Support <?php echo htmlspecialchars(get_site_config('site_name')); ?> with Premium Accounts</h1>
 
 <p>
@@ -87,6 +88,7 @@ page_header("Premium Accounts", "page_premium");
 </p>
 
 <?php require("_premium_prices.php"); ?>
+</div>
 
 <?php
 page_footer();

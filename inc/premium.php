@@ -40,7 +40,7 @@ function can_user_add($user, $keytype) {
 		foreach ($group as $key => $data) {
 			if ($keytype == $key) {
 				 $current_total = $summary['total_' . $data['group']];
-				 $limit = get_premium_config($data['group'] . "_" . ($user['is_premium'] ? 'premium' : 'free'));
+				 $limit = get_premium_value($user, $data['group']);
 				 return $current_total < $limit;
 			}
 		}
@@ -48,4 +48,11 @@ function can_user_add($user, $keytype) {
 
 	throw new Exception("Could not find user limit type '$keytype'");
 
+}
+
+/**
+ * Get the current premium or free value for a particular group.
+ */
+function get_premium_value($user, $group) {
+	return get_premium_config($group . "_" . ($user['is_premium'] ? 'premium' : 'free'));
 }

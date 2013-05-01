@@ -32,6 +32,7 @@ $accounts = user_limits_summary(user_id());
 </div>
 <?php } ?>
 
+<div class="your_accounts">
 <h1>Your Accounts</h1>
 
 <ul class="account_list">
@@ -57,18 +58,23 @@ foreach (account_data_grouped() as $label => $account_data) {
 }
 ?>
 </ul>
+</div>
 
+<div class="your_account_limits">
 <h2>Your Account Limits</h2>
 
 <ul>
-	<li>Tracked addresses: <?php echo number_format($accounts['total_addresses']); ?> (out of <?php echo number_format(get_premium_config('addresses_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
-	<li>Tracked accounts: <?php echo number_format($accounts['total_accounts']); ?> (out of <?php echo number_format(get_premium_config('accounts_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
-	<li><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Summary pages</a>: <?php echo number_format($accounts['total_graph_pages']); ?> (out of <?php echo number_format(get_premium_config('graph_pages_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
-	<li><a href="<?php echo htmlspecialchars(url_for('user')); ?>">Currency summaries</a>: <?php echo number_format($accounts['total_summaries']); ?> (out of <?php echo number_format(get_premium_config('summaries_' . ($user['is_premium'] ? 'premium' : 'free'))); ?>)</li>
-	<?php if (!$user['is_premium']) { ?>
-	<li>Increaes these limits with a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>!</li>
+	<li>Tracked addresses: <?php echo number_format($accounts['total_addresses']); ?> (out of <?php echo number_format(get_premium_value($user, 'addresses')); ?>)</li>
+	<li>Tracked accounts: <?php echo number_format($accounts['total_accounts']); ?> (out of <?php echo number_format(get_premium_value($user, 'accounts')); ?>)</li>
+	<li><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Summary pages</a>: <?php echo number_format($accounts['total_graph_pages']); ?> (out of <?php echo number_format(get_premium_value($user, 'graph_pages')); ?>)</li>
+	<li><a href="<?php echo htmlspecialchars(url_for('user')); ?>">Currencies</a>: <?php echo number_format($accounts['total_summaries']); ?> (out of <?php echo number_format(get_premium_value($user, 'summaries')); ?>)</li>
+	<?php if ($user['is_premium']) { ?>
+	<li>Thank you for supporting <?php echo htmlspecialchars(get_site_config('site_name')); ?> with your premium account!</li>
+	<?php } else { ?>
+	<li>Increase these limits with a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>!</li>
 	<?php } ?>
 </ul>
+</div>
 
 <?php
 page_footer();

@@ -112,9 +112,10 @@ page_header("User Account", "page_user");
 
 <?php } ?>
 
+<div class="account_status">
 <h2>Account Status</h2>
 
-<table class="standard">
+<table class="fancy">
 <tr>
 	<th>Account status:</th>
 	<td>
@@ -147,6 +148,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 
 <?php require("_premium_prices.php"); ?>
 </p>
+</div>
 
 <?php
 page_footer();

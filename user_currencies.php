@@ -51,7 +51,7 @@ foreach (get_summary_types() as $key => $data) {
 			$count = $q->fetch();
 			$count = $count["c"];
 
-			if ($count >= get_premium_config('summaries_' . ($user['is_premium'] ? 'premium' : 'free'))) {
+			if ($count >= get_premium_value($user, 'summaries')) {
 				// too many
 				$errors[] = "Could not add currency " . $data['title'] . ": too many currencies defined." .
 						($user['is_premium'] ? "" : " To add more currencies, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
