@@ -104,6 +104,7 @@ h2 { font-size: 110%; }
 /* basic tabs implementation */
 .tabs { clear: both; }
 .tabs .tab_list { margin: 0; padding: 5px; padding-bottom: 0; }
+.tabs .tab_list li:hover { text-decoration: underline; }
 .tabs .tab_list > ul, .tabs .tab_list > li { margin: 0; padding: 0; list-style: none; }
 .tabs .tab_list > li { display: inline-block; min-width: 120px; border: 1px outset #ccc; margin: 0; border-bottom: none; padding: 5px; cursor: pointer; }
 .tabs .tab_groups .tab_open { min-height: 160px; }
