@@ -31,6 +31,9 @@ if (!$data) {
 }
 
 // account balance
+if (isset($data['balance']['BTC'])) {
+	throw new ExternalAPIException("API key was for BTC, not LTC.");
+}
 $balance = $data['balance'][strtoupper($currency)];
 
 // and for each security
