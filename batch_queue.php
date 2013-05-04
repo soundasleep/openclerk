@@ -116,7 +116,7 @@ foreach ($standard_jobs as $standard) {
 			}
 		} else {
 			// we want to run system jobs at least every 0.1 hours = 6 minutes
-			$args[] = isset($standard['hours']) ? $standard['hours'] : (($user_id == get_site_config('system_user_id')) ? get_site_config('refresh_queue_hours_system') : get_site_config('refresh_queue_hours'));
+			$args[] = isset($standard['hours']) ? $standard['hours'] : (($user_id == get_site_config('system_user_id') || (isset($standard['user_id']) && $standard['user_id'] == get_site_config('system_user_id'))) ? get_site_config('refresh_queue_hours_system') : get_site_config('refresh_queue_hours'));
 		}
 	}
 
@@ -177,6 +177,7 @@ function insert_new_job($job) {
 		$q2->execute($job);
 		$job['id'] = db()->lastInsertId();
 		added_job($job);
+		crypto_log(htmlspecialchars(print_r($job, true)) . " already exists");
 	}
 
 }
