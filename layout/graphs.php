@@ -67,6 +67,9 @@ function render_graph($graph) {
 			if (isset($balances['totalnmc']) && $balances['totalnmc']['balance'] != 0 && isset($rates['btcnmc'])) {
 				$data['NMC'] = graph_number_format($balances['totalnmc']['balance'] * $rates['btcnmc']['sell']);
 			}
+			if (isset($balances['totalftc']) && $balances['totalftc']['balance'] != 0 && isset($rates['btcftc'])) {
+				$data['FTC'] = graph_number_format($balances['totalftc']['balance'] * $rates['btcftc']['sell']);
+			}
 			if (isset($balances['totalusd']) && $balances['totalusd']['balance'] != 0 && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
 				$data['USD'] = graph_number_format($balances['totalusd']['balance'] / $rates['usdbtc']['buy']);
 			}
@@ -504,12 +507,12 @@ function graph_types() {
 	$total_fiat_currencies = implode_english($total_fiat_currencies);
 
 	$data = array(
-		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD.'),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC/FTC, Mt.Gox for USD, BitNZ for NZD.'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'ticker_matrix' => array('title' => 'All currencies exchange rates (matrix)', 'heading' => 'All exchanges', 'description' => 'A matrix displaying the current buy/sell of all of the currencies and exchanges <a href="' . htmlspecialchars(url_for('user')) .'">you are interested in</a>.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),
-		'total_converted_table' => array('title' => 'Total converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.<p>Supports ' . $total_fiat_currencies . '.<p>Exchanges used: BTC-e for LTC/NMC, Mt.Gox for USD, BitNZ for NZD'),
-		'crypto_converted_table' => array('title' => 'Total converted crypto balances (table)', 'heading' => 'Converted crypto', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies -if they were immediately converted into other cryptocurrencies.<p>Exchanges used: BTC-e for LTC/NMC.'),
+		'total_converted_table' => array('title' => 'Total converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.<p>Supports ' . $total_fiat_currencies . '.<p>Exchanges used: BTC-e for LTC/NMC/FTC, Mt.Gox for USD, BitNZ for NZD'),
+		'crypto_converted_table' => array('title' => 'Total converted crypto balances (table)', 'heading' => 'Converted crypto', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies - if they were immediately converted into other cryptocurrencies.<p>Exchanges used: BTC-e for LTC/NMC/FTC.'),
 		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.'),
 	);
 
@@ -562,12 +565,13 @@ function graph_types() {
 	}
 
 	// we can generate a list of composition graphs from all of the currencies that we support
+	$summary_balances = get_all_summary_instances();
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_pie"] = array(
 			'title' => "Total " . get_currency_name($currency) . " balance composition (pie)",
 			'heading' => "Total " . strtoupper($currency),
 			'description' => "A pie chart representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
-			'hide' => !isset($summaries[$cur]),
+			'hide' => !isset($summaries[$cur]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
 	}
 
@@ -843,6 +847,7 @@ function get_all_recent_rates() {
 		$global_all_recent_rates = array();
 		$q = db()->prepare("SELECT * FROM ticker WHERE is_recent=1 AND (
 			(currency1 = 'btc' AND currency2 = 'ltc' AND exchange='btce') OR
+			(currency1 = 'btc' AND currency2 = 'ftc' AND exchange='btce') OR
 			(currency1 = 'btc' AND currency2 = 'nmc' AND exchange='btce') OR
 			(currency1 = 'nzd' AND currency2 = 'btc' AND exchange='bitnz') OR
 			(currency1 = 'usd' AND currency2 = 'btc' AND exchange='mtgox') OR

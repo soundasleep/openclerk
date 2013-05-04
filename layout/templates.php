@@ -189,6 +189,10 @@ function btc_address($address) {
 	return "<span class=\"address btc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("btc_address_url") . $address) . "\" title=\"Inspect with Blockchain\">?</a></span>";
 }
 
+function ftc_address($address) {
+	return "<span class=\"address ftc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ftc_address_url") . $address) . "\" title=\"Inspect with Feathercoin Search\">?</a></span>";
+}
+
 // TODO $precision should be 8, but then we need to change all other instances -1
 function currency_format($currency_code, $n, $precision = 9) {
 	$currency = strtoupper($currency_code);

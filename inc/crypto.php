@@ -6,13 +6,14 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "usd", "nzd");
+	return array("btc", "ltc", "nmc", "ftc", "usd", "nzd");
 }
 
 function get_currency_name($n) {
 	switch ($n) {
 		case "btc":	return "Bitcoin";
 		case "ltc":	return "Litecoin";
+		case "ftc": return "Feathercoin";
 		case "nmc":	return "Namecoin";
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
@@ -24,6 +25,7 @@ function get_blockchain_currencies() {
 	return array(
 		"Blockchain" => array('btc'),
 		"Litecoin Explorer" => array('ltc'),
+		"Feathercoin Search" => array('ftc'),
 	);
 }
 
@@ -46,7 +48,7 @@ function get_exchange_name($n) {
 function get_exchange_pairs() {
 	return array(
 		"bitnz" => array(array('nzd', 'btc')),
-		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc')),
+		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ftc')),
 		"mtgox" => array(array('usd', 'btc')),
 		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('usd', 'nmc'), array('ltc', 'nmc')),
 	);
@@ -62,7 +64,7 @@ function get_security_exchange_pairs() {
 function get_supported_wallets() {
 	return array(
 		get_exchange_name("generic") => get_all_currencies(),
-		get_exchange_name("btce") => array('btc', 'ltc', 'nmc', 'usd'),
+		get_exchange_name("btce") => array('btc', 'ltc', 'nmc', 'usd', 'ftc'),
 		get_exchange_name("poolx") => array('ltc'),
 		get_exchange_name("mtgox") => array('btc', 'usd'),
 		get_exchange_name("litecoinglobal") => array('ltc'),
@@ -75,6 +77,7 @@ function crypto_address($currency, $address) {
 	switch ($currency) {
 		case 'btc': return btc_address($address);
 		case 'ltc': return ltc_address($address);
+		case 'ftc': return ftc_address($address);
 		default: return htmlspecialchars($address);
 	}
 }
@@ -84,6 +87,7 @@ function get_summary_types() {
 		'summary_btc' => array('currency' => 'btc', 'key' => 'btc', 'title' => get_currency_name('btc'), 'short_title' => 'BTC'),
 		'summary_ltc' => array('currency' => 'ltc', 'key' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
 		'summary_nmc' => array('currency' => 'nmc', 'key' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
+		'summary_ftc' => array('currency' => 'ftc', 'key' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => 'FTC'),
 		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)'),
 		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
 		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)'),
@@ -112,6 +116,7 @@ function get_crypto_conversion_summary_types() {
 		'btc' => array('currency' => 'btc', 'title' => get_currency_name('btc'), 'short_title' => 'BTC'),
 		'ltc' => array('currency' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
 		'nmc' => array('currency' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
+		'ftc' => array('currency' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => 'FTC'),
 	);
 }
 
@@ -120,6 +125,7 @@ function account_data_grouped() {
 		'Addresses' => array(
 			'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'btc\''),
 			'litecoin' => array('url' => 'accounts_litecoin', 'title' => 'LTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ltc\''),
+			'feathercoin' => array('url' => 'accounts_feathercoin', 'title' => 'FTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ftc\''),
 		),
 		'Mining pools' => array(
 			'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts'),
@@ -221,6 +227,15 @@ function is_valid_btc_address($address) {
 function is_valid_ltc_address($address) {
 	// based on is_valid_btc_address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "L")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_ftc_address($address) {
+	// based on is_valid_ftc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "6")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}

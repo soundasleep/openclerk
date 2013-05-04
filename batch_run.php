@@ -54,8 +54,16 @@ try {
 			require("jobs/litecoin.php");
 			break;
 
+		case "feathercoin":
+			require("jobs/feathercoin.php");
+			break;
+
 		case "litecoin_block":
 			require("jobs/litecoin_block.php");
+			break;
+
+		case "feathercoin_block":
+			require("jobs/feathercoin_block.php");
 			break;
 
 		case "generic":

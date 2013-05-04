@@ -547,3 +547,17 @@ CREATE TABLE graph_data_summary (
 UPDATE summary_instances SET summary_type='crypto2btc' WHERE summary_type='all2btc';
 
 UPDATE graphs SET graph_type='total_converted_table' WHERE graph_type='fiat_converted_table';
+
+-- upgrade statements from 0.1 to 0.2
+DROP TABLE IF EXISTS feathercoin_blocks;
+
+CREATE TABLE feathercoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

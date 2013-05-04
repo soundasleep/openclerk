@@ -59,7 +59,8 @@ if (isset($argv[5]) && $argv[5] && $argv[5] != "-") {
 $standard_jobs = array(
 	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'addresses', 'type' => 'blockchain', 'query' => ' AND currency=\'btc\''),
-	array('table' => 'addresses', 'type' => 'litecoin', 'query' => ' AND currency=\'ltc\''),
+	array('table' => 'addresses', 'type' => 'litecoin', 'query' => ' AND currency=\'ltc\''), // make sure to add litecoin_block job below too
+	array('table' => 'addresses', 'type' => 'feathercoin', 'query' => ' AND currency=\'ftc\''), // make sure to add feathercoin_block job below too
 	array('table' => 'accounts_generic', 'type' => 'generic'),
 	array('table' => 'accounts_btce', 'type' => 'btce'),
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox'),
@@ -131,14 +132,17 @@ foreach ($standard_jobs as $standard) {
 }
 
 if (!$premium_only) {
-	// as often as we can (or on request), run litecoin_block jobs
-	if (!$job_type || in_array("litecoin_block", $job_type)) {
-		insert_new_job(array(
-			'priority' => $priority,
-			'type' => 'litecoin_block',
-			'user_id' => get_site_config('system_user_id'),
-			'arg_id' => -1,
-		));
+	$block_jobs = array('litecoin_block', 'feathercoin_block');
+	foreach ($block_jobs as $name) {
+		// as often as we can (or on request), run litecoin_block jobs
+		if (!$job_type || in_array($name, $job_type)) {
+			insert_new_job(array(
+				'priority' => $priority,
+				'type' => $name,
+				'user_id' => get_site_config('system_user_id'),
+				'arg_id' => -1,
+			));
+		}
 	}
 
 	// once a day (at 6am) (or on request), run cleanup jobs

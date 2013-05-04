@@ -58,6 +58,20 @@ switch ($summary['summary_type']) {
 		// TODO all2nmc
 		break;
 
+	case "summary_ftc":
+		$total = 0;
+		require("jobs/summary/totalftc.php");
+		add_summary_instance($job, 'totalftc', $total);
+		add_summary_instance($job, 'blockchainftc', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetsftc', $total_offsets_balance);
+
+		$total = 0;
+		require("jobs/summary/crypto2ftc.php");
+		add_summary_instance($job, 'crypto2ftc', $total);
+
+		// TODO all2ftc
+		break;
+
 	case "summary_usd_btce":
 		$total = 0;
 		require("jobs/summary/totalusd.php");
