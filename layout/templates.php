@@ -225,6 +225,14 @@ function number_format_html($n, $precision) {
 	return "<span title=\"" . number_format_autoprecision($n, 8) . "\">" . number_format_precision($n, $precision) . "</span>";
 }
 
+function capitalize($s) {
+	$split = explode(" ", $s);
+	foreach ($split as $i => $value) {
+		$split[$i] = strtoupper(substr($value, 0, 1)) . substr($value, 1);
+	}
+	return implode(" ", $split);
+}
+
 function require_template($id) {
 	// sanity checking for security
 	$id = str_replace(".", "", $id);

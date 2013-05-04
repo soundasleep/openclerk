@@ -4,7 +4,7 @@ html,body {
     background: #111;
     color: #eee;
 }
-html { margin: 0; padding: 0; }
+html, form { margin: 0; padding: 0; }
 body { margin: 15px; padding: 0; }
 
 a, a:active, a:visited {

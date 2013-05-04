@@ -86,6 +86,8 @@ if (!$graphs) { ?>
 
 </div>
 
+<div style="clear:both;"></div><?php /* try and fix tab linebreak on Android web browser */ ?>
+
 <div class="tabs" id="tabs_profile">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>

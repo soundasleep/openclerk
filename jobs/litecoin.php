@@ -59,6 +59,10 @@ if (preg_match('#<p>Balance: ([0-9\.]+) LTC#i', $html, $matches)) {
 	$balance = 0;
 	crypto_log("Address is valid, but not yet seen on network");
 
+} else if (strpos($html, "Not a valid address.") !== false) {
+	// the address is NOT valid
+	throw new ExternalAPIException("Not a valid address");
+
 } else {
 	throw new ExternalAPIException("Could not find balance on page");
 }
