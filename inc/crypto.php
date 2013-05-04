@@ -41,6 +41,7 @@ function get_exchange_name($n) {
 		case "offsets":	return "Offsets";
 		case "blockchain": return "Blockchain";	// generic
 		case "poolx":	return "Pool-x.eu";
+		case "wemineltc": return "WeMineLTC";
 		case "vircurex": return "Vircurex";
 		case "slush":	return "Slush's pool";
 		default:		return "Unknown (" . htmlspecialchars($n) . ")";
@@ -66,15 +67,16 @@ function get_security_exchange_pairs() {
 
 function get_supported_wallets() {
 	return array(
-		get_exchange_name("generic") => get_all_currencies(),
 		get_exchange_name("btce") => array('btc', 'ltc', 'nmc', 'usd', 'ftc'),
-		get_exchange_name("poolx") => array('ltc'),
-		get_exchange_name("mtgox") => array('btc', 'usd'),
-		get_exchange_name("litecoinglobal") => array('ltc'),
 		get_exchange_name("btct") => array('btc'),
 		get_exchange_name("cryptostocks") => array('btc', 'ltc'),
-		get_exchange_name("vircurex") => array('btc', 'ltc', 'nmc', 'usd'),
+		get_exchange_name("litecoinglobal") => array('ltc'),
+		get_exchange_name("mtgox") => array('btc', 'usd'),
+		get_exchange_name("poolx") => array('ltc'),
 		get_exchange_name("slush") => array('btc', 'nmc'),
+		get_exchange_name("vircurex") => array('btc', 'ltc', 'nmc', 'usd'),
+		get_exchange_name("wemineltc") => array('ltc'),
+		get_exchange_name("generic") => get_all_currencies(),
 	);
 }
 
@@ -135,6 +137,7 @@ function account_data_grouped() {
 		'Mining pools' => array(
 			'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts'),
 			'slush' => array('url' => 'accounts_slush', 'title' => 'Slush\'s pool accounts', 'label' => 'account', 'table' => 'accounts_slush', 'group' => 'accounts'),
+			'wemineltc' => array('url' => 'accounts_wemineltc', 'title' => 'WeMineLTC accounts', 'label' => 'account', 'table' => 'accounts_wemineltc', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -249,7 +252,7 @@ function is_valid_ftc_address($address) {
 	return false;
 }
 
-function is_valid_poolx_apikey($key) {
+function is_valid_mmcfe_apikey($key) {
 	// not sure what the format should be, seems to be 64 character hexadecmial
 	return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
 }
