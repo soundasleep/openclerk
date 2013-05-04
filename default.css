@@ -156,7 +156,7 @@ h2 { font-size: 110%; }
 .currency_name_btc { background: url('img/bitcoin.png') top left no-repeat; padding-left: 20px; } 
 .currency_name_ltc { background: url('img/litecoin.png') top left no-repeat; padding-left: 20px; } 
 .currency_name_nmc { background: url('img/namecoin.png') top left no-repeat; padding-left: 20px; } 
-.currency_name_ltc { background: url('img/feathercoin.png') top left no-repeat; padding-left: 20px; } 
+.currency_name_ftc { background: url('img/feathercoin.png') top left no-repeat; padding-left: 20px; } 
 .help_name_twitter { background: url('img/twitter.png') top left no-repeat; padding-left: 20px; } 
 .help_name_email { background: url('img/gmail.png') top left no-repeat; padding-left: 20px; } 
 .help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 
