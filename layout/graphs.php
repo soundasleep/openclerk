@@ -702,7 +702,7 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 	  ['<?php echo htmlspecialchars($key_label); ?>', '<?php echo htmlspecialchars($value_label); ?>'],
 	  <?php
 	  foreach ($data as $key => $value) {
-		echo "['" . $key . "', " . $callback($value) . "],";
+		echo "[" . json_encode($key) . ", " . $callback($value) . "],";
 	  } ?>
 	]);
 
@@ -733,7 +733,7 @@ function render_linegraph_date($graph, $data) {
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Date');
         <?php for ($i = 1; $i < count($data[0]); $i++) { ?>
-        	data.addColumn('number', '<?php echo htmlspecialchars($data[0][$i]); ?>');
+        	data.addColumn('number', <?php echo json_encode($data[0][$i]); ?>);
         <?php } ?>
 
         data.addRows([
