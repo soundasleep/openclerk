@@ -561,3 +561,34 @@ CREATE TABLE feathercoin_blocks (
 	
 	INDEX(is_recent)
 );
+
+DROP TABLE IF EXISTS accounts_cryptostocks;
+
+CREATE TABLE accounts_cryptostocks (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_email varchar(255) not null,
+	api_key_coin varchar(255) not null,
+	api_key_share varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
+
+-- as per litecoinglobal/btct
+
+DROP TABLE IF EXISTS securities_cryptostocks;
+
+CREATE TABLE securities_cryptostocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	name varchar(64) not null,
+	currency varchar(3),	-- only null until we've retrieved the security definition
+	
+	INDEX(last_queue)
+);

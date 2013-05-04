@@ -102,6 +102,14 @@ try {
 			require("jobs/securities_btct.php");
 			break;
 
+		case "cryptostocks":
+			require("jobs/cryptostocks.php");
+			break;
+
+		case "securities_cryptostocks":
+			require("jobs/securities_cryptostocks.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");

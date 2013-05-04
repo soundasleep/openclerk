@@ -70,6 +70,8 @@ $standard_jobs = array(
 	array('table' => 'securities_litecoinglobal', 'type' => 'securities_litecoinglobal', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'accounts_btct', 'type' => 'btct'),
 	array('table' => 'securities_btct', 'type' => 'securities_btct', 'user_id' => get_site_config('system_user_id')),
+	array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks'),
+	array('table' => 'securities_cryptostocks', 'type' => 'securities_cryptostocks', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'summaries', 'type' => 'summary'),
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
@@ -126,7 +128,7 @@ foreach ($standard_jobs as $standard) {
 		insert_new_job($job);
 
 		// update the address
-		$q2 = db()->prepare("UPDATE addresses SET last_queue=NOW() WHERE id=?");
+		$q2 = db()->prepare("UPDATE " . $standard['table'] . " SET last_queue=NOW() WHERE id=?");
 		$q2->execute(array($address['id']));
 	}
 }

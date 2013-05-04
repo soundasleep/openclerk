@@ -36,6 +36,7 @@ function get_exchange_name($n) {
 		case "mtgox": 	return "Mt.Gox";
 		case "litecoinglobal": return "Litecoin Global";
 		case "btct": return "BTC Trading Co.";
+		case "cryptostocks": return "Cryptostocks";
 		case "generic":	return "Generic API";
 		case "offsets":	return "Offsets";
 		case "blockchain": return "Blockchain";	// generic
@@ -58,6 +59,7 @@ function get_security_exchange_pairs() {
 	return array(
 		"litecoinglobal" => array('ltc'),
 		"btct" => array('btc'),
+		"cryptostocks" => array('btc', 'ltc'),
 	);
 }
 
@@ -69,6 +71,7 @@ function get_supported_wallets() {
 		get_exchange_name("mtgox") => array('btc', 'usd'),
 		get_exchange_name("litecoinglobal") => array('ltc'),
 		get_exchange_name("btct") => array('btc'),
+		get_exchange_name("cryptostocks") => array('btc', 'ltc'),
 		get_exchange_name("vircurex") => array('btc', 'ltc', 'nmc', 'usd'),
 	);
 }
@@ -136,6 +139,7 @@ function account_data_grouped() {
 			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'title' => 'Litecoin Global accounts', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts'),
 			'btct' => array('url' => 'accounts_btct', 'title' => 'BTC Trading Co. accounts', 'label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts'),
 			'vircurex' => array('url' => 'accounts_vircurex', 'title' => 'Vircurex accounts', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts'),
+			'cryptostocks' => array('url' => 'accounts_cryptostocks', 'title' => 'Cryptostocks accounts', 'label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts'),
 		),
 		'Other' => array(
 			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
@@ -283,6 +287,11 @@ function is_valid_vircurex_apiusername($key) {
 }
 
 function is_valid_vircurex_apisecret($key) {
+	// this could probably be in any format but should be at least one character
+	return strlen($key) >= 1 && strlen($key) <= 255;
+}
+
+function is_valid_generic_key($key) {
 	// this could probably be in any format but should be at least one character
 	return strlen($key) >= 1 && strlen($key) <= 255;
 }

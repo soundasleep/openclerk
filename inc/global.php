@@ -405,6 +405,20 @@ function url_for($module, $arguments = array()) {
 }
 
 /**
+ * Add GET arguments onto a particular URL. Does not replace any existing arguments.
+ */
+function url_add($url, $arguments) {
+	foreach ($arguments as $key => $value) {
+		if (strpos($url, "?") !== false) {
+			$url .= "&" . urlencode($key) . "=" . urlencode($value);
+		} else {
+			$url .= "?" . urlencode($key) . "=" . urlencode($value);
+		}
+	}
+	return $url;
+}
+
+/**
  * Very basic verification function: It needs to have a dot, and an at sign.
  */
 function is_valid_email($e) {
