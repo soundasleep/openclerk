@@ -38,6 +38,8 @@ $external_apis = array(
 		'blockchain' => '<a href="http://blockchain.info">Blockchain</a>',
 		'litecoin' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a>',
 		'litecoin_block' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a> (block count)',
+		'feathercoin' => '<a href="http://cryptocoinexplorer.com:5750/">Feathercoin search</a>',
+		'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">Feathercoin search</a> (block count)',
 	),
 
 	"Mining pool wallets" => array(
