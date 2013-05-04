@@ -42,6 +42,7 @@ function get_exchange_name($n) {
 		case "blockchain": return "Blockchain";	// generic
 		case "poolx":	return "Pool-x.eu";
 		case "wemineltc": return "WeMineLTC";
+		case "givemeltc": return "Give Me LTC";
 		case "vircurex": return "Vircurex";
 		case "slush":	return "Slush's pool";
 		default:		return "Unknown (" . htmlspecialchars($n) . ")";
@@ -70,6 +71,7 @@ function get_supported_wallets() {
 		get_exchange_name("btce") => array('btc', 'ltc', 'nmc', 'usd', 'ftc'),
 		get_exchange_name("btct") => array('btc'),
 		get_exchange_name("cryptostocks") => array('btc', 'ltc'),
+		get_exchange_name("givemeltc") => array('ltc'),
 		get_exchange_name("litecoinglobal") => array('ltc'),
 		get_exchange_name("mtgox") => array('btc', 'usd'),
 		get_exchange_name("poolx") => array('ltc'),
@@ -138,6 +140,7 @@ function account_data_grouped() {
 			'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts'),
 			'slush' => array('url' => 'accounts_slush', 'title' => 'Slush\'s pool accounts', 'label' => 'account', 'table' => 'accounts_slush', 'group' => 'accounts'),
 			'wemineltc' => array('url' => 'accounts_wemineltc', 'title' => 'WeMineLTC accounts', 'label' => 'account', 'table' => 'accounts_wemineltc', 'group' => 'accounts'),
+			'givemeltc' => array('url' => 'accounts_givemeltc', 'title' => 'Give Me LTC accounts', 'label' => 'account', 'table' => 'accounts_givemeltc', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),

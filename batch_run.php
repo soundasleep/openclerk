@@ -90,6 +90,10 @@ try {
 			require("jobs/wemineltc.php");
 			break;
 
+		case "givemeltc":
+			require("jobs/givemeltc.php");
+			break;
+
 		case "slush":
 			require("jobs/slush.php");
 			break;

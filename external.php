@@ -45,6 +45,8 @@ $external_apis = array(
 	"Mining pool wallets" => array(
 		'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
 		'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
+		'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
+		'givemeltc' => '<a href="https://www.give-me-ltc.com">Give Me LTC</a>',
 	),
 
 	"Exchange wallets" => array(
