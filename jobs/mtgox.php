@@ -53,6 +53,12 @@ if (isset($mtgox_info['error'])) {
 	throw new ExternalAPIException("API returned error: '" . $mtgox_info['error'] . "'");
 }
 foreach ($currencies as $currency => $divisor) {
+	if (!isset($mtgox_info['return']['Wallets'][strtoupper($currency)])) {
+		// e.g. this is an AUD/BTC wallet; we shouldn't fail outright
+		crypto_log("Did not find any " . strtoupper($currency) . " currency in $exchange");
+		continue;
+	}
+
 	crypto_log($exchange . " balance for " . $currency . ": " . ($mtgox_info['return']['Wallets'][strtoupper($currency)]['Balance']['value_int'] / $divisor));
 	if (!isset($mtgox_info['return']['Wallets'][strtoupper($currency)]['Balance']['value_int'])) {
 		throw new ExternalAPIException("Did not find funds for currency $currency in $exchange");
