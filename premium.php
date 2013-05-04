@@ -48,7 +48,7 @@ page_header("Premium Accounts", "page_premium");
 		}
 	}
 
-	$currencies = array_map('get_currency_name', $currencies);
+	$currencies = array_map('strtoupper', $currencies);
 	$predef = array(
 		'addresses' => 'Tracked addresses (' . implode(", ", $currencies) . ')',
 		'accounts' => 'Tracked accounts (BTC-e, Mt.Gox, ...)',
