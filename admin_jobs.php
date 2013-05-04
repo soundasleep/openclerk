@@ -51,13 +51,5 @@ page_header("Admin: Jobs Status", "page_admin_jobs");
 </tbody>
 </table>
 
-<ul>
-	<li><a href="<?php echo htmlspecialchars(url_for("admin_jobs")); ?>">Job status</a></li>
-</ul>
-
-<p>
-TODO
-</p>
-
 <?php
 page_footer();

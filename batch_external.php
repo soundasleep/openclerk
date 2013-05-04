@@ -22,6 +22,8 @@ if (require_get("key", false)) {
 	page_header("External Status", "page_batch_external", $options);
 }
 
+crypto_log("Current time: " . date('r'));
+
 // we just summarise the data from the last X jobs
 // (rather than the last X minutes, which would require a sort of all jobs)
 // because 'ticker' jobs are broken down into exchanges, we also want to get each individual exchange data

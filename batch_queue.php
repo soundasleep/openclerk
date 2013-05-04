@@ -85,6 +85,8 @@ $standard_jobs = array(
 		AND NOW() > premium_expires', 'user_id' => get_site_config('system_user_id'), 'always' => true),
 );
 
+crypto_log("Current time: " . date('r'));
+
 foreach ($standard_jobs as $standard) {
 	if ($job_type && !in_array($standard['type'], $job_type)) {
 		crypto_log("Skipping " . htmlspecialchars($standard['type']) . ": not in job types [" . htmlspecialchars(implode(", ", $job_type)) . "].");

@@ -14,6 +14,8 @@ require("_batch.php");
 require_batch_key();
 batch_header("Batch cleanup summary", "batch_cleanup_summary");
 
+crypto_log("Current time: " . date('r'));
+
 // find all ticker data that needs to be inserted into the graph_data table
 // TODO currently all database dates and PHP logic is based on server side timezone, not GMT/UTC
 // database values need to all be modified to GMT before we can add '+00:00' for example

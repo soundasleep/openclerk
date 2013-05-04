@@ -32,6 +32,8 @@ if (!$job) {
 	return;
 }
 
+crypto_log("Current time: " . date('r'));
+
 // otherwise, we'll want to actually execute something, based on the job type
 // TODO remove the navigation links once we have an actual job admin interface
 crypto_log("Executing job " . htmlspecialchars(print_r($job, true)) . " (<a href=\"" . htmlspecialchars(url_for('batch_run',

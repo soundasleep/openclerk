@@ -548,7 +548,9 @@ UPDATE summary_instances SET summary_type='crypto2btc' WHERE summary_type='all2b
 
 UPDATE graphs SET graph_type='total_converted_table' WHERE graph_type='fiat_converted_table';
 
+----------------------------------------------------------------------------
 -- upgrade statements from 0.1 to 0.2
+----------------------------------------------------------------------------
 DROP TABLE IF EXISTS feathercoin_blocks;
 
 CREATE TABLE feathercoin_blocks (
