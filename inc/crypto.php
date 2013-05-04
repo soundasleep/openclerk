@@ -42,6 +42,7 @@ function get_exchange_name($n) {
 		case "blockchain": return "Blockchain";	// generic
 		case "poolx":	return "Pool-x.eu";
 		case "vircurex": return "Vircurex";
+		case "slush":	return "Slush's pool";
 		default:		return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -73,6 +74,7 @@ function get_supported_wallets() {
 		get_exchange_name("btct") => array('btc'),
 		get_exchange_name("cryptostocks") => array('btc', 'ltc'),
 		get_exchange_name("vircurex") => array('btc', 'ltc', 'nmc', 'usd'),
+		get_exchange_name("slush") => array('btc', 'nmc'),
 	);
 }
 
@@ -132,6 +134,7 @@ function account_data_grouped() {
 		),
 		'Mining pools' => array(
 			'poolx' => array('url' => 'accounts_poolx', 'title' => 'Pool-X.eu accounts', 'label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts'),
+			'slush' => array('url' => 'accounts_slush', 'title' => 'Slush\'s pool accounts', 'label' => 'account', 'table' => 'accounts_slush', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -289,6 +292,11 @@ function is_valid_vircurex_apiusername($key) {
 function is_valid_vircurex_apisecret($key) {
 	// this could probably be in any format but should be at least one character
 	return strlen($key) >= 1 && strlen($key) <= 255;
+}
+
+function is_valid_slush_apitoken($key) {
+	// not sure what the format is, but it looks to be [user-id]-[random 32 hex characters]
+	return preg_match("#^[0-9]+-[0-9a-f]{32}$#", $key);
 }
 
 function is_valid_generic_key($key) {

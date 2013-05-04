@@ -44,6 +44,7 @@ $external_apis = array(
 
 	"Mining pool wallets" => array(
 		'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
+		'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
 	),
 
 	"Exchange wallets" => array(
@@ -52,6 +53,7 @@ $external_apis = array(
 		'btce' => '<a href="http://btc-e.com">BTC-e</a>',
 		'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 		'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
+		'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 	),
 
 	"Exchange tickers" => array(
@@ -61,6 +63,7 @@ $external_apis = array(
 		'ticker_vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
 		'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 		'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
+		'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 	),
 
 	"Other" => array(

@@ -86,6 +86,10 @@ try {
 			require("jobs/poolx.php");
 			break;
 
+		case "slush":
+			require("jobs/slush.php");
+			break;
+
 		case "litecoinglobal":
 			require("jobs/litecoinglobal.php");
 			break;

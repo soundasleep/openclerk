@@ -592,3 +592,17 @@ CREATE TABLE securities_cryptostocks (
 	
 	INDEX(last_queue)
 );
+
+DROP TABLE IF EXISTS accounts_slush;
+
+CREATE TABLE accounts_slush (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_token varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
