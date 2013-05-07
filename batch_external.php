@@ -8,19 +8,10 @@
  */
 
 require("inc/global.php");
+require("_batch.php");
 
-if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_get("key") != get_site_config("automated_key"))
-	throw new Exception("Invalid key");
-
-if (require_get("key", false)) {
-	// we're running from a web browser
-	require("layout/templates.php");
-	$options = array();
-	if (require_get("refresh", false)) {
-		$options["refresh"] = require_get("refresh");
-	}
-	page_header("External Status", "page_batch_external", $options);
-}
+require_batch_key();
+batch_header("Batch external status", "batch_external");
 
 crypto_log("Current time: " . date('r'));
 
@@ -56,7 +47,7 @@ foreach ($queries as $query) {
 	}
 }
 
-echo "\n<li>" . print_r($summary, true) . "</li>";
+crypto_log(print_r($summary, true));
 
 // update the database
 $q = db()->prepare("DELETE FROM external_status");
@@ -74,10 +65,6 @@ foreach ($summary as $key => $data) {
 	));
 }
 
-echo "\n<li>Complete from " . number_format($sample_size) . " job samples.";
+crypto_log("Complete from " . number_format($sample_size) . " job samples into " . number_format(count($summary)) . " summary values.");
 
-if (require_get("key", false)) {
-	// we're running from a web browser
-	// include page gen times etc
-	page_footer();
-}
+batch_footer();
