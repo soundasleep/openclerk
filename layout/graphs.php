@@ -77,6 +77,9 @@ function render_graph($graph, $is_public = false) {
 				$data['NZD'] = graph_number_format($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']);
 			}
 
+			// sort data by balance
+			arsort($data);
+
 			if ($data) {
 				render_pie_chart($graph, $data, 'Currency', 'BTC');
 			} else {
@@ -379,6 +382,9 @@ function render_graph($graph, $is_public = false) {
 								$data[get_exchange_name($b['exchange'])] = $b['balance'];
 							}
 						}
+
+						// sort data by balance
+						arsort($data);
 
 						if ($data) {
 							render_pie_chart($graph, $data, 'Source', strtoupper($currency));
