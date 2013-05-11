@@ -50,16 +50,19 @@ function get_site_config($key = null) {
 		"sleep_btce_ticker" => 5,	// how many seconds to wait between repeated btc-e ticker queries
 		"sleep_mtgox_ticker" => 5,
 		"sleep_vircurex_balance" => 5,
+		"sleep_cryptostocks_balance" => 5,
 
 		// layout properties
-		"default_graph_width" => 120, // in px, default *2
-		"default_graph_height" => 120, // in px, default *2
+		"default_graph_width" => 110, // in px, default *2
+		"default_graph_height" => 110, // in px, default *2
 
 		// external URLs
 		"ltc_address_url" => "http://explorer.litecoin.net/address/",
 		"btc_address_url" => "http://blockchain.info/address/",
+		"ftc_address_url" => "http://cryptocoinexplorer.com:5750/address/",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
+		"ftc_confirmations" => 6,
 
 		// premium properties
 		"premium_currencies" => array('btc', 'ltc'),
@@ -82,6 +85,8 @@ function get_site_config($key = null) {
 		"custom_index" => false,
 		"custom_signup" =>false,
 		"custom_help" => false,
+		"custom_screenshots" => false,
+		"custom_templates_copyright" => false,
 		"forum_link" => "http://bitcointalk.org/",
 
 	);
