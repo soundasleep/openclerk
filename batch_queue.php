@@ -93,7 +93,7 @@ foreach ($standard_jobs as $standard) {
 		continue;
 	}
 	if ($premium_only && isset($standard['user_id'])) {
-		crypto_log("<li>Skipping " . htmlspecialchars($standard['type']) . ": not premium user type job.");
+		crypto_log("Skipping " . htmlspecialchars($standard['type']) . ": not premium user type job.");
 		continue;
 	}
 
