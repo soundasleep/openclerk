@@ -20,18 +20,19 @@ $(document).ready(function() {
 		}
 	}
 	template.remove();	// so we can't select it while hidden
-	e.keyup(function(event) {
+	var callback = function(event) {
 		var data = $(event.target).find("option:selected").data('index');
 		if (typeof data != 'undefined') {
 			$("#graph_description").html(graph_types()[data]['description']);
+			if (typeof graph_types()[data]['days'] != 'undefined' && graph_types()[data]['days']) {
+				$("#add_graph_days").show();
+			} else {
+				$("#add_graph_days").hide();
+			}
 		}
-	});
-	e.change(function(event) {
-		var data = $(event.target).find("option:selected").data('index');
-		if (typeof data != 'undefined') {
-			$("#graph_description").html(graph_types()[data]['description']);
-		}
-	});
+	};
+	e.keyup(callback);
+	e.change(callback);
 });
 
 /**

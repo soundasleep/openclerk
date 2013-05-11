@@ -653,3 +653,5 @@ CREATE TABLE accounts_bips (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+ALTER TABLE graphs ADD days int;

@@ -14,6 +14,9 @@ $errors = array();
 
 $historical_graphs = graph_types_public();
 
+$permitted_days = get_permitted_days();
+$days = isset($permitted_days[require_get('days', false)]) ? $permitted_days[require_get('days')]['days'] : 45;
+
 $id = require_get("id", false);
 if ($id && isset($historical_graphs[$id])) {
 	// we're displaying a specific graph
@@ -25,6 +28,7 @@ if ($id && isset($historical_graphs[$id])) {
 		'width' => 8,
 		'height' => 4,
 		'page_order' => 0,
+		'days' => $days,
 		'id' => 0,
 	);
 
@@ -33,6 +37,9 @@ if ($id && isset($historical_graphs[$id])) {
 
 	<p class="backlink">
 	<a href="<?php echo htmlspecialchars(url_for('historical')); ?>">&lt; Back to Historical Data</a>
+	<?php foreach ($permitted_days as $key => $days) { ?>
+	| <a href="<?php echo htmlspecialchars(url_for('historical', array('id' => $id, 'days' => $key))); ?>"><?php echo htmlspecialchars($days['title']); ?></a>
+	<?php } ?>
 	</p>
 
 	<div class="graph_collection">

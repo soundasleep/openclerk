@@ -8,7 +8,6 @@
 	<td><select name="type" id="graph_type">
 		<option id="graph_type_template">Loading...</option>
 	</select></td>
-	<td rowspan="4" class="graph_description_td"><div id="graph_description">Select an option</div></td>
 </tr>
 <tr>
 	<th>Width:</th>
@@ -28,14 +27,23 @@
 		<option value="6">Very Large (<?php echo number_format(get_site_config('default_graph_height') * 6); ?>px)</option>
 	</select></td>
 </tr>
+<tr id="add_graph_days" style="display:none;">
+	<th>Days:</th>
+	<td><select name="days">
+<?php foreach (get_permitted_days() as $key => $days) { ?>
+		<option value="<?php echo htmlspecialchars($days['days']); ?>"><?php echo htmlspecialchars($days['title']); ?></option>
+<?php } ?>
+	</select></td>
+</tr>
 <tr>
 	<td colspan="2" class="buttons">
 		<input type="hidden" name="page" value="<?php echo htmlspecialchars($page_id); ?>">
 		<input type="submit" value="Add graph">
 	</td>
-	<td></td>
 </tr>
 </table>
+
+<div id="graph_description">Select an option</div>
 </form>
 </div>
 
@@ -45,7 +53,8 @@ function graph_types() {
 <?php foreach (graph_types() as $id => $graph) {
 	if (!(isset($graph['hide']) && $graph['hide'])) {
 		// we don't want to display graph types that we aren't interested in
-		echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) . "},\n";
+		echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) .
+			", 'days': " . json_encode(isset($graph['days'])) . "},\n";
 	}
 } ?>
 	];

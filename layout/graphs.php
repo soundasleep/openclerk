@@ -411,19 +411,25 @@ function render_graph($graph, $is_public = false) {
 
 }
 
+function get_graph_days($graph) {
+	return (isset($graph['days']) && $graph['days'] > 0) ? ((int) $graph['days']) : 45;
+}
+
 function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 
 	$data = array();
 	$data[0] = array("Date", strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy", strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell");
 	$last_updated = false;
+	$days = get_graph_days($graph);
 
 	$sources = array(
+		// cannot use 'LIMIT :limit'; PDO escapes :limit into string, MySQL cannot handle or cast string LIMITs
 		// first get summarised data
 		array('query' => "SELECT * FROM graph_data_ticker WHERE exchange=:exchange AND
-			currency1=:currency1 AND currency2=:currency2 AND data_date > DATE_SUB(NOW(), INTERVAL 45 DAY) ORDER BY data_date", 'key' => 'data_date'),
+			currency1=:currency1 AND currency2=:currency2 AND data_date > DATE_SUB(NOW(), INTERVAL $days DAY) ORDER BY data_date", 'key' => 'data_date'),
 		// and then get more recent data
 		array('query' => "SELECT * FROM ticker WHERE is_daily_data=1 AND exchange=:exchange AND
-			currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT 45", 'key' => 'created_at'),
+			currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT $days", 'key' => 'created_at'),
 	);
 
 	foreach ($sources as $source) {
@@ -460,14 +466,15 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id) {
 	$data = array();
 	$data[0] = array("Date", strtoupper($currency));
 	$last_updated = false;
+	$days = get_graph_days($graph);
 
 	$sources = array(
 		// first get summarised data
 		array('query' => "SELECT * FROM graph_data_summary WHERE user_id=:user_id AND summary_type=:summary_type AND
-			data_date >= DATE_SUB(NOW(), INTERVAL 45 DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
+			data_date >= DATE_SUB(NOW(), INTERVAL $days DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
 		// and then get more recent data
 		array('query' => "SELECT * FROM summary_instances WHERE is_daily_data=1 AND summary_type=:summary_type AND
-			user_id=:user_id ORDER BY created_at DESC LIMIT 45", 'key' => 'created_at', 'balance_key' => 'balance'),
+			user_id=:user_id ORDER BY created_at DESC LIMIT $days", 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
 	foreach ($sources as $source) {
@@ -520,6 +527,7 @@ function graph_types_public() {
 				'pairs' => $pair,
 				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])),
 				'public' => true, /* can be displayed publicly */
+				'days' => true,
 			);
 		}
 	}
@@ -564,6 +572,7 @@ function graph_types() {
 			'heading' => "Total " . strtoupper($cur),
 			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions)",
 			'hide' => !isset($summaries[$cur]),
+			'days' => true,
 		);
 	}
 
@@ -574,6 +583,7 @@ function graph_types() {
 			'heading' => 'Converted ' . $summary['short_title'],
 			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted to " . $summary['title'] . ".",
 			'hide' => !isset($conversions['summary_' . $key]),
+			'days' => true,
 		);
 	}
 
@@ -584,6 +594,7 @@ function graph_types() {
 			'heading' => 'Converted ' . $summary['short_title'],
 			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted to " . $summary['title'] . " (where possible).",
 			'hide' => !isset($conversions['summary_' . $key]),
+			'days' => true,
 		);
 	}
 
@@ -638,8 +649,10 @@ function render_text($graph, $text) {
 	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
+<div class="overflow_wrapper">
 <?php echo $text; ?>
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
+</div>
 </div>
 <?php
 }
@@ -649,6 +662,7 @@ function render_table_vertical($graph, $data) {
 	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
+<div class="overflow_wrapper">
 <table class="standard">
 <?php foreach ($data as $row) {
 	echo "<tr>";
@@ -663,6 +677,7 @@ function render_table_vertical($graph, $data) {
 </table>
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 </div>
+</div>
 <?php
 }
 
@@ -671,6 +686,7 @@ function render_table_horizontal_vertical($graph, $data) {
 	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
+<div class="overflow_wrapper">
 <table class="standard">
 <?php foreach ($data as $rowid => $row) {
 	echo "<tr>";
@@ -684,6 +700,7 @@ function render_table_horizontal_vertical($graph, $data) {
 ?>
 </table>
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
+</div>
 </div>
 <?php
 }
@@ -797,10 +814,6 @@ function render_linegraph_date($graph, $data) {
 
 function get_dimensions($graph) {
 	return ' style="width: ' . (get_site_config('default_graph_width') * $graph['width']) . 'px; height: ' . (get_site_config('default_graph_height') * $graph['height']) . 'px;"';
-}
-
-function get_dimensions_wrap($graph) {
-	return ' style="width: ' . (get_site_config('default_graph_width') * $graph['width'] + 5) . 'px; height: ' . (get_site_config('default_graph_height') * $graph['height'] + 35) . 'px;"';
 }
 
 // cached

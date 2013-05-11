@@ -177,6 +177,16 @@ function get_default_openid_providers() {
 	);
 }
 
+function get_permitted_days() {
+	$permitted_days = array(
+		'45' => array('title' => '45 days', 'days' => 45),
+		'90' => array('title' => '90 days', 'days' => 90),
+		'180' => array('title' => '180 days', 'days' => 180),
+		'year' => array('title' => '1 year', 'days' => 366),
+	);
+	return $permitted_days;
+}
+
 /**
  * Reset currencies, graph data etc to their defaults.
  */

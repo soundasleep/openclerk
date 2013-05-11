@@ -131,16 +131,37 @@ h2 { font-size: 110%; }
 /* maybe move following into user-only css */
 
 .page_list .page_current { font-weight: bold; }
-.graph_collection .graph, .graph_collection .graph_collection_empty { float: left; border: 1px solid #333; margin: 5px; padding: 5px; overflow-y: auto; }
+.graph_collection .graph, .graph_collection .graph_collection_empty { float: left; border: 1px solid #333; margin: 5px; padding: 5px; overflow: auto; }
 .graph_collection .graph_collection_empty { width: 220px; height: 220px; padding: 20px; font-style: italic; color: #666; }
 .graph_collection .graph h2 { margin: 5px; }
+.graph_collection .graph .overflow_wrapper { overflow: auto; width: 100%; height: 100%; clear: none; }
 .graph_collection .graph table.standard { width: 100%; }
 .graph_collection .graph table.standard th { min-width: 1px; }
 .graph_collection .graph .last_updated { float: right; text-align: right; width: 120px; position: relative; top: -1.75em; color: #333; font-size: 80%; }
-.graph_collection .graph .render_time { display: block; width: 100%; text-align: right; position: relative; color: #333; font-size: 80%; }
+.graph_collection .graph .render_time { display: block; text-align: right; position: relative; width: 100%; color: #333; font-size: 80%; }
 
 .graph_collection .graph .rate_matrix { list-style: none; margin: 0; padding: 0; }
 .graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
+
+.graph_collection ul.graph_controls { 
+	list-style: none; 
+	margin: 5px; 
+	padding: 10px; 
+	position: absolute; 
+	border: 1px solid #fff; 
+	background: #000; 
+	background-color: rgba(0,0,0,0.9); 
+	z-index: 5;
+}
+.graph_collection ul.graph_controls li { 
+	list-style: none; 
+	margin: 0; 
+	padding: 0; 
+	display: inline-block;
+}
+.graph_collection ul.graph_controls li + li:before {
+	content: ' - ';
+}
 
 #page_profile .add_graph { clear: both; }
 
