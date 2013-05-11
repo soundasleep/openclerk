@@ -12,6 +12,8 @@ $openid = require_post("openid", require_get("openid", false));
 $messages = array();
 $errors = array();
 
+class EscapedException extends Exception { }
+
 // try logging in?
 try {
 	if ($logout) {
@@ -51,7 +53,7 @@ try {
 
 		} else if ($light->mode == 'cancel') {
 			// user has cancelled
-			throw new Exception("User has cancelled authentication.");
+			throw new EscapedException("User has cancelled authentication.");
 
 		} else {
 			// authentication is complete
@@ -63,11 +65,11 @@ try {
 				$query = db()->prepare("SELECT * FROM users WHERE openid_identity=? LIMIT 1");
 				$query->execute(array($light->identity));
 				if (!($user = $query->fetch())) {
-					throw new Exception("No account for the OpenID identity '" . htmlspecialchars($light->identity) . "' were found. You may need to <a href=\"" . url_for('signup', array('openid' => $openid)) . "\">signup first</a>.");
+					throw new EscapedException("No account for the OpenID identity '" . htmlspecialchars($light->identity) . "' were found. You may need to <a href=\"" . url_for('signup', array('openid' => $openid)) . "\">signup first</a>.");
 				}
 
 			} else {
-				throw new Exception("OpenID validation was not successful: " . ($light->validate_error ? $light->validate_error : "Please try again."));
+				throw new EscapedException("OpenID validation was not successful: " . ($light->validate_error ? htmlspecialchars($light->validate_error) : "Please try again."));
 			}
 
 		}
@@ -112,6 +114,9 @@ try {
 
 	}
 } catch (Exception $e) {
+	if (!($e instanceof EscapedException)) {
+		$e = new EscapedException(htmlspecialchars($e->getMessage()), $e->getCode(), $e);
+	}
 	$errors[] = $e->getMessage();
 }
 
