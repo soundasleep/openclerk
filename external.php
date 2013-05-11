@@ -9,6 +9,7 @@ require("inc/global.php");
 require("layout/templates.php");
 page_header("External API Status", "page_external", array('common_js' => true));
 
+$last_updated = false;
 $q = db()->prepare("SELECT * FROM external_status");
 $q->execute();
 $external = array();
@@ -20,6 +21,7 @@ while ($e = $q->fetch()) {
 		$first_first = $e['job_first'];
 	}
 	$sample_size = $e['sample_size'];
+	$last_updated = $e['created_at'];
 }
 
 ?>
@@ -116,7 +118,7 @@ foreach ($external_apis as $group_name => $group) {
 </ul>
 
 <p>
-This data is refreshed automatically once per hour.
+This data is refreshed automatically once per hour (last updated <?php echo recent_format_html($last_updated); ?>).
 </p>
 
 <?php
