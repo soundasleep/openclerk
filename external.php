@@ -102,8 +102,9 @@ foreach ($external_apis as $group_name => $group) {
 		echo "<li><span class=\"title\">" . $title . "</span> ";
 		if (isset($external[$key])) {
 			echo "<span class=\"status_percent " . get_error_class(($external[$key]['job_errors'] / $external[$key]['job_count']) * 100) . "\">";
-			echo number_format(($external[$key]['job_errors'] / $external[$key]['job_count']) * 100, 2) . "% errors";
+			echo "" . number_format((1 - ($external[$key]['job_errors'] / $external[$key]['job_count'])) * 100, 0) . "%";
 			echo "</span>";
+			echo " requests successful";
 		} else {
 			echo "<i class=\"no_data\">no data</i>";
 		}
