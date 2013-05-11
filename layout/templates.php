@@ -115,6 +115,7 @@ function page_footer() {
 		<?php require_template("templates_copyright"); ?>
 	</div>
 </div>
+<?php if (!has_required_admin()) { ?>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -130,7 +131,7 @@ function page_footer() {
   })();
 
 </script>
-
+<?php } ?>
 </body>
 </html>
 <?php
