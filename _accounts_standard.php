@@ -46,7 +46,7 @@ if (require_post("add", false)) {
 		$q->execute($full_args);
 		$title = htmlspecialchars(require_post("title", ""));
 		if (!$title) $title = "<i>(untitled)</i>";
-		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . $title . "</i>.";
+		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . $title . "</i>. Balances from this account will be retrieved shortly.";
 
 		// redirect to GET
 		set_temporary_messages($messages);

@@ -110,6 +110,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 }
 .page_accounts .tip_float {
 	width: 20%;
+	margin-top: 0;
 }
 .error ul, .success ul, .message ul { margin: 0; padding: 0; list-style: none; }
 

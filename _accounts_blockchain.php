@@ -25,7 +25,7 @@ if (require_post("add", false) && require_post("address", false)) {
 		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?");
 		$q->execute(array(user_id(), $address, $account_data['currency']));
 		$address_callback = $account_data['address_callback'];
-		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " " . $address_callback($address) . ".";
+		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " " . $address_callback($address) . ". Balances from this address will be retrieved shortly.";
 
 		// redirect to GET
 		set_temporary_messages($messages);
