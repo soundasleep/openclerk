@@ -545,8 +545,8 @@ function graph_types() {
 
 	// merge in graph_types_public(), but add 'hide' parameter to hide irrelevant currencies
 	foreach (graph_types_public() as $key => $public_data) {
-		$pairs = $data['pairs'];
-		$public_data['hide'] = !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]]));
+		$pairs = $public_data['pairs'];
+		$public_data['hide'] = !(isset($summaries[$pairs[0]]) && isset($summaries[$pairs[1]]));
 		$data[$key] = $public_data;
 	}
 
