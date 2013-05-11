@@ -727,6 +727,7 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 //          title: '...'
 		legend: {position: 'none'},
 		backgroundColor: '#111',
+		chartArea: { width: '75%', height: '75%' },
 	};
 
 	var chart = new google.visualization.PieChart(document.getElementById('graph_<?php echo $graph_id; ?>'));
@@ -770,6 +771,11 @@ function render_linegraph_date($graph, $data) {
 				gridlines: { color: '#333' },
 				textStyle: { color: 'white' },
 			},
+			<?php if ($graph['width'] >= 8) { ?>
+			chartArea: { width: '90%', height: '85%', top: 20, left: <?php echo min(60, 30 * $graph['width']); ?> }, /* reduce padding */
+			<?php } else { ?>
+			chartArea: { width: '80%', height: '75%', top: 20, left: <?php echo min(60, 30 * $graph['width']); ?> }, /* reduce padding */
+			<?php } ?>
 			backgroundColor: '#111',
         };
 
