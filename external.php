@@ -56,6 +56,7 @@ $external_apis = array(
 		'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 		'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 		'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+		'bips' => '<a href="https://bips.me">BIPS</a>',
 	),
 
 	"Exchange tickers" => array(

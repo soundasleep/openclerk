@@ -124,6 +124,10 @@ try {
 			require("jobs/securities_cryptostocks.php");
 			break;
 
+		case "bips":
+			require("jobs/bips.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");

@@ -5,6 +5,11 @@ if (!isset($account_data)) {
 	throw new Exception("account_data needs to be set");
 }
 
+if (!isset($account_data['title'])) {
+	$account_data['title'] = get_exchange_name($account_data['exchange']) . " account";
+}
+$account_data['exchange_name'] = get_exchange_name($account_data['exchange']);
+
 if (!isset($account_data['titles'])) {
 	$account_data['titles'] = $account_data['title'] . "s";
 }
@@ -144,6 +149,9 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 			</form>
 		</td>
 	</tr>
+<?php } ?>
+<?php if (!$accounts) { ?>
+	<tr><td colspan="<?php echo count($account_data['display']) + 5; ?>"><i>(No accounts defined.)</i></td></tr>
 <?php } ?>
 </tbody>
 </table>

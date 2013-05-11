@@ -34,6 +34,7 @@ function get_exchange_name($n) {
 		case "bitnz": 	return "BitNZ";
 		case "btce": 	return "BTC-e";
 		case "mtgox": 	return "Mt.Gox";
+		case "bips":	return "BIPS";
 		case "litecoinglobal": return "Litecoin Global";
 		case "btct": return "BTC Trading Co.";
 		case "cryptostocks": return "Cryptostocks";
@@ -68,6 +69,8 @@ function get_security_exchange_pairs() {
 
 function get_supported_wallets() {
 	return array(
+		// alphabetically sorted, except for generic
+		get_exchange_name("bips") => array('btc', 'usd'),
 		get_exchange_name("btce") => array('btc', 'ltc', 'nmc', 'usd', 'ftc'),
 		get_exchange_name("btct") => array('btc'),
 		get_exchange_name("cryptostocks") => array('btc', 'ltc'),
@@ -130,7 +133,7 @@ function get_crypto_conversion_summary_types() {
 }
 
 function account_data_grouped() {
-	return array(
+	$data = array(
 		'Addresses' => array(
 			'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'btc\''),
 			'litecoin' => array('url' => 'accounts_litecoin', 'title' => 'LTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ltc\''),
@@ -143,12 +146,13 @@ function account_data_grouped() {
 			'givemeltc' => array('url' => 'accounts_givemeltc', 'title' => 'Give Me LTC accounts', 'label' => 'account', 'table' => 'accounts_givemeltc', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
-			'mtgox' => array('url' => 'accounts_mtgox', 'title' => 'Mt.Gox accounts', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
-			'btce' => array('url' => 'accounts_btce', 'title' => 'BTC-e accounts', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
-			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'title' => 'Litecoin Global accounts', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts'),
-			'btct' => array('url' => 'accounts_btct', 'title' => 'BTC Trading Co. accounts', 'label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts'),
-			'vircurex' => array('url' => 'accounts_vircurex', 'title' => 'Vircurex accounts', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts'),
-			'cryptostocks' => array('url' => 'accounts_cryptostocks', 'title' => 'Cryptostocks accounts', 'label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts'),
+			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
+			'btce' => array('url' => 'accounts_btce', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts'),
+			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts'),
+			'btct' => array('url' => 'accounts_btct', 'label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts'),
+			'vircurex' => array('url' => 'accounts_vircurex', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts'),
+			'cryptostocks' => array('url' => 'accounts_cryptostocks', 'label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts'),
+			'bips' => array('url' => 'accounts_bips', 'label' => 'account', 'table' => 'accounts_bips', 'group' => 'accounts'),
 		),
 		'Other' => array(
 			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
@@ -158,6 +162,10 @@ function account_data_grouped() {
 			'summaries' => array('label' => 'Currency summaryies', 'table' => 'summaries', 'group' => 'summaries'),
 		),
 	);
+	foreach ($data['Exchanges'] as $key => $row) {
+		$data['Exchanges'][$key]['title'] = get_exchange_name($key) . " " . $row['label'] . "s";
+	}
+	return $data;
 }
 
 function get_default_openid_providers() {
@@ -303,6 +311,11 @@ function is_valid_vircurex_apisecret($key) {
 function is_valid_slush_apitoken($key) {
 	// not sure what the format is, but it looks to be [user-id]-[random 32 hex characters]
 	return preg_match("#^[0-9]+-[0-9a-f]{32}$#", $key);
+}
+
+function is_valid_bips_apikey($key) {
+	// looks like a 32 character hex string
+	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_generic_key($key) {
