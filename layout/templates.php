@@ -195,8 +195,7 @@ function ftc_address($address) {
 	return "<span class=\"address ftc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ftc_address_url") . $address) . "\" title=\"Inspect with Feathercoin Search\">?</a></span>";
 }
 
-// TODO $precision should be 8, but then we need to change all other instances -1
-function currency_format($currency_code, $n, $precision = 9) {
+function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {
 	$currency = strtoupper($currency_code);
 
 	if (!is_numeric($n)) {
