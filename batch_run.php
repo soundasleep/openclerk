@@ -128,6 +128,10 @@ try {
 			require("jobs/bips.php");
 			break;
 
+		case "btcguild":
+			require("jobs/btcguild.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");
