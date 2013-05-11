@@ -27,7 +27,7 @@ $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 O
 $q->execute(array(user_id()));
 $pages = $q->fetchAll();
 
-page_header("Your Profile", "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
+page_header("Your Reports", "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
 
 // reset stats
 if (get_site_config('timed_sql')) {

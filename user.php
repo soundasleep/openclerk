@@ -58,38 +58,19 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_user_contact">Contact Details</li><li id="tab_user_currencies">Currencies</li><li id="tab_user_premium">Premium</li><li id="tab_user_outstanding">Outstanding Payments</li>
+		<li id="tab_user_currencies">Currencies</li><li id="tab_user_premium">Premium</li><li id="tab_user_contact">Contact Details</li><li id="tab_user_outstanding">Outstanding Payments</li>
 	</ul>
 
 	<ul class="tab_groups">
-		<li id="tab_user_contact_tab">
-
-<form action="<?php echo htmlspecialchars(url_for('user')); ?>" method="post">
-<table class="standard form">
-<tr>
-	<th><label for="user_name">Name:</label></th>
-	<td><input id="user_name" name="name" value="<?php echo htmlspecialchars(require_post("name", $user['name'])); ?>" size="32" maxlength="64"> (optional)</td>
-</tr>
-<tr>
-	<th>Member since:</th>
-	<td><?php echo recent_format_html($user['created_at']); ?></td>
-</tr>
-<tr>
-	<th>Last login:</th>
-	<td><?php echo recent_format_html($user['last_login']); ?></td>
-</tr>
-<tr>
-	<td colspan="2" class="buttons">
-		<input type="submit" value="Update Profile">
-	</td>
-</tr>
-</table>
-</form>
-
-	</li>
 	<li id="tab_user_currencies_tab">
 
 <h2>Currency Settings</h2>
+
+<p class="tip tip_float">
+Once you have selected currencies, you should head over to your
+<a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">accounts page</a> and link up
+your existing addresses and exchanges.
+</p>
 
 <form action="<?php echo htmlspecialchars(url_for('user_currencies')); ?>" method="post">
 <?php require("_user_currencies.php"); ?>
@@ -136,6 +117,31 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 
 <?php require("_premium_prices.php"); ?>
 </div>
+
+	</li>
+	<li id="tab_user_contact_tab">
+
+<form action="<?php echo htmlspecialchars(url_for('user')); ?>" method="post">
+<table class="standard form">
+<tr>
+	<th><label for="user_name">Name:</label></th>
+	<td><input id="user_name" name="name" value="<?php echo htmlspecialchars(require_post("name", $user['name'])); ?>" size="32" maxlength="64"> (optional)</td>
+</tr>
+<tr>
+	<th>Member since:</th>
+	<td><?php echo recent_format_html($user['created_at']); ?></td>
+</tr>
+<tr>
+	<th>Last login:</th>
+	<td><?php echo recent_format_html($user['last_login']); ?></td>
+</tr>
+<tr>
+	<td colspan="2" class="buttons">
+		<input type="submit" value="Update Profile">
+	</td>
+</tr>
+</table>
+</form>
 
 	</li>
 	<li id="tab_user_outstanding_tab">
