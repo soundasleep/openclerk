@@ -324,7 +324,8 @@ function seconds_to_string($secs, $suffix = " ago") {
 		return plural(number_format(year_count($secs), 1), "year", "years") . $suffix;
 }
 
-function plural($n, $s, $ss) {
+function plural($n, $s, $ss = false) {
+	if ($ss === false) $ss = $s . "s";
 	if ($n == 1) {
 		return sprintf("%s %s", $n, $s);
 	} else {

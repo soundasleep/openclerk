@@ -108,6 +108,9 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	width: 40%;
 	float: right;
 }
+.page_accounts .tip_float {
+	width: 20%;
+}
 .error ul, .success ul, .message ul { margin: 0; padding: 0; list-style: none; }
 
 h1 { font-size: 120%; }

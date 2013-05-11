@@ -68,11 +68,18 @@ page_header("Your Accounts: " . capitalize($account_data['titles']), "page_" . $
 
 ?>
 
+<div class="page_accounts">
 <p class="backlink">
 <a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>
 </p>
 
 <h1>Your <?php echo capitalize(htmlspecialchars($account_data['titles'])); ?></h1>
+
+<div class="tip tip_float">
+As a <?php echo $user['is_premium'] ? "premium user" : "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">free user</a>"; ?>, your
+<?php echo htmlspecialchars($account_data['titles']); ?> should be updated
+at least once every <?php echo plural(get_premium_value($user, "refresh_queue_hours"), 'hour'); ?>.
+</div>
 
 <table class="standard standard_account_list">
 <thead>
@@ -120,6 +127,9 @@ foreach ($accounts as $a) {
 		</td>
 	</tr>
 <?php } ?>
+<?php if (!$accounts) { ?>
+	<tr><td colspan="5"><i>(No addresses defined.)</i></td></tr>
+<?php } ?>
 </tbody>
 </table>
 
@@ -138,6 +148,7 @@ foreach ($accounts as $a) {
 </table>
 </form>
 </p>
+</div>
 
 <?php
 page_footer();
