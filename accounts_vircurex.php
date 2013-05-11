@@ -21,7 +21,7 @@ $account_data = array(
 	'table' => 'accounts_vircurex',
 	'title' => 'Vircurex account',
 	'url' => 'accounts_vircurex',
-	'exchange' => 'mtgox',
+	'exchange' => 'vircurex',
 );
 
 require("_accounts_standard.php");
