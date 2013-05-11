@@ -48,6 +48,7 @@ $external_apis = array(
 		'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
 		'givemeltc' => '<a href="https://www.give-me-ltc.com">Give Me LTC</a>',
 		'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
+		'50btc' => '<a href="https://www.50btc.com">50BTC</a>',
 	),
 
 	"Exchange wallets" => array(

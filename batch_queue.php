@@ -77,6 +77,7 @@ $standard_jobs = array(
 	array('table' => 'securities_cryptostocks', 'type' => 'securities_cryptostocks', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'accounts_bips', 'type' => 'bips'),
 	array('table' => 'accounts_btcguild', 'type' => 'btcguild'),
+	array('table' => 'accounts_50btc', 'type' => '50btc'),
 	array('table' => 'summaries', 'type' => 'summary'),
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1

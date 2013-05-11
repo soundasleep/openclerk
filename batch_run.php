@@ -132,6 +132,10 @@ try {
 			require("jobs/btcguild.php");
 			break;
 
+		case "50btc":
+			require("jobs/50btc.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");

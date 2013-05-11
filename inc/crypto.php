@@ -47,6 +47,7 @@ function get_exchange_name($n) {
 		case "vircurex": 	return "Vircurex";
 		case "slush":		return "Slush's pool";
 		case "btcguild": 	return "BTC Guild";
+		case "50btc": 		return "50BTC";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -71,6 +72,7 @@ function get_security_exchange_pairs() {
 function get_supported_wallets() {
 	return array(
 		// alphabetically sorted, except for generic
+		get_exchange_name("50btc") => array('btc'),
 		get_exchange_name("bips") => array('btc', 'usd'),
 		get_exchange_name("btce") => array('btc', 'ltc', 'nmc', 'usd', 'ftc'),
 		get_exchange_name("btcguild") => array('btc', 'nmc'),
@@ -147,6 +149,7 @@ function account_data_grouped() {
 			'wemineltc' => array('url' => 'accounts_wemineltc', 'title' => 'WeMineLTC accounts', 'label' => 'account', 'table' => 'accounts_wemineltc', 'group' => 'accounts'),
 			'givemeltc' => array('url' => 'accounts_givemeltc', 'title' => 'Give Me LTC accounts', 'label' => 'account', 'table' => 'accounts_givemeltc', 'group' => 'accounts'),
 			'btcguild' => array('url' => 'accounts_btcguild', 'title' => 'BTC Guild accounts', 'label' => 'account', 'table' => 'accounts_btcguild', 'group' => 'accounts'),
+			'50btc' => array('url' => 'accounts_50btc', 'title' => '50BTC accounts', 'label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -332,6 +335,11 @@ function is_valid_bips_apikey($key) {
 }
 
 function is_valid_btcguild_apikey($key) {
+	// looks like a 32 character hex string
+	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_50btc_apikey($key) {
 	// looks like a 32 character hex string
 	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
