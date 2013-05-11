@@ -347,13 +347,13 @@ function year_count($sec) {
  *   'a, b and c'
  *   'a, b, c and d'
  */
-function implode_english($result) {
+function implode_english($result, $or = false) {
 	$s = "";
 	for ($i = 0; $i < count($result) - 2; $i++) {
 		$s .= $result[$i] . ", ";
 	}
 	for ($i = count($result) - 2; $i >= 0 && $i < count($result) - 1; $i++) {
-		$s .= $result[$i] . " and ";
+		$s .= $result[$i] . " " . ($or ? "or" : "and") . " ";
 	}
 	for ($i = count($result) - 1; $i >= 0 && $i < count($result); $i++) {
 		$s .= $result[$i];
