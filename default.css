@@ -162,6 +162,6 @@ h2 { font-size: 110%; }
 .help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 
 .help_name_litecoinforum { background: url('img/litecoin.png') top left no-repeat; padding-left: 20px; } 
 .discounted { color: #666; text-decoration: line-through; }
-.twitter { background: url('img/twitter.png') 4px 0 no-repeat; padding-left: 24px; } 
+.twitter { background: url('img/twitter.png') 4px 2px no-repeat; padding-left: 24px; display: inline-block; height: 18px; } 
 .help_list .currency_list { margin-top: 10px; }
 .help_list .currency_list li { line-height: 2em; }
