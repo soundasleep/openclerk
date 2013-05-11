@@ -699,7 +699,7 @@ function render_graph_controls($graph) {
 }
 
 function render_graph_last_updated($graph) {
-	if (isset($graph['last_updated']) && $graph['last_updated']) { ?>
+	if (isset($graph['last_updated']) && $graph['last_updated'] && $graph['width'] > 1) { ?>
 		<div class="last_updated"><?php echo recent_format_html($graph['last_updated']); ?></div>
 	<?php }
 }
@@ -791,6 +791,10 @@ function render_linegraph_date($graph, $data) {
 
 function get_dimensions($graph) {
 	return ' style="width: ' . (get_site_config('default_graph_width') * $graph['width']) . 'px; height: ' . (get_site_config('default_graph_height') * $graph['height']) . 'px;"';
+}
+
+function get_dimensions_wrap($graph) {
+	return ' style="width: ' . (get_site_config('default_graph_width') * $graph['width'] + 5) . 'px; height: ' . (get_site_config('default_graph_height') * $graph['height'] + 35) . 'px;"';
 }
 
 // cached

@@ -13,19 +13,19 @@
 <tr>
 	<th>Width:</th>
 	<td><select name="width">
-		<option value="1">Small (120px)</option>
-		<option value="2" selected>Medium (240px)</option>
-		<option value="4">Large (480px)</option>
-		<option value="6">Very Large (720px)</option>
+		<option value="1">Small (<?php echo number_format(get_site_config('default_graph_width') * 1); ?>px)</option>
+		<option value="2" selected>Medium (<?php echo number_format(get_site_config('default_graph_width') * 2); ?>px)</option>
+		<option value="4">Large (<?php echo number_format(get_site_config('default_graph_width') * 4); ?>px)</option>
+		<option value="6">Very Large (<?php echo number_format(get_site_config('default_graph_width') * 6); ?>px)</option>
 	</select></td>
 </tr>
 <tr>
 	<th>Height:</th>
 	<td><select name="height">
-		<option value="1">Small (120px)</option>
-		<option value="2" selected>Medium (240px)</option>
-		<option value="4">Large (480px)</option>
-		<option value="6">Very Large (720px)</option>
+		<option value="1">Small (<?php echo number_format(get_site_config('default_graph_height') * 1); ?>px)</option>
+		<option value="2" selected>Medium (<?php echo number_format(get_site_config('default_graph_height') * 2); ?>px)</option>
+		<option value="4">Large (<?php echo number_format(get_site_config('default_graph_height') * 4); ?>px)</option>
+		<option value="6">Very Large (<?php echo number_format(get_site_config('default_graph_height') * 6); ?>px)</option>
 	</select></td>
 </tr>
 <tr>

@@ -70,7 +70,8 @@ if ($graph['graph_type'] == "linebreak") { ?>
 <div style="clear:both;">
 <div class="graph_controls">
 <?php } ?>
-<div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>" id="graph<?php echo htmlspecialchars($graph['id']); ?>">
+<div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>"
+	id="graph<?php echo htmlspecialchars($graph['id']); ?>"<?php echo get_dimensions_wrap($graph); ?>>
 	<?php render_graph($graph); ?>
 </div>
 <?php if ($graph['graph_type'] == "linebreak") { ?>
