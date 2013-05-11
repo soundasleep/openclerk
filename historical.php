@@ -61,7 +61,7 @@ if ($id && isset($historical_graphs[$id])) {
 
 	<ul class="historical_graphs">
 	<?php foreach ($historical_graphs as $key => $def) {
-		echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $key))) . "\">" . htmlspecialchars($def['title']) . "</a></li>\n";
+		echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $key, 'days' => 180))) . "\">" . htmlspecialchars($def['title']) . "</a></li>\n";
 	} ?>
 	</ul>
 
