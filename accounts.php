@@ -32,8 +32,16 @@ $accounts = user_limits_summary(user_id());
 </div>
 <?php } ?>
 
-<div class="your_accounts">
 <h1>Your Accounts</h1>
+
+<div class="your_accounts">
+<?php if ($accounts['total_addresses'] == 0 && $accounts['total_accounts'] == 0) { ?>
+<div class="success">
+<ul>
+	<li>You do not yet have any accounts or addresses defined. Click on any of the account types below to get started.</li>
+</ul>
+</div>
+<?php } ?>
 
 <ul class="account_list">
 <?php

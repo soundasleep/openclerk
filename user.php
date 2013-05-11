@@ -69,6 +69,17 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 
 <h1>Your <?php echo htmlspecialchars(get_site_config('site_name')); ?> User Account</h1>
 
+<?php if (strtotime("-1 hour") < strtotime($user['created_at'])) { ?>
+<div class="success">
+<ul>
+	<li>Welcome to <?php echo htmlspecialchars(get_site_config('site_name')); ?>!</li>
+	<li>To get started, you should first confirm the currencies that you are interested in below.</li>
+	<li>After that, head to your <a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">accounts page</a>
+		to link in your mining pools, exchanges and cryptocurrency addresses.</li>
+</ul>
+</div>
+<?php } ?>
+
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
