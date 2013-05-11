@@ -11,6 +11,8 @@ $openid = require_post("openid", require_get("openid", false));
 $messages = array();
 $errors = array();
 
+class EscapedException extends Exception { }
+
 if ($openid && $submit) {
 	// to sign up with OpenID, we must first authenticate to see if the identity already exists
 	try {
@@ -34,7 +36,7 @@ if ($openid && $submit) {
 
 		} else if ($light->mode == 'cancel') {
 			// user has cancelled
-			throw new Exception("User has cancelled authentication.");
+			throw new EscapedException("User has cancelled authentication.");
 
 		} else {
 			// authentication is complete
@@ -48,11 +50,11 @@ if ($openid && $submit) {
 				$query->execute(array($light->identity));
 				if ($user = $query->fetch()) {
 					// a user already exists
-					throw new Exception("An account for the OpenID identity '" . htmlspecialchars($light->identity) . "' already exists. Did you mean to <a href=\"" . url_for('login', array('openid' => $openid)) . "\">login instead</a>?");
+					throw new EscapedException("An account for the OpenID identity '" . htmlspecialchars($light->identity) . "' already exists. Did you mean to <a href=\"" . url_for('login', array('openid' => $openid)) . "\">login instead</a>?");
 				}
 
 			} else {
-				throw new Exception("OpenID validation was not successful: " . ($light->validate_error ? $light->validate_error : "Please try again."));
+				throw new EscapedException("OpenID validation was not successful: " . ($light->validate_error ? htmlspecialchars($light->validate_error) : "Please try again."));
 			}
 
 		}
@@ -87,6 +89,9 @@ if ($openid && $submit) {
 		redirect(url_for('login', array('openid' => $openid)));
 
 	} catch (Exception $e) {
+		if (!($e instanceof EscapedException)) {
+			$e = new EscapedException(htmlspecialchars($e->getMessage()), $e->getCode(), $e);
+		}
 		$errors[] = $e->getMessage();
 	}
 }
