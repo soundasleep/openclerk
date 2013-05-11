@@ -74,7 +74,7 @@ $external_apis = array(
 	),
 
 	"Other" => array(
-		'generic' => "Generic API balances",
+		// 'generic' => "Generic API balances",
 		'outstanding' => '<a href="' . htmlspecialchars(url_for('premium')) . '">Premium account</a> processing',
 	),
 );
