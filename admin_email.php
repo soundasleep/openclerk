@@ -27,7 +27,7 @@ page_header("Admin: Send Test E-mail", "page_admin_email");
 
 <h1>Send Test Email</h1>
 
-<p><a href="<?php echo htmlspecialchars(url_for('admin')); ?>">&lt; Back to Site Status</a></p>
+<p class="backlink"><a href="<?php echo htmlspecialchars(url_for('admin')); ?>">&lt; Back to Site Status</a></p>
 
 <form action="<?php echo htmlspecialchars(url_for('admin_email')); ?>" method="post">
 <label>Send test e-mail to: <input type="text" name="email" value="<?php echo require_post("email", get_site_config('site_email')); ?>"></label>

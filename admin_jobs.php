@@ -18,7 +18,7 @@ page_header("Admin: Jobs Status", "page_admin_jobs");
 
 <h1>Jobs Status</h1>
 
-<p><a href="<?php echo htmlspecialchars(url_for('admin')); ?>">&lt; Back to Site Status</a></p>
+<p class="backlink"><a href="<?php echo htmlspecialchars(url_for('admin')); ?>">&lt; Back to Site Status</a></p>
 
 <table class="standard">
 <thead>

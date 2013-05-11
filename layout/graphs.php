@@ -23,13 +23,13 @@ function find_latest_created_at($a, $prefix = false) {
 /**
  * Renders a particular graph.
  */
-function render_graph($graph) {
+function render_graph($graph, $is_public = false) {
 
 	if (is_admin()) {
 		$start_time = microtime(true);
 	}
 
-	$graph_types = graph_types();
+	$graph_types = $is_public ? graph_types_public() : graph_types();
 	if (!isset($graph_types[$graph['graph_type']])) {
 		// let's not crash with an exception, let's just display an error
 		render_graph_controls($graph);
@@ -497,6 +497,30 @@ function graph_number_format($n) {
 }
 
 /**
+ * Get all of the defined public graph types. These are then included into graph_types()
+ * as necessary.
+ */
+function graph_types_public() {
+	// we can generate a list of daily graphs from all of the exchanges that we support
+	// but we'll only want to display currency pairs that we're interested in
+	$data = array();
+	foreach (get_exchange_pairs() as $key => $pairs) {
+		foreach ($pairs as $pair) {
+			$pp = strtoupper($pair[0]) . "/" . strtoupper($pair[1]);
+			$data[$key . "_" . $pair[0] . $pair[1] . "_daily"] = array(
+				'title' => get_exchange_name($key) . " historical $pp (graph)",
+				'heading' => get_exchange_name($key) . " $pp",
+				'description' => "A line graph displaying the historical buy/sell values for $pp on " . get_exchange_name($key) . ".",
+				'pairs' => $pair,
+				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])),
+				'public' => true, /* can be displayed publicly */
+			);
+		}
+	}
+	return $data;
+}
+
+/**
  * Get all of the defined graph types. Used for display and validation.
  */
 function graph_types() {
@@ -519,18 +543,11 @@ function graph_types() {
 	$summaries = get_all_summary_currencies();
 	$conversions = get_all_conversion_currencies();
 
-	// we can generate a list of daily graphs from all of the exchanges that we support
-	// but we'll only want to display currency pairs that we're interested in
-	foreach (get_exchange_pairs() as $key => $pairs) {
-		foreach ($pairs as $pair) {
-			$pp = strtoupper($pair[0]) . "/" . strtoupper($pair[1]);
-			$data[$key . "_" . $pair[0] . $pair[1] . "_daily"] = array(
-				'title' => get_exchange_name($key) . " historical $pp (graph)",
-				'heading' => get_exchange_name($key) . " $pp",
-				'description' => "A line graph displaying the historical buy/sell values for $pp on " . get_exchange_name($key) . ".",
-				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]]))
-			);
-		}
+	// merge in graph_types_public(), but add 'hide' parameter to hide irrelevant currencies
+	foreach (graph_types_public() as $key => $public_data) {
+		$pairs = $data['pairs'];
+		$public_data['hide'] = !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]]));
+		$data[$key] = $public_data;
 	}
 
 	// we can generate a list of summary daily graphs from all the currencies that we support

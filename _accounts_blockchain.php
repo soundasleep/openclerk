@@ -68,7 +68,7 @@ page_header("Your Accounts: " . capitalize($account_data['titles']), "page_" . $
 
 ?>
 
-<p>
+<p class="backlink">
 <a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>
 </p>
 

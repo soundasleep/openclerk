@@ -19,7 +19,7 @@ function bips_query($url, $userpwd, array $req = array()) {
 	// our curl handle (initialize if required)
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; BTCE PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
+	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; BIPS PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
 	curl_setopt($ch, CURLOPT_URL, crypto_wrap_url($url));
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -36,6 +36,7 @@ function bips_query($url, $userpwd, array $req = array()) {
 	$dec = json_decode($res, true);
 	if (!$dec) throw new ExternalAPIException('Invalid data received, please make sure connection is working and requested API exists');
 	return $dec;
+
 }
 
 $data = bips_query("https://bips.me/api/v1/getbalance", $account['api_key'], array("currency" => 'USD'));

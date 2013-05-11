@@ -82,6 +82,7 @@ function page_footer() {
 		<li><span class="title"><?php echo htmlspecialchars(get_site_config('site_name')); ?></span>
 			<ul>
 				<li><a href="<?php echo htmlspecialchars(url_for('index')); ?>">About</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('historical')); ?>">Historical Data</a></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('premium')); ?>">Get Premium</a></li>
 				<li><a href="http://openclerk.org" target="_blank">Openclerk.org</a></li>
 			</ul>
