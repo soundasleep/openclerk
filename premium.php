@@ -52,9 +52,9 @@ page_header("Premium Accounts", "page_premium");
 	$predef = array(
 		'addresses' => 'Tracked addresses (' . implode(", ", $currencies) . ')',
 		'accounts' => 'Tracked accounts (BTC-e, Mt.Gox, ...)',
-		'graph_pages' => 'Summary pages',
-		'graphs_per_page' => 'Graphs per summary page',
-		'summaries' => 'Currencies',
+		'graph_pages' => '<a href="' . htmlspecialchars(url_for('profile')) . '">Reports pages</a>',
+		'graphs_per_page' => 'Graphs per report page',
+		'summaries' => '<a href="' . htmlspecialchars(url_for('user')) . '">Currencies</a>',
 	);
 	foreach ($predef as $key => $title) { ?>
 	<tr>

@@ -1,7 +1,7 @@
 Welcome to {$site_name}
 Hello {$email},
 
-Welcome to {$site_name}! This e-mail address will be used to notify you of changes to your {$site_name} user profile.
+Welcome to {$site_name}! This e-mail address will be used to notify you of changes to your {$site_name} user profile, and of any other important site notifications.
 
 If you did not recently register to this site, please visit the following link, and your e-mail address will be removed from the system: {$url}
 

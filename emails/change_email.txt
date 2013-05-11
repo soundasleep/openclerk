@@ -1,0 +1,10 @@
+Your {$site_name} e-mail address has been changed
+Hello {$old_email},
+
+You have recently changed your e-mail address for {$site_name} to {$email}. This e-mail address will be used to notify you of changes to your {$site_name} user profile, and of any other important site notifications.
+
+If you did not recently change your e-mail address for this site, please visit the following link, and your e-mail address will be removed from the system: {$url}
+
+Thanks,
+{$site_name}
+{$site_url}

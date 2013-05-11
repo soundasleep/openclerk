@@ -11,17 +11,31 @@ require("layout/templates.php");
 
 $user = get_user(user_id());
 require_user($user);
+$old_email = $user['email'];
 
 $messages = array();
 $errors = array();
-if (require_post("name", false)) {
-	if (!is_valid_name(require_post("name"))) {
+if (require_post("name", false) !== false && require_post("email", false) !== false) {
+	if (require_post("name") !== "" && !is_valid_name(require_post("name"))) {
 		$errors[] = "Invalid name.";
+	} else if (require_post("email") !== "" && !is_valid_email(require_post("email"))) {
+		$errors[] = "Invalid e-mail.";
 	} else {
+		$email = require_post("email");
+
 		// we can have any name
-		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=? WHERE id=? LIMIT 1");
-		$q->execute(array(require_post("name"), user_id()));
-		$messages[] = "Updated account name.";
+		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=? WHERE id=? LIMIT 1");
+		$q->execute(array(require_post("name"), $email, user_id()));
+		$messages[] = "Updated account details.";
+
+		// try sending email
+		if ($email && $email != $old_email) {
+			send_email($email, $email, "change_email", array(
+				"old_email" => $old_email ? $old_email : "(no previous e-mail address)",
+				"email" => $email,
+				"url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),
+			));
+		}
 
 		// redirect to GET
 		set_temporary_messages($messages);
@@ -125,7 +139,11 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <table class="standard form">
 <tr>
 	<th><label for="user_name">Name:</label></th>
-	<td><input id="user_name" name="name" value="<?php echo htmlspecialchars(require_post("name", $user['name'])); ?>" size="32" maxlength="64"> (optional)</td>
+	<td><input id="user_name" name="name" value="<?php echo htmlspecialchars(require_post("name", $user['name'] ? $user['name'] : false)); ?>" size="32" maxlength="64"> (optional)</td>
+</tr>
+<tr>
+	<th><label for="user_email">E-mail:</label></th>
+	<td><input id="user_email" name="email" value="<?php echo htmlspecialchars(require_post("email", $user['email'] ? $user['email'] : false)); ?>" size="32" maxlength="64"> (optional)</td>
 </tr>
 <tr>
 	<th>Member since:</th>
