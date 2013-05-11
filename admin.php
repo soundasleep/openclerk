@@ -39,7 +39,7 @@ page_header("Status", "page_admin");
 		'users' => array('title' => 'Users'),
 		'addresses' => array('title' => 'Addresses'),
 		'jobs' => array('title' => 'Jobs'),
-		'outstanding_premiums' => array('title' => 'Premiums'),
+		'outstanding_premiums' => array('title' => 'Premiums', 'extra' => array('is_paid=1' => 'Paid')),
 		'uncaught_exceptions' => array('title' => 'Uncaught exceptions'),
 		'summaries' => array('title' => 'Summaries'),
 		'graphs' => array('title' => 'Graphs'),
@@ -50,13 +50,30 @@ page_header("Status", "page_admin");
 	);
 	foreach ($summary as $key => $data) {
 		echo "<tr>";
-		echo "<th>" . $data['title'] . "</th>\n";
+		echo "<th>" . $data['title'];
+		if (isset($data['extra'])) {
+			foreach ($data['extra'] as $extra_key => $extra_title) {
+				echo " ($extra_title)";
+			}
+		}
+		echo "</th>\n";
 		$parts = array('1', 'date_add(created_at, interval 7 day) >= now()', 'date_add(created_at, interval 1 day) >= now()', 'date_add(created_at, interval 1 hour) >= now()');
 		foreach ($parts as $query) {
 			$q = db()->prepare("SELECT COUNT(*) AS c FROM $key WHERE $query");
 			$q->execute();
 			$c = $q->fetch();
-			echo "<td class=\"number\">" . number_format($c['c']) . "</td>\n";
+			echo "<td class=\"number\">" . number_format($c['c']);
+
+			if (isset($data['extra'])) {
+				foreach ($data['extra'] as $extra_key => $extra_title) {
+					$q = db()->prepare("SELECT COUNT(*) AS c FROM $key WHERE $query AND $extra_key");
+					$q->execute();
+					$c = $q->fetch();
+					echo " (" . number_format($c['c']) . ")";
+				}
+			}
+
+			echo "</td>\n";
 		}
 		echo "</tr>";
 	}
