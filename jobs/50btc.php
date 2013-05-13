@@ -14,7 +14,18 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
+// TODO try a number of times
 $raw = crypto_get_contents(crypto_wrap_url("https://50btc.com/en/api/" . urlencode($account['api_key'])));
+if (strpos($raw, "502 Bad Gateway") !== false) {
+	throw new ExternalAPIException("502 Bad Gateway");
+}
+if (strpos($raw, "504 Gateway Time-out") !== false) {
+	throw new ExternalAPIException("504 Gateway Time-out");
+}
+if (strpos($raw, "Temporary Unavailable") !== false) {
+	throw new ExternalAPIException("Temporary Unavailable");
+}
+
 $data = json_decode($raw, true);
 if ($data === null) {
 	throw new ExternalAPIException($raw);
