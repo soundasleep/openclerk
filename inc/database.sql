@@ -683,3 +683,9 @@ CREATE TABLE accounts_50btc (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+ALTER TABLE jobs ADD execution_count tinyint not null default 0;
+
+-- update old jobs
+UPDATE jobs SET execution_count=1 WHERE is_executed=1;
+

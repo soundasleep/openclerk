@@ -39,8 +39,20 @@ crypto_log("Current time: " . date('r'));
 crypto_log("Executing job " . htmlspecialchars(print_r($job, true)) . " (<a href=\"" . htmlspecialchars(url_for('batch_run',
 	array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">re-run job</a>) (<a href=\"" . htmlspecialchars(url_for('batch_run',
 	array('key' => require_get("key", false)))) . "\">next job</a>)");
+
 $runtime_exception = null;
 try {
+	// have we executed this job too many times already?
+	if ($job['execution_count'] >= get_site_config("max_job_executions")) {
+		// TODO this job should be debugged in dev and fixed so that an execption can be thrown instead
+		crypto_log("Job has been executed too many times (" . number_format($job['execution_count']) . "): marking as failed");
+		throw new RuntimeAPIException("An uncaught error occured multiple times");
+	} else {
+		// update the job execution count
+		$q = db()->prepare("UPDATE jobs SET execution_count=execution_count+1 WHERE id=?");
+		$q->execute(array($job['id']));
+	}
+
 	switch ($job['job_type']) {
 		// ticker jobs
 		case "ticker":
