@@ -51,7 +51,6 @@ function get_site_config($key = null) {
 		"sleep_mtgox_ticker" => 5,
 		"sleep_vircurex_balance" => 5,
 		"sleep_cryptostocks_balance" => 5,
-		"sleep_50btc_balance" => 5,
 		"max_job_executions" => 5,	// if a job fails to run more than this number of times, then explicitly mark it as failed
 
 		// layout properties
