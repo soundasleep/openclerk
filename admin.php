@@ -38,7 +38,7 @@ page_header("Status", "page_admin");
 	$summary = array(
 		'users' => array('title' => 'Users'),
 		'addresses' => array('title' => 'Addresses'),
-		'jobs' => array('title' => 'Jobs'),
+		'jobs' => array('title' => 'Jobs', 'extra' => array('is_executed=0' => 'Pending')),
 		'outstanding_premiums' => array('title' => 'Premiums', 'extra' => array('is_paid=1' => 'Paid')),
 		'uncaught_exceptions' => array('title' => 'Uncaught exceptions'),
 		'summaries' => array('title' => 'Summaries'),

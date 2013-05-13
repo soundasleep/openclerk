@@ -123,7 +123,8 @@ foreach ($standard_jobs as $standard) {
 		}
 	}
 
-	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "(last_queue <= DATE_SUB(NOW(), INTERVAL ? HOUR) OR ISNULL(last_queue))") . " $query_extra");
+	// multiply queue_hours by 0.8 to ensure that user jobs are always executed within the specified timeframe
+	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "(last_queue <= DATE_SUB(NOW(), INTERVAL (? * 0.8) HOUR) OR ISNULL(last_queue))") . " $query_extra");
 	$q->execute(array_join($args, $args_extra));
 	while ($address = $q->fetch()) {
 		$job = array(
