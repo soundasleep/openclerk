@@ -56,6 +56,9 @@ try {
 			throw new EscapedException("User has cancelled authentication.");
 
 		} else {
+			// throws a BlockedException if this IP has requested this too many times recently
+			check_heavy_request();
+
 			// authentication is complete
 			if ($light->validate()) {
 				// we authenticate everything against a particular identity, not what is provided by the user

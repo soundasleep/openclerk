@@ -689,3 +689,14 @@ ALTER TABLE jobs ADD execution_count tinyint not null default 0;
 -- update old jobs
 UPDATE jobs SET execution_count=1 WHERE is_executed=1;
 
+-- prevent POST DDoS of login page
+CREATE TABLE heavy_requests (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	user_ip varchar(64) not null unique,	-- long string for IPv6, lets us block heavy requests based on IP
+	last_request timestamp not null,
+	
+	INDEX(user_ip)
+);
+

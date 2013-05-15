@@ -56,6 +56,7 @@ $global_tried_autologin = false;
 /**
  * Try autologin. This function is only executed if we actually <em>make</em> a validation check,
  * e.g. pages or scripts that don't require login information won't need to automatically log in.
+ * Autologin does not re-request the remote OpenID server.
  * @see #did_autologin()
  */
 function try_autologin() {
@@ -99,6 +100,11 @@ function did_autologin() {
 
 function user_id() {
     return require_session("user_id");
+}
+
+function user_ip() {
+	return $_SERVER['REMOTE_ADDR'];
+	// also see $_SERVER['HTTP_X_FORWARDED_FOR'] for (possibly spoofed) proxy address
 }
 
 function require_login() {
