@@ -142,7 +142,7 @@ function graph_types() {
 
 function graph_technical_types() {
 	$data = array(
-		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false,
+		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false, 'title_short' => 'SMA',
 			'description' => 'A simple moving average of the price - or midpoint between buy and sell - over the last <i>n</i> days.'),
 	);
 	foreach (graph_premium_technical_types() as $key => $value) {

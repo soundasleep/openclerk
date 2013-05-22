@@ -7,11 +7,24 @@
 require("inc/global.php");
 
 require("layout/templates.php");
+require("graphs/types.php");
 
 $messages = array();
 $errors = array();
 
 page_header("Premium Accounts", "page_premium");
+
+$premium_technical_types = 0;
+$free_types = array();
+$premium_types = array();
+foreach (graph_technical_types() as $key => $data) {
+	$premium_types[] = $data['title_short'];
+	if ($data['premium']) {
+		$premium_technical_types++;
+	} else {
+		$free_types[] = $data['title_short'];
+	}
+}
 
 ?>
 
@@ -63,6 +76,11 @@ page_header("Premium Accounts", "page_premium");
 		<td><?php echo number_format(get_premium_config($key . "_premium")); ?></td>
 	</tr>
 	<?php } ?>
+	<tr>
+		<th>Technical indicator types</th>
+		<td><?php echo number_format(count(graph_technical_types()) - $premium_technical_types); ?> (<?php echo implode(", ", $free_types); ?>)</td>
+		<td><?php echo number_format(count(graph_technical_types())); ?> (<?php echo implode(", ", $premium_types); ?>)</td>
+	</tr>
 	<tr>
 		<th>Priority over free users</th>
 		<td class="no">-</td>
