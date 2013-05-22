@@ -941,6 +941,9 @@ function render_linegraph_date($graph, $data) {
 					if (isset($heading['color'])) {
 						$bits[] = "color: " . json_encode($heading['color']);
 					}
+					if (isset($heading['axis'])) {
+						$bits[] = "targetAxisIndex: " . json_encode($heading['axis']);
+					}
 					echo implode(",", $bits);
 					echo "},";
 				} ?>
