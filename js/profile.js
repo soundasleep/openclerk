@@ -53,9 +53,11 @@ $(document).ready(function() {
 		temp.attr('id', '');
 		if (graph_technical_types()[i]['premium']) {
 			temp.addClass('premium');
+			/*
 			if (!user_has_premium()) {
 				temp.prop('disabled', 'true');
 			}
+			*/
 		}
 		e.append(temp);
 		temp.show();
@@ -72,9 +74,18 @@ $(document).ready(function() {
 			}
 			if (graph_technical_types()[data]['premium']) {
 				$(document).find("#add_graph_technical").addClass('premium');
+				if (!user_has_premium()) {
+					$(document).find("#premium_warning").show();
+				}
 			} else {
 				$(document).find("#add_graph_technical").removeClass('premium');
+				$(document).find("#premium_warning").hide();
 			}
+		} else {
+			// "none" is selected
+			$(document).find("#add_graph_period").hide();
+			$(document).find("#add_graph_technical").removeClass('premium');
+			$(document).find("#premium_warning").hide();
 		}
 	};
 	e.keyup(callback);

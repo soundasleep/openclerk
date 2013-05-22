@@ -238,6 +238,25 @@ function capitalize($s) {
 	return implode(" ", $split);
 }
 
+/**
+ * The default colours used in Google charts. Obtained by taking screenshots.
+ */
+function default_chart_color($index) {
+	switch ($index) {
+		case 0: return "#3366cc";
+		case 1: return "#dc3912";
+		case 2: return "#ff9900";
+		case 3: return "#109618";
+		case 4: return "#990099";
+		case 5: return "#0099c6";
+		case 6: return "#dd4477";
+		case 7: return "#66aa00";
+		case 8: return "#b82e2e";
+	}
+	// unknown
+	return "white";
+}
+
 function require_template($id) {
 	// sanity checking for security
 	$id = str_replace(".", "", $id);

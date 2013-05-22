@@ -40,8 +40,13 @@
 <tr id="add_graph_technical" style="display:none;">
 	<th>Technical:</th>
 	<td><select name="technical" id="graph_technical">
+		<option value="">(none)</option>
 		<option id="graph_technical_template">Loading...</option>
-	</select></td>
+	</select>
+<?php if (!$user['is_premium']) { ?>
+	<div class="tip" id="premium_warning" style="display:none;">This technical analysis tool requires a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>" class="premium">premium account</a>.</div>
+<?php } ?>
+	</td>
 </tr>
 <tr id="add_graph_period" style="display:none;">
 	<th></th>
@@ -79,6 +84,7 @@ function graph_technical_types() {
 	return [
 <?php foreach (graph_technical_types() as $id => $data) {
 	echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($data['title']) . "'" .
+			", 'description' : " . json_encode($data['description']) .
 			", 'premium' : " . ($data['premium'] ? "true" : "false") .
 			", 'period' : " . ($data['period'] ? "true" : "false") . "},\n";
 } ?>

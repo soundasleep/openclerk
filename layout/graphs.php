@@ -435,6 +435,7 @@ function extra_days_necessary($graph) {
 
 function calculate_technicals($graph, $data) {
 	$days = get_graph_days($graph);
+	$original_rows = count($data[0]);
 
 	if (isset($graph['technicals'])) {
 		$graph_technical_types = graph_technical_types();
@@ -449,14 +450,18 @@ function calculate_technicals($graph, $data) {
 				switch ($t['technical_type']) {
 					case "sma":
 						// simple moving average
-						$headings = array("SMA (" . number_format($t['technical_period']) . ")");
+						$headings = array(array(
+							'title' => "SMA (" . number_format($t['technical_period']) . ")",
+							'line_width' => 1,
+							'color' => default_chart_color(2),
+						));
 
 						$last = 0;
 						$sum = 0;
 						for ($j = 0; $j < $t['technical_period']; $j++) {
 							$key = date('Y-m-d', strtotime($label . " -$j days"));
-							$sum += isset($data[$key]) ? $data[$key][1] : $last;	// 1 is 'buy'
-							$last = isset($data[$key]) ? $data[$key][1] : $last;
+							$last = isset($data[$key]) ? ($data[$key][1] + $data[$key][2]) / 2 : $last;	// 1 is 'buy', 2 is 'sell': take average
+							$sum += $last;
 						}
 
 						$data[$label][] = graph_number_format($sum / $t['technical_period']);
@@ -488,13 +493,41 @@ function calculate_technicals($graph, $data) {
 		echo "no technicals";
 	}
 
+	// move the first $original_rows to the end, so they are dislpayed on top
+	if (count($data[0]) != $original_rows) {
+		$data_new = array();
+		foreach ($data as $label => $row) {
+			$r = array();
+			$r[] = $row[0];	// keep date row
+			for ($j = $original_rows; $j < count($row); $j++) {
+				$r[] = $row[$j];
+			}
+			for ($j = 1; $j < $original_rows; $j++) {
+				$r[] = $row[$j];
+			}
+			$data_new[$label] = $r;
+		}
+		$data = $data_new;
+	}
+
 	return $data;
 }
 
 function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 
 	$data = array();
-	$data[0] = array("Date", strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy", strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell");
+	$data[0] = array("Date",
+		array(
+			'title' => strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy",
+			'line_width' => 2,
+			'color' => default_chart_color(0),
+		),
+		array(
+			'title' => strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell",
+			'line_width' => 2,
+			'color' => default_chart_color(1),
+		),
+	);
 	$last_updated = false;
 	$days = get_graph_days($graph);
 	$extra_days = extra_days_necessary($graph);
@@ -538,13 +571,6 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 		}
 	}
 	$data = $data_new;
-
-	// set line widths
-	$graph['line_width'] = array();
-	foreach ($data[0] as $i => $heading) {
-		if ($i == 0) continue;	// skip date
-		$graph['line_width'][$i] = $i < 2 ? "" : "1";
-	}
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
@@ -744,7 +770,7 @@ function graph_types() {
 
 function graph_technical_types() {
 	$data = array(
-		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false),
+		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false, 'description' => 'A simple moving average of the midpoint between buy and sell over the last <i>n</i> days.'),
 	);
 	foreach (graph_premium_technical_types() as $key => $value) {
 		$data[$key] = $value;
@@ -881,8 +907,10 @@ function render_linegraph_date($graph, $data) {
   function drawChart<?php echo $graph_id; ?>() {
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Date');
-        <?php for ($i = 1; $i < count($data[0]); $i++) { ?>
-        	data.addColumn('number', <?php echo json_encode($data[0][$i]); ?>);
+        <?php for ($i = 1; $i < count($data[0]); $i++) {
+        	$heading = $data[0][$i];
+        	$heading = isset($heading['title']) ? $heading['title'] : $heading; ?>
+        	data.addColumn('number', <?php echo json_encode($heading); ?>);
         <?php } ?>
 
         data.addRows([
@@ -903,12 +931,18 @@ function render_linegraph_date($graph, $data) {
 				textStyle: { color: 'white' },
 			},
 			series: [
-				<?php foreach ($data[0] as $i => $heading) {
-					if (isset($graph['line_width'][$i]) && $graph['line_width'][$i]) {
-						echo "{ lineWidth: " . json_encode($graph['line_width'][$i]) . " },";	// change line width
-					} else {
-						echo "{},";	// defaults
+				<?php for ($i = 1; $i < count($data[0]); $i++) {
+					$heading = $data[0][$i];
+					echo "{";
+					$bits = array();
+					if (isset($heading['line_width'])) {
+						$bits[] = "lineWidth: " . json_encode($heading['line_width']);
 					}
+					if (isset($heading['color'])) {
+						$bits[] = "color: " . json_encode($heading['color']);
+					}
+					echo implode(",", $bits);
+					echo "},";
 				} ?>
 			],
 			<?php if ($graph['width'] >= 8) { ?>

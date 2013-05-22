@@ -86,7 +86,7 @@ if (!isset($graph_types[$graph_type])) {
 			$errors[] = "Could not add technical type '" . htmlspecialchars($technical) . "' - no such technical type.";
 		} else if ($graph_technical_types[$technical]['premium'] && !$user['is_premium']) {
 			$errors[] = "Could not add technical type '" . htmlspecialchars($graph_technical_types[$technical]['title']) .
-				"' - requires <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.";
+				"' - requires a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.";
 		} else {
 			// it's OK
 			$q = db()->prepare("INSERT INTO graph_technicals SET graph_id=:graph_id, technical_type=:type, technical_period=:period");
@@ -102,5 +102,6 @@ if (!isset($graph_types[$graph_type])) {
 	// redirect
 	$messages[] = "Added new " . $graph_types[$graph_type]['heading'] . " graph" . $message_extra . ".";
 	set_temporary_messages($messages);
+	set_temporary_errors($errors);
 	redirect(url_for('profile', array('page' => $page_id)));
 }
