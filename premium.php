@@ -18,11 +18,12 @@ $premium_technical_types = 0;
 $free_types = array();
 $premium_types = array();
 foreach (graph_technical_types() as $key => $data) {
-	$premium_types[] = $data['title_short'];
+	$title = "<abbr title=\"" . htmlspecialchars($data['title']) . "\">" . htmlspecialchars($data['title_short']) . "</abbr>";
+	$premium_types[] = $title;
 	if ($data['premium']) {
 		$premium_technical_types++;
 	} else {
-		$free_types[] = $data['title_short'];
+		$free_types[] = $title;
 	}
 }
 
@@ -48,7 +49,7 @@ foreach (graph_technical_types() as $key => $data) {
 	<tr>
 		<th>Feature</th>
 		<th>Free account</th>
-		<th>Premium account</th>
+		<th class="premium">Premium account</th>
 	</tr>
 </thead>
 <tbody>
