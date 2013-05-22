@@ -45,6 +45,24 @@ if ($pages) {
 	$q->execute(array(user_id(), $page_id));
 	$graphs = $q->fetchAll();
 
+	if (!$graphs) {
+		// make sure this is actually our page
+		$is_mine = false;
+		foreach ($pages as $page) {
+			if ($page['id'] == $page_id) {
+				$is_mine = true;
+				break;
+			}
+		}
+
+		if (!$is_mine) {
+			$errors[] = "Unknown page.";
+			set_temporary_messages($messages);
+			set_temporary_errors($errors);
+			redirect(url_for('profile'));	// redirect back to our home page
+		}
+	}
+
 ?>
 
 <div id="page<?php echo htmlspecialchars($page_id); ?>">
