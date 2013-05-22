@@ -700,3 +700,17 @@ CREATE TABLE heavy_requests (
 	INDEX(user_ip)
 );
 
+----------------------------------------------------------------------------
+-- upgrade statements from 0.3 to 0.4
+----------------------------------------------------------------------------
+CREATE TABLE graph_technicals (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+
+	graph_id int not null,
+	technical_type varchar(32) not null,		-- e.g. 'bollinger'
+	technical_period tinyint,			-- e.g. 10
+	
+	INDEX(graph_id)	
+);
+

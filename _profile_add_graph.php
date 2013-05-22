@@ -37,6 +37,18 @@
 <?php } ?>
 	</select></td>
 </tr>
+<tr id="add_graph_technical" style="display:none;">
+	<th>Technical:</th>
+	<td><select name="technical" id="graph_technical">
+		<option id="graph_technical_template">Loading...</option>
+	</select></td>
+</tr>
+<tr id="add_graph_period" style="display:none;">
+	<th></th>
+	<td>
+		<label>Period: <input type="text" name="period" value="10" size="6"> days</label>
+	</td>
+</tr>
 <tr>
 	<td colspan="2" class="buttons">
 		<input type="hidden" name="page" value="<?php echo htmlspecialchars($page_id); ?>">
@@ -56,9 +68,24 @@ function graph_types() {
 	if (!(isset($graph['hide']) && $graph['hide'])) {
 		// we don't want to display graph types that we aren't interested in
 		echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) .
+			((isset($graph['technical']) && $graph['technical']) ? ", 'technical': true" : "") .
 			", 'days': " . json_encode(isset($graph['days'])) . "},\n";
 	}
 } ?>
 	];
+}
+
+function graph_technical_types() {
+	return [
+<?php foreach (graph_technical_types() as $id => $data) {
+	echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($data['title']) . "'" .
+			", 'premium' : " . ($data['premium'] ? "true" : "false") .
+			", 'period' : " . ($data['period'] ? "true" : "false") . "},\n";
+} ?>
+	];
+}
+
+function user_has_premium() {
+	return <?php echo $user['is_premium'] ? "true" : "false"; ?>;
 }
 </script>

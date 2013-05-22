@@ -189,6 +189,7 @@ h2 { font-size: 110%; }
 }
 
 #page_profile .add_graph { clear: both; }
+#page_profile .add_graph option.premium { background: #ff9 url('img/premium16.png') top left no-repeat; padding-left: 20px; }
 
 .graph_controls { display: none; }
 .standard_account_list .job_error { background: #993333; }

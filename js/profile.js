@@ -13,11 +13,6 @@ $(document).ready(function() {
 		temp.attr('id', '');
 		e.append(temp);
 		temp.show();
-		if (i == 0) {
-			temp.select();
-			temp.attr('selected', 'selected');
-			$("#graph_description").html(graph_types()[i]['description']);
-		}
 	}
 	template.remove();	// so we can't select it while hidden
 	var callback = function(event) {
@@ -29,10 +24,57 @@ $(document).ready(function() {
 			} else {
 				$("#add_graph_days").hide();
 			}
+			if (typeof graph_types()[data]['technical'] != 'undefined' && graph_types()[data]['technical']) {
+				$("#add_graph_technical").show();
+				$(document).find("#graph_technical").keyup();
+			} else {
+				$("#add_graph_technical").hide();
+				$("#add_graph_period").hide();
+			}
 		}
 	};
 	e.keyup(callback);
 	e.change(callback);
+	e.keyup();
+});
+
+/**
+ * Fill in technical graph types.
+ */
+$(document).ready(function() {
+	var i;
+	var e = $(document).find("#graph_technical"), template = $(document).find("#graph_technical_template");
+	template.hide();
+	for (i = 0; i < graph_technical_types().length; i++) {
+		var temp = template.clone();
+		temp.attr('value', graph_technical_types()[i]['id']);
+		temp.text(graph_technical_types()[i]['title']);
+		temp.data('index', i);
+		temp.attr('id', '');
+		if (graph_technical_types()[i]['premium']) {
+			temp.addClass('premium');
+			if (!user_has_premium()) {
+				temp.prop('disabled', 'true');
+			}
+		}
+		e.append(temp);
+		temp.show();
+	}
+	template.remove();	// so we can't select it while hidden
+	var callback = function(event) {
+		var data = $(event.target).find("option:selected").data('index');
+		if (typeof data != 'undefined') {
+			$("#graph_description").html(graph_technical_types()[data]['description']);
+			if (e.is(":visible") && typeof graph_technical_types()[data]['period'] != 'undefined' && graph_technical_types()[data]['period']) {
+				$("#add_graph_period").show();
+			} else {
+				$("#add_graph_period").hide();
+			}
+		}
+	};
+	e.keyup(callback);
+	e.change(callback);
+	e.keyup();
 });
 
 /**

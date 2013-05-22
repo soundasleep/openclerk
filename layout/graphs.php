@@ -42,6 +42,13 @@ function render_graph($graph, $is_public = false) {
 	echo "<h2>" . htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']) . "</h2>\n";
 	render_graph_controls($graph);
 
+	// get relevant technicals, if any
+	if (isset($graph_types[$graph['graph_type']]['technical']) && $graph_types[$graph['graph_type']]['technical']) {
+		$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=?");
+		$q->execute(array($graph['id']));
+		$graph['technicals'] = $q->fetchAll();
+	}
+
 	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('user')) . "\">Add more currencies</a>";
 
 	switch ($graph['graph_type']) {
@@ -412,7 +419,59 @@ function render_graph($graph, $is_public = false) {
 }
 
 function get_graph_days($graph) {
-	return (isset($graph['days']) && $graph['days'] > 0) ? ((int) $graph['days']) : 45;
+	return ((isset($graph['days']) && $graph['days'] > 0) ? ((int) $graph['days']) : 45);
+}
+
+// e.g. a SMA with a period of 10 requires the 10 days of data before as well
+function extra_days_necessary($graph) {
+	$count = 0;
+	if (isset($graph['technicals'])) {
+		foreach ($graph['technicals'] as $t) {
+			$count = min(get_site_config('technical_period_max'), $t['technical_period']);
+		}
+	}
+	return $count;
+}
+
+function calculate_technicals($graph, $data) {
+	$days = get_graph_days($graph);
+
+	if (isset($graph['technicals'])) {
+		$graph_technical_types = graph_technical_types();
+		foreach ($graph['technicals'] as $t) {
+			$data[0][] = $graph_technical_types[$t['technical_type']]['title_short'];
+			$i = -1;
+			foreach ($data as $label => $row) {
+				$i++;
+				if ($i == 0) continue;	// skip heading row
+				if ($i < count($data) - $days - 1) continue;	// skip period data that isn't displayed
+
+				// we now actually calculate data
+				switch ($t['technical_type']) {
+					case "sma":
+						// simple moving average
+						$last = 0;
+						$sum = 0;
+						for ($j = 0; $j < $t['technical_period']; $j++) {
+							$key = date('Y-m-d', strtotime($label . " -$j days"));
+							$sum += isset($data[$key]) ? $data[$key][1] : $last;	// 1 is 'buy'
+							$last = isset($data[$key]) ? $data[$key][1] : $last;
+						}
+
+						$data[$label][] = graph_number_format($sum / $t['technical_period']);
+						break;
+
+					default:
+						throw new GraphException("Unknown technical type '" . $t['technical_type'] . "'");
+				}
+
+			}
+		}
+	} else {
+		echo "no technicals";
+	}
+
+	return $data;
 }
 
 function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
@@ -421,17 +480,19 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 	$data[0] = array("Date", strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy", strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell");
 	$last_updated = false;
 	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
 
 	$sources = array(
 		// cannot use 'LIMIT :limit'; PDO escapes :limit into string, MySQL cannot handle or cast string LIMITs
 		// first get summarised data
 		array('query' => "SELECT * FROM graph_data_ticker WHERE exchange=:exchange AND
-			currency1=:currency1 AND currency2=:currency2 AND data_date > DATE_SUB(NOW(), INTERVAL $days DAY) ORDER BY data_date", 'key' => 'data_date'),
+			currency1=:currency1 AND currency2=:currency2 AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date", 'key' => 'data_date'),
 		// and then get more recent data
 		array('query' => "SELECT * FROM ticker WHERE is_daily_data=1 AND exchange=:exchange AND
-			currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT $days", 'key' => 'created_at'),
+			currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at'),
 	);
 
+	$day_count = 0;
 	foreach ($sources as $source) {
 		$q = db()->prepare($source['query']); // TODO add days_to_display as parameter
 		$q->execute(array(
@@ -448,6 +509,18 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 			$last_updated = max($last_updated, strtotime($ticker['created_at']));
 		}
 	}
+
+	// calculate technicals
+	$data = calculate_technicals($graph, $data);
+
+	// discard early data
+	$data_new = array();
+	foreach ($data as $label => $row) {
+		if ($label == 0 || strtotime($label) >= strtotime("-" . $days . " days -1 day")) {
+			$data_new[$label] = $row;
+		}
+	}
+	$data = $data_new;
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
@@ -528,6 +601,7 @@ function graph_types_public() {
 				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])),
 				'public' => true, /* can be displayed publicly */
 				'days' => true,
+				'technical' => true, /* allow technical indicators */
 			);
 		}
 	}
@@ -642,6 +716,13 @@ function graph_types() {
 	}
 
 	return $data;
+}
+
+function graph_technical_types() {
+	return array(
+		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false, 'title_short' => 'SMA'),
+		"bollinger" => array('title' => 'Bollinger bands (BOLL)', 'period' => true, 'premium' => true, 'title_short' => 'BOLL'),
+	);
 }
 
 function render_text($graph, $text) {

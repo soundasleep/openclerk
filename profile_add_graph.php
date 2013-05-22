@@ -74,9 +74,33 @@ if (!isset($graph_types[$graph_type])) {
 		'height' => $height,
 		'days' => $days,
 	));
+	$graph_id = db()->lastInsertId();
+
+	// technical graphs?
+	$technical = require_post("technical", false);
+	$message_extra = "";
+	if ($technical) {
+		// make sure that we don't add technicals that are premium only
+		$graph_technical_types = graph_technical_types();
+		if (!isset($graph_technical_types[$technical])) {
+			$errors[] = "Could not add technical type '" . htmlspecialchars($technical) . "' - no such technical type.";
+		} else if ($graph_technical_types[$technical]['premium'] && !$user['is_premium']) {
+			$errors[] = "Could not add technical type '" . htmlspecialchars($graph_technical_types[$technical]['title']) .
+				"' - requires <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.";
+		} else {
+			// it's OK
+			$q = db()->prepare("INSERT INTO graph_technicals SET graph_id=:graph_id, technical_type=:type, technical_period=:period");
+			$q->execute(array(
+				'graph_id' => $graph_id,
+				'type' => $technical,
+				'period' => min(get_site_config('technical_period_max'), max(1, (int) require_post("period", 0))),
+			));
+			$message_extra = ", with " . htmlspecialchars($graph_technical_types[$technical]['title']);
+		}
+	}
 
 	// redirect
-	$messages[] = "Added new " . $graph_types[$graph_type]['heading'] . " graph.";
+	$messages[] = "Added new " . $graph_types[$graph_type]['heading'] . " graph" . $message_extra . ".";
 	set_temporary_messages($messages);
 	redirect(url_for('profile', array('page' => $page_id)));
 }
