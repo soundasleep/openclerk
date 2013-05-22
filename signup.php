@@ -112,7 +112,7 @@ page_header("Signup", "page_signup", array('jquery' => true, 'common_js' => true
 
 <div class="tabs" id="tabs_signup1">
 	<ul class="tab_list">
-		<li id="tab_signup1_openid">OpenID</li>
+		<li id="tab_signup1_openid" class="openid">OpenID</li>
 	</ul>
 	<ul class="tab_groups">
 		<li id="tab_signup1_openid_tab">
@@ -157,7 +157,7 @@ page_header("Signup", "page_signup", array('jquery' => true, 'common_js' => true
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
 		<?php foreach ($openid as $key => $data) {
-			echo "<li id=\"tab_signup_$key\">" . htmlspecialchars($data[0]) . "</li>";
+			echo "<li id=\"tab_signup_$key\" class=\"$key\">" . htmlspecialchars($data[0]) . "</li>";
 		} ?>
 	</ul>
 

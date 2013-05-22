@@ -134,7 +134,7 @@ h2 { font-size: 110%; }
 .tabs .tab_groups .tab_open { min-height: 160px; }
 .tabs .tab_groups .tab_open h1, .tabs .tab_groups .tab_open h2 { margin-top: 0; }
 .tabs .tab_groups { border: 1px outset #ccc; margin: 0; padding: 10px; list-style: none; background: #222; }
-.tabs .tab_selected { font-weight: bold; background: #334455; }
+.tabs .tab_selected { font-weight: bold; background-color: #334455 !important; }
 
 #page_external .external_list li { padding-bottom: 5px; }
 #page_external .external_list .title { display: inline-block; width: 240px; padding: 5px; }
@@ -210,3 +210,9 @@ h2 { font-size: 110%; }
 .twitter { background: url('img/twitter.png') 4px 2px no-repeat; padding-left: 24px; display: inline-block; height: 18px; } 
 .help_list .currency_list { margin-top: 10px; }
 .help_list .currency_list li { line-height: 2em; }
+
+.tabs .tab_list li.openid { background: url('img/openid.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
+.tabs .tab_list li.google { background: url('img/google.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
+.tabs .tab_list li.stackexchange { background: url('img/stackexchange.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
+.tabs .tab_list li.yahoo { background: url('img/yahoo.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
+.tabs .tab_list li.blogspot { background: url('img/blogspot.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
