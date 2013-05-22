@@ -73,7 +73,26 @@ function render_graph_controls($graph) {
 	<li class="remove"><a href="<?php echo htmlspecialchars(url_for('profile', array(
 		'page' => $graph['page_id'],
 		'remove' => $graph['id']))); ?>">Remove</a></li>
+	<li class="edit"><a onclick="javascript:editGraphProperty(this, <?php echo htmlspecialchars($graph['id']); ?>, get_graph_<?php echo htmlspecialchars($graph['id']); ?>()); return false;">Edit</a></li>
 </ul>
+<script type="text/javascript">
+function get_graph_<?php echo htmlspecialchars($graph['id']); ?>() {
+	return {
+		'id' : <?php echo json_encode($graph['id']); ?>,
+		'type' : <?php echo json_encode($graph['graph_type']); ?>,
+		'width' : <?php echo json_encode($graph['width']); ?>,
+		'height' : <?php echo json_encode($graph['height']); ?>,
+		'days' : <?php echo json_encode($graph['days']); ?>,
+		'technical' : <?php echo json_encode(isset($graph['technicals']) && $graph['technicals'] ? $graph['technicals'][0]['technical_type'] : ""); ?>,
+		'period' : <?php echo json_encode(isset($graph['technicals']) && $graph['technicals'] ? $graph['technicals'][0]['technical_period'] : ""); ?>,
+	};
+}
+</script>
+<div id="edit_graph_target_<?php echo htmlspecialchars($graph['id']); ?>" class="edit_target" style="display:none;">
+	<ul class="graph_edit_controls">
+		<li class="close"><a onclick="javascript:hideGraphProperty(this, <?php echo htmlspecialchars($graph['id']); ?>); return false;">Close</a></li>
+	</ul>
+</div>
 <?php
 }
 

@@ -189,10 +189,6 @@ h2 { font-size: 110%; }
 }
 
 #page_profile .add_graph { clear: both; }
-#page_profile .add_graph select option { background: white; color: black; }
-#page_profile .add_graph .premium select option { background: white; }
-#page_profile .add_graph select option.premium, #page_profile .add_graph .premium select { background: #ff9 url('img/premium16.png') top left no-repeat; padding-left: 20px; }
-
 .graph_controls { display: none; }
 .standard_account_list .job_error { background: #993333; }
 .standard_account_list .job_success { background: #336633; }

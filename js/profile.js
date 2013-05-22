@@ -26,7 +26,7 @@ $(document).ready(function() {
 			}
 			if (typeof graph_types()[data]['technical'] != 'undefined' && graph_types()[data]['technical']) {
 				$("#add_graph_technical").show();
-				$(document).find("#graph_technical").keyup();
+				$("#graph_technical").keyup();
 			} else {
 				$("#add_graph_technical").hide();
 				$("#add_graph_period").hide();
@@ -65,6 +65,7 @@ $(document).ready(function() {
 	template.remove();	// so we can't select it while hidden
 	var callback = function(event) {
 		var data = $(event.target).find("option:selected").data('index');
+		var e = $("#graph_technical");
 		if (typeof data != 'undefined') {
 			$("#graph_description").html(graph_technical_types()[data]['description']);
 			if (e.is(":visible") && typeof graph_technical_types()[data]['period'] != 'undefined' && graph_technical_types()[data]['period']) {
@@ -73,19 +74,19 @@ $(document).ready(function() {
 				$("#add_graph_period").hide();
 			}
 			if (graph_technical_types()[data]['premium']) {
-				$(document).find("#add_graph_technical").addClass('premium');
+				$("#add_graph_technical").addClass('premium');
 				if (!user_has_premium()) {
-					$(document).find("#premium_warning").show();
+					$("#premium_warning").show();
 				}
 			} else {
-				$(document).find("#add_graph_technical").removeClass('premium');
-				$(document).find("#premium_warning").hide();
+				$("#add_graph_technical").removeClass('premium');
+				$("#premium_warning").hide();
 			}
 		} else {
 			// "none" is selected
-			$(document).find("#add_graph_period").hide();
-			$(document).find("#add_graph_technical").removeClass('premium');
-			$(document).find("#premium_warning").hide();
+			$("#add_graph_period").hide();
+			$("#add_graph_technical").removeClass('premium');
+			$("#premium_warning").hide();
 		}
 	};
 	e.keyup(callback);
@@ -107,6 +108,9 @@ $(document).ready(function() {
 			} else {
 				targets.hide();
 			}
+			if (already_editing !== null) {
+				hideGraphProperty(event.target, already_editing);
+			}
 			var targets = $(document).find(".render_time");
 			if (enabled) {
 				targets.show();
@@ -117,6 +121,56 @@ $(document).ready(function() {
 		e.change(); // in case it's already checked at page generation time
 	}
 });
+
+var already_editing = null;
+
+/**
+ * Enable inline editing of graph properties.
+ */
+function editGraphProperty(target, id, graph_data) {
+	if (already_editing != null) {
+		if (already_editing == id) {
+			return;	// no need to redisplay our own page
+		}
+		hideGraphProperty(target, already_editing);
+	}
+
+	// create a modal screen
+	var e = $(document).find("#edit_graph_target_" + id);
+	if (e) {
+		// clone the edit form
+		var temp = $(document).find("#edit_graph_form").clone(true /* withDataAndEvents */);
+		temp.attr('id', '');
+		temp.addClass('open_property_page');
+
+		// update form elements
+		$(temp).find("select[name='type']").val(graph_data['type']);
+		$(temp).find("select[name='width']").val(graph_data['width']);
+		$(temp).find("select[name='height']").val(graph_data['height']);
+		$(temp).find("select[name='days']").val(graph_data['days']);
+		$(temp).find("select[name='technical']").val(graph_data['technical']);
+		$(temp).find("input[name='period']").val(graph_data['period']);
+		$(temp).find("input[name='id']").val(graph_data['id']);
+		$(temp).find("input:submit").val("Update graph");
+
+		e.append(temp);
+		temp.show();
+		e.show();
+		already_editing = id;
+
+		$(temp).find("select[name='type']").keyup();	// trigger the event handler (AFTER it's been added to the DOM, otherwise the original form will get it)
+	}
+}
+
+function hideGraphProperty(target, id) {
+	var e = $(document).find("#edit_graph_target_" + id);
+	if (e) {
+		var temp = $(e).find(".open_property_page");
+		temp.remove();
+		e.hide();
+		already_editing = null;
+	}
+}
 
 /**
  * Enable add graph/pages tabs.

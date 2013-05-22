@@ -9,6 +9,8 @@ $graph_type = require_post("type");
 $width = require_post("width");
 $height = require_post("height");
 $page_id = require_post("page");
+$graph_id = require_post("id", false);	// if set, then we're editing an existing graph
+$is_edit = $graph_id || false;
 $days = require_post("days", false);
 
 // make sure this is actually our page
@@ -21,20 +23,22 @@ if (!$q->fetch()) {
 $errors = array();
 $messages = array();
 
-// check premium account limits
 $user = get_user(user_id());
 require_user($user);
 
-$q = db()->prepare("SELECT COUNT(*) AS c FROM graphs WHERE page_id=? AND is_removed=0 AND graph_type <> 'linebreak'");
-$q->execute(array($page_id));
-$count = $q->fetch();
-$count = $count['c'];
+// check premium account limits (unless we're editing a graph)
+if (!$graph_id) {
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM graphs WHERE page_id=? AND is_removed=0 AND graph_type <> 'linebreak'");
+	$q->execute(array($page_id));
+	$count = $q->fetch();
+	$count = $count['c'];
 
-if ($count >= get_premium_value($user, 'graphs_per_page')) {
-	$errors[] = "Cannot add graph: too many existing graphs on this page." .
-			($user['is_premium'] ? "" : " To add more graphs on this page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
-	set_temporary_errors($errors);
-	redirect(url_for('profile', array('page' => $page_id)));
+	if ($count >= get_premium_value($user, 'graphs_per_page')) {
+		$errors[] = "Cannot add graph: too many existing graphs on this page." .
+				($user['is_premium'] ? "" : " To add more graphs on this page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		set_temporary_errors($errors);
+		redirect(url_for('profile', array('page' => $page_id)));
+	}
 }
 
 // only permit valid values
@@ -64,17 +68,38 @@ if (!isset($graph_types[$graph_type])) {
 		$days = 0;
 	}
 
-	// now insert it
-	$q = db()->prepare("INSERT INTO graphs SET page_id=:page_id, page_order=:page_order, graph_type=:graph_type, width=:width, height=:height, days=:days");
-	$q->execute(array(
-		'page_id' => $page_id,
-		'page_order' => $new_order,
-		'graph_type' => $graph_type,
-		'width' => $width,
-		'height' => $height,
-		'days' => $days,
-	));
-	$graph_id = db()->lastInsertId();
+	// now insert or update it
+	if ($graph_id) {
+		// make sure we actually have a graph to edit
+		$q = db()->prepare("SELECT * FROM graphs WHERE page_id=? AND id=? LIMIT 1");
+		$q->execute(array($page_id, $graph_id));
+		if (!$q->fetch()) {
+			throw new Exception("Could not find graph '" . htmlspecialchars($graph_id) . "' for the current user");
+		}
+
+		// we own this graph; edit it
+		$q = db()->prepare("UPDATE graphs SET page_id=:page_id, graph_type=:graph_type, width=:width, height=:height, days=:days WHERE id=:id");
+		$q->execute(array(
+			'page_id' => $page_id,
+			// we don't change page_order
+			'graph_type' => $graph_type,
+			'width' => $width,
+			'height' => $height,
+			'days' => $days,
+			'id' => $graph_id,
+		));
+	} else {
+		$q = db()->prepare("INSERT INTO graphs SET page_id=:page_id, page_order=:page_order, graph_type=:graph_type, width=:width, height=:height, days=:days");
+		$q->execute(array(
+			'page_id' => $page_id,
+			'page_order' => $new_order,
+			'graph_type' => $graph_type,
+			'width' => $width,
+			'height' => $height,
+			'days' => $days,
+		));
+		$graph_id = db()->lastInsertId();
+	}
 
 	// technical graphs?
 	$technical = require_post("technical", false);
@@ -89,6 +114,13 @@ if (!isset($graph_types[$graph_type])) {
 				"' - requires a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.";
 		} else {
 			// it's OK
+
+			// delete any existing technicals (even if we're inserting, since this logic is used for edit too)
+			// (we limit a graph to only have a single technical at the moment)
+			$q = db()->prepare("DELETE FROM graph_technicals WHERE graph_id=?");
+			$q->execute(array($graph_id));
+
+			// insert a new technical
 			$q = db()->prepare("INSERT INTO graph_technicals SET graph_id=:graph_id, technical_type=:type, technical_period=:period");
 			$q->execute(array(
 				'graph_id' => $graph_id,
@@ -100,8 +132,8 @@ if (!isset($graph_types[$graph_type])) {
 	}
 
 	// redirect
-	$messages[] = "Added new " . $graph_types[$graph_type]['heading'] . " graph" . $message_extra . ".";
+	$messages[] = ($is_edit ? "Edited " : "Added new ") . $graph_types[$graph_type]['heading'] . " graph" . $message_extra . ".";
 	set_temporary_messages($messages);
 	set_temporary_errors($errors);
-	redirect(url_for('profile', array('page' => $page_id)));
+	redirect(url_for('profile', array('page' => $page_id, 'graph' => $graph_id)));
 }

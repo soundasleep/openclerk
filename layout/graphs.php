@@ -24,15 +24,16 @@ function render_graph($graph, $is_public = false) {
 	}
 	$graph_type = $graph_types[$graph['graph_type']];
 
-	echo "<h2>" . htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']) . "</h2>\n";
-	render_graph_controls($graph);
-
 	// get relevant technicals, if any
+	// (we need to get these before render_graph_controls() so that the edit graph inline form knows about technicals)
 	if (isset($graph_types[$graph['graph_type']]['technical']) && $graph_types[$graph['graph_type']]['technical']) {
 		$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=?");
 		$q->execute(array($graph['id']));
 		$graph['technicals'] = $q->fetchAll();
 	}
+
+	echo "<h2>" . htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']) . "</h2>\n";
+	render_graph_controls($graph);
 
 	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('user')) . "\">Add more currencies</a>";
 

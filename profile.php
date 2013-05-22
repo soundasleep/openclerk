@@ -147,11 +147,11 @@ if (!$graphs) { ?>
 
 <?php
 
-if (require_get("move_up", false) || require_get("move_down", false)) {
+if (require_get("move_up", false) || require_get("move_down", false) || require_get("graph", false)) {
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-	var e = $("#graph<?php echo htmlspecialchars(require_get("move_up", require_get("move_down", false))); ?>");
+	var e = $("#graph<?php echo htmlspecialchars(require_get("move_up", require_get("move_down", require_get("graph", false)))); ?>");
 	if (e) {
 		e.css({ backgroundColor: '#221111' });
 		// can't fade backgroundColor without JQuery color plugin

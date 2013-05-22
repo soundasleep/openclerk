@@ -1,6 +1,7 @@
 <div class="add_graph">
 <h2>Add new graph</h2>
 
+<div id="edit_graph_form">
 <form action="<?php echo htmlspecialchars(url_for('profile_add_graph')); ?>" method="post">
 <table class="form">
 <tr>
@@ -58,12 +59,15 @@
 	<td colspan="2" class="buttons">
 		<input type="hidden" name="page" value="<?php echo htmlspecialchars($page_id); ?>">
 		<input type="submit" value="Add graph">
+		<input type="hidden" name="id" value="">
 	</td>
 </tr>
 </table>
 
 <div id="graph_description">Select an option</div>
 </form>
+</div>
+
 </div>
 
 <script type="text/javascript">
