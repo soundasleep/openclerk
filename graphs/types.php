@@ -66,6 +66,7 @@ function graph_types() {
 			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions)",
 			'hide' => !isset($summaries[$cur]),
 			'days' => true,
+			'technical' => true,
 		);
 	}
 
@@ -77,6 +78,7 @@ function graph_types() {
 			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted to " . $summary['title'] . ".",
 			'hide' => !isset($conversions['summary_' . $key]),
 			'days' => true,
+			'technical' => true,
 		);
 	}
 
@@ -88,6 +90,7 @@ function graph_types() {
 			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted to " . $summary['title'] . " (where possible).",
 			'hide' => !isset($conversions['summary_' . $key]),
 			'days' => true,
+			'technical' => true,
 		);
 	}
 
@@ -139,7 +142,8 @@ function graph_types() {
 
 function graph_technical_types() {
 	$data = array(
-		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false, 'description' => 'A simple moving average of the midpoint between buy and sell over the last <i>n</i> days.'),
+		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false,
+			'description' => 'A simple moving average of the price - or midpoint between buy and sell - over the last <i>n</i> days.'),
 	);
 	foreach (graph_premium_technical_types() as $key => $value) {
 		$data[$key] = $value;

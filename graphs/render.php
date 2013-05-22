@@ -43,7 +43,8 @@ function calculate_technicals($graph, $data) {
 						$sum = 0;
 						for ($j = 0; $j < $t['technical_period']; $j++) {
 							$key = date('Y-m-d', strtotime($label . " -$j days"));
-							$last = isset($data[$key]) ? ($data[$key][1] + $data[$key][2]) / 2 : $last;	// 1 is 'buy', 2 is 'sell': take average
+							$last = isset($data[$key]) ?
+								(isset($data[$key][2]) ? ($data[$key][1] + $data[$key][2]) / 2 : $data[$key][1]) : $last;	// 1 is 'buy', 2 is 'sell': take average if defined
 							$sum += $last;
 						}
 
@@ -72,8 +73,6 @@ function calculate_technicals($graph, $data) {
 				$data[0][] = $h;
 			}
 		}
-	} else {
-		echo "no technicals";
 	}
 
 	// move the first $original_rows to the end, so they are dislpayed on top
@@ -147,18 +146,22 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 	$data = calculate_technicals($graph, $data);
 
 	// discard early data
+	$data = discard_early_data($data, $days);
+
+	// sort by key, but we only want values
+	uksort($data, 'cmp_time');
+	$graph['last_updated'] = $last_updated;
+	render_linegraph_date($graph, array_values($data));
+}
+
+function discard_early_data($data, $days) {
 	$data_new = array();
 	foreach ($data as $label => $row) {
 		if ($label == 0 || strtotime($label) >= strtotime("-" . $days . " days -1 day")) {
 			$data_new[$label] = $row;
 		}
 	}
-	$data = $data_new;
-
-	// sort by key, but we only want values
-	uksort($data, 'cmp_time');
-	$graph['last_updated'] = $last_updated;
-	render_linegraph_date($graph, array_values($data));
+	return $data_new;
 }
 
 function cmp_time($a, $b) {
@@ -170,17 +173,24 @@ function cmp_time($a, $b) {
 function render_summary_graph($graph, $summary_type, $currency, $user_id) {
 
 	$data = array();
-	$data[0] = array("Date", strtoupper($currency));
+	$data[0] = array("Date",
+		array(
+			'title' => strtoupper($currency),
+			'line_width' => 2,
+			'color' => default_chart_color(0),
+		),
+	);
 	$last_updated = false;
 	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
 
 	$sources = array(
 		// first get summarised data
 		array('query' => "SELECT * FROM graph_data_summary WHERE user_id=:user_id AND summary_type=:summary_type AND
-			data_date >= DATE_SUB(NOW(), INTERVAL $days DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
+			data_date >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
 		// and then get more recent data
 		array('query' => "SELECT * FROM summary_instances WHERE is_daily_data=1 AND summary_type=:summary_type AND
-			user_id=:user_id ORDER BY created_at DESC LIMIT $days", 'key' => 'created_at', 'balance_key' => 'balance'),
+			user_id=:user_id ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
 	foreach ($sources as $source) {
@@ -198,6 +208,13 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id) {
 		}
 	}
 
+	// calculate technicals
+	$data = calculate_technicals($graph, $data);
+
+	// discard early data
+	$data = discard_early_data($data, $days);
+
+	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
 	$graph['last_updated'] = $last_updated;
 

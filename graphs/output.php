@@ -152,6 +152,15 @@ function render_linegraph_date($graph, $data) {
 				gridlines: { color: '#333' },
 				textStyle: { color: 'white' },
 			},
+			<?php for ($i = 1; $i < count($data[0]); $i++) {
+				$heading = $data[0][$i];
+				if (isset($heading['axis']) && isset($heading['axis_max']) && isset($heading['axis_min'])) {
+				?>
+				vAxes: [ {}, { maxValue: <?php echo number_format($heading['axis_max']); ?>, minValue: <?php echo number_format($heading['axis_min']); ?> } ],
+				<?php
+					break;
+				}
+			}?>
 			series: [
 				<?php for ($i = 1; $i < count($data[0]); $i++) {
 					$heading = $data[0][$i];
