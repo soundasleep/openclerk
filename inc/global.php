@@ -441,6 +441,17 @@ function generate_key($length = 32) {
 
 function get_openid_host() { return get_site_config('openid_host'); }
 
+// from http://php.net/manual/en/function.stats-standard-deviation.php
+function stdev($aValues, $bSample = false) {
+    $fMean = array_sum($aValues) / count($aValues);
+    $fVariance = 0.0;
+    foreach ($aValues as $i) {
+        $fVariance += pow($i - $fMean, 2);
+    }
+    $fVariance /= ( $bSample ? count($aValues) - 1 : count($aValues) );
+    return (float) sqrt($fVariance);
+}
+
 /**
  * @return the error message back
  */

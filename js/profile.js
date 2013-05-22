@@ -70,6 +70,11 @@ $(document).ready(function() {
 			} else {
 				$("#add_graph_period").hide();
 			}
+			if (graph_technical_types()[data]['premium']) {
+				$(document).find("#add_graph_technical").addClass('premium');
+			} else {
+				$(document).find("#add_graph_technical").removeClass('premium');
+			}
 		}
 	};
 	e.keyup(callback);

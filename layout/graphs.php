@@ -439,7 +439,6 @@ function calculate_technicals($graph, $data) {
 	if (isset($graph['technicals'])) {
 		$graph_technical_types = graph_technical_types();
 		foreach ($graph['technicals'] as $t) {
-			$data[0][] = $graph_technical_types[$t['technical_type']]['title_short'];
 			$i = -1;
 			foreach ($data as $label => $row) {
 				$i++;
@@ -450,6 +449,8 @@ function calculate_technicals($graph, $data) {
 				switch ($t['technical_type']) {
 					case "sma":
 						// simple moving average
+						$headings = array("SMA (" . number_format($t['technical_period']) . ")");
+
 						$last = 0;
 						$sum = 0;
 						for ($j = 0; $j < $t['technical_period']; $j++) {
@@ -462,9 +463,25 @@ function calculate_technicals($graph, $data) {
 						break;
 
 					default:
-						throw new GraphException("Unknown technical type '" . $t['technical_type'] . "'");
-				}
+						if (isset($graph_technical_types[$t['technical_type']]['callback'])) {
+							// a premium graph technical type, defined elsewhere
+							// should return array('headings' => array, 'data' => array) for each row
+							$result = $graph_technical_types[$t['technical_type']]['callback']($graph, $t, $label, $data);
+							$headings = $result['headings'];
+							foreach ($result['data'] as $value) {
+								$data[$label][] = $value;
+							}
+							break;
 
+						} else {
+							throw new GraphException("Unknown technical type '" . $t['technical_type'] . "'");
+						}
+				}
+			}
+
+			// add headings
+			foreach ($headings as $h) {
+				$data[0][] = $h;
 			}
 		}
 	} else {
@@ -521,6 +538,13 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 		}
 	}
 	$data = $data_new;
+
+	// set line widths
+	$graph['line_width'] = array();
+	foreach ($data[0] as $i => $heading) {
+		if ($i == 0) continue;	// skip date
+		$graph['line_width'][$i] = $i < 2 ? "" : "1";
+	}
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
@@ -719,10 +743,13 @@ function graph_types() {
 }
 
 function graph_technical_types() {
-	return array(
-		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false, 'title_short' => 'SMA'),
-		"bollinger" => array('title' => 'Bollinger bands (BOLL)', 'period' => true, 'premium' => true, 'title_short' => 'BOLL'),
+	$data = array(
+		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false),
 	);
+	foreach (graph_premium_technical_types() as $key => $value) {
+		$data[$key] = $value;
+	}
+	return $data;
 }
 
 function render_text($graph, $text) {
@@ -875,6 +902,15 @@ function render_linegraph_date($graph, $data) {
 				gridlines: { color: '#333' },
 				textStyle: { color: 'white' },
 			},
+			series: [
+				<?php foreach ($data[0] as $i => $heading) {
+					if (isset($graph['line_width'][$i]) && $graph['line_width'][$i]) {
+						echo "{ lineWidth: " . json_encode($graph['line_width'][$i]) . " },";	// change line width
+					} else {
+						echo "{},";	// defaults
+					}
+				} ?>
+			],
 			<?php if ($graph['width'] >= 8) { ?>
 			chartArea: { width: '90%', height: '85%', top: 20, left: <?php echo min(60, 30 * $graph['width']); ?> }, /* reduce padding */
 			<?php } else { ?>
