@@ -16,6 +16,7 @@ $historical_graphs = graph_types_public();
 
 $permitted_days = get_permitted_days();
 $days = isset($permitted_days[require_get('days', false)]) ? $permitted_days[require_get('days')]['days'] : 45;
+$user = user_logged_in() ? get_user(user_id()) : false;
 
 $id = require_get("id", false);
 if ($id && isset($historical_graphs[$id])) {
@@ -33,6 +34,13 @@ if ($id && isset($historical_graphs[$id])) {
 	);
 
 	?>
+	<?php if (!($user && $user['is_premium'])) { ?>
+	<div class="tip tip_float">
+		With a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>, you can apply sophisticated technical
+		indicators to historical exchange data, such as Moving Averages, Bollinger bands, and Relative Strength Index.
+	</div>
+	<?php } ?>
+
 	<h1>Historical Data: <?php echo htmlspecialchars($historical_graphs[$id]["heading"]); ?></h1>
 
 	<p class="backlink">
@@ -47,6 +55,7 @@ if ($id && isset($historical_graphs[$id])) {
 		<?php render_graph($graph, true /* is public */); ?>
 	</div>
 	</div>
+
 	<?php
 
 } else {
