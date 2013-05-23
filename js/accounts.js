@@ -75,25 +75,43 @@ function sortBy(index, ascending) {
 	var rows = $(tbody).find("tr");
 	$(rows).detach();
 
-	// now sort through them
+	// go through and find row values and indexes
+	var temp = [];
 	$(rows).each(function(i, e) {
-		var currentRows = $(tbody).find("tr");
-		var rowKey = $(e).find("td:eq(" + index + ")");
-		$(currentRows).each(function(i2, e2) {
-			var curKey = $(e2).find("td:eq(" + index + ")");
-			if (ascending && rowKey.text().trim() < curKey.text().trim()) {
-				$(e).insertBefore(e2);
-				return false;
-			} else if (!ascending && rowKey.text().trim() > curKey.text().trim()) {
-				$(e).insertBefore(e2);
-				return false;
-			}
-		});
-		if (!$(e).is(":visible")) {
-			// not anywhere; add it to the end
-			$(tbody).append(e);
-		}
-		return true;
+		var td = $(e).find("td:eq(" + index + ")");
+		temp.push({'index': i, 'key': getSortValue(td)});
 	});
 
+	temp.sort(function(a, b) {
+		if (a.key == b.key) return 0;
+		if (a.key < b.key) return ascending ? -1 : 1;
+		return ascending ? 1 : -1;
+	});
+
+	// now add them back in
+	for (var i = 0; i < temp.length; i++) {
+		$(tbody).append(rows[temp[i].index]);
+	}
+
+	// fix row colours
+	var count = 0;
+	$(".standard_account_list tbody tr").each(function(i, e) {
+		$(e).removeClass('even');
+		$(e).removeClass('odd');
+		if (count++ % 2 == 0) {
+			$(e).addClass('even');
+		} else {
+			$(e).addClass('odd');
+		}
+	});
+}
+
+function getSortValue(e) {
+	if ($(e).find("span.address code").length > 0) {
+		return $(e).find("span.address code").text().trim();
+	}
+	if ($(e).find("span").length > 0 && $(e).find("span").attr('title')) {
+		return $(e).find("span").attr('title').trim();
+	}
+	return $(e).text().trim();
 }
