@@ -42,6 +42,11 @@ foreach ($currencies as $i => $currency) {
 
 	crypto_log($exchange . " balance for " . $currency . ": " . htmlspecialchars($balance["balance"]));
 
+	// if auth fails, display helpful message
+	if (!isset($balance["currency"]) && isset($balance["statustxt"])) {
+		throw new ExternalAPIException(htmlspecialchars($balance["statustxt"]));
+	}
+
 	// sanity check
 	if ($balance["currency"] !== strtoupper($currency)) {
 		throw new ExternalAPIException("Unexpected currency response from Vircurex: Expected '" . strtoupper($currency) . "', was '" . htmlspecialchars($balance["currency"]) . "'");
