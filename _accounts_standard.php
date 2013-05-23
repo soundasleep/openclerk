@@ -113,6 +113,11 @@ at least once every <?php echo plural(get_premium_value($user, "refresh_queue_ho
 
 <h1>Your <?php echo htmlspecialchars($account_data['titles']); ?></h1>
 
+<span style="display:none;" id="sort_buttons_template">
+<!-- heading sort buttons -->
+<span class="sort_up" title="Sort ascending">Asc</span><span class="sort_down" title="Sort descending">Desc</span>
+</span>
+
 <table class="standard standard_account_list">
 <thead>
 	<tr>

@@ -54,19 +54,24 @@ $(document).ready(function() {
 
 		// set up events
 		temp.find(".sort_up").click(function(e) {
+			$(document).find(".sort_down").removeClass("selected");
+			$(document).find(".sort_up").removeClass("selected");
 			$(e.target).addClass("selected");
-			temp.find(".sort_down").removeClass("selected");
 			sortBy(index, true);
 		});
 		temp.find(".sort_down").click(function(e) {
+			$(document).find(".sort_down").removeClass("selected");
+			$(document).find(".sort_up").removeClass("selected");
 			$(e.target).addClass("selected");
-			temp.find(".sort_up").removeClass("selected");
 			sortBy(index, false);
 		});
 
 		$(e).append(temp);
 		temp.show();
 	});
+
+	// sort by title on page load
+	$(headings[0]).find(".sort_up").click();
 });
 
 function sortBy(index, ascending) {
