@@ -206,13 +206,14 @@ h2 { font-size: 110%; }
 .help_name_email { background: url('img/gmail.png') top left no-repeat; padding-left: 20px; } 
 .help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 
 .help_name_litecoinforum { background: url('img/litecoin.png') top left no-repeat; padding-left: 20px; } 
+.help_name_groups { background: url('img/groups.png') top left no-repeat; padding-left: 20px; } 
 .discounted { color: #666; text-decoration: line-through; }
 .twitter { background: url('img/twitter.png') 4px 2px no-repeat; padding-left: 24px; display: inline-block; height: 18px; } 
 .help_list .currency_list { margin-top: 10px; }
 .help_list .currency_list li { line-height: 2em; }
 
 .tabs .tab_list li.openid { background: url('img/openid.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
-.tabs .tab_list li.google { background: url('img/google.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
+.tabs .tab_list li.google { background: url('img/google2.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
 .tabs .tab_list li.stackexchange { background: url('img/stackexchange.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
 .tabs .tab_list li.yahoo { background: url('img/yahoo.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
 .tabs .tab_list li.blogspot { background: url('img/blogspot.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 

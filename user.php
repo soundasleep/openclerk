@@ -76,7 +76,7 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 	<li>To get started, you should first confirm the currencies that you are interested in below.</li>
 	<li>After that, head to your <a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">accounts page</a>
 		to link in your mining pools, exchanges and cryptocurrency addresses.</li>
-	<li>Finally, don&apos;t forget to subscribe to the <a href="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>">announcements mailing list</a>.</li>
+	<li>Finally, don&apos;t forget to subscribe to the <a href="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank">announcements mailing list</a>.</li>
 </ul>
 </div>
 <?php } ?>
