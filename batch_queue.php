@@ -137,8 +137,15 @@ foreach ($standard_jobs as $standard) {
 		insert_new_job($job);
 
 		// update the address
-		$q2 = db()->prepare("UPDATE " . $standard['table'] . " SET last_queue=NOW() WHERE id=?");
-		$q2->execute(array($address['id']));
+		try {
+			// only update last_queue if that field actually exists
+			if (isset($address['last_queue'])) {
+				$q2 = db()->prepare("UPDATE " . $standard['table'] . " SET last_queue=NOW() WHERE id=?");
+				$q2->execute(array($address['id']));
+			}
+		} catch (PDOException $e) {
+			throw new Exception("Could not queue jobs for table " . $standard['table'] . ": " . $e->getMessage(), (int) $e->getCode(), $e);
+		}
 	}
 }
 

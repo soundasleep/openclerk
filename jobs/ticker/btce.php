@@ -7,6 +7,8 @@
 $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'ltc'), // all flipped around
 	array('cur1' => 'usd', 'cur2' => 'btc'), // all flipped around
+	array('cur1' => 'eur', 'cur2' => 'btc'), // all flipped around
+	array('cur1' => 'usd', 'cur2' => 'eur'), // all flipped around
 	array('cur1' => 'usd', 'cur2' => 'ltc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'nmc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'ftc'), // all flipped around

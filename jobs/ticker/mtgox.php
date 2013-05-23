@@ -6,6 +6,7 @@
 
 $rates_list = array(
 	array('cur1' => 'USD', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'EUR', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
 );
 
 $first = true;

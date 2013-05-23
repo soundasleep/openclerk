@@ -114,6 +114,48 @@ switch ($summary['summary_type']) {
 		add_summary_instance($job, 'all2usd_vircurex', $total);
 		break;
 
+	case "summary_eur_btce":
+		$total = 0;
+		require("jobs/summary/totaleur.php");
+		add_summary_instance($job, 'totaleur', $total);
+		add_summary_instance($job, 'blockchaineur', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetseur', $total_offsets_balance);
+
+		// TODO fiat2usd
+
+		$total = 0;
+		require("jobs/summary/all2eur_btce.php");
+		add_summary_instance($job, 'all2eur_btce', $total);
+		break;
+
+	case "summary_eur_mtgox":
+		$total = 0;
+		require("jobs/summary/totaleur.php");
+		add_summary_instance($job, 'totaleur', $total);
+		add_summary_instance($job, 'blockchaineur', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetseur', $total_offsets_balance);
+
+		// TODO fiat2eur
+
+		$total = 0;
+		require("jobs/summary/all2eur_mtgox.php");
+		add_summary_instance($job, 'all2eur_mtgox', $total);
+		break;
+
+	case "summary_eur_vircurex":
+		$total = 0;
+		require("jobs/summary/totaleur.php");
+		add_summary_instance($job, 'totaleur', $total);
+		add_summary_instance($job, 'blockchaineur', $total_blockchain_balance);
+		add_summary_instance($job, 'offsetseur', $total_offsets_balance);
+
+		// TODO fiat2eur
+
+		$total = 0;
+		require("jobs/summary/all2eur_vircurex.php");
+		add_summary_instance($job, 'all2eur_vircurex', $total);
+		break;
+
 	case "summary_nzd":
 		$total = 0;
 		require("jobs/summary/totalnzd.php");

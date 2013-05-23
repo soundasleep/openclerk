@@ -47,7 +47,7 @@ function mtgox_query($key, $secret, $path, array $req = array()) {
 	return $dec;
 }
 
-$currencies = array('btc' => 1e8, 'usd' => 1e5);
+$currencies = array('btc' => 1e8, 'usd' => 1e5, 'eur' => 1e5 /* assumed */);
 $mtgox_info = mtgox_query($account['api_key'], $account['api_secret'], 'https://mtgox.com/api/1/generic/private/info');
 if (isset($mtgox_info['error'])) {
 	throw new ExternalAPIException("API returned error: '" . $mtgox_info['error'] . "'");
