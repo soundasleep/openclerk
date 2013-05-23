@@ -163,6 +163,12 @@ if (!$premium_only) {
 		}
 	}
 
+	// reset jobs that have crashed
+	// if a job is currently running, this won't have any effect, unless it crashes right now
+	$q = db()->prepare("UPDATE jobs SET is_executing=0 WHERE is_executing=1");
+	$q->execute();
+	crypto_log("Reset old executing jobs");
+
 	// once a day (at 6am) (or on request), run cleanup jobs
 	if (date('H') == 6 || in_array("cleanup", $job_type)) {
 		insert_new_job(array(

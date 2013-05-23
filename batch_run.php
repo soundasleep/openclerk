@@ -21,7 +21,7 @@ if (require_get("job_id", false)) {
 	$job = $q->fetch();
 } else {
 	// select the most important job to execute next
-	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 ORDER BY priority ASC, id ASC LIMIT 1");
+	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 ORDER BY priority ASC, id ASC LIMIT 1");
 	$q->execute();
 	$job = $q->fetch();
 }
@@ -49,7 +49,7 @@ try {
 		throw new RuntimeAPIException("An uncaught error occured multiple times");
 	} else {
 		// update the job execution count
-		$q = db()->prepare("UPDATE jobs SET execution_count=execution_count+1 WHERE id=?");
+		$q = db()->prepare("UPDATE jobs SET is_executing=1,execution_count=execution_count+1 WHERE id=?");
 		$q->execute(array($job['id']));
 	}
 
@@ -181,7 +181,7 @@ try {
 }
 
 // delete job
-$q = db()->prepare("UPDATE jobs SET is_executed=1,is_error=?,executed_at=NOW() WHERE id=? LIMIT 1");
+$q = db()->prepare("UPDATE jobs SET is_executed=1,is_executing=0,is_error=?,executed_at=NOW() WHERE id=? LIMIT 1");
 $q->execute(array(($runtime_exception === null ? 0 : 1), $job['id']));
 
 // rethrow exception if necessary

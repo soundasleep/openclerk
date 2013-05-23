@@ -721,3 +721,8 @@ ALTER TABLE users ADD user_ip varchar(64) not null;	-- long string for IPv6
 -- addresses can have titles
 ALTER TABLE addresses ADD title varchar(255);
 
+-- if a job takes more than <refresh> secs, we shouldn't be executing it simultaneously
+ALTER TABLE jobs ADD is_executing tinyint not null default 0;
+ALTER TABLE jobs ADD INDEX(is_executing);
+
+
