@@ -21,14 +21,32 @@ if (require_get("job_id", false)) {
 	$job = $q->fetch();
 } else {
 	// select the most important job to execute next
-	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 ORDER BY priority ASC, id ASC LIMIT 1");
+	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 ORDER BY priority ASC, id ASC LIMIT 20");
 	$q->execute();
-	$job = $q->fetch();
+
+	// iterate until we find a job that we can actually run right now
+	while ($job = $q->fetch()) {
+		$throttle = get_site_config('throttle_' . $job['job_type'], false);
+		if ($throttle) {
+			// find the last executed job
+			$q1 = db()->prepare("SELECT * FROM jobs WHERE is_executed=1 AND job_type=? AND executed_at > date_sub(now(), interval ? second) LIMIT 1");
+			$q1->execute(array($job['job_type'], $throttle));
+			if ($early = $q1->fetch()) {
+				crypto_log("Cannot run job " . $job['id'] . " (" . $job['job_type'] . ": another job " . $early['job_type'] . " was run less than $throttle seconds ago (" . $early['id'] . ")");
+			} else {
+				// we've found a job we can execute
+				break;
+			}
+		} else {
+			// we've found a job we can execute
+			break;
+		}
+	}
 }
 
 if (!$job) {
 	// nothing to do!
-	echo "No job to execute.";
+	crypto_log("No job to execute.");
 	return;
 }
 
