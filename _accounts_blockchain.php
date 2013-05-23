@@ -32,17 +32,20 @@ if (require_post("title", false) !== false && require_post("id", false)) {
 // process add/delete
 if (require_post("add", false) && require_post("address", false)) {
 	$address = trim(require_post("address"));
+	$title = trim(require_post("title", false));
 
 	$callback = $account_data['callback'];
 	if (!$callback($address)) {
 		$errors[] = "'" . htmlspecialchars($address) . "' is not a valid " . htmlspecialchars($account_data['title']) . ".";
+	} else if (!is_valid_title($title)) {
+		$errors[] = "'" . htmlspecialchars($title) . "' is not a valid " . htmlspecialchars($account_data['title']) . " title.";
 	} else if (!can_user_add($user, $account_data['premium_group'])) {
 		$errors[] = "Cannot add " . htmlspecialchars($account_data['title']) . ": too many existing addresses." .
 				($user['is_premium'] ? "" : " To add more addresses, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 	} else {
 		// we don't care if the address already exists
-		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?");
-		$q->execute(array(user_id(), $address, $account_data['currency']));
+		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?, title=?");
+		$q->execute(array(user_id(), $address, $account_data['currency'], $title));
 		$address_callback = $account_data['address_callback'];
 		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " " . $address_callback($address) . ". Balances from this address will be retrieved shortly.";
 
@@ -170,6 +173,10 @@ foreach ($accounts as $a) {
 <p>
 <form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post">
 <table class="standard">
+<tr>
+	<th><label for="address">Title:</label></th>
+	<td><input type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_post("title", "")); ?>"> (optional)</td>
+</tr>
 <tr>
 	<th><label for="address"><?php echo htmlspecialchars($account_data['title']); ?>:</label></th>
 	<td><input type="text" name="address" size="36" maxlength="36" value="<?php echo htmlspecialchars(require_post("address", "")); ?>"></td>
