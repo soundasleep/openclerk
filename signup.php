@@ -95,7 +95,7 @@ if ($openid && $submit) {
 
 		// redirect
 		set_temporary_messages($messages);
-		redirect(url_for('login', array('openid' => $openid)));
+		redirect(url_for('login', array('openid' => $openid, 'destination' => url_for(get_site_config('premium_welcome') ? "welcome" : get_site_config('default_login')))));
 
 	} catch (Exception $e) {
 		if (!($e instanceof EscapedException)) {

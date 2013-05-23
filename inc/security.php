@@ -98,7 +98,11 @@ function did_autologin() {
 	return $global_did_autologin;
 }
 
+/**
+ * Get the current user ID. If nobody is logged in, redirect to the login page.
+ */
 function user_id() {
+	require_login();
     return require_session("user_id");
 }
 

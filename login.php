@@ -112,8 +112,9 @@ try {
 		}
 
 		// redirect
-		if (!$destination)
+		if (!$destination) {
 			$destination = url_for(get_site_config('default_login'));
+		}
 
 		// possible injection here... strip all protocol information to prevent redirection to external site
 		$destination = str_replace('#[a-z]+://#im', '', $destination);

@@ -104,10 +104,12 @@ page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' =>
 
 <h1>Purchase Premium with <?php echo get_currency_name($currency); ?></h1>
 
+<div class="columns2">
+<div class="column">
 <form action="<?php echo htmlspecialchars(url_for('purchase')); ?>" method="post">
-<table class="form">
+<table class="form fancy">
 <tr>
-	<td>Purchase months (<?php echo currency_format($currency, get_premium_price($currency, 'monthly')); ?>/month)</td>
+	<th>Purchase months (<?php echo currency_format($currency, get_premium_price($currency, 'monthly')); ?>/month)</td>
 	<td>
 		<select name="months" id="monthly">
 			<option value="0" selected></option>
@@ -118,12 +120,12 @@ page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' =>
 	</td>
 </tr>
 <tr>
-	<td colspan="2" class="hr">
+	<th colspan="2" class="hr">
 		OR
 	</td>
 </tr>
 <tr>
-	<td>Purchase years (<?php echo currency_format($currency, get_premium_price($currency, 'yearly')); ?>/year)</td>
+	<th>Purchase years (<?php echo currency_format($currency, get_premium_price($currency, 'yearly')); ?>/year)</td>
 	<td>
 		<select name="years" id="yearly">
 			<option value="0" selected></option>
@@ -136,16 +138,22 @@ page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' =>
 <tr>
 	<td colspan="2" class="buttons">
 		<input type="hidden" name="currency" value="<?php echo htmlspecialchars($currency); ?>">
-		<input type="submit" value="Purchase">
+		<input type="submit" value="Purchase" class="currency_name_<?php echo htmlspecialchars($currency); ?>">
 	</td>
 </tr>
 </table>
 </form>
 
+</div>
+<div class="column">
+
 <p>
 Once you have submitted your order, a <?php echo get_currency_name($currency); ?> address will be generated for your payment.
 Your premium purchase will complete once the <?php echo get_currency_name($currency); ?> network confirms your transaction.
 </p>
+
+</div>
+</div>
 
 <?php
 page_footer();

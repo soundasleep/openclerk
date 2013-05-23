@@ -4,7 +4,7 @@
 <table class="fancy">
 <?php foreach (get_site_config('premium_currencies') as $currency) { ?>
 <tr>
-	<th><span class="currency_name_<?php echo $currency; ?>"><?php echo htmlspecialchars(get_currency_name($currency)); ?></span></th>
+	<th class="currency"><span class="currency_name_<?php echo $currency; ?>"><?php echo htmlspecialchars(get_currency_name($currency)); ?></span></th>
 	<td class="prices">
 		<?php if (get_site_config('premium_' . $currency . '_discount')) { ?>
 		<div class="discounted"><?php echo currency_format($currency, get_site_config('premium_' . $currency . '_monthly')); ?> per month, or

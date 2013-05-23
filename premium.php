@@ -14,22 +14,8 @@ $errors = array();
 
 page_header("Premium Accounts", "page_premium");
 
-$premium_technical_types = 0;
-$free_types = array();
-$premium_types = array();
-foreach (graph_technical_types() as $key => $data) {
-	$title = "<abbr title=\"" . htmlspecialchars($data['title']) . "\">" . htmlspecialchars($data['title_short']) . "</abbr>";
-	$premium_types[] = $title;
-	if ($data['premium']) {
-		$premium_technical_types++;
-	} else {
-		$free_types[] = $title;
-	}
-}
-
 ?>
 
-<div class="premium_info">
 <h1>Support <?php echo htmlspecialchars(get_site_config('site_name')); ?> with Premium Accounts</h1>
 
 <p>
@@ -44,66 +30,10 @@ foreach (graph_technical_types() as $key => $data) {
 	and advanced reporting and notification functionality. Your jobs and reports will also have higher priority over free users.
 </p>
 
-<table class="standard">
-<thead>
-	<tr>
-		<th>Feature</th>
-		<th>Free account</th>
-		<th class="premium">Premium account</th>
-	</tr>
-</thead>
-<tbody>
-	<?php
-	$blockchain = get_blockchain_currencies();
-	$currencies = array();
-	foreach ($blockchain as $currency_list) {
-		foreach ($currency_list as $c) {
-			$currencies[$c] = $c;
-		}
-	}
-
-	$currencies = array_map('strtoupper', $currencies);
-	$predef = array(
-		'addresses' => 'Tracked addresses (' . implode(", ", $currencies) . ')',
-		'accounts' => 'Tracked accounts (BTC-e, Mt.Gox, ...)',
-		'graph_pages' => '<a href="' . htmlspecialchars(url_for('profile')) . '">Reports pages</a>',
-		'graphs_per_page' => 'Graphs per report page',
-		'summaries' => '<a href="' . htmlspecialchars(url_for('user')) . '">Currencies</a>',
-	);
-	foreach ($predef as $key => $title) { ?>
-	<tr>
-		<th><?php echo $title; ?></th>
-		<td><?php echo number_format(get_premium_config($key . "_free")); ?></td>
-		<td><?php echo number_format(get_premium_config($key . "_premium")); ?></td>
-	</tr>
-	<?php } ?>
-	<tr>
-		<th>Technical indicator types</th>
-		<td><?php echo number_format(count(graph_technical_types()) - $premium_technical_types); ?> (<?php echo implode(", ", $free_types); ?>)</td>
-		<td><?php echo number_format(count(graph_technical_types())); ?> (<?php echo implode(", ", $premium_types); ?>)</td>
-	</tr>
-	<tr>
-		<th>Priority over free users</th>
-		<td class="no">-</td>
-		<td class="yes">Y</td>
-	</tr>
-	<tr>
-		<th>Data updated at least every</th>
-		<td><?php echo plural(get_site_config('refresh_queue_hours'), 'hour'); ?></td>
-		<td><?php echo plural(get_site_config('refresh_queue_hours_premium'), 'hour'); ?></td>
-	</tr>
-	<tr>
-		<th>Advanced reporting functionality</th>
-		<td>-</td>
-		<td>Coming soon...</td>
-	</tr>
-	<tr>
-		<th>Advanced notification functionality</th>
-		<td>-</td>
-		<td>Coming soon...</td>
-	</tr>
-</tbody>
-</table>
+<?php
+$welcome = false;
+require("_premium_features.php");
+?>
 
 <p>
 	You may purchase or extend your premium account by logging into your
@@ -111,8 +41,9 @@ foreach (graph_technical_types() as $key => $data) {
 	by selecting the appropriate payment option below.
 </p>
 
-<?php require("_premium_prices.php"); ?>
-</div>
+<?php
+require("_premium_prices.php");
+?>
 
 <?php
 page_footer();
