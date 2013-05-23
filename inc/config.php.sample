@@ -1,8 +1,11 @@
 <?php
 
-function get_site_config($key = null) {
+function get_site_config($key = null, $fail_if_missing = true) {
 	if ($key !== null) {
 		$k = get_site_config(null);
+		if (!$fail_if_missing && !isset($k[$key])) {
+			return false;	// don't display an error
+		}
 		return $k[$key];
 	}
 
@@ -23,6 +26,7 @@ function get_site_config($key = null) {
 		"phpmailer_from" => "example@example.com",
 		"phpmailer_from_name" => "example@example.com",
 		"phpmailer_reply_to" => "example@example.com",
+		"phpmailer_bcc" => "example@example.com",		// if set, send a copy of all emails to this address
 
 		"admin_email" => "example@gmail.com",
 		"password_salt" => "abc123",
@@ -52,10 +56,17 @@ function get_site_config($key = null) {
 		"sleep_vircurex_balance" => 5,
 		"sleep_cryptostocks_balance" => 5,
 		"max_job_executions" => 5,	// if a job fails to run more than this number of times, then explicitly mark it as failed
+		"throttle_btcguild" => 30,	// only execute this job once every X seconds
+
+		// DDoS/abuse control
+		"heavy_requests_seconds" => 5,
 
 		// layout properties
 		"default_graph_width" => 110, // in px, default *2
 		"default_graph_height" => 110, // in px, default *2
+
+		// technical data
+		"technical_period_max" => 45,
 
 		// external URLs
 		"ltc_address_url" => "http://explorer.litecoin.net/address/",
@@ -75,6 +86,7 @@ function get_site_config($key = null) {
 
 		"premium_btc_discount" => 0, // in %, e.g. 1=100%
 		"premium_ltc_discount" => 0, // in %
+		"premium_welcome" => true,
 
 		// archive settings
 		"archive_ticker_data" => "-31 days",
@@ -89,6 +101,7 @@ function get_site_config($key = null) {
 		"custom_screenshots" => false,
 		"custom_templates_copyright" => false,
 		"forum_link" => "http://bitcointalk.org/",
+		"google_groups_announce" => "openclerk-announce",
 
 	);
 }
