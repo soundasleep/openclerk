@@ -36,8 +36,8 @@ if ($id && isset($historical_graphs[$id])) {
 	?>
 	<?php if (!($user && $user['is_premium'])) { ?>
 	<div class="tip tip_float">
-		With a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>, you can apply sophisticated technical
-		indicators to historical exchange data, such as Moving Averages, Bollinger bands, and Relative Strength Index.
+		With a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>, you can apply technical
+		indicators to historical exchange data, such as Moving Averages (SMA), Bollinger Bands (BOLL), and Relative Strength Index (RSI).
 	</div>
 	<?php } ?>
 
