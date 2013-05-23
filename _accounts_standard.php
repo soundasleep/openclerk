@@ -18,6 +18,25 @@ if (!isset($account_data['display'])) {
 	$account_data['display'] = array();
 }
 
+// process edit
+if (require_post("title", false) !== false && require_post("id", false)) {
+	$id = require_post("id");
+	$title = require_post("title");
+
+	if (!is_valid_title($title)) {
+		$errors[] = "'" . htmlspecialchars($title) . "' is not a valid " . htmlspecialchars($account_data['title']) . " title.";
+	} else {
+		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET title=? WHERE user_id=? AND id=?");
+		$q->execute(array($title, user_id(), $id));
+		$messages[] = "Updated " . htmlspecialchars($account_data['title']) . " title.";
+
+		// redirect to GET
+		set_temporary_messages($messages);
+		redirect(url_for($account_data['url']));
+	}
+
+}
+
 // process add/delete
 if (require_post("add", false)) {
 	$query = "";
@@ -77,22 +96,22 @@ $q = db()->prepare("SELECT * FROM " . $account_data['table'] . "
 $q->execute(array(user_id()));
 $accounts = $q->fetchAll();
 
-page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data['url']);
+page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data['url'], array('jquery' => true, 'js' => 'accounts'));
 
 ?>
 
 <div class="page_accounts">
-<p class="backlink">
-<a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>
-</p>
-
-<h1>Your <?php echo htmlspecialchars($account_data['titles']); ?></h1>
-
 <div class="tip tip_float">
 As a <?php echo $user['is_premium'] ? "premium user" : "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">free user</a>"; ?>, your
 <?php echo htmlspecialchars($account_data['titles']); ?> should be updated
 at least once every <?php echo plural(get_premium_value($user, "refresh_queue_hours"), 'hour'); ?>.
 </div>
+
+<p class="backlink">
+<a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>
+</p>
+
+<h1>Your <?php echo htmlspecialchars($account_data['titles']); ?></h1>
 
 <table class="standard standard_account_list">
 <thead>
@@ -131,7 +150,14 @@ at least once every <?php echo plural(get_premium_value($user, "refresh_queue_ho
 	}
 ?>
 	<tr>
-		<td><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></td>
+		<td id="account<?php echo htmlspecialchars($a['id']); ?>" class="title">
+			<span><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></span>
+			<form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post" style="display:none;">
+			<input type="text" name="title" value="<?php echo htmlspecialchars($a['title']); ?>">
+			<input type="submit" value="Save">
+			<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+			</form>
+		</td>
 		<?php foreach ($account_data['display'] as $key => $value) {
 			$format_callback = $value['format']; ?>
 			<td><?php echo $format_callback($a[$key]); ?></td>

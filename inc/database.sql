@@ -718,4 +718,6 @@ CREATE TABLE graph_technicals (
 ALTER TABLE users ADD country varchar(4) not null;
 ALTER TABLE users ADD user_ip varchar(64) not null;	-- long string for IPv6
 
+-- addresses can have titles
+ALTER TABLE addresses ADD title varchar(255);
 

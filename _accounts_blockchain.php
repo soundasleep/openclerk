@@ -10,6 +10,25 @@ if (!isset($account_data['titles'])) {
 	$account_data['titles'] = $account_data['title'] . "s";
 }
 
+// process edit
+if (require_post("title", false) !== false && require_post("id", false)) {
+	$id = require_post("id");
+	$title = require_post("title");
+
+	if (!is_valid_title($title)) {
+		$errors[] = "'" . htmlspecialchars($title) . "' is not a valid " . htmlspecialchars($account_data['title']) . " title.";
+	} else {
+		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET title=? WHERE user_id=? AND id=?");
+		$q->execute(array($title, user_id(), $id));
+		$messages[] = "Updated " . htmlspecialchars($account_data['title']) . " title.";
+
+		// redirect to GET
+		set_temporary_messages($messages);
+		redirect(url_for($account_data['url']));
+	}
+
+}
+
 // process add/delete
 if (require_post("add", false) && require_post("address", false)) {
 	$address = trim(require_post("address"));
@@ -56,6 +75,7 @@ $q = db()->prepare("SELECT
 		addresses.address,
 		addresses.created_at,
 		addresses.user_id,
+		addresses.title,
 		address_balances.created_at AS last_updated,
 		address_balances.balance
 	FROM addresses
@@ -64,26 +84,27 @@ $q = db()->prepare("SELECT
 $q->execute(array(user_id(), user_id(), $account_data['currency']));
 $accounts = $q->fetchAll();
 
-page_header("Your Accounts: " . capitalize($account_data['titles']), "page_" . $account_data['url']);
+page_header("Your Accounts: " . capitalize($account_data['titles']), "page_" . $account_data['url'], array('jquery' => true, 'js' => 'accounts'));
 
 ?>
 
 <div class="page_accounts">
-<p class="backlink">
-<a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>
-</p>
-
-<h1>Your <?php echo capitalize(htmlspecialchars($account_data['titles'])); ?></h1>
-
 <div class="tip tip_float">
 As a <?php echo $user['is_premium'] ? "premium user" : "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">free user</a>"; ?>, your
 <?php echo htmlspecialchars($account_data['titles']); ?> should be updated
 at least once every <?php echo plural(get_premium_value($user, "refresh_queue_hours"), 'hour'); ?>.
 </div>
 
+<p class="backlink">
+<a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>
+</p>
+
+<h1>Your <?php echo capitalize(htmlspecialchars($account_data['titles'])); ?></h1>
+
 <table class="standard standard_account_list">
 <thead>
 	<tr>
+		<th>Title</th>
 		<th>Address</th>
 		<th>Added</th>
 		<th>Last checked</th>
@@ -110,6 +131,14 @@ foreach ($accounts as $a) {
 	}
 ?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
+		<td id="account<?php echo htmlspecialchars($a['id']); ?>" class="title">
+			<span><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></span>
+			<form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post" style="display:none;">
+			<input type="text" name="title" value="<?php echo htmlspecialchars($a['title']); ?>">
+			<input type="submit" value="Save">
+			<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+			</form>
+		</td>
 		<td><?php $address_callback = $account_data['address_callback']; echo $address_callback($a['address']); ?></td>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
