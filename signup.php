@@ -1,21 +1,25 @@
 <?php
 
 require("inc/global.php");
+require("inc/countries.php");
 
 // only permit POST for some variables
 $email = require_post("email", require_get("email", false));
 $name = require_post("name", require_get("name", false));
 $submit = require_post("submit", require_get("submit", false));
 $openid = require_post("openid", require_get("openid", false));
+$country = require_post("country", require_get("country", false));
 
 $messages = array();
 $errors = array();
 
-class EscapedException extends Exception { }
-
 if ($openid && $submit) {
 	// to sign up with OpenID, we must first authenticate to see if the identity already exists
 	try {
+		if (!$country || strlen($country) != 2) {
+			throw new EscapedException("You need to select your country.");
+		}
+
 		require("inc/lightopenid/openid.php");
 		$light = new LightOpenID(get_openid_host());
 
@@ -30,7 +34,7 @@ if ($openid && $submit) {
 
 			// we want to add the openid identity URL to the return address
 			// (the return URL is also verified in validate())
-			$light->returnUrl = absolute_url(url_for('signup', array('openid' => $openid, 'submit' => 1, 'name' => $name, 'email' => $email)));
+			$light->returnUrl = absolute_url(url_for('signup', array('openid' => $openid, 'submit' => 1, 'name' => $name, 'email' => $email, 'country' => $country)));
 
 			redirect($light->authUrl());
 
@@ -64,11 +68,13 @@ if ($openid && $submit) {
 
 		// we can now proceed with creating a new user account
 		$query = db()->prepare("INSERT INTO users SET
-			name=:name, email=:email, openid_identity=:identity, created_at=NOW(), updated_at=NOW()");
+			name=:name, email=:email, openid_identity=:identity, country=:country, user_ip=:ip, created_at=NOW(), updated_at=NOW()");
 		$user = array(
 			"name" => $name,
 			"email" => $email,
 			"identity" => $light->identity,
+			"country" => $country,
+			"ip" => user_ip(),
 		);
 		$query->execute($user);
 		$user['id'] = db()->lastInsertId();
@@ -93,7 +99,7 @@ if ($openid && $submit) {
 
 	} catch (Exception $e) {
 		if (!($e instanceof EscapedException)) {
-			$e = new EscapedException(htmlspecialchars($e->getMessage()), $e->getCode(), $e);
+			$e = new EscapedException(htmlspecialchars($e->getMessage()), (int) $e->getCode() /* PDO getCode doesn't return an int */, $e);
 		}
 		$errors[] = $e->getMessage();
 	}
@@ -116,25 +122,37 @@ page_header("Signup", "page_signup", array('jquery' => true, 'common_js' => true
 	</ul>
 	<ul class="tab_groups">
 		<li id="tab_signup1_openid_tab">
+		<div class="create_openid"><a href="http://openid.net/get-an-openid/" target="_blank">Get an OpenID</a></div>
         <h2>Signup with OpenID</h2>
 
         <form action="<?php echo url_for('signup'); ?>" method="POST">
         <table class="login_form">
         <tr>
             <th>OpenID URL</th>
-            <td><input type="text" name="openid" size="60" value="<?php if ($openid) echo htmlspecialchars($openid); ?>" maxlength="255" class="openid_url"></td>
+            <td><input type="text" name="openid" size="60" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255" class="openid_url"></td>
         </tr>
         <tr>
             <th>Name</th>
-            <td><input type="text" name="name" size="20" value="<?php if ($name) echo htmlspecialchars($name); ?>" maxlength="255"> (optional)</td>
+            <td><input type="text" name="name" size="20" value="<?php echo htmlspecialchars($name); ?>" maxlength="255"> (optional)</td>
         </tr>
         <tr>
             <th>Email</th>
-            <td><input type="text" name="email" size="20" value="<?php if ($email) echo htmlspecialchars($email); ?>" maxlength="255"> (optional)</td>
+            <td><input type="text" name="email" size="20" value="<?php echo htmlspecialchars($email); ?>" maxlength="255"> (optional)</td>
         </tr>
         <tr>
         	<th></th>
         	<td><small>(Will be used to notify you if necessary.)</small></td>
+        </tr>
+        <tr>
+        	<th>Country</th>
+        	<td><select name="country" class="country">
+        		<option></option>
+        		<?php
+        			foreach (get_country_iso() as $key => $value) {
+        				echo "<option value=\"" . htmlspecialchars($key) . "\"" . ($country == $key ? " selected" : "") . ">" . htmlspecialchars($value) . "</option>\n";
+        			}
+        		?>
+        	</select>
         </tr>
 		<tr>
 			<td colspan="2" class="buttons">
@@ -171,15 +189,26 @@ page_header("Signup", "page_signup", array('jquery' => true, 'common_js' => true
         <table class="login_form">
         <tr>
             <th>Name</th>
-            <td><input type="text" name="name" size="32" value="<?php if ($name) echo htmlspecialchars($name); ?>" maxlength="255"> (optional)</td>
+            <td><input type="text" name="name" size="32" value="<?php echo htmlspecialchars($name); ?>" maxlength="255"> (optional)</td>
         </tr>
         <tr>
             <th>Email</th>
-            <td><input type="text" name="email" size="32" value="<?php if ($email) echo htmlspecialchars($email); ?>" maxlength="255"> (optional)</td>
+            <td><input type="text" name="email" size="32" value="<?php echo htmlspecialchars($email); ?>" maxlength="255"> (optional)</td>
         </tr>
         <tr>
         	<th></th>
         	<td><small>(Will be used to notify you if necessary.)</small></td>
+        </tr>
+        <tr>
+        	<th>Country</th>
+        	<td><select name="country" class="country">
+        		<option></option>
+        		<?php
+        			foreach (get_country_iso() as $key => $value) {
+        				echo "<option value=\"" . htmlspecialchars($key) . "\"" . ($country == $key ? " selected" : "") . "\">" . htmlspecialchars($value) . "</option>\n";
+        			}
+        		?>
+        	</select>
         </tr>
 		<tr>
 			<td colspan="2" class="buttons">

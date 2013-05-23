@@ -12,8 +12,6 @@ $openid = require_post("openid", require_get("openid", false));
 $messages = array();
 $errors = array();
 
-class EscapedException extends Exception { }
-
 // try logging in?
 try {
 	if ($logout) {
@@ -78,8 +76,14 @@ try {
 		}
 
 		// update login time
-		$query = db()->prepare("UPDATE users SET updated_at=NOW(),last_login=NOW() WHERE id=?");
+		$query = db()->prepare("UPDATE users SET last_login=NOW() WHERE id=?");
 		$query->execute(array($user["id"]));
+
+		// if we don't have an IP set, update it now
+		if (!$user["user_ip"]) {
+			$q = db()->prepare("UPDATE users SET user_ip=? WHERE id=?");
+			$q->execute(array(user_ip(), $user['id']));
+		}
 
 		// delete old web keys
 		$query = db()->prepare("DELETE FROM valid_user_keys WHERE user_id=? AND DATEDIFF(NOW(), created_at) > ?");
@@ -118,7 +122,7 @@ try {
 	}
 } catch (Exception $e) {
 	if (!($e instanceof EscapedException)) {
-		$e = new EscapedException(htmlspecialchars($e->getMessage()), $e->getCode(), $e);
+		$e = new EscapedException(htmlspecialchars($e->getMessage()), (int) $e->getCode() /* PDO getCode doesn't return an int */, $e);
 	}
 	$errors[] = $e->getMessage();
 }
@@ -148,6 +152,7 @@ page_header("Login", "page_login", array('jquery' => true, 'common_js' => true))
 	<ul class="tab_groups">
 		<li id="tab_login1_openid_tab">
 
+	<div class="create_openid"><a href="http://openid.net/get-an-openid/" target="_blank">Get an OpenID</a></div>
 	<h2>Login with OpenID</h2>
 
 	<form action="<?php echo url_for('login'); ?>" method="POST" class="login">

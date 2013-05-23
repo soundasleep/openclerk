@@ -507,3 +507,6 @@ function get_temporary_errors() {
 	global $global_temporary_errors;
 	return $global_temporary_errors === null ? array() : $global_temporary_errors;
 }
+
+class EscapedException extends Exception { }
+

@@ -714,3 +714,8 @@ CREATE TABLE graph_technicals (
 	INDEX(graph_id)	
 );
 
+-- necessary for tax purposes
+ALTER TABLE users ADD country varchar(4) not null;
+ALTER TABLE users ADD user_ip varchar(64) not null;	-- long string for IPv6
+
+

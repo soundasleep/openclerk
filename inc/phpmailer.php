@@ -14,12 +14,17 @@ function phpmailer($to, $to_name, $subject, $message) {
   $mail->From = get_site_config('phpmailer_from');
   $mail->FromName = get_site_config('phpmailer_from_name');
   $mail->AddAddress($to, $to_name);
-  if (get_site_config('phpmailer_reply_to'))
+  if (get_site_config('phpmailer_reply_to')) {
   	$mail->AddReplyTo(get_site_config('phpmailer_reply_to'));
+  }
+
+  if (get_site_config('phpmailer_bcc')) {
+  	$mail->AddBCC(get_site_config('phpmailer_bcc'));
+  }
 
   $mail->Subject = $subject;
   $mail->Body    = $message;
-  
+
   // set language
   /*
   init_phpmailer_language();
@@ -42,11 +47,11 @@ function init_phpmailer_language() {
 	global $PHPMAILER_LANG;
 	if ($PHPMAILER_LANG)
 		return;
-		
-	$keys = array("provide_address", "mailer_not_supported", "execute", "instantiate", 
-		"authenticate", "from_failed", "recipients_failed", "data_not_accepted", 
+
+	$keys = array("provide_address", "mailer_not_supported", "execute", "instantiate",
+		"authenticate", "from_failed", "recipients_failed", "data_not_accepted",
 		"connect_host", "file_access", "file_open", "encoding");
-	
+
 	foreach ($keys as $key) {
 		$PHPMAILER_LANG[$key] = language("phpmailer." . $key, 'en');
 	}

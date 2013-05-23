@@ -69,13 +69,14 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 
 <h1>Your <?php echo htmlspecialchars(get_site_config('site_name')); ?> User Account</h1>
 
-<?php if (strtotime("-1 hour") < strtotime($user['created_at'])) { ?>
+<?php if (strtotime($user['created_at']) >= strtotime("-1 hour")) { ?>
 <div class="success">
 <ul>
 	<li>Welcome to <?php echo htmlspecialchars(get_site_config('site_name')); ?>!</li>
 	<li>To get started, you should first confirm the currencies that you are interested in below.</li>
 	<li>After that, head to your <a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">accounts page</a>
 		to link in your mining pools, exchanges and cryptocurrency addresses.</li>
+	<li>Finally, don&apos;t forget to subscribe to the <a href="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>">announcements mailing list</a>.</li>
 </ul>
 </div>
 <?php } ?>
@@ -83,7 +84,7 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_user_currencies">Currencies</li><li id="tab_user_premium">Premium</li><li id="tab_user_contact">Contact Details</li><li id="tab_user_outstanding">Outstanding Payments</li>
+		<li id="tab_user_currencies">Currencies</li><li id="tab_user_premium">Premium</li><li id="tab_user_contact">Contact Details</li><li id="tab_user_outstanding">Outstanding Payments</li><li id="tab_user_mailinglist">Mailing List</li>
 	</ul>
 
 	<ul class="tab_groups">
@@ -191,7 +192,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <tbody>
 <?php foreach ($outstanding as $o) { ?>
 	<tr>
-		<td><?php echo htmlspecialchars(get_currency_name($o['currency'])); ?></td>
+		<td><span class="currency_name_<?php echo htmlspecialchars($o['currency']); ?>"><?php echo htmlspecialchars(get_currency_name($o['currency'])); ?></span></td>
 		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
 		<td><?php echo currency_format($o['currency'], $o['balance']); ?></td>
 		<td><?php echo recent_format_html($o['created_at']); ?></td>
@@ -204,6 +205,30 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <?php } else { ?>
 	<i>No outstanding payments.</i>
 <?php } ?>
+
+	</li>
+	<li id="tab_user_mailinglist_tab">
+
+<h2>Subscribe to <?php echo htmlspecialchars(get_site_config('site_name')); ?> Announcements</h2>
+
+<p>
+	To keep up to date with news and service updates to <?php echo htmlspecialchars(get_site_config('site_name')); ?>, please subscribe to the
+	<?php echo htmlspecialchars(get_site_config('site_name')); ?> Announcements mailing list below.
+</p>
+
+<!-- from http://code.google.com/p/gdata-issues/issues/detail?id=27 -->
+<div id="groups_subscription">
+	<div class="link">
+		<a href="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank"><img width="132" alt="Google Groups"
+		src="http://groups.google.com/groups/img/3nb/groups_bar.gif" height="26"></a>
+		<a href="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank" class="visit">Visit this group</a>
+	</div>
+	<form action="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>/boxsubscribe" target="_blank">
+	<label class="email">Email:
+	<input name="email" type="text" size="32" value="<?php echo htmlspecialchars($user['email']); ?>" /></label>
+	<input value="Subscribe" name="sub" type="submit" />
+	</form>
+</div>
 
 	</li>
 </ul>
