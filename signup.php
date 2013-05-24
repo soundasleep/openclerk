@@ -18,6 +18,8 @@ if ($openid && $submit) {
 	try {
 		if (!$country || strlen($country) != 2) {
 			throw new EscapedException("You need to select your country.");
+		} else if ($email && !is_valid_email($email)) {
+			throw new EscapedException("That is not a valid e-mail address.");
 		}
 
 		require("inc/lightopenid/openid.php");
