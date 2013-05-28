@@ -3,7 +3,7 @@ Hello {$name},
 
 Your {$site_name} premium account has expired at {$expires}.
 
-Previously added addresses, accounts, graphs and currencies will continue to work as before, and you will not lose any historical data; however you won't be able to add any new data sources beyond the limits of a free account.
+Previously added addresses, accounts, graphs and currencies will continue to work as before, and you will not lose any historical data; however you won't be able to add any new data sources or graphs beyond the limits of a free account, and your account data will be updated much less frequently.
 
 If you would like to continue using the premium features of your account, please renew your premium account through your user profile page:
 
