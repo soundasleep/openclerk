@@ -85,6 +85,17 @@ page_header("Status", "page_admin");
 		echo "<td class=\"number\">" . number_format($c['c']) . " (" . strtoupper($c['currency']) . ")</td>";
 	}
 	echo "</tr>";
+	echo "<tr>";
+	echo "<th>Job queue delay</th>";
+	$q = db()->prepare("SELECT jobs.* FROM jobs JOIN users ON jobs.user_id=users.id WHERE users.is_premium=0 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
+	$q->execute();
+	$c = $q->fetch();
+	echo "<td class=\"number\">" . recent_format_html($c['created_at']) . ": " . number_format($c['id']) . " (free)</td>";
+        $q = db()->prepare("SELECT jobs.* FROM jobs JOIN users ON jobs.user_id=users.id WHERE users.is_premium=1 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
+        $q->execute();
+        $c = $q->fetch();
+        echo "<td class=\"number\">" . recent_format_html($c['created_at']) . ": " . number_format($c['id']) . " (premium)</td>";
+	echo "</tr>";
 ?>
 </tbody>
 </table>
