@@ -4,6 +4,10 @@
  * Batch script: find a job to execute, and then execute it.
  * We don't use meta-jobs to insert in new jobs, because we implement
  * job priority and we don't want to have to also use 'execute_after'.
+ *
+ * Arguments (in command line, use "-" for no argument):
+ *   $key/1 required the automated key
+ *   $job_type/2 optional restrict job execution to only this type of job, comma-separated list
  */
 
 if (!defined('ADMIN_RUN_JOB')) {
@@ -14,14 +18,30 @@ require("_batch.php");
 require_batch_key();
 batch_header("Batch run", "batch_run");
 
+$job_types = array();	// default priority
+if (isset($argv[2]) && $argv[2] && $argv[2] != "-") {
+	$job_types = implode(",", $argv[2]);
+} else if (require_get("job_type", false)) {
+	$job_types = implode(",", require_get("job_type"));
+}
+
 if (require_get("job_id", false)) {
 	// run a particular job, even if it's already been executed
 	$q = db()->prepare("SELECT * FROM jobs WHERE id=?");
 	$q->execute(array(require_get("job_id")));
 	$job = $q->fetch();
 } else {
+	// select a particular type of job (allows more fine-grained control over regularly important jobs, such as ticker)
+	$job_type_where = "";
+	if ($job_types) {
+		foreach ($job_types as $jt) {
+			$job_type_where .= ($job_type_where ? ", " : "") . "'" . $jt . "'";
+		}
+		$job_type_where = " AND job_type IN (" . $job_type_where . ") ";
+	}
+
 	// select the most important job to execute next
-	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 ORDER BY priority ASC, id ASC LIMIT 20");
+	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 $job_type_where ORDER BY priority ASC, id ASC LIMIT 20");
 	$q->execute();
 
 	// iterate until we find a job that we can actually run right now
