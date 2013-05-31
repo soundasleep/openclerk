@@ -134,12 +134,12 @@ foreach ($standard_jobs as $standard) {
 			"arg_id" => $address['id'],
 		);
 
-		insert_new_job($job);
+		insert_new_job($job, $address);
 
 		// update the address
 		try {
 			// only update last_queue if that field actually exists
-			if (isset($address['last_queue'])) {
+			if (isset($address['last_queue']) || array_key_exists('last_queue', $address) /* necessary to set last_queue when last_queue is null: isset() returns false on null */) {
 				$q2 = db()->prepare("UPDATE " . $standard['table'] . " SET last_queue=NOW() WHERE id=?");
 				$q2->execute(array($address['id']));
 			}
@@ -181,7 +181,7 @@ if (!$premium_only) {
 
 }
 
-function insert_new_job($job) {
+function insert_new_job($job, $old) {
 	// make sure the new job doesn't already exist
 	$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND priority <= :priority AND is_executed=0 LIMIT 1");
 	$q2->execute(array(
@@ -193,15 +193,15 @@ function insert_new_job($job) {
 		$q2 = db()->prepare("INSERT INTO jobs SET priority=:priority, job_type=:type, user_id=:user_id, arg_id=:arg_id");
 		$q2->execute($job);
 		$job['id'] = db()->lastInsertId();
-		added_job($job);
+		added_job($job, ($old && isset($old['last_queue'])) ? " - last queue " . recent_format_html($old['last_queue']) : " - no last queue" );
 	} else {
 		crypto_log("Job " . htmlspecialchars(print_r($job, true)) . " already exists");
 	}
 
 }
 
-function added_job($job) {
-	echo crypto_log("Added job " . htmlspecialchars(print_r($job, true)) . " (<a href=\"" . htmlspecialchars(url_for('batch_run',
+function added_job($job, $suffix) {
+	echo crypto_log("Added job " . htmlspecialchars(print_r($job, true)) . " $suffix (<a href=\"" . htmlspecialchars(url_for('batch_run',
 			array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">run job now</a>)");
 }
 

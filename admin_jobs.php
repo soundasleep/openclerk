@@ -16,7 +16,7 @@ page_header("Admin: Jobs Status", "page_admin_jobs");
 
 ?>
 
-<h1>Jobs Status</h1>
+<h1>Jobs Status<?php echo require_get("oldest", false) ? " (oldest)" : ""; ?></h1>
 
 <p class="backlink"><a href="<?php echo htmlspecialchars(url_for('admin')); ?>">&lt; Back to Site Status</a></p>
 
@@ -35,9 +35,10 @@ page_header("Admin: Jobs Status", "page_admin_jobs");
 </thead>
 <tbody>
 <?php
+	$order_by = require_get("oldest", false) ? "created_at ASC, priority ASC, id ASC" : "priority ASC, id ASC";
 	$q = db()->prepare("SELECT jobs.*, users.email FROM jobs
 		LEFT JOIN users ON jobs.user_id=users.id
-		WHERE is_executed=0 ORDER BY priority ASC, id ASC LIMIT 20");
+		WHERE is_executed=0 ORDER BY $order_by LIMIT 20");
 	$q->execute();
 	while ($job = $q->fetch()) { ?>
 	<tr>
