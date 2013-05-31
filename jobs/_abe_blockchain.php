@@ -55,6 +55,11 @@ if (preg_match('#<p>Balance: ([0-9\.]+) ' . strtoupper($abe_data['currency']) . 
 	// the address is NOT valid
 	throw new ExternalAPIException("Not a valid address");
 
+} else if (strpos($html, "this address has too many records to display") !== false) {
+	// this address is valid, and it has a balance, but it has too many records for this Abe instance
+	crypto_log("Address is valid, but has too many records to display");
+	throw new ExternalAPIException("Address has too many transactions");
+
 } else {
 	throw new ExternalAPIException("Could not find balance on page");
 }
