@@ -18,11 +18,11 @@ require("_batch.php");
 require_batch_key();
 batch_header("Batch run", "batch_run");
 
-$job_types = array();	// default priority
+$job_types = array();	// default to running all jobs
 if (isset($argv[2]) && $argv[2] && $argv[2] != "-") {
-	$job_types = implode(",", $argv[2]);
+	$job_types = explode(",", $argv[2]);
 } else if (require_get("job_type", false)) {
-	$job_types = implode(",", require_get("job_type"));
+	$job_types = explode(",", require_get("job_type"));
 }
 
 if (require_get("job_id", false)) {
