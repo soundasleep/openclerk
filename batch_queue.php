@@ -199,13 +199,15 @@ function insert_new_job($job, $old) {
 		'arg_id' => $job['arg_id'],
 		'priority' => $job['priority'], // so we can override priorities as necessary
 	));
-	if (!$q2->fetch()) {
+	$existing = $q2->fetch();
+	if (!$existing) {
 		$q2 = db()->prepare("INSERT INTO jobs SET priority=:priority, job_type=:type, user_id=:user_id, arg_id=:arg_id");
 		$q2->execute($job);
 		$job['id'] = db()->lastInsertId();
 		added_job($job, ($old && isset($old['last_queue'])) ? " - last queue " . recent_format_html($old['last_queue']) : " - no last queue" );
 	} else {
-		crypto_log("Job " . htmlspecialchars(print_r($job, true)) . " already exists");
+		crypto_log("Job " . htmlspecialchars(print_r($job, true)) . " already exists (<a href=\"" . htmlspecialchars(url_for('batch_run',
+			array('key' => require_get("key", false), 'job_id' => $existing['id']))) . "\">run job now</a>)");
 	}
 
 }

@@ -129,11 +129,12 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 </thead>
 <tbody>
 <?php foreach ($accounts as $a) {
+	$balances = array();
+	$last_updated = null;
+
 	// an account may have multiple currency balances
 	$q = db()->prepare("SELECT * FROM balances WHERE user_id=? AND account_id=? AND exchange=? AND is_recent=1 ORDER BY currency ASC");
 	$q->execute(array(user_id(), $a['id'], $account_data['exchange']));
-	$balances = array();
-	$last_updated = null;
 	while ($balance = $q->fetch()) {
 		$balances[$balance['currency']] = $balance['balance'];
 		$last_updated = $balance['created_at'];
@@ -176,7 +177,11 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 			foreach ($balances as $c => $value) {
 				if ($value != 0) {
 					$had_balance = true;
-					echo "<li>" . currency_format($c, $value, 4) . "</li>\n";
+					if ($c == "mh") {
+						echo "<li>" . number_format_autoprecision($value, 4) . " MH/s</li>\n";
+					} else {
+						echo "<li>" . currency_format($c, $value, 4) . "</li>\n";
+					}
 				}
 			}
 			echo "</ul>";

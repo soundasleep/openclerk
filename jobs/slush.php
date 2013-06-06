@@ -34,4 +34,6 @@ if ($data === null) {
 		insert_new_balance($job, $account, $exchange, $currency, $balance);
 
 	}
+	insert_new_balance($job, $account, $exchange, "mh", $data['hashrate']);
+
 }

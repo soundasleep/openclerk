@@ -19,4 +19,11 @@ if ($poolx === null) {
 	}
 	insert_new_balance($job, $account, $exchange, $currency, $balance);
 
+	// calculate hash rate
+	$hash_rate = 0;
+	foreach ($poolx['workers'] as $name => $data) {
+		$hash_rate += $data['hashrate'];
+	}
+	insert_new_balance($job, $account, $exchange, "mh", $hash_rate / 1000 /* hash rates are all in MHash */);
+
 }
