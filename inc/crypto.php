@@ -49,6 +49,7 @@ function get_exchange_name($n) {
 		case "slush":		return "Slush's pool";
 		case "btcguild": 	return "BTC Guild";
 		case "50btc": 		return "50BTC";
+		case "hypernova":	return "Hypernova";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -80,6 +81,7 @@ function get_supported_wallets() {
 		get_exchange_name("btct") => array('btc'),
 		get_exchange_name("cryptostocks") => array('btc', 'ltc'),
 		get_exchange_name("givemeltc") => array('ltc'),
+		get_exchange_name("hypernova") => array('ltc'),
 		get_exchange_name("litecoinglobal") => array('ltc'),
 		get_exchange_name("mtgox") => array('btc', 'usd', 'eur'),
 		get_exchange_name("poolx") => array('ltc'),
@@ -157,6 +159,7 @@ function account_data_grouped() {
 			'givemeltc' => array('url' => 'accounts_givemeltc', 'title' => 'Give Me LTC accounts', 'label' => 'account', 'table' => 'accounts_givemeltc', 'group' => 'accounts'),
 			'btcguild' => array('url' => 'accounts_btcguild', 'title' => 'BTC Guild accounts', 'label' => 'account', 'table' => 'accounts_btcguild', 'group' => 'accounts'),
 			'50btc' => array('url' => 'accounts_50btc', 'title' => '50BTC accounts', 'label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts'),
+			'hypernova' => array('url' => 'accounts_hypernova', 'title' => 'Hypernova accounts', 'label' => 'account', 'table' => 'accounts_hypernova', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -349,6 +352,11 @@ function is_valid_btcguild_apikey($key) {
 function is_valid_50btc_apikey($key) {
 	// looks like a 32 character hex string
 	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_hypernova_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_generic_key($key) {

@@ -186,6 +186,10 @@ try {
 			require("jobs/50btc.php");
 			break;
 
+		case "hypernova":
+			require("jobs/hypernova.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");

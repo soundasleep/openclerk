@@ -78,7 +78,8 @@ $standard_jobs = array(
 	array('table' => 'accounts_bips', 'type' => 'bips'),
 	array('table' => 'accounts_btcguild', 'type' => 'btcguild'),
 	array('table' => 'accounts_50btc', 'type' => '50btc'),
-	array('table' => 'summaries', 'type' => 'summary'),
+	array('table' => 'accounts_hypernova', 'type' => 'hypernova'),
+	array('table' => 'summaries', 'type' => 'summary'),	/* TODO bug: this should be sorted by summary requirement order, i.e. all2usd requires crypto2btc requires totalbtc */
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
 		AND is_reminder_sent=0
@@ -159,7 +160,7 @@ if (!$premium_only) {
 				'type' => $name,
 				'user_id' => get_site_config('system_user_id'),
 				'arg_id' => -1,
-			));
+			), false);
 		}
 	}
 
@@ -181,6 +182,10 @@ if (!$premium_only) {
 
 }
 
+/**
+ * @param $old the previous database row that was used to generae this job (may have last_queue), or {@code false}
+ * 		if this job has no parent database row (e.g. litecoin_block jobs)
+ */
 function insert_new_job($job, $old) {
 	// make sure the new job doesn't already exist
 	$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND priority <= :priority AND is_executed=0 LIMIT 1");

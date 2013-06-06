@@ -725,4 +725,19 @@ ALTER TABLE addresses ADD title varchar(255);
 ALTER TABLE jobs ADD is_executing tinyint not null default 0;
 ALTER TABLE jobs ADD INDEX(is_executing);
 
+----------------------------------------------------------------------------
+-- upgrade statements from 0.4 to 0.5
+----------------------------------------------------------------------------
+DROP TABLE IF EXISTS accounts_hypernova;
 
+CREATE TABLE accounts_hypernova (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
