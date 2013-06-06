@@ -119,7 +119,9 @@ foreach ($standard_jobs as $standard) {
 		if ($premium_only) {
 			$args[] = get_site_config('refresh_queue_hours_premium');
 			if (!isset($standard['user_id'])) {
-				$query_extra .= " AND $field IN (SELECT id AS user_id FROM users WHERE is_premium=1)";
+				$new_user_premium = get_site_config('new_user_premium_update_hours') ?
+					"OR created_at > DATE_SUB(NOW(), interval " . get_site_config('new_user_premium_update_hours') . " hour)" : "";
+				$query_extra .= " AND $field IN (SELECT id AS $field FROM users WHERE is_premium=1 $new_user_premium)";
 			}
 		} else {
 			// we want to run system jobs at least every 0.1 hours = 6 minutes

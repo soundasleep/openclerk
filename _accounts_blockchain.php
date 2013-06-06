@@ -173,11 +173,7 @@ page_header("Your Accounts: " . capitalize($account_data['titles']), "page_" . $
 ?>
 
 <div class="page_accounts">
-<div class="tip tip_float">
-As a <?php echo $user['is_premium'] ? "premium user" : "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">free user</a>"; ?>, your
-<?php echo htmlspecialchars($account_data['titles']); ?> should be updated
-at least once every <?php echo plural(get_premium_value($user, "refresh_queue_hours"), 'hour'); ?>.
-</div>
+<?php require("_accounts_tip.php"); ?>
 
 <p class="backlink">
 <a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>

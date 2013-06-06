@@ -81,6 +81,17 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 </div>
 <?php } ?>
 
+<?php if (get_site_config('new_user_premium_update_hours') && strtotime($user['created_at']) >= strtotime("-" . get_site_config('new_user_premium_update_hours') . " hour")) { ?>
+<div class="message">
+<ul>
+	<li>As a new user, your addresses and accounts will be updated more frequently (every <?php echo plural(get_site_config('refresh_queue_hours_premium'), 'hour'); ?>)
+		for the next <?php echo plural(
+		(int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60))
+		, "hour"); ?>.
+</ul>
+</div>
+<?php } ?>
+
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
