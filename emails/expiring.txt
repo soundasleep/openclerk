@@ -8,6 +8,10 @@ When your premium account expires, previously added addresses, accounts, graphs 
 If you would like to continue using the premium features of your account, please renew your premium account through your user profile page:
 
   {$url}
+  
+Current prices for premium accounts:
+
+{$prices}
 
 You will receive one more e-mail in {$expires_text} time, once your premium account has expired.
 

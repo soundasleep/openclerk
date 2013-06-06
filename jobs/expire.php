@@ -21,6 +21,7 @@ if ($user['email']) {
 		"name" => ($user['name'] ? $user['name'] : $user['email']),
 		"expires" => iso_date($user['premium_expires']),
 		"expires_text" => recent_format($user['premium_expires'], false, ""),
+		"prices" => get_text_premium_prices(),
 		"url" => absolute_url(url_for("user")),
 	));
 	crypto_log("Sent premium expired soon e-mail to " . htmlspecialchars($user['email']) . ".");

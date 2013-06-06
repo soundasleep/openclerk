@@ -64,3 +64,17 @@ function get_premium_price($currency, $period) {
 	// because of floating point inaccuracy we need to round it to 8 decimal places, particularly before displaying it
 	return wrap_number(get_site_config('premium_' . $currency . '_' . $period) * (1-get_site_config('premium_' . $currency . '_discount')), 8);
 }
+
+/**
+ * @return a string that can be used in an e-mail, listing all prices
+ */
+function get_text_premium_prices() {
+	$prices = array();
+	foreach (get_site_config('premium_currencies') as $currency) {
+		$prices[] = "  " . strtoupper($currency) . ": " .
+				number_format_autoprecision(get_premium_price($currency, 'monthly')) . " " . strtoupper($currency) . "/month, or " .
+				number_format_autoprecision(get_premium_price($currency, 'yearly')) . " " . strtoupper($currency) . "/year" .
+				(get_site_config('premium_' . $currency . '_discount') ? " (" . (int) (get_site_config('premium_' . $currency . '_discount') * 100) . "% off)" : "");
+	}
+	return implode("\n", $prices);
+}

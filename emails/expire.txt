@@ -8,6 +8,10 @@ Previously added addresses, accounts, graphs and currencies will continue to wor
 If you would like to continue using the premium features of your account, please renew your premium account through your user profile page:
 
   {$url}
+  
+Current prices for premium accounts:
+
+{$prices}
 
 You will not receive any further e-mails about your expired premium account.
 
