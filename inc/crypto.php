@@ -9,6 +9,10 @@ function get_all_currencies() {
 	return array("btc", "ltc", "nmc", "ftc", "usd", "eur", "nzd");
 }
 
+function get_all_hashrate_currencies() {
+	return array("btc", "ltc", "nmc");
+}
+
 function get_currency_name($n) {
 	switch ($n) {
 		case "btc":	return "Bitcoin";

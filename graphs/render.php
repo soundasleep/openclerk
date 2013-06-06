@@ -170,12 +170,12 @@ function cmp_time($a, $b) {
 	return strtotime($a) < strtotime($b);
 }
 
-function render_summary_graph($graph, $summary_type, $currency, $user_id) {
+function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_title = false) {
 
 	$data = array();
 	$data[0] = array("Date",
 		array(
-			'title' => strtoupper($currency),
+			'title' => $row_title ? $row_title : strtoupper($currency),
 			'line_width' => 2,
 			'color' => default_chart_color(0),
 		),

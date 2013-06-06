@@ -83,7 +83,19 @@ function graph_types() {
 		$data["total_" . $cur . "_daily"] = array(
 			'title' => "Total " . get_currency_name($cur) . " historical (graph)",
 			'heading' => "Total " . strtoupper($cur),
-			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions)",
+			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions).",
+			'hide' => !isset($summaries[$cur]),
+			'days' => true,
+			'technical' => true,
+		);
+	}
+
+	// and for each cryptocurrency that can be hashed
+	foreach (get_all_hashrate_currencies() as $cur) {
+		$data["hashrate_" . $cur . "_daily"] = array(
+			'title' => get_currency_name($cur) . " historical MHash/s (graph)",
+			'heading' => strtoupper($cur) . " MHash/s",
+			'description' => "A line graph displaying the historical hashrate sum of all workers mining " . get_currency_name($cur) . " across all pools (in MHash/s).",
 			'hide' => !isset($summaries[$cur]),
 			'days' => true,
 			'technical' => true,

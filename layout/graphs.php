@@ -333,6 +333,17 @@ function render_graph($graph, $is_public = false) {
 					}
 				}
 
+				// total hashrate graphs are generated programatically
+				if (substr($graph['graph_type'], 0, strlen("hashrate_")) == "hashrate_") {
+					$split = explode("_", $graph['graph_type']);
+					if (count($split) == 3 && strlen($split[1]) == 3) {
+						// we will assume that it is the current user
+						// (otherwise it might be possible to view other users' data)
+						render_summary_graph($graph, 'totalmh_' . $split[1], $split[1], user_id(), "MH/s");
+						break;
+					}
+				}
+
 				$summary_types = array('all2', 'crypto2');
 				$was_summary_type = false;
 				foreach ($summary_types as $st) {

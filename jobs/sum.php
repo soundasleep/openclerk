@@ -47,3 +47,15 @@ require("jobs/summary/totalnzd.php");
 add_summary_instance($job, 'totalnzd', $total);
 //add_summary_instance($job, 'blockchainnzd', $total_blockchain_balance);
 add_summary_instance($job, 'offsetsnzd', $total_offsets_balance);
+
+$total = 0;
+require("jobs/summary/totalhashrate_btc.php");
+add_summary_instance($job, 'totalmh_btc', $total);
+
+$total = 0;
+require("jobs/summary/totalhashrate_ltc.php");
+add_summary_instance($job, 'totalmh_ltc', $total);
+
+$total = 0;
+require("jobs/summary/totalhashrate_nmc.php");
+add_summary_instance($job, 'totalmh_nmc', $total);
