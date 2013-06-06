@@ -16,6 +16,8 @@
 			'title' => 'Addresses',
 			'url' => 'img/screenshots/litecoin.png',
 			'text' => "Cryptocurrency addresses are added directly into " . htmlspecialchars(get_site_config('site_name')) . ", and balances downloaded through public explorer APIs.",
+			'url2' => 'img/screenshots/litecoinqt-export.png',
+			'text2' => 'Addresses can be directly exported from your local BTC or LTC wallets into '. htmlspecialchars(get_site_config('site_name')) . '.',
 		),
 		'litecoinglobal' => array(
 			'title' => 'Exchanges and pools',
@@ -53,6 +55,10 @@
 		<li id="tab_screenshots_<?php echo $key; ?>_tab">
 			<img src="<?php echo htmlspecialchars($data['url']); ?>">
 			<p><?php echo $data['text']; ?></p>
+			<?php if (isset($data['url2'])) { ?>
+				<img src="<?php echo htmlspecialchars($data['url2']); ?>" class="image2">
+				<p><?php echo $data['text2']; ?></p>
+			<?php } ?>
 		</li>
 	<?php } ?>
 	</ul>

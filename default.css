@@ -152,6 +152,7 @@ span.new { color: red; font-size: 75%; text-shadow: 1px 1px 1px black; }
 
 #page_screenshots .tabs .tab_open { text-align: center; }
 #page_screenshots .tabs .tab_open img { max-width: 66%; border: 1px solid #333; }
+#page_screenshots .tabs .tab_open img.image2 { max-width: 54%; margin-top: 10px; }
 #page_screenshots .tabs .tab_open p { width: 75%; margin: 5px auto 5px auto; }
 #page_screenshots #tabs_screenshots { min-width: 940px; }
 
