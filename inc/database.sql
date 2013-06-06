@@ -755,3 +755,41 @@ CREATE TABLE accounts_ltcmineru (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+-- we now also summarise balance data
+DROP TABLE IF EXISTS graph_data_balances;
+
+CREATE TABLE graph_data_balances (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	user_id int not null,
+	summary_type varchar(32) not null,
+	
+	-- currently all stored graph data is daily
+	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
+	samples int not null,	-- how many samples was this data obtained from?
+	
+	-- for candlestick plots (eventually)
+	balance_min decimal(16,8),
+	balance_opening decimal(16,8),
+	balance_closing decimal(16,8),	-- also preserves current behaviour
+	balance_max decimal(16,8),
+
+	INDEX(user_id), INDEX(summary_type), INDEX(data_date), UNIQUE(user_id, summary_type, data_date)
+);
+
+ALTER TABLE balances ADD is_daily_data tinyint not null default 0;
+ALTER TABLE balances ADD INDEX(is_daily_data);
+
+-- update existing balances with is_daily_data flag
+UPDATE balances SET is_daily_data=0;
+CREATE TABLE temp (id int not null, user_id int not null, exchange varchar(255) not null, currency varchar(6) not null, account_id int);
+INSERT INTO temp (id, user_id, exchange, currency, account_id) SELECT MAX(id) AS id, user_id, exchange, currency, account_id FROM balances GROUP BY date_format(created_at, '%d-%m-%Y'), user_id, exchange, currency, account_id;
+UPDATE balances SET is_daily_data=1 WHERE (id, user_id, exchange, currency, account_id) IN (SELECT * FROM temp);
+DROP TABLE temp;
+
+-- so we can debug failing balances etc
+ALTER TABLE balances ADD job_id INT;
+ALTER TABLE summary_instances ADD job_id INT;
+ALTER TABLE ticker ADD job_id INT;

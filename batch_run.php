@@ -252,14 +252,28 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 		"currency" => $currency,
 	));
 
+	// all other data from today is now old
+	// NOTE if the system time changes between the next two commands, then we may erraneously
+	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
+	// relying on MySQL
+	$q = db()->prepare("UPDATE balances SET is_daily_data=0 WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency AND
+		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y')");
+	$q->execute(array(
+		"user_id" => $job['user_id'],
+		"account_id" => $account['id'],
+		"exchange" => $exchange,
+		"currency" => $currency,
+	));
+
 	// we have a balance; update the database
-	$q = db()->prepare("INSERT INTO balances SET user_id=:user_id, exchange=:exchange, account_id=:account_id, balance=:balance, currency=:currency, is_recent=1");
+	$q = db()->prepare("INSERT INTO balances SET user_id=:user_id, exchange=:exchange, account_id=:account_id, balance=:balance, currency=:currency, job_id=:job_id, is_recent=1, is_daily_data=1");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"account_id" => $account['id'],
 		"exchange" => $exchange,
 		"currency" => $currency,
 		"balance" => $balance,
+		"job_id" => $job['id'],
 		// we ignore server_time
 	));
 	crypto_log("Inserted new $exchange $currency balances id=" . db()->lastInsertId());

@@ -193,11 +193,12 @@ function add_summary_instance($job, $summary_type, $total) {
 	));
 
 	// insert new summary
-	$q = db()->prepare("INSERT INTO summary_instances SET is_recent=1, user_id=:user_id, summary_type=:summary_type, balance=:balance, is_daily_data=1");
+	$q = db()->prepare("INSERT INTO summary_instances SET is_recent=1, user_id=:user_id, summary_type=:summary_type, balance=:balance, job_id=:job_id, is_daily_data=1");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"summary_type" => $summary_type,
 		"balance" => $total,
+		"job_id" => $job['id'],
 	));
 	crypto_log("Inserted new summary_instances id=" . db()->lastInsertId());
 

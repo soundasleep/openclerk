@@ -54,7 +54,7 @@ foreach ($rates_list as $rl) {
 	));
 
 	// insert in new ticker value
-	$q = db()->prepare("INSERT INTO ticker SET is_recent=1, exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, buy=:buy, sell=:sell, volume=:volume, is_daily_data=1");
+	$q = db()->prepare("INSERT INTO ticker SET is_recent=1, exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, buy=:buy, sell=:sell, volume=:volume, job_id=:job_id, is_daily_data=1");
 	$q->execute(array(
 		"exchange" => $exchange['name'],
 		"currency1" => strtolower($rl['cur1']),
@@ -63,6 +63,7 @@ foreach ($rates_list as $rl) {
 		"buy" => $rates['ticker']['buy'],
 		"sell" => $rates['ticker']['sell'],
 		"volume" => $rates['ticker']['vol_cur'],
+		"job_id" => $job['id'],
 	));
 
 	crypto_log("Inserted new ticker id=" . db()->lastInsertId());

@@ -55,7 +55,7 @@ $q->execute(array(
 ));
 
 // insert in new ticker value
-$q = db()->prepare("INSERT INTO ticker SET is_recent=1, exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, buy=:buy, sell=:sell, is_daily_data=1");
+$q = db()->prepare("INSERT INTO ticker SET is_recent=1, exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, buy=:buy, sell=:sell, job_id=:job_id, is_daily_data=1");
 $q->execute(array(
 	"exchange" => $exchange['name'],
 	"currency1" => strtolower($rl['cur1']),
@@ -63,6 +63,7 @@ $q->execute(array(
 	"last_trade" => $bitnz['price'],
 	"buy" => $bitnz['buy'][0]['price'],
 	"sell" => $bitnz['sell'][0]['price'],
+	"job_id" => $job['id'],
 	// no volume data... this must be through SOME API
 ));
 
