@@ -195,6 +195,10 @@ try {
 			break;
 
 		// summary jobs
+		case "sum":
+			require("jobs/sum.php");
+			break;
+
 		case "summary":
 			require("jobs/summary.php");
 			break;
@@ -277,5 +281,34 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 		// we ignore server_time
 	));
 	crypto_log("Inserted new $exchange $currency balances id=" . db()->lastInsertId());
+
+}
+
+function add_summary_instance($job, $summary_type, $total) {
+
+	// update old summaries
+	$q = db()->prepare("UPDATE summary_instances SET is_recent=0 WHERE is_recent=1 AND user_id=? AND summary_type=?");
+	$q->execute(array($job['user_id'], $summary_type));
+
+	// all other data from today is now old
+	// NOTE if the system time changes between the next two commands, then we may erraneously
+	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
+	// relying on MySQL
+	$q = db()->prepare("UPDATE summary_instances SET is_daily_data=0 WHERE is_daily_data=1 AND summary_type=:summary_type AND user_id=:user_id AND
+		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y')");
+	$q->execute(array(
+		"summary_type" => $summary_type,
+		"user_id" => $job['user_id'],
+	));
+
+	// insert new summary
+	$q = db()->prepare("INSERT INTO summary_instances SET is_recent=1, user_id=:user_id, summary_type=:summary_type, balance=:balance, job_id=:job_id, is_daily_data=1");
+	$q->execute(array(
+		"user_id" => $job['user_id'],
+		"summary_type" => $summary_type,
+		"balance" => $total,
+		"job_id" => $job['id'],
+	));
+	crypto_log("Inserted new summary_instances id=" . db()->lastInsertId());
 
 }

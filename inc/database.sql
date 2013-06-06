@@ -795,3 +795,15 @@ DROP TABLE temp;
 ALTER TABLE balances ADD job_id INT;
 ALTER TABLE summary_instances ADD job_id INT;
 ALTER TABLE ticker ADD job_id INT;
+
+-- so that we calculate summaries - before conversions - as a whole, to prevent cases where all2btc relies on totalltc (which may have changed)
+ALTER TABLE users ADD last_queue datetime;
+
+-- these don't make any sense and will always be zero
+DELETE FROM summary_instances WHERE summary_type='blockchainusd';
+DELETE FROM summary_instances WHERE summary_type='blockchainnzd';
+DELETE FROM summary_instances WHERE summary_type='blockchaineur';
+DELETE FROM graph_data_summary WHERE summary_type='blockchainusd';
+DELETE FROM graph_data_summary WHERE summary_type='blockchainnzd';
+DELETE FROM graph_data_summary WHERE summary_type='blockchaineur';
+

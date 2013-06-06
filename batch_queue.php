@@ -80,7 +80,8 @@ $standard_jobs = array(
 	array('table' => 'accounts_50btc', 'type' => '50btc'),
 	array('table' => 'accounts_hypernova', 'type' => 'hypernova'),
 	array('table' => 'accounts_ltcmineru', 'type' => 'ltcmineru'),
-	array('table' => 'summaries', 'type' => 'summary'),	/* TODO bug: this should be sorted by summary requirement order, i.e. all2usd requires crypto2btc requires totalbtc */
+	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* so that total BTC/LTC etc will be updated together before conversion summaries */
+	array('table' => 'summaries', 'type' => 'summary'),
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
 		AND is_reminder_sent=0
@@ -103,6 +104,7 @@ foreach ($standard_jobs as $standard) {
 	}
 
 	$always = isset($standard['always']) && $standard['always'];
+	$field = isset($standard['user_id_field']) ? $standard['user_id_field'] : 'user_id';
 
 	$query_extra = isset($standard['query']) ? $standard['query'] : "";
 	$args_extra = isset($standard['args']) ? $standard['args'] : array();
@@ -117,7 +119,7 @@ foreach ($standard_jobs as $standard) {
 		if ($premium_only) {
 			$args[] = get_site_config('refresh_queue_hours_premium');
 			if (!isset($standard['user_id'])) {
-				$query_extra .= " AND user_id IN (SELECT id AS user_id FROM users WHERE is_premium=1)";
+				$query_extra .= " AND $field IN (SELECT id AS user_id FROM users WHERE is_premium=1)";
 			}
 		} else {
 			// we want to run system jobs at least every 0.1 hours = 6 minutes
@@ -132,7 +134,7 @@ foreach ($standard_jobs as $standard) {
 		$job = array(
 			"priority" => $priority,
 			"type" => $standard['type'],
-			"user_id" => isset($standard['user_id']) ? $standard['user_id'] : $address['user_id'],
+			"user_id" => isset($standard['user_id']) ? $standard['user_id'] : $address[$field],	/* $field so we can select users.id as user_id */
 			"arg_id" => $address['id'],
 		);
 
