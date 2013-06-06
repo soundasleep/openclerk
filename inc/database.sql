@@ -764,7 +764,9 @@ CREATE TABLE graph_data_balances (
 	created_at timestamp not null default current_timestamp,
 	
 	user_id int not null,
-	summary_type varchar(32) not null,
+	exchange varchar(32) not null,
+	account_id int not null,
+	currency varchar(3) not null,
 	
 	-- currently all stored graph data is daily
 	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
@@ -776,7 +778,7 @@ CREATE TABLE graph_data_balances (
 	balance_closing decimal(16,8),	-- also preserves current behaviour
 	balance_max decimal(16,8),
 
-	INDEX(user_id), INDEX(summary_type), INDEX(data_date), UNIQUE(user_id, summary_type, data_date)
+	INDEX(user_id), INDEX(exchange), INDEX(data_date), UNIQUE(user_id, exchange, account_id, currency, data_date)
 );
 
 ALTER TABLE balances ADD is_daily_data tinyint not null default 0;

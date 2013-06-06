@@ -10,6 +10,13 @@
 		<option id="graph_type_template">Loading...</option>
 	</select></td>
 </tr>
+<tr id="add_graph_arg0" style="display:none;">
+	<th>Argument:</th>
+	<td><select name="arg0" id="graph_arg0">
+		<option value="" id="graph_arg0_template">Loading...</option>
+	</select>
+	</select></td>
+</tr>
 <tr>
 	<th>Width:</th>
 	<td><select name="width">
@@ -76,9 +83,16 @@ function graph_types() {
 <?php foreach (graph_types() as $id => $graph) {
 	if (!(isset($graph['hide']) && $graph['hide'])) {
 		// we don't want to display graph types that we aren't interested in
-		echo "{ 'id' : '" . htmlspecialchars($id) . "', 'title' : '" . htmlspecialchars($graph['title']) . "', 'description' : " .  json_encode($graph['description']) .
-			((isset($graph['technical']) && $graph['technical']) ? ", 'technical': true" : "") .
-			", 'days': " . json_encode(isset($graph['days'])) . "},\n";
+		$arg0 = (isset($graph['arg0']) && $graph['arg0']) ? $graph['arg0'] : false;
+		$arg0_values = $arg0 ? $arg0() : false;
+		if (!($arg0 && !$arg0_values)) {
+			// we also don't want to display graph types that need arguments, but there aren't any
+			echo "{ 'id' : " . json_encode($id) . ", 'title' : " . json_encode($graph['title']) . ", 'description' : " .  json_encode($graph['description']) .
+				((isset($graph['technical']) && $graph['technical']) ? ", 'technical': true" : "") .
+				((isset($graph['arg0_title']) && $graph['arg0_title']) ? ", 'arg0_title': " . json_encode($graph['arg0_title']) : "") .
+				($arg0 ? ", 'arg0': " . json_encode($arg0_values) : "") .
+				", 'days': " . json_encode(isset($graph['days'])) . "},\n";
+		}
 	}
 } ?>
 	];

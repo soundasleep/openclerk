@@ -105,6 +105,21 @@ function graph_types() {
 		);
 	}
 
+	// get all litecoinglobal securities
+	foreach (get_security_exchange_pairs() as $key => $currencies) {
+		foreach ($currencies as $c) {
+			$data['securities_' . $key . '_' . $c] = array(
+				'title' => get_exchange_name($key) . " " . strtoupper($c) . " security value (graph)",
+				'heading' => get_exchange_name($key) . " security",
+				'description' => 'TODO',
+				'hide' => false, // TODO
+				'days' => true,
+				'arg0' => 'get_' . $key . '_securities_' . $c,
+				'arg0_title' => 'Security:',
+			);
+		}
+	}
+
 	$data['linebreak'] = array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.');
 
 	// add sample images

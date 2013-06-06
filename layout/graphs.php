@@ -32,6 +32,17 @@ function render_graph($graph, $is_public = false) {
 		$graph['technicals'] = $q->fetchAll();
 	}
 
+	// obtain the heading from a callback?
+	if (isset($graph_type['arg0'])) {
+		$new_titles = $graph_type['arg0']();
+		if (!isset($new_titles[$graph['arg0']])) {
+			// has arg0 been set?
+			$graph_type['heading'] = "(Unknown: " . htmlspecialchars($graph['arg0']) . ")";
+		} else {
+			$graph_type['heading'] = $new_titles[$graph['arg0']];
+		}
+	}
+
 	echo "<h2>" . htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']) . "</h2>\n";
 	render_graph_controls($graph);
 
@@ -387,6 +398,16 @@ function render_graph($graph, $is_public = false) {
 						}
 						break;
 					}
+				}
+			}
+
+			// securities charts
+			if (substr($graph['graph_type'], 0, strlen("securities_")) == "securities_") {
+				$securities = get_security_exchange_pairs();
+				$split = explode("_", $graph['graph_type'], 3);
+				if (in_array($split[2], get_all_currencies()) && isset($securities[$split[1]])) {
+					render_balances_graph($graph, 'securities_' . $split[1], $split[2], get_site_config('system_user_id'), $graph['arg0']);
+					break;
 				}
 			}
 

@@ -31,12 +31,44 @@ $(document).ready(function() {
 				$("#add_graph_technical").hide();
 				$("#add_graph_period").hide();
 			}
+			if (typeof graph_types()[data]['arg0'] != 'undefined' && graph_types()[data]['arg0']) {
+				$("#add_graph_arg0").show();
+				$("#add_graph_arg0 th").html(graph_types()[data]['arg0_title']);
+				populate_arg0(document, graph_types()[data]['arg0']);
+				$("#graph_technical").keyup();
+			} else {
+				$("#add_graph_arg0").hide();
+				$("#add_graph_period").hide();
+			}
 		}
 	};
 	e.keyup(callback);
 	e.change(callback);
 	e.keyup();
 });
+
+function populate_arg0(parent, values) {
+	var i;
+	var e = $(parent).find("#graph_arg0"), template = $(parent).find("#graph_arg0_template");
+	template.hide();
+	// delete old values
+	$(e).find("select option[id!='graph_arg0_template']").remove();
+	var first = false;
+	for (key in values) {
+		if (values.hasOwnProperty(key)) {
+			var temp = template.clone();
+			temp.attr('value', key);
+			temp.text(values[key]);
+			temp.attr('id', '');
+			e.append(temp);
+			temp.show();
+			if (!first) first = key;
+		}
+	}
+	// select the first one
+	e.val(first);
+	e.keyup();
+}
 
 /**
  * Fill in technical graph types.

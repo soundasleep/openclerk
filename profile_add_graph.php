@@ -12,6 +12,7 @@ $page_id = require_post("page");
 $graph_id = require_post("id", false);	// if set, then we're editing an existing graph
 $is_edit = $graph_id || false;
 $days = require_post("days", false);
+$arg0 = (int) require_post("arg0", false);
 
 // make sure this is actually our page
 $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND id=?");
@@ -78,7 +79,7 @@ if (!isset($graph_types[$graph_type])) {
 		}
 
 		// we own this graph; edit it
-		$q = db()->prepare("UPDATE graphs SET page_id=:page_id, graph_type=:graph_type, width=:width, height=:height, days=:days WHERE id=:id");
+		$q = db()->prepare("UPDATE graphs SET page_id=:page_id, graph_type=:graph_type, width=:width, height=:height, days=:days, arg0=:arg0 WHERE id=:id");
 		$q->execute(array(
 			'page_id' => $page_id,
 			// we don't change page_order
@@ -86,10 +87,11 @@ if (!isset($graph_types[$graph_type])) {
 			'width' => $width,
 			'height' => $height,
 			'days' => $days,
+			'arg0' => $arg0,
 			'id' => $graph_id,
 		));
 	} else {
-		$q = db()->prepare("INSERT INTO graphs SET page_id=:page_id, page_order=:page_order, graph_type=:graph_type, width=:width, height=:height, days=:days");
+		$q = db()->prepare("INSERT INTO graphs SET page_id=:page_id, page_order=:page_order, graph_type=:graph_type, width=:width, height=:height, days=:days, arg0=:arg0");
 		$q->execute(array(
 			'page_id' => $page_id,
 			'page_order' => $new_order,
@@ -97,6 +99,7 @@ if (!isset($graph_types[$graph_type])) {
 			'width' => $width,
 			'height' => $height,
 			'days' => $days,
+			'arg0' => $arg0,
 		));
 		$graph_id = db()->lastInsertId();
 	}

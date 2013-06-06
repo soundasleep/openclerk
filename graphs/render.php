@@ -194,10 +194,69 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id) {
 	);
 
 	foreach ($sources as $source) {
-		$q = db()->prepare($source['query']); // TODO add days_to_display as parameter
+		$q = db()->prepare($source['query']);
 		$q->execute(array(
 			'summary_type' => $summary_type,
 			'user_id' => $user_id,
+		));
+		while ($ticker = $q->fetch()) {
+			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(
+				'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
+				graph_number_format($ticker[$source['balance_key']]),
+			);
+			$last_updated = max($last_updated, strtotime($ticker['created_at']));
+		}
+	}
+
+	// calculate technicals
+	$data = calculate_technicals($graph, $data);
+
+	// discard early data
+	$data = discard_early_data($data, $days);
+
+	// sort by key, but we only want values
+	uksort($data, 'cmp_time');
+	$graph['last_updated'] = $last_updated;
+
+	if (count($data) > 1) {
+		render_linegraph_date($graph, array_values($data));
+	} else {
+		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated.
+					<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");
+	}
+
+}
+
+function render_balances_graph($graph, $exchange, $currency, $user_id, $account_id) {
+
+	$data = array();
+	$data[0] = array("Date",
+		array(
+			'title' => strtoupper($currency),
+			'line_width' => 2,
+			'color' => default_chart_color(0),
+		),
+	);
+	$last_updated = false;
+	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
+
+	$sources = array(
+		// first get summarised data
+		array('query' => "SELECT * FROM graph_data_balances WHERE user_id=:user_id AND exchange=:exchange AND account_id=:account_id AND currency=:currency AND
+			data_date >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
+		// and then get more recent data
+		array('query' => "SELECT * FROM balances WHERE is_daily_data=1 AND exchange=:exchange AND account_id=:account_id AND currency=:currency AND
+			user_id=:user_id ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
+	);
+
+	foreach ($sources as $source) {
+		$q = db()->prepare($source['query']);
+		$q->execute(array(
+			'exchange' => $exchange,
+			'user_id' => $user_id,
+			'account_id' => $account_id,
+			'currency' => $currency,
 		));
 		while ($ticker = $q->fetch()) {
 			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(

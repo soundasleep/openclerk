@@ -117,3 +117,52 @@ function get_all_recent_rates() {
 }
 
 class GraphException extends Exception { }
+
+/**
+ * Return a list of (id => title).
+ * Could be cached.
+ */
+function get_litecoinglobal_securities_ltc() {
+	$result = array();
+	$q = db()->prepare("SELECT * FROM securities_litecoinglobal ORDER BY name ASC");
+	$q->execute();
+	while ($sec = $q->fetch()) {
+		$result[$sec['id']] = $sec['name'];
+	}
+	return $result;
+}
+
+/**
+ * Return a list of (id => title).
+ * Could be cached.
+ */
+function get_btct_securities_btc() {
+	$result = array();
+	$q = db()->prepare("SELECT * FROM securities_btct ORDER BY name ASC");
+	$q->execute();
+	while ($sec = $q->fetch()) {
+		$result[$sec['id']] = $sec['name'];
+	}
+	return $result;
+}
+
+/**
+ * Return a list of (id => title).
+ * Could be cached.
+ */
+function get_cryptostocks_securities($cur) {
+	$result = array();
+	$q = db()->prepare("SELECT * FROM securities_cryptostocks WHERE currency=? ORDER BY name ASC");
+	$q->execute(array($cur));
+	while ($sec = $q->fetch()) {
+		$result[$sec['id']] = $sec['name'];
+	}
+	return $result;
+}
+
+function get_cryptostocks_securities_btc() {
+	return get_cryptostocks_securities('btc');
+}
+function get_cryptostocks_securities_ltc() {
+	return get_cryptostocks_securities('ltc');
+}
