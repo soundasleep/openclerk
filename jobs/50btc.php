@@ -40,28 +40,7 @@ if ($data === null) {
 		if (!is_numeric($balance)) {
 			throw new ExternalAPIException("$exchange $currency balance is not numeric");
 		}
-		crypto_log("$exchange $currency balance for user " . $job['user_id'] . ": " . $balance);
-
-		// disable old instances
-		$q = db()->prepare("UPDATE balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND account_id=:account_id AND currency=:currency");
-		$q->execute(array(
-			"user_id" => $job['user_id'],
-			"account_id" => $account['id'],
-			"exchange" => $exchange,
-			"currency" => $currency,
-		));
-
-		// we have a balance; update the database
-		$q = db()->prepare("INSERT INTO balances SET user_id=:user_id, exchange=:exchange, account_id=:account_id, balance=:balance, currency=:currency, is_recent=1");
-		$q->execute(array(
-			"user_id" => $job['user_id'],
-			"account_id" => $account['id'],
-			"exchange" => $exchange,
-			"currency" => $currency,
-			"balance" => $balance,
-			// we ignore server_time
-		));
-		crypto_log("Inserted new $exchange $currency balances id=" . db()->lastInsertId());
+		insert_new_balance($job, $account, $exchange, $currency, $balance);
 
 	}
 }

@@ -47,24 +47,12 @@ if (!$content1) {
 
 	// we now have a new value
 	$balance = $data['bid'];
+	if ($balance == "--") {
+		// if a security has been removed, 'bid' will return '--'
+		// TODO this might be a good place to consider removing the security from the database
+		$balance = 0;
+	}
 
-	// disable old instances
-	$q = db()->prepare("UPDATE balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND currency=:currency AND account_id=:account_id");
-	$q->execute(array(
-		"user_id" => $job['user_id'],
-		"account_id" => $security['id'],
-		"exchange" => $exchange,
-		"currency" => $currency,
-	));
+	insert_new_balance($job, $security, $exchange, $currency, $balance);
 
-	// we have a balance; update the database
-	$q = db()->prepare("INSERT INTO balances SET user_id=:user_id, exchange=:exchange, account_id=:account_id, balance=:balance, currency=:currency, is_recent=1");
-	$q->execute(array(
-		"user_id" => $job['user_id'],
-		"account_id" => $security['id'],
-		"exchange" => $exchange,
-		"currency" => $currency,
-		"balance" => $balance,
-	));
-	crypto_log("Inserted new $exchange $currency balances id=" . db()->lastInsertId());
 }

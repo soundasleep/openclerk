@@ -42,30 +42,11 @@ function bips_query($url, $userpwd, array $req = array()) {
 $data = bips_query("https://bips.me/api/v1/getbalance", $account['api_key'], array("currency" => 'USD'));
 $currencies = array('btc' => 'btc', 'usd' => 'fiat');
 foreach ($currencies as $currency => $key) {
-	crypto_log($exchange . " balance for " . $currency . ": " . $data[$key]['amount']);
 	if (!isset($data[$key]['amount'])) {
 		throw new ExternalAPIException("Did not find funds for currency $currency in $exchange");
 	}
 
-	// disable old instances
-	$q = db()->prepare("UPDATE balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND currency=:currency AND account_id=:account_id");
-	$q->execute(array(
-		"user_id" => $job['user_id'],
-		"account_id" => $account['id'],
-		"exchange" => $exchange,
-		"currency" => $currency,
-	));
-
-	// we have a balance; update the database
-	$q = db()->prepare("INSERT INTO balances SET user_id=:user_id, exchange=:exchange, account_id=:account_id, balance=:balance, currency=:currency, is_recent=1");
-	$q->execute(array(
-		"user_id" => $job['user_id'],
-		"account_id" => $account['id'],
-		"exchange" => $exchange,
-		"currency" => $currency,
-		"balance" => $data[$key]['amount'],
-		// we ignore server_time
-	));
-	crypto_log("Inserted new $exchange $currency balances id=" . db()->lastInsertId());
+	$balance = $data[$key]['amount'];
+	insert_new_balance($job, $account, $exchange, $currency, $balance);
 
 }
