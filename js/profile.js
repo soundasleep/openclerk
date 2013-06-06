@@ -52,7 +52,7 @@ function populate_arg0(parent, values) {
 	var e = $(parent).find("#graph_arg0"), template = $(parent).find("#graph_arg0_template");
 	template.hide();
 	// delete old values
-	$(e).find("select option[id!='graph_arg0_template']").remove();
+	$(e).find("option[id!='graph_arg0_template']").remove();
 	var first = false;
 	for (key in values) {
 		if (values.hasOwnProperty(key)) {
@@ -191,6 +191,9 @@ function editGraphProperty(target, id, graph_data) {
 		already_editing = id;
 
 		$(temp).find("select[name='type']").keyup();	// trigger the event handler (AFTER it's been added to the DOM, otherwise the original form will get it)
+
+		// and once we've populated the list of arguments, we can update the argument value
+		$(temp).find("select[name='arg0']").val(graph_data['arg0']);
 	}
 }
 
