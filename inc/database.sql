@@ -788,6 +788,12 @@ ALTER TABLE balances ADD INDEX(is_daily_data);
 UPDATE balances SET is_daily_data=0;
 CREATE TABLE temp (id int not null, user_id int not null, exchange varchar(255) not null, currency varchar(6) not null, account_id int);
 INSERT INTO temp (id, user_id, exchange, currency, account_id) SELECT MAX(id) AS id, user_id, exchange, currency, account_id FROM balances GROUP BY date_format(created_at, '%d-%m-%Y'), user_id, exchange, currency, account_id;
+-- NOTE this can take a very long time to execute if there are many rows; this is because the entire dependent subquery is retrieved on every row
+-- a much faster approach is to split up the execution into many smaller subtables:
+--    CREATE TABLE temp2 (id int not null); INSERT INTO temp2 (SELECT id FROM temp WHERE id >= 0 AND id < (0 + 1000));
+--    UPDATE balances SET is_daily_data=1 WHERE id >= 0 AND id < (0 + 1000) AND (id) IN (SELECT id FROM temp2);
+--    DROP TABLE temp2;
+-- (etc)
 UPDATE balances SET is_daily_data=1 WHERE (id, user_id, exchange, currency, account_id) IN (SELECT * FROM temp);
 DROP TABLE temp;
 

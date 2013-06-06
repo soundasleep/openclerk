@@ -14,7 +14,6 @@
 	<th>Argument:</th>
 	<td><select name="arg0" id="graph_arg0">
 		<option value="" id="graph_arg0_template">Loading...</option>
-	</select>
 	</select></td>
 </tr>
 <tr>
