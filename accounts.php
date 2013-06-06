@@ -46,16 +46,27 @@ $accounts = user_limits_summary(user_id());
 <ul class="account_list">
 <?php
 
+function callback_sort_title($a, $b) {
+	return strcmp($a['title'], $b['title']);
+}
 foreach (account_data_grouped() as $label => $account_data) {
 	if ($label == "Hidden")
 		continue;
 
-	echo "<li>" . htmlspecialchars($label) . "\n<ul>\n";
+	// add titles, and sort by title
 	foreach ($account_data as $key => $value) {
 		// if we don't specify a plural, we assume it's just adding 's'
-		if (!isset($value['labels']))
-			$value['labels'] = $value['label'] . "s";
+		if (!isset($account_data[$key]['labels'])) {
+			$account_data[$key]['labels'] = $account_data[$key]['label'] . "s";
+		}
+		if (!isset($account_data[$key]['title'])) {
+			$account_data[$key]['title'] = get_exchange_name($key) . " " . $account_data[$key]['labels'];
+		}
+	}
+	uasort($account_data, 'callback_sort_title');
 
+	echo "<li>" . htmlspecialchars($label) . "\n<ul>\n";
+	foreach ($account_data as $key => $value) {
 		echo "<li><strong>" . htmlspecialchars($value['title']) . ":</strong> ";
 		echo "<a href=\"" . url_for($value['url']) . "\">";
 		echo (isset($accounts[$key]) && $accounts[$key]) ? (number_format($accounts[$key]) . " " . ($accounts[$key] == 1 ? $value['label'] : $value['labels'])) : "<i>none</i>";
