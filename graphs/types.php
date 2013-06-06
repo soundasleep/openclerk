@@ -5,7 +5,7 @@
  * Get all of the defined public graph types. These are then included into graph_types()
  * as necessary.
  */
-function graph_types_public() {
+function graph_types_public($summaries = array()) {
 	// we can generate a list of daily graphs from all of the exchanges that we support
 	// but we'll only want to display currency pairs that we're interested in
 	$data = array();
@@ -24,6 +24,23 @@ function graph_types_public() {
 			);
 		}
 	}
+
+	// get all litecoinglobal securities
+	foreach (get_security_exchange_pairs() as $key => $currencies) {
+		foreach ($currencies as $c) {
+			$data['securities_' . $key . '_' . $c] = array(
+				'title' => get_exchange_name($key) . " " . strtoupper($c) . " security value (graph)",
+				'heading' => get_exchange_name($key) . " security",
+				'description' => 'A line graph displaying the historical value of a particular ' . get_exchange_name($key) . ' security.',
+				'hide' => !isset($summaries[$c]),	// only show securities in currencies we're interested in
+				'days' => true,
+				'arg0' => 'get_' . $key . '_securities_' . $c,
+				'arg0_title' => 'Security:',
+				'technical' => true,
+			);
+		}
+	}
+
 	return $data;
 }
 
@@ -50,10 +67,13 @@ function graph_types() {
 	$summaries = get_all_summary_currencies();
 	$conversions = get_all_conversion_currencies();
 
-	// merge in graph_types_public(), but add 'hide' parameter to hide irrelevant currencies
-	foreach (graph_types_public() as $key => $public_data) {
-		$pairs = $public_data['pairs'];
-		$public_data['hide'] = !(isset($summaries[$pairs[0]]) && isset($summaries[$pairs[1]]));
+	// merge in graph_types_public()
+	foreach (graph_types_public($summaries) as $key => $public_data) {
+		// but add 'hide' parameter to hide irrelevant currencies
+		if (isset($public_data['pairs'])) {
+			$pairs = $public_data['pairs'];
+			$public_data['hide'] = !(isset($summaries[$pairs[0]]) && isset($summaries[$pairs[1]]));
+		}
 		$data[$key] = $public_data;
 	}
 
@@ -103,22 +123,6 @@ function graph_types() {
 			'description' => "A pie chart representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'hide' => !isset($summaries[$cur]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
-	}
-
-	// get all litecoinglobal securities
-	foreach (get_security_exchange_pairs() as $key => $currencies) {
-		foreach ($currencies as $c) {
-			$data['securities_' . $key . '_' . $c] = array(
-				'title' => get_exchange_name($key) . " " . strtoupper($c) . " security value (graph)",
-				'heading' => get_exchange_name($key) . " security",
-				'description' => 'A line graph displaying the historical value of a particular ' . get_exchange_name($key) . ' security.',
-				'hide' => !isset($summaries[$c]),	// only show securities in currencies we're interested in
-				'days' => true,
-				'arg0' => 'get_' . $key . '_securities_' . $c,
-				'arg0_title' => 'Security:',
-				'technical' => true,
-			);
-		}
 	}
 
 	$data['linebreak'] = array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.');

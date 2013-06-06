@@ -280,8 +280,12 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 	if (count($data) > 1) {
 		render_linegraph_date($graph, array_values($data));
 	} else {
-		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated.
-					<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");
+		if ($user_id == get_site_config('system_user_id')) {
+			render_text($graph, "Invalid balance type.");
+		} else {
+			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
+						<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");
+		}
 	}
 
 }

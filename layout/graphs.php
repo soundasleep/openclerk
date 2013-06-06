@@ -32,8 +32,25 @@ function render_graph($graph, $is_public = false) {
 		$graph['technicals'] = $q->fetchAll();
 	}
 
+	if (isset($graph['arg0_resolved']) && substr($graph['graph_type'], 0, strlen("securities_")) == "securities_") {
+		// we need to unresolve the name to find the appropriate security
+		$split = explode("_", $graph['graph_type'], 3);
+		$securities = get_security_exchange_pairs();
+		if (count($securities[$split[1]]) > 1) {
+			$q = db()->prepare("SELECT * FROM securities_" . $split[1] . " WHERE name=? AND currency=?");
+			$q->execute(array($graph['arg0_resolved'], $split[2]));
+		} else {
+			$q = db()->prepare("SELECT * FROM securities_" . $split[1] . " WHERE name=?");
+			$q->execute(array($graph['arg0_resolved']));
+		}
+		$sec = $q->fetch();
+		if ($sec) {
+			$graph['arg0'] = $sec['id'];
+		}
+	}
+
 	// obtain the heading from a callback?
-	if (isset($graph_type['arg0'])) {
+	if (isset($graph_type['arg0']) && isset($graph['arg0'])) {
 		$new_titles = $graph_type['arg0']();
 		if (!isset($new_titles[$graph['arg0']])) {
 			// has arg0 been set?
@@ -402,7 +419,7 @@ function render_graph($graph, $is_public = false) {
 			}
 
 			// securities charts
-			if (substr($graph['graph_type'], 0, strlen("securities_")) == "securities_") {
+			if (substr($graph['graph_type'], 0, strlen("securities_")) == "securities_" && isset($graph['arg0'])) {
 				$securities = get_security_exchange_pairs();
 				$split = explode("_", $graph['graph_type'], 3);
 				if (in_array($split[2], get_all_currencies()) && isset($securities[$split[1]])) {

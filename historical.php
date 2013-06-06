@@ -22,7 +22,8 @@ $id = require_get("id", false);
 if ($id && isset($historical_graphs[$id])) {
 	// we're displaying a specific graph
 
-	page_header("Historical Data: " . $historical_graphs[$id]["heading"], "page_historical", array('common_js' => true, 'jsapi' => true));
+	$name = require_get('name', false);
+	page_header("Historical Data: " . $historical_graphs[$id]["heading"] . ($name ? ": " . $name : ""), "page_historical", array('common_js' => true, 'jsapi' => true));
 
 	$graph = array(
 		'graph_type' => $id,
@@ -31,22 +32,26 @@ if ($id && isset($historical_graphs[$id])) {
 		'page_order' => 0,
 		'days' => $days,
 		'id' => 0,
+		'arg0_resolved' => $name,
+		'public' => true,
 	);
+
+	$extra_args = $name ? array("name" => $name) : array();
 
 	?>
 	<?php if (!($user && $user['is_premium'])) { ?>
 	<div class="tip tip_float">
 		With a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>, you can apply technical
-		indicators to historical exchange data, such as Moving Averages (SMA), Bollinger Bands (BOLL), and Relative Strength Index (RSI).
+		indicators to historical exchange and security data, such as Moving Averages (SMA), Bollinger Bands (BOLL), and Relative Strength Index (RSI).
 	</div>
 	<?php } ?>
 
-	<h1>Historical Data: <?php echo htmlspecialchars($historical_graphs[$id]["heading"]); ?></h1>
+	<h1>Historical Data: <?php echo htmlspecialchars($historical_graphs[$id]["heading"]) . ($name ? ": " . htmlspecialchars($name) : ""); ?></h1>
 
 	<p class="backlink">
 	<a href="<?php echo htmlspecialchars(url_for('historical')); ?>">&lt; Back to Historical Data</a>
 	<?php foreach ($permitted_days as $key => $days) { ?>
-	| <a href="<?php echo htmlspecialchars(url_for('historical', array('id' => $id, 'days' => $key))); ?>"><?php echo htmlspecialchars($days['title']); ?></a>
+	| <a href="<?php echo htmlspecialchars(url_for('historical', $extra_args + array('id' => $id, 'days' => $key))); ?>"><?php echo htmlspecialchars($days['title']); ?></a>
 	<?php } ?>
 	</p>
 
@@ -68,11 +73,37 @@ if ($id && isset($historical_graphs[$id])) {
 
 	<h1>Historical Data</h1>
 
+	<div class="columns2">
+	<div class="column">
+
+	<h2>Exchanges</h2>
+
 	<ul class="historical_graphs">
-	<?php foreach ($historical_graphs as $key => $def) {
-		echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $key, 'days' => 180))) . "\">" . htmlspecialchars($def['title']) . "</a></li>\n";
+	<?php foreach ($historical_graphs as $graph_key => $def) {
+		if (!isset($def['arg0'])) {
+			echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180))) . "\">" . htmlspecialchars($def['title']) . "</a></li>\n";
+		}
 	} ?>
 	</ul>
+
+	</div>
+	<div class="column">
+
+	<?php foreach ($historical_graphs as $graph_key => $def) {
+		if (isset($def['arg0'])) {
+			$values = $def['arg0']();
+			if ($values) {
+				echo "<h2>" . htmlspecialchars($def['heading']) . " <span class=\"new\">new</span></h2>\n<ul class=\"historical_graphs\">";
+				foreach ($values as $key => $name) {
+					echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180, 'name' => $name))) . "\">" . htmlspecialchars($name) . "</a></li>\n";
+				}
+				echo "</ul>\n";
+			}
+		}
+	} ?>
+
+	</div>
+	</div>
 
 	<?php
 

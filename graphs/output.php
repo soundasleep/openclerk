@@ -62,6 +62,10 @@ function render_table_horizontal_vertical($graph, $data) {
 }
 
 function render_graph_controls($graph) {
+	if (isset($graph['public']) && $graph['public']) {
+		// don't display controls if this graph is public
+		return;
+	}
 ?>
 <ul class="graph_controls">
 	<li class="move_up"><a href="<?php echo htmlspecialchars(url_for('profile', array(
