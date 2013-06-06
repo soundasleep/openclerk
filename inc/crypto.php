@@ -74,22 +74,26 @@ function get_security_exchange_pairs() {
 function get_supported_wallets() {
 	return array(
 		// alphabetically sorted, except for generic
-		get_exchange_name("50btc") => array('btc'),
-		get_exchange_name("bips") => array('btc', 'usd'),
-		get_exchange_name("btce") => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur'),
-		get_exchange_name("btcguild") => array('btc', 'nmc'),
-		get_exchange_name("btct") => array('btc'),
-		get_exchange_name("cryptostocks") => array('btc', 'ltc'),
-		get_exchange_name("givemeltc") => array('ltc'),
-		get_exchange_name("hypernova") => array('ltc'),
-		get_exchange_name("litecoinglobal") => array('ltc'),
-		get_exchange_name("mtgox") => array('btc', 'usd', 'eur'),
-		get_exchange_name("poolx") => array('ltc'),
-		get_exchange_name("slush") => array('btc', 'nmc'),
-		get_exchange_name("vircurex") => array('btc', 'ltc', 'nmc', 'usd', 'eur'),
-		get_exchange_name("wemineltc") => array('ltc'),
-		get_exchange_name("generic") => get_all_currencies(),
+		"50btc" => array('btc'),
+		"bips" => array('btc', 'usd'),
+		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur'),
+		"btcguild" => array('btc', 'nmc'),
+		"btct" => array('btc'),
+		"cryptostocks" => array('btc', 'ltc'),
+		"givemeltc" => array('ltc'),
+		"hypernova" => array('ltc'),
+		"litecoinglobal" => array('ltc'),
+		"mtgox" => array('btc', 'usd', 'eur'),
+		"poolx" => array('ltc'),
+		"slush" => array('btc', 'nmc'),
+		"vircurex" => array('btc', 'ltc', 'nmc', 'usd', 'eur'),
+		"wemineltc" => array('ltc'),
+		"generic" => get_all_currencies(),
 	);
+}
+
+function get_new_supported_wallets() {
+	return array("hypernova");
 }
 
 function crypto_address($currency, $address) {

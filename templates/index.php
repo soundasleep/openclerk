@@ -95,7 +95,7 @@ foreach ($balances_data as $exchange => $currencies) {
 <tbody>
 	<?php foreach ($balances_data as $exchange => $currencies) { ?>
 	<tr>
-		<td><?php echo htmlspecialchars($exchange); ?></td>
+		<td><?php echo htmlspecialchars(get_exchange_name($exchange));  if (in_array($exchange, get_new_supported_wallets())) echo " <span class=\"new\">new</span>"; ?></td>
 		<?php foreach ($all_currencies as $p) { ?>
 		<?php echo in_array($p, $currencies) ? "<td class=\"yes\">Y</td>" : "<td class=\"no\"></td>"; ?>
 		<?php } ?>
