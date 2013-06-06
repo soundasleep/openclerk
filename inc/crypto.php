@@ -50,6 +50,7 @@ function get_exchange_name($n) {
 		case "btcguild": 	return "BTC Guild";
 		case "50btc": 		return "50BTC";
 		case "hypernova":	return "Hypernova";
+		case "ltcmineru":	return "LTCMine.ru";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -83,6 +84,7 @@ function get_supported_wallets() {
 		"givemeltc" => array('ltc'),
 		"hypernova" => array('ltc'),
 		"litecoinglobal" => array('ltc'),
+		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur'),
 		"poolx" => array('ltc'),
 		"slush" => array('btc', 'nmc'),
@@ -93,7 +95,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("hypernova");
+	return array("hypernova", "ltcmineru");
 }
 
 function crypto_address($currency, $address) {
@@ -164,6 +166,7 @@ function account_data_grouped() {
 			'btcguild' => array('url' => 'accounts_btcguild', 'title' => 'BTC Guild accounts', 'label' => 'account', 'table' => 'accounts_btcguild', 'group' => 'accounts'),
 			'50btc' => array('url' => 'accounts_50btc', 'title' => '50BTC accounts', 'label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts'),
 			'hypernova' => array('url' => 'accounts_hypernova', 'title' => 'Hypernova accounts', 'label' => 'account', 'table' => 'accounts_hypernova', 'group' => 'accounts'),
+			'ltcmineru' => array('url' => 'accounts_ltcmineru', 'title' => 'LTCMine.ru accounts', 'label' => 'account', 'table' => 'accounts_ltcmineru', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -361,6 +364,11 @@ function is_valid_50btc_apikey($key) {
 function is_valid_hypernova_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_ltcmineru_apikey($key) {
+	// looks like a username, followed by 32 character hex string
+	return preg_match("#^.+_[a-f0-9]{32}$#", $key);
 }
 
 function is_valid_generic_key($key) {

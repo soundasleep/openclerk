@@ -190,6 +190,10 @@ try {
 			require("jobs/hypernova.php");
 			break;
 
+		case "ltcmineru":
+			require("jobs/ltcmineru.php");
+			break;
+
 		// summary jobs
 		case "summary":
 			require("jobs/summary.php");

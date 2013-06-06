@@ -79,6 +79,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_btcguild', 'type' => 'btcguild'),
 	array('table' => 'accounts_50btc', 'type' => '50btc'),
 	array('table' => 'accounts_hypernova', 'type' => 'hypernova'),
+	array('table' => 'accounts_ltcmineru', 'type' => 'ltcmineru'),
 	array('table' => 'summaries', 'type' => 'summary'),	/* TODO bug: this should be sorted by summary requirement order, i.e. all2usd requires crypto2btc requires totalbtc */
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
