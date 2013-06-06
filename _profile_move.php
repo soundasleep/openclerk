@@ -148,3 +148,7 @@ if (require_get("restore", false)) {
 	}
 
 }
+
+if (require_get("graph", false)) {
+	$enable_editing = true;
+}

@@ -132,6 +132,11 @@ if (!isset($graph_types[$graph_type])) {
 			));
 			$message_extra = ", with " . htmlspecialchars($graph_technical_types[$technical]['title']);
 		}
+	} else {
+		// otherwise, delete old technicals
+		$q = db()->prepare("DELETE FROM graph_technicals WHERE graph_id=?");
+		$q->execute(array($graph_id));
+
 	}
 
 	// redirect
