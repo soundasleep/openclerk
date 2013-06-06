@@ -192,12 +192,15 @@ function account_data_grouped() {
 			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
 		),
 		'Hidden' => array(
-			'graph_pages' => array('label' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0'),
-			'summaries' => array('label' => 'Currency summaryies', 'table' => 'summaries', 'group' => 'summaries'),
+			'graph_pages' => array('title' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0'),
+			'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries'),
 		),
 	);
 	foreach ($data['Exchanges'] as $key => $row) {
 		$data['Exchanges'][$key]['title'] = get_exchange_name($key) . " " . $row['label'] . "s";
+	}
+	foreach ($data['Mining pools'] as $key => $row) {
+		$data['Mining pools'][$key]['title'] = get_exchange_name($key) . " " . $row['label'] . "s";
 	}
 	return $data;
 }

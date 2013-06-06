@@ -59,9 +59,6 @@ foreach (account_data_grouped() as $label => $account_data) {
 		if (!isset($account_data[$key]['labels'])) {
 			$account_data[$key]['labels'] = $account_data[$key]['label'] . "s";
 		}
-		if (!isset($account_data[$key]['title'])) {
-			$account_data[$key]['title'] = get_exchange_name($key) . " " . $account_data[$key]['labels'];
-		}
 	}
 	uasort($account_data, 'callback_sort_title');
 
