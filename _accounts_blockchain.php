@@ -73,6 +73,15 @@ if (require_post("delete", false) && require_post("id", false)) {
 
 // process file upload
 if (isset($_FILES['csv'])) {
+	try {
+		// throws a BlockedException if this IP has requested this too many times recently
+		check_heavy_request();
+	} catch (BlockedException $e) {
+		$errors[] = $e->getMessage();
+		set_temporary_errors($errors);
+		redirect(url_for($account_data['url']));
+	}
+
 	$invalid_addresses = 0;
 	$updated_titles = 0;
 	$existing_addresses = 0;
@@ -91,6 +100,8 @@ if (isset($_FILES['csv'])) {
 	// we don't store this CSV file on the server
 	$fp = fopen($_FILES['csv']['tmp_name'], "r");
 	while ($fp && ($row = fgetcsv($fp, 1000, ",")) !== false) {
+		if (count($row) < 2)
+			continue;	// also happens for invalid .csv files
 		if ($row[1] == "Address")
 			continue;
 
