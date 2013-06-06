@@ -19,6 +19,7 @@
 </div>
 </li>
 
+<?php if ($pages) { ?>
 <li id="tab_profile_deletepage_tab">
 <div class="delete_page">
 <h2>Remove this page</h2>
@@ -39,3 +40,4 @@
 </form>
 </div>
 </li>
+<?php } ?>

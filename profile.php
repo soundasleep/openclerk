@@ -27,8 +27,6 @@ $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 O
 $q->execute(array(user_id()));
 $pages = $q->fetchAll();
 
-page_header("Your Reports", "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
-
 // reset stats
 if (get_site_config('timed_sql')) {
 	echo "<!-- " . db()->stats() . " -->\n";
@@ -62,6 +60,15 @@ if ($pages) {
 			redirect(url_for('profile'));	// redirect back to our home page
 		}
 	}
+
+	$page_title = "Unknown";
+	foreach ($pages as $p) {
+		if ($p['id'] == $page_id) {
+			$page_title = $p['title'];
+		}
+	}
+
+	page_header("Your Reports: " . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
 
 ?>
 
@@ -120,17 +127,24 @@ if (!$graphs) { ?>
 		</li>
 
 <?php } else {
-	/* no pages */ ?>
+	/* no pages */
+
+	page_header("Your Reports", "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
+	?>
+
+<div class="message">
+<ul>
+	<li>You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.</li>
+</ul>
+</div>
 
 <div class="tabs" id="tabs_profile">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_profile_addpage">Add Page</li><li id="tab_profile_deletepage">Remove Page</li><li id="tab_profile_reset">Reset</li>
+		<li id="tab_profile_addpage">Add Page</li><li id="tab_profile_reset">Reset</li>
 	</ul>
 
 	<ul class="tab_groups">
-
-<p><i>No pages to display.</i></p>
 
 <?php } ?>
 

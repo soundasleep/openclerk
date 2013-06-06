@@ -2,6 +2,11 @@
  * Add graph functionality.
  */
 $(document).ready(function() {
+	if (typeof graph_types == 'undefined') {
+		// we can't add graph types to the page if they're not defined
+		return;
+	}
+
 	var i;
 	var e = $(document).find("#graph_type"), template = $(document).find("#graph_type_template");
 	template.hide();
@@ -75,6 +80,11 @@ function populate_arg0(parent, values) {
  * Fill in technical graph types.
  */
 $(document).ready(function() {
+	if (typeof graph_technical_types == 'undefined') {
+		// we can't add graph types to the page if they're not defined
+		return;
+	}
+
 	var i;
 	var e = $(document).find("#graph_technical"), template = $(document).find("#graph_technical_template");
 	template.hide();
