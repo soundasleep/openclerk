@@ -75,14 +75,14 @@ function get_security_exchange_pairs() {
 function get_supported_wallets() {
 	return array(
 		// alphabetically sorted, except for generic
-		"50btc" => array('btc'),
+		"50btc" => array('btc', 'hash'),
 		"bips" => array('btc', 'usd'),
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur'),
-		"btcguild" => array('btc', 'nmc'),
+		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"givemeltc" => array('ltc', 'hash'),
-		"hypernova" => array('ltc'),
+		"hypernova" => array('ltc', 'hash'),
 		"litecoinglobal" => array('ltc'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur'),

@@ -43,4 +43,7 @@ if ($data === null) {
 		insert_new_balance($job, $account, $exchange, $currency, $balance);
 
 	}
+
+	insert_new_balance($job, $account, $exchange, "mh", $data['user']['hash_rate'] /* hash rates are all in MHash */);
+
 }

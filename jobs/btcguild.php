@@ -35,4 +35,12 @@ if ($data === null) {
 		insert_new_balance($job, $account, $exchange, $currency, $balance);
 
 	}
+
+	// calculate hash rate
+	$hash_rate = 0;
+	foreach ($data['workers'] as $name => $data) {
+		$hash_rate += $data['hash_rate'];
+	}
+	insert_new_balance($job, $account, $exchange, "mh", $hash_rate /* hash rates are all in MHash */);
+
 }
