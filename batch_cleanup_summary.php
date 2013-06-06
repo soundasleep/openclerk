@@ -21,7 +21,7 @@ crypto_log("Current time: " . date('r'));
 // database values need to all be modified to GMT before we can add '+00:00' for example
 $cutoff_date = date('Y-m-d', strtotime(get_site_config('archive_summary_data'))) . ' 23:59:59'; // +00:00';
 $summary_date_prefix = " 00:00:00"; // +00:00
-crypto_log("Cleaning up ticker data earlier than " . htmlspecialchars($cutoff_date) . " into summaries set to " . htmlspecialchars($summary_date) . "...");
+crypto_log("Cleaning up ticker data earlier than " . htmlspecialchars($cutoff_date) . " into summaries...");
 
 $q = db()->prepare("SELECT * FROM summary_instances WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
@@ -58,6 +58,7 @@ while ($ticker = $q->fetch()) {
 			'open' => $ticker['balance'],
 			'close' => $ticker['balance'],
 			'samples' => 0,
+			'values' => array(),
 		);
 	}
 
@@ -66,6 +67,7 @@ while ($ticker = $q->fetch()) {
 	$stored[$date][$user_id][$type]['max'] = max($ticker['balance'], $stored[$date][$user_id][$type]['max']);
 	$stored[$date][$user_id][$type]['close'] = $ticker['balance'];
 	$stored[$date][$user_id][$type]['samples']++;
+	$stored[$date][$user_id][$type]['values'][] = $ticker['balance'];
 
 }
 
@@ -78,7 +80,7 @@ foreach ($stored as $date => $a) {
 		foreach ($b as $type => $summary) {
 			$q = db()->prepare("INSERT INTO graph_data_summary SET
 					user_id=:user_id, summary_type=:summary_type, data_date=:data_date, samples=:samples,
-					balance_min=:min, balance_opening=:open, balance_closing=:close, balance_max=:max");
+					balance_min=:min, balance_opening=:open, balance_closing=:close, balance_max=:max, balance_stdev=:stdev");
 			$q->execute(array(
 				'user_id' => $user_id,
 				'summary_type' => $type,
@@ -88,6 +90,7 @@ foreach ($stored as $date => $a) {
 				'open' => $summary['open'],
 				'close' => $summary['close'],
 				'max' => $summary['max'],
+				'stdev' => stdev($summary['values']),
 			));
 			$insert_count++;
 		}

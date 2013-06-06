@@ -21,7 +21,7 @@ crypto_log("Current time: " . date('r'));
 // database values need to all be modified to GMT before we can add '+00:00' for example
 $cutoff_date = date('Y-m-d', strtotime(get_site_config('archive_ticker_data'))) . ' 23:59:59'; // +00:00';
 $summary_date_prefix = " 00:00:00"; // +00:00
-crypto_log("Cleaning up ticker data earlier than " . htmlspecialchars($cutoff_date) . " into summaries set to " . htmlspecialchars($summary_date) . "...");
+crypto_log("Cleaning up ticker data earlier than " . htmlspecialchars($cutoff_date) . " into summaries...");
 
 $q = db()->prepare("SELECT * FROM ticker WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
@@ -63,6 +63,7 @@ while ($ticker = $q->fetch()) {
 			'close' => $ticker['last_trade'],
 			'volume' => $ticker['volume'],
 			'samples' => 0,
+			'values' => array(),
 		);
 	}
 
@@ -74,6 +75,7 @@ while ($ticker = $q->fetch()) {
 	$stored[$date][$exchange][$cur1][$cur2]['samples']++;
 	$stored[$date][$exchange][$cur1][$cur2]['buy'] = $ticker['buy']; // buy, sell are the last values for the day
 	$stored[$date][$exchange][$cur1][$cur2]['sell'] = $ticker['sell'];
+	$stored[$date][$exchange][$cur1][$cur2]['values'][] = $ticker['last_trade'];
 
 }
 
@@ -87,7 +89,7 @@ foreach ($stored as $date => $a) {
 			foreach ($c as $cur2 => $summary) {
 				$q = db()->prepare("INSERT INTO graph_data_ticker SET
 						exchange=:exchange, currency1=:currency1, currency2=:currency2, data_date=:data_date, samples=:samples,
-						volume=:volume, last_trade_min=:min, last_trade_opening=:open, last_trade_closing=:close, last_trade_max=:max, buy=:buy, sell=:sell");
+						volume=:volume, last_trade_min=:min, last_trade_opening=:open, last_trade_closing=:close, last_trade_max=:max, buy=:buy, sell=:sell, last_trade_stdev=:stdev");
 				$q->execute(array(
 					'exchange' => $exchange,
 					'currency1' => $cur1,
@@ -101,6 +103,7 @@ foreach ($stored as $date => $a) {
 					'max' => $summary['max'],
 					'buy' => $summary['buy'],
 					'sell' => $summary['sell'],
+					'stdev' => stdev($summary['values']),
 				));
 				$insert_count++;
 			}

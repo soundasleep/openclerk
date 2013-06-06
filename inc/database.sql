@@ -830,3 +830,8 @@ CREATE TABLE hashrates (
 );
 
 -- TODO create hashrates summary table
+
+-- precision isn't particularly important for stdev, since it's statistical anyway
+ALTER TABLE graph_data_balances ADD balance_stdev float;
+ALTER TABLE graph_data_summary ADD balance_stdev float;
+ALTER TABLE graph_data_ticker ADD last_trade_stdev float;
