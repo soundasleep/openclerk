@@ -96,6 +96,14 @@ switch ($summary['summary_type']) {
 		add_summary_instance($job, 'all2eur_vircurex', $total);
 		break;
 
+	case "summary_aud_mtgox":
+		// TODO fiat2aud
+
+		$total = 0;
+		require("jobs/summary/all2aud_mtgox.php");
+		add_summary_instance($job, 'all2aud_mtgox', $total);
+		break;
+
 	case "summary_nzd":
 		// TODO fiat2nzd
 

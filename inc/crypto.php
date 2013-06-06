@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ftc", "usd", "eur", "nzd");
+	return array("btc", "ltc", "nmc", "ftc", "usd", "eur", "aud", "nzd");
 }
 
 function get_all_hashrate_currencies() {
@@ -21,6 +21,7 @@ function get_currency_name($n) {
 		case "nmc":	return "Namecoin";
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
+		case "aud": return "Australian dollar";
 		case "eur": return "Euro";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
 	}
@@ -63,7 +64,7 @@ function get_exchange_pairs() {
 	return array(
 		"bitnz" => array(array('nzd', 'btc')),
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ftc'), array('eur', 'btc')),
-		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc')),
+		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc')),
 		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc')),
 	);
 }
@@ -89,7 +90,7 @@ function get_supported_wallets() {
 		"hypernova" => array('ltc', 'hash'),
 		"litecoinglobal" => array('ltc'),
 		"ltcmineru" => array('ltc'),
-		"mtgox" => array('btc', 'usd', 'eur'),
+		"mtgox" => array('btc', 'usd', 'eur', 'aud'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
 		"vircurex" => array('btc', 'ltc', 'nmc', 'usd', 'eur'),
@@ -124,6 +125,7 @@ function get_summary_types() {
 		'summary_eur_btce' => array('currency' => 'eur', 'key' => 'eur_btce', 'title' => get_currency_name('eur') . " (converted through BTC-e)", 'short_title' => 'EUR (BTC-E)'),
 		'summary_eur_mtgox' => array('currency' => 'eur', 'key' => 'eur_mtgox', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)'),
 		'summary_eur_vircurex' => array('currency' => 'eur', 'key' => 'eur_vircurex', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)'),
+		'summary_aud_mtgox' => array('currency' => 'aud', 'key' => 'aud_mtgox', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)'),
 	);
 }
 
@@ -140,6 +142,7 @@ function get_total_conversion_summary_types() {
 		'eur_btce' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through BTC-e)", 'short_title' => 'EUR (BTC-E)'),
 		'eur_mtgox' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)'),
 		'eur_vircurex' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)'),
+		'aud_mtgox' => array('currency' => 'aud', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)'),
 	);
 }
 
