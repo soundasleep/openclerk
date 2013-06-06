@@ -200,6 +200,8 @@ at least once every <?php echo plural(get_premium_value($user, "refresh_queue_ho
 </tbody>
 </table>
 
+<h2>Add new <?php echo htmlspecialchars($account_data['title']); ?></h1>
+
 <p>
 <form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post">
 	<table class="standard">

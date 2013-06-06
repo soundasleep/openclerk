@@ -102,7 +102,7 @@ at least once every <?php echo plural(get_premium_value($user, "refresh_queue_ho
 <a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">&lt; Back to Your Accounts</a>
 </p>
 
-<h1>Your <?php echo capitalize(htmlspecialchars($account_data['titles'])); ?></h1>
+<h1>Your <?php echo htmlspecialchars($account_data['titles']); ?></h1>
 
 <span style="display:none;" id="sort_buttons_template">
 <!-- heading sort buttons -->
@@ -169,6 +169,8 @@ foreach ($accounts as $a) {
 <?php } ?>
 </tbody>
 </table>
+
+<h2>Add new <?php echo htmlspecialchars($account_data['title']); ?></h1>
 
 <p>
 <form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post">
