@@ -55,6 +55,7 @@ if (require_post("add", false) && require_post("address", false)) {
 	}
 }
 
+// process delete
 if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM " . $account_data['table'] . " WHERE id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));
@@ -67,6 +68,75 @@ if (require_post("delete", false) && require_post("id", false)) {
 
 	// redirect to GET
 	set_temporary_messages($messages);
+	redirect(url_for($account_data['url']));
+}
+
+// process file upload
+if (isset($_FILES['csv'])) {
+	$invalid_addresses = 0;
+	$updated_titles = 0;
+	$existing_addresses = 0;
+	$new_addresses = 0;
+	$limited_addresses = 0;
+
+	// get all of our addresses for quick reading
+	$addresses = array();
+	$q = db()->prepare("SELECT * FROM " . $account_data['table'] . " WHERE user_id=? AND currency=?");
+	$q->execute(array(user_id(), $account_data['currency']));
+	while ($a = $q->fetch()) {
+		$addresses[$a['address']] = $a;
+	}
+
+	// lets read this file in as CSV
+	// we don't store this CSV file on the server
+	$fp = fopen($_FILES['csv']['tmp_name'], "r");
+	while ($fp && ($row = fgetcsv($fp, 1000, ",")) !== false) {
+		if ($row[1] == "Address")
+			continue;
+
+		// otherwise, row[0] should be a label, and row[1] should be an address
+		if (!$account_data['callback']($row[1])) {
+			$invalid_addresses++;
+		} else {
+			// do we already have this address?
+			if (isset($addresses[$row[1]])) {
+				$existing_addresses++;
+				// do we need to update the title?
+				if ($addresses[$row[1]]['title'] != $row[0]) {
+					$q = db()->prepare("UPDATE " . $account_data['table'] . " SET title=? WHERE user_id=? AND id=?");
+					$q->execute(array($row[0], user_id(), $addresses[$row[1]]['id']));
+					$addresses[$row[1]]['title'] = $row[0];
+					$updated_titles++;
+				}
+			} else {
+				// we need to insert in a new address
+				if (!can_user_add($user, $account_data['premium_group'], $new_addresses + 1)) {
+					$limited_addresses++;
+
+				} else {
+					$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?, title=?");
+					$q->execute(array(user_id(), $row[1], $account_data['currency'], $row[0]));
+					$addresses[$row[1]] = array('id' => db()->lastInsertId(), 'title' => $row[1]);
+					$new_addresses++;
+				}
+			}
+		}
+	}
+
+	// update messages
+	if ($invalid_addresses) {
+		$errors[] = number_format($invalid_addresses) . " addresses were invalid and were not added.";
+	}
+	if ($limited_addresses) {
+		$errors[] = "Could not add " . number_format($limited_addresses) . " addresses: too many existing addresses." .
+			($user['is_premium'] ? "" : " To add more addresses, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	}
+	$messages[] = "Added " . plural($new_addresses, "new address", "new addresses") . " and
+		updated " . plural($existing_addresses, "exsting address", "existing addresses") . ".";
+
+	// redirect to GET
+	set_temporary_messages($messages);
+	set_temporary_errors($errors);
 	redirect(url_for($account_data['url']));
 }
 
@@ -191,6 +261,62 @@ foreach ($accounts as $a) {
 </table>
 </form>
 </p>
+
+<?php if (isset($account_data['client'])) { ?>
+<h2>Upload <?php echo htmlspecialchars($account_data['client']); ?> CSV</h2>
+
+<div class="tip tip_float">
+If you are using the default <?php echo htmlspecialchars($account_data['client']); ?> client, you can
+use the "export" feature of the client to automatically populate your list of <?php echo htmlspecialchars($account_data['titles']); ?> using your existing address labels.
+</div>
+
+<p>
+<form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post" enctype="multipart/form-data">
+<table class="standard">
+<tr>
+	<th><label for="address">CSV File:</label></th>
+	<td>
+		<input type="file" name="csv" accept="text/*">
+		<input type="hidden" name="MAX_FILE_SIZE" value="131072">
+	</td>
+</tr>
+<tr>
+	<td colspan="2" class="buttons">
+	<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
+	<input type="submit" name="add" value="Upload CSV" class="add">
+	<br><small>Any invalid or duplicated addresses will be skipped.</small>
+	</td>
+</tr>
+</table>
+</form>
+</p>
+
+<div class="instructions_add">
+<h2>Uploading a <?php echo htmlspecialchars($account_data['client']); ?> CSV file</h2>
+
+<ol class="steps">
+	<li>Open your <?php echo htmlspecialchars($account_data['client']); ?> client, and
+		open the "Receive coins" tab.<br>
+		<img src="img/accounts/<?php echo $account_data['step1']; ?>">
+
+	<li>Click the "Export" button and save this CSV file to your computer. Once this CSV file has
+		been exported, select the "Browse..." button above
+		to locate and upload this file to <?php echo htmlspecialchars(get_site_config('site_name')); ?>.<br>
+		<img src="img/accounts/<?php echo $account_data['step2']; ?>"></li>
+</ol>
+</div>
+
+<div class="instructions_safe">
+<h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a <?php echo htmlspecialchars($account_data['client']); ?> CSV file?</h2>
+
+<ul>
+	<li>The <?php echo htmlspecialchars($account_data['client']); ?> client will only export your <i>public</i>
+		<?php echo htmlspecialchars(get_currency_name($account_data['currency'])); ?> addresses. These addresses can only be used to retrieve
+		address balances; it is not possible to perform transactions using a public address.</li>
+</ul>
+</div>
+<?php } ?>
+
 </div>
 
 <?php

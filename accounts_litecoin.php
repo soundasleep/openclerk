@@ -15,6 +15,9 @@ $account_data = array(
 	'url' => 'accounts_litecoin',
 	'job_type' => 'litecoin',
 	'address_callback' => 'ltc_address',
+	'client' => 'Litecoin-Qt',
+	'step1' => 'litecoinqt1.png',
+	'step2' => 'litecoinqt2.png',
 );
 
 require("_accounts_blockchain.php");

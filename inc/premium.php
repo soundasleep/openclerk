@@ -33,7 +33,7 @@ function user_limits_summary($user_id) {
 /**
  * @param $keytype e.g. 'blockchain', 'mtgox', ...
  */
-function can_user_add($user, $keytype) {
+function can_user_add($user, $keytype, $amount = 1) {
 	$summary = user_limits_summary($user['id']);
 
 	foreach (account_data_grouped() as $group) {
@@ -41,7 +41,7 @@ function can_user_add($user, $keytype) {
 			if ($keytype == $key) {
 				 $current_total = $summary['total_' . $data['group']];
 				 $limit = get_premium_value($user, $data['group']);
-				 return $current_total < $limit;
+				 return ($current_total + $amount) <= $limit;
 			}
 		}
 	}

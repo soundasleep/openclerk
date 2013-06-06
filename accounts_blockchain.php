@@ -15,6 +15,9 @@ $account_data = array(
 	'url' => 'accounts_blockchain',
 	'job_type' => 'blockchain',
 	'address_callback' => 'btc_address',
+	'client' => 'Bitcoin-Qt',
+	'step1' => 'bitcoinqt1.png',
+	'step2' => 'bitcoinqt2.png',
 );
 
 require("_accounts_blockchain.php");
