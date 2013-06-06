@@ -55,7 +55,8 @@ function crypto_get_contents($url) {
 			curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Openclerk PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
 	}
 	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_TIMEOUT, get_site_config('get_contents_timeout') * 1000);
+	curl_setopt($ch, CURLOPT_TIMEOUT, get_site_config('get_contents_timeout') * 1000);	// defaults to infinite
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, get_site_config('get_contents_timeout') * 1000);	// defaults to 300s
 	// curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
 	// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);

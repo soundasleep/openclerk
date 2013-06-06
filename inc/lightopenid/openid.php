@@ -164,6 +164,10 @@ class LightOpenID
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/xrds+xml, */*'));
 
+        // fix OpenID POST denial of service: allow for OpenID timeout configuration
+        curl_setopt($curl, CURLOPT_TIMEOUT, get_site_config('get_openid_timeout') * 1000);	// defaults to infinite
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, get_site_config('get_openid_timeout') * 1000);	// defaults to 300s
+
         if($this->verify_peer !== null) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->verify_peer);
             if($this->capath) {
@@ -675,7 +679,7 @@ class LightOpenID
         }
         return $this->authUrl_v1($immediate);
     }
-    
+
     var $validate_error;
 
     /**
