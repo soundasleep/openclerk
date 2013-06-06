@@ -68,6 +68,10 @@ if (!$job) {
 	// nothing to do!
 	crypto_log("No job to execute.");
 	return;
+} else if (!get_site_config('jobs_enabled')) {
+	// we've disabled jobs for now
+	crypto_log("Job execution disabled ('jobs_enabled').");
+	return;
 }
 
 crypto_log("Current time: " . date('r'));

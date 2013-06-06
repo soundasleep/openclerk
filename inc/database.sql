@@ -727,6 +727,7 @@ ALTER TABLE jobs ADD INDEX(is_executing);
 
 ----------------------------------------------------------------------------
 -- upgrade statements from 0.4 to 0.5
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
 ----------------------------------------------------------------------------
 DROP TABLE IF EXISTS accounts_hypernova;
 
