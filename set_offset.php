@@ -38,4 +38,4 @@ foreach ($currencies as $c) {
 
 set_temporary_messages($messages);
 set_temporary_errors($errors);
-redirect(url_for('profile', array('page_id' => require_get('page_id', false))));
+redirect(url_for('profile', array('page' => require_get('page', false))));
