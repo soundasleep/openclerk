@@ -202,6 +202,7 @@ function editGraphProperty(target, id, graph_data) {
 		already_editing = id;
 
 		$(temp).find("select[name='type']").keyup();	// trigger the event handler (AFTER it's been added to the DOM, otherwise the original form will get it)
+		$(temp).find("select[name='technical']").keyup();	// trigger the event handler (AFTER it's been added to the DOM, otherwise the original form will get it)
 
 		// and once we've populated the list of arguments, we can update the argument value
 		$(temp).find("select[name='arg0']").val(graph_data['arg0']);

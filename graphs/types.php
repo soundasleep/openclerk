@@ -133,7 +133,7 @@ function graph_types() {
 			'title' => "Total " . get_currency_name($currency) . " balance composition (pie)",
 			'heading' => "Total " . strtoupper($currency),
 			'description' => "A pie chart representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
-			'hide' => !isset($summaries[$cur]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
 	}
 
