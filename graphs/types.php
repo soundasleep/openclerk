@@ -140,8 +140,6 @@ function graph_types() {
 	$data['linebreak'] = array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.');
 
 	// add sample images
-	$example_prefix = "<div class=\"example\"><div>Example:</div><img src=\"img/graphs/";
-	$example_suffix = "\"></div>";
 	$images = array(
 		'btc_equivalent' => 'btc_equivalent.png',
 		'composition_btc_pie' => 'composition_btc_pie.png',
@@ -161,13 +159,7 @@ function graph_types() {
 		'total_converted_table' => 'total_converted_table.png',
 		'ticker_matrix' => 'ticker_matrix.png',
 	);
-
-	foreach ($data as $key => $value) {
-		if (isset($images[$key])) {
-			$data[$key]['description'] .= "<div class=\"example\"><div>Example:</div><img src=\"img/graphs/" .
-					htmlspecialchars($images[$key]) . "\"></div>";
-		}
-	}
+	$data = add_example_images($data, $images);
 
 	return $data;
 }
@@ -180,5 +172,27 @@ function graph_technical_types() {
 	foreach (graph_premium_technical_types() as $key => $value) {
 		$data[$key] = $value;
 	}
+
+	// add sample images
+	$images = array(
+		'sma' => 'technical_sma.png',
+	);
+	$data = add_example_images($data, $images);
+
+	return $data;
+}
+
+function add_example_images($data, $images) {
+	// add sample images
+	$example_prefix = "<div class=\"example\"><div>Example:</div><img src=\"img/graphs/";
+	$example_suffix = "\"></div>";
+
+	foreach ($data as $key => $value) {
+		if (isset($images[$key])) {
+			$data[$key]['description'] .= "<div class=\"example\"><div>Example:</div><img src=\"img/graphs/" .
+					htmlspecialchars($images[$key]) . "\"></div>";
+		}
+	}
+
 	return $data;
 }
