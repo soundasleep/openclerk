@@ -39,10 +39,8 @@ $(document).ready(function() {
 				$("#add_graph_arg0").show();
 				$("#add_graph_arg0 th").html(graph_types()[data]['arg0_title']);
 				populate_arg0(document, graph_types()[data]['arg0']);
-				$("#graph_technical").keyup();
 			} else {
 				$("#add_graph_arg0").hide();
-				$("#add_graph_period").hide();
 			}
 			// update description after updating technical data, so that changing graph types highlights graph description, not technical description
 			$("#graph_description").html(graph_types()[data]['description']);
