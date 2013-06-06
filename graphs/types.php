@@ -111,11 +111,12 @@ function graph_types() {
 			$data['securities_' . $key . '_' . $c] = array(
 				'title' => get_exchange_name($key) . " " . strtoupper($c) . " security value (graph)",
 				'heading' => get_exchange_name($key) . " security",
-				'description' => 'TODO',
-				'hide' => false, // TODO
+				'description' => 'A line graph displaying the historical value of a particular ' . get_exchange_name($key) . ' security.',
+				'hide' => !isset($summaries[$c]),	// only show securities in currencies we're interested in
 				'days' => true,
 				'arg0' => 'get_' . $key . '_securities_' . $c,
 				'arg0_title' => 'Security:',
+				'technical' => true,
 			);
 		}
 	}

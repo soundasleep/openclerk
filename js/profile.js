@@ -18,7 +18,6 @@ $(document).ready(function() {
 	var callback = function(event) {
 		var data = $(event.target).find("option:selected").data('index');
 		if (typeof data != 'undefined') {
-			$("#graph_description").html(graph_types()[data]['description']);
 			if (typeof graph_types()[data]['days'] != 'undefined' && graph_types()[data]['days']) {
 				$("#add_graph_days").show();
 			} else {
@@ -40,6 +39,8 @@ $(document).ready(function() {
 				$("#add_graph_arg0").hide();
 				$("#add_graph_period").hide();
 			}
+			// update description after updating technical data, so that changing graph types highlights graph description, not technical description
+			$("#graph_description").html(graph_types()[data]['description']);
 		}
 	};
 	e.keyup(callback);
