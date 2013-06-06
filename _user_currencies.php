@@ -19,7 +19,7 @@ I would like currency summaries provided in... (<a href="<?php echo htmlspecialc
 <?php foreach (get_summary_types() as $key => $summary) { ?>
 	<li>
 		<label><input type="checkbox" name="<?php echo htmlspecialchars($key); ?>" value="1"<?php if (isset($summaries[$key])) echo " checked"; ?>>
-			<?php echo $summary['title']; ?></label>
+			<?php echo $summary['title']; ?> <?php if (in_array($summary['currency'], get_new_supported_currencies())) echo " <span class=\"new\">new</span>"; ?></label>
 	</li>
 <?php } ?>
 </ul>

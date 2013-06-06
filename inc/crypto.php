@@ -13,6 +13,10 @@ function get_all_hashrate_currencies() {
 	return array("btc", "ltc", "nmc");
 }
 
+function get_new_supported_currencies() {
+	return array("aud");
+}
+
 function get_currency_name($n) {
 	switch ($n) {
 		case "btc":	return "Bitcoin";
