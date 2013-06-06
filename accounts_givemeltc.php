@@ -19,6 +19,7 @@ $account_data = array(
 	'title' => 'Give Me LTC account',
 	'url' => 'accounts_givemeltc',
 	'exchange' => 'givemeltc',
+	'khash' => true,
 );
 
 require("_accounts_standard.php");

@@ -29,9 +29,8 @@ if ($data === null) {
 			throw new ExternalAPIException("$exchange $currency balance is not numeric");
 		}
 		insert_new_balance($job, $account, $exchange, $currency, $balance);
+		insert_new_hashrate($job, $account, $exchange, $currency, $data['total_hashrate'] / 1000);
 
 	}
-
-	insert_new_balance($job, $account, $exchange, "mh", $data['total_hashrate'] / 1000 /* hash rates are all in MHash */);
 
 }

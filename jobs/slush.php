@@ -32,8 +32,8 @@ if ($data === null) {
 			throw new ExternalAPIException("$exchange $currency balance is not numeric");
 		}
 		insert_new_balance($job, $account, $exchange, $currency, $balance);
+		insert_new_hashrate($job, $account, $exchange, $currency, $data['hashrate']);
 
 	}
-	insert_new_balance($job, $account, $exchange, "mh", $data['hashrate']);
 
 }

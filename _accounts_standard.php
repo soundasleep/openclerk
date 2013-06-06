@@ -98,6 +98,9 @@ $accounts = $q->fetchAll();
 
 page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data['url'], array('jquery' => true, 'js' => 'accounts'));
 
+$all_wallets = get_supported_wallets();
+$has_hashrate = in_array('hash', $all_wallets[$account_data['exchange']])
+
 ?>
 
 <div class="page_accounts">
@@ -124,6 +127,7 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 		<th>Added</th>
 		<th>Last checked</th>
 		<th>Balances</th>
+		<?php if ($has_hashrate) { echo "<th>Hashrate</th>"; } ?>
 		<th></th>
 	</tr>
 </thead>
@@ -133,7 +137,7 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 	$last_updated = null;
 
 	// an account may have multiple currency balances
-	$q = db()->prepare("SELECT * FROM balances WHERE user_id=? AND account_id=? AND exchange=? AND is_recent=1 ORDER BY currency ASC");
+	$q = db()->prepare("SELECT balances.* FROM balances WHERE user_id=? AND account_id=? AND exchange=? AND is_recent=1 ORDER BY currency ASC");
 	$q->execute(array(user_id(), $a['id'], $account_data['exchange']));
 	while ($balance = $q->fetch()) {
 		$balances[$balance['currency']] = $balance['balance'];
@@ -177,16 +181,23 @@ page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data
 			foreach ($balances as $c => $value) {
 				if ($value != 0) {
 					$had_balance = true;
-					if ($c == "mh") {
-						echo "<li>" . number_format_autoprecision($value, 4) . " MH/s</li>\n";
-					} else {
-						echo "<li>" . currency_format($c, $value, 4) . "</li>\n";
-					}
+					echo "<li>" . currency_format($c, $value, 4) . "</li>\n";
 				}
 			}
 			echo "</ul>";
 			if (!$had_balance) echo "-";
 		?></td>
+		<?php if ($has_hashrate) {
+			$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
+			$q->execute(array($account_data['exchange'], $a['id'], $a['user_id']));
+			echo "<td>";
+			if ($mhash = $q->fetch()) {
+				echo $mhash['mhash'] ? (!isset($account_data['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
+			} else {
+				echo "-";
+			}
+			echo "</td>";
+		} ?>
 		<td>
 			<form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">

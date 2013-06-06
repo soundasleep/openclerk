@@ -18,6 +18,7 @@ $account_data = array(
 	'table' => 'accounts_ltcmineru',
 	'url' => 'accounts_ltcmineru',
 	'exchange' => 'ltcmineru',
+	'khash' => true,
 );
 
 require("_accounts_standard.php");

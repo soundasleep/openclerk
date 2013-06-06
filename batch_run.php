@@ -284,6 +284,47 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 
 }
 
+function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
+
+	crypto_log("$exchange $currency hashrate for user " . $job['user_id'] . ": " . $mhash . " MH/s");
+
+	// disable old instances
+	$q = db()->prepare("UPDATE hashrates SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND account_id=:account_id AND currency=:currency");
+	$q->execute(array(
+		"user_id" => $job['user_id'],
+		"account_id" => $account['id'],
+		"exchange" => $exchange,
+		"currency" => $currency,
+	));
+
+	// all other data from today is now old
+	// NOTE if the system time changes between the next two commands, then we may erraneously
+	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
+	// relying on MySQL
+	$q = db()->prepare("UPDATE hashrates SET is_daily_data=0 WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency AND
+		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y')");
+	$q->execute(array(
+		"user_id" => $job['user_id'],
+		"account_id" => $account['id'],
+		"exchange" => $exchange,
+		"currency" => $currency,
+	));
+
+	// we have a balance; update the database
+	$q = db()->prepare("INSERT INTO hashrates SET user_id=:user_id, exchange=:exchange, account_id=:account_id, mhash=:mhash, currency=:currency, job_id=:job_id, is_recent=1, is_daily_data=1");
+	$q->execute(array(
+		"user_id" => $job['user_id'],
+		"account_id" => $account['id'],
+		"exchange" => $exchange,
+		"currency" => $currency,
+		"mhash" => $mhash,
+		"job_id" => $job['id'],
+		// we ignore server_time
+	));
+	crypto_log("Inserted new $exchange $currency hashrates id=" . db()->lastInsertId());
+
+}
+
 function add_summary_instance($job, $summary_type, $total) {
 
 	// update old summaries

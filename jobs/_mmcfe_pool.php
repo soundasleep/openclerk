@@ -21,9 +21,9 @@ if ($poolx === null) {
 
 	// calculate hash rate
 	$hash_rate = 0;
-	foreach ($poolx['workers'] as $name => $data) {
-		$hash_rate += $data['hashrate'];
+	foreach ($poolx['workers'] as $name => $worker) {
+		$hash_rate += $worker['hashrate'];
 	}
-	insert_new_balance($job, $account, $exchange, "mh", $hash_rate / 1000 /* hash rates are all in MHash */);
+	insert_new_hashrate($job, $account, $exchange, $currency, $hash_rate / 1000 /* hash rates are all in MHash */);
 
 }

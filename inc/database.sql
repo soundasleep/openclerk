@@ -807,3 +807,26 @@ DELETE FROM graph_data_summary WHERE summary_type='blockchainusd';
 DELETE FROM graph_data_summary WHERE summary_type='blockchainnzd';
 DELETE FROM graph_data_summary WHERE summary_type='blockchaineur';
 
+-- rather than storing mining rates as balances, we store them in a separate table -
+-- this makes it cleaner to do mining rate summaries per currency, without polluting the
+-- balances table
+DROP TABLE IF EXISTS hashrates;
+
+CREATE TABLE hashrates (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	
+	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
+	account_id int not null,
+	-- we dont need to worry too much about precision
+	mhash float not null,		-- always in mhash
+	currency varchar(3) not null,		-- e.g. slush will insert a btc and a nmc hashrate
+	is_recent tinyint not null default 0,
+	is_daily_data tinyint not null default 0,
+	job_id int,
+	
+	INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(is_recent), INDEX(account_id), INDEX(is_daily_data)
+);
+
+-- TODO create hashrates summary table

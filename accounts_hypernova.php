@@ -18,6 +18,7 @@ $account_data = array(
 	'table' => 'accounts_hypernova',
 	'url' => 'accounts_hypernova',
 	'exchange' => 'hypernova',
+	'khash' => true,
 );
 
 require("_accounts_standard.php");

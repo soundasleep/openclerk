@@ -19,6 +19,7 @@ $account_data = array(
 	'title' => 'Pool-x account',
 	'url' => 'accounts_poolx',
 	'exchange' => 'poolx',
+	'khash' => true,
 );
 
 require("_accounts_standard.php");

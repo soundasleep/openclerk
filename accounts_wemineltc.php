@@ -19,6 +19,7 @@ $account_data = array(
 	'title' => 'WeMineLTC account',
 	'url' => 'accounts_wemineltc',
 	'exchange' => 'wemineltc',
+	'khash' => true,
 );
 
 require("_accounts_standard.php");

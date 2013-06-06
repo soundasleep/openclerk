@@ -26,6 +26,12 @@ if ($data === null) {
 		throw new ExternalAPIException("No unpaid NMC reward found");
 	}
 
+	// calculate hash rate
+	$hash_rate = 0;
+	foreach ($data['workers'] as $name => $worker) {
+		$hash_rate += $worker['hash_rate'];
+	}
+
 	$balances = array('btc' => $data['user']['unpaid_rewards'], 'nmc' => $data['user']['unpaid_rewards_nmc']);
 	foreach ($balances as $currency => $balance) {
 
@@ -33,14 +39,8 @@ if ($data === null) {
 			throw new ExternalAPIException("$exchange $currency balance is not numeric");
 		}
 		insert_new_balance($job, $account, $exchange, $currency, $balance);
+		insert_new_hashrate($job, $account, $exchange, $currency, $hash_rate);
 
 	}
-
-	// calculate hash rate
-	$hash_rate = 0;
-	foreach ($data['workers'] as $name => $data) {
-		$hash_rate += $data['hash_rate'];
-	}
-	insert_new_balance($job, $account, $exchange, "mh", $hash_rate /* hash rates are all in MHash */);
 
 }
