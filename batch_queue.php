@@ -182,7 +182,7 @@ if (!$premium_only) {
 			'type' => 'cleanup',
 			'user_id' => get_site_config('system_user_id'),
 			'arg_id' => -1,
-		));
+		), false);
 	}
 
 }
