@@ -12,12 +12,21 @@ $rates_list = array(
 	array('cur1' => 'usd', 'cur2' => 'ltc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'nmc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'ftc'), // all flipped around
+	// currencies not yet exposed to users or public
+	array('cur1' => 'rur', 'cur2' => 'btc'), // all flipped around
+	array('cur1' => 'rur', 'cur2' => 'ltc'), // all flipped around
+	array('cur1' => 'rur', 'cur2' => 'usd'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'cnc'), // all flipped around
 );
 
 $first = true;
 foreach ($rates_list as $rl) {
 	// sleep between requests
 	if (!$first) {
+		set_time_limit(get_site_config('sleep_btce_ticker') * 2);
 		sleep(get_site_config('sleep_btce_ticker'));
 	}
 	$first = false;

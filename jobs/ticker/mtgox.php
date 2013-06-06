@@ -5,14 +5,33 @@
  */
 
 $rates_list = array(
+	// see https://en.bitcoin.it/wiki/MtGox/API for divisors
 	array('cur1' => 'USD', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
 	array('cur1' => 'EUR', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	// currencies not yet exposed to users or public
+	array('cur1' => 'JPY', 'cur2' => 'BTC', 'divisor' => 1e3, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'SEK', 'cur2' => 'BTC', 'divisor' => 1e3, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'AUD', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'CAD', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'CHF', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'CNY', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'DKK', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'GBP', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'HKD', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'NZD', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'PLN', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'RUB', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'SGD', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'THB', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'NOK', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
+	array('cur1' => 'CZK', 'cur2' => 'BTC', 'divisor' => 1e5, 'vol_divisor' => 1e8), // all flipped around
 );
 
 $first = true;
 foreach ($rates_list as $rl) {
 	// sleep between requests
 	if (!$first) {
+		set_time_limit(get_site_config('sleep_mtgox_ticker') * 2);
 		sleep(get_site_config('sleep_mtgox_ticker'));
 	}
 	$first = false;

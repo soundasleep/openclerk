@@ -12,6 +12,17 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'nmc'), // all flipped around
 	array('cur1' => 'usd', 'cur2' => 'nmc'), // all flipped around
 	array('cur1' => 'ltc', 'cur2' => 'nmc'), // all flipped around
+	// currencies not yet exposed to users or public
+	array('cur1' => 'btc', 'cur2' => 'bqc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'cnc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'dvc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'frc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'ftc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'ixc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'yac'), // all flipped around
 );
 
 $rates = json_decode(crypto_get_contents(crypto_wrap_url("https://vircurex.com/api/get_info_for_currency.json")), true);
