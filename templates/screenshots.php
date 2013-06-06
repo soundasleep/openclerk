@@ -22,12 +22,14 @@
 		'litecoinglobal' => array(
 			'title' => 'Exchanges and pools',
 			'url' => 'img/screenshots/litecoinglobal.png',
-			'text' => "Exchange, mining pools, securities and funds accounts can only be accessed once you have enabled a read-only key on the site itself, and provided that key to " . htmlspecialchars(get_site_config('site_name')) . ".",
+			'text' => "Exchange, mining pools, securities and funds accounts can only be accessed once you have enabled a read-only key on the site itself, and provided that key to " . htmlspecialchars(get_site_config('site_name')) . ". Mining hashrates for most pools can also be tracked and graphed.",
 		),
 		'profile_summary' => array(
 			'title' => 'Graphs',
 			'url' => 'img/screenshots/profile_summary.png',
 			'text' => "Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant. Helpful reports include the value of your currencies if immediately converted into another; the distribution of your currency values; and current exchange rates.",
+			'url2' => 'img/screenshots/technicals.png',
+			'text2' => 'Premium users can add technical indicators to graphs, such as Simple Moving Average (SMA), Bollinger Bands (BOLL) and Relative Strength Index (RSI).',
 		),
 		'profile_historical' => array(
 			'title' => 'Historical',
