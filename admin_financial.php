@@ -37,6 +37,7 @@ for ($i = $total_months - 1; $i >= 0; $i--) {
 		<?php foreach ($months as $m) {
 			echo "<th>" . htmlspecialchars(date('M y', strtotime($m['start']))) . "</th>";
 		} ?>
+		<th>Total</th>
 	</tr>
 </thead>
 <tbody>
@@ -80,6 +81,13 @@ foreach ($queries as $query_title => $query) {
 		$result = $q->fetch();
 		echo "<td class=\"number\">" . $query['callback']($result['c']) . "</td>";
 	}
+	{
+		// total
+		$q = db()->prepare($query['query']);
+		$q->execute(array('start' => '2001-01-01', 'end' => '2049-01-01'));
+		$result = $q->fetch();
+		echo "<td class=\"number\">" . $query['callback']($result['c']) . "</td>";
+	}
 	echo "</tr>\n";
 }
 $account_data_grouped = account_data_grouped();
@@ -104,6 +112,13 @@ foreach ($account_data_grouped as $label => $group) {
 		foreach ($months as $m) {
 			$q = db()->prepare("SELECT COUNT(*) AS c FROM " . $data['table'] . " WHERE (created_at >= :start AND created_at <= :end)" . (isset($data['query']) ? $data['query'] : ""));
 			$q->execute(array('start' => $m['start'], 'end' => $m['end']));
+			$result = $q->fetch();
+			echo "<td class=\"number\">" . $query['callback']($result['c']) . "</td>";
+		}
+		{
+			// total
+			$q = db()->prepare("SELECT COUNT(*) AS c FROM " . $data['table'] . " WHERE 1" . (isset($data['query']) ? $data['query'] : ""));
+			$q->execute(array('start' => '2001-01-01', 'end' => '2049-01-01'));
 			$result = $q->fetch();
 			echo "<td class=\"number\">" . $query['callback']($result['c']) . "</td>";
 		}
