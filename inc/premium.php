@@ -12,6 +12,9 @@ function user_limits_summary($user_id) {
 
 		foreach (account_data_grouped() as $group) {
 			foreach ($group as $key => $data) {
+				if (!isset($data['group']))
+					continue;
+
 				$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?" . (isset($data['query']) ? $data['query'] : ""));
 				$q->execute(array($user_id));
 				$accounts[$key] = $q->fetch();
