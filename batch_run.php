@@ -79,13 +79,13 @@ crypto_log("Current time: " . date('r'));
 // otherwise, we'll want to actually execute something, based on the job type
 // TODO remove the navigation links once we have an actual job admin interface
 crypto_log("Executing job " . htmlspecialchars(print_r($job, true)) . " (<a href=\"" . htmlspecialchars(url_for('batch_run',
-	array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">re-run job</a>) (<a href=\"" . htmlspecialchars(url_for('batch_run',
+	array('key' => require_get("key", false), 'job_id' => $job['id'], 'force' => 1))) . "\">re-run job</a>) (<a href=\"" . htmlspecialchars(url_for('batch_run',
 	array('key' => require_get("key", false)))) . "\">next job</a>)");
 
 $runtime_exception = null;
 try {
 	// have we executed this job too many times already?
-	if ($job['execution_count'] >= get_site_config("max_job_executions")) {
+	if ($job['execution_count'] >= get_site_config("max_job_executions") && !require_get('force', false)) {
 		// TODO this job should be debugged in dev and fixed so that an execption can be thrown instead
 		crypto_log("Job has been executed too many times (" . number_format($job['execution_count']) . "): marking as failed");
 		throw new ExternalAPIException("An uncaught error occured multiple times");
