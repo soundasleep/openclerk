@@ -452,6 +452,27 @@ function stdev($aValues, $bSample = false) {
     return (float) sqrt($fVariance);
 }
 
+function number_format_precision($n, $precision) {
+	// if we have 100.x, we only want $precision = 6
+	if ($n > 1) {
+		$precision -= (log($n) / log(10) - 1);
+	}
+
+	return number_format_autoprecision($n, $precision);
+}
+
+function number_format_autoprecision($n, $precision = 8) {
+	// find the lowest precision that we need
+	for ($i = 0; $i < $precision - 1; $i++) {
+		if (number_format($n, (int) $i, ".", "") == $n) {
+			$precision = (int) $i;
+			break;
+		}
+	}
+
+	return number_format($n, $precision);
+}
+
 /**
  * @return the error message back
  */
