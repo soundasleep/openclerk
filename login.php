@@ -25,7 +25,7 @@ try {
 
 		$messages[] = "Successfully logged out. You may login again here.";
 
-	} elseif ($openid) {
+	} elseif ($openid && !require_get("pause", false)) {
 		require("inc/lightopenid/openid.php");
 		$light = new LightOpenID(get_openid_host());
 
@@ -131,7 +131,7 @@ try {
 if (require_get("need_admin", false)) {
 	$errors[] = "You need to be logged in as an administrator to do that.";
 }
-if ($destination) {
+if ($destination && !require_get("pause", false)) {
 	$errors[] = "You need to be logged in to proceed.";
 }
 

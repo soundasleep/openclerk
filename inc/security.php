@@ -3,6 +3,13 @@
 session_start();
 
 /**
+ * Track user referer for new users at signup. This persists across requests.
+ */
+if (!isset($_SESSION['referer']) && isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']) {
+	$_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+}
+
+/**
  * Get the user with this particular ID.
  * Does not cache the results of this function.
  * @see user_id()

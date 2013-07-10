@@ -36,7 +36,12 @@ if ($openid && $submit) {
 
 			// we want to add the openid identity URL to the return address
 			// (the return URL is also verified in validate())
-			$light->returnUrl = absolute_url(url_for('signup', array('openid' => $openid, 'submit' => 1, 'name' => $name, 'email' => $email, 'country' => $country)));
+			$args = array('openid' => $openid, 'submit' => 1, 'name' => $name, 'email' => $email, 'country' => $country);
+			// persist session ID (to keep referer) if the user hasn't saved cookie
+			if (session_name()) {
+				$args[session_name()] = session_id();
+			}
+			$light->returnUrl = absolute_url(url_for('signup', $args));
 
 			redirect($light->authUrl());
 
@@ -70,13 +75,14 @@ if ($openid && $submit) {
 
 		// we can now proceed with creating a new user account
 		$query = db()->prepare("INSERT INTO users SET
-			name=:name, email=:email, openid_identity=:identity, country=:country, user_ip=:ip, created_at=NOW(), updated_at=NOW()");
+			name=:name, email=:email, openid_identity=:identity, country=:country, user_ip=:ip, referer=:referer, created_at=NOW(), updated_at=NOW()");
 		$user = array(
 			"name" => $name,
 			"email" => $email,
 			"identity" => $light->identity,
 			"country" => $country,
 			"ip" => user_ip(),
+			"referer" => isset($_SESSION['referer']) ? $_SESSION['referer'] : NULL,
 		);
 		$query->execute($user);
 		$user['id'] = db()->lastInsertId();
@@ -97,7 +103,8 @@ if ($openid && $submit) {
 
 		// redirect
 		set_temporary_messages($messages);
-		redirect(url_for('login', array('openid' => $openid, 'destination' => url_for(get_site_config('premium_welcome') ? "welcome" : get_site_config('default_login')))));
+		// 'pause' parameter is set to prevent trying to login straight away, which will fail because of heavy requests
+		redirect(url_for('login', array('pause' => true, 'openid' => $openid, 'destination' => url_for(get_site_config('premium_welcome') ? "welcome" : get_site_config('default_login')))));
 
 	} catch (Exception $e) {
 		if (!($e instanceof EscapedException)) {

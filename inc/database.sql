@@ -840,3 +840,9 @@ CREATE TABLE hashrates (
 ALTER TABLE graph_data_balances ADD balance_stdev float;
 ALTER TABLE graph_data_summary ADD balance_stdev float;
 ALTER TABLE graph_data_ticker ADD last_trade_stdev float;
+
+----------------------------------------------------------------------------
+-- upgrade statements from 0.5 to 0.6
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+ALTER TABLE users ADD referer VARCHAR(255);
