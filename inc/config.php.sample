@@ -69,7 +69,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"default_graph_height" => 110, // in px, default *2
 
 		// technical data
-		"technical_period_max" => 45,
+		"technical_period_max" => 365,
 
 		// external URLs
 		"ltc_address_url" => "http://explorer.litecoin.net/address/",
