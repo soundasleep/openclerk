@@ -67,6 +67,15 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 
 ?>
 
+<?php if (!$user['email']) { ?>
+<div class="warning">
+<ul>
+	<li>Warning: Without a valid e-mail address specified in your contact details, you will not receive important announcements
+		and notifications about your accounts and user profile.</li>
+</ul>
+</div>
+<?php } ?>
+
 <h1>Your <?php echo htmlspecialchars(get_site_config('site_name')); ?> User Account</h1>
 
 <?php if (strtotime($user['created_at']) >= strtotime("-1 hour")) { ?>
@@ -212,6 +221,10 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <?php } ?>
 </tbody>
 </table>
+
+<p class="warning-inline">
+<b>NOTE:</b> Outstanding payments will be automatically cancelled after <?php echo plural(get_site_config('outstanding_abandon_days'), 'day'); ?>.
+</p>
 
 <?php } else { ?>
 	<i>No outstanding payments.</i>

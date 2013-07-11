@@ -69,7 +69,6 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 
 .error { 
     width: 60%; 
-    background: #622; 
     border: 1px solid #944; 
     padding: 10px; 
     margin: 5px auto 5px auto; 
@@ -77,9 +76,17 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
     padding-left: 50px;
     min-height: 32px;
 }
+.warning { 
+    width: 60%; 
+    border: 1px solid #974; 
+    padding: 10px; 
+    margin: 5px auto 5px auto; 
+    background: #642 url('img/nuvola/messagebox_warning.png') 10px center no-repeat;
+    padding-left: 50px;
+    min-height: 32px;
+}
 .success { 
     width: 60%; 
-    background: #264; 
     border: 1px solid #496; 
     padding: 10px; 
     margin: 5px auto 5px auto; 
@@ -89,7 +96,6 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 }
 .message { 
     width: 60%; 
-    background: #246; 
     border: 1px solid #469; 
     padding: 10px; 
     margin: 5px auto 5px auto; 
@@ -112,7 +118,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	width: 30%;
 	margin-top: 0;
 }
-.error ul, .success ul, .message ul { margin: 0; padding: 0; list-style: none; }
+.error ul, .success ul, .message ul, .warning ul { margin: 0; padding: 0; list-style: none; }
 
 h1 { font-size: 120%; }
 h2 { font-size: 110%; }

@@ -24,6 +24,6 @@ I would like currency summaries provided in... (<a href="<?php echo htmlspecialc
 <?php } ?>
 </ul>
 
-<p class="warning">
+<p class="warning-inline">
 <b>NOTE:</b> Removing a currency will also permanently remove any historical summary data for that currency.
 </p>

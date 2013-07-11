@@ -335,7 +335,7 @@ function plural($n, $s, $ss = false) {
 }
 
 function recent_format_html($date, $suffix = false, $future_suffix = false) {
-	return '<span title="' . htmlspecialchars(iso_date($date)) . '">' . recent_format($date, $suffix, $future_suffix) . '</span>';
+	return '<span title="' . ($date ? htmlspecialchars(iso_date($date)) : "Never") . '">' . recent_format($date, $suffix, $future_suffix) . '</span>';
 }
 
 function year_count($sec) {
