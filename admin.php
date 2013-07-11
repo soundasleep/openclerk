@@ -150,14 +150,14 @@ $graph = array(
 	'page_order' => 0,
 	// 'days' => 30,
 	'id' => 0,
-	'public' => true,
+	'public' => false,
 );
 
 ?>
 
 	<div class="graph_collection" style="float: right; width: 60%;">
 	<div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>" id="graph<?php echo htmlspecialchars($graph['id']); ?>">
-		<?php render_graph($graph, true /* is public */); ?>
+		<?php render_graph($graph, false /* is not public */); ?>
 	</div>
 	</div>
 
