@@ -305,12 +305,13 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	$maximum_balances = array();	// only used to check for non-zero accounts
 
 	$sources = array(
+		// we can't LIMIT by days here, because we may have many accounts for one exchange
 		// first get summarised data
-		array('query' => "SELECT * FROM graph_data_balances WHERE user_id=:user_id AND currency=:currency AND
-			data_date >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
+		array('query' => "SELECT * FROM graph_data_balances WHERE user_id=:user_id AND currency=:currency
+			AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
 		// and then get more recent data
-		array('query' => "SELECT * FROM balances WHERE is_daily_data=1 AND currency=:currency AND
-			user_id=:user_id ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
+		array('query' => "SELECT * FROM balances WHERE is_daily_data=1 AND currency=:currency
+			AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
 	$data_temp = array();
@@ -380,8 +381,6 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 		$previous_row = $row;
 	}
 
-	// sort by key, but we only want values
-	uksort($data, 'cmp_time');
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {
@@ -425,6 +424,7 @@ function render_external_graph($graph) {
 	$extra_days = extra_days_necessary($graph);
 
 	$sources = array(
+		// we can't LIMIT by days here, because we don't have is_daily_data => multiple points for one day
 		// TODO first get summarised data
 		// and then get more recent data
 		// TODO this gets ALL data (24 points a day); should summarise instead
@@ -433,7 +433,8 @@ function render_external_graph($graph) {
 			ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
 			*/
 		array('query' => "SELECT * FROM external_status WHERE job_type=:job_type
-			ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
+			AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY)
+			ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
 	foreach ($sources as $source) {
