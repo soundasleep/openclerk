@@ -90,12 +90,42 @@ if ($id && isset($historical_graphs[$id])) {
 	<div class="column">
 
 	<?php foreach ($historical_graphs as $graph_key => $def) {
+		$bits = explode("_", $graph_key);
+		if ($bits[0] == "securities") {
+			$security_type = $bits[1];
+			$exchanges = get_security_exchange_pairs();
+			if (!isset($exchanges[$security_type])) {
+				throw new Exception("Unknown security type '" . htmlspecialchars($security_type) . "'");
+			}
+
+			// get all "new" securities
+			$q = db()->prepare("SELECT * FROM securities_" . $security_type . " WHERE created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)");
+			$q->execute();
+			$new_securities = array();
+			while ($sec = $q->fetch()) {
+				$new_securities[$sec['name']] = 1;
+			}
+		}
+
 		if (isset($def['arg0'])) {
 			$values = $def['arg0']();
 			if ($values) {
-				echo "<h2>" . htmlspecialchars($def['heading']) . " <span class=\"new\">new</span></h2>\n<ul class=\"historical_graphs\">";
-				foreach ($values as $key => $name) {
-					echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180, 'name' => $name))) . "\">" . htmlspecialchars($name) . "</a></li>\n";
+				echo "<h2>" . htmlspecialchars($def['heading']);
+				if ($bits[0] == "securities" && in_array($security_type, get_new_security_exchanges())) {
+					echo " <span class=\"new\">new</span>";
+				}
+				echo "</h2>\n<ul class=\"historical_graphs\">";
+				if ($graph_key == "external_historical") {
+					echo "<li><a href=\"" . htmlspecialchars(url_for('external')) . "\">External API status</a></li>";
+				} else {
+					foreach ($values as $key => $name) {
+						echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180, 'name' => $name))) . "\">" . htmlspecialchars($name) . "</a>";
+						// is this new?
+						if ($bits[0] == "securities" && isset($new_securities[$name])) {
+							echo " <span class=\"new\">new</span>";
+						}
+						echo "</li>\n";
+					}
 				}
 				echo "</ul>\n";
 			}

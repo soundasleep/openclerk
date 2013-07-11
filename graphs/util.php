@@ -168,6 +168,20 @@ function get_cryptostocks_securities_ltc() {
 }
 
 /**
+ * Return a list of (id => title).
+ * Could be cached.
+ */
+function get_havelock_securities_btc() {
+	$result = array();
+	$q = db()->prepare("SELECT * FROM securities_havelock ORDER BY name ASC");
+	$q->execute();
+	while ($sec = $q->fetch()) {
+		$result[$sec['id']] = $sec['name'];
+	}
+	return $result;
+}
+
+/**
  * Return a list of (id => job_type).
  * Could be cached.
  */

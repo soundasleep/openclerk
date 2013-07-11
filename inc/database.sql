@@ -889,3 +889,31 @@ CREATE TABLE accounts_miningforeman (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+DROP TABLE IF EXISTS accounts_havelock;
+
+CREATE TABLE accounts_havelock (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
+
+DROP TABLE IF EXISTS securities_havelock;
+
+CREATE TABLE securities_havelock (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	name varchar(64) not null,
+	
+	INDEX(last_queue)
+);
+
+INSERT INTO securities_update SET exchange='havelock';

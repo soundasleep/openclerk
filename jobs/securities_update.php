@@ -24,6 +24,10 @@ switch ($exchange['exchange']) {
 		require("jobs/securities_update/litecoinglobal.php");
 		break;
 
+	case "havelock":
+		require("jobs/securities_update/havelock.php");
+		break;
+
 	default:
 		throw new JobException("Unknown securities update exchange " . $exchange['exchange']);
 		break;

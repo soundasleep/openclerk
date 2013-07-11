@@ -202,6 +202,14 @@ try {
 			require("jobs/miningforeman.php");
 			break;
 
+		case "havelock":
+			require("jobs/havelock.php");
+			break;
+
+		case "securities_havelock":
+			require("jobs/securities_havelock.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require("jobs/sum.php");

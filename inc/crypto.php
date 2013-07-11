@@ -61,6 +61,7 @@ function get_exchange_name($n) {
 		case "hypernova":	return "Hypernova";
 		case "ltcmineru":	return "LTCMine.ru";
 		case "miningforeman": return "Mining Foreman";
+		case "havelock":	return "Havelock Investments";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -79,7 +80,12 @@ function get_security_exchange_pairs() {
 		"litecoinglobal" => array('ltc'),
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
+		"havelock" => array('btc'),
 	);
+}
+
+function get_new_security_exchanges() {
+	return array("havelock");
 }
 
 function get_supported_wallets() {
@@ -92,6 +98,7 @@ function get_supported_wallets() {
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"givemeltc" => array('ltc', 'hash'),
+		"havelock" => array('btc'),
 		"hypernova" => array('ltc', 'hash'),
 		"litecoinglobal" => array('ltc'),
 		"ltcmineru" => array('ltc'),
@@ -106,7 +113,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningforeman");
+	return array("miningforeman", "havelock");
 }
 
 function crypto_address($currency, $address) {
@@ -190,6 +197,7 @@ function account_data_grouped() {
 			'vircurex' => array('url' => 'accounts_vircurex', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts'),
 			'cryptostocks' => array('url' => 'accounts_cryptostocks', 'label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts'),
 			'bips' => array('url' => 'accounts_bips', 'label' => 'account', 'table' => 'accounts_bips', 'group' => 'accounts'),
+			'havelock' => array('url' => 'accounts_havelock', 'label' => 'account', 'table' => 'accounts_havelock', 'group' => 'accounts'),
 		),
 		'Other' => array(
 			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts'),
@@ -243,6 +251,7 @@ function get_external_apis() {
 			'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'bips' => '<a href="https://bips.me">BIPS</a>',
+			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 		),
 
 		"Exchange tickers" => array(
@@ -254,6 +263,7 @@ function get_external_apis() {
 			'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+			'securities_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'securities_update' => 'Securities list',
 		),
 
@@ -457,6 +467,11 @@ function is_valid_vircurex_apisecret($key) {
 function is_valid_slush_apitoken($key) {
 	// not sure what the format is, but it looks to be [user-id]-[random 32 hex characters]
 	return preg_match("#^[0-9]+-[0-9a-f]{32}$#", $key);
+}
+
+function is_valid_havelock_apikey($key) {
+	// not sure what the format is, but it looks to be 64 characters of random alphanumeric
+	return preg_match("#^[0-9A-Za-z]{64}$#", $key);
 }
 
 function is_valid_bips_apikey($key) {
