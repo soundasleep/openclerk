@@ -1,0 +1,19 @@
+Your Free {$site_name} Account has Expired
+Hello {$name},
+
+Your {$site_name} free account has been disabled due to a lack of activity. Free users must log into {$site_name} at least once every {$days} days.
+
+No account data or graphs have been deleted, but your addresses and accounts will no longer be updated automatically.
+
+Please login to {$site_name} at your next available opportunity to re-enable your account:
+
+  {$login}
+
+Alternatively you may wish to consider supporting {$site_name} by purchasing a premium account, which also removes this inactivity limit. You may purchase a premium account through your user profile page:
+
+  {$url}
+  
+Thanks for using {$site_name}!
+
+{$site_name}
+{$site_url}

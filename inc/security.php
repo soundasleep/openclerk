@@ -87,12 +87,25 @@ function try_autologin() {
 		if (!($user = $query->fetch())) {
 			// no valid user in the database
 			return false;
-		} else {
-			// apply session data
-			$_SESSION["user_id"] = $_COOKIE["autologin_id"];
-			$_SESSION["user_key"] = $_COOKIE["autologin_key"]; // uses the same login key
-			$_SESSION["user_name"] = $user["name"];
 		}
+
+		// apply session data
+		$_SESSION["user_id"] = $_COOKIE["autologin_id"];
+		$_SESSION["user_key"] = $_COOKIE["autologin_key"]; // uses the same login key
+		$_SESSION["user_name"] = $user["name"];
+
+		// display warning if account was disabled
+		if ($user['is_disabled']) {
+			global $global_temporary_messages;
+			if (!is_array($global_temporary_messages)) {
+				$global_temporary_messages = array();
+			}
+			$global_temporary_messages[] = "Your account was disabled " . recent_format($user['disabled_at']) . " due to inactivity; your account is now re-enabled, and account data will be updated again soon.";
+		}
+
+		// update login time
+		$query = db()->prepare("UPDATE users SET last_login=NOW(),is_disabled=0 WHERE id=?");
+		$query->execute(array($user["id"]));
 
 		global $global_did_autologin;
 		$global_did_autologin = true;

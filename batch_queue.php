@@ -56,6 +56,7 @@ if (isset($argv[5]) && $argv[5] && $argv[5] != "-") {
 
 // standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
 // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
+// if no 'user_id' is specified, then the user will also be checked for disable status
 $standard_jobs = array(
 	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'addresses', 'type' => 'blockchain', 'query' => ' AND currency=\'btc\''),
@@ -92,10 +93,28 @@ $standard_jobs = array(
 		AND NOW() > DATE_SUB(premium_expires, INTERVAL ' . get_site_config('premium_reminder_days') . ' DAY)', 'user_id' => get_site_config('system_user_id'), 'always' => true),
 	array('table' => 'users', 'type' => 'expire', 'query' => ' AND is_premium=1
 		AND NOW() > premium_expires', 'user_id' => get_site_config('system_user_id'), 'always' => true),
+	array('table' => 'users', 'type' => 'disable_warning', 'query' => ' AND is_premium=0 AND is_disabled=0
+		AND is_disable_warned=0 AND is_system=0
+		AND DATE_ADD(GREATEST(IFNULL(last_login, 0),
+				IFNULL(DATE_ADD(premium_expires, INTERVAL ' . get_site_config('user_expiry_days') . ' DAY), 0),
+				created_at), INTERVAL ' . (get_site_config('user_expiry_days') * 0.8) . ' DAY) < NOW()', 'user_id' => get_site_config('system_user_id'), 'always' => true),
+	array('table' => 'users', 'type' => 'disable', 'query' => ' AND is_premium=0 AND is_disabled=0
+		AND is_disable_warned=1 AND is_system=0
+		AND DATE_ADD(GREATEST(IFNULL(last_login, 0),
+				IFNULL(DATE_ADD(premium_expires, INTERVAL ' . get_site_config('user_expiry_days') . ' DAY), 0),
+				created_at), INTERVAL ' . (get_site_config('user_expiry_days')) . '+1 DAY) < NOW()', 'user_id' => get_site_config('system_user_id'), 'always' => true),
 	array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id'), 'hours' => 24),
 );
 
 crypto_log("Current time: " . date('r'));
+
+// get all disabled users
+$disabled = array();
+$q = db()->prepare("SELECT * FROM users WHERE is_disabled=1");
+$q->execute();
+while ($d = $q->fetch()) {
+	$disabled[$d['id']] = $d;
+}
 
 foreach ($standard_jobs as $standard) {
 	if ($job_type && !in_array($standard['type'], $job_type)) {
@@ -136,6 +155,7 @@ foreach ($standard_jobs as $standard) {
 	// multiply queue_hours by 0.8 to ensure that user jobs are always executed within the specified timeframe
 	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "(last_queue <= DATE_SUB(NOW(), INTERVAL (? * 0.8) HOUR) OR ISNULL(last_queue))") . " $query_extra");
 	$q->execute(array_join($args, $args_extra));
+	$disabled_count = 0;
 	while ($address = $q->fetch()) {
 		$job = array(
 			"priority" => $priority,
@@ -143,6 +163,15 @@ foreach ($standard_jobs as $standard) {
 			"user_id" => isset($standard['user_id']) ? $standard['user_id'] : $address[$field],	/* $field so we can select users.id as user_id */
 			"arg_id" => $address['id'],
 		);
+
+		// check that this user is not disabled
+		if (isset($disabled[$job['user_id']])) {
+			if ($disabled_count == 0) {
+				crypto_log("Skipping job '" . $standard['type'] . "' for user " . $job['user_id'] . ": user is disabled");
+			}
+			$disabled_count++;
+			continue;
+		}
 
 		insert_new_job($job, $address);
 
@@ -156,6 +185,10 @@ foreach ($standard_jobs as $standard) {
 		} catch (PDOException $e) {
 			throw new Exception("Could not queue jobs for table " . $standard['table'] . ": " . $e->getMessage(), (int) $e->getCode(), $e);
 		}
+	}
+
+	if ($disabled_count > 1) {
+		crypto_log("Also skipped another " . number_format($disabled_count) . " " . $standard['type'] . " jobs due to disabled users");
 	}
 }
 

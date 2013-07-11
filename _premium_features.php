@@ -56,6 +56,11 @@
 		<td class="yes premium">Y</td>
 	</tr>
 	<tr>
+		<th>Must login every</th>
+		<td class="number"><?php echo plural(get_site_config('user_expiry_days'), 'day'); ?></td>
+		<td class="no premium">Not necessary</td>
+	</tr>
+	<tr>
 		<th>Data updated at least every</th>
 		<td class="number"><?php echo plural(get_site_config('refresh_queue_hours'), 'hour'); ?></td>
 		<td class="number premium"><?php echo plural(get_site_config('refresh_queue_hours_premium'), 'hour'); ?></td>

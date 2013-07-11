@@ -921,3 +921,11 @@ INSERT INTO securities_update SET exchange='havelock';
 -- we will remind the user regularly, up to a certain number of reminders, that this payment is overdue
 ALTER TABLE outstanding_premiums ADD last_reminder datetime;
 ALTER TABLE outstanding_premiums ADD cancelled_at datetime;
+
+-- for automatically disabling users that have not logged in recently
+ALTER TABLE users ADD is_disabled tinyint not null default 0;
+ALTER TABLE users ADD INDEX(is_disabled);
+
+ALTER TABLE users ADD disabled_at datetime;
+ALTER TABLE users ADD disable_warned_at datetime;
+ALTER TABLE users ADD is_disable_warned tinyint not null default 0;

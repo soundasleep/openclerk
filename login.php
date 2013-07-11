@@ -75,8 +75,13 @@ try {
 
 		}
 
+		// display warning if account was disabled
+		if ($user['is_disabled']) {
+			$messages[] = "Your account was disabled " . recent_format($user['disabled_at']) . " due to inactivity; your account is now re-enabled, and account data will be updated again soon.";
+		}
+
 		// update login time
-		$query = db()->prepare("UPDATE users SET last_login=NOW() WHERE id=?");
+		$query = db()->prepare("UPDATE users SET last_login=NOW(),is_disabled=0 WHERE id=?");
 		$query->execute(array($user["id"]));
 
 		// if we don't have an IP set, update it now
@@ -116,6 +121,8 @@ try {
 			$destination = url_for(get_site_config('default_login'));
 		}
 
+		set_temporary_messages($messages);
+		set_temporary_errors($errors);
 		// possible injection here... strip all protocol information to prevent redirection to external site
 		$destination = str_replace('#[a-z]+://#im', '', $destination);
 		redirect($destination);

@@ -51,6 +51,10 @@ $queries = array(
 		'query' => "SELECT COUNT(*) AS c FROM users WHERE created_at <= :end AND :start = :start",
 		'callback' => 'number_format',
 	),
+	"Total disabled users" => array(
+		'query' => "SELECT COUNT(*) AS c FROM users WHERE disabled_at <= :end AND :start = :start AND is_disabled=1",
+		'callback' => 'number_format',
+	),
 	"Current Premium users" => array(
 		'query' => "SELECT COUNT(*) AS c FROM users WHERE created_at <= :end AND :start = :start AND is_premium=1",
 		'callback' => 'number_format',

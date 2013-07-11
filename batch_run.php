@@ -241,6 +241,14 @@ try {
 			require("jobs/cleanup.php");
 			break;
 
+		case "disable_warning":
+			require("jobs/disable_warning.php");
+			break;
+
+		case "disable":
+			require("jobs/disable.php");
+			break;
+
 		default:
 			throw new JobException("Unknown job type '" . htmlspecialchars($job['job_type']) . "'");
 

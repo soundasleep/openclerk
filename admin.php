@@ -38,7 +38,7 @@ page_header("Status", "page_admin");
 <tbody>
 <?php
 	$summary = array(
-		'users' => array('title' => 'Users'),
+		'users' => array('title' => 'Users', 'extra' => array('is_disabled=1' => 'Disabled')),
 		'addresses' => array('title' => 'Addresses'),
 		'jobs' => array('title' => 'Jobs', 'extra' => array('is_executed=0' => 'Pending')),
 		'outstanding_premiums' => array('title' => 'Premiums', 'extra' => array('is_paid=1' => 'Paid')),
