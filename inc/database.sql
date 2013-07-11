@@ -929,3 +929,7 @@ ALTER TABLE users ADD INDEX(is_disabled);
 ALTER TABLE users ADD disabled_at datetime;
 ALTER TABLE users ADD disable_warned_at datetime;
 ALTER TABLE users ADD is_disable_warned tinyint not null default 0;
+
+-- because autologin never updated users last_login correctly, we'll give all old users the benefit of the doubt and say they've
+-- logged in at the time of upgrade, so that old accounts are not all suddenly disabled
+UPDATE users SET last_login=NOW();
