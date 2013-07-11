@@ -865,3 +865,11 @@ INSERT INTO securities_update SET exchange='litecoinglobal';
 ALTER TABLE external_status ADD is_recent tinyint not null default 0;
 ALTER TABLE external_status ADD INDEX(is_recent);
 
+-- an integer index -> external API status table
+CREATE TABLE external_status_types (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+
+	job_type varchar(32) not null unique
+);
+

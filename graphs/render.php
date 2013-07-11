@@ -292,7 +292,18 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 
 function render_external_graph($graph) {
 
-	$job_type = $graph['arg0'];
+	if (!isset($graph['arg0_resolved'])) {
+		$q = db()->prepare("SELECT * FROM external_status_types WHERE id=?");
+		$q->execute(array($graph['arg0']));
+		$resolved = $q->fetch();
+		if (!$resolved) {
+			render_text($graph, "Invalid external status type ID.");
+			break;
+		} else {
+			$graph['arg0_resolved'] = $resolved['job_type'];
+		}
+	}
+	$job_type = $graph['arg0_resolved'];
 
 	$data = array();
 	$data[0] = array("Date",

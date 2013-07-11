@@ -28,7 +28,7 @@ $graph = array(
 	'page_order' => 0,
 	// 'days' => 30,
 	'id' => 0,
-	'arg0' => $type,
+	'arg0_resolved' => $type,
 	'public' => true,
 );
 

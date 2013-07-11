@@ -70,6 +70,15 @@ foreach ($summary as $key => $data) {
 		"sample_size" => $sample_size,
 	));
 
+	// if there are no external_status_types for this job_type, insert one in
+	$q = db()->prepare("SELECT * FROM external_status_types WHERE job_type=? LIMIT 1");
+	$q->execute(array($key));
+	if (!$q->fetch()) {
+		crypto_log("No external_status_types found for job_type '" . htmlspecialchars($key) . "': inserting new mapping");
+		$q = db()->prepare("INSERT INTO external_status_types SET job_type=?");
+		$q->execute(array($key));
+	}
+
 	// TODO add is_daily_data flag, summarise data through cleanup, etc
 
 }

@@ -166,3 +166,21 @@ function get_cryptostocks_securities_btc() {
 function get_cryptostocks_securities_ltc() {
 	return get_cryptostocks_securities('ltc');
 }
+
+/**
+ * Return a list of (id => job_type).
+ * Could be cached.
+ */
+function get_external_status_types() {
+	$result = array();
+	$q = db()->prepare("SELECT * FROM external_status_types");
+	$q->execute();
+	$titles = get_external_apis_titles();
+	while ($type = $q->fetch()) {
+		// we want the title, not the key; and only types that have titles
+		if (isset($titles[$type['job_type']])) {
+			$result[$type['id']] = $titles[$type['job_type']];
+		}
+	}
+	return $result;
+}
