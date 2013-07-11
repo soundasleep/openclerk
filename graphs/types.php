@@ -147,6 +147,15 @@ function graph_types() {
 		);
 	}
 
+	foreach (get_all_currencies() as $currency) {
+		$data["composition_" . $currency . "_daily"] = array(
+			'title' => "All " . get_currency_name($currency) . " balances (graph)",
+			'heading' => "All " . strtoupper($currency) . " balances",
+			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
+			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+		);
+	}
+
 	$data['linebreak'] = array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.');
 
 	// add sample images

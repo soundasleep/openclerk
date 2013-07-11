@@ -382,54 +382,64 @@ function render_graph($graph, $is_public = false) {
 			if (substr($graph['graph_type'], 0, strlen("composition_")) == "composition_") {
 				$split = explode("_", $graph['graph_type']);
 				if (count($split) == 3 && strlen($split[1]) == 3 && in_array($split[1], get_all_currencies())) {
-					// get data
-					// TODO could probably cache this
 					$currency = $split[1];
-					$q = db()->prepare("SELECT SUM(balance) AS balance, exchange, MAX(created_at) AS created_at FROM balances WHERE user_id=? AND is_recent=1 AND currency=? GROUP BY exchange");
-					$q->execute(array(user_id(), $currency));
-					$balances = $q->fetchAll();
 
-					// need to also get address balances
-					$summary_balances = get_all_summary_instances();
+					switch ($split[2]) {
+						case "pie":
+							// get data
+							// TODO could probably cache this
+							$q = db()->prepare("SELECT SUM(balance) AS balance, exchange, MAX(created_at) AS created_at FROM balances WHERE user_id=? AND is_recent=1 AND currency=? GROUP BY exchange");
+							$q->execute(array(user_id(), $currency));
+							$balances = $q->fetchAll();
 
-					// create data
-					$data = array();
-					if (isset($summary_balances['blockchain' . $currency]) && $summary_balances['blockchain' . $currency]['balance'] != 0) {
-						$balances[] = array(
-							"balance" => $summary_balances['blockchain' . $currency]['balance'],
-							"exchange" => "blockchain",
-							"created_at" => $summary_balances['blockchain' . $currency]['created_at'],
-						);
-					}
-					if (isset($summary_balances['offsets' . $currency]) && $summary_balances['offsets' . $currency]['balance'] != 0) {
-						$balances[] = array(
-							"balance" => $summary_balances['offsets' . $currency]['balance'],
-							"exchange" => "offsets",
-							"created_at" => $summary_balances['offsets' . $currency]['created_at'],
-						);
-					}
+							// need to also get address balances
+							$summary_balances = get_all_summary_instances();
 
-					$graph['last_updated'] = find_latest_created_at($balances);
-
-					if ($split[2] == "pie") {
-						$data = array();
-						foreach ($balances as $b) {
-							if ($b['balance'] != 0) {
-								$data[get_exchange_name($b['exchange'])] = $b['balance'];
+							// create data
+							$data = array();
+							if (isset($summary_balances['blockchain' . $currency]) && $summary_balances['blockchain' . $currency]['balance'] != 0) {
+								$balances[] = array(
+									"balance" => $summary_balances['blockchain' . $currency]['balance'],
+									"exchange" => "blockchain",
+									"created_at" => $summary_balances['blockchain' . $currency]['created_at'],
+								);
 							}
-						}
+							if (isset($summary_balances['offsets' . $currency]) && $summary_balances['offsets' . $currency]['balance'] != 0) {
+								$balances[] = array(
+									"balance" => $summary_balances['offsets' . $currency]['balance'],
+									"exchange" => "offsets",
+									"created_at" => $summary_balances['offsets' . $currency]['created_at'],
+								);
+							}
 
-						// sort data by balance
-						arsort($data);
+							$graph['last_updated'] = find_latest_created_at($balances);
 
-						if ($data) {
-							render_pie_chart($graph, $data, 'Source', strtoupper($currency));
-						} else {
-							render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated.
-								<br><a href=\"" . htmlspecialchars(url_for('accounts')) . "\">Add accounts and addresses</a>");
-						}
-						break;
+							$data = array();
+							foreach ($balances as $b) {
+								if ($b['balance'] != 0) {
+									$data[get_exchange_name($b['exchange'])] = $b['balance'];
+								}
+							}
+
+							// sort data by balance
+							arsort($data);
+
+							if ($data) {
+								render_pie_chart($graph, $data, 'Source', strtoupper($currency));
+							} else {
+								render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated.
+									<br><a href=\"" . htmlspecialchars(url_for('accounts')) . "\">Add accounts and addresses</a>");
+							}
+							break 2;
+
+						case "daily":
+							// oh no, we have to do something
+							// function render_balances_composition_graph($graph, $currency, $user_id) {
+							render_balances_composition_graph($graph, $currency, user_id());
+							break 2;
+
 					}
+
 				}
 			}
 

@@ -230,6 +230,7 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 
 }
 
+// TODO refactor with render_balances_composition_graph
 function render_balances_graph($graph, $exchange, $currency, $user_id, $account_id) {
 
 	$data = array();
@@ -275,6 +276,106 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 
 	// discard early data
 	$data = discard_early_data($data, $days);
+
+	// sort by key, but we only want values
+	uksort($data, 'cmp_time');
+	$graph['last_updated'] = $last_updated;
+
+	if (count($data) > 1) {
+		render_linegraph_date($graph, array_values($data));
+	} else {
+		if ($user_id == get_site_config('system_user_id')) {
+			render_text($graph, "Invalid balance type.");
+		} else {
+			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
+						<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");
+		}
+	}
+
+}
+
+// TODO refactor with render_balances_graph
+function render_balances_composition_graph($graph, $currency, $user_id) {
+
+	$data = array();
+	$last_updated = false;
+	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
+	$exchanges_found = array();
+	$maximum_balances = array();
+
+	$sources = array(
+		// first get summarised data
+		array('query' => "SELECT * FROM graph_data_balances WHERE user_id=:user_id AND currency=:currency AND
+			data_date >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
+		// and then get more recent data
+		array('query' => "SELECT * FROM balances WHERE is_daily_data=1 AND currency=:currency AND
+			user_id=:user_id ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
+	);
+
+	$data_temp = array();
+	foreach ($sources as $source) {
+		$q = db()->prepare($source['query']);
+		$q->execute(array(
+			'user_id' => $user_id,
+			'currency' => $currency,
+		));
+		while ($ticker = $q->fetch()) {
+			$key = date('Y-m-d', strtotime($ticker[$source['key']]));
+			if (!isset($data_temp[$key])) {
+				$data_temp[$key] = array();
+			}
+			$data_temp[$key][$ticker['exchange']] = graph_number_format($ticker[$source['balance_key']]);
+			$last_updated = max($last_updated, strtotime($ticker['created_at']));
+			$exchanges_found[$ticker['exchange']] = $ticker['exchange'];
+			if (!isset($maximum_balances[$ticker['exchange']])) {
+				$maximum_balances[$ticker['exchange']] = 0;
+			}
+			$maximum_balances[$ticker['exchange']] = max($ticker[$source['balance_key']], $maximum_balances[$ticker['exchange']]);
+		}
+	}
+
+	// get rid of any exchange summaries that had zero data
+	foreach ($maximum_balances as $key => $balance) {
+		if ($balance == 0) {
+			foreach ($data_temp as $dt_key => $values) {
+				unset($data_temp[$dt_key][$key]);
+			}
+			unset($exchanges_found[$key]);
+		}
+	}
+
+	// sort by date so we can get previous dates if necessary for missing data
+	ksort($data_temp);
+
+	$data = array();
+
+	// add headings after we know how many exchanges we've found
+	$headings = array("Date");
+	$i = 0;
+	foreach ($exchanges_found as $key => $ignored) {
+		$headings[] = array(
+			'title' => $key,
+			'line_width' => 2,
+			'color' => default_chart_color($i++),
+		);
+	}
+	$data[0] = $headings;
+
+	// add '0' for exchanges that we've found at one point, but don't have a data point
+	$previous_row = array();
+	foreach ($data_temp as $date => $values) {
+		$row = array('new Date(' . date('Y, n-1, j', strtotime($date)) . ')',);
+		foreach ($exchanges_found as $key => $ignored) {
+			if (!isset($values[$key])) {
+				$row[$key] = isset($previous_row[$key]) ? $previous_row[$key] : 0;
+			} else {
+				$row[$key] = $values[$key];
+			}
+		}
+		$data[$date] = $row;
+		$previous_row = $row;
+	}
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
