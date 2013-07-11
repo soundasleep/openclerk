@@ -861,3 +861,7 @@ CREATE TABLE securities_update (
 INSERT INTO securities_update SET exchange='btct';
 INSERT INTO securities_update SET exchange='litecoinglobal';
 
+-- so we have a history of external status
+ALTER TABLE external_status ADD is_recent tinyint not null default 0;
+ALTER TABLE external_status ADD INDEX(is_recent);
+

@@ -50,11 +50,17 @@ foreach ($queries as $query) {
 crypto_log(print_r($summary, true));
 
 // update the database
-$q = db()->prepare("DELETE FROM external_status");
+
+// delete very old updates
+$q = db()->prepare("DELETE FROM external_status WHERE DATE_ADD(created_at, INTERVAL 30 DAY) < NOW()");
+$q->execute();
+
+// other statuses are marked as old
+$q = db()->prepare("UPDATE external_status SET is_recent=0");
 $q->execute();
 
 foreach ($summary as $key => $data) {
-	$q = db()->prepare("INSERT INTO external_status SET job_type=:key, job_count=:count, job_errors=:errors, job_first=:first, job_last=:last, sample_size=:sample_size");
+	$q = db()->prepare("INSERT INTO external_status SET is_recent=1, job_type=:key, job_count=:count, job_errors=:errors, job_first=:first, job_last=:last, sample_size=:sample_size");
 	$q->execute(array(
 		"key" => $key,
 		"count" => $data['count'],

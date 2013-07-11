@@ -10,7 +10,7 @@ require("layout/templates.php");
 page_header("External API Status", "page_external", array('common_js' => true));
 
 $last_updated = false;
-$q = db()->prepare("SELECT * FROM external_status");
+$q = db()->prepare("SELECT * FROM external_status WHERE is_recent=1");
 $q->execute();
 $external = array();
 $first_first = 0;
