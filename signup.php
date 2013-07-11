@@ -82,7 +82,7 @@ if ($openid && $submit) {
 			"identity" => $light->identity,
 			"country" => $country,
 			"ip" => user_ip(),
-			"referer" => isset($_SESSION['referer']) ? $_SESSION['referer'] : NULL,
+			"referer" => isset($_SESSION['referer']) ? substr($_SESSION['referer'], 0, 250) : NULL,
 		);
 		$query->execute($user);
 		$user['id'] = db()->lastInsertId();
