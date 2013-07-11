@@ -873,3 +873,6 @@ CREATE TABLE external_status_types (
 	job_type varchar(32) not null unique
 );
 
+-- technical_period can be > 128
+ALTER TABLE graph_technicals MODIFY technical_period smallint;
+

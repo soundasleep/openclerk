@@ -20,6 +20,9 @@ function calculate_technicals($graph, $data) {
 	$days = get_graph_days($graph);
 	$original_rows = count($data[0]);
 
+	// need to sort data by date
+	ksort($data);
+
 	if (isset($graph['technicals'])) {
 		$graph_technical_types = graph_technical_types();
 		foreach ($graph['technicals'] as $t) {
@@ -298,7 +301,7 @@ function render_external_graph($graph) {
 		$resolved = $q->fetch();
 		if (!$resolved) {
 			render_text($graph, "Invalid external status type ID.");
-			break;
+			return;
 		} else {
 			$graph['arg0_resolved'] = $resolved['job_type'];
 		}
