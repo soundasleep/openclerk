@@ -41,6 +41,17 @@ function graph_types_public($summaries = array()) {
 		}
 	}
 
+	$data['external_historical'] = array(
+		'title' => 'External API status (graph)',
+		'heading' => 'External API status',
+		'description' => 'A line graph displaying the historical status of an external API, by displaying the percentage of failing samples.',
+		'days' => true,
+		'arg0' => 'get_external_apis_titles',
+		'arg0_title' => 'External API:',
+		'technical' => false,
+		'hide' => true,		// need to have an id (int) => external API job type (string) table first, before we can expose this to users
+	);
+
 	return $data;
 }
 

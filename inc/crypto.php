@@ -206,6 +206,97 @@ function account_data_grouped() {
 	return $data;
 }
 
+// we can't get this from account_data_grouped() because this also includes ticker information
+function get_external_apis() {
+	$external_apis = array(
+		"Address balances" => array(
+			// plaintext content is obtained by removing all HTML tags from the link HTML
+			'blockchain' => '<a href="http://blockchain.info">Blockchain</a>',
+			'litecoin' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a>',
+			'litecoin_block' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a> (block count)',
+			'feathercoin' => '<a href="http://cryptocoinexplorer.com:5750/">Feathercoin search</a>',
+			'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">Feathercoin search</a> (block count)',
+		),
+
+		"Mining pool wallets" => array(
+			'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
+			'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
+			'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
+			'givemeltc' => '<a href="https://www.give-me-ltc.com">Give Me LTC</a>',
+			'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
+			'50btc' => '<a href="https://www.50btc.com">50BTC</a>',
+			'hypernova' => '<a href="https://hypernova.pw/">Hypernova</a>',
+			'ltcmineru' => '<a href="http://ltcmine.ru/">LTCMine.ru</a>',
+		),
+
+		"Exchange wallets" => array(
+			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
+			'vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
+			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
+			'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
+			'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
+			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+			'bips' => '<a href="https://bips.me">BIPS</a>',
+		),
+
+		"Exchange tickers" => array(
+			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
+			'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
+			'ticker_bitnz' => '<a href="http://bitnz.com">BitNZ</a>',
+			'ticker_vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
+			'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
+			'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
+			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+			'securities_update' => 'Securities list',
+		),
+
+		"Other" => array(
+			// 'generic' => "Generic API balances",
+			'outstanding' => '<a href="' . htmlspecialchars(url_for('premium')) . '">Premium account</a> processing',
+		),
+	);
+	return $external_apis;
+}
+
+/**
+ * Return a list of external API status keys to external API status titles;
+ * titles are obtained by stripping HTML. It might be better to refactor this
+ * so that titles are the default and HTML is added later.
+ */
+function get_external_apis_titles() {
+	$apis = get_external_apis();
+	$result = array();
+	foreach ($apis as $group => $data) {
+		foreach ($data as $key => $title) {
+			$result[$key] = preg_replace('#<[^>]+?>#im', '', $title) . translate_external_api_group_to_suffix($group);
+		}
+	}
+	// sort by title
+	asort($result);
+	return $result;
+}
+
+function translate_external_api_group_to_suffix($group) {
+	// TODO use keys, not text
+	switch ($group) {
+		case "Address balances":
+			return "";
+
+		case "Mining pool wallets":
+		case "Exchange wallets":
+			return " wallet";
+
+		case "Exchange tickers":
+			return " ticker";
+
+		case "Other":
+			return "";	// nothing
+
+		default:
+			return "";	// nothing
+	}
+}
+
 function get_default_openid_providers() {
 	return array(
 		'google' => array('Google Accounts', 'https://www.google.com/accounts/o8/id'),

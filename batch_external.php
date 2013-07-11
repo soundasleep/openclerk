@@ -69,6 +69,9 @@ foreach ($summary as $key => $data) {
 		"last" => db_date($data['last']),
 		"sample_size" => $sample_size,
 	));
+
+	// TODO add is_daily_data flag, summarise data through cleanup, etc
+
 }
 
 crypto_log("Complete from " . number_format($sample_size) . " job samples into " . number_format(count($summary)) . " summary values.");

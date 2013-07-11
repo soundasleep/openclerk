@@ -289,3 +289,60 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 	}
 
 }
+
+function render_external_graph($graph) {
+
+	$job_type = $graph['arg0'];
+
+	$data = array();
+	$data[0] = array("Date",
+		array(
+			'title' => "% success",
+			'line_width' => 2,
+			'color' => default_chart_color(0),
+		),
+	);
+	$last_updated = false;
+	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
+
+	$sources = array(
+		// TODO first get summarised data
+		// and then get more recent data
+		// TODO this gets ALL data (24 points a day); should summarise instead
+		/*
+		array('query' => "SELECT * FROM external_status WHERE is_daily_data=1 AND job_type=:job_type
+			ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
+			*/
+		array('query' => "SELECT * FROM external_status WHERE job_type=:job_type
+			ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
+	);
+
+	foreach ($sources as $source) {
+		$q = db()->prepare($source['query']);
+		$q->execute(array(
+			'job_type' => $job_type,
+		));
+		while ($ticker = $q->fetch()) {
+			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(
+				'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
+				graph_number_format(100 * (1 - ($ticker['job_errors'] / $ticker['job_count']))),
+			);
+			$last_updated = max($last_updated, strtotime($ticker['created_at']));
+		}
+	}
+
+	// discard early data
+	$data = discard_early_data($data, $days);
+
+	// sort by key, but we only want values
+	uksort($data, 'cmp_time');
+	$graph['last_updated'] = $last_updated;
+
+	if (count($data) > 1) {
+		render_linegraph_date($graph, array_values($data));
+	} else {
+		render_text($graph, "There is not yet any historical data for this external API.");
+	}
+
+}

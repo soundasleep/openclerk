@@ -304,6 +304,10 @@ function render_graph($graph, $is_public = false) {
 
 			break;
 
+		case "external_historical":
+			render_external_graph($graph);
+			break;
+
 		case "linebreak":
 			// implemented by profile.php
 			break;
