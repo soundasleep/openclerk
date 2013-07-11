@@ -846,3 +846,18 @@ ALTER TABLE graph_data_ticker ADD last_trade_stdev float;
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
 ----------------------------------------------------------------------------
 ALTER TABLE users ADD referer VARCHAR(255);
+
+-- system-specific job queues that still need to be queued as appropriate
+CREATE TABLE securities_update (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	exchange varchar(64) not null,
+	
+	INDEX(last_queue)
+);
+
+INSERT INTO securities_update SET exchange='btct';
+INSERT INTO securities_update SET exchange='litecoinglobal';
+

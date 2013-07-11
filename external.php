@@ -73,6 +73,7 @@ $external_apis = array(
 		'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 		'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 		'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+		'securities_update' => 'Securities list',
 	),
 
 	"Other" => array(

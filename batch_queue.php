@@ -89,6 +89,7 @@ $standard_jobs = array(
 		AND NOW() > DATE_SUB(premium_expires, INTERVAL ' . get_site_config('premium_reminder_days') . ' DAY)', 'user_id' => get_site_config('system_user_id'), 'always' => true),
 	array('table' => 'users', 'type' => 'expire', 'query' => ' AND is_premium=1
 		AND NOW() > premium_expires', 'user_id' => get_site_config('system_user_id'), 'always' => true),
+	array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id'), 'hours' => 24),
 );
 
 crypto_log("Current time: " . date('r'));

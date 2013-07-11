@@ -207,6 +207,11 @@ try {
 			require("jobs/summary.php");
 			break;
 
+		// system jobs
+		case "securities_update":
+			require("jobs/securities_update.php");
+			break;
+
 		// cleanup jobs, admin jobs etc
 		case "outstanding":
 			require("jobs/outstanding.php");
