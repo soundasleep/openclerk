@@ -152,6 +152,7 @@ function graph_types() {
 			'title' => "All " . get_currency_name($currency) . " balances (graph)",
 			'heading' => "All " . strtoupper($currency) . " balances",
 			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions), excluding addresses and offsets.",
+			'days' => true,
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
 	}
