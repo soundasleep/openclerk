@@ -97,6 +97,7 @@ foreach ($queries as $query_title => $query) {
 $account_data_grouped = account_data_grouped();
 $account_data_grouped['Instances'] = array(
 	'ticker' => array('title' => 'Ticker instances', 'table' => 'ticker'),
+	'address_balance' => array('title' => 'Address balance instances', 'table' => 'address_balances'),
 	'balance' => array('title' => 'Balance instances', 'table' => 'balances'),
 	'summary' => array('title' => 'Summary instances', 'table' => 'summary_instances'),
 	'hashrates' => array('title' => 'Hashrate instances', 'table' => 'hashrates'),
