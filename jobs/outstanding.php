@@ -90,8 +90,22 @@ if (!$balance) {
 			if (strtotime($address['created_at'] . " + " . get_site_config('outstanding_abandon_days') . " day") < time()) {
 				// abandon the payment
 				crypto_log("Payment is more than " . get_site_config('outstanding_abandon_days') . " days old: abandoning");
-				$q = db()->prepare("UPDATE outstanding_premiums SET is_unpaid=1 WHERE id=?");
+
+				// delete address balances (we don't need them anymore)
+				$q = db()->prepare("DELETE FROM address_balances WHERE address_id=?");
+				$q->execute(array($address['address_id']));
+
+				// delete address (to prevent job queues)
+				$q = db()->prepare("DELETE FROM addresses WHERE id=?");
+				$q->execute(array($address['address_id']));
+
+				// mark it as unpaid
+				$q = db()->prepare("UPDATE outstanding_premiums SET is_unpaid=1,cancelled_at=NOW() WHERE id=?");
 				$q->execute(array($address['id']));
+
+				// release the premium address
+				$q = db()->prepare("UPDATE premium_addresses SET is_used=0,used_at=NULL WHERE id=?");
+				$q->execute(array($address['premium_address_id']));
 
 				if ($user['email']) {
 					send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_cancelled", array(
