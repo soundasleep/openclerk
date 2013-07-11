@@ -475,12 +475,12 @@ function render_site_statistics_queue($graph) {
 	$data = array();
 	$data[0] = array("Date",
 		array(
-			'title' => " min (free)",
+			'title' => " Free delay",
 			'line_width' => 2,
 			'color' => default_chart_color(0),
 		),
 		array(
-			'title' => " min (premium)",
+			'title' => " Premium delay",
 			'line_width' => 2,
 			'color' => default_chart_color(1),
 		),
@@ -500,8 +500,8 @@ function render_site_statistics_queue($graph) {
 		while ($ticker = $q->fetch()) {
 			$data[date('Y-m-d H-i-s', strtotime($ticker[$source['key']]))] = array(
 				'new Date(' . date('Y, n-1, j, H, i, s', strtotime($ticker[$source['key']])) . ')',
-				graph_number_format($ticker['free_delay_minutes']),
-				graph_number_format($ticker['premium_delay_minutes']),
+				graph_number_format($ticker['free_delay_minutes'] / 60),
+				graph_number_format($ticker['premium_delay_minutes'] / 60),
 			);
 			$last_updated = max($last_updated, strtotime($ticker['created_at']));
 		}

@@ -53,7 +53,7 @@ function graph_types_public($summaries = array()) {
 
 	$data['statistics_queue'] = array(
 		'title' => "Job queue delay (graph)",
-		'heading' => "Job queue delay",
+		'heading' => "Job queue delay (hours)",
 		'description' => 'The job queue delay for free and premium users.',
 		'hide' => true,		// should only be accessible by admins
 	);
