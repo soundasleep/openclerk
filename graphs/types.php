@@ -151,7 +151,7 @@ function graph_types() {
 		$data["composition_" . $currency . "_daily"] = array(
 			'title' => "All " . get_currency_name($currency) . " balances (graph)",
 			'heading' => "All " . strtoupper($currency) . " balances",
-			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
+			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions), excluding addresses and offsets.",
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
 	}
@@ -183,6 +183,10 @@ function graph_types() {
 		'balances_offset_table' => 'balances_offset_table.png',
 		'crypto_converted_table' => 'crypto_converted_table.png',
 		'total_converted_table' => 'total_converted_table.png',
+		'composition_btc_daily' => 'composition_ltc_daily.png',
+		'composition_ltc_daily' => 'composition_ltc_daily.png',
+		'composition_nmc_daily' => 'composition_ltc_daily.png',
+		'composition_ftc_daily' => 'composition_ltc_daily.png',
 		'ticker_matrix' => 'ticker_matrix.png',
 	);
 	$data = add_example_images($data, $images);
