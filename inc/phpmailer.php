@@ -13,6 +13,7 @@ function phpmailer($to, $to_name, $subject, $message) {
 
   $mail->From = get_site_config('phpmailer_from');
   $mail->FromName = get_site_config('phpmailer_from_name');
+  $mail->Sender = get_site_config('phpmailer_from');
   $mail->AddAddress($to, $to_name);
   if (get_site_config('phpmailer_reply_to')) {
   	$mail->AddReplyTo(get_site_config('phpmailer_reply_to'));
