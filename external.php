@@ -77,12 +77,28 @@ foreach ($external_apis as $group_name => $group) {
 		if ($stats) {
 			echo "<li><span class=\"title\">Free user job delay</span> ";
 			echo "<span class=\"status_percent " . get_error_class((($stats['free_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours') * 2)) * 100) . "\">";
-			echo ($stats['free_delay_minutes'] == 0 ? "<i>none</i>" : "&lt; " . plural(ceil($stats['free_delay_minutes'] / 60), "hour"));
+			if ($stats['free_delay_minutes'] == 0) {
+				echo "<i>none</i>";
+			} else if ($stats['free_delay_minutes'] < 60) {
+				echo "&lt; " . plural(ceil($stats['free_delay_minutes']), "min");
+			} else if ($stats['free_delay_minutes'] < (60 * 60)) {
+				echo "&lt; " . plural(ceil($stats['free_delay_minutes'] / 60), "hour");
+			} else {
+				echo "&lt; " . plural(ceil($stats['free_delay_minutes'] / (60 * 60)), "day");
+			}
 			echo "</span></li>\n";
 
 			echo "<li><span class=\"title\"><a href=\"" . htmlspecialchars(url_for('premium')) . "\">Premium user</a> job delay</span> ";
 			echo "<span class=\"status_percent " . get_error_class((($stats['premium_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours_premium') * 2)) * 100) . "\">";
-			echo ($stats['premium_delay_minutes'] == 0 ? "<i>none</i>" : "&lt; " . plural(ceil($stats['premium_delay_minutes']), "min"));
+			if ($stats['premium_delay_minutes'] == 0) {
+				echo "<i>none</i>";
+			} else if ($stats['premium_delay_minutes'] < 60) {
+				echo "&lt; " . plural(ceil($stats['premium_delay_minutes']), "min");
+			} else if ($stats['premium_delay_minutes'] < (60 * 60)) {
+				echo "&lt; " . plural(ceil($stats['premium_delay_minutes'] / 60), "hour");
+			} else {
+				echo "&lt; " . plural(ceil($stats['premium_delay_minutes'] / (60 * 60)), "day");
+			}
 			echo "</span></li>\n";
 		}
 	}

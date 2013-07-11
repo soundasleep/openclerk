@@ -308,6 +308,10 @@ function render_graph($graph, $is_public = false) {
 			render_external_graph($graph);
 			break;
 
+		case "statistics_queue":
+			render_site_statistics_queue($graph);
+			break;
+
 		case "linebreak":
 			// implemented by profile.php
 			break;

@@ -464,3 +464,55 @@ function render_external_graph($graph) {
 	}
 
 }
+
+function render_site_statistics_queue($graph) {
+
+	if (!is_admin()) {
+		render_text("This graph is for administrators only.");
+		return;
+	}
+
+	$data = array();
+	$data[0] = array("Date",
+		array(
+			'title' => " min (free)",
+			'line_width' => 2,
+			'color' => default_chart_color(0),
+		),
+		array(
+			'title' => " min (premium)",
+			'line_width' => 2,
+			'color' => default_chart_color(1),
+		),
+	);
+	$last_updated = false;
+	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
+
+	$sources = array(
+		array('query' => "SELECT * FROM site_statistics
+			ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at'),
+	);
+
+	foreach ($sources as $source) {
+		$q = db()->prepare($source['query']);
+		$q->execute();
+		while ($ticker = $q->fetch()) {
+			$data[date('Y-m-d H-i-s', strtotime($ticker[$source['key']]))] = array(
+				'new Date(' . date('Y, n-1, j, H, i, s', strtotime($ticker[$source['key']])) . ')',
+				graph_number_format($ticker['free_delay_minutes']),
+				graph_number_format($ticker['premium_delay_minutes']),
+			);
+			$last_updated = max($last_updated, strtotime($ticker['created_at']));
+		}
+	}
+
+	$graph['last_updated'] = $last_updated;
+
+	if (count($data) > 1) {
+		render_linegraph_date($graph, array_values($data));
+	} else {
+		render_text($graph, "There is not yet any historical data for these statistics.");
+	}
+
+}

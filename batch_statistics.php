@@ -40,13 +40,13 @@ $data = array();
 	$q = db()->prepare("SELECT jobs.* FROM jobs JOIN users ON jobs.user_id=users.id WHERE users.is_premium=0 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
 	$q->execute();
 	$c = $q->fetch();
-	$data["free_delay_minutes"] = (time() - strtotime($c['created_at'])) / (1000 * 60);
+	$data["free_delay_minutes"] = (time() - strtotime($c['created_at'])) / 60;
 }
 {
 	$q = db()->prepare("SELECT jobs.* FROM jobs JOIN users ON jobs.user_id=users.id WHERE users.is_premium=1 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
 	$q->execute();
 	$c = $q->fetch();
-	$data["premium_delay_minutes"] = (time() - strtotime($c['created_at'])) / (1000 * 60);
+	$data["premium_delay_minutes"] = (time() - strtotime($c['created_at'])) / 60;
 }
 {
 	$q = db()->prepare("SELECT COUNT(*) AS c FROM jobs WHERE is_executed=0");

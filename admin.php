@@ -8,11 +8,12 @@ require("inc/global.php");
 require_admin();
 
 require("layout/templates.php");
+require("layout/graphs.php");
 
 $messages = array();
 $errors = array();
 
-page_header("Status", "page_admin");
+page_header("Status", "page_admin", array('common_js' => true, 'jsapi' => true));
 
 ?>
 
@@ -139,6 +140,26 @@ page_header("Status", "page_admin");
 </table>
 
 <h2>Site Statistics</h2>
+
+<?php
+
+$graph = array(
+	'graph_type' => 'statistics_queue',
+	'width' => 6,
+	'height' => 4,
+	'page_order' => 0,
+	// 'days' => 30,
+	'id' => 0,
+	'public' => true,
+);
+
+?>
+
+	<div class="graph_collection" style="float: right; width: 60%;">
+	<div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>" id="graph<?php echo htmlspecialchars($graph['id']); ?>">
+		<?php render_graph($graph, true /* is public */); ?>
+	</div>
+	</div>
 
 <table class="standard">
 <thead>
