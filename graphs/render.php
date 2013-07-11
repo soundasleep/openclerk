@@ -302,7 +302,7 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	$days = get_graph_days($graph);
 	$extra_days = extra_days_necessary($graph);
 	$exchanges_found = array();
-	$maximum_balances = array();
+	$maximum_balances = array();	// only used to check for non-zero accounts
 
 	$sources = array(
 		// first get summarised data
@@ -325,7 +325,10 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 			if (!isset($data_temp[$key])) {
 				$data_temp[$key] = array();
 			}
-			$data_temp[$key][$ticker['exchange']] = graph_number_format($ticker[$source['balance_key']]);
+			if (!isset($data_temp[$key][$ticker['exchange']])) {
+				$data_temp[$key][$ticker['exchange']] = 0;
+			}
+			$data_temp[$key][$ticker['exchange']] += $ticker[$source['balance_key']];
 			$last_updated = max($last_updated, strtotime($ticker['created_at']));
 			$exchanges_found[$ticker['exchange']] = $ticker['exchange'];
 			if (!isset($maximum_balances[$ticker['exchange']])) {
@@ -355,7 +358,7 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	$i = 0;
 	foreach ($exchanges_found as $key => $ignored) {
 		$headings[] = array(
-			'title' => $key,
+			'title' => get_exchange_name($key),
 			'line_width' => 2,
 			'color' => default_chart_color($i++),
 		);
@@ -368,9 +371,9 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 		$row = array('new Date(' . date('Y, n-1, j', strtotime($date)) . ')',);
 		foreach ($exchanges_found as $key => $ignored) {
 			if (!isset($values[$key])) {
-				$row[$key] = isset($previous_row[$key]) ? $previous_row[$key] : 0;
+				$row[$key] = graph_number_format(isset($previous_row[$key]) ? $previous_row[$key] : 0);
 			} else {
-				$row[$key] = $values[$key];
+				$row[$key] = graph_number_format($values[$key]);
 			}
 		}
 		$data[$date] = $row;

@@ -433,8 +433,7 @@ function render_graph($graph, $is_public = false) {
 							break 2;
 
 						case "daily":
-							// oh no, we have to do something
-							// function render_balances_composition_graph($graph, $currency, $user_id) {
+							// pass it off to the graph helper
 							render_balances_composition_graph($graph, $currency, user_id());
 							break 2;
 
