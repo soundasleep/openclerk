@@ -933,3 +933,32 @@ ALTER TABLE users ADD is_disable_warned tinyint not null default 0;
 -- because autologin never updated users last_login correctly, we'll give all old users the benefit of the doubt and say they've
 -- logged in at the time of upgrade, so that old accounts are not all suddenly disabled
 UPDATE users SET last_login=NOW();
+
+-- periodically, create site statistics
+DROP TABLE IF EXISTS site_statistics;
+CREATE TABLE site_statistics (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	is_recent tinyint not null default 0,
+	
+	total_users int not null,
+	disabled_users int not null,
+	premium_users int not null,
+	
+	free_delay_minutes int not null,
+	premium_delay_minutes int not null,
+	outstanding_jobs int not null,
+	external_status_job_count int not null,	-- equal to 'sample_size'
+	external_status_job_errors int not null,
+	
+	mysql_uptime int not null,		-- 'Uptime'
+	mysql_threads int not null,		-- 'Threads_running'
+	mysql_questions int not null,		-- 'Questions'
+	mysql_slow_queries int not null, 	-- 'Slow_queries'
+	mysql_opens int not null,		-- 'Opened_tables'
+	mysql_flush_tables int not null, 	-- 'Flush_commands'
+	mysql_open_tables int not null, 	-- 'Open_tables'
+	-- mysql_qps_average int not null, // can get qps = questions/uptime
+	
+	INDEX(is_recent)
+);

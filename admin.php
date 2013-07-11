@@ -138,6 +138,36 @@ page_header("Status", "page_admin");
 </tbody>
 </table>
 
+<h2>Site Statistics</h2>
+
+<table class="standard">
+<thead>
+	<tr>
+		<th>Key</th>
+		<th>Value</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+	$q = db()->prepare("SELECT * FROM site_statistics WHERE is_recent=1");
+	$q->execute();
+	$stats = $q->fetch();
+	foreach ($stats as $key => $value) {
+		if (is_numeric($key)) continue;
+		?>
+	<tr>
+		<th><?php echo htmlspecialchars($key); ?></th>
+		<td class="number"><?php echo $key == "created_at" ? recent_format_html($value) : number_format($value); ?></td>
+	</tr>
+	<?php } ?>
+	<tr>
+		<th>mysql_qps (average)</th>
+		<td class="number"><?php echo number_format($stats['mysql_questions'] / $stats['mysql_uptime'], 2); ?></td>
+	</tr>
+	<?php
+?>
+</tbody>
+</table>
 
 <?php
 page_footer();

@@ -146,7 +146,7 @@ span.new { color: red; font-size: 75%; text-shadow: 1px 1px 1px black; }
 
 #page_external .external_list li { padding-bottom: 5px; }
 #page_external .external_list .title { display: inline-block; width: 240px; padding: 5px; }
-#page_external .external_list .status_percent { display: inline-block; width: 60px; padding: 5px; margin-right: 5px; padding-left: 16px; text-align: center; }
+#page_external .external_list .status_percent { display: inline-block; width: 75px; padding: 5px 0px 5px 20px; margin-right: 5px; text-align: center; }
 
 #page_external .external_list .perfect { background: #473 url('img/nuvola/ok_16.png') 7px center no-repeat; }
 #page_external .external_list .good { background: #363 url('img/nuvola/ok_16.png') 7px center no-repeat; }

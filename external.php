@@ -70,6 +70,22 @@ foreach ($external_apis as $group_name => $group) {
 		echo " (<a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $key))) . "\">history</a>)";
 		echo "</li>\n";
 	}
+	if ($group_name == "Other") {
+		$q = db()->prepare("SELECT * FROM site_statistics WHERE is_recent=1 LIMIT 1");
+		$q->execute();
+		$stats = $q->fetch();
+		if ($stats) {
+			echo "<li><span class=\"title\">Free user job delay</span> ";
+			echo "<span class=\"status_percent " . get_error_class((($stats['free_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours') * 2)) * 100) . "\">";
+			echo ($stats['free_delay_minutes'] == 0 ? "<i>none</i>" : "&lt; " . plural(ceil($stats['free_delay_minutes'] / 60), "hour"));
+			echo "</span></li>\n";
+
+			echo "<li><span class=\"title\"><a href=\"" . htmlspecialchars(url_for('premium')) . "\">Premium user</a> job delay</span> ";
+			echo "<span class=\"status_percent " . get_error_class((($stats['premium_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours_premium') * 2)) * 100) . "\">";
+			echo ($stats['premium_delay_minutes'] == 0 ? "<i>none</i>" : "&lt; " . plural(ceil($stats['premium_delay_minutes']), "min"));
+			echo "</span></li>\n";
+		}
+	}
 	echo "</ul></li>\n";
 }
 ?>
