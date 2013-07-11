@@ -60,6 +60,7 @@ function get_exchange_name($n) {
 		case "50btc": 		return "50BTC";
 		case "hypernova":	return "Hypernova";
 		case "ltcmineru":	return "LTCMine.ru";
+		case "miningforeman": return "Mining Foreman";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -95,6 +96,7 @@ function get_supported_wallets() {
 		"litecoinglobal" => array('ltc'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud'),
+		"miningforeman" => array('ltc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
 		"vircurex" => array('btc', 'ltc', 'nmc', 'usd', 'eur'),
@@ -104,7 +106,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("hypernova", "ltcmineru");
+	return array("miningforeman");
 }
 
 function crypto_address($currency, $address) {
@@ -178,6 +180,7 @@ function account_data_grouped() {
 			'50btc' => array('url' => 'accounts_50btc', 'label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts'),
 			'hypernova' => array('url' => 'accounts_hypernova', 'label' => 'account', 'table' => 'accounts_hypernova', 'group' => 'accounts'),
 			'ltcmineru' => array('url' => 'accounts_ltcmineru', 'label' => 'account', 'table' => 'accounts_ltcmineru', 'group' => 'accounts'),
+			'miningforeman' => array('url' => 'accounts_miningforeman', 'label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -219,6 +222,7 @@ function get_external_apis() {
 		),
 
 		"Mining pool wallets" => array(
+			// TODO should be sorted
 			'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
 			'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
 			'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
@@ -227,9 +231,11 @@ function get_external_apis() {
 			'50btc' => '<a href="https://www.50btc.com">50BTC</a>',
 			'hypernova' => '<a href="https://hypernova.pw/">Hypernova</a>',
 			'ltcmineru' => '<a href="http://ltcmine.ru/">LTCMine.ru</a>',
+			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a>',
 		),
 
 		"Exchange wallets" => array(
+			// TODO should be sorted
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
@@ -240,6 +246,7 @@ function get_external_apis() {
 		),
 
 		"Exchange tickers" => array(
+			// TODO should be sorted
 			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'ticker_bitnz' => '<a href="http://bitnz.com">BitNZ</a>',

@@ -198,6 +198,10 @@ try {
 			require("jobs/ltcmineru.php");
 			break;
 
+		case "miningforeman":
+			require("jobs/miningforeman.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require("jobs/sum.php");

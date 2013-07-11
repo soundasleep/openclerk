@@ -876,3 +876,16 @@ CREATE TABLE external_status_types (
 -- technical_period can be > 128
 ALTER TABLE graph_technicals MODIFY technical_period smallint;
 
+DROP TABLE IF EXISTS accounts_miningforeman;
+
+CREATE TABLE accounts_miningforeman (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
