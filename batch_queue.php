@@ -180,6 +180,7 @@ if (!$premium_only) {
 	crypto_log("Reset old executing jobs");
 
 	// once a day (at 6am) (or on request), run cleanup jobs
+	/*
 	if (date('H') == 6 || in_array("cleanup", $job_type)) {
 		insert_new_job(array(
 			'priority' => $priority,
@@ -188,6 +189,7 @@ if (!$premium_only) {
 			'arg_id' => -1,
 		), false);
 	}
+	*/
 
 }
 

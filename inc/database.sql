@@ -917,3 +917,6 @@ CREATE TABLE securities_havelock (
 );
 
 INSERT INTO securities_update SET exchange='havelock';
+
+-- we will remind the user regularly, up to a certain number of reminders, that this payment is overdue
+ALTER TABLE outstanding_premiums ADD last_reminder datetime;

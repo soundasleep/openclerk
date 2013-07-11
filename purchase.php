@@ -81,7 +81,7 @@ if (require_post("months", false) || require_post("years", false)) {
 		if ($user['email']) {
 			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase", array(
 				"name" => ($user['name'] ? $user['name'] : $user['email']),
-				"amount" => $cost,
+				"amount" => number_format_autoprecision($cost),
 				"currency" => strtoupper($currency),
 				"currency_name" => get_currency_name($currency),
 				"address" => $address['address'],

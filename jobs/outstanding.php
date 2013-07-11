@@ -16,6 +16,18 @@ if (!$address) {
 	throw new JobException("Cannot find outstanding ID " . $job['arg_id'] . " with a relevant address");
 }
 
+$reminder = recent_format(strtotime("+" . get_site_config('outstanding_reminder_hours') . " hour"), false, "");
+$cancelled = recent_format(strtotime("+" . get_site_config('outstanding_abandon_days') . " day"), false, "");
+crypto_log("Reminders are sent every '$reminder'; cancelled after '$cancelled'.");
+
+// get current user
+$q = db()->prepare("SELECT * FROM users WHERE id=?");
+$q->execute(array($address['user_id']));
+$user = $q->fetch();
+if (!$user) {
+	throw new JobException("Could not find user " . $address['user_id']);
+}
+
 // find the most recent balance
 $q = db()->prepare("SELECT * FROM address_balances WHERE address_id=? AND is_recent=1");
 $q->execute(array($address['address_id']));
@@ -29,14 +41,6 @@ if (!$balance) {
 	// is it enough?
 	if ($balance['balance'] >= $address['balance']) {
 		crypto_log("Sufficient balance found: applying premium status to user " . $address['user_id']);
-
-		// get current user
-		$q = db()->prepare("SELECT * FROM users WHERE id=?");
-		$q->execute(array($address['user_id']));
-		$user = $q->fetch();
-		if (!$user) {
-			throw new JobException("Could not find user " . $address['user_id']);
-		}
 
 		// calculate new expiry date
 		$expires = max(strtotime($user['premium_expires']), time());
@@ -66,19 +70,72 @@ if (!$balance) {
 		if ($user['email']) {
 			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_payment", array(
 				"name" => ($user['name'] ? $user['name'] : $user['email']),
-				"amount" => $balance['balance'],
+				"amount" => number_format_autoprecision($balance['balance']),
 				"currency" => strtoupper($address['currency']),
 				"currency_name" => get_currency_name($address['currency']),
 				"expires" => db_date($expires),
 				"address" => $address['address'],
 				"explorer" => get_site_config($address['currency'] . '_address_url'),
 				"url" => absolute_url(url_for("user")),
+				"reminder" => $reminder,
+				"cancelled" => $cancelled,
 			));
 			crypto_log("Sent e-mail to " . htmlspecialchars($user['email']) . ".");
 		}
 
 	} else {
 		crypto_log("Insufficient balance found: " . $balance['balance'] . " (expected " . $address['balance'] . ")");
+
+		if (strtotime($address['created_at'] . " +" . get_site_config('outstanding_reminder_hours') . " hour") < time()) {
+			if (strtotime($address['created_at'] . " + " . get_site_config('outstanding_abandon_days') . " day") < time()) {
+				// abandon the payment
+				crypto_log("Payment is more than " . get_site_config('outstanding_abandon_days') . " days old: abandoning");
+				$q = db()->prepare("UPDATE outstanding_premiums SET is_unpaid=1 WHERE id=?");
+				$q->execute(array($address['id']));
+
+				if ($user['email']) {
+					send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_cancelled", array(
+						"name" => ($user['name'] ? $user['name'] : $user['email']),
+						"amount" => number_format_autoprecision($address['balance']),
+						"currency" => strtoupper($address['currency']),
+						"currency_name" => get_currency_name($address['currency']),
+						"address" => $address['address'],
+						"explorer" => get_site_config($address['currency'] . '_address_url'),
+						"url" => absolute_url(url_for("user")),
+						"reminder" => $reminder,
+						"cancelled" => $cancelled,
+					));
+					crypto_log("Sent e-mail to " . htmlspecialchars($user['email']) . ".");
+				}
+
+			} else {
+				// have we reminded recently?
+				if (!$address['last_reminder'] || strtotime($address['last_reminder'] . " +" . get_site_config('outstanding_reminder_hours') . " hour") < time()) {
+					// send a reminder
+					if ($user['email']) {
+						send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_reminder", array(
+							"name" => ($user['name'] ? $user['name'] : $user['email']),
+							"amount" => number_format_autoprecision($address['balance']),
+							"currency" => strtoupper($address['currency']),
+							"currency_name" => get_currency_name($address['currency']),
+							"address" => $address['address'],
+							"explorer" => get_site_config($address['currency'] . '_address_url'),
+							"url" => absolute_url(url_for("user")),
+							"reminder" => $reminder,
+							"cancelled" => $cancelled,
+						));
+						crypto_log("Sent e-mail to " . htmlspecialchars($user['email']) . ".");
+					}
+
+					$q = db()->prepare("UPDATE outstanding_premiums SET last_reminder=NOW() WHERE id=?");
+					$q->execute(array($address['id']));
+					crypto_log("Sent reminder message on outstanding premium payment.");
+
+				}
+
+			}
+
+		}
 
 	}
 }
