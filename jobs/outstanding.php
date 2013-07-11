@@ -76,7 +76,7 @@ if (!$balance) {
 				"expires" => db_date($expires),
 				"address" => $address['address'],
 				"explorer" => get_site_config($address['currency'] . '_address_url'),
-				"url" => absolute_url(url_for("user")),
+				"url" => absolute_url(url_for("user#user_outstanding")),
 				"reminder" => $reminder,
 				"cancelled" => $cancelled,
 			));
@@ -115,7 +115,7 @@ if (!$balance) {
 						"currency_name" => get_currency_name($address['currency']),
 						"address" => $address['address'],
 						"explorer" => get_site_config($address['currency'] . '_address_url'),
-						"url" => absolute_url(url_for("user")),
+						"url" => absolute_url(url_for("user#user_premium")),
 						"reminder" => $reminder,
 						"cancelled" => $cancelled,
 					));
@@ -134,7 +134,7 @@ if (!$balance) {
 							"currency_name" => get_currency_name($address['currency']),
 							"address" => $address['address'],
 							"explorer" => get_site_config($address['currency'] . '_address_url'),
-							"url" => absolute_url(url_for("user")),
+							"url" => absolute_url(url_for("user#user_outstanding")),
 							"reminder" => $reminder,
 							"cancelled" => $cancelled,
 						));

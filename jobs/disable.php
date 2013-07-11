@@ -24,7 +24,7 @@ if ($user['email']) {
 		"days" => number_format(get_site_config('user_expiry_days')),
 		"disables" => iso_date($disables_at),
 		"disables_text" => recent_format($disables_at, false, ""),
-		"url" => absolute_url(url_for("user")),
+		"url" => absolute_url(url_for("user#user_premium")),
 		"login" => absolute_url(url_for("login")),
 	));
 	crypto_log("Sent disabled account e-mail to " . htmlspecialchars($user['email']) . ".");

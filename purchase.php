@@ -86,7 +86,7 @@ if (require_post("months", false) || require_post("years", false)) {
 				"currency_name" => get_currency_name($currency),
 				"address" => $address['address'],
 				"explorer" => get_site_config($currency . '_address_url'),
-				"url" => absolute_url(url_for("user")),
+				"url" => absolute_url(url_for("user#user_outstanding")),
 			));
 		}
 

@@ -395,27 +395,42 @@ function display_xml_error($e) {
 /**
  * Generate the url for a particular module (i.e. script) and particular arguments (i.e. query string elements).
  * TODO Currently just assumes everything is .htaccess'd to the root with no subdirs
+ * Also handles #hash arguments.
  */
 function url_for($module, $arguments = array()) {
+	$hash = false;
+	if (strpos($module, "#") !== false) {
+		$hash = substr($module, strpos($module, "#") + 1);
+		$module = substr($module, 0, strpos($module, "#"));
+	}
 	$query = array();
 	if (count($arguments) > 0) {
 		foreach ($arguments as $key => $value) {
 			$query[] = urlencode($key) . "=" . urlencode($value);
 		}
 	}
-	return $module . /* ".php" . */ (count($query) ? "?" . implode("&", $query) : "");
+	return $module . /* ".php" . */ (count($query) ? "?" . implode("&", $query) : "") . ($hash ? "#" . $hash : "");
 }
 
 /**
  * Add GET arguments onto a particular URL. Does not replace any existing arguments.
+ * Also handles #hash arguments.
  */
 function url_add($url, $arguments) {
+	$hash = false;
+	if (strpos($url, "#") !== false) {
+		$hash = substr($url, strpos($url, "#") + 1);
+		$url = substr($url, 0, strpos($url, "#"));
+	}
 	foreach ($arguments as $key => $value) {
 		if (strpos($url, "?") !== false) {
 			$url .= "&" . urlencode($key) . "=" . urlencode($value);
 		} else {
 			$url .= "?" . urlencode($key) . "=" . urlencode($value);
 		}
+	}
+	if ($hash) {
+		$url .= "#" . $hash;
 	}
 	return $url;
 }
