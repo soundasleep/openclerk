@@ -19,7 +19,6 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'cnc'), // all flipped around
 );
 
 $first = true;
