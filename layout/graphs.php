@@ -10,7 +10,7 @@ require("graphs/output.php");
  */
 function render_graph($graph, $is_public = false) {
 
-	if (is_admin()) {
+	if (is_admin() && !require_get("demo", false)) {
 		$start_time = microtime(true);
 	}
 
@@ -483,7 +483,7 @@ function render_graph($graph, $is_public = false) {
 			break;
 	}
 
-	if (is_admin()) {
+	if (is_admin() && !require_get("demo", false)) {
 		$end_time = microtime(true);
 		$time_diff = ($end_time - $start_time) * 1000;
 		echo "<span class=\"render_time\">" . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . ", order " . number_format($graph['page_order']) . "</span>";
