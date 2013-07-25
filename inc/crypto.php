@@ -14,7 +14,7 @@ function get_all_hashrate_currencies() {
 }
 
 function get_new_supported_currencies() {
-	return array("aud");
+	return array("ppc");
 }
 
 function get_currency_name($n) {
