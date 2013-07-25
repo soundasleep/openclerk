@@ -28,7 +28,8 @@ function vircurex_balance($username, $currency, $secret) {
 	return json_decode(crypto_get_contents(crypto_wrap_url($url)), true);
 }
 
-$currencies = array('nmc', 'btc', 'ltc', 'usd');
+$get_supported_wallets = get_supported_wallets();
+$currencies = $get_supported_wallets['vircurex']; // also supports rur, eur, nvc, trc, ppc
 
 foreach ($currencies as $i => $currency) {
 	if ($i != 0) {

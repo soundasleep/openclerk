@@ -93,7 +93,7 @@ function get_supported_wallets() {
 		// alphabetically sorted, except for generic
 		"50btc" => array('btc', 'hash'),
 		"bips" => array('btc', 'usd'),
-		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur'),
+		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
@@ -106,7 +106,7 @@ function get_supported_wallets() {
 		"miningforeman" => array('ltc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
-		"vircurex" => array('btc', 'ltc', 'nmc', 'usd', 'eur'),
+		"vircurex" => array('btc', 'ltc', 'nmc', 'usd', 'eur'),		// used in jobs/vircurex.php
 		"wemineltc" => array('ltc', 'hash'),
 		"generic" => get_all_currencies(),
 	);

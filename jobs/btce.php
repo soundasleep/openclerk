@@ -49,7 +49,8 @@ function btce_query($key, $secret, $method, array $req = array()) {
 	return $dec;
 }
 
-$currencies = array('usd', 'btc', 'ltc', 'nmc', 'ftc'); // also supports rur, eur, nvc, trc, ppc
+$get_supported_wallets = get_supported_wallets();
+$currencies = $get_supported_wallets['btce']; // also supports rur, eur, nvc, trc, ppc
 $btce_info = btce_query($account['api_key'], $account['api_secret'], "getInfo");
 if (isset($btce_info['error'])) {
 	throw new ExternalAPIException("API returned error: '" . $btce_info['error'] . "'");
