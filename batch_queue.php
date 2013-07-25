@@ -83,6 +83,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_hypernova', 'type' => 'hypernova'),
 	array('table' => 'accounts_ltcmineru', 'type' => 'ltcmineru'),
 	array('table' => 'accounts_miningforeman', 'type' => 'miningforeman'),
+	array('table' => 'accounts_miningforeman_ftc', 'type' => 'miningforeman_ftc'),
 	array('table' => 'accounts_havelock', 'type' => 'havelock'),
 	array('table' => 'securities_havelock', 'type' => 'securities_havelock', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* so that total BTC/LTC etc will be updated together before conversion summaries */

@@ -210,6 +210,10 @@ try {
 			require("jobs/miningforeman.php");
 			break;
 
+		case "miningforeman_ftc":
+			require("jobs/miningforeman_ftc.php");
+			break;
+
 		case "havelock":
 			require("jobs/havelock.php");
 			break;

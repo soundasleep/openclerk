@@ -62,6 +62,7 @@ function get_exchange_name($n) {
 		case "hypernova":	return "Hypernova";
 		case "ltcmineru":	return "LTCMine.ru";
 		case "miningforeman": return "Mining Foreman";
+		case "miningforeman_ftc": return "Mining Foreman";
 		case "havelock":	return "Havelock Investments";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
@@ -104,7 +105,7 @@ function get_supported_wallets() {
 		"litecoinglobal" => array('ltc'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud'),
-		"miningforeman" => array('ltc'),
+		"miningforeman" => array('ltc', 'ftc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
 		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc'),		// used in jobs/vircurex.php
@@ -192,7 +193,8 @@ function account_data_grouped() {
 			'50btc' => array('url' => 'accounts_50btc', 'label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts'),
 			'hypernova' => array('url' => 'accounts_hypernova', 'label' => 'account', 'table' => 'accounts_hypernova', 'group' => 'accounts'),
 			'ltcmineru' => array('url' => 'accounts_ltcmineru', 'label' => 'account', 'table' => 'accounts_ltcmineru', 'group' => 'accounts'),
-			'miningforeman' => array('url' => 'accounts_miningforeman', 'label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts'),
+			'miningforeman' => array('url' => 'accounts_miningforeman', 'label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC'),
+			'miningforeman_ftc' => array('url' => 'accounts_miningforeman_ftc', 'label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -214,10 +216,10 @@ function account_data_grouped() {
 		),
 	);
 	foreach ($data['Exchanges'] as $key => $row) {
-		$data['Exchanges'][$key]['title'] = get_exchange_name($key) . " " . $row['label'] . "s";
+		$data['Exchanges'][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $row['label'] . "s";
 	}
 	foreach ($data['Mining pools'] as $key => $row) {
-		$data['Mining pools'][$key]['title'] = get_exchange_name($key) . " " . $row['label'] . "s";
+		$data['Mining pools'][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $row['label'] . "s";
 	}
 	return $data;
 }
@@ -246,7 +248,8 @@ function get_external_apis() {
 			'50btc' => '<a href="https://www.50btc.com">50BTC</a>',
 			'hypernova' => '<a href="https://hypernova.pw/">Hypernova</a>',
 			'ltcmineru' => '<a href="http://ltcmine.ru/">LTCMine.ru</a>',
-			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a>',
+			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a> (LTC)',
+			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 		),
 
 		"Exchange wallets" => array(

@@ -987,3 +987,18 @@ CREATE TABLE ppcoin_blocks (
 	
 	INDEX(is_recent)
 );
+
+DROP TABLE IF EXISTS accounts_miningforeman_ftc;
+
+CREATE TABLE accounts_miningforeman_ftc (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
+

@@ -5,10 +5,13 @@ if (!isset($account_data)) {
 	throw new Exception("account_data needs to be set");
 }
 
-if (!isset($account_data['title'])) {
-	$account_data['title'] = get_exchange_name($account_data['exchange']) . " account";
+if (!isset($account_data['title_key'])) {
+	$account_data['title_key'] = $account_data['exchange'];
 }
-$account_data['exchange_name'] = get_exchange_name($account_data['exchange']);
+if (!isset($account_data['title'])) {
+	$account_data['title'] = get_exchange_name($account_data['title_key']) . " account";
+}
+$account_data['exchange_name'] = get_exchange_name($account_data['title_key']);
 
 if (!isset($account_data['titles'])) {
 	$account_data['titles'] = $account_data['title'] . "s";
@@ -99,7 +102,7 @@ $accounts = $q->fetchAll();
 page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data['url'], array('jquery' => true, 'js' => 'accounts'));
 
 $all_wallets = get_supported_wallets();
-$has_hashrate = in_array('hash', $all_wallets[$account_data['exchange']])
+$has_hashrate = in_array('hash', $all_wallets[$account_data['title_key']])
 
 ?>
 
