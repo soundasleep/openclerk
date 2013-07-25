@@ -51,6 +51,7 @@ $(document).ready(function() {
 	e.keyup();
 });
 
+// values: a sorted array of {id, name}
 function populate_arg0(parent, values) {
 	var i;
 	var e = $(parent).find("#graph_arg0"), template = $(parent).find("#graph_arg0_template");
@@ -61,12 +62,12 @@ function populate_arg0(parent, values) {
 	for (key in values) {
 		if (values.hasOwnProperty(key)) {
 			var temp = template.clone();
-			temp.attr('value', key);
-			temp.text(values[key]);
+			temp.attr('value', values[key][0]);
+			temp.text(values[key][1]);
 			temp.attr('id', '');
 			e.append(temp);
 			temp.show();
-			if (!first) first = key;
+			if (!first) first = values[key][0];
 		}
 	}
 	// select the first one
