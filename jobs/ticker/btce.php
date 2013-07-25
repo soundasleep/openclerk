@@ -36,7 +36,11 @@ foreach ($rates_list as $rl) {
 	}
 
 	if (!isset($rates['ticker']['last'])) {
-		throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for $exchange", $rates);
+		if (isset($rates['error'])) {
+			throw new ExternalAPIException("Could not find " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for $exchange: " . htmlspecialchars($rates['error']));
+		}
+
+		throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for $exchange");
 	}
 
 	crypto_log($exchange['name'] . " rate for " . $rl['cur1'] . "/" . $rl['cur2'] . ": " . $rates['ticker']['last']);

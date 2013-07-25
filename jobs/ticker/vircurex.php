@@ -13,8 +13,8 @@ $rates_list = array(
 	array('cur1' => 'usd', 'cur2' => 'nmc'), // all flipped around
 	array('cur1' => 'ltc', 'cur2' => 'nmc'), // all flipped around
 	// currencies not yet exposed to users or public
-	array('cur1' => 'btc', 'cur2' => 'bqc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'cnc'), // all flipped around
+	// array('cur1' => 'btc', 'cur2' => 'bqc'), // all flipped around - removed in 0.6
+	// array('cur1' => 'btc', 'cur2' => 'cnc'), // all flipped around - removed in 0.6
 	array('cur1' => 'btc', 'cur2' => 'dvc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'frc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'ftc'), // all flipped around
@@ -22,18 +22,20 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'yac'), // all flipped around
+	// array('cur1' => 'btc', 'cur2' => 'yac'), // all flipped around - removed in 0.6
+	array('cur1' => 'btc', 'cur2' => 'xpm'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'dgc'), // all flipped around
 );
 
 $rates = json_decode(crypto_get_contents(crypto_wrap_url("https://vircurex.com/api/get_info_for_currency.json")), true);
 if ($rates === null) {
-	throw new RemoteAPIException("Invalid JSON detected.");
+	throw new ExternalAPIException("Invalid JSON detected.");
 }
 
 foreach ($rates_list as $rl) {
 
 	if (!isset($rates[strtoupper($rl['cur2'])][strtoupper($rl['cur1'])])) {
-		throw new RemoteAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for Vircurex");
+		throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for Vircurex");
 	}
 
 	$obj = $rates[strtoupper($rl['cur2'])][strtoupper($rl['cur1'])];
