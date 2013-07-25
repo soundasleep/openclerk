@@ -158,6 +158,7 @@ function graph_types() {
 	}
 
 	$data['linebreak'] = array('title' => 'Line break', 'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.');
+	$data['heading'] = array('title' => 'Heading', 'description' => 'Displays a line of text as a heading at a particular location. Also functions as a line break. Select \'Enable layout editing\' to move it.');
 
 	$data['statistics_queue'] = array(
 		'title' => "Job queue delay (graph)",

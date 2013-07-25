@@ -1002,3 +1002,23 @@ CREATE TABLE accounts_miningforeman_ftc (
 	INDEX(user_id), INDEX(last_queue)
 );
 
+-- we now keep track of which securities each user has
+-- but we don't yet keep track of is_daily_data etc, necessary for graphing quantities etc over time
+DROP TABLE IF EXISTS securities;
+
+CREATE TABLE securities (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	
+	exchange varchar(32) not null,		-- e.g. btct, litecoinglobal
+	security_id int not null,		-- e.g. id from securites_btct
+	
+	quantity int not null,	-- assumes integer value
+	is_recent tinyint not null default 0,
+	
+	INDEX(user_id), INDEX(exchange, security_id), INDEX(is_recent)
+);
+
+-- for 'heading' graph type
+ALTER TABLE graphs ADD string0 varchar(128);

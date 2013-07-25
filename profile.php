@@ -32,43 +32,114 @@ if (get_site_config('timed_sql')) {
 	echo "<!-- " . db()->stats() . " -->\n";
 }
 
+// how many securities do we have?
+$q = db()->prepare("SELECT COUNT(*) AS c FROM securities WHERE user_id=? AND is_recent=1");
+$q->execute(array(user_id()));
+$count = $q->fetch();
+$securities_count = $count['c'];
+
 // a user might not have any pages displayed
 if ($pages) {
-	// get this current page's graphs
-	$page_id = require_get("page", $pages[0]['id']);
-	$q = db()->prepare("SELECT * FROM graph_pages
-		JOIN graphs ON graph_pages.id=graphs.page_id
-		WHERE graph_pages.user_id=? AND graphs.page_id=? AND graphs.is_removed=0
-		ORDER BY graphs.page_order ASC, graphs.id ASC");
-	$q->execute(array(user_id(), $page_id));
-	$graphs = $q->fetchAll();
+	if (require_get("securities", false)) {
+		// displaying securities page?
 
-	if (!$graphs) {
-		// make sure this is actually our page
-		$is_mine = false;
-		foreach ($pages as $page) {
-			if ($page['id'] == $page_id) {
-				$is_mine = true;
-				break;
+		$graphs = array();
+		$page_title = "Your Securities";
+		$page_id = "securities";
+
+		$id_counter = 0;		// $graph[id] needs to be set for unique graph HTML IDs
+
+		// premium check
+		if (get_premium_value($user, 'your_securities')) {
+
+			// assumes each securities_XXX table has a 'name'
+			foreach (get_security_exchange_pairs() as $exchange => $currencies) {
+
+				$q = db()->prepare("SELECT securities.* " . (count($currencies) > 1 ? ", ss.currency" : "") . " FROM securities
+					JOIN securities_" . $exchange . " AS ss ON securities.security_id=ss.id
+					WHERE exchange=? AND user_id=? AND is_recent=1 ORDER BY exchange ASC, ss.name ASC");
+				$q->execute(array($exchange, user_id()));
+				$securities = $q->fetchAll();
+
+				if ($securities) {
+					// insert heading (also functions as linebreak)
+					$graphs[] = array(
+						'id' => $id_counter++,
+						'graph_type' => 'heading',
+						'string0' => get_exchange_name($exchange),
+						'page_order' => 0,
+						'public' => true,
+						'width' => 1,
+						'height' => 1,
+						'days' => 0,
+						'arg0' => 0,
+					);
+
+					// go through each security
+					foreach ($currencies as $c) {
+						foreach ($securities as $sec) {
+							if (!isset($sec['currency'])) {
+								$sec['currency'] = $c;
+							}
+							if ($sec['currency'] == $c) {
+								$graphs[] = array(
+									'id' => $id_counter++,
+									'graph_type' => 'securities_' . $exchange . '_' . $sec['currency'],
+									'arg0' => $sec['security_id'],
+									'width' => 4,
+									'height' => 2,
+									'public' => true,
+									'page_order' => 0,
+									'days' => 45,
+								);
+							}
+						}
+					}
+
+				}
+
+			}
+
+		}
+
+	} else {
+		// get this current page's graphs
+		$page_id = require_get("page", $pages[0]['id']);
+		$q = db()->prepare("SELECT * FROM graph_pages
+			JOIN graphs ON graph_pages.id=graphs.page_id
+			WHERE graph_pages.user_id=? AND graphs.page_id=? AND graphs.is_removed=0
+			ORDER BY graphs.page_order ASC, graphs.id ASC");
+		$q->execute(array(user_id(), $page_id));
+		$graphs = $q->fetchAll();
+
+		if (!$graphs) {
+			// make sure this is actually our page
+			$is_mine = false;
+			foreach ($pages as $page) {
+				if ($page['id'] == $page_id) {
+					$is_mine = true;
+					break;
+				}
+			}
+
+			if (!$is_mine) {
+				$errors[] = "Unknown page.";
+				set_temporary_messages($messages);
+				set_temporary_errors($errors);
+				redirect(url_for('profile'));	// redirect back to our home page
 			}
 		}
 
-		if (!$is_mine) {
-			$errors[] = "Unknown page.";
-			set_temporary_messages($messages);
-			set_temporary_errors($errors);
-			redirect(url_for('profile'));	// redirect back to our home page
+		$page_title = "Unknown";
+		foreach ($pages as $p) {
+			if ($p['id'] == $page_id) {
+				$page_title = $p['title'];
+			}
 		}
+
 	}
 
-	$page_title = "Unknown";
-	foreach ($pages as $p) {
-		if ($p['id'] == $page_id) {
-			$page_title = $p['title'];
-		}
-	}
-
-	page_header("Your Reports: " . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
+	page_header(require_get("securities", false) ? $page_title : "Your Reports: " . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
 
 ?>
 
@@ -77,21 +148,29 @@ if ($pages) {
 <!-- list of pages -->
 <ul class="page_list">
 <?php $first = true; foreach ($pages as $page) { ?>
-	<li class="page_tab<?php echo htmlspecialchars($page['id']); ?><?php if (!$page_id || $page['id'] == $page_id) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('profile', array('page' => $page['id']))); ?>">
+	<li class="page_tab<?php echo htmlspecialchars($page['id']); ?><?php if (!require_get("securities", false) && (!$page_id || $page['id'] == $page_id)) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('profile', array('page' => $page['id']))); ?>">
 		<?php echo htmlspecialchars($page['title']); ?>
 	</a></li>
 <?php $first = false; } ?>
+	<li class="page_tabsecurities<?php if (require_get("securities", false)) echo " page_current"; ?> premium"><a href="<?php echo htmlspecialchars(url_for('profile', array('securities' => 1))); ?>">
+		Your Securities (<?php echo number_format($securities_count); ?>)
+	</a></li>
 </ul>
 
+<?php if (!require_get("securities", false)) { ?>
 <div class="enable_editing">
 	<label><input type="checkbox" id="enable_editing"<?php if ($enable_editing) echo " checked"; ?>> Enable layout editing</label>
 </div>
+<?php } ?>
 
 <!-- graphs for this page -->
 <div class="graph_collection">
 <?php foreach ($graphs as $graph) {
 
-if ($graph['graph_type'] == "linebreak") { ?>
+if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { ?>
+	<?php if ($graph['graph_type'] == "heading") {
+		echo "<h2 class=\"graph_heading\">" . htmlspecialchars($graph['string0']) . "</h2>\n";
+	} ?>
 <div style="clear:both;">
 <div class="graph_controls">
 <?php } ?>
@@ -99,20 +178,33 @@ if ($graph['graph_type'] == "linebreak") { ?>
 	id="graph<?php echo htmlspecialchars($graph['id']); ?>">
 	<?php render_graph($graph); ?>
 </div>
-<?php if ($graph['graph_type'] == "linebreak") { ?>
+<?php if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { ?>
 </div>
 </div>
 <?php } ?>
 <?php }
 
 if (!$graphs) { ?>
-	<div class="graph_collection_empty">No graphs to display! You might want to add one below.</div>
+	<div class="graph_collection_empty">
+		<?php if (require_get("securities", false)) {
+			if (get_premium_value($user, 'your_securities')) {
+				echo "No securities to display! You might want to add details about <a href=\"" . htmlspecialchars(url_for('accounts')) . "\">your securities exchanges</a>, if you have any.";
+			} else {
+				echo "To display historical value graphs of your securities, please <a href=\"" . htmlspecialchars(url_for('premium')) . "\">purchase a premium account</a>, or
+					add them as normal \"security value\" graphs on one of your other <a href=\"" . htmlspecialchars(url_for('profile')) . "\">report pages</a>.";
+			}
+		} else {
+			echo "No graphs to display! You might want to add one below.";
+		} ?>
+	</div>
 <?php } ?>
 </div>
 
 </div>
 
 <div style="clear:both;"></div><?php /* try and fix tab linebreak on Android web browser */ ?>
+
+<?php if (!require_get("securities", false)) { ?>
 
 <div class="tabs" id="tabs_profile">
 	<ul class="tab_list">
@@ -125,6 +217,8 @@ if (!$graphs) { ?>
 
 <?php require("_profile_add_graph.php"); ?>
 		</li>
+
+<?php } ?>
 
 <?php } else {
 	/* no pages */
@@ -147,6 +241,8 @@ if (!$graphs) { ?>
 	<ul class="tab_groups">
 
 <?php } ?>
+
+<?php if (!require_get("securities", false)) { ?>
 
 <?php require("_profile_add_page.php"); ?>
 
@@ -176,6 +272,8 @@ if (!$graphs) { ?>
 </form>
 </li>
 </ul>
+
+<?php } ?>
 
 <?php
 

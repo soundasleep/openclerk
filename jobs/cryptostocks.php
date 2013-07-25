@@ -59,6 +59,10 @@ sleep(get_site_config('sleep_cryptostocks_balance'));
 // relies on securities_cryptostocks
 $get_share_balances = cryptostocks_api($account['api_key_share'], $account['api_email'], 'get_share_balances');
 
+// set is_recent=0 for all old security instances for this user
+$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
+$q->execute(array($job['user_id'], $exchange));
+
 foreach ($get_share_balances['tickers'] as $security) {
 	if (!isset($get_share_balances[$security]['balance'])) {
 		throw new ExternalAPIException("Specified security " . htmlspecialchars($security) . " had no balance");
@@ -75,6 +79,7 @@ foreach ($get_share_balances['tickers'] as $security) {
 		crypto_log("No securities_cryptostocks definition existed for '" . htmlspecialchars($security) . "': adding in new definition");
 		$q = db()->prepare("INSERT INTO securities_cryptostocks SET name=?");
 		$q->execute(array($security));
+		$security_def = array('id' => db()->lastInsertId());
 
 	} else if (!isset($balances[$security_def['currency']])) {
 		// this allows us to safely ignore securities in other currencies
@@ -101,6 +106,15 @@ foreach ($get_share_balances['tickers'] as $security) {
 
 		}
 	}
+
+	// insert security instance
+	$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, is_recent=1");
+	$q->execute(array(
+		'user_id' => $job['user_id'],
+		'exchange' => $exchange,
+		'security_id' => $security_def['id'],
+		'quantity' => $security_value['balance'],
+	));
 }
 
 // we've now calculated both the wallet balance + the value of all securities

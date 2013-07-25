@@ -319,6 +319,10 @@ function render_graph($graph, $is_public = false) {
 			// implemented by profile.php
 			break;
 
+		case "heading":
+			// implemented by profile.php
+			break;
+
 		default:
 			// ticker graphs are generated programatically
 			if (substr($graph['graph_type'], -strlen("_daily")) == "_daily") {

@@ -36,6 +36,10 @@ if (isset($data['balance']['LTC'])) {
 }
 $balance = $data['balance'][strtoupper($currency)];
 
+// set is_recent=0 for all old security instances for this user
+$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
+$q->execute(array($job['user_id'], $exchange));
+
 // and for each security
 foreach ($data['securities'] as $security => $detail) {
 	// make sure that a security definition exists
@@ -48,6 +52,7 @@ foreach ($data['securities'] as $security => $detail) {
 		crypto_log("No securities_btct definition existed for '" . htmlspecialchars($security) . "': adding in new definition");
 		$q = db()->prepare("INSERT INTO securities_btct SET name=?");
 		$q->execute(array($security));
+		$security_def = array('id' => db()->lastInsertId());
 
 	} else {
 		// the 'balance' for this security is the 'bid'
@@ -71,6 +76,15 @@ foreach ($data['securities'] as $security => $detail) {
 		}
 
 	}
+
+	// insert security instance
+	$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, is_recent=1");
+	$q->execute(array(
+		'user_id' => $job['user_id'],
+		'exchange' => $exchange,
+		'security_id' => $security_def['id'],
+		'quantity' => $detail['quantity'],
+	));
 
 }
 

@@ -51,6 +51,12 @@
 		<td class="number premium"><?php echo number_format(count(graph_technical_types())); ?> (<?php echo implode(", ", $premium_types); ?>)</td>
 	</tr>
 	<tr>
+		<th><?php echo $welcome ? "Your securities" : "<a href=\"" . htmlspecialchars(url_for('screenshots#screenshots_profile_summary')) . "\">Your securities</a>"; ?> reports</th>
+		<?php foreach (array('free', 'premium') as $type) { ?>
+		<td class="<?php echo $type . " " . (get_premium_config('your_securities_' . $type) ? "yes" : "no"); ?>"><?php echo get_premium_config('your_securities_' . $type) ? "Y" : "-"; ?></td>
+		<?php } ?>
+	</tr>
+	<tr>
 		<th>Priority over free users</th>
 		<td class="no">-</td>
 		<td class="yes premium">Y</td>

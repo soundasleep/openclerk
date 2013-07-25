@@ -37,7 +37,7 @@ require("_premium_features.php");
 
 <p>
 	You may purchase or extend your premium account by logging into your
-	<a href="<?php echo htmlspecialchars(url_for('user')); ?>">user account</a>, or
+	<a href="<?php echo htmlspecialchars(url_for('user#user_premium')); ?>">user account</a>, or
 	by selecting the appropriate payment option below.
 </p>
 

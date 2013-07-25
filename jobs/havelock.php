@@ -25,13 +25,33 @@ $content = havelock_query("https://www.havelockinvestments.com/r/balance", array
 $balance = $content['balance']['balance'];
 crypto_log("$exchange wallet balance for " . $job['user_id'] . ": " . $balance);
 
+// set is_recent=0 for all old security instances for this user
+$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
+$q->execute(array($job['user_id'], $exchange));
+
 // assume we don't need to delay
 $content = havelock_query("https://www.havelockinvestments.com/r/portfolio", array('key' => $account['api_key']));
+print_r($content);
 if ($content['portfolio'] && is_array($content['portfolio'])) {
 	foreach ($content['portfolio'] as $entry) {
 		// the API returns the marketvalue, so we can just use that rather than calculate it from previous jobs (like btct)
 		crypto_log("$exchange security balance for " . htmlspecialchars($entry['symbol']) . ": " . $entry['quantity'] . '*' . $entry['lastprice'] . "=" . $entry['marketvalue']);
 		$balance += $entry['marketvalue'];
+
+		// find the security ID, if there is one
+		$q = db()->prepare("SELECT * FROM securities_havelock WHERE name=?");
+		$q->execute(array($entry['symbol']));
+		$security_def = $q->fetch();
+		if ($security_def) {
+			// insert security instance
+			$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, is_recent=1");
+			$q->execute(array(
+				'user_id' => $job['user_id'],
+				'exchange' => $exchange,
+				'security_id' => $security_def['id'],
+				'quantity' => $entry['quantity'],
+			));
+		}
 	}
 }
 
