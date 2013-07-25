@@ -26,7 +26,7 @@ function render_graph($graph, $is_public = false) {
 
 	// get relevant technicals, if any
 	// (we need to get these before render_graph_controls() so that the edit graph inline form knows about technicals)
-	if (isset($graph_types[$graph['graph_type']]['technical']) && $graph_types[$graph['graph_type']]['technical']) {
+	if (!isset($graph['no_technicals']) && isset($graph_types[$graph['graph_type']]['technical']) && $graph_types[$graph['graph_type']]['technical']) {
 		$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=?");
 		$q->execute(array($graph['id']));
 		$graph['technicals'] = $q->fetchAll();

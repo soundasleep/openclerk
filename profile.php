@@ -73,6 +73,7 @@ if ($pages) {
 						'height' => 1,
 						'days' => 0,
 						'arg0' => 0,
+						'no_technicals' => true,
 					);
 
 					// go through each security
@@ -91,6 +92,7 @@ if ($pages) {
 									'public' => true,
 									'page_order' => 0,
 									'days' => 45,
+									'no_technicals' => true,
 								);
 							}
 						}
