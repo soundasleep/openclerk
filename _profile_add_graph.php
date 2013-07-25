@@ -16,6 +16,10 @@
 		<option value="" id="graph_arg0_template">Loading...</option>
 	</select></td>
 </tr>
+<tr id="add_graph_string0" style="display:none;">
+	<th>Argument:</th>
+	<td><input name="string0" id="graph_string0" size="32" maxlength="128" value="Loading..."></td>
+</tr>
 <tr>
 	<th>Width:</th>
 	<td><select name="width">
@@ -99,6 +103,7 @@ function graph_types() {
 				((isset($graph['technical']) && $graph['technical']) ? ", 'technical': true" : "") .
 				((isset($graph['arg0_title']) && $graph['arg0_title']) ? ", 'arg0_title': " . json_encode($graph['arg0_title']) : "") .
 				($arg0 ? ", 'arg0': " . json_encode($arg0_values) : "") .
+				", 'string0': " . ((isset($graph['string0']) && $graph['string0']) ? json_encode($graph['string0']) : "null") .
 				", 'days': " . json_encode(isset($graph['days'])) . "},\n";
 		}
 	}

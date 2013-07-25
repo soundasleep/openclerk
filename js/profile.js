@@ -42,6 +42,12 @@ $(document).ready(function() {
 			} else {
 				$("#add_graph_arg0").hide();
 			}
+			if (typeof graph_types()[data]['string0'] != 'undefined' && graph_types()[data]['string0'] != null) {
+				$("#add_graph_string0").show();
+				$("#add_graph_string0 input").val(graph_types()[data]['string0']);
+			} else {
+				$("#add_graph_string0").hide();
+			}
 			// update description after updating technical data, so that changing graph types highlights graph description, not technical description
 			$("#graph_description").html(graph_types()[data]['description']);
 		}
@@ -203,8 +209,9 @@ function editGraphProperty(target, id, graph_data) {
 		$(temp).find("select[name='type']").keyup();	// trigger the event handler (AFTER it's been added to the DOM, otherwise the original form will get it)
 		$(temp).find("select[name='technical']").keyup();	// trigger the event handler (AFTER it's been added to the DOM, otherwise the original form will get it)
 
-		// and once we've populated the list of arguments, we can update the argument value
+		// and once we've reset & populated the lists of arguments, we can update the argument value
 		$(temp).find("select[name='arg0']").val(graph_data['arg0']);
+		$(temp).find("input[name='string0']").val(graph_data['string0']);
 	}
 }
 

@@ -90,6 +90,7 @@ function get_graph_<?php echo htmlspecialchars($graph['id']); ?>() {
 		'technical' : <?php echo json_encode(isset($graph['technicals']) && $graph['technicals'] ? $graph['technicals'][0]['technical_type'] : ""); ?>,
 		'period' : <?php echo json_encode(isset($graph['technicals']) && $graph['technicals'] ? $graph['technicals'][0]['technical_period'] : ""); ?>,
 		'arg0' : <?php echo json_encode($graph['arg0']); ?>,
+		'string0' : <?php echo json_encode($graph['string0']); ?>,
 	};
 }
 </script>
