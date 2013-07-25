@@ -30,6 +30,8 @@
 			'text' => "Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant. Helpful reports include the value of your currencies if immediately converted into another; the distribution of your currency values; and current exchange rates.",
 			'url2' => 'img/screenshots/technicals.png',
 			'text2' => 'Premium users can add technical indicators to graphs, such as Simple Moving Average (SMA), Bollinger Bands (BOLL) and Relative Strength Index (RSI).',
+			'url3' => 'img/screenshots/profile_securities.png',
+			'text3' => 'Premium users can also access an automatically-generated page listing all of their securities and their current market values.',
 		),
 		'profile_historical' => array(
 			'title' => 'Historical',
@@ -60,6 +62,10 @@
 			<?php if (isset($data['url2'])) { ?>
 				<img src="<?php echo htmlspecialchars($data['url2']); ?>" class="image2">
 				<p><?php echo $data['text2']; ?></p>
+			<?php } ?>
+			<?php if (isset($data['url3'])) { ?>
+				<img src="<?php echo htmlspecialchars($data['url3']); ?>" class="image2">
+				<p><?php echo $data['text3']; ?></p>
 			<?php } ?>
 		</li>
 	<?php } ?>
