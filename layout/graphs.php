@@ -60,7 +60,21 @@ function render_graph($graph, $is_public = false) {
 		}
 	}
 
-	echo "<h2>" . htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']) . "</h2>\n";
+	// does it have a link to historical data?
+	$historical = false;
+	if (isset($graph_type['historical']) && $graph_type['historical']) {
+		if (isset($graph_type['historical_arg0'])) {
+			$historical = $graph_type['historical']($graph_type['historical_arg0'], $graph_type, $graph);
+		} else {
+			$historical = $graph_type['historical']($graph_type, $graph);
+		}
+	}
+
+	echo "<h2 class=\"graph_title\">";
+	if ($historical) echo "<a href=\"" . htmlspecialchars($historical) . "\" title=\"View historical data\">";
+	echo htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']);
+	if ($historical) echo "</a>";
+	echo "</h2>\n";
 	render_graph_controls($graph);
 
 	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('user')) . "\">Add more currencies</a>";

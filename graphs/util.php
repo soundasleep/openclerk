@@ -130,6 +130,11 @@ function demo_scale($value) {
 	return $value;
 }
 
+// $arg0 is from historical_arg0
+function get_exchange_historical($arg0, $graph_type, $graph) {
+	return url_for('historical', array('id' => $arg0['key'] . '_' . $arg0['pair'][0] . $arg0['pair'][1] . '_daily', 'days' => 180));
+}
+
 /**
  * Return a list of (id => title).
  * Could be cached.
@@ -158,6 +163,13 @@ function get_btct_securities_btc() {
 	return $result;
 }
 
+function get_btct_securities_btc_historical($graph_type, $graph) {
+	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_btct_btc'));
+}
+function get_litecoinglobal_securities_ltc_historical($graph_type, $graph) {
+	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_litecoinglobal_ltc'));
+}
+
 /**
  * Return a list of (id => title).
  * Could be cached.
@@ -179,6 +191,13 @@ function get_cryptostocks_securities_ltc() {
 	return get_cryptostocks_securities('ltc');
 }
 
+function get_cryptostocks_securities_btc_historical($graph_type, $graph) {
+	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_cryptostocks_btc'));
+}
+function get_cryptostocks_securities_ltc_historical($graph_type, $graph) {
+	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_cryptostocks_ltc'));
+}
+
 /**
  * Return a list of (id => title).
  * Could be cached.
@@ -193,11 +212,15 @@ function get_havelock_securities_btc() {
 	return $result;
 }
 
+function get_havelock_securities_btc_historical($graph_type, $graph) {
+	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_havelock_btc'));
+}
+
 /**
- * Return a list of (id => job_type).
+ * Return a list of (id => title).
  * Could be cached.
  */
-function get_external_status_types() {
+function get_external_status_titles() {
 	$result = array();
 	$q = db()->prepare("SELECT * FROM external_status_types");
 	$q->execute();
@@ -209,4 +232,27 @@ function get_external_status_types() {
 		}
 	}
 	return $result;
+}
+
+/**
+ * Return a list of (id => job_type).
+ * Could be cached.
+ */
+function get_external_status_types() {
+	$result = array();
+	$q = db()->prepare("SELECT * FROM external_status_types");
+	$q->execute();
+	while ($type = $q->fetch()) {
+		$result[$type['id']] = $type['job_type'];
+	}
+	return $result;
+}
+
+function get_external_status_historical($graph_type, $graph) {
+	if (!isset($graph['arg0'])) {
+		return false;		// this is external_historical page
+	}
+
+	$g = get_external_status_types();
+	return url_for('external_historical', array('type' => $g[$graph['arg0']]));
 }

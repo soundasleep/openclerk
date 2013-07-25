@@ -21,11 +21,13 @@ function graph_types_public($summaries = array()) {
 				'public' => true, /* can be displayed publicly */
 				'days' => true,
 				'technical' => true, /* allow technical indicators */
+				'historical' => 'get_exchange_historical',
+				'historical_arg0' => array('key' => $key, 'pair' => $pair),
 			);
 		}
 	}
 
-	// get all litecoinglobal securities
+	// get all securities
 	foreach (get_security_exchange_pairs() as $key => $currencies) {
 		foreach ($currencies as $c) {
 			$data['securities_' . $key . '_' . $c] = array(
@@ -37,6 +39,7 @@ function graph_types_public($summaries = array()) {
 				'arg0' => 'get_' . $key . '_securities_' . $c,
 				'arg0_title' => 'Security:',
 				'technical' => true,
+				'historical' => 'get_' . $key . '_securities_' . $c . '_historical',
 			);
 		}
 	}
@@ -46,9 +49,10 @@ function graph_types_public($summaries = array()) {
 		'heading' => 'External API status',
 		'description' => 'A line graph displaying the historical status of an external API, by displaying the percentage of failing samples.',
 		'days' => true,
-		'arg0' => 'get_external_status_types',
+		'arg0' => 'get_external_status_titles',
 		'arg0_title' => 'External API:',
 		'technical' => false,
+		'historical' => 'get_external_status_historical',
 	);
 
 	return $data;

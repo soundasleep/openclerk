@@ -173,6 +173,8 @@ span.new { color: red; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .graph_collection .graph table.standard th { min-width: 1px; }
 .graph_collection .graph .last_updated { float: right; text-align: right; width: 120px; position: relative; top: -1.75em; color: #333; font-size: 80%; }
 .graph_collection .graph .render_time { display: block; text-align: right; position: relative; width: 100%; color: #333; font-size: 80%; }
+.graph_collection .graph .graph_title a { color: white; text-decoration: none; }
+.graph_collection .graph .graph_title a:hover { color: white; text-decoration: underline; }
 
 .graph_collection .graph .rate_matrix { list-style: none; margin: 0; padding: 0; }
 .graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
