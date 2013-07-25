@@ -91,6 +91,9 @@ function render_graph($graph, $is_public = false) {
 			if (isset($balances['totalftc']) && $balances['totalftc']['balance'] != 0 && isset($rates['btcftc'])) {
 				$data['FTC'] = graph_number_format($balances['totalftc']['balance'] * $rates['btcftc']['sell']);
 			}
+			if (isset($balances['totalppc']) && $balances['totalppc']['balance'] != 0 && isset($rates['btcftc'])) {
+				$data['PPC'] = graph_number_format($balances['totalppc']['balance'] * $rates['btcppc']['sell']);
+			}
 			if (isset($balances['totalusd']) && $balances['totalusd']['balance'] != 0 && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
 				$data['USD'] = graph_number_format($balances['totalusd']['balance'] / $rates['usdbtc']['buy']);
 			}

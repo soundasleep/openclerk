@@ -48,6 +48,14 @@ switch ($summary['summary_type']) {
 		// TODO all2ftc
 		break;
 
+	case "summary_ppc":
+		$total = 0;
+		require("jobs/summary/crypto2ppc.php");
+		add_summary_instance($job, 'crypto2ppc', $total);
+
+		// TODO all2ppc
+		break;
+
 	case "summary_usd_btce":
 		// TODO fiat2usd
 

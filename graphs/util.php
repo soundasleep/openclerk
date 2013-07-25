@@ -103,6 +103,7 @@ function get_all_recent_rates() {
 		$q = db()->prepare("SELECT * FROM ticker WHERE is_recent=1 AND (
 			(currency1 = 'btc' AND currency2 = 'ltc' AND exchange='btce') OR
 			(currency1 = 'btc' AND currency2 = 'ftc' AND exchange='btce') OR
+			(currency1 = 'btc' AND currency2 = 'ppc' AND exchange='btce') OR
 			(currency1 = 'btc' AND currency2 = 'nmc' AND exchange='btce') OR
 			(currency1 = 'nzd' AND currency2 = 'btc' AND exchange='bitnz') OR
 			(currency1 = 'usd' AND currency2 = 'btc' AND exchange='mtgox') OR

@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ftc", "usd", "eur", "aud", "nzd");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "usd", "eur", "aud", "nzd");
 }
 
 function get_all_hashrate_currencies() {
@@ -21,6 +21,7 @@ function get_currency_name($n) {
 	switch ($n) {
 		case "btc":	return "Bitcoin";
 		case "ltc":	return "Litecoin";
+		case "ppc":	return "PPCoin";
 		case "ftc": return "Feathercoin";
 		case "nmc":	return "Namecoin";
 		case "usd":	return "United States dollar";
@@ -35,7 +36,7 @@ function get_blockchain_currencies() {
 	return array(
 		"Blockchain" => array('btc'),
 		"Litecoin Explorer" => array('ltc'),
-		"Feathercoin Search" => array('ftc'),
+		"CryptoCoin Explorer" => array('ftc', 'ppc'),
 	);
 }
 
@@ -69,9 +70,9 @@ function get_exchange_name($n) {
 function get_exchange_pairs() {
 	return array(
 		"bitnz" => array(array('nzd', 'btc')),
-		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ftc'), array('eur', 'btc')),
+		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc')),
-		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc')),
+		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc')),
 	);
 }
 
@@ -93,7 +94,7 @@ function get_supported_wallets() {
 		// alphabetically sorted, except for generic
 		"50btc" => array('btc', 'hash'),
 		"bips" => array('btc', 'usd'),
-		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur'),		// used in jobs/btce.php
+		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
@@ -106,7 +107,7 @@ function get_supported_wallets() {
 		"miningforeman" => array('ltc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
-		"vircurex" => array('btc', 'ltc', 'nmc', 'usd', 'eur'),		// used in jobs/vircurex.php
+		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc'),		// used in jobs/vircurex.php
 		"wemineltc" => array('ltc', 'hash'),
 		"generic" => get_all_currencies(),
 	);
@@ -121,6 +122,7 @@ function crypto_address($currency, $address) {
 		case 'btc': return btc_address($address);
 		case 'ltc': return ltc_address($address);
 		case 'ftc': return ftc_address($address);
+		case 'ppc': return ppc_address($address);
 		default: return htmlspecialchars($address);
 	}
 }
@@ -131,6 +133,7 @@ function get_summary_types() {
 		'summary_ltc' => array('currency' => 'ltc', 'key' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
 		'summary_nmc' => array('currency' => 'nmc', 'key' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
 		'summary_ftc' => array('currency' => 'ftc', 'key' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => 'FTC'),
+		'summary_ppc' => array('currency' => 'ppc', 'key' => 'ppc', 'title' => get_currency_name('ppc'), 'short_title' => 'PPC'),
 		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)'),
 		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
 		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)'),
@@ -168,6 +171,7 @@ function get_crypto_conversion_summary_types() {
 		'ltc' => array('currency' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => 'LTC'),
 		'nmc' => array('currency' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
 		'ftc' => array('currency' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => 'FTC'),
+		'ppc' => array('currency' => 'ppc', 'title' => get_currency_name('ppc'), 'short_title' => 'PPC'),
 	);
 }
 
@@ -177,6 +181,7 @@ function account_data_grouped() {
 			'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'btc\''),
 			'litecoin' => array('url' => 'accounts_litecoin', 'title' => 'LTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ltc\''),
 			'feathercoin' => array('url' => 'accounts_feathercoin', 'title' => 'FTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ftc\''),
+			'ppcoin' => array('url' => 'accounts_ppcoin', 'title' => 'PPC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ppc\''),
 		),
 		'Mining pools' => array(
 			'poolx' => array('url' => 'accounts_poolx', 'label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts'),
@@ -225,8 +230,10 @@ function get_external_apis() {
 			'blockchain' => '<a href="http://blockchain.info">Blockchain</a>',
 			'litecoin' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a>',
 			'litecoin_block' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a> (block count)',
-			'feathercoin' => '<a href="http://cryptocoinexplorer.com:5750/">Feathercoin search</a>',
-			'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">Feathercoin search</a> (block count)',
+			'feathercoin' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC)',
+			'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC block count)',
+			'ppcoin' => '<a href="http://ppc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (PPC)',
+			'ppcoin_block' => '<a href="http://ppc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (PPC block count)',
 		),
 
 		"Mining pool wallets" => array(
@@ -285,7 +292,7 @@ function get_external_apis_titles() {
 	$result = array();
 	foreach ($apis as $group => $data) {
 		foreach ($data as $key => $title) {
-			$result[$key] = preg_replace('#<[^>]+?>#im', '', $title) . translate_external_api_group_to_suffix($group);
+			$result[$key] = preg_replace('#<[^>]+?>#im', '', $title) . translate_external_api_group_to_suffix($group) . " API";
 		}
 	}
 	// sort by title
@@ -412,7 +419,16 @@ function is_valid_ltc_address($address) {
 
 function is_valid_ftc_address($address) {
 	// based on is_valid_ftc_address
-	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "6")
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "6" || substr($address, 0, 1) == "7")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_ppc_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "P")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}

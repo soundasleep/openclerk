@@ -192,7 +192,11 @@ function btc_address($address) {
 }
 
 function ftc_address($address) {
-	return "<span class=\"address ftc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ftc_address_url") . $address) . "\" title=\"Inspect with Feathercoin Search\">?</a></span>";
+	return "<span class=\"address ftc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ftc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
+}
+
+function ppc_address($address) {
+	return "<span class=\"address ppc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ppc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 }
 
 function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {

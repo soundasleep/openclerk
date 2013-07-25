@@ -975,3 +975,15 @@ ALTER TABLE addresses ADD is_received tinyint not null default 0;
 ALTER TABLE outstanding_premiums ADD paid_balance decimal(16,8) default 0;
 UPDATE outstanding_premiums SET paid_balance=balance WHERE is_paid=1;	-- update old data
 
+DROP TABLE IF EXISTS ppcoin_blocks;
+
+CREATE TABLE ppcoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

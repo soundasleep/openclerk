@@ -203,16 +203,18 @@ span.new { color: red; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .standard_account_list .job_success { background: #336633; }
 
 .address code { font-family: Consolas, Courier New, Courier, monospace; }
-.btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
+.btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
 .btc_address .inspect { background: url('img/blockchain.png') top left no-repeat; }
 .ltc_address .inspect { background: url('img/explorer1.png') top left no-repeat; }
 .ftc_address .inspect { background: url('img/feathercoin.png') top left no-repeat; }
-.currency_name_btc, .currency_name_ltc, .currency_name_nmc, .currency_name_ftc { background-position: top left; background-repeat: no-repeat; padding-left: 20px; } 
-input.currency_name_btc, input.currency_name_ltc, input.currency_name_nmc, input.currency_name_ftc { background-position: 2px 2px; background-repeat: no-repeat; padding: 2px 2px 2px 22px; } 
+.ppc_address .inspect { background: url('img/ppcoin.png') top left no-repeat; }
+.currency_name_btc, .currency_name_ltc, .currency_name_nmc, .currency_name_ftc, .currency_name_ppc { background-position: top left; background-repeat: no-repeat; padding-left: 20px; } 
+input.currency_name_btc, input.currency_name_ltc, input.currency_name_nmc, input.currency_name_ftc, input.currency_name_ppc { background-position: 2px 2px; background-repeat: no-repeat; padding: 2px 2px 2px 22px; } 
 .currency_name_btc { background-image: url('img/bitcoin.png'); } 
 .currency_name_ltc { background-image: url('img/litecoin.png'); } 
 .currency_name_nmc { background-image: url('img/namecoin.png'); } 
 .currency_name_ftc { background-image: url('img/feathercoin.png'); } 
+.currency_name_ppc { background-image: url('img/ppcoin.png'); } 
 .help_name_twitter { background: url('img/twitter.png') top left no-repeat; padding-left: 20px; } 
 .help_name_email { background: url('img/gmail.png') top left no-repeat; padding-left: 20px; } 
 .help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 

@@ -136,6 +136,7 @@ if (!$balance) {
 							"received" => number_format_autoprecision($balance['balance']),
 							"currency" => strtoupper($address['currency']),
 							"currency_name" => get_currency_name($address['currency']),
+							"expires" => db_date($expires),
 							"address" => $address['address'],
 							"explorer" => get_site_config($address['currency'] . '_address_url'),
 							"url" => absolute_url(url_for("user#user_premium")),

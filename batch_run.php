@@ -114,12 +114,20 @@ try {
 			require("jobs/feathercoin.php");
 			break;
 
+		case "ppcoin":
+			require("jobs/ppcoin.php");
+			break;
+
 		case "litecoin_block":
 			require("jobs/litecoin_block.php");
 			break;
 
 		case "feathercoin_block":
 			require("jobs/feathercoin_block.php");
+			break;
+
+		case "ppcoin_block":
+			require("jobs/ppcoin_block.php");
 			break;
 
 		case "generic":
