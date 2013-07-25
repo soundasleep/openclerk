@@ -12,9 +12,14 @@ if (!$address) {
 	throw new JobException("Cannot find an address " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-// divide by 1e8 to get btc balance
-$balance = crypto_get_contents(crypto_wrap_url("http://blockchain.info/q/addressbalance/" . urlencode($address['address']) . "?confirmations=" . get_site_config('btc_confirmations')));
-$divisor = 1e8;
+if ($address['is_received']) {
+	crypto_log("Need to get received balance rather than current balance for address " . htmlspecialchars($address['address']) . ".");
+	$url = "http://blockchain.info/q/getreceivedbyaddress/" . urlencode($address['address']) . "?confirmations=" . get_site_config('btc_confirmations');
+} else {
+	$url = "http://blockchain.info/q/addressbalance/" . urlencode($address['address']) . "?confirmations=" . get_site_config('btc_confirmations');
+}
+$balance = crypto_get_contents(crypto_wrap_url($url));
+$divisor = 1e8;		// divide by 1e8 to get btc balance
 
 if (!is_numeric($balance)) {
 	crypto_log("Blockchain balance for " . htmlspecialchars($address['address']) . " is non-numeric: " . htmlspecialchars($balance));

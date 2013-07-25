@@ -52,8 +52,8 @@ if (require_post("months", false) || require_post("years", false)) {
 			throw new Exception("Could not generate " . strtoupper($currency) . " address for purchase; please try again later.");
 		}
 
-		// register it to the system as a normal blockchain address
-		$q = db()->prepare("INSERT INTO addresses SET user_id=:user_id, address=:address, currency=:currency");
+		// register it to the system as a normal blockchain address, but we need to get received rather than balance
+		$q = db()->prepare("INSERT INTO addresses SET user_id=:user_id, address=:address, currency=:currency, is_received=1");
 		$q->execute(array(
 			"user_id" => get_site_config('system_user_id'),
 			"address" => $address['address'],

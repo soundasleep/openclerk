@@ -962,3 +962,11 @@ CREATE TABLE site_statistics (
 	
 	INDEX(is_recent)
 );
+
+----------------------------------------------------------------------------
+-- upgrade statements from 0.6 to 0.7
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+-- rather than using 'current balance' for payments, we should be using 'total received'
+ALTER TABLE addresses ADD is_received tinyint not null default 0;

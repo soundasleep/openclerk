@@ -23,7 +23,7 @@ if (!$address) {
 $html = crypto_get_contents(crypto_wrap_url($abe_data['explorer_url'] . urlencode($address['address'])));
 
 // assumes that the page format will not change
-if (preg_match('#<p>Balance: ([0-9\.]+) ' . strtoupper($abe_data['currency']) . '#i', $html, $matches)) {
+if (!$address['is_received'] && preg_match('#<p>Balance: ([0-9\.]+) ' . strtoupper($abe_data['currency']) . '#i', $html, $matches)) {
 	$balance = $matches[1];
 	crypto_log("Address balance before removing unconfirmed: " . $balance);
 
@@ -42,6 +42,29 @@ if (preg_match('#<p>Balance: ([0-9\.]+) ' . strtoupper($abe_data['currency']) . 
 		}
 
 		crypto_log("Confirmed balance after " . $abe_data['confirmations'] . " confirmations: " . $balance);
+
+	} else {
+		throw new ExternalAPIException("Could not find any transactions on page");
+	}
+} else if ($address['is_received'] && preg_match('#\nReceived: ([0-9\.]+) ' . strtoupper($abe_data['currency']) . '#i', $html, $matches)) {
+	$balance = $matches[1];
+	crypto_log("Address received before removing unconfirmed: " . $balance);
+
+	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . strtoupper($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
+		foreach ($matches as $match) {
+			if ($match[1] >= $block) {
+				// too recent
+				$amount = $match[2];
+				if (substr($amount, 0, 1) == "(" && substr($amount, -1) == ")") {
+					// convert (1.23) into -1.23
+					$amount = - substr($amount, 1, strlen($amount) - 2);
+				}
+				crypto_log("Removing " . $amount . " from received: unconfirmed (block " . $match[1] . " >= " . $block . ")");
+				$balance -= $amount;
+			}
+		}
+
+		crypto_log("Confirmed received after " . $abe_data['confirmations'] . " confirmations: " . $balance);
 
 	} else {
 		throw new ExternalAPIException("Could not find any transactions on page");
