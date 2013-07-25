@@ -59,8 +59,11 @@ if (!$address['is_received'] && preg_match('#<p>Balance: ([0-9\.]+) ' . strtoupp
 					// convert (1.23) into -1.23
 					$amount = - substr($amount, 1, strlen($amount) - 2);
 				}
-				crypto_log("Removing " . $amount . " from received: unconfirmed (block " . $match[1] . " >= " . $block . ")");
-				$balance -= $amount;
+				// only consider received
+				if ($amount > 0) {
+					crypto_log("Removing " . $amount . " from received: unconfirmed (block " . $match[1] . " >= " . $block . ")");
+					$balance -= $amount;
+				}
 			}
 		}
 

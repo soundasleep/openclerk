@@ -64,13 +64,13 @@ $queries = array(
 		'callback' => 'number_format',
 	),
 	"Income (BTC)" => array(
-		'query' => "SELECT IFNULL(SUM(balance), 0) AS c FROM outstanding_premiums
+		'query' => "SELECT IFNULL(SUM(paid_balance), 0) AS c FROM outstanding_premiums
 			JOIN premium_addresses ON outstanding_premiums.premium_address_id=premium_addresses.id
 			WHERE is_paid=1 AND (outstanding_premiums.created_at >= :start AND outstanding_premiums.created_at <= :end) AND currency='btc'",
 		'callback' => 'number_format_autoprecision',
 	),
 	"Income (LTC)" => array(
-		'query' => "SELECT IFNULL(SUM(balance), 0) AS c FROM outstanding_premiums
+		'query' => "SELECT IFNULL(SUM(paid_balance), 0) AS c FROM outstanding_premiums
 			JOIN premium_addresses ON outstanding_premiums.premium_address_id=premium_addresses.id
 			WHERE is_paid=1 AND (outstanding_premiums.created_at >= :start AND outstanding_premiums.created_at <= :end) AND currency='ltc'",
 		'callback' => 'number_format_autoprecision',

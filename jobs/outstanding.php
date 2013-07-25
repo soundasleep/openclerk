@@ -38,15 +38,22 @@ if (!$balance) {
 
 } else {
 
+	if ($address['balance'] == 0) {
+		// to prevent div/0 errors
+		throw new JobException("Cannot handle an address with balance of zero");
+	}
+
 	// is it enough?
 	if ($balance['balance'] >= $address['balance']) {
-		crypto_log("Sufficient balance found: applying premium status to user " . $address['user_id']);
+		crypto_log("Sufficient balance found: " . $balance['balance'] . " (expected " . $address['balance'] . "), applying premium status to user " . $address['user_id']);
 
 		// calculate new expiry date
 		$expires = max(strtotime($user['premium_expires']), time());
 		crypto_log("Old expiry date: " . db_date($expires));
 
-		$expires = strtotime(db_date($expires) . " +" . max(0, $address['months']) . " months +" . max(0, $address['years']) . " years");
+		// in case they paid too much, scale the amount of premium accordingly
+		// but need to round it down otherwise strtotime may fail
+		$expires = strtotime(db_date($expires) . " +" . max(0, floor($address['months'] * ($balance['balance'] / $address['balance']))) . " months +" . max(0, floor($address['years'] * ($balance['balance'] / $address['balance']))) . " years");
 		crypto_log("New premium expiry date: " . db_date($expires));
 
 		// apply premium data to user account
@@ -54,8 +61,8 @@ if (!$balance) {
 		$q->execute(array(db_date($expires), $address['user_id']));
 
 		// update outstanding premium as paid
-		$q = db()->prepare("UPDATE outstanding_premiums SET is_paid=1,paid_at=NOW() WHERE id=?");
-		$q->execute(array($address['id']));
+		$q = db()->prepare("UPDATE outstanding_premiums SET is_paid=1,paid_at=NOW(),paid_balance=? WHERE id=?");
+		$q->execute(array($balance['balance'], $address['id']));
 
 		// remove the address from the system account
 		// (otherwise we will be continuing to try and check this address forever, even after it's paid)
@@ -71,6 +78,7 @@ if (!$balance) {
 			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_payment", array(
 				"name" => ($user['name'] ? $user['name'] : $user['email']),
 				"amount" => number_format_autoprecision($balance['balance']),
+				"received" => number_format_autoprecision($balance['balance']),
 				"currency" => strtoupper($address['currency']),
 				"currency_name" => get_currency_name($address['currency']),
 				"expires" => db_date($expires),
@@ -99,27 +107,71 @@ if (!$balance) {
 				$q = db()->prepare("DELETE FROM addresses WHERE id=?");
 				$q->execute(array($address['address_id']));
 
-				// mark it as unpaid
-				$q = db()->prepare("UPDATE outstanding_premiums SET is_unpaid=1,cancelled_at=NOW() WHERE id=?");
-				$q->execute(array($address['id']));
+				// handle partial payments
+				if ($balance['balance'] > 0) {
+					// the user has paid *something* towards premium
+					crypto_log("User has already paid " . $balance['balance'] . " " . $address['currency'] . ": crediting with partial premium");
 
-				// release the premium address
-				$q = db()->prepare("UPDATE premium_addresses SET is_used=0,used_at=NULL WHERE id=?");
-				$q->execute(array($address['premium_address_id']));
+					// calculate new expiry date
+					$expires = max(strtotime($user['premium_expires']), time());
+					crypto_log("Old expiry date: " . db_date($expires));
 
-				if ($user['email']) {
-					send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_cancelled", array(
-						"name" => ($user['name'] ? $user['name'] : $user['email']),
-						"amount" => number_format_autoprecision($address['balance']),
-						"currency" => strtoupper($address['currency']),
-						"currency_name" => get_currency_name($address['currency']),
-						"address" => $address['address'],
-						"explorer" => get_site_config($address['currency'] . '_address_url'),
-						"url" => absolute_url(url_for("user#user_premium")),
-						"reminder" => $reminder,
-						"cancelled" => $cancelled,
-					));
-					crypto_log("Sent e-mail to " . htmlspecialchars($user['email']) . ".");
+					// scale the amount of premium accordingly
+					// but need to round it down otherwise strtotime may fail
+					$expires = strtotime(db_date($expires) . " +" . max(0, floor($address['months'] * ($balance['balance'] / $address['balance']))) . " months +" . max(0, floor($address['years'] * ($balance['balance'] / $address['balance']))) . " years");
+					crypto_log("New premium expiry date: " . db_date($expires));
+
+					// apply premium data to user account
+					$q = db()->prepare("UPDATE users SET updated_at=NOW(),is_premium=1, premium_expires=?, is_reminder_sent=0 WHERE id=? LIMIT 1");
+					$q->execute(array(db_date($expires), $address['user_id']));
+
+					// update outstanding premium as paid
+					$q = db()->prepare("UPDATE outstanding_premiums SET is_paid=1,paid_at=NOW(),paid_balance=? WHERE id=?");
+					$q->execute(array($balance['balance'], $address['id']));
+
+					if ($user['email']) {
+						send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_partial", array(
+							"name" => ($user['name'] ? $user['name'] : $user['email']),
+							"amount" => number_format_autoprecision($address['balance']),
+							"received" => number_format_autoprecision($balance['balance']),
+							"currency" => strtoupper($address['currency']),
+							"currency_name" => get_currency_name($address['currency']),
+							"address" => $address['address'],
+							"explorer" => get_site_config($address['currency'] . '_address_url'),
+							"url" => absolute_url(url_for("user#user_premium")),
+							"reminder" => $reminder,
+							"cancelled" => $cancelled,
+						));
+						crypto_log("Sent e-mail to " . htmlspecialchars($user['email']) . ".");
+					}
+
+				} else {
+					// the user hasn't paid a thing
+
+					// mark it as unpaid
+					$q = db()->prepare("UPDATE outstanding_premiums SET is_unpaid=1,cancelled_at=NOW() WHERE id=?");
+					$q->execute(array($address['id']));
+
+					// release the premium address
+					$q = db()->prepare("UPDATE premium_addresses SET is_used=0,used_at=NULL WHERE id=?");
+					$q->execute(array($address['premium_address_id']));
+
+					if ($user['email']) {
+						send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_cancelled", array(
+							"name" => ($user['name'] ? $user['name'] : $user['email']),
+							"amount" => number_format_autoprecision($address['balance']),
+							"received" => number_format_autoprecision($balance['balance']),
+							"currency" => strtoupper($address['currency']),
+							"currency_name" => get_currency_name($address['currency']),
+							"address" => $address['address'],
+							"explorer" => get_site_config($address['currency'] . '_address_url'),
+							"url" => absolute_url(url_for("user#user_premium")),
+							"reminder" => $reminder,
+							"cancelled" => $cancelled,
+						));
+						crypto_log("Sent e-mail to " . htmlspecialchars($user['email']) . ".");
+					}
+
 				}
 
 			} else {
@@ -130,6 +182,7 @@ if (!$balance) {
 						send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_reminder", array(
 							"name" => ($user['name'] ? $user['name'] : $user['email']),
 							"amount" => number_format_autoprecision($address['balance']),
+							"received" => number_format_autoprecision($balance['balance']),
 							"currency" => strtoupper($address['currency']),
 							"currency_name" => get_currency_name($address['currency']),
 							"address" => $address['address'],

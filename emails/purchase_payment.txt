@@ -1,7 +1,7 @@
 {$site_name} Premium Purchase Successful
 Hello {$name},
 
-Your {$currency_name} payment for a {$site_name} premium account has been successfully verified by the {$currency_name} network.
+Your {$received} {$currency} {$currency_name} payment for a {$site_name} premium account has been successfully verified by the {$currency_name} network.
 
 Your premium account now expires at {$expires}.
 

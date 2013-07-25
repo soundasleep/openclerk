@@ -1,7 +1,7 @@
 {$site_name} Premium Purchase Reminder
 Hello {$name},
 
-This is a reminder that your {$site_name} premium account purchase is still pending on the transfer of {$amount} {$currency} into the {$currency_name} address {$address}.
+This is a reminder that your {$site_name} premium account purchase is still pending on the transfer of {$amount} {$currency} into the {$currency_name} address {$address}. Currently you have paid {$received} {$currency}.
 
 Once the {$currency_name} network has confirmed the transaction, your account will be credited with premium status.
 

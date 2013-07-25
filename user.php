@@ -43,13 +43,22 @@ if (require_post("name", false) !== false && require_post("email", false) !== fa
 	}
 }
 
-$q = db()->prepare("SELECT outstanding_premiums.*, ab.created_at AS last_check,
+$q = db()->prepare("SELECT outstanding_premiums.*, ab.created_at AS last_check, ab.balance AS last_balance,
 	addresses.address, addresses.currency FROM outstanding_premiums
 	LEFT JOIN addresses ON outstanding_premiums.address_id=addresses.id
 	LEFT JOIN (SELECT * FROM address_balances WHERE is_recent=1) AS ab ON ab.address_id=addresses.id
-	WHERE outstanding_premiums.user_id=? AND is_paid=0 AND is_unpaid=0");
+	WHERE outstanding_premiums.user_id=? AND is_paid=0 AND is_unpaid=0
+	ORDER BY outstanding_premiums.created_at DESC");
 $q->execute(array(user_id()));
 $outstanding = $q->fetchAll();
+
+$q = db()->prepare("SELECT outstanding_premiums.*,
+	premium_addresses.address, premium_addresses.currency FROM outstanding_premiums
+	LEFT JOIN premium_addresses ON outstanding_premiums.premium_address_id=premium_addresses.id
+	WHERE outstanding_premiums.user_id=? AND (is_paid=1 OR is_unpaid=1)
+	ORDER BY outstanding_premiums.created_at DESC");
+$q->execute(array(user_id()));
+$previous = $q->fetchAll();
 
 if (require_get("new_purchase", false)) {
 	// find the new purchase
@@ -161,6 +170,10 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <?php } ?>
 </p>
 
+<?php if ($outstanding) { ?>
+<p><b>NOTE:</b> You already have <a href="<?php echo htmlspecialchars(url_for("user#user_outstanding")); ?>">outstanding premium payments</a> that need to be paid.</p>
+<?php } ?>
+
 <?php require("_premium_prices.php"); ?>
 </div>
 
@@ -199,22 +212,26 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <?php if ($outstanding) { ?>
 <h2>Outstanding Payments</h2>
 
-<table class="standard">
+<table class="standard fancy">
 <thead>
 	<tr>
 		<th>Currency</th>
+		<th>Premium</th>
 		<th>Address</th>
-		<th>Amount</th>
+		<th class="number">Due</th>
+		<th class="number">Balance</th>
 		<th>Since</th>
 		<th>Last checked</th>
 	</tr>
 </thead>
 <tbody>
-<?php foreach ($outstanding as $o) { ?>
-	<tr>
+<?php $count = 0; foreach ($outstanding as $o) { ?>
+	<tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
 		<td><span class="currency_name_<?php echo htmlspecialchars($o['currency']); ?>"><?php echo htmlspecialchars(get_currency_name($o['currency'])); ?></span></td>
+		<td><?php echo $o['months'] ? plural($o['months'], "month") : ""; echo $o['years'] ? plural($o['years'], "year") : ""; ?></td>
 		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
-		<td><?php echo currency_format($o['currency'], $o['balance']); ?></td>
+		<td class="number"><?php echo currency_format($o['currency'], $o['balance']); ?></td>
+		<td class="number"><?php echo currency_format($o['currency'], $o['last_balance']); ?></td>
 		<td><?php echo recent_format_html($o['created_at']); ?></td>
 		<td><?php echo recent_format_html($o['last_check']); ?></td>
 	</tr>
@@ -227,7 +244,39 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 </p>
 
 <?php } else { ?>
-	<i>No outstanding payments.</i>
+	<p><i>No outstanding payments.</i></p>
+<?php } ?>
+
+<?php if ($previous) { ?>
+<h2>Previous Payments</h2>
+
+<table class="standard fancy">
+<thead>
+	<tr>
+		<th>Currency</th>
+		<th>Premium</th>
+		<th>Address</th>
+		<th class="number">Due</th>
+		<th class="number">Balance</th>
+		<th>Paid</th>
+	</tr>
+</thead>
+<tbody>
+<?php $count = 0; foreach ($previous as $o) { ?>
+	<tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
+		<td><span class="currency_name_<?php echo htmlspecialchars($o['currency']); ?>"><?php echo htmlspecialchars(get_currency_name($o['currency'])); ?></span></td>
+		<td><?php echo $o['months'] ? plural($o['months'], "month") : ""; echo $o['years'] ? plural($o['years'], "year") : ""; ?></td>
+		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
+		<td class="number"><?php echo currency_format($o['currency'], $o['balance']); ?></td>
+		<td class="number"><?php echo currency_format($o['currency'], $o['paid_balance']); ?></td>
+		<td><?php echo recent_format_html($o['created_at']); ?></td>
+	</tr>
+<?php } ?>
+</tbody>
+</table>
+
+<?php } else { ?>
+	<p><i>No previous payments.</i></p>
 <?php } ?>
 
 	</li>

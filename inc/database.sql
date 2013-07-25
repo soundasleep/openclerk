@@ -970,3 +970,8 @@ CREATE TABLE site_statistics (
 
 -- rather than using 'current balance' for payments, we should be using 'total received'
 ALTER TABLE addresses ADD is_received tinyint not null default 0;
+
+-- since we now handle partial payments, need to record how much was paid for each premium
+ALTER TABLE outstanding_premiums ADD paid_balance decimal(16,8) default 0;
+UPDATE outstanding_premiums SET paid_balance=balance WHERE is_paid=1;	-- update old data
+

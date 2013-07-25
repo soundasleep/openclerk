@@ -17,6 +17,15 @@ function initialise_tabs(tab_query) {
 		window.location.hash = $(e.target).attr('id').replace('tab_', '');
 	});
 
+	// hook up with any anchors (on this page) that reference this tab
+	// assumes #tab_ids are site-unique
+	$(tab_query).find(".tab_list > li").each(function(index, e) {
+		var hash = $(e).attr('id').replace('tab_', '');
+		$(document).find("a[href$='#" + hash + "']").click(function(f) {
+			$(e).click();
+		});
+	});
+
 	// get the runtime tab, unless the runtime tab doesn't actually exist
 	var tab_hash = window.location.hash ? window.location.hash.substring(1) : false;
 	if (tab_hash && $(tab_query).find(".tab_list > li#tab_" + tab_hash).length == 0) {
