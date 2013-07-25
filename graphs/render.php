@@ -434,7 +434,7 @@ function render_external_graph($graph) {
 			*/
 		array('query' => "SELECT * FROM external_status WHERE job_type=:job_type
 			AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY)
-			ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance'),
+			ORDER BY is_recent ASC, created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
 	foreach ($sources as $source) {
