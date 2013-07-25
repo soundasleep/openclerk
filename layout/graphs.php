@@ -80,25 +80,25 @@ function render_graph($graph, $is_public = false) {
 			// create data
 			$data = array();
 			if (isset($balances['totalbtc']) && $balances['totalbtc']['balance'] != 0) {
-				$data['BTC'] = graph_number_format($balances['totalbtc']['balance']);
+				$data['BTC'] = graph_number_format(demo_scale($balances['totalbtc']['balance']));
 			}
 			if (isset($balances['totalltc']) && $balances['totalltc']['balance'] != 0 && isset($rates['btcltc'])) {
-				$data['LTC'] = graph_number_format($balances['totalltc']['balance'] * $rates['btcltc']['sell']);
+				$data['LTC'] = graph_number_format(demo_scale($balances['totalltc']['balance'] * $rates['btcltc']['sell']));
 			}
 			if (isset($balances['totalnmc']) && $balances['totalnmc']['balance'] != 0 && isset($rates['btcnmc'])) {
-				$data['NMC'] = graph_number_format($balances['totalnmc']['balance'] * $rates['btcnmc']['sell']);
+				$data['NMC'] = graph_number_format(demo_scale($balances['totalnmc']['balance'] * $rates['btcnmc']['sell']));
 			}
 			if (isset($balances['totalftc']) && $balances['totalftc']['balance'] != 0 && isset($rates['btcftc'])) {
-				$data['FTC'] = graph_number_format($balances['totalftc']['balance'] * $rates['btcftc']['sell']);
+				$data['FTC'] = graph_number_format(demo_scale($balances['totalftc']['balance'] * $rates['btcftc']['sell']));
 			}
 			if (isset($balances['totalppc']) && $balances['totalppc']['balance'] != 0 && isset($rates['btcftc'])) {
-				$data['PPC'] = graph_number_format($balances['totalppc']['balance'] * $rates['btcppc']['sell']);
+				$data['PPC'] = graph_number_format(demo_scale($balances['totalppc']['balance'] * $rates['btcppc']['sell']));
 			}
 			if (isset($balances['totalusd']) && $balances['totalusd']['balance'] != 0 && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
-				$data['USD'] = graph_number_format($balances['totalusd']['balance'] / $rates['usdbtc']['buy']);
+				$data['USD'] = graph_number_format(demo_scale($balances['totalusd']['balance'] / $rates['usdbtc']['buy']));
 			}
 			if (isset($balances['totalnzd']) && $balances['totalnzd']['balance'] != 0 && isset($rates['nzdbtc']) && $rates['nzdbtc'] /* no div by 0 */) {
-				$data['NZD'] = graph_number_format($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']);
+				$data['NZD'] = graph_number_format(demo_scale($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']));
 			}
 
 			// sort data by balance
@@ -138,7 +138,7 @@ function render_graph($graph, $is_public = false) {
 			foreach ($currencies as $c) {
 				if (isset($summaries[$c])) {
 					$balance = isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0;
-					$data[] = array(strtoupper($c), currency_format($c, $balance, 4));
+					$data[] = array(strtoupper($c), currency_format($c, demo_scale($balance), 4));
 				}
 			}
 
@@ -158,7 +158,7 @@ function render_graph($graph, $is_public = false) {
 				$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND summary_type=? AND is_recent=1");
 				$q->execute(array(user_id(), "all2".$key));
 				if ($balance = $q->fetch()) {
-					$data[] = array($c['short_title'], currency_format($c['currency'], $balance['balance'], 4));
+					$data[] = array($c['short_title'], currency_format($c['currency'], demo_scale($balance['balance']), 4));
 					$graph['last_updated'] = max($graph['last_updated'], strtotime($balance['created_at']));
 				}
 			}
@@ -179,7 +179,7 @@ function render_graph($graph, $is_public = false) {
 				$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND summary_type=? AND is_recent=1");
 				$q->execute(array(user_id(), "crypto2".$key));
 				if ($balance = $q->fetch()) {
-					$data[] = array($c['short_title'], currency_format($c['currency'], $balance['balance'], 4));
+					$data[] = array($c['short_title'], currency_format($c['currency'], demo_scale($balance['balance']), 4));
 					$graph['last_updated'] = max($graph['last_updated'], strtotime($balance['created_at']));
 				}
 			}
@@ -201,14 +201,14 @@ function render_graph($graph, $is_public = false) {
 			$data[] = array('Currency', 'Balance', 'Offset', 'Total');
 			foreach ($currencies as $c) {
 				if (isset($summaries[$c])) {
-					$balance = isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0;
-					$offset = isset($offsets[$c]) ? $offsets[$c]['balance'] : 0;
+					$balance = demo_scale(isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0);
+					$offset = demo_scale(isset($offsets[$c]) ? $offsets[$c]['balance'] : 0);
 					$data[] = array(
 						strtoupper($c),
 						currency_format($c, $balance - $offset, 4),
 						// HTML quirk: "When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form."
 						'<form action="' . htmlspecialchars(url_for('set_offset', array('page' => $graph['page_id']))) . '" method="post">' .
-							'<input type="text" name="' . htmlspecialchars($c) . '" value="' . htmlspecialchars($offset == 0 ? '' : $offset) . '" maxlength="32">' .
+							'<input type="text" name="' . htmlspecialchars($c) . '" value="' . htmlspecialchars($offset == 0 ? '' : number_format_autoprecision($offset)) . '" maxlength="32">' .
 							'</form>',
 						currency_format($c, $balance /* balance includes offset */, 4),
 					);
@@ -428,7 +428,7 @@ function render_graph($graph, $is_public = false) {
 							$data = array();
 							foreach ($balances as $b) {
 								if ($b['balance'] != 0) {
-									$data[get_exchange_name($b['exchange'])] = $b['balance'];
+									$data[get_exchange_name($b['exchange'])] = demo_scale($b['balance']);
 								}
 							}
 

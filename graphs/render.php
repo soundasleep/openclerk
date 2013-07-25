@@ -205,7 +205,7 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 		while ($ticker = $q->fetch()) {
 			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(
 				'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
-				graph_number_format($ticker[$source['balance_key']]),
+				graph_number_format(demo_scale($ticker[$source['balance_key']])),
 			);
 			$last_updated = max($last_updated, strtotime($ticker['created_at']));
 		}
@@ -265,7 +265,7 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 		while ($ticker = $q->fetch()) {
 			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(
 				'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
-				graph_number_format($ticker[$source['balance_key']]),
+				graph_number_format(demo_scale($ticker[$source['balance_key']])),
 			);
 			$last_updated = max($last_updated, strtotime($ticker['created_at']));
 		}
@@ -374,7 +374,7 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 			if (!isset($values[$key])) {
 				$row[$key] = graph_number_format(isset($previous_row[$key]) ? $previous_row[$key] : 0);
 			} else {
-				$row[$key] = graph_number_format($values[$key]);
+				$row[$key] = graph_number_format(demo_scale($values[$key]));
 			}
 		}
 		$data[$date] = $row;

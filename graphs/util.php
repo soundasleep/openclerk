@@ -120,6 +120,17 @@ function get_all_recent_rates() {
 class GraphException extends Exception { }
 
 /**
+ * Scales the given number down if the ?demo parameter is supplied as part of the request.
+ * Useful for displaying demo data.
+ */
+function demo_scale($value) {
+	if (require_get("demo", false)) {
+		return $value * 0.05;
+	}
+	return $value;
+}
+
+/**
  * Return a list of (id => title).
  * Could be cached.
  */
