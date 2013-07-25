@@ -75,9 +75,11 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"ltc_address_url" => "http://explorer.litecoin.net/address/",
 		"btc_address_url" => "http://blockchain.info/address/",
 		"ftc_address_url" => "http://cryptocoinexplorer.com:5750/address/",
+		"ppc_address_url" => "http://ppc.cryptocoinexplorer.com/address/",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
+		"ppc_confirmations" => 6,
 
 		// premium properties
 		"premium_currencies" => array('btc', 'ltc'),
@@ -140,6 +142,15 @@ function get_premium_config($key = null) {
 
 		"summaries_free" => 5,
 		"summaries_premium" => 100,
+
+		"your_securities_free" => false,
+		"your_securities_premium" => true,
 	);
 
 }
+
+// custom graph types: see return type of graph_technical_types()
+function graph_premium_technical_types() {
+	return array();
+}
+
