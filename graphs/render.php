@@ -417,6 +417,8 @@ function render_external_graph($graph) {
 			'title' => "% success",
 			'line_width' => 2,
 			'color' => default_chart_color(0),
+			'min' => 0,
+			'max' => 100,
 		),
 	);
 	$last_updated = false;

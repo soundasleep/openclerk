@@ -178,6 +178,14 @@ function render_linegraph_date($graph, $data) {
 			},
 			<?php for ($i = 1; $i < count($data[0]); $i++) {
 				$heading = $data[0][$i];
+				// primary axis
+				if (isset($heading['min']) && isset($heading['max'])) {
+				?>
+				vAxes: [ { minValue: <?php echo number_format($heading['min']); ?>, maxValue: <?php echo number_format($heading['max']); ?> } ],
+				<?php
+				}
+
+				// secondary axis
 				if (isset($heading['axis']) && isset($heading['axis_max']) && isset($heading['axis_min'])) {
 				?>
 				vAxes: [ {}, { maxValue: <?php echo number_format($heading['axis_max']); ?>, minValue: <?php echo number_format($heading['axis_min']); ?> } ],
