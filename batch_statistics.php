@@ -80,6 +80,20 @@ while ($s = $q->fetch()) {
 	}
 }
 
+// get system statistics if defined (i.e. not Windows)
+$query_extra = "";
+if (function_exists('sys_getloadavg')) {
+	$top = sys_getloadavg();
+	$data['system_load_1min'] = $top[0];
+	$data['system_load_5min'] = $top[1];
+	$data['system_load_15min'] = $top[2];
+	$query_extra = "
+		system_load_1min = :system_load_1min,
+		system_load_5min = :system_load_5min,
+		system_load_15min = :system_load_15min,
+	";
+}
+
 crypto_log(print_r($data, true));
 
 $q = db()->prepare("UPDATE site_statistics SET is_recent=0 WHERE is_recent=1");
@@ -103,6 +117,8 @@ $q = db()->prepare("INSERT INTO site_statistics SET
 	mysql_opens = :mysql_opens,
 	mysql_flush_tables = :mysql_flush_tables,
 	mysql_open_tables = :mysql_open_tables,
+
+	$query_extra
 
 	is_recent=1
 	");

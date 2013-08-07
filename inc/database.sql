@@ -1022,3 +1022,12 @@ CREATE TABLE securities (
 
 -- for 'heading' graph type
 ALTER TABLE graphs ADD string0 varchar(128);
+
+----------------------------------------------------------------------------
+-- upgrade statements from 0.7 to 0.8
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+ALTER TABLE site_statistics ADD system_load_1min int;
+ALTER TABLE site_statistics ADD system_load_5min int;
+ALTER TABLE site_statistics ADD system_load_15min int;

@@ -31,7 +31,6 @@ $q->execute(array($job['user_id'], $exchange));
 
 // assume we don't need to delay
 $content = havelock_query("https://www.havelockinvestments.com/r/portfolio", array('key' => $account['api_key']));
-print_r($content);
 if ($content['portfolio'] && is_array($content['portfolio'])) {
 	foreach ($content['portfolio'] as $entry) {
 		// the API returns the marketvalue, so we can just use that rather than calculate it from previous jobs (like btct)
