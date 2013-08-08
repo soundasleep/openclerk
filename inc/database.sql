@@ -1075,3 +1075,5 @@ CREATE TABLE accounts_liteguardian (
 	INDEX(user_id), INDEX(last_queue)
 );
 
+-- fiat currency data from themoneyconverter.com
+INSERT INTO exchanges SET name='themoneyconverter';

@@ -113,6 +113,11 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 			'color' => default_chart_color(1),
 		),
 	);
+	if ($exchange == 'themoneyconverter') {
+		// hack fix because TheMoneyConverter only has last_trade
+		unset($data[0][2]);
+		$data[0][1]['title'] = strtoupper($cur1) . "/" . strtoupper($cur2);
+	}
 	$last_updated = false;
 	$days = get_graph_days($graph);
 	$extra_days = extra_days_necessary($graph);
@@ -136,11 +141,20 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 			'currency2' => $cur2,
 		));
 		while ($ticker = $q->fetch()) {
-			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(
-				'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
-				graph_number_format($ticker['buy']),
-				graph_number_format($ticker['sell']),
-			);
+			$data_key = date('Y-m-d', strtotime($ticker[$source['key']]));
+			if ($exchange == 'themoneyconverter') {
+				// hack fix because TheMoneyConverter only has last_trade
+				$data[$data_key] = array(
+					'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
+					graph_number_format($ticker['last_trade']),
+				);
+			} else {
+				$data[$data_key] = array(
+					'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
+					graph_number_format($ticker['buy']),
+					graph_number_format($ticker['sell']),
+				);
+			}
 			$last_updated = max($last_updated, strtotime($ticker['created_at']));
 		}
 	}

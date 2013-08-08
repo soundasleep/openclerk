@@ -75,6 +75,7 @@ function get_exchange_name($n) {
 		case "bitminter":	return "BitMinter";
 		case "mine_litecoin": return "Mine-Litecoin";
 		case "liteguardian": return "LiteGuardian";
+		case "themoneyconverter": return "TheMoneyConverter";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -82,9 +83,10 @@ function get_exchange_name($n) {
 function get_exchange_pairs() {
 	return array(
 		"bitnz" => array(array('nzd', 'btc')),
-		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc')),
+		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc')),
 		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc')),
+		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd')),
 	);
 }
 
@@ -290,6 +292,7 @@ function get_external_apis() {
 			'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'ticker_bitnz' => '<a href="http://bitnz.com">BitNZ</a>',
 			'ticker_vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
+			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
 			'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',

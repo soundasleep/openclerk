@@ -32,6 +32,10 @@ switch ($exchange['name']) {
 		require("jobs/ticker/vircurex.php");
 		break;
 
+	case "themoneyconverter":
+		require("jobs/ticker/themoneyconverter.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;
