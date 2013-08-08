@@ -99,7 +99,7 @@ $q = db()->prepare("SELECT * FROM " . $account_data['table'] . "
 $q->execute(array(user_id()));
 $accounts = $q->fetchAll();
 
-page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data['url'], array('jquery' => true, 'js' => 'accounts'));
+page_header("Your Accounts: " . $account_data['titles'], "page_" . $account_data['url'], array('jquery' => true, 'js' => 'accounts', 'common_js' => true));
 
 $all_wallets = get_supported_wallets();
 $has_hashrate = in_array('hash', $all_wallets[$account_data['title_key']])
@@ -215,9 +215,16 @@ $has_hashrate = in_array('hash', $all_wallets[$account_data['title_key']])
 </tbody>
 </table>
 
-<h2>Add new <?php echo htmlspecialchars($account_data['title']); ?></h1>
+<div class="tabs" id="tabs_accounts">
+	<ul class="tab_list">
+		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
+		<li id="tab_accounts_add">Add new</li><li id="tab_accounts_instructions">Instructions</li><li id="tab_accounts_security">Safety</li>
+	</ul>
+	<ul class="tab_groups">
+		<li id="tab_accounts_add_tab">
 
-<p>
+<h2>Add new <?php echo htmlspecialchars($account_data['title']); ?></h2>
+
 <form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post">
 	<table class="standard">
 	<tr>
@@ -251,5 +258,20 @@ $has_hashrate = in_array('hash', $all_wallets[$account_data['title_key']])
 	</tr>
 	</table>
 </form>
-</p>
+
+		</li>
+		<li id="tab_accounts_instructions_tab">
+			<?php accounts_standard_instructions(); ?>
+		</li>
+		<li id="tab_accounts_security_tab">
+			<?php accounts_standard_safety(); ?>
+		</li>
+	</ul>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	initialise_tabs('#tabs_accounts');
+});
+</script>
+
 </div>

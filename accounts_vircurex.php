@@ -26,8 +26,9 @@ $account_data = array(
 
 require("_accounts_standard.php");
 
+function accounts_standard_instructions() {
+	global $account_data;
 ?>
-
 <div class="instructions_add">
 <h2>Adding a Vircurex account</h2>
 
@@ -43,7 +44,11 @@ require("_accounts_standard.php");
 	<li>Copy and paste your both your username and your chosen random secret string into the form above, and click "Add account".</li>
 </ol>
 </div>
+<?php }
 
+function accounts_standard_safety() {
+	global $account_data;
+?>
 <div class="instructions_safe">
 <h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> your Vircurex API data?</h2>
 
@@ -61,6 +66,6 @@ require("_accounts_standard.php");
 </div>
 
 <?php
-
+}
 
 page_footer();

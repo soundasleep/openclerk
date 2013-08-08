@@ -27,8 +27,9 @@ $account_data = array(
 
 require("_accounts_standard.php");
 
+function accounts_standard_instructions() {
+	global $account_data;
 ?>
-
 <div class="instructions_add">
 <h2>Adding a Cryptostocks account</h2>
 
@@ -44,7 +45,11 @@ require("_accounts_standard.php");
 	<li>Copy and paste these keys, along with your Cryptostocks account e-mail address, into the form above and click "Add account".</li>
 </ol>
 </div>
+<?php }
 
+function accounts_standard_safety() {
+	global $account_data;
+?>
 <div class="instructions_safe">
 <h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> your Cryptostocks API keys and e-mail address?</h2>
 
@@ -60,7 +65,6 @@ require("_accounts_standard.php");
 		going to <i>API Secret Words</i> and either changing, or removing, the secret word.</li>
 </ul>
 </div>
-
-<?php
+<?php }
 
 page_footer();

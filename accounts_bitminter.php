@@ -23,8 +23,9 @@ $account_data = array(
 
 require("_accounts_standard.php");
 
+function accounts_standard_instructions() {
+	global $account_data;
 ?>
-
 <div class="instructions_add">
 <h2>Adding a BitMinter account</h2>
 
@@ -46,7 +47,11 @@ require("_accounts_standard.php");
 		<img src="img/accounts/bitminter6.png"></li>
 </ol>
 </div>
+<?php }
 
+function accounts_standard_safety() {
+	global $account_data;
+?>
 <div class="instructions_safe">
 <h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a BitMinter API key?</h2>
 
@@ -60,7 +65,6 @@ require("_accounts_standard.php");
 	<li>You may revoke access to existing API keys at any time by visiting your <i>API keys</i> page and removing the key.</li>
 </ul>
 </div>
-
-<?php
+<?php }
 
 page_footer();

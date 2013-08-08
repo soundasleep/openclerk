@@ -167,6 +167,8 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 #page_screenshots .tabs .tab_open p { width: 75%; margin: 5px auto 5px auto; }
 #page_screenshots #tabs_screenshots { min-width: 940px; }
 
+#tabs_accounts { margin: 20px; }
+
 /* maybe move following into user-only css */
 
 .page_list .page_current { font-weight: bold; }

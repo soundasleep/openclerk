@@ -25,8 +25,9 @@ $account_data = array(
 
 require("_accounts_standard.php");
 
+function accounts_standard_instructions() {
+	global $account_data;
 ?>
-
 <div class="instructions_add">
 <h2>Adding a Havelock Investments account</h2>
 
@@ -44,7 +45,11 @@ require("_accounts_standard.php");
 		<img src="img/accounts/havelock4.png"></li>
 </ol>
 </div>
+<?php }
 
+function accounts_standard_safety() {
+	global $account_data;
+?>
 <div class="instructions_safe">
 <h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a Havelock Investments API key?</h2>
 
@@ -62,6 +67,6 @@ require("_accounts_standard.php");
 </div>
 
 <?php
-
+}
 
 page_footer();

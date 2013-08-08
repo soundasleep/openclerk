@@ -22,8 +22,9 @@ $account_data = array(
 
 require("_accounts_standard.php");
 
+function accounts_standard_instructions() {
+	global $account_data;
 ?>
-
 <div class="instructions_add">
 <h2>Adding a <?php echo $account_data['exchange_name']; ?> account</h2>
 
@@ -36,7 +37,11 @@ require("_accounts_standard.php");
 		<img src="img/accounts/50btc2.png"></li>
 </ol>
 </div>
+<?php }
 
+function accounts_standard_safety() {
+	global $account_data;
+?>
 <div class="instructions_safe">
 <h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a <?php echo $account_data['exchange_name']; ?> API key?</h2>
 
@@ -51,7 +56,6 @@ require("_accounts_standard.php");
 		visiting the <a href="https://50btc.com/en/account/api">Mining API page</a> and clicking on <i>Generate new key</i>.
 </ul>
 </div>
-
-<?php
+<?php }
 
 page_footer();
