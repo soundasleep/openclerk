@@ -1080,3 +1080,7 @@ INSERT INTO exchanges SET name='themoneyconverter';
 
 -- CAD/BTC
 INSERT INTO exchanges SET name='virtex';
+
+-- USD/BTC
+INSERT INTO exchanges SET name='bitstamp';
+

@@ -40,6 +40,10 @@ switch ($exchange['name']) {
 		require("jobs/ticker/virtex.php");
 		break;
 
+	case "bitstamp":
+		require("jobs/ticker/bitstamp.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;

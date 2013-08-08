@@ -80,6 +80,14 @@ switch ($summary['summary_type']) {
 		add_summary_instance($job, 'all2usd_vircurex', $total);
 		break;
 
+	case "summary_usd_bitstamp":
+		// TODO fiat2usd
+
+		$total = 0;
+		require("jobs/summary/all2usd_bitstamp.php");
+		add_summary_instance($job, 'all2usd_bitstamp', $total);
+		break;
+
 	case "summary_eur_btce":
 		// TODO fiat2usd
 
