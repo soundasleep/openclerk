@@ -222,6 +222,10 @@ try {
 			require("jobs/securities_havelock.php");
 			break;
 
+		case "bitminter":
+			require("jobs/bitminter.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require("jobs/sum.php");

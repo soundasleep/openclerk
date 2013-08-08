@@ -64,6 +64,7 @@ function get_exchange_name($n) {
 		case "miningforeman": return "Mining Foreman";
 		case "miningforeman_ftc": return "Mining Foreman";
 		case "havelock":	return "Havelock Investments";
+		case "bitminter":	return "BitMinter";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -95,6 +96,7 @@ function get_supported_wallets() {
 		// alphabetically sorted, except for generic
 		"50btc" => array('btc', 'hash'),
 		"bips" => array('btc', 'usd'),
+		"bitminter" => array('btc', 'nmc', 'hash'),
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
@@ -115,7 +117,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningforeman", "havelock");
+	return array("bitminter");
 }
 
 function crypto_address($currency, $address) {
@@ -195,6 +197,7 @@ function account_data_grouped() {
 			'ltcmineru' => array('url' => 'accounts_ltcmineru', 'label' => 'account', 'table' => 'accounts_ltcmineru', 'group' => 'accounts'),
 			'miningforeman' => array('url' => 'accounts_miningforeman', 'label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC'),
 			'miningforeman_ftc' => array('url' => 'accounts_miningforeman_ftc', 'label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC'),
+			'bitminter' => array('url' => 'accounts_bitminter', 'label' => 'account', 'table' => 'accounts_bitminter', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -250,6 +253,7 @@ function get_external_apis() {
 			'ltcmineru' => '<a href="http://ltcmine.ru/">LTCMine.ru</a>',
 			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a> (LTC)',
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
+			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -521,6 +525,11 @@ function is_valid_ltcmineru_apikey($key) {
 function is_valid_generic_key($key) {
 	// this could probably be in any format but should be at least one character
 	return strlen($key) >= 1 && strlen($key) <= 255;
+}
+
+function is_valid_bitminter_apikey($key) {
+	// looks like a 32 character alphanumeric uppercase string
+	return strlen($key) == 32 && preg_match("#^[A-Z0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

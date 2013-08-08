@@ -1031,3 +1031,15 @@ ALTER TABLE graphs ADD string0 varchar(128);
 ALTER TABLE site_statistics ADD system_load_1min int;
 ALTER TABLE site_statistics ADD system_load_5min int;
 ALTER TABLE site_statistics ADD system_load_15min int;
+
+CREATE TABLE accounts_bitminter (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
