@@ -57,6 +57,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"sleep_mtgox_ticker" => 5,
 		"sleep_vircurex_balance" => 5,
 		"sleep_cryptostocks_balance" => 5,
+		"sleep_themoneyconverter_ticker" => 5,
 		"max_job_executions" => 5,	// if a job fails to run more than this number of times, then explicitly mark it as failed
 		"throttle_btcguild" => 30,	// only execute this job once every X seconds
 		"throttle_blockchain" => 5,
@@ -105,6 +106,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		// custom settings
 		"custom_css" => false,
 		"custom_index" => false,
+		"custom_login" =>false,
 		"custom_signup" =>false,
 		"custom_help" => false,
 		"custom_screenshots" => false,
