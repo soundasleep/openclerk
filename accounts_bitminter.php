@@ -43,7 +43,7 @@ function accounts_standard_instructions() {
 		<li>Create a new API key by entering in a label, and clicking "Add".<br>
 			<img src="img/accounts/bitminter5.png"></li>
 
-		<li>Copy and paste this new <i>Key</i> into the form above, and click "Add account".<br>
+		<li>Copy and paste this new <i>Key</i> into the "Add new" form, and click "Add account".<br>
 			<img src="img/accounts/bitminter6.png"></li>
 	</ol>
 	</div>

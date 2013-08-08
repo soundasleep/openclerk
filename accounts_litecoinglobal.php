@@ -35,7 +35,7 @@ function accounts_standard_instructions() {
 		<li>Log into your <a href="https://www.litecoinglobal.com/account">Litecoin Global account</a> and visit your <i>Account</i>.<br>
 			<img src="img/accounts/litecoinglobal1.png"></li>
 
-		<li>In the <i>Account Information</i> tab, copy and paste the <i>Read-Only API Key</i> into the form above, and click "Add account".<br>
+		<li>In the <i>Account Information</i> tab, copy and paste the <i>Read-Only API Key</i> into the "Add new" form, and click "Add account".<br>
 			<img src="img/accounts/litecoinglobal2.png"></li>
 	</ol>
 	</div>

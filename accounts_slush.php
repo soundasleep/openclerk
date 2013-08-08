@@ -37,7 +37,7 @@ function accounts_standard_instructions() {
 		<li>Find your <i>current token</i>, as illustrated below: <br>
 			<img src="img/accounts/slush2.png"></li>
 
-		<li>Copy and paste this <i>current token</i> into the form above, and click "Add account".</li>
+		<li>Copy and paste this <i>current token</i> into the "Add new" form, and click "Add account".</li>
 	</ol>
 	</div>
 <?php }

@@ -34,7 +34,7 @@ function accounts_standard_instructions() {
 			and visit the <a href="http://ltcmine.ru/tweak">Options page</a>.<br>
 			<img src="img/accounts/ltcmineru1.png"></li>
 
-		<li>Copy and paste your <i>API Key</i> into the form above, and click "Add account".<br>
+		<li>Copy and paste your <i>API Key</i> into the "Add new" form, and click "Add account".<br>
 			<img src="img/accounts/ltcmineru2.png"></li>
 	</ol>
 	</div>

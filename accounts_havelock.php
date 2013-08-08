@@ -41,7 +41,7 @@ function accounts_standard_instructions() {
 		<li>For this new key, select the <i>Portfolio</i> and <i>Balance</i> permissions, and click "Save Key Permissions".<br>
 			<img src="img/accounts/havelock3.png"></li>
 
-		<li>Copy and paste this long <i>API Key</i> into the form above, and click "Add account".<br>
+		<li>Copy and paste this long <i>API Key</i> into the "Add new" form, and click "Add account".<br>
 			<img src="img/accounts/havelock4.png"></li>
 	</ol>
 	</div>

@@ -33,7 +33,7 @@ function accounts_standard_instructions() {
 			and visit your <a href="https://50btc.com/en/worker/stats">Mining page</a>.<br>
 			<img src="img/accounts/50btc1.png"></li>
 
-		<li>Copy and paste your <i>API Key</i> into the form above, and click "Add account".<br>
+		<li>Copy and paste your <i>API Key</i> into the "Add new" form, and click "Add account".<br>
 			<img src="img/accounts/50btc2.png"></li>
 	</ol>
 	</div>

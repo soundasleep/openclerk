@@ -38,7 +38,7 @@ function accounts_standard_instructions() {
 			<img src="img/accounts/bips2.png"></li>
 
 		<li>Browse back down to <i>API Keys</i>, and select the <i>GetBalance</i> tab again. Copy and
-			paste this new <i>API Key</i> into the form above, and click "Add account".<br>
+			paste this new <i>API Key</i> into the "Add new" form, and click "Add account".<br>
 			<img src="img/accounts/bips3.png"></li>
 	</ol>
 	</div>

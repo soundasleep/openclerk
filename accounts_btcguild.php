@@ -33,7 +33,7 @@ function accounts_standard_instructions() {
 			and visit your <a href="https://www.btcguild.com/index.php?page=account">settings page</a>.<br>
 			<img src="img/accounts/btcguild1.png"></li>
 
-		<li>Copy and paste your <i>API Key</i> into the form above, and click "Add account".<br>
+		<li>Copy and paste your <i>API Key</i> into the "Add new" form, and click "Add account".<br>
 			<img src="img/accounts/btcguild2.png"></li>
 	</ol>
 	</div>

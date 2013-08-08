@@ -41,7 +41,7 @@ function accounts_standard_instructions() {
 			a 63-character random alphanumeric string - and click <i>Save</i>.<br>
 			<img src="img/accounts/vircurex2.png">
 
-		<li>Copy and paste your both your username and your chosen random secret string into the form above, and click "Add account".</li>
+		<li>Copy and paste your both your username and your chosen random secret string into the "Add new" form, and click "Add account".</li>
 	</ol>
 	</div>
 <?php }

@@ -321,7 +321,7 @@ use the "export" feature of the client to automatically populate your list of <?
 		<img src="img/accounts/<?php echo $account_data['step1']; ?>">
 
 	<li>Click the "Export" button and save this CSV file to your computer. Once this CSV file has
-		been exported, select the "Browse..." button above
+		been exported, select the "Browse..." button on the "Upload CSV" tab
 		to locate and upload this file to <?php echo htmlspecialchars(get_site_config('site_name')); ?>.<br>
 		<img src="img/accounts/<?php echo $account_data['step2']; ?>"></li>
 </ol>

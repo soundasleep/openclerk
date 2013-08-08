@@ -34,7 +34,7 @@ function accounts_standard_instructions() {
 	<h2>Adding a generic API</h2>
 
 	<ol class="steps">
-		<li>Copy and paste any URL, starting with <code>http://</code> or <code>https://</code>, into the URL field above and select a currency. Click "Add account".</li>
+		<li>Copy and paste any URL, starting with <code>http://</code> or <code>https://</code>, into the previous URL field and select a currency. Click "Add account".</li>
 
 		<li>The API url needs to return back a single number representing the current value of the given currency.
 			<a href="http://code.google.com/p/openclerk/source/browse/trunk/example/generic_api.php" class="php">See an example script.</a></li>

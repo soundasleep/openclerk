@@ -42,7 +42,7 @@ function accounts_standard_instructions() {
 			a 63-character random alphanumeric string - into both the <i>get_coin_balances</i> and <i>get_share_balances</i> fields. Click <i>Save</i>.<br>
 			<img src="img/accounts/cryptostocks2.png">
 
-		<li>Copy and paste these keys, along with your Cryptostocks account e-mail address, into the form above and click "Add account".</li>
+		<li>Copy and paste these keys, along with your Cryptostocks account e-mail address, into the "Add new" form and click "Add account".</li>
 	</ol>
 	</div>
 <?php }
