@@ -1062,3 +1062,16 @@ UPDATE balances SET exchange='btct_wallet' WHERE exchange='btct';
 UPDATE balances SET exchange='litecoinglobal_wallet' WHERE exchange='litecoinglobal';
 UPDATE balances SET exchange='cryptostocks_wallet' WHERE exchange='cryptostocks';
 UPDATE balances SET exchange='havelock_wallet' WHERE exchange='havelock';
+
+CREATE TABLE accounts_liteguardian (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
+

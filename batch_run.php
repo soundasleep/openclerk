@@ -230,6 +230,10 @@ try {
 			require("jobs/mine_litecoin.php");
 			break;
 
+		case "liteguardian":
+			require("jobs/liteguardian.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require("jobs/sum.php");

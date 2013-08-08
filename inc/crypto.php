@@ -74,6 +74,7 @@ function get_exchange_name($n) {
 		case "havelock_securities":	return "Havelock Investments (Securities)";
 		case "bitminter":	return "BitMinter";
 		case "mine_litecoin": return "Mine-Litecoin";
+		case "liteguardian": return "LiteGuardian";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -114,6 +115,7 @@ function get_supported_wallets() {
 		"havelock" => array('btc'),
 		"hypernova" => array('ltc', 'hash'),
 		"litecoinglobal" => array('ltc'),
+		"liteguardian" => array('ltc'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud'),
 		"mine_litecoin" => array('ltc'),
@@ -127,7 +129,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitminter", "mine_litecoin");
+	return array("bitminter", "mine_litecoin", "liteguardian");
 }
 
 function crypto_address($currency, $address) {
@@ -209,6 +211,7 @@ function account_data_grouped() {
 			'miningforeman_ftc' => array('url' => 'accounts_miningforeman_ftc', 'label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC'),
 			'bitminter' => array('url' => 'accounts_bitminter', 'label' => 'account', 'table' => 'accounts_bitminter', 'group' => 'accounts'),
 			'mine_litecoin' => array('url' => 'accounts_mine_litecoin', 'label' => 'account', 'table' => 'accounts_mine_litecoin', 'group' => 'accounts'),
+			'liteguardian' => array('url' => 'accounts_liteguardian', 'label' => 'account', 'table' => 'accounts_liteguardian', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -266,6 +269,7 @@ function get_external_apis() {
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 			'mine_litecoin' => '<a href="https://www.mine-litecoin.com/">Mine-Litecoin</a>',
+			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -542,6 +546,11 @@ function is_valid_generic_key($key) {
 function is_valid_bitminter_apikey($key) {
 	// looks like a 32 character alphanumeric uppercase string
 	return strlen($key) == 32 && preg_match("#^[A-Z0-9]+$#", $key);
+}
+
+function is_valid_liteguardian_apikey($key) {
+	// looks like 'api', followed by 32 character hex string
+	return preg_match("#^api[a-f0-9]{32}$#", $key);
 }
 
 function is_valid_currency($c) {
