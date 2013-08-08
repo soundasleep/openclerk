@@ -55,6 +55,12 @@ add_summary_instance($job, 'totalaud', $total);
 add_summary_instance($job, 'offsetsaud', $total_offsets_balance);
 
 $total = 0;
+require("jobs/summary/totalcad.php");
+add_summary_instance($job, 'totalcad', $total);
+//add_summary_instance($job, 'blockchaincad', $total_blockchain_balance);
+add_summary_instance($job, 'offsetscad', $total_offsets_balance);
+
+$total = 0;
 require("jobs/summary/totalnzd.php");
 add_summary_instance($job, 'totalnzd', $total);
 //add_summary_instance($job, 'blockchainnzd', $total_blockchain_balance);

@@ -112,6 +112,22 @@ switch ($summary['summary_type']) {
 		add_summary_instance($job, 'all2aud_mtgox', $total);
 		break;
 
+	case "summary_cad_mtgox":
+		// TODO fiat2cad
+
+		$total = 0;
+		require("jobs/summary/all2cad_mtgox.php");
+		add_summary_instance($job, 'all2cad_mtgox', $total);
+		break;
+
+	case "summary_cad_virtex":
+		// TODO fiat2cad
+
+		$total = 0;
+		require("jobs/summary/all2cad_virtex.php");
+		add_summary_instance($job, 'all2cad_virtex', $total);
+		break;
+
 	case "summary_nzd":
 		// TODO fiat2nzd
 

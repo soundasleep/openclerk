@@ -1077,3 +1077,6 @@ CREATE TABLE accounts_liteguardian (
 
 -- fiat currency data from themoneyconverter.com
 INSERT INTO exchanges SET name='themoneyconverter';
+
+-- CAD/BTC
+INSERT INTO exchanges SET name='virtex';
