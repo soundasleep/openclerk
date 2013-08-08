@@ -56,7 +56,7 @@ function get_exchange_name($n) {
 		case "cryptostocks_wallet": return "Cryptostocks (Wallet)";
 		case "cryptostocks_securities": return "Cryptostocks (Securities)";
 		case "generic":		return "Generic API";
-		case "offsets":		return "Offsets";
+		case "offsets":		return "Offsets";		// generic
 		case "blockchain": 	return "Blockchain";	// generic
 		case "poolx":		return "Pool-x.eu";
 		case "wemineltc": 	return "WeMineLTC";
