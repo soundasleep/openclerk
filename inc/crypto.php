@@ -65,6 +65,7 @@ function get_exchange_name($n) {
 		case "miningforeman_ftc": return "Mining Foreman";
 		case "havelock":	return "Havelock Investments";
 		case "bitminter":	return "BitMinter";
+		case "mine_litecoin": return "Mine-Litecoin";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -107,6 +108,7 @@ function get_supported_wallets() {
 		"litecoinglobal" => array('ltc'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud'),
+		"mine_litecoin" => array('ltc'),
 		"miningforeman" => array('ltc', 'ftc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
@@ -117,7 +119,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitminter");
+	return array("bitminter", "mine_litecoin");
 }
 
 function crypto_address($currency, $address) {
@@ -198,6 +200,7 @@ function account_data_grouped() {
 			'miningforeman' => array('url' => 'accounts_miningforeman', 'label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC'),
 			'miningforeman_ftc' => array('url' => 'accounts_miningforeman_ftc', 'label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC'),
 			'bitminter' => array('url' => 'accounts_bitminter', 'label' => 'account', 'table' => 'accounts_bitminter', 'group' => 'accounts'),
+			'mine_litecoin' => array('url' => 'accounts_mine_litecoin', 'label' => 'account', 'table' => 'accounts_mine_litecoin', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts'),
@@ -254,6 +257,7 @@ function get_external_apis() {
 			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a> (LTC)',
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
+			'mine_litecoin' => '<a href="https://www.mine-litecoin.com/">Mine-Litecoin</a>',
 		),
 
 		"Exchange wallets" => array(

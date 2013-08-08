@@ -1043,3 +1043,15 @@ CREATE TABLE accounts_bitminter (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+CREATE TABLE accounts_mine_litecoin (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);

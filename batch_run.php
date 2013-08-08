@@ -226,6 +226,10 @@ try {
 			require("jobs/bitminter.php");
 			break;
 
+		case "mine_litecoin":
+			require("jobs/mine_litecoin.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require("jobs/sum.php");
