@@ -168,7 +168,7 @@ $q = db()->prepare("SELECT
 $q->execute(array(user_id(), user_id(), $account_data['currency']));
 $accounts = $q->fetchAll();
 
-page_header("Your Accounts: " . capitalize($account_data['titles']), "page_" . $account_data['url'], array('jquery' => true, 'js' => 'accounts'));
+page_header("Your Accounts: " . capitalize($account_data['titles']), "page_" . $account_data['url'], array('jquery' => true, 'js' => 'accounts', 'common_js' => true));
 
 ?>
 
@@ -247,6 +247,14 @@ foreach ($accounts as $a) {
 </tbody>
 </table>
 
+<div class="tabs" id="tabs_accounts">
+	<ul class="tab_list">
+		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
+		<li id="tab_accounts_add">Add new</li><?php if (isset($account_data['client'])) { ?><li id="tab_accounts_csv">Upload CSV</li><li id="tab_accounts_instructions">CSV Instructions</li><li id="tab_accounts_safety">CSV Safety</li><?php } ?>
+	</ul>
+	<ul class="tab_groups">
+		<li id="tab_accounts_add_tab">
+
 <h2>Add new <?php echo htmlspecialchars($account_data['title']); ?></h1>
 
 <p>
@@ -270,6 +278,9 @@ foreach ($accounts as $a) {
 </p>
 
 <?php if (isset($account_data['client'])) { ?>
+		</li>
+		<li id="tab_accounts_csv_tab">
+
 <h2>Upload <?php echo htmlspecialchars($account_data['client']); ?> CSV</h2>
 
 <div class="tip tip_float">
@@ -298,6 +309,9 @@ use the "export" feature of the client to automatically populate your list of <?
 </form>
 </p>
 
+		</li>
+		<li id="tab_accounts_instructions_tab">
+
 <div class="instructions_add">
 <h2>Uploading a <?php echo htmlspecialchars($account_data['client']); ?> CSV file</h2>
 
@@ -313,6 +327,9 @@ use the "export" feature of the client to automatically populate your list of <?
 </ol>
 </div>
 
+		</li>
+		<li id="tab_accounts_safety_tab">
+
 <div class="instructions_safe">
 <h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a <?php echo htmlspecialchars($account_data['client']); ?> CSV file?</h2>
 
@@ -323,6 +340,15 @@ use the "export" feature of the client to automatically populate your list of <?
 </ul>
 </div>
 <?php } ?>
+
+		</li>
+	</ul>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	initialise_tabs('#tabs_accounts');
+});
+</script>
 
 </div>
 
