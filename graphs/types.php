@@ -6,9 +6,16 @@
  * as necessary.
  */
 function graph_types_public($summaries = array()) {
+
+	$data = array();
+
+	$data['category_exchanges'] = array(
+		'title' => 'Exchanges',
+		'category' => true,
+	);
+
 	// we can generate a list of daily graphs from all of the exchanges that we support
 	// but we'll only want to display currency pairs that we're interested in
-	$data = array();
 	foreach (get_exchange_pairs() as $key => $pairs) {
 		foreach ($pairs as $pair) {
 			$pp = strtoupper($pair[0]) . "/" . strtoupper($pair[1]);
@@ -26,6 +33,11 @@ function graph_types_public($summaries = array()) {
 			);
 		}
 	}
+
+	$data['category_securities'] = array(
+		'title' => 'Securities',
+		'category' => true,
+	);
 
 	// get all securities
 	foreach (get_security_exchange_pairs() as $key => $currencies) {
@@ -69,7 +81,7 @@ function graph_types() {
 	$total_fiat_currencies = implode_english($total_fiat_currencies);
 
 	$data = array(
-		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC, Mt.Gox for USD, BitNZ for NZD.'),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC.'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'ticker_matrix' => array('title' => 'All currencies exchange rates (matrix)', 'heading' => 'All exchanges', 'description' => 'A matrix displaying the current buy/sell of all of the currencies and exchanges <a href="' . htmlspecialchars(url_for('user')) .'">you are interested in</a>.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),
@@ -90,6 +102,11 @@ function graph_types() {
 		}
 		$data[$key] = $public_data;
 	}
+
+	$data['category_summaries'] = array(
+		'title' => 'Summaries',
+		'category' => true,
+	);
 
 	// we can generate a list of summary daily graphs from all the currencies that we support
 	foreach (get_summary_types() as $key => $summary) {
@@ -116,6 +133,11 @@ function graph_types() {
 		);
 	}
 
+	$data['category_conversions'] = array(
+		'title' => 'Conversion Summaries',
+		'category' => true,
+	);
+
 	foreach (get_crypto_conversion_summary_types() as $key => $summary) {
 		$cur = $summary['currency'];
 		$data["crypto2" . $key . "_daily"] = array(
@@ -140,6 +162,11 @@ function graph_types() {
 		);
 	}
 
+	$data['category_composition'] = array(
+		'title' => 'Composition',
+		'category' => true,
+	);
+
 	// we can generate a list of composition graphs from all of the currencies that we support
 	$summary_balances = get_all_summary_instances();
 	foreach (get_all_currencies() as $currency) {
@@ -160,6 +187,11 @@ function graph_types() {
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
 	}
+
+	$data['category_layout'] = array(
+		'title' => 'Layout',
+		'category' => true,
+	);
 
 	$data['linebreak'] = array(
 		'title' => 'Line break',

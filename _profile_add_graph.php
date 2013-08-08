@@ -24,8 +24,8 @@
 	<th>Width:</th>
 	<td><select name="width">
 		<option value="1">Small (<?php echo number_format(get_site_config('default_graph_width') * 1); ?>px)</option>
-		<option value="2" selected>Medium (<?php echo number_format(get_site_config('default_graph_width') * 2); ?>px)</option>
-		<option value="4">Large (<?php echo number_format(get_site_config('default_graph_width') * 4); ?>px)</option>
+		<option value="2">Medium (<?php echo number_format(get_site_config('default_graph_width') * 2); ?>px)</option>
+		<option value="4" selected>Large (<?php echo number_format(get_site_config('default_graph_width') * 4); ?>px)</option>
 		<option value="5">Larger (<?php echo number_format(get_site_config('default_graph_width') * 5); ?>px)</option>
 		<option value="6">Very Large (<?php echo number_format(get_site_config('default_graph_width') * 6); ?>px)</option>
 	</select></td>
@@ -99,12 +99,16 @@ function graph_types() {
 		}
 		if (!($arg0 && !$arg0_values)) {
 			// we also don't want to display graph types that need arguments, but there aren't any
-			echo "{ 'id' : " . json_encode($id) . ", 'title' : " . json_encode($graph['title']) . ", 'description' : " .  json_encode($graph['description']) .
-				((isset($graph['technical']) && $graph['technical']) ? ", 'technical': true" : "") .
-				((isset($graph['arg0_title']) && $graph['arg0_title']) ? ", 'arg0_title': " . json_encode($graph['arg0_title']) : "") .
-				($arg0 ? ", 'arg0': " . json_encode($arg0_values) : "") .
-				", 'string0': " . ((isset($graph['string0']) && $graph['string0']) ? json_encode($graph['string0']) : "null") .
-				", 'days': " . json_encode(isset($graph['days'])) . "},\n";
+			if (isset($graph['category']) && $graph['category']) {
+				echo "{ 'category' : " . json_encode($graph['title']) . " },\n";
+			} else {
+				echo "{ 'id' : " . json_encode($id) . ", 'title' : " . json_encode($graph['title']) . ", 'description' : " .  json_encode($graph['description']) .
+					((isset($graph['technical']) && $graph['technical']) ? ", 'technical': true" : "") .
+					((isset($graph['arg0_title']) && $graph['arg0_title']) ? ", 'arg0_title': " . json_encode($graph['arg0_title']) : "") .
+					($arg0 ? ", 'arg0': " . json_encode($arg0_values) : "") .
+					", 'string0': " . ((isset($graph['string0']) && $graph['string0']) ? json_encode($graph['string0']) : "null") .
+					", 'days': " . json_encode(isset($graph['days'])) . "},\n";
+			}
 		}
 	}
 } ?>

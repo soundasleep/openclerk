@@ -80,6 +80,10 @@ if ($id && isset($historical_graphs[$id])) {
 
 	<ul class="historical_graphs">
 	<?php foreach ($historical_graphs as $graph_key => $def) {
+		if (isset($def['category'])) {
+			continue;
+		}
+
 		if (!isset($def['arg0'])) {
 			echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180))) . "\">" . htmlspecialchars($def['title']) . "</a>";
 			if (in_array(str_replace("_daily", "", $graph_key), get_new_exchange_pairs())) {

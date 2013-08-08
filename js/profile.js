@@ -13,7 +13,14 @@ $(document).ready(function() {
 	for (i = 0; i < graph_types().length; i++) {
 		var temp = template.clone();
 		temp.attr('value', graph_types()[i]['id']);
-		temp.text(graph_types()[i]['title']);
+		if (typeof graph_types()[i]['category'] != 'undefined') {
+			temp.text(graph_types()[i]['category']);
+			temp.attr('disabled', true);
+			temp.addClass('category');
+			temp.addClass('category_' + graph_types()[i]['id']);
+		} else {
+			temp.text(graph_types()[i]['title']);
+		}
 		temp.data('index', i);
 		temp.attr('id', '');
 		e.append(temp);
