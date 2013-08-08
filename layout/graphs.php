@@ -264,7 +264,10 @@ function render_graph($graph, $is_public = false) {
 								$q->execute(array($exchange, $c1, $c2));
 								if ($ticker = $q->fetch()) {
 									// TODO currency_format should be a graph option
-									$cell .= "<li><span class=\"rate\">" . number_format_html($ticker['last_trade'], 4) . "</span> " . ($ticker['volume'] == 0 ? "" : "<span class=\"volume\">(" . number_format_html($ticker['volume'], 4) . ")</span>") . " <span class=\"exchange\">[" . htmlspecialchars($exchange) . "]</span></li>\n";
+									$exchange_short = strlen($exchange) > 8 ? substr($exchange, 0, 7) . "..." : $exchange;
+									$cell .= "<li><span class=\"rate\">" . number_format_html($ticker['last_trade'], 4) . "</span> " . ($ticker['volume'] == 0 ? "" : "<span class=\"volume\">(" . number_format_html($ticker['volume'], 4) . ")</span>");
+									$cell .= " <span class=\"exchange\" title=\"" . htmlspecialchars(get_exchange_name($exchange)) . "\">[" . htmlspecialchars($exchange_short) . "]</span>";
+									$cell .= "</li>\n";
 									$graph['last_updated'] = max($graph['last_updated'], strtotime($ticker['created_at']));
 								} else {
 									$cell .= "<li class=\"warning\">Could not find rate for " . htmlspecialchars($exchange . ": " . $c1 . "/" . $c2) . "</li>\n";
