@@ -83,6 +83,10 @@ function get_exchange_name($n) {
 	}
 }
 
+function get_new_exchanges() {
+	return array("themoneyconverter", "virtex", "bitstamp");
+}
+
 function get_exchange_pairs() {
 	return array(
 		"bitnz" => array(array('nzd', 'btc')),
