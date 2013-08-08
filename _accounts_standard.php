@@ -188,7 +188,7 @@ $has_hashrate = in_array('hash', $all_wallets[$account_data['title_key']])
 				}
 			}
 			echo "</ul>";
-			if (!$had_balance) echo "-";
+			if (!$had_balance) echo "<i>None</i>";
 		?></td>
 		<?php if ($has_hashrate) {
 			$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
