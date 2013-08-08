@@ -83,10 +83,20 @@ function get_exchange_name($n) {
 function get_exchange_pairs() {
 	return array(
 		"bitnz" => array(array('nzd', 'btc')),
-		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur')),
+		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc')),
 		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd')),
+	);
+}
+
+function get_new_exchange_pairs() {
+	return array(
+		"btce_usdeur",
+		"btce_usdnmc",
+		"themoneyconverter_usdeur",
+		"themoneyconverter_usdaud",
+		"themoneyconverter_usdnzd",
 	);
 }
 

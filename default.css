@@ -143,6 +143,7 @@ h2 { font-size: 110%; }
 .tabs .tab_selected { font-weight: bold; background-color: #334455 !important; }
 
 span.new { color: red; font-size: 75%; text-shadow: 1px 1px 1px black; }
+span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 
 #page_external .external_list li { padding-bottom: 5px; }
 #page_external .external_list .title { display: inline-block; width: 240px; padding: 5px; }
