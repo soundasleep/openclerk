@@ -106,8 +106,8 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		// custom settings
 		"custom_css" => false,
 		"custom_index" => false,
-		"custom_login" =>false,
-		"custom_signup" =>false,
+		"custom_login" => false,
+		"custom_signup" => false,
 		"custom_help" => false,
 		"custom_screenshots" => false,
 		"custom_templates_copyright" => false,
