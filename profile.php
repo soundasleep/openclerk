@@ -208,6 +208,8 @@ if (!$graphs) { ?>
 			echo "No graphs to display! You might want to add one below.";
 		} ?>
 	</div>
+
+	<div class="graph_collection_screenshot"><a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>" title="Illustration of Your Securities page"><img src="img/screenshots/profile_securities.png" class="screenshot_image"></a></div>
 <?php } ?>
 </div>
 

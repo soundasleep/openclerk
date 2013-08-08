@@ -87,7 +87,7 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 
 <h1>Your <?php echo htmlspecialchars(get_site_config('site_name')); ?> User Account</h1>
 
-<?php if (strtotime($user['created_at']) >= strtotime("-1 hour")) { ?>
+<?php if (strtotime($user['created_at']) >= strtotime("-1 hour") || require_get("welcome", false)) { ?>
 <div class="success">
 <ul>
 	<li>Welcome to <?php echo htmlspecialchars(get_site_config('site_name')); ?>!</li>
