@@ -118,7 +118,6 @@ require("layout/templates.php");
 page_header("Signup", "page_signup", array('jquery' => true, 'common_js' => true));
 
 ?>
-<h1>Signup</h1>
 
 <?php require_template("signup"); ?>
 

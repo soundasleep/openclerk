@@ -146,7 +146,6 @@ require("layout/templates.php");
 page_header("Login", "page_login", array('jquery' => true, 'common_js' => true));
 
 ?>
-<h1>Login</h1>
 
 <?php require_template("login"); ?>
 
