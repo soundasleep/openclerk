@@ -47,8 +47,14 @@ function get_exchange_name($n) {
 		case "mtgox": 		return "Mt.Gox";
 		case "bips":		return "BIPS";
 		case "litecoinglobal": return "Litecoin Global";
+		case "litecoinglobal_wallet": return "Litecoin Global (Wallet)";
+		case "litecoinglobal_securities": return "Litecoin Global (Securities)";
 		case "btct": 		return "BTC Trading Co.";
+		case "btct_wallet": 		return "BTC Trading Co. (Wallet)";
+		case "btct_securities": 		return "BTC Trading Co. (Securities)";
 		case "cryptostocks": return "Cryptostocks";
+		case "cryptostocks_wallet": return "Cryptostocks (Wallet)";
+		case "cryptostocks_securities": return "Cryptostocks (Securities)";
 		case "generic":		return "Generic API";
 		case "offsets":		return "Offsets";
 		case "blockchain": 	return "Blockchain";	// generic
@@ -64,6 +70,8 @@ function get_exchange_name($n) {
 		case "miningforeman": return "Mining Foreman";
 		case "miningforeman_ftc": return "Mining Foreman";
 		case "havelock":	return "Havelock Investments";
+		case "havelock_wallet":	return "Havelock Investments (Wallet)";
+		case "havelock_securities":	return "Havelock Investments (Securities)";
 		case "bitminter":	return "BitMinter";
 		case "mine_litecoin": return "Mine-Litecoin";
 		default:			return "Unknown (" . htmlspecialchars($n) . ")";

@@ -34,7 +34,8 @@ if (!$data) {
 if (isset($data['balance']['LTC'])) {
 	throw new ExternalAPIException("API key was for LTC, not BTC.");
 }
-$balance = $data['balance'][strtoupper($currency)];
+$wallet = $data['balance'][strtoupper($currency)];
+$balance = 0;
 
 // set is_recent=0 for all old security instances for this user
 $q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
@@ -89,5 +90,6 @@ foreach ($data['securities'] as $security => $detail) {
 }
 
 // we've now calculated both the wallet balance + the value of all securities
-insert_new_balance($job, $account, $exchange, $currency, $balance);
+insert_new_balance($job, $account, $exchange . '_wallet', $currency, $wallet);
+insert_new_balance($job, $account, $exchange . '_securities', $currency, $balance);
 

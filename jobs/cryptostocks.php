@@ -41,13 +41,18 @@ $balances = array(
 	'ltc' => 0,
 	// 'dvc' => 0,
 );
+$wallets = array(
+	'btc' => 0,
+	'ltc' => 0,
+	// 'dvc' => 0,
+);
 
 // first, get coin balance
 $get_coin_balance = cryptostocks_api($account['api_key_coin'], $account['api_email'], 'get_coin_balances');
 
 foreach ($balances as $currency => $ignored) {
 	if (isset($get_coin_balance[strtoupper($currency)]['balance'])) {
-		$balances[$currency] += $get_coin_balance[strtoupper($currency)]['balance'];
+		$wallets[$currency] += $get_coin_balance[strtoupper($currency)]['balance'];
 		crypto_log("Balance for $currency: " . $get_coin_balance[strtoupper($currency)]['balance'] . " " . strtoupper($currency));
 	}
 }
@@ -118,8 +123,13 @@ foreach ($get_share_balances['tickers'] as $security) {
 }
 
 // we've now calculated both the wallet balance + the value of all securities
+foreach ($wallets as $currency => $balance) {
+
+	insert_new_balance($job, $account, $exchange . '_wallet', $currency, $balance);
+
+}
 foreach ($balances as $currency => $balance) {
 
-	insert_new_balance($job, $account, $exchange, $currency, $balance);
+	insert_new_balance($job, $account, $exchange . '_securities', $currency, $balance);
 
 }

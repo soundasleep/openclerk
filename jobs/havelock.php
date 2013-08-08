@@ -22,8 +22,9 @@ require("_havelock.php");
 $content = havelock_query("https://www.havelockinvestments.com/r/balance", array('key' => $account['api_key']));
 
 // balance, balanceavailable, balanceescrow
-$balance = $content['balance']['balance'];
-crypto_log("$exchange wallet balance for " . $job['user_id'] . ": " . $balance);
+$wallet = $content['balance']['balance'];
+$balance = 0;
+crypto_log("$exchange wallet balance for " . $job['user_id'] . ": " . $wallet);
 
 // set is_recent=0 for all old security instances for this user
 $q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
@@ -55,4 +56,5 @@ if ($content['portfolio'] && is_array($content['portfolio'])) {
 }
 
 // we've now calculated both the wallet balance + the value of all securities
-insert_new_balance($job, $account, $exchange, $currency, $balance);
+insert_new_balance($job, $account, $exchange . "_wallet", $currency, $wallet);
+insert_new_balance($job, $account, $exchange . "_securities", $currency, $balance);

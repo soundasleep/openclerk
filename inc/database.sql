@@ -1055,3 +1055,10 @@ CREATE TABLE accounts_mine_litecoin (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+-- rename all old securities balances to _wallet, since now we can track
+-- wallets and balances separately
+UPDATE balances SET exchange='btct_wallet' WHERE exchange='btct';
+UPDATE balances SET exchange='litecoinglobal_wallet' WHERE exchange='litecoinglobal';
+UPDATE balances SET exchange='cryptostocks_wallet' WHERE exchange='cryptostocks';
+UPDATE balances SET exchange='havelock_wallet' WHERE exchange='havelock';
