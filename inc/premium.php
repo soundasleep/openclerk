@@ -24,6 +24,14 @@ function user_limits_summary($user_id) {
 					$accounts['total_' . $data['group']] = 0;
 				}
 				$accounts['total_' . $data['group']] += $accounts[$key];
+
+				if (!isset($data['wizard']))
+					continue;
+
+				if (!isset($accounts['wizard_' . $data['wizard']])) {
+					$accounts['wizard_' . $data['wizard']] = 0;
+				}
+				$accounts['wizard_' . $data['wizard']] += $accounts[$key];
 			}
 		}
 

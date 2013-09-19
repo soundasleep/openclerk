@@ -18,7 +18,7 @@ global $user;
 	Welcome to <?php echo htmlspecialchars(get_site_config('site_name')); ?>!
 	To begin tracking your investments and addresses, please first select the
 	currencies that you are interested in. (You can always change these options
-	later, by selecting the "Preferences" link in the navigation menu.)
+	later, by selecting the "Preferences" link above.)
 </p>
 
 <p class="tip tip_float your_account_limits">
