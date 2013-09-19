@@ -87,7 +87,6 @@ $standard_jobs = array(
 	array('table' => 'accounts_havelock', 'type' => 'havelock'),
 	array('table' => 'securities_havelock', 'type' => 'securities_havelock', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'accounts_bitminter', 'type' => 'bitminter'),
-	array('table' => 'accounts_mine_litecoin', 'type' => 'mine_litecoin'),
 	array('table' => 'accounts_liteguardian', 'type' => 'liteguardian'),
 	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* so that total BTC/LTC etc will be updated together before conversion summaries */
 	array('table' => 'summaries', 'type' => 'summary'),

@@ -1115,3 +1115,8 @@ UPDATE hashrates SET mhash=0 WHERE exchange='givemeltc' AND is_recent=1;
 
 -- we can actually copy these over
 INSERT INTO accounts_givemecoins (user_id, created_at, last_queue, title, api_key) (SELECT user_id, created_at, last_queue, title, api_key FROM accounts_givemeltc);
+
+-- disable old mine_litecoin balances
+UPDATE balances SET balance=0 WHERE exchange='mine_litecoin' AND is_recent=1;
+UPDATE hashrates SET mhash=0 WHERE exchange='mine_litecoin' AND is_recent=1;
+

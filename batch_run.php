@@ -226,10 +226,6 @@ try {
 			require("jobs/bitminter.php");
 			break;
 
-		case "mine_litecoin":
-			require("jobs/mine_litecoin.php");
-			break;
-
 		case "liteguardian":
 			require("jobs/liteguardian.php");
 			break;

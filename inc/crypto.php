@@ -17,6 +17,10 @@ function get_new_supported_currencies() {
 	return array("ppc", "cad");
 }
 
+function get_all_cryptocurrencies() {
+	return array("btc", "ltc", "nmc", "ppc", "ftc");
+}
+
 function get_currency_name($n) {
 	switch ($n) {
 		case "btc":	return "Bitcoin";
@@ -74,7 +78,6 @@ function get_exchange_name($n) {
 		case "havelock_wallet":	return "Havelock Investments (Wallet)";
 		case "havelock_securities":	return "Havelock Investments (Securities)";
 		case "bitminter":	return "BitMinter";
-		case "mine_litecoin": return "Mine-Litecoin";
 		case "liteguardian": return "LiteGuardian";
 		case "themoneyconverter": return "TheMoneyConverter";
 		case "virtex":		return "VirtEx";
@@ -143,7 +146,6 @@ function get_supported_wallets() {
 		"liteguardian" => array('ltc'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad'),
-		"mine_litecoin" => array('ltc'),
 		"miningforeman" => array('ltc', 'ftc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
@@ -174,18 +176,29 @@ function get_summary_types() {
 		'summary_nmc' => array('currency' => 'nmc', 'key' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
 		'summary_ftc' => array('currency' => 'ftc', 'key' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => 'FTC'),
 		'summary_ppc' => array('currency' => 'ppc', 'key' => 'ppc', 'title' => get_currency_name('ppc'), 'short_title' => 'PPC'),
-		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)'),
-		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
-		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)'),
-		'summary_usd_bitstamp' => array('currency' => 'usd', 'key' => 'usd_bitstamp', 'title' => get_currency_name('usd') . " (converted through Bitstamp)", 'short_title' => 'USD (Bitstamp)'),
-		'summary_nzd' => array('currency' => 'nzd', 'key' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
-		'summary_eur_btce' => array('currency' => 'eur', 'key' => 'eur_btce', 'title' => get_currency_name('eur') . " (converted through BTC-e)", 'short_title' => 'EUR (BTC-E)'),
-		'summary_eur_mtgox' => array('currency' => 'eur', 'key' => 'eur_mtgox', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)'),
-		'summary_eur_vircurex' => array('currency' => 'eur', 'key' => 'eur_vircurex', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)'),
-		'summary_aud_mtgox' => array('currency' => 'aud', 'key' => 'aud_mtgox', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)'),
-		'summary_cad_mtgox' => array('currency' => 'usd', 'key' => 'cad_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)'),
-		'summary_cad_virtex' => array('currency' => 'usd', 'key' => 'cad_virtex', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)'),
+		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)', 'exchange' => 'btce'),
+		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)', 'exchange' => 'mtgox'),
+		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)', 'exchange' => 'virtex'),
+		'summary_usd_bitstamp' => array('currency' => 'usd', 'key' => 'usd_bitstamp', 'title' => get_currency_name('usd') . " (converted through Bitstamp)", 'short_title' => 'USD (Bitstamp)', 'exchange' => 'bitstamp'),
+		'summary_nzd' => array('currency' => 'nzd', 'key' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD', 'exchange' => 'bitnz'),
+		'summary_eur_btce' => array('currency' => 'eur', 'key' => 'eur_btce', 'title' => get_currency_name('eur') . " (converted through BTC-e)", 'short_title' => 'EUR (BTC-E)', 'exchange' => 'btce'),
+		'summary_eur_mtgox' => array('currency' => 'eur', 'key' => 'eur_mtgox', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)', 'exchange' => 'mtgox'),
+		'summary_eur_vircurex' => array('currency' => 'eur', 'key' => 'eur_vircurex', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)', 'exchange' => 'vircurex'),
+		'summary_aud_mtgox' => array('currency' => 'aud', 'key' => 'aud_mtgox', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)', 'exchange' => 'mtgox'),
+		'summary_cad_mtgox' => array('currency' => 'usd', 'key' => 'cad_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)', 'exchange' => 'mtgox'),
+		'summary_cad_virtex' => array('currency' => 'usd', 'key' => 'cad_virtex', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)', 'exchange' => 'virtex'),
 	);
+}
+
+function get_default_currency_exchange($c) {
+	switch ($c) {
+		case "usd": return "mtgox";
+		case "nzd": return "bitnz";
+		case "eur": return "btce";
+		case "aud": return "mtgox";
+		case "cad": return "virtex";
+		default: throw new Exception("Unknown currency to exchange into: $c");
+	}
 }
 
 /**
@@ -241,7 +254,6 @@ function account_data_grouped() {
 			'miningforeman' => array('url' => 'accounts_miningforeman', 'label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC'),
 			'miningforeman_ftc' => array('url' => 'accounts_miningforeman_ftc', 'label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC'),
 			'bitminter' => array('url' => 'accounts_bitminter', 'label' => 'account', 'table' => 'accounts_bitminter', 'group' => 'accounts'),
-			'mine_litecoin' => array('url' => 'accounts_mine_litecoin', 'label' => 'account', 'table' => 'accounts_mine_litecoin', 'group' => 'accounts'),
 			'liteguardian' => array('url' => 'accounts_liteguardian', 'label' => 'account', 'table' => 'accounts_liteguardian', 'group' => 'accounts'),
 		),
 		'Exchanges' => array(
@@ -299,7 +311,6 @@ function get_external_apis() {
 			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a> (LTC)',
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
-			'mine_litecoin' => '<a href="https://www.mine-litecoin.com/">Mine-Litecoin</a>',
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
 		),
 
