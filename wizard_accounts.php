@@ -65,7 +65,7 @@ require_template("wizard_accounts");
 
 </ul>
 
-<div class="buttons">
+<div class="wizard-buttons">
 <a class="button" href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">&lt; Previous</a>
 <a class="button submit" href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">Next &gt;</a>
 </div>
@@ -73,6 +73,6 @@ require_template("wizard_accounts");
 
 <?php
 
-require_template("wizard_currencies_footer");
+require_template("wizard_accounts_footer");
 
 page_footer();

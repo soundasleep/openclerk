@@ -21,6 +21,11 @@ function get_all_cryptocurrencies() {
 	return array("btc", "ltc", "nmc", "ppc", "ftc");
 }
 
+// currencies which we can download balances using explorers etc
+function get_address_currencies() {
+	return array("btc", "ltc", "ppc", "ftc");	// no NMC yet
+}
+
 function get_currency_name($n) {
 	switch ($n) {
 		case "btc":	return "Bitcoin";
@@ -386,6 +391,71 @@ function translate_external_api_group_to_suffix($group) {
 
 		default:
 			return "";	// nothing
+	}
+}
+
+function get_blockchain_wizard_config($currency) {
+	switch ($currency) {
+		case "btc":
+			return array(
+				'premium_group' => 'blockchain',
+				'title' => 'BTC address',
+				'titles' => 'BTC addresses',
+				'table' => 'addresses',
+				'currency' => 'btc',
+				'callback' => 'is_valid_btc_address',
+				'url' => 'accounts_blockchain',
+				'job_type' => 'blockchain',
+				'address_callback' => 'btc_address',
+				'client' => 'Bitcoin-Qt',
+				'step1' => 'bitcoinqt1.png',
+				'step2' => 'bitcoinqt2.png',
+			);
+
+		case "ltc":
+			return array(
+				'premium_group' => 'litecoin',
+				'title' => 'LTC address',
+				'titles' => 'LTC addresses',
+				'table' => 'addresses',
+				'currency' => 'ltc',
+				'callback' => 'is_valid_ltc_address',
+				'url' => 'accounts_litecoin',
+				'job_type' => 'litecoin',
+				'address_callback' => 'ltc_address',
+				'client' => 'Litecoin-Qt',
+				'step1' => 'litecoinqt1.png',
+				'step2' => 'litecoinqt2.png',
+			);
+
+		case "ftc":
+			return array(
+				'premium_group' => 'feathercoin',
+				'title' => 'FTC address',
+				'titles' => 'FTC addresses',
+				'table' => 'addresses',
+				'currency' => 'ftc',
+				'callback' => 'is_valid_ftc_address',
+				'url' => 'accounts_feathercoin',
+				'job_type' => 'feathercoin',
+				'address_callback' => 'ftc_address',
+			);
+
+		case "ppc":
+			return array(
+				'premium_group' => 'ppcoin',
+				'title' => 'PPC address',
+				'titles' => 'PPC addresses',
+				'table' => 'addresses',
+				'currency' => 'ppc',
+				'callback' => 'is_valid_ppc_address',
+				'url' => 'accounts_ppcoin',
+				'job_type' => 'ppcoin',
+				'address_callback' => 'ppc_address',
+			);
+
+		default:
+			throw new Exception("Unknown blockchain currency '$currency'");
 	}
 }
 

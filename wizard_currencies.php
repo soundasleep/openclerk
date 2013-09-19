@@ -50,6 +50,8 @@ while ($s = $q->fetch()) {
 </ul>
 </div>
 
+<hr>
+
 <div class="fiatcurrencies">
 <h2>Fiat currencies</h2>
 
@@ -96,7 +98,7 @@ while ($s = $q->fetch()) {
 <b>NOTE:</b> Removing a currency will also permanently remove any historical summary data for that currency.
 </p>
 
-<div class="buttons">
+<div class="wizard-buttons">
 <input type="submit" name="submit" value="Next &gt;">
 </div>
 </form>
