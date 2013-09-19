@@ -70,6 +70,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_poolx', 'type' => 'poolx'),
 	array('table' => 'accounts_wemineltc', 'type' => 'wemineltc'),
 	array('table' => 'accounts_givemeltc', 'type' => 'givemeltc'),
+	array('table' => 'accounts_givemecoins', 'type' => 'givemecoins'),
 	array('table' => 'accounts_slush', 'type' => 'slush'),
 	array('table' => 'accounts_litecoinglobal', 'type' => 'litecoinglobal'),
 	array('table' => 'securities_litecoinglobal', 'type' => 'securities_litecoinglobal', 'user_id' => get_site_config('system_user_id')),

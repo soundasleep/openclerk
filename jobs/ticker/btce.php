@@ -26,7 +26,7 @@ $first = true;
 foreach ($rates_list as $rl) {
 	// sleep between requests
 	if (!$first) {
-		set_time_limit(get_site_config('sleep_btce_ticker') * 2);
+		set_time_limit(30 + (get_site_config('sleep_btce_ticker') * 2));
 		sleep(get_site_config('sleep_btce_ticker'));
 	}
 	$first = false;

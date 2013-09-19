@@ -1089,3 +1089,22 @@ INSERT INTO exchanges SET name='virtex';
 -- USD/BTC
 INSERT INTO exchanges SET name='bitstamp';
 
+----------------------------------------------------------------------------
+-- upgrade statements from 0.8 to 0.9
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+-- LTC, FTC, BTC all use the same API key
+DROP TABLE IF EXISTS accounts_givemecoins;
+
+CREATE TABLE accounts_givemecoins (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);

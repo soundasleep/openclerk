@@ -158,6 +158,10 @@ try {
 			require("jobs/givemeltc.php");
 			break;
 
+		case "givemecoins":
+			require("jobs/givemecoins.php");
+			break;
+
 		case "slush":
 			require("jobs/slush.php");
 			break;

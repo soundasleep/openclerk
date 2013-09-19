@@ -62,13 +62,14 @@ function get_exchange_name($n) {
 		case "poolx":		return "Pool-x.eu";
 		case "wemineltc": 	return "WeMineLTC";
 		case "givemeltc": 	return "Give Me LTC";
+		case "givemecoins":	return "Give Me Coins";
 		case "vircurex": 	return "Vircurex";
 		case "slush":		return "Slush's pool";
 		case "btcguild": 	return "BTC Guild";
 		case "50btc": 		return "50BTC";
 		case "hypernova":	return "Hypernova";
 		case "ltcmineru":	return "LTCMine.ru";
-		case "miningforeman": return "Mining Foreman";
+		case "miningforeman": return "Mining Foreman";	// LTC default
 		case "miningforeman_ftc": return "Mining Foreman";
 		case "havelock":	return "Havelock Investments";
 		case "havelock_wallet":	return "Havelock Investments (Wallet)";
@@ -137,6 +138,7 @@ function get_supported_wallets() {
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"givemeltc" => array('ltc', 'hash'),
+		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
 		"hypernova" => array('ltc', 'hash'),
 		"litecoinglobal" => array('ltc'),
@@ -154,7 +156,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitminter", "mine_litecoin", "liteguardian");
+	return array("givemecoins");
 }
 
 function crypto_address($currency, $address) {
@@ -234,6 +236,7 @@ function account_data_grouped() {
 			'slush' => array('url' => 'accounts_slush', 'label' => 'account', 'table' => 'accounts_slush', 'group' => 'accounts'),
 			'wemineltc' => array('url' => 'accounts_wemineltc', 'label' => 'account', 'table' => 'accounts_wemineltc', 'group' => 'accounts'),
 			'givemeltc' => array('url' => 'accounts_givemeltc', 'label' => 'account', 'table' => 'accounts_givemeltc', 'group' => 'accounts'),
+			'givemecoins' => array('url' => 'accounts_givemecoins', 'label' => 'account', 'table' => 'accounts_givemecoins', 'group' => 'accounts'),
 			'btcguild' => array('url' => 'accounts_btcguild', 'label' => 'account', 'table' => 'accounts_btcguild', 'group' => 'accounts'),
 			'50btc' => array('url' => 'accounts_50btc', 'label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts'),
 			'hypernova' => array('url' => 'accounts_hypernova', 'label' => 'account', 'table' => 'accounts_hypernova', 'group' => 'accounts'),
@@ -292,6 +295,7 @@ function get_external_apis() {
 			'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
 			'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
 			'givemeltc' => '<a href="https://www.give-me-ltc.com">Give Me LTC</a>',
+			'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
 			'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
 			'50btc' => '<a href="https://www.50btc.com">50BTC</a>',
 			'hypernova' => '<a href="https://hypernova.pw/">Hypernova</a>',

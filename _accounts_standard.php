@@ -58,7 +58,7 @@ if (require_post("add", false)) {
 		$errors[] = "That is not a valid title.";
 	}
 	if (!can_user_add($user, $account_data['exchange'])) {
-		$errors[] = "Cannot add " . $account_data['title'] . ": too many existing " . $account_data['titles'] . " for your account.<br>" .
+		$errors[] = "Cannot add " . $account_data['title'] . ": too many existing accounts.<br>" .
 				($user['is_premium'] ? "" : " To add more " . $account_data['titles'] . ", upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 	}
 	if (!$errors) {
