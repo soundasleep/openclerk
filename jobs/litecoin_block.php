@@ -5,7 +5,7 @@
  * when retrieving Litecoin balances.
  */
 
-$block = crypto_get_contents(crypto_wrap_url("http://explorer.litecoin.net/chain/Litecoin/q/getblockcount"));
+$block = crypto_get_contents(crypto_wrap_url(get_site_config('ltc_block_url')));
 if (!is_numeric($block) || !$block) {
 	throw new ExternalAPIException("Litecoin block number was not numeric: " . htmlspecialchars($block));
 }

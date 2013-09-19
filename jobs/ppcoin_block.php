@@ -5,7 +5,7 @@
  * when retrieving Feathercoin balances.
  */
 
-$block = crypto_get_contents(crypto_wrap_url("http://ppc.cryptocoinexplorer.com/chain/PPCoin/q/getblockcount"));
+$block = crypto_get_contents(crypto_wrap_url(get_site_config('ppc_block_url')));
 if (!is_numeric($block) || !$block) {
 	throw new ExternalAPIException("PPCoin block number was not numeric: " . htmlspecialchars($block));
 }

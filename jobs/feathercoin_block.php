@@ -5,7 +5,7 @@
  * when retrieving Feathercoin balances.
  */
 
-$block = crypto_get_contents(crypto_wrap_url("http://cryptocoinexplorer.com:5750/chain/Feathercoin/q/getblockcount"));
+$block = crypto_get_contents(crypto_wrap_url(get_site_config('ftc_block_url')));
 if (!is_numeric($block) || !$block) {
 	throw new ExternalAPIException("Feathercoin block number was not numeric: " . htmlspecialchars($block));
 }
