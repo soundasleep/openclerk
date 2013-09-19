@@ -44,39 +44,42 @@ $(document).ready(function() {
  * Enable sorting.
  */
 $(document).ready(function() {
-	var headings = $(".standard_account_list thead th");
-	headings.each(function(index, e) {
-		if (!$(e).text().trim()) {
-			// ignore button rows
-			return;
-		}
-		var temp = $("#sort_buttons_template").clone();
+	var tables = $(".standard_account_list");
+	tables.each(function(index, table) {
+		var headings = $(table).find("thead th");
+		headings.each(function(index, e) {
+			if (!$(e).text().trim()) {
+				// ignore button rows
+				return;
+			}
+			var temp = $("#sort_buttons_template").clone();
 
-		// set up events
-		temp.find(".sort_up").click(function(e) {
-			$(document).find(".sort_down").removeClass("selected");
-			$(document).find(".sort_up").removeClass("selected");
-			$(e.target).addClass("selected");
-			sortBy(index, true);
-		});
-		temp.find(".sort_down").click(function(e) {
-			$(document).find(".sort_down").removeClass("selected");
-			$(document).find(".sort_up").removeClass("selected");
-			$(e.target).addClass("selected");
-			sortBy(index, false);
+			// set up events
+			temp.find(".sort_up").click(function(e) {
+				$(document).find(".sort_down").removeClass("selected");
+				$(document).find(".sort_up").removeClass("selected");
+				$(e.target).addClass("selected");
+				sortBy(table, index, true);
+			});
+			temp.find(".sort_down").click(function(e) {
+				$(document).find(".sort_down").removeClass("selected");
+				$(document).find(".sort_up").removeClass("selected");
+				$(e.target).addClass("selected");
+				sortBy(table, index, false);
+			});
+
+			$(e).append(temp);
+			temp.show();
 		});
 
-		$(e).append(temp);
-		temp.show();
+		// sort by title on page load
+		$(headings[0]).find(".sort_up").click();
 	});
-
-	// sort by title on page load
-	$(headings[0]).find(".sort_up").click();
 });
 
-function sortBy(index, ascending) {
+function sortBy(table, index, ascending) {
 	// get the contents
-	var tbody = $(".standard_account_list tbody");
+	var tbody = $(table).find("tbody");
 	var rows = $(tbody).find("tr");
 	$(rows).detach();
 
@@ -100,7 +103,7 @@ function sortBy(index, ascending) {
 
 	// fix row colours
 	var count = 0;
-	$(".standard_account_list tbody tr").each(function(i, e) {
+	$(table).find("tbody tr").each(function(i, e) {
 		$(e).removeClass('even');
 		$(e).removeClass('odd');
 		if (count++ % 2 == 0) {
