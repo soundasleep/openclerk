@@ -151,29 +151,8 @@ Any invalid or duplicated addresses will be skipped.
 </table>
 </form>
 
-<div class="instructions_add">
-<h2>Uploading a <?php echo htmlspecialchars($account_data['client']); ?> CSV file</h2>
-
-<ol class="steps">
-	<li>Open your <?php echo htmlspecialchars($account_data['client']); ?> client, and
-		open the "Receive coins" tab.<br>
-		<img src="img/accounts/<?php echo $account_data['step1']; ?>">
-
-	<li>Click the "Export" button and save this CSV file to your computer. Once this CSV file has
-		been exported, select the "Browse..." button on the "Upload CSV" tab
-		to locate and upload this file to <?php echo htmlspecialchars(get_site_config('site_name')); ?>.<br>
-		<img src="img/accounts/<?php echo $account_data['step2']; ?>"></li>
-</ol>
-</div>
-
-<div class="instructions_safe">
-<h2>Is it safe to provide <?php echo htmlspecialchars(get_site_config('site_name')); ?> a <?php echo htmlspecialchars($account_data['client']); ?> CSV file?</h2>
-
-<ul>
-	<li>The <?php echo htmlspecialchars($account_data['client']); ?> client will only export your <i>public</i>
-		<?php echo htmlspecialchars(get_currency_name($account_data['currency'])); ?> addresses. These addresses can only be used to retrieve
-		address balances; it is not possible to perform transactions using a public address.</li>
-</ul>
+<div class="help">
+<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $account_data['csv_kb']))); ?>">How do I upload a <?php echo htmlspecialchars($account_data['client']); ?> CSV file?</a>
 </div>
 
 <?php } /* end if account_data[client] */ ?>

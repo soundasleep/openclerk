@@ -408,8 +408,7 @@ function get_blockchain_wizard_config($currency) {
 				'job_type' => 'blockchain',
 				'address_callback' => 'btc_address',
 				'client' => 'Bitcoin-Qt',
-				'step1' => 'bitcoinqt1.png',
-				'step2' => 'bitcoinqt2.png',
+				'csv_kb' => 'bitcoin_csv',
 			);
 
 		case "ltc":
@@ -424,8 +423,7 @@ function get_blockchain_wizard_config($currency) {
 				'job_type' => 'litecoin',
 				'address_callback' => 'ltc_address',
 				'client' => 'Litecoin-Qt',
-				'step1' => 'litecoinqt1.png',
-				'step2' => 'litecoinqt2.png',
+				'csv_kb' => 'litecoin_csv',
 			);
 
 		case "ftc":
