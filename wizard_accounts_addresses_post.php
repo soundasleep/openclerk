@@ -65,6 +65,11 @@ if (require_post("add", false) && require_post("address", false)) {
 
 // process delete
 if (require_post("delete", false) && require_post("id", false)) {
+	// find the original address so we can display it
+	$q = db()->prepare("SELECT * FROM " . $account_data['table'] . " WHERE id=? AND user_id=?");
+	$q->execute(array(require_post("id"), user_id()));
+	$address = $q->fetch();
+
 	$q = db()->prepare("DELETE FROM " . $account_data['table'] . " WHERE id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));
 
@@ -72,7 +77,8 @@ if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM address_balances WHERE address_id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));
 
-	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . " ID " . htmlspecialchars(require_post("id")) . ".";
+	$address_callback = $account_data['address_callback'];
+	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . " " . ($address ? $address_callback($address['address']) : " (removed)") . ".";
 
 	// redirect to GET
 	set_temporary_messages($messages);

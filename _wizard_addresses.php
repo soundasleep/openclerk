@@ -64,10 +64,11 @@ foreach ($accounts as $a) {
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
 		<td id="account<?php echo htmlspecialchars($a['id']); ?>" class="title">
 			<span><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></span>
-			<form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post" style="display:none;">
+			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post" style="display:none;">
 			<input type="text" name="title" value="<?php echo htmlspecialchars($a['title']); ?>">
 			<input type="submit" value="Save">
 			<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+			<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 			</form>
 		</td>
 		<td><?php $address_callback = $account_data['address_callback']; echo $address_callback($a['address']); ?></td>
@@ -80,7 +81,7 @@ foreach ($accounts as $a) {
 		</td>
 		<td><?php echo $a['balance'] === null ? "-" : currency_format($account_data['currency'], $a['balance']); ?></td>
 		<td>
-			<form action="<?php echo htmlspecialchars(url_for($account_data['url'])); ?>" method="post">
+			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 				<input type="submit" name="delete" value="Delete" class="delete" onclick="return confirm('Are you sure you want to remove this address?');">
@@ -100,7 +101,7 @@ foreach ($accounts as $a) {
 <h2>Add new <?php echo htmlspecialchars($account_data['title']); ?></h1>
 
 <p>
-<form action="<?php echo htmlspecialchars(url_for("wizard_accounts_addresses_post")); ?>" method="post">
+<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 <table class="standard">
 <tr>
 	<th><label for="address">Title:</label></th>
