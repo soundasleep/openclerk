@@ -1108,3 +1108,7 @@ CREATE TABLE accounts_givemecoins (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+-- set all old givemeltc balances to 0, so that they don't interfere with our summary calculations
+UPDATE balances SET balance=0 WHERE exchange='givemeltc' AND is_recent=1;
+UPDATE hashrates SET mhash=0 WHERE exchange='givemeltc' AND is_recent=1;
