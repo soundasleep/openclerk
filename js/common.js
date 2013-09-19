@@ -4,17 +4,23 @@
  */
 function initialise_tabs(tab_query) {
 	$(tab_query).find(".tab_list > li").click(function(e) {
-		var new_tab_id = $(e.target).attr('id') + "_tab";
+		var parent = e.target;
+		if (!$(parent).attr('id')) {
+			// fix so that we can have <span>s in tab headings
+			parent = parent.parentNode;
+		}
+
+		var new_tab_id = $(parent).attr('id') + "_tab";
 
 		// hide all tab contents except this one
 		$(tab_query).find(".tab_groups > li:not(#" + new_tab_id + ")").hide();
 		$(tab_query).find(".tab_groups > #" + new_tab_id).show();
 
 		// highlight this tab as selected
-		$(tab_query).find(".tab_list > li:not(#" + $(e.target).attr('id') + ")").removeClass("tab_selected");
-		$(tab_query).find(".tab_list > li#" + $(e.target).attr('id')).addClass("tab_selected");
+		$(tab_query).find(".tab_list > li:not(#" + $(parent).attr('id') + ")").removeClass("tab_selected");
+		$(tab_query).find(".tab_list > li#" + $(parent).attr('id')).addClass("tab_selected");
 
-		window.location.hash = $(e.target).attr('id').replace('tab_', '');
+		window.location.hash = $(parent).attr('id').replace('tab_', '');
 	});
 
 	// hook up with any anchors (on this page) that reference this tab
