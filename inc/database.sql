@@ -1112,3 +1112,6 @@ CREATE TABLE accounts_givemecoins (
 -- set all old givemeltc balances to 0, so that they don't interfere with our summary calculations
 UPDATE balances SET balance=0 WHERE exchange='givemeltc' AND is_recent=1;
 UPDATE hashrates SET mhash=0 WHERE exchange='givemeltc' AND is_recent=1;
+
+-- we can actually copy these over
+INSERT INTO accounts_givemecoins (user_id, created_at, last_queue, title, api_key) (SELECT user_id, created_at, last_queue, title, api_key FROM accounts_givemeltc);
