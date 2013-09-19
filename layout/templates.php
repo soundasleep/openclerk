@@ -29,9 +29,12 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <?php if (isset($options["common_js"]) && $options["common_js"]) { ?>
     <script type="text/javascript" src="js/common.js"></script>
     <?php } ?>
-    <?php if (isset($options["js"]) && $options["js"]) { ?>
-    <script type="text/javascript" src="js/<?php echo htmlspecialchars($options['js']); ?>.js"></script>
-    <?php } ?>
+    <?php if (isset($options["js"]) && $options["js"]) {
+    	if (!is_array($options['js'])) $options['js'] = array($options['js']);
+    	foreach ($options['js'] as $js) { ?>
+    <script type="text/javascript" src="js/<?php echo htmlspecialchars($js); ?>.js"></script>
+    <?php }
+    } ?>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?>>

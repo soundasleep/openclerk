@@ -394,6 +394,7 @@ function translate_external_api_group_to_suffix($group) {
 	}
 }
 
+// TODO remove 'url' property
 function get_blockchain_wizard_config($currency) {
 	switch ($currency) {
 		case "btc":
@@ -454,6 +455,162 @@ function get_blockchain_wizard_config($currency) {
 
 		default:
 			throw new Exception("Unknown blockchain currency '$currency'");
+	}
+}
+
+// TODO remove 'url' property
+function get_accounts_wizard_config($exchange) {
+	$result = get_accounts_wizard_config_basic($exchange);
+	if (!isset($result['title'])) {
+		$result['title'] = get_exchange_name($exchange) . " account";
+	}
+	if (!isset($result['titles'])) {
+		$result['titles'] = $result['title'] . "s";
+	}
+	return $result;
+}
+
+function get_accounts_wizard_config_basic($exchange) {
+	switch ($exchange) {
+		case "poolx":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
+				),
+				'table' => 'accounts_poolx',
+				'title' => 'Pool-x account',
+				'url' => 'accounts_poolx',
+				'exchange' => 'poolx',
+				'khash' => true,
+			);
+
+		case "slush":
+			return array(
+				'inputs' => array(
+					'api_token' => array('title' => 'API current token', 'callback' => 'is_valid_slush_apitoken'),
+				),
+				'table' => 'accounts_slush',
+				'title' => 'Slush\'s pool account',
+				'url' => 'accounts_slush',
+				'exchange' => 'slush',
+			);
+
+		case "wemineltc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
+				),
+				'table' => 'accounts_wemineltc',
+				'title' => 'WeMineLTC account',
+				'url' => 'accounts_wemineltc',
+				'exchange' => 'wemineltc',
+				'khash' => true,
+			);
+
+		case "givemecoins":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
+				),
+				'table' => 'accounts_givemecoins',
+				'title' => 'Give Me Coins account',
+				'url' => 'accounts_givemecoins',
+				'exchange' => 'givemecoins',
+				'khash' => true,
+			);
+
+		case "btcguild":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_btcguild_apikey'),
+				),
+				'table' => 'accounts_btcguild',
+				'url' => 'accounts_btcguild',
+				'exchange' => 'btcguild',
+			);
+
+		case "50btc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_50btc_apikey'),
+				),
+				'table' => 'accounts_50btc',
+				'url' => 'accounts_50btc',
+				'exchange' => '50btc',
+			);
+
+		case "hypernova":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_hypernova_apikey'),
+				),
+				'table' => 'accounts_hypernova',
+				'url' => 'accounts_hypernova',
+				'exchange' => 'hypernova',
+				'khash' => true,
+			);
+
+		case "ltcmineru":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ltcmineru_apikey'),
+				),
+				'table' => 'accounts_ltcmineru',
+				'url' => 'accounts_ltcmineru',
+				'exchange' => 'ltcmineru',
+				'khash' => true,
+			);
+
+		case "miningforeman":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
+				),
+				'table' => 'accounts_miningforeman',
+				'title' => 'Mining Foreman LTC account',
+				'url' => 'accounts_miningforeman',
+				'exchange' => 'miningforeman',
+				'khash' => true,
+			);
+
+		case "miningforeman_ftc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
+				),
+				'table' => 'accounts_miningforeman_ftc',
+				'title' => 'Mining Foreman FTC account',
+				'url' => 'accounts_miningforeman_ftc',
+				'exchange' => 'miningforeman_ftc',
+				'khash' => true,
+				'title_key' => 'miningforeman',
+			);
+
+		case "bitminter":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitminter_apikey'),
+				),
+				'table' => 'accounts_bitminter',
+				'title' => 'BitMinter account',
+				'url' => 'accounts_bitminter',
+				'exchange' => 'bitminter',
+			);
+
+		case "liteguardian":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_liteguardian_apikey'),
+				),
+				'table' => 'accounts_liteguardian',
+				'title' => 'LiteGuardian account',
+				'url' => 'accounts_liteguardian',
+				'exchange' => 'liteguardian',
+				'khash' => true,
+			);
+
+		default:
+			throw new Exception("Unknown accounts type '$exchange'");
 	}
 }
 

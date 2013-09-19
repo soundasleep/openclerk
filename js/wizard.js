@@ -42,3 +42,43 @@ $(document).ready(function() {
 	// and call the callback to refresh text
 	$("#page_wizard_currencies .exchanges input[type=checkbox]").change();
 });
+
+/**
+ * Wizard page 'pools': initialise currency selections
+ */
+$(document).ready(function() {
+	var callback = function(event) {
+		var exchanges = available_exchanges();
+		for (var i = 0; i < exchanges.length; i++) {
+			if (exchanges[i]['exchange'] == $(event.target).val()) {
+				// selected exchange: remove any fields that were added before
+				// TODO we could store the saved fields for adding back later
+				$("form.wizard-add-account .added-field").remove();
+
+				// for every input
+				var inputs = exchanges[i]['inputs'];
+				for (var j = 0; j < inputs.length; j++) {
+					var temp = $("#add_account_template").clone();
+					temp.addClass("added-field");
+
+					var tempInput = temp.find("input");
+					tempInput.attr('name', inputs[j]['key']);
+					tempInput.attr('id', 'input_' + inputs[j]['key']);
+					tempInput.attr('maxlength', inputs[j]['length']);
+					tempInput.attr('size', inputs[j]['length'] * 2/3);
+
+					var tempTitle = temp.find("label");
+					tempTitle.html(inputs[j]['title'] + ":");
+					tempTitle.attr('for', 'input_' + inputs[j]['key']);
+
+					temp.insertBefore($("#add_account_template"));
+					temp.show();
+				}
+			}
+		}
+	};
+
+	$("form.wizard-add-account select#type").change(callback);
+	// call callback to initialise first field
+	$("form.wizard-add-account select#type").change();
+});

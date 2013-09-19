@@ -1,0 +1,115 @@
+<?php
+
+require("inc/global.php");
+require_login();
+
+$user = get_user(user_id());
+require_user($user);
+
+$errors = array();
+$messages = array();
+
+// get all of our accounts
+$accounts = user_limits_summary(user_id());
+
+// find the appropriate $account_data
+$account_data = false;
+foreach (account_data_grouped() as $label => $data) {
+	foreach ($data as $key => $value) {
+		if ($key == require_post("type")) {
+			// we've found a valid account type
+			$account_data = get_accounts_wizard_config($key);
+		}
+	}
+}
+
+if (!$account_data) {
+	throw new Exception("Invalid account type '" . htmlspecialchars(require_post("type")) . "'");
+}
+
+switch (require_post("callback")) {
+	case "wizard_accounts_pools":
+	case "wizard_accounts_exchanges":
+	case "wizard_accounts_securities":
+	case "wizard_accounts_other":
+		break;
+
+	default:
+		throw new Exception("Invalid callback '" . htmlspecialchars(require_post("callback")) . "'");
+}
+
+// process edit
+if (require_post("title", false) !== false && require_post("id", false)) {
+	$id = require_post("id");
+	$title = require_post("title");
+
+	if (!is_valid_title($title)) {
+		$errors[] = "'" . htmlspecialchars($title) . "' is not a valid " . htmlspecialchars($account_data['title']) . " title.";
+	} else {
+		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET title=? WHERE user_id=? AND id=?");
+		$q->execute(array($title, user_id(), $id));
+		$messages[] = "Updated " . htmlspecialchars($account_data['title']) . " title.";
+
+		// redirect to GET
+		set_temporary_messages($messages);
+		redirect(url_for(require_post("callback")));
+	}
+
+}
+
+// process add/delete
+if (require_post("add", false)) {
+	$query = "";
+	$args = array();
+	foreach ($account_data['inputs'] as $key => $data) {
+		$callback = $data['callback'];
+		if (!$callback(require_post($key))) {
+			$errors[] = "That is not a valid " . htmlspecialchars($account_data['title']) . " " . $data['title'] . ".";
+			break;
+		} else {
+			$query .= ", $key=?";
+			$args[] = require_post($key);
+		}
+	}
+	if (!is_valid_title(require_post("title", false))) {
+		$errors[] = "That is not a valid title.";
+	}
+	if (!can_user_add($user, $account_data['exchange'])) {
+		$errors[] = "Cannot add " . $account_data['title'] . ": too many existing accounts.<br>" .
+				($user['is_premium'] ? "" : " To add more " . $account_data['titles'] . ", upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	}
+	if (!$errors) {
+		// we don't care if the address already exists
+		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, title=? $query");
+		$full_args = array_join(array(user_id(), require_post("title", false)), $args);
+		$q->execute($full_args);
+		$title = htmlspecialchars(require_post("title", ""));
+		if (!$title) $title = "<i>(untitled)</i>";
+		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . $title . "</i>. Balances from this account will be retrieved shortly.";
+
+		// redirect to GET
+		set_temporary_messages($messages);
+		redirect(url_for(require_post("callback")));
+	}
+}
+
+if (require_post("delete", false) && require_post("id", false)) {
+	$q = db()->prepare("DELETE FROM " . $account_data['table'] . " WHERE id=? AND user_id=?");
+	$q->execute(array(require_post("id"), user_id()));
+
+	// also delete old address balances, since we won't be able to use them any more
+	$q = db()->prepare("DELETE FROM balances WHERE account_id=? AND user_id=? AND exchange=?");
+	$q->execute(array(require_post("id"), user_id(), $data['exchange']));
+
+	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . ".";
+
+	// redirect to GET
+	set_temporary_messages($messages);
+	redirect(url_for(require_post("callback")));
+}
+
+// either there was an error or we haven't done anything; go back to callback
+set_temporary_errors($errors);
+set_temporary_messages($messages);
+redirect(url_for(require_post("callback")));
+
