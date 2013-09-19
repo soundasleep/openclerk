@@ -66,7 +66,7 @@ while ($s = $q->fetch()) {
 	}
 ?>
 	<li>
-		<input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo $selected ? " checked" : ""; ?>>
+		<input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo $selected ? " checked" : ""; ?> class="parent-currency">
 		<label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
 
 		<div class="exchange"><span class="exchange-text">Exchange: <?php echo htmlspecialchars(get_exchange_name(get_default_currency_exchange($c))); ?></span>
@@ -92,14 +92,17 @@ while ($s = $q->fetch()) {
 </ul>
 </div>
 
+<p class="warning-inline">
+<b>NOTE:</b> Removing a currency will also permanently remove any historical summary data for that currency.
+</p>
+
 <div class="buttons">
 <input type="submit" name="submit" value="Next &gt;">
 </div>
-
-<div style="clear:both;"></div>
 </form>
 
-</div><?php /* ends wizard-content div */ ?>
-
 <?php
+
+require_template("wizard_currencies_footer");
+
 page_footer();
