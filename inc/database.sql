@@ -1121,12 +1121,12 @@ UPDATE balances SET balance=0 WHERE exchange='mine_litecoin' AND is_recent=1;
 UPDATE hashrates SET mhash=0 WHERE exchange='mine_litecoin' AND is_recent=1;
 
 -- managed graph functionality
-ALTER TABLE users ADD is_graphs_managed tinyint not null default 0;
-ALTER TABLE users ADD INDEX(is_graphs_managed);
-
-ALTER TABLE users ADD graph_managed_type varchar(16);	-- null, 'auto', 'preferences'
+ALTER TABLE users ADD graph_managed_type varchar(16) not null default 'none';	-- 'none', 'auto', 'preferences'
+ALTER TABLE users ADD INDEX(graph_managed_type);
 ALTER TABLE users ADD preferred_crypto varchar(3) not null default 'btc';	-- preferred cryptocurrency
 ALTER TABLE users ADD preferred_fiat varchar(3) not null default 'usd';	-- preferred fiat currency
+
+ALTER TABLE users ADD needs_managed_update tinyint not null default 0;	-- graph_managed_type = auto or managed, and we need to update our graphs on next profile load
 
 -- graph management preferences
 CREATE TABLE managed_graphs (

@@ -22,11 +22,6 @@ $exchanges = require_post("exchanges");
 $cryptos = get_all_cryptocurrencies();
 $fiats = array_diff(get_all_currencies(), $cryptos);
 
-echo "<p>currencies = " . print_r($currencies, true);
-echo "<p>exchanges = " . print_r($exchanges, true);
-echo "<p>cryptos = " . print_r($cryptos, true);
-echo "<p>fiats = " . print_r($fiats, true);
-
 // go through all fiat currencies and, if no exchange is selected, select a default one
 foreach ($fiats as $c) {
 	if (in_array($c, $currencies)) {

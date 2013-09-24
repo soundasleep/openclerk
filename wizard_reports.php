@@ -33,6 +33,13 @@ require("graphs/managed.php");
 $auto_graphs = calculate_user_graphs($user, 'auto');
 $managed_graphs = calculate_all_managed_graphs($user);
 
+$managed_preferences = array();
+$q = db()->prepare("SELECT * FROM managed_graphs WHERE user_id=?");
+$q->execute(array(user_id()));
+while ($m = $q->fetch()) {
+	$managed_preferences[$m['preference']] = $m;
+}
+
 require_template("wizard_reports");
 
 ?>
@@ -104,7 +111,7 @@ function print_graph_types($managed) {
 <ul class="report-types">
 
 	<li>
-		<label><input type="radio" name="preference" value="auto"<?php echo $user['graph_managed_type'] == 'auto' ? ' checked' : ''; ?>> Automatically select the best reports for me. (<?php echo plural(count($auto_graphs), "graph"); ?>)</label>
+		<label><input type="radio" name="preference" value="auto"<?php echo require_get("preference", $user['graph_managed_type']) == 'auto' ? ' checked' : ''; ?>> Automatically select the best reports for me. (<?php echo plural(count($auto_graphs), "graph"); ?>)</label>
 		<?php print_graph_types($auto_graphs); ?>
 
 		<?php if ($user['graph_managed_type'] != 'auto') { ?>
@@ -115,7 +122,7 @@ function print_graph_types($managed) {
 	</li>
 
 	<li>
-		<label><input type="radio" name="preference" value="managed"<?php echo $user['graph_managed_type'] == 'managed' ? ' checked' : ''; ?>> Select reports based on my portfolio preferences:</label>
+		<label><input type="radio" name="preference" value="managed"<?php echo require_get("preference", $user['graph_managed_type']) == 'managed' ? ' checked' : ''; ?>> Select reports based on my portfolio preferences:</label>
 
 		<?php if ($user['graph_managed_type'] != 'managed') { ?>
 		<div class="reset-warning">
@@ -127,14 +134,15 @@ function print_graph_types($managed) {
 			<?php
 			foreach (get_managed_graph_categories() as $key => $label) { ?>
 			<li>
-				<label><input type="checkbox" name="managed" value="<?php echo htmlspecialchars($key); ?>"> <?php echo htmlspecialchars($label); ?> (<?php echo plural(count($managed_graphs[$key]), "graph"); ?>)</label>
+				<label><input type="checkbox" name="managed[]"
+					value="<?php echo htmlspecialchars($key); ?>"<?php echo isset($managed_preferences[$key]) ? " checked" : ""; ?>> <?php echo htmlspecialchars($label); ?> (<?php echo plural(count($managed_graphs[$key]), "graph"); ?>)</label>
 				<?php print_graph_types($managed_graphs[$key]); ?>
 			<?php } ?>
 		</ul>
 	</li>
 
 	<li>
-		<label><input type="radio" name="preference" value="none"<?php echo $user['graph_managed_type'] == '' ? ' checked' : ''; ?>> I will manage my own graphs and pages.</label>
+		<label><input type="radio" name="preference" value="none"<?php echo require_get("preference", $user['graph_managed_type']) == '' ? ' checked' : ''; ?>> I will manage my own graphs and pages.</label>
 	</li>
 
 </ul>
@@ -143,7 +151,7 @@ function print_graph_types($managed) {
 
 <div class="wizard-buttons">
 <a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">&lt; Previous</a>
-<a class="button submit" href="<?php echo htmlspecialchars(url_for('profile')); ?>">Next &gt;</a>
+<input type="submit" name="submit" value="Next &gt;">
 </div>
 </div>
 
