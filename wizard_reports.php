@@ -70,32 +70,48 @@ require_template("wizard_reports");
 	TODO maybe add a button to save just these preferences and refresh the page
 </ul>
 
+<?php
+function print_graph_types($managed) {
+	global $graphs;
+
+?>
+	<a class="report-help">?</a>
+
+	<div class="report-help-details">
+		This will display the following graphs:
+		<ul class="managed-graphs">
+		<?php foreach ($managed as $graph_key => $graph_data) { ?>
+			<li><?php echo isset($graphs[$graph_key]) ? htmlspecialchars($graphs[$graph_key]['title']) : "<i>(Unknown graph '" . htmlspecialchars($graph_key) . "')</i>"; ?>
+			<?php if (is_admin()) {
+				echo "<span class=\"debug\">";
+				$debug = array();
+				foreach ($graph_data as $data_key => $data_value) {
+					$debug[] = htmlspecialchars($data_key) . " = " . implode(",", is_array($data_value) ? $data_value : array($data_value));
+				}
+				echo implode(", ", $debug);
+				echo "</span>";
+			} ?></li>
+		<?php } ?>
+		<?php if (!$managed) { ?>
+			<li><i>(No graphs yet in this category.)</i></li>
+		<?php } ?>
+		</ul>
+	</div>
+<?php
+}
+?>
+
 <ul class="report-types">
 
 	<li>
-		<label><input type="radio" name="preference" value="auto"<?php echo $user['graph_managed_type'] == 'auto' ? ' checked' : ''; ?>> Automatically select the best reports for me.</label>
-			<a class="report-help">?</a>
+		<label><input type="radio" name="preference" value="auto"<?php echo $user['graph_managed_type'] == 'auto' ? ' checked' : ''; ?>> Automatically select the best reports for me. (<?php echo plural(count($auto_graphs), "graph"); ?>)</label>
+		<?php print_graph_types($auto_graphs); ?>
 
 		<?php if ($user['graph_managed_type'] != 'auto') { ?>
 		<div class="reset-warning">
 		Warning: Selecting this option will reset your currently defined reports and graphs (you will not lose any historical data).
 		</div>
 		<?php } ?>
-
-		<div class="report-help-details">
-			This will display the following graphs:
-			<ul>
-				<li>Equivalent BTC</li>
-				<li>All exchanges</li>
-				<li>Converted fiat</li>
-				<li>Total balances</li>
-				<li>Total LTC</li>
-				<li>Total BTC</li>
-				<li>Mt.Gox USD/BTC</li>
-				<li>BTC-E USD/BTC</li>
-				<li>TODO</li>
-			</ul>
-		</div>
 	</li>
 
 	<li>
@@ -111,29 +127,8 @@ require_template("wizard_reports");
 			<?php
 			foreach (get_managed_graph_categories() as $key => $label) { ?>
 			<li>
-				<label><input type="checkbox" name="managed" value="<?php echo htmlspecialchars($key); ?>"> <?php echo htmlspecialchars($label); ?></label>
-					<a class="report-help">?</a>
-
-				<div class="report-help-details">
-					This will display the following graphs:
-					<ul>
-					<?php foreach ($managed_graphs[$key] as $graph_key => $graph_data) { ?>
-						<li><?php echo isset($graphs[$graph_key]) ? htmlspecialchars($graphs[$graph_key]['title']) : "<i>(Unknown graph '" . htmlspecialchars($graph_key) . "')</i>"; ?>
-						<?php if (is_admin()) {
-							echo "<span class=\"debug\">";
-							$debug = array();
-							foreach ($graph_data as $data_key => $data_value) {
-								$debug[] = htmlspecialchars($data_key) . " = " . implode(",", is_array($data_value) ? $data_value : array($data_value));
-							}
-							echo implode(", ", $debug);
-							echo "</span>";
-						} ?></li>
-					<?php } ?>
-					<?php if (!$managed_graphs[$key]) { ?>
-						<li><i>(No graphs yet in this category.)</i></li>
-					<?php } ?>
-					</ul>
-				</div>
+				<label><input type="checkbox" name="managed" value="<?php echo htmlspecialchars($key); ?>"> <?php echo htmlspecialchars($label); ?> (<?php echo plural(count($managed_graphs[$key]), "graph"); ?>)</label>
+				<?php print_graph_types($managed_graphs[$key]); ?>
 			<?php } ?>
 		</ul>
 	</li>

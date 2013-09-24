@@ -15,7 +15,33 @@ function calculate_user_graphs($user, $strategy = false) {
 		return calculate_user_graphs($user, $user['graph_managed_type']);
 	}
 
-	// TODO implement
+	$managed = calculate_all_managed_graphs($user);
+
+	// merge them all together based on user preferences
+	$categories = array();
+	if ($strategy == "managed") {
+		$q = db()->prepare("SELECT * FROM managed_graphs WHERE user_id=?");
+		$q->execute(array($user['id']));
+		while ($m = $q->fetch()) {
+			$categories[] = $m['preference'];
+		}
+	} else {
+		// default categories for auto
+		$categories = get_auto_managed_graph_categories();
+	}
+
+	// merge all graphs based on categories
+	$result = array();
+	foreach ($categories as $key) {
+		if (isset($managed[$key])) {
+			$result = array_merge($result, $managed[$key]);
+		}
+	}
+
+	// sort by order
+	uasort($result, '_sort_by_order_key');
+
+	return $result;
 }
 
 /**
@@ -37,23 +63,25 @@ function calculate_all_managed_graphs($user) {
 		$order_currency[$c] = count($order_currency);
 	}
 	$order_exchange = array();
-	foreach (account_data_grouped() as $label => $group) {
-		foreach ($group as $key => $data) {
-			$order_exchange[$key] = count($order_exchange) * 10;
-		}
+	foreach (get_all_exchanges() as $key => $label) {
+		$order_exchange[$key] = count($order_exchange) * 10;
 	}
 
 	$default_order = array(
 		'composition_pie' => 0,
-		'exchange_daily' => 1000,
-		'total_daily' => 2000,
-		'all_daily' => 3000,
-		'composition_daily' => 4000,
-		'hashrate_daily' => 5000,
+		'balances_table' => 1000,
+		'exchange_daily' => 2000,
+		'total_daily' => 3000,
+		'all_daily' => 4000,
+		'composition_daily' => 5000,
+		'hashrate_daily' => 6000,
 	);
 
 	$result['summary'] = array();
 	$result['all_summary'] = array();
+	$result['summary']['balances_table'] = array(
+		'order' => $default_order['balances_table'],
+	);
 	foreach (get_all_cryptocurrencies() as $cur) {
 		if (isset($summaries[$cur])) {
 			$result['summary']["composition_" . $cur . "_pie"] = array(
@@ -112,7 +140,7 @@ function calculate_all_managed_graphs($user) {
 									'source' => $p,
 								);
 								if ($is_default) {
-									$result['summary'][$exchange . "_" . $pair[0] . $pair[1] . "_daily"] = array(
+									$result['summary']['all2' . substr($p, strlen("summary_")) . '_daily'] = array(
 										'order' => $default_order['all_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
 										'source' => $p,
 									);
@@ -211,6 +239,17 @@ function get_managed_graph_categories() {
 		'all_currency' => 'Currency exchange (detailed)',
 		'securities' => 'Securities and investments',
 		'mining' => 'Cryptocurrency mining',
+	);
+}
+
+// these can change at any time post-deployment, so if users select 'auto' they will
+// automatically receive new graph categories
+function get_auto_managed_graph_categories() {
+	return array(
+		'summary',
+		'currency',
+		'securities',
+		'mining',
 	);
 }
 

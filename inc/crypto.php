@@ -54,45 +54,53 @@ function get_blockchain_currencies() {
 	);
 }
 
+function get_all_exchanges() {
+	return array(
+		"bitnz" =>  		"BitNZ",
+		"btce" =>  			"BTC-e",
+		"mtgox" =>  		"Mt.Gox",
+		"bips" => 			"BIPS",
+		"litecoinglobal" =>  "Litecoin Global",
+		"litecoinglobal_wallet" => "Litecoin Global (Wallet)",
+		"litecoinglobal_securities" => "Litecoin Global (Securities)",
+		"btct" =>  			"BTC Trading Co.",
+		"btct_wallet" =>  	"BTC Trading Co. (Wallet)",
+		"btct_securities" => "BTC Trading Co. (Securities)",
+		"cryptostocks" =>  	"Cryptostocks",
+		"cryptostocks_wallet" => "Cryptostocks (Wallet)",
+		"cryptostocks_securities" => "Cryptostocks (Securities)",
+		"generic" => 		"Generic API",
+		"offsets" => 		"Offsets",		// generic
+		"blockchain" =>  	"Blockchain",	// generic
+		"poolx" => 			"Pool-x.eu",
+		"wemineltc" =>  	"WeMineLTC",
+		"givemecoins" => 	"Give Me Coins",
+		"vircurex" =>  		"Vircurex",
+		"slush" => 			"Slush's pool",
+		"btcguild" =>  		"BTC Guild",
+		"50btc" =>  		"50BTC",
+		"hypernova" => 		"Hypernova",
+		"ltcmineru" => 		"LTCMine.ru",
+		"miningforeman" =>  "Mining Foreman",	// LTC default
+		"miningforeman_ftc" => "Mining Foreman",
+		"havelock" => 		"Havelock Investments",
+		"havelock_wallet" => "Havelock Investments (Wallet)",
+		"havelock_securities" => "Havelock Investments (Securities)",
+		"bitminter" => 		"BitMinter",
+		"liteguardian" =>  	"LiteGuardian",
+		"themoneyconverter" => "TheMoneyConverter",
+		"virtex" => 		"VirtEx",
+		"bitstamp" => 		"Bitstamp",
+	);
+
+}
+
 function get_exchange_name($n) {
-	switch ($n) {
-		case "bitnz": 		return "BitNZ";
-		case "btce": 		return "BTC-e";
-		case "mtgox": 		return "Mt.Gox";
-		case "bips":		return "BIPS";
-		case "litecoinglobal": return "Litecoin Global";
-		case "litecoinglobal_wallet": return "Litecoin Global (Wallet)";
-		case "litecoinglobal_securities": return "Litecoin Global (Securities)";
-		case "btct": 		return "BTC Trading Co.";
-		case "btct_wallet": 		return "BTC Trading Co. (Wallet)";
-		case "btct_securities": 		return "BTC Trading Co. (Securities)";
-		case "cryptostocks": return "Cryptostocks";
-		case "cryptostocks_wallet": return "Cryptostocks (Wallet)";
-		case "cryptostocks_securities": return "Cryptostocks (Securities)";
-		case "generic":		return "Generic API";
-		case "offsets":		return "Offsets";		// generic
-		case "blockchain": 	return "Blockchain";	// generic
-		case "poolx":		return "Pool-x.eu";
-		case "wemineltc": 	return "WeMineLTC";
-		case "givemecoins":	return "Give Me Coins";
-		case "vircurex": 	return "Vircurex";
-		case "slush":		return "Slush's pool";
-		case "btcguild": 	return "BTC Guild";
-		case "50btc": 		return "50BTC";
-		case "hypernova":	return "Hypernova";
-		case "ltcmineru":	return "LTCMine.ru";
-		case "miningforeman": return "Mining Foreman";	// LTC default
-		case "miningforeman_ftc": return "Mining Foreman";
-		case "havelock":	return "Havelock Investments";
-		case "havelock_wallet":	return "Havelock Investments (Wallet)";
-		case "havelock_securities":	return "Havelock Investments (Securities)";
-		case "bitminter":	return "BitMinter";
-		case "liteguardian": return "LiteGuardian";
-		case "themoneyconverter": return "TheMoneyConverter";
-		case "virtex":		return "VirtEx";
-		case "bitstamp":	return "Bitstamp";
-		default:			return "Unknown (" . htmlspecialchars($n) . ")";
+	$exchanges = get_all_exchanges();
+	if (isset($exchanges[$n])) {
+		return $exchanges[$n];
 	}
+	return "Unknown (" . htmlspecialchars($n) . "]";
 }
 
 function get_new_exchanges() {
