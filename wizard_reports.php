@@ -88,9 +88,9 @@ function print_graph_types($managed, $is_auto = false) {
 	global $graphs, $user;
 
 ?>
-	<a class="report-help">?</a>
+	<a class="report-help collapsed">?</a>
 
-	<div class="report-help-details">
+	<div class="report-help-details collapsed">
 		This will display the following graphs, based on <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">your currencies</a> and <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts</a>:
 		<ul class="managed-graphs">
 		<?php foreach ($managed as $graph_key => $graph_data) { ?>

@@ -46,7 +46,7 @@ foreach ($managed as $m) {
 
 // check that this user can have this many graphs
 if ($preference != 'none') {
-	$generated_graphs = calculate_user_graphs($user, $preference);
+	$generated_graphs = calculate_user_graphs($user, $preference, $managed);
 
 	// if 'managed', also merge in any graphs that are already present on the final page
 	// ('auto' will reset the page anyway)
@@ -57,7 +57,10 @@ if ($preference != 'none') {
 			$q = db()->prepare("SELECT * FROM graphs WHERE page_id=?");
 			$q->execute(array($graph_page['id']));
 			while ($graph = $q->fetch()) {
-				$generated_graphs[$graph['graph_type']] = $graph;
+				// only add it if it's not managed, because otherwise we can remove it
+				if (!$graph['is_managed']) {
+					$generated_graphs[$graph['graph_type']] = $graph;
+				}
 			}
 		}
 	}
@@ -65,6 +68,9 @@ if ($preference != 'none') {
 	if (count($generated_graphs) >= get_premium_value($user, 'graphs_per_page')) {
 		$errors[] = "Cannot update report preferences: this would add too many graphs to the managed graph page." .
 				($user['is_premium'] ? "" : " To add more graphs on the managed graph page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		if (is_admin()) {
+			$errors[] = "(admin) " . print_r(array_keys($generated_graphs), true);
+		}
 	}
 
 }
@@ -207,7 +213,7 @@ if (!$errors) {
 
 			$messages[] = "Reset graphs.";
 		} else if ($update_needed) {
-			$messages[] = "Updated graphs.";
+			// $messages[] = "Updated graphs.";
 		}
 	}
 }

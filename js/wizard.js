@@ -134,3 +134,45 @@ $(document).ready(function() {
 	// call callback to initialise first field
 	$("form.wizard-add-account select#type").change();
 });
+
+/**
+ * Wizard page 'reports': initialise toggles
+ */
+$(document).ready(function() {
+	var callback = function(event) {
+		var parent = $(event.target);
+		if ($(parent).hasClass("collapsed")) {
+			$(parent).removeClass("collapsed");
+			$(parent.parent(0)).find(".report-help-details").removeClass("collapsed");
+		} else {
+			$(parent).addClass("collapsed");
+			$(parent.parent(0)).find(".report-help-details").addClass("collapsed");
+		}
+	};
+
+	$("#page_wizard_reports .report-help").click(callback);
+});
+
+/**
+ * Wizard page 'reports': initialise warning messages
+ */
+$(document).ready(function() {
+	var callback = function(event) {
+		var parent = $(event.target);
+		// hide all other warnings
+		$("#page_wizard_reports .reset-warning").hide();
+
+		var warnings = $(parent.parent(0).parent(0)).find(".reset-warning");
+		if (parent.is(":checked")) {
+			warnings.show();
+		} else {
+			warnings.hide();
+		}
+	};
+
+	$("#page_wizard_reports input[type=radio]").change(callback);
+	$("#page_wizard_reports input[type=radio]").keypress(callback);	// for keyboard navigation
+
+	// hide all other warnings
+	$("#page_wizard_reports .reset-warning").hide();
+});

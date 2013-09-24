@@ -9,24 +9,26 @@ require_once("graphs/types.php");
  * Calculate all of the graphs that would be created for a given user,
  * with a given graph calculation strategy.
  * @param $strategy 'auto', 'managed' or '' (use user-defined)
+ * @param $managed an array of categories or use, or empty to use user-defined
  */
-function calculate_user_graphs($user, $strategy = false) {
+function calculate_user_graphs($user, $strategy = false, $categories = array()) {
 	if ($strategy === false) {
 		if (!$user['graph_managed_type']) {
 			throw new ManagedGraphException("User has no managed graph type, so cannot select user-defined strategy");
 		}
-		return calculate_user_graphs($user, $user['graph_managed_type']);
+		return calculate_user_graphs($user, $user['graph_managed_type'], $categories);
 	}
 
 	$managed = calculate_all_managed_graphs($user);
 
 	// merge them all together based on user preferences
-	$categories = array();
 	if ($strategy == "managed") {
-		$q = db()->prepare("SELECT * FROM managed_graphs WHERE user_id=?");
-		$q->execute(array($user['id']));
-		while ($m = $q->fetch()) {
-			$categories[] = $m['preference'];
+		if (!$categories) {
+			$q = db()->prepare("SELECT * FROM managed_graphs WHERE user_id=?");
+			$q->execute(array($user['id']));
+			while ($m = $q->fetch()) {
+				$categories[] = $m['preference'];
+			}
 		}
 	} else {
 		// default categories for auto
@@ -290,7 +292,7 @@ function update_user_managed_graphs($user) {
 		$q->execute(array($user['id'], "Summary"));
 		$page = array('id' => db()->lastInsertId());
 		if (is_admin()) {
-			$messages[] = "Added new graph_page " . htmlspecialchars($page['id']) . ".";
+			$messages[] = "(admin) Added new graph_page " . htmlspecialchars($page['id']) . ".";
 		}
 	}
 
