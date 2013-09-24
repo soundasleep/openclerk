@@ -45,7 +45,7 @@ $(document).ready(function() {
 });
 
 /**
- * Wizard page 'pools': initialise currency selections
+ * Wizard page 'accounts': initialise input fields and help pages
  */
 $(document).ready(function() {
 	var callback = function(event) {
@@ -61,14 +61,33 @@ $(document).ready(function() {
 				// for every input
 				var inputs = exchanges[i]['inputs'];
 				for (var j = 0; j < inputs.length; j++) {
-					var temp = $("#add_account_template").clone();
+					// dropdown or normal input?
+					var dropdown = (typeof inputs[j]['dropdown'] != 'undefined') ? inputs[j]['dropdown'] : false;
+					var temp = $(dropdown ? "#add_account_template_dropdown" : "#add_account_template").clone();
 					temp.addClass("added-field");
 
-					var tempInput = temp.find("input");
+					var tempInput = temp.find(dropdown ? "select" : "input");
 					tempInput.attr('name', inputs[j]['key']);
 					tempInput.attr('id', 'input_' + inputs[j]['key']);
-					tempInput.attr('maxlength', inputs[j]['length']);
-					tempInput.attr('size', 20 + (inputs[j]['length'] * 1/5));
+					if (dropdown) {
+						var tempOption = temp.find("#option_template");
+						for (var option_key in dropdown) {
+							if (dropdown.hasOwnProperty(option_key)) {
+								var tempOption1 = tempOption.clone();
+								tempOption1.val(option_key);
+								tempOption1.text(dropdown[option_key]);
+								tempOption1.attr('id', '');
+								if (typeof inputs[j]['style_prefix'] != 'undefined') {
+									tempOption1.addClass(inputs[j]['style_prefix'] + option_key);
+								}
+								tempInput.append(tempOption1);
+							}
+						}
+						tempOption.remove();
+					} else {
+						tempInput.attr('maxlength', inputs[j]['length']);
+						tempInput.attr('size', 20 + (inputs[j]['length'] * 1/5));
+					}
 
 					var tempTitle = temp.find("label");
 					tempTitle.html(inputs[j]['title'] + ":");

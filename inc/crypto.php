@@ -713,6 +713,22 @@ function get_accounts_wizard_config_basic($exchange) {
 				'exchange' => 'havelock',
 			);
 
+		// --- other ---
+		case "generic":
+			return array(
+				'inputs' => array(
+					'api_url' => array('title' => 'URL', 'callback' => 'is_valid_generic_url'),
+					'currency' => array('title' => 'Currency', 'dropdown' => 'dropdown_currency_list', 'callback' => 'is_valid_currency', 'style_prefix' => 'currency_name_'),
+				),
+				'display' => array(
+					'currency' => array('title' => 'Currency', 'format' => 'strtoupper'),
+				),
+				'table' => 'accounts_generic',
+				'title' => 'Generic API',
+				'url' => 'accounts_generic',
+				'exchange' => 'generic',
+				);
+
 		default:
 			throw new Exception("Unknown accounts type '$exchange'");
 	}

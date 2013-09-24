@@ -16,12 +16,13 @@ function get_knowledge_base() {
 		"Mining pools" => 'mining pool account',
 		"Exchanges" => 'exchange account',
 		"Securities" => 'securities exchange account',
+		"Other" => '',
 	);
 	foreach (account_data_grouped() as $label => $group) {
 		if (isset($wizards[$label])) {
 			foreach ($group as $key => $data) {
 				$kb['Accounts'][$key] = array(
-					'title' => 'How do I add a ' . get_exchange_name($key) . (isset($data['suffix']) ? $data['suffix'] : '') . ' ' . $wizards[$label] . '?',
+					'title' => 'How do I add a ' . get_exchange_name($key) . (isset($data['suffix']) ? $data['suffix'] : '') . ($wizards[$label] ? ' ' . $wizards[$label] : '') . '?',
 					'inline' => 'inline_accounts_' . $key,
 				);
 			}

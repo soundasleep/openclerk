@@ -187,7 +187,12 @@ foreach ($accounts as $a) {
 		<th><label for="ignored">Parameter:</label></th>
 		<td><input id="ignored" type="text" name="ignored" size="18" maxlength="64" value=""></td>
 	</tr>
-	<!-- TODO dropdown, e.g. Generic API currency selection -->
+	<tr id="add_account_template_dropdown" style="display:none;">
+		<th><label for="ignored">Parameter:</label></th>
+		<td><select id="ignored" name="ignored">
+			<option id="option_template"></option>
+		</select></td>
+	</tr>
 	<tr>
 		<td colspan="2" class="buttons">
 			<input type="submit" name="add" value="Add account" class="add">
@@ -205,7 +210,15 @@ function available_exchanges() {
 	echo "{ 'exchange' : " . json_encode($exchange) . ", \n";
 	echo " 'inputs' : [";
 	foreach ($config['inputs'] as $key => $input) {
-		echo "{ 'key': " . json_encode($key) . ", 'title' : " . json_encode($input['title']) . ", 'length' : " . json_encode(isset($input['length']) ? $input['length'] : 64) . "},";
+		echo "{ 'key': " . json_encode($key) . ", 'title' : " . json_encode($input['title']);
+		if (isset($input['dropdown']) && $input['dropdown']) {
+			$callback = $input['dropdown'];
+			echo ", 'dropdown' : " . json_encode($callback());
+		}
+		if (isset($input['style_prefix']) && $input['style_prefix']) {
+			echo ", 'style_prefix' : " . json_encode($input['style_prefix']);
+		}
+		echo ", 'length' : " . json_encode(isset($input['length']) ? $input['length'] : 64) . "},";
 	}
 	echo "],";
 	echo "},\n";
