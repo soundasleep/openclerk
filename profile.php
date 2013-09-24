@@ -22,6 +22,12 @@ $errors = array();
 $enable_editing = false;
 require("_profile_move.php");
 
+// do we need to replace/update managed graphs?
+require("graphs/managed.php");
+if ($user['needs_managed_update']) {
+	update_user_managed_graphs($user);
+}
+
 // get all pages
 $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 ORDER BY page_order ASC, id ASC");
 $q->execute(array(user_id()));
@@ -100,6 +106,8 @@ if ($pages) {
 
 				}
 
+				// no need to make a fake graph_page - add graph form will never be shown
+
 			}
 
 		}
@@ -136,6 +144,7 @@ if ($pages) {
 		foreach ($pages as $p) {
 			if ($p['id'] == $page_id) {
 				$page_title = $p['title'];
+				$graph_page = $p;
 			}
 		}
 
@@ -209,7 +218,9 @@ if (!$graphs) { ?>
 		} ?>
 	</div>
 
+	<?php if (require_get("securities", false)) { ?>
 	<div class="graph_collection_screenshot"><a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>" title="Illustration of Your Securities page"><img src="img/screenshots/profile_securities.png" class="screenshot_image"></a></div>
+	<?php } ?>
 <?php } ?>
 </div>
 
@@ -222,13 +233,23 @@ if (!$graphs) { ?>
 <div class="tabs" id="tabs_profile">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_profile_addgraph">Add Graph</li><li id="tab_profile_addpage">Add Page</li><li id="tab_profile_deletepage">Remove Page</li><li id="tab_profile_reset">Reset</li>
+		<li id="tab_profile_addgraph">Add Graph</li><li id="tab_profile_addpage">Add Page</li><?php if (!$graph_page['is_managed']) { ?><li id="tab_profile_deletepage">Remove Page</li><?php } ?><li id="tab_profile_reset">Reset</li>
 	</ul>
 
 	<ul class="tab_groups">
 		<li id="tab_profile_addgraph_tab">
 
-<?php require("_profile_add_graph.php"); ?>
+			<div class="add_graph">
+			<h2>Add new graph</h2>
+
+<?php if ($graph_page['is_managed']) { ?>
+	<div>These graphs are currently <a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">managed <?php echo $user['graph_managed_type'] == 'auto' ? 'automatically' : 'based on your profile preferences'; ?></a>.</div>
+<?php } else {
+	require("_profile_add_graph.php");
+} ?>
+
+			</div>
+
 		</li>
 
 <?php } ?>

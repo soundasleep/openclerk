@@ -1146,3 +1146,6 @@ ALTER TABLE graph_pages ADD is_managed tinyint not null default 0;
 ALTER TABLE graphs ADD INDEX(is_managed);
 ALTER TABLE graph_pages ADD INDEX(is_managed);
 
+-- page_order can be < 9000 due to managed graphs
+-- (alternatively we could write complicated logic to reorder new & existing graphs based on their intended order)
+ALTER TABLE graphs MODIFY page_order smallint;

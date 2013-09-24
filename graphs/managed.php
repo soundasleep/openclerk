@@ -1,5 +1,8 @@
 <?php
 
+require_once("graphs/util.php");
+require_once("graphs/types.php");
+
 /* functionality relating to managed graphs */
 
 /**
@@ -81,11 +84,13 @@ function calculate_all_managed_graphs($user) {
 	$result['all_summary'] = array();
 	$result['summary']['balances_table'] = array(
 		'order' => $default_order['balances_table'],
+		'width' => get_site_config('default_user_graph_height'),	// square
 	);
 	foreach (get_all_cryptocurrencies() as $cur) {
 		if (isset($summaries[$cur])) {
 			$result['summary']["composition_" . $cur . "_pie"] = array(
 				'order' => $default_order['composition_pie'] + $order_currency[$cur],
+				'width' => get_site_config('default_user_graph_height'),	// square
 			);
 			$result['summary']["composition_" . $cur . "_daily"] = array(
 				'order' => $default_order['composition_daily'] + $order_currency[$cur],
@@ -254,3 +259,89 @@ function get_auto_managed_graph_categories() {
 }
 
 class ManagedGraphException extends GraphException { }
+
+/**
+ * Update all of the managed graphs of the given user.
+ */
+function update_user_managed_graphs($user) {
+	global $messages;
+
+	// find all of the graphs this user should have
+	$managed = calculate_user_graphs($user);
+
+	// does this user at least have a graph page?
+	$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 ORDER BY page_order ASC, id ASC");
+	$q->execute(array($user['id']));
+	$page = $q->fetch();
+	if (!$page) {
+		// insert a new page
+		$q = db()->prepare("INSERT INTO graph_pages SET user_id=?, title=?, is_managed=1");
+		$q->execute(array($user['id'], "Summary"));
+		$page = array('id' => db()->lastInsertId());
+		if (is_admin()) {
+			$messages[] = "Added new graph_page " . htmlspecialchars($page['id']) . ".";
+		}
+	}
+
+	// get all the graphs on this page
+	$q = db()->prepare("SELECT * FROM graphs WHERE page_id=?");
+	$q->execute(array($page['id']));
+	$graphs = $q->fetchAll();
+	$graphs_added = 0;
+	$graphs_deleted = 0;
+
+	// go through each managed graph, and see if we already have one defined
+	foreach ($managed as $key => $config) {
+		$found_graph = false;
+		foreach ($graphs as $graph) {
+			if ($graph['graph_type'] == $key) {
+				$found_graph = true;
+			}
+		}
+		if ($found_graph)
+			continue;
+
+		// no - we need to insert a new one
+		$q = db()->prepare("INSERT INTO graphs SET graph_type=:graph_type,
+			width=:width,
+			height=:height,
+			page_order=:page_order,
+			days=:days,
+			page_id=:page_id,
+			is_managed=1");
+		$q->execute(array(
+			"graph_type" => $key,
+			"width" => isset($config['width']) ? $config['width'] : get_site_config('default_user_graph_width'),
+			"height" => isset($config['height']) ? $config['height'] : get_site_config('default_user_graph_height'),
+			"page_order" => $config['order'],
+			"page_id" => $page['id'],
+			"days" => isset($config['height']) ? $config['height'] : get_site_config('default_user_graph_days'),
+		));
+		$graphs_added++;
+	}
+
+	// go through each existing graph, and remove any graphs that shouldn't be here
+	foreach ($graphs as $graph) {
+		$found_graph = false;
+		foreach ($managed as $key => $config) {
+			if ($graph['graph_type'] == $key) {
+				$found_graph = true;
+			}
+		}
+		if ($found_graph)
+			continue;
+
+		// no - we need to delete this graph
+		$q = db()->prepare("DELETE FROM graphs WHERE id=?");
+		$q->execute(array($graph['id']));
+		$graphs_deleted++;
+	}
+
+	if (is_admin()) {
+		$messages[] = "Added " . plural($graphs_added, "graph") . " and removed " . plural($graphs_deleted, "graph") . ".";
+	}
+
+	// finally, update the needs_managed_update flag
+	$q = db()->prepare("UPDATE users SET needs_managed_update=0 WHERE id=?");
+	$q->execute(array($user['id']));
+}

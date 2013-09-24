@@ -13,8 +13,6 @@ require_user($user);
 $errors = array();
 $messages = array();
 
-require("graphs/util.php");
-require("graphs/types.php");
 require("graphs/managed.php");
 
 // get all of our accounts
@@ -90,7 +88,7 @@ if (!$errors) {
 		} else {
 			$copy = $existing_managed;
 			foreach ($managed as $m) {
-				if (($key = array_search($m, $copy)) !== FALSE) {
+				if (($key = array_search($m, $copy)) === FALSE) {
 					$different = true;
 				} else {
 					unset($copy[$key]);
@@ -116,13 +114,41 @@ if (!$errors) {
 		}
 	}
 
+	if ($preference == 'none') {
+		// disable all managed graphs, we'll assume they've all been added manually
+		$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=?");
+		$q->execute(array(user_id()));
+		$pages = $q->fetchAll();
+
+		foreach ($pages as $page) {
+			$q = db()->prepare("UPDATE graphs SET is_managed=0 WHERE page_id=?");
+			$q->execute(array($page['id']));
+		}
+
+		$q = db()->prepare("UPDATE graph_pages SET is_managed=0 WHERE user_id=?");
+		$q->execute(array(user_id()));
+	}
+
 	if ($user['graph_managed_type'] != 'auto' && $preference == 'auto') {
 		// we are switching to auto; delete everything
+		$total_reset_needed = true;
+	} else if ($user['graph_managed_type'] == 'auto' && $preference == 'managed') {
+		// we are switching from auto to managed; reset
 		$total_reset_needed = true;
 	}
 
 	// update graphs or reset graphs if necessary
 	if ($preference != "none") {
+		// if we're submitting this form, and we are using some form of management, we should update the graphs anyway
+		$update_needed = true;
+
+		if ($update_needed || $total_reset_needed) {
+			// we let the next page load handle updating graphs, so we can also
+			// update graphs without forcing users to use the wizard
+			$q = db()->prepare("UPDATE users SET needs_managed_update=1 WHERE id=?");
+			$q->execute(array(user_id()));
+		}
+
 		if ($total_reset_needed) {
 			// just delete everything, the next page load will display them
 			$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=?");
@@ -139,11 +165,6 @@ if (!$errors) {
 
 			$messages[] = "Reset graphs.";
 		} else if ($update_needed) {
-			// we let the next page load handle updating graphs, so we can also
-			// update graphs without forcing users to use the wizard
-			$q = db()->prepare("UPDATE users SET needs_managed_update=1 WHERE id=?");
-			$q->execute(array(user_id()));
-
 			$messages[] = "Updated graphs.";
 		}
 	}
@@ -156,6 +177,6 @@ set_temporary_errors($errors);
 if ($errors) {
 	redirect(url_for('wizard_reports', array('preference' => $preference)));	// go back
 } else {
-	redirect(url_for('wizard_reports'));	// go forward
+	redirect(url_for('profile'));	// go forward
 }
 

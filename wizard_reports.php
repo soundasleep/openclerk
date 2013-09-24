@@ -4,6 +4,14 @@
  * This page is the third page in a series of wizards to configure a user account.
  * A user may revisit this page at any time to reconfigure their account.
  * This page allows the user to select how the user will define/create their graphs.
+ *
+ * The way that resets/update work is as follows:
+ *   auto -> none		all graphs, graph pages become is_managed=0
+ *   none -> auto		reset + updated
+ *   auto -> managed	updated
+ *   managed -> auto	reset + updated
+ *   managed -> none	all graphs, graph pages become is_managed=0
+ *   none -> managed	reset + updated
  */
 
 require("inc/global.php");
@@ -73,8 +81,6 @@ require_template("wizard_reports");
 		} ?>
 		</select>
 	</li>
-
-	TODO maybe add a button to save just these preferences and refresh the page
 </ul>
 
 <?php
@@ -124,7 +130,7 @@ function print_graph_types($managed) {
 	<li>
 		<label><input type="radio" name="preference" value="managed"<?php echo require_get("preference", $user['graph_managed_type']) == 'managed' ? ' checked' : ''; ?>> Select reports based on my portfolio preferences:</label>
 
-		<?php if ($user['graph_managed_type'] != 'managed') { ?>
+		<?php if ($user['graph_managed_type'] == 'none') { ?>
 		<div class="reset-warning">
 		Warning: Selecting this option will reset your currently defined reports and graphs (you will not lose any historical data).
 		</div>

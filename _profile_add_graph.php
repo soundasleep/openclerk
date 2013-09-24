@@ -1,6 +1,3 @@
-<div class="add_graph">
-<h2>Add new graph</h2>
-
 <div id="edit_graph_form">
 <form action="<?php echo htmlspecialchars(url_for('profile_add_graph')); ?>" method="post">
 <table class="form">
@@ -20,31 +17,26 @@
 	<th>Argument:</th>
 	<td><input name="string0" id="graph_string0" size="32" maxlength="128" value="Loading..."></td>
 </tr>
+<?php
+$size_options = array('width' => 'Width', 'height' => 'Height');
+foreach ($size_options as $size_key => $size_value) { ?>
 <tr>
-	<th>Width:</th>
-	<td><select name="width">
-		<option value="1">Small (<?php echo number_format(get_site_config('default_graph_width') * 1); ?>px)</option>
-		<option value="2">Medium (<?php echo number_format(get_site_config('default_graph_width') * 2); ?>px)</option>
-		<option value="4" selected>Large (<?php echo number_format(get_site_config('default_graph_width') * 4); ?>px)</option>
-		<option value="5">Larger (<?php echo number_format(get_site_config('default_graph_width') * 5); ?>px)</option>
-		<option value="6">Very Large (<?php echo number_format(get_site_config('default_graph_width') * 6); ?>px)</option>
+	<th><?php echo htmlspecialchars($size_value); ?>:</th>
+	<td><select name="<?php echo htmlspecialchars($size_key); ?>">
+		<?php
+			$options = array(1 => "Small", 2 => "Medium", 4 => "Large", 5 => "Larger", 6 => "Very Large");
+			foreach ($options as $key => $value) {
+				echo '<option value="' . htmlspecialchars($key) . '"' . (get_site_config('default_user_graph_' . $size_key, 4) == $key ? ' selected' : '') . '>' . htmlspecialchars($value) . ' (' . number_format(get_site_config('default_graph_' . $size_key) * $key) . 'px)</option>';
+			}
+		?>
 	</select></td>
 </tr>
-<tr>
-	<th>Height:</th>
-	<td><select name="height">
-		<option value="1">Small (<?php echo number_format(get_site_config('default_graph_height') * 1); ?>px)</option>
-		<option value="2" selected>Medium (<?php echo number_format(get_site_config('default_graph_height') * 2); ?>px)</option>
-		<option value="4">Large (<?php echo number_format(get_site_config('default_graph_width') * 4); ?>px)</option>
-		<option value="5">Larger (<?php echo number_format(get_site_config('default_graph_height') * 5); ?>px)</option>
-		<option value="6">Very Large (<?php echo number_format(get_site_config('default_graph_height') * 6); ?>px)</option>
-	</select></td>
-</tr>
+<?php } ?>
 <tr id="add_graph_days" style="display:none;">
 	<th>Days:</th>
 	<td><select name="days">
 <?php foreach (get_permitted_days() as $key => $days) { ?>
-		<option value="<?php echo htmlspecialchars($days['days']); ?>"><?php echo htmlspecialchars($days['title']); ?></option>
+		<option value="<?php echo htmlspecialchars($days['days']); ?>"<?php echo get_site_config('default_user_graph_days') == $days['days'] ? " selected" : ""; ?>><?php echo htmlspecialchars($days['title']); ?></option>
 <?php } ?>
 	</select></td>
 </tr>
@@ -76,8 +68,6 @@
 
 <div id="graph_description">Select an option</div>
 </form>
-</div>
-
 </div>
 
 <script type="text/javascript">

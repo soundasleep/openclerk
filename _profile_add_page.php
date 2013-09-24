@@ -19,7 +19,7 @@
 </div>
 </li>
 
-<?php if ($pages) { ?>
+<?php if ($pages && !$graph_page['is_managed']) { ?>
 <li id="tab_profile_deletepage_tab">
 <div class="delete_page">
 <h2>Remove this page</h2>
