@@ -39,6 +39,7 @@ $(document).ready(function() {
 	};
 
 	$("#page_wizard_currencies .exchanges input[type=checkbox]").change(callback2);
+	$("#page_wizard_currencies .exchanges input[type=checkbox]").keypress(callback2);	// for keyboard navigation
 	// and call the callback to refresh text
 	$("#page_wizard_currencies .exchanges input[type=checkbox]").change();
 });
@@ -51,6 +52,8 @@ $(document).ready(function() {
 		var exchanges = available_exchanges();
 		for (var i = 0; i < exchanges.length; i++) {
 			if (exchanges[i]['exchange'] == $(event.target).val()) {
+				var key = $(event.target).val();
+
 				// selected exchange: remove any fields that were added before
 				// TODO we could store the saved fields for adding back later
 				$("form.wizard-add-account .added-field").remove();
@@ -74,11 +77,41 @@ $(document).ready(function() {
 					temp.insertBefore($("#add_account_template"));
 					temp.show();
 				}
+
+				// display associated help, stored in accounts_help div
+				var target = $("#accounts_help_target");
+				var temp = $("#accounts_help #accounts_help_" + key);
+				target.html(temp.html());
+
+				// clean up link display etc
+				var link_text = target.find("a.wizard_link").text();
+				target.find("a.wizard_link").replaceWith(link_text);	// replace link with text
+
+				// link up instructions_add heading with help page
+				var help_text = target.find(".instructions_add h2").text();
+				target.find(".instructions_add h2").text("");
+				target.find(".instructions_add h2").append(target.find(".more_help").clone().find("a").text(help_text));
+
+				// add collapse functionality to safety text
+				var collapseCallback = function(event) {
+					var parent = $(event.target);
+					if ($(parent).hasClass("collapsed")) {
+						$(parent).removeClass("collapsed");
+						$(parent.parent(0)).find("ul").removeClass("collapsed");
+					} else {
+						$(parent).addClass("collapsed");
+						$(parent.parent(0)).find("ul").addClass("collapsed");
+					}
+				};
+				target.find(".instructions_safe h2").click(collapseCallback);
+				// collapse by default
+				target.find(".instructions_safe h2").click();
 			}
 		}
 	};
 
 	$("form.wizard-add-account select#type").change(callback);
+	$("form.wizard-add-account select#type").keypress(callback);	// for keyboard navigation
 	// call callback to initialise first field
 	$("form.wizard-add-account select#type").change();
 });

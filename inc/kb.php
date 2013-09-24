@@ -16,7 +16,7 @@ function get_knowledge_base() {
 
 			foreach ($group as $key => $data) {
 				$kb['Accounts'][$key] = array(
-					'title' => 'How do I define a ' . get_exchange_name($key) . (isset($data['suffix']) ? $data['suffix'] : '') . ' mining pool account?',
+					'title' => 'How do I add a ' . get_exchange_name($key) . (isset($data['suffix']) ? $data['suffix'] : '') . ' mining pool account?',
 					'inline' => 'inline_accounts_' . $key,
 				);
 			}

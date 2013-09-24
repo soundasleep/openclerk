@@ -10,7 +10,7 @@ $account_data = array('exchange_name' => get_exchange_name('hypernova'));
 		and visit your <a href="https://hypernova.pw/account/">Account page</a>.<br>
 		<img src="img/accounts/hypernova1.png"></li>
 
-	<li>Copy and paste your <i>API Key</i> into the "Add new" form, and click "Add account".<br>
+	<li>Copy and paste your <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".<br>
 		<img src="img/accounts/hypernova2.png"></li>
 </ol>
 </div>

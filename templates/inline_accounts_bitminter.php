@@ -19,7 +19,7 @@ $account_data = array('exchange_name' => get_exchange_name('bitminter'));
 	<li>Create a new API key by entering in a label, and clicking "Add".<br>
 		<img src="img/accounts/bitminter5.png"></li>
 
-	<li>Copy and paste this new <i>Key</i> into the "Add new" form, and click "Add account".<br>
+	<li>Copy and paste this new <i>Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".<br>
 		<img src="img/accounts/bitminter6.png"></li>
 </ol>
 </div>

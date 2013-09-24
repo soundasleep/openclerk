@@ -217,9 +217,18 @@ function available_exchanges() {
 <div class="column">
 <h2>Help</h2>
 
-<p>TODO help for selected pool</p>
+<div id="accounts_help_target">Select an exchange to display help...</div>
 
 </div>
+</div>
+
+<div style="display:none;" id="accounts_help">
+<?php foreach ($add_types as $exchange) { ?>
+	<div id="accounts_help_<?php echo htmlspecialchars($exchange); ?>">
+	<?php require_template("inline_accounts_" . $exchange); ?>
+	<span class="more_help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $exchange))); ?>">More help</a></span>
+	</div>
+<?php } ?>
 </div>
 
 <div style="clear:both;"></div>

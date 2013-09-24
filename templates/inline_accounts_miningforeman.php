@@ -12,7 +12,7 @@ $account_data = array('exchange_name' => get_exchange_name('miningforeman'));
 	<li>Find your <i>API Key</i>, as illustrated below: <br>
 		<img src="img/accounts/miningforeman2.png"></li>
 
-	<li>Copy and paste this <i>API Key</i> into the "Add new" form, and click "Add account".</li>
+	<li>Copy and paste this <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".</li>
 </ol>
 </div>
 
