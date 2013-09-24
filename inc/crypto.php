@@ -464,7 +464,6 @@ function get_blockchain_wizard_config($currency) {
 	}
 }
 
-// TODO remove 'url' property
 function get_accounts_wizard_config($exchange) {
 	$result = get_accounts_wizard_config_basic($exchange);
 	if (!isset($result['title'])) {
@@ -476,6 +475,7 @@ function get_accounts_wizard_config($exchange) {
 	if (!isset($result['khash'])) {
 		$result['khash'] = false;
 	}
+	$result['exchange'] = $exchange;
 	return $result;
 }
 
@@ -489,8 +489,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_poolx',
 				'title' => 'Pool-x account',
-				'url' => 'accounts_poolx',
-				'exchange' => 'poolx',
 				'khash' => true,
 			);
 
@@ -501,8 +499,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_slush',
 				'title' => 'Slush\'s pool account',
-				'url' => 'accounts_slush',
-				'exchange' => 'slush',
 			);
 
 		case "wemineltc":
@@ -512,8 +508,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_wemineltc',
 				'title' => 'WeMineLTC account',
-				'url' => 'accounts_wemineltc',
-				'exchange' => 'wemineltc',
 				'khash' => true,
 			);
 
@@ -524,8 +518,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_givemecoins',
 				'title' => 'Give Me Coins account',
-				'url' => 'accounts_givemecoins',
-				'exchange' => 'givemecoins',
 				'khash' => true,
 			);
 
@@ -535,8 +527,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_btcguild_apikey'),
 				),
 				'table' => 'accounts_btcguild',
-				'url' => 'accounts_btcguild',
-				'exchange' => 'btcguild',
 			);
 
 		case "50btc":
@@ -545,8 +535,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_50btc_apikey'),
 				),
 				'table' => 'accounts_50btc',
-				'url' => 'accounts_50btc',
-				'exchange' => '50btc',
 			);
 
 		case "hypernova":
@@ -555,8 +543,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_hypernova_apikey'),
 				),
 				'table' => 'accounts_hypernova',
-				'url' => 'accounts_hypernova',
-				'exchange' => 'hypernova',
 				'khash' => true,
 			);
 
@@ -566,8 +552,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ltcmineru_apikey'),
 				),
 				'table' => 'accounts_ltcmineru',
-				'url' => 'accounts_ltcmineru',
-				'exchange' => 'ltcmineru',
 				'khash' => true,
 			);
 
@@ -578,8 +562,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_miningforeman',
 				'title' => 'Mining Foreman LTC account',
-				'url' => 'accounts_miningforeman',
-				'exchange' => 'miningforeman',
 				'khash' => true,
 			);
 
@@ -590,8 +572,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_miningforeman_ftc',
 				'title' => 'Mining Foreman FTC account',
-				'url' => 'accounts_miningforeman_ftc',
-				'exchange' => 'miningforeman_ftc',
 				'khash' => true,
 				'title_key' => 'miningforeman',
 			);
@@ -603,8 +583,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_bitminter',
 				'title' => 'BitMinter account',
-				'url' => 'accounts_bitminter',
-				'exchange' => 'bitminter',
 			);
 
 		case "liteguardian":
@@ -614,8 +592,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_liteguardian',
 				'title' => 'LiteGuardian account',
-				'url' => 'accounts_liteguardian',
-				'exchange' => 'liteguardian',
 				'khash' => true,
 			);
 
@@ -628,8 +604,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_mtgox',
 				'title' => 'Mt.Gox account',
-				'url' => 'accounts_mtgox',
-				'exchange' => 'mtgox',
 			);
 
 		case "bips":
@@ -638,8 +612,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bips_apikey'),
 				),
 				'table' => 'accounts_bips',
-				'url' => 'accounts_bips',
-				'exchange' => 'bips',
 			);
 
 		case "btce":
@@ -650,8 +622,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_btce',
 				'title' => 'BTC-e account',
-				'url' => 'accounts_btce',
-				'exchange' => 'btce',
 			);
 
 		case "vircurex":
@@ -662,8 +632,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_vircurex',
 				'title' => 'Vircurex account',
-				'url' => 'accounts_vircurex',
-				'exchange' => 'vircurex',
 			);
 
 		// --- securities ---
@@ -674,8 +642,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_btct',
 				'title' => 'BTC Trading Co. account',
-				'url' => 'accounts_btct',
-				'exchange' => 'btct',
 			);
 
 		case "litecoinglobal":
@@ -685,8 +651,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_litecoinglobal',
 				'title' => 'Litecoin Global account',
-				'url' => 'accounts_litecoinglobal',
-				'exchange' => 'litecoinglobal',
 			);
 
 		case "cryptostocks":
@@ -698,8 +662,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_cryptostocks',
 				'title' => 'Cryptostocks account',
-				'url' => 'accounts_cryptostocks',
-				'exchange' => 'cryptostocks',
 			);
 
 		case "havelock":
@@ -709,8 +671,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_havelock',
 				'title' => 'Havelock Investments account',
-				'url' => 'accounts_havelock',
-				'exchange' => 'havelock',
 			);
 
 		// --- other ---
@@ -720,14 +680,9 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_url' => array('title' => 'URL', 'callback' => 'is_valid_generic_url'),
 					'currency' => array('title' => 'Currency', 'dropdown' => 'dropdown_currency_list', 'callback' => 'is_valid_currency', 'style_prefix' => 'currency_name_'),
 				),
-				'display' => array(
-					'currency' => array('title' => 'Currency', 'format' => 'strtoupper'),
-				),
 				'table' => 'accounts_generic',
 				'title' => 'Generic API',
-				'url' => 'accounts_generic',
-				'exchange' => 'generic',
-				);
+			);
 
 		default:
 			throw new Exception("Unknown accounts type '$exchange'");
