@@ -40,7 +40,7 @@ $q->execute(array(
 	'page_order' => $new_order,
 ));
 $new_page_id = db()->lastInsertId();
-$messages[] = "Added new graph page " . ($title ? "<i>untitled</i>" : htmlspecialchars($title)) . ".";
+$messages[] = "Added new graph page " . ($title ? htmlspecialchars($title) : "<i>untitled</i>") . ".";
 
 // redirect
 set_temporary_messages($messages);
