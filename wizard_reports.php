@@ -10,7 +10,7 @@ require("inc/global.php");
 require_login();
 
 require("layout/templates.php");
-page_header("Report Preferences", "page_wizard_accounts", array('jquery' => true, 'js' => 'wizard'));
+page_header("Report Preferences", "page_wizard_reports", array('jquery' => true, 'js' => 'wizard'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -117,8 +117,17 @@ require_template("wizard_reports");
 				<div class="report-help-details">
 					This will display the following graphs:
 					<ul>
-					<?php foreach ($managed_graphs[$key] as $graph_key) { ?>
-						<li><?php echo isset($graphs[$graph_key]) ? htmlspecialchars($graphs[$graph_key]['title']) : "<i>(Unknown graph '" . htmlspecialchars($graph_key) . "')</i>"; ?></li>
+					<?php foreach ($managed_graphs[$key] as $graph_key => $graph_data) { ?>
+						<li><?php echo isset($graphs[$graph_key]) ? htmlspecialchars($graphs[$graph_key]['title']) : "<i>(Unknown graph '" . htmlspecialchars($graph_key) . "')</i>"; ?>
+						<?php if (is_admin()) {
+							echo "<span class=\"debug\">";
+							$debug = array();
+							foreach ($graph_data as $data_key => $data_value) {
+								$debug[] = htmlspecialchars($data_key) . " = " . implode(",", is_array($data_value) ? $data_value : array($data_value));
+							}
+							echo implode(", ", $debug);
+							echo "</span>";
+						} ?></li>
 					<?php } ?>
 					<?php if (!$managed_graphs[$key]) { ?>
 						<li><i>(No graphs yet in this category.)</i></li>

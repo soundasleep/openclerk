@@ -32,8 +32,42 @@ function calculate_all_managed_graphs($user) {
 	$accounts = account_data_grouped();
 	$wallets = get_supported_wallets();
 
+	$order_currency = array();
+	foreach (get_all_currencies() as $c) {
+		$order_currency[$c] = count($order_currency);
+	}
+	$order_exchange = array();
+	foreach (account_data_grouped() as $label => $group) {
+		foreach ($group as $key => $data) {
+			$order_exchange[$key] = count($order_exchange) * 10;
+		}
+	}
+
+	$default_order = array(
+		'composition_pie' => 0,
+		'exchange_daily' => 1000,
+		'total_daily' => 2000,
+		'all_daily' => 3000,
+		'composition_daily' => 4000,
+		'hashrate_daily' => 5000,
+	);
+
 	$result['summary'] = array();
-	$result['summary'][] = "composition_" . $user['preferred_crypto'] . "_pie";
+	$result['all_summary'] = array();
+	foreach (get_all_cryptocurrencies() as $cur) {
+		if (isset($summaries[$cur])) {
+			$result['summary']["composition_" . $cur . "_pie"] = array(
+				'order' => $default_order['composition_pie'] + $order_currency[$cur],
+			);
+			$result['summary']["composition_" . $cur . "_daily"] = array(
+				'order' => $default_order['composition_daily'] + $order_currency[$cur],
+			);
+			$result['summary']['total_' . $cur . '_daily'] = array(
+				'order' => $default_order['total_daily'] + $order_currency[$cur],
+				'source' => $cur,
+			);
+		}
+	}
 
 	$result['currency'] = array();
 	$result['all_currency'] = array();
@@ -57,10 +91,32 @@ function calculate_all_managed_graphs($user) {
 					}
 					foreach ($possible_summaries as $p) {
 						if (isset($all_summaries[$p])) {
-							$result['all_currency'][] = $exchange . "_" . $pair[0] . $pair[1] . "_daily";
-							if ((in_array($pair[0], get_all_fiat_currencies()) && get_default_currency_exchange($pair[0]) == $exchange) ||
-								(in_array($pair[1], get_all_fiat_currencies()) && get_default_currency_exchange($pair[1]) == $exchange)) {
-								$result['currency'][] = $exchange . "_" . $pair[0] . $pair[1] . "_daily";
+							$is_default = (in_array($pair[0], get_all_fiat_currencies()) && get_default_currency_exchange($pair[0]) == $exchange) ||
+									(in_array($pair[1], get_all_fiat_currencies()) && get_default_currency_exchange($pair[1]) == $exchange);
+
+							$result['all_currency'][$exchange . "_" . $pair[0] . $pair[1] . "_daily"] = array(
+								'order' => $default_order['exchange_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
+								'source' => $p,
+							);
+							if ($is_default) {
+								$result['currency'][$exchange . "_" . $pair[0] . $pair[1] . "_daily"] = array(
+									'order' => $default_order['exchange_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
+									'source' => $p,
+								);
+							}
+
+							// don't display all2btc etc
+							if (!in_array(substr($p, strlen("summary_")), get_all_cryptocurrencies())) {
+								$result['all_summary']['all2' . substr($p, strlen("summary_")) . '_daily'] = array(
+									'order' => $default_order['all_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
+									'source' => $p,
+								);
+								if ($is_default) {
+									$result['summary'][$exchange . "_" . $pair[0] . $pair[1] . "_daily"] = array(
+										'order' => $default_order['all_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
+										'source' => $p,
+									);
+								}
 							}
 							break;
 						}
@@ -86,7 +142,7 @@ function calculate_all_managed_graphs($user) {
 				$instances = get_all_user_account_instances($key);
 				if ($instances) {
 					if (in_array('hash', $wallets[$key])) {
-						$has_hashing_account = true;
+						$has_hashing_account = $key;
 					}
 				}
 			}
@@ -94,12 +150,36 @@ function calculate_all_managed_graphs($user) {
 			if (!$has_hashing_account)
 				continue;
 
-			$result['mining'][] = "hashrate_" . $cur . "_daily";
+			$result['mining']["hashrate_" . $cur . "_daily"] = array(
+				'order' => $default_order['hashrate_daily'] + $order_currency[$cur],
+				'source' => $has_hashing_account,
+			);
 		}
+	}
+
+	// all 'summary' are also 'all_summary' etc
+	foreach ($result['summary'] as $key => $value) {
+		$result['all_summary'][$key] = $value;
+	}
+
+	foreach ($result['currency'] as $key => $value) {
+		$result['all_currency'][$key] = $value;
+	}
+
+	// go through each category and sort by order
+	foreach ($result as $key => $value) {
+		uasort($result[$key], '_sort_by_order_key');
 	}
 
 	return $result;
 
+}
+
+function _sort_by_order_key($a, $b) {
+	if ($a['order'] == $b['order']) {
+		return 0;
+	}
+	return $a['order'] > $b['order'] ? 1 : -1;
 }
 
 $global_get_all_user_account_instances = array();
@@ -126,8 +206,9 @@ function get_all_user_account_instances($account_key) {
 function get_managed_graph_categories() {
 	return array(
 		'summary' => 'Portfolio summary',
+		'all_summary' => 'Portfolio summary (detailed)',
 		'currency' => 'Currency exchange',
-		'all_currency' => 'All currency exchanges',
+		'all_currency' => 'Currency exchange (detailed)',
 		'securities' => 'Securities and investments',
 		'mining' => 'Cryptocurrency mining',
 	);
