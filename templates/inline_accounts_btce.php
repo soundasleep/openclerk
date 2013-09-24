@@ -15,7 +15,7 @@ $account_data = array('exchange_name' => get_exchange_name('btce'));
 	<li>Create a name for a new key (such as "<?php echo htmlspecialchars(get_site_config('site_name')); ?>") and click <i>Create</i>.<br>
 	<img src="img/accounts/btce3.png"></li>
 
-	<li>Select the <i>info</i> permission, and click <i>Save</i>. Once the key has been saved, copy and paste the <i>Key</i> and <i>Secret</i> into the "Add new" form, and click "Add account".<br>
+	<li>Select the <i>info</i> permission, and click <i>Save</i>. Once the key has been saved, copy and paste the <i>Key</i> and <i>Secret</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">"Add new Exchange" form</a>, and click "Add account".<br>
 	<img src="img/accounts/btce4.png"></li>
 </ol>
 </div>
