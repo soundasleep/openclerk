@@ -68,7 +68,7 @@ $(document).ready(function() {
 					tempInput.attr('name', inputs[j]['key']);
 					tempInput.attr('id', 'input_' + inputs[j]['key']);
 					tempInput.attr('maxlength', inputs[j]['length']);
-					tempInput.attr('size', inputs[j]['length'] * 2/3);
+					tempInput.attr('size', 20 + (inputs[j]['length'] * 1/5));
 
 					var tempTitle = temp.find("label");
 					tempTitle.html(inputs[j]['title'] + ":");

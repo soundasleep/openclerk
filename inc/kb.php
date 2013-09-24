@@ -6,21 +6,30 @@ function get_knowledge_base() {
 			'bitcoin_csv' => "How do I upload a Bitcoin-Qt CSV file?",
 			'litecoin_csv' => "How do I upload a Litecoin-Qt CSV file?",
 		),
+		'Accounts' => array(
+		),
 	);
 
 	// automatically construct KB for adding accounts through the wizards
+	$wizards = array(
+		// group label => kb account title
+		"Mining pools" => 'mining pool account',
+		"Exchanges" => 'exchange account',
+	);
 	foreach (account_data_grouped() as $label => $group) {
-		if ($label == "Mining pools") {
-			// sort by name
-			uksort($group, '_sort_get_knowledge_base');
-
+		if (isset($wizards[$label])) {
 			foreach ($group as $key => $data) {
 				$kb['Accounts'][$key] = array(
-					'title' => 'How do I add a ' . get_exchange_name($key) . (isset($data['suffix']) ? $data['suffix'] : '') . ' mining pool account?',
+					'title' => 'How do I add a ' . get_exchange_name($key) . (isset($data['suffix']) ? $data['suffix'] : '') . ' ' . $wizards[$label] . '?',
 					'inline' => 'inline_accounts_' . $key,
 				);
 			}
 		}
+	}
+
+	// sort each section by title
+	foreach ($kb as $label => $group) {
+		asort($kb[$label]);
 	}
 
 	return $kb;

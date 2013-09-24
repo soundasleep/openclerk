@@ -264,11 +264,13 @@ function account_data_grouped() {
 		'Exchanges' => array(
 			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'btce' => array('url' => 'accounts_btce', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'vircurex' => array('url' => 'accounts_vircurex', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'bips' => array('url' => 'accounts_bips', 'label' => 'account', 'table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
+		),
+		'Securities' => array(
 			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities'),
 			'btct' => array('url' => 'accounts_btct', 'label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities'),
-			'vircurex' => array('url' => 'accounts_vircurex', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'cryptostocks' => array('url' => 'accounts_cryptostocks', 'label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities'),
-			'bips' => array('url' => 'accounts_bips', 'label' => 'account', 'table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'havelock' => array('url' => 'accounts_havelock', 'label' => 'account', 'table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
 		),
 		'Other' => array(
@@ -280,8 +282,12 @@ function account_data_grouped() {
 			'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries'),
 		),
 	);
+	// TODO refactor
 	foreach ($data['Exchanges'] as $key => $row) {
 		$data['Exchanges'][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $row['label'] . "s";
+	}
+	foreach ($data['Securities'] as $key => $row) {
+		$data['Securities'][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $row['label'] . "s";
 	}
 	foreach ($data['Mining pools'] as $key => $row) {
 		$data['Mining pools'][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $row['label'] . "s";
@@ -475,6 +481,7 @@ function get_accounts_wizard_config($exchange) {
 
 function get_accounts_wizard_config_basic($exchange) {
 	switch ($exchange) {
+		// --- mining pools ---
 		case "poolx":
 			return array(
 				'inputs' => array(
@@ -610,6 +617,53 @@ function get_accounts_wizard_config_basic($exchange) {
 				'url' => 'accounts_liteguardian',
 				'exchange' => 'liteguardian',
 				'khash' => true,
+			);
+
+		// --- exchanges ---
+		case "mtgox":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mtgox_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_mtgox_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_mtgox',
+				'title' => 'Mt.Gox account',
+				'url' => 'accounts_mtgox',
+				'exchange' => 'mtgox',
+			);
+
+		case "bips":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bips_apikey'),
+				),
+				'table' => 'accounts_bips',
+				'url' => 'accounts_bips',
+				'exchange' => 'bips',
+			);
+
+		case "btce":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_btce_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btce_apisecret'),
+				),
+				'table' => 'accounts_btce',
+				'title' => 'BTC-e account',
+				'url' => 'accounts_btce',
+				'exchange' => 'btce',
+			);
+
+		case "vircurex":
+			return array(
+				'inputs' => array(
+					'api_username' => array('title' => 'Username', 'callback' => 'is_valid_vircurex_apiusername'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_vircurex_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_vircurex',
+				'title' => 'Vircurex account',
+				'url' => 'accounts_vircurex',
+				'exchange' => 'vircurex',
 			);
 
 		default:

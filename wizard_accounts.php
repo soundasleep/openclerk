@@ -42,14 +42,14 @@ require_template("wizard_accounts");
 		</ul>
 	</li>
 
-	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchange')); ?>">Exchange
+	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">Exchange
 		<?php if ($accounts['wizard_exchanges']) { ?><span class="count">(<?php echo number_format($accounts['wizard_exchanges']); ?>)<?php } ?></a>
 		<ul>
-			<li>e.g. Mt.Gox, Bitstamp, BitNZ, VirtEx</li>
+			<li>e.g. Mt.Gox, BTC-e, Vircurex</li>
 		</ul>
 	</li>
 
-	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses')); ?>">Securities
+	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_securities')); ?>">Securities
 		<?php if ($accounts['wizard_securities']) { ?><span class="count">(<?php echo number_format($accounts['wizard_securities']); ?>)<?php } ?></a>
 		<ul>
 			<li>e.g. BTC-TC, Litecoin Global, Cryptostocks</li>
