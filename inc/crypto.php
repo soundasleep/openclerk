@@ -467,6 +467,9 @@ function get_accounts_wizard_config($exchange) {
 	if (!isset($result['titles'])) {
 		$result['titles'] = $result['title'] . "s";
 	}
+	if (!isset($result['khash'])) {
+		$result['khash'] = false;
+	}
 	return $result;
 }
 

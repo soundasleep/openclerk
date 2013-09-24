@@ -23,6 +23,7 @@ foreach (account_data_grouped() as $label => $data) {
 			$q->execute(array(user_id()));
 			while ($r = $q->fetch()) {
 				$r['exchange'] = $key;
+				$r['khash'] = $account_data['khash'];
 				$accounts[] = $r;
 			}
 		}
@@ -48,7 +49,7 @@ $account_data = null;
 $user['is_new'] = get_site_config('new_user_premium_update_hours') && strtotime($user['created_at']) > strtotime('-' . get_site_config('new_user_premium_update_hours') . ' hour');
 ?>
 As a <?php echo $user['is_premium'] ? "premium user" : ($user['is_new'] ? "new user" : "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">free user</a>"); ?>, your
-<?php echo htmlspecialchars($account_data['titles']); ?> should be updated
+accounts should be updated
 at least once every <?php echo plural($user['is_new'] ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours"), 'hour');
 if ($user['is_new'] && !$user['is_premium']) echo " (for the next " . plural(
 	(int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60))
@@ -84,7 +85,7 @@ foreach ($accounts as $a) {
 
 	// an account may have multiple currency balances
 	$q = db()->prepare("SELECT balances.* FROM balances WHERE user_id=? AND account_id=? AND exchange=? AND is_recent=1 ORDER BY currency ASC");
-	$q->execute(array(user_id(), $a['id'], $account_data['exchange']));
+	$q->execute(array(user_id(), $a['id'], $a['exchange']));
 	while ($balance = $q->fetch()) {
 		$balances[$balance['currency']] = $balance['balance'];
 		$last_updated = $balance['created_at'];
@@ -95,7 +96,7 @@ foreach ($accounts as $a) {
 		LEFT JOIN uncaught_exceptions ON uncaught_exceptions.job_id=jobs.id
 		WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1
 		ORDER BY jobs.id DESC LIMIT 1");
-	$q->execute(array(user_id(), $a['id'], $account_data['exchange']));
+	$q->execute(array(user_id(), $a['id'], $a['exchange']));
 	$job = $q->fetch();
 	if (!$last_updated && $job) {
 		$last_updated = $job['executed_at'];
@@ -134,10 +135,10 @@ foreach ($accounts as $a) {
 		?></td>
 		<?php if ($account_type['hashrate']) {
 			$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
-			$q->execute(array($account_data['exchange'], $a['id'], $a['user_id']));
+			$q->execute(array($a['exchange'], $a['id'], $a['user_id']));
 			echo "<td>";
 			if ($mhash = $q->fetch()) {
-				echo $mhash['mhash'] ? (!isset($account_data['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
+				echo $mhash['mhash'] ? (!isset($a['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
 			} else {
 				echo "-";
 			}
@@ -171,7 +172,7 @@ foreach ($accounts as $a) {
 		<td>
 			<select id="type" name="type">
 			<?php foreach ($add_types as $exchange) {
-				echo "<option value=\"" . htmlspecialchars($exchange) . "\">";
+				echo "<option value=\"" . htmlspecialchars($exchange) . "\"" . ($exchange == require_get("exchange", false) ? " selected" : "")  . ">";
 				echo htmlspecialchars(get_exchange_name($exchange) . $add_type_suffixes[$exchange]);
 				echo "</option>\n";
 			} ?>
@@ -180,7 +181,7 @@ foreach ($accounts as $a) {
 	</tr>
 	<tr>
 		<th><label for="title">Title:</label></th>
-		<td><input id="title" type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_post("title", "")); ?>"> (optional)</td>
+		<td><input id="title" type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_get("title", "")); ?>"> (optional)</td>
 	</tr>
 	<tr id="add_account_template" style="display:none;">
 		<th><label for="ignored">Parameter:</label></th>
