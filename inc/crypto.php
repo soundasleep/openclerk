@@ -666,6 +666,53 @@ function get_accounts_wizard_config_basic($exchange) {
 				'exchange' => 'vircurex',
 			);
 
+		// --- securities ---
+		case "btct":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'Read-Only API key', 'callback' => 'is_valid_btct_apikey'),
+				),
+				'table' => 'accounts_btct',
+				'title' => 'BTC Trading Co. account',
+				'url' => 'accounts_btct',
+				'exchange' => 'btct',
+			);
+
+		case "litecoinglobal":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'Read-Only API key', 'callback' => 'is_valid_litecoinglobal_apikey'),
+				),
+				'table' => 'accounts_litecoinglobal',
+				'title' => 'Litecoin Global account',
+				'url' => 'accounts_litecoinglobal',
+				'exchange' => 'litecoinglobal',
+			);
+
+		case "cryptostocks":
+			return array(
+				'inputs' => array(
+					'api_email' => array('title' => 'Account e-mail', 'callback' => 'is_valid_generic_key'),
+					'api_key_coin' => array('title' => 'get_coin_balances API key', 'callback' => 'is_valid_generic_key'),
+					'api_key_share' => array('title' => 'get_share_balances API key', 'callback' => 'is_valid_generic_key'),
+				),
+				'table' => 'accounts_cryptostocks',
+				'title' => 'Cryptostocks account',
+				'url' => 'accounts_cryptostocks',
+				'exchange' => 'cryptostocks',
+			);
+
+		case "havelock":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_havelock_apikey'),
+				),
+				'table' => 'accounts_havelock',
+				'title' => 'Havelock Investments account',
+				'url' => 'accounts_havelock',
+				'exchange' => 'havelock',
+			);
+
 		default:
 			throw new Exception("Unknown accounts type '$exchange'");
 	}

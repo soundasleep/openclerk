@@ -15,6 +15,7 @@ function get_knowledge_base() {
 		// group label => kb account title
 		"Mining pools" => 'mining pool account',
 		"Exchanges" => 'exchange account',
+		"Securities" => 'securities exchange account',
 	);
 	foreach (account_data_grouped() as $label => $group) {
 		if (isset($wizards[$label])) {

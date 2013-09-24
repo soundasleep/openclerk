@@ -1,5 +1,6 @@
 <?php
 global $user;
+global $account_type;
 ?>
 <div class="wizard-steps">
 	<h2>Preferences Wizard</h2>
@@ -12,7 +13,7 @@ global $user;
 </div>
 
 <div class="wizard-content">
-<h1>Add Mining Pools</h1>
+<h1>Add <?php echo $account_type['titles']; ?></h1>
 
 <p>
 As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
