@@ -20,6 +20,12 @@ $messages = array();
 // get all of our accounts
 $accounts = user_limits_summary(user_id());
 
+// get our offset values
+require("graphs/util.php");
+$summaries = get_all_summary_currencies();
+$offsets = get_all_offset_instances();
+$currencies = get_all_currencies();
+
 require_template("wizard_accounts");
 
 ?>
@@ -64,6 +70,36 @@ require_template("wizard_accounts");
 	</li>
 
 </ul>
+
+<?php require_template("wizard_accounts_offsets"); ?>
+
+<form action="<?php echo htmlspecialchars(url_for('set_offset')); ?>" method="post" class="wizard-offsets">
+	<table class="standard">
+	<thead>
+		<tr>
+			<th>Currency</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($currencies as $c) {
+		if (isset($summaries[$c])) {
+			$offset = demo_scale(isset($offsets[$c]) ? $offsets[$c]['balance'] : 0); ?>
+		<tr>
+			<th><span class="currency_name_<?php echo $c; ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></span></th>
+			<td><input type="text" name="<?php echo $c; ?>" value="<?php echo htmlspecialchars($offset == 0 ? '' : number_format_autoprecision($offset)) ?>"> <?php echo htmlspecialchars(strtoupper($c)); ?></td>
+		</tr>
+		<?php }
+	} ?>
+	<tr>
+		<td colspan="2" class="buttons">
+			<input type="submit" name="add" value="Update offsets" class="add">
+			<input type="hidden" name="wizard" value="1">
+		</td>
+	</tr>
+	</tbody>
+	</table>
+</form>
 
 <div class="wizard-buttons">
 <a class="button" href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">&lt; Previous</a>

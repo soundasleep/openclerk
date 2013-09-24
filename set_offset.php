@@ -11,9 +11,17 @@ $currencies = get_all_currencies();
 $messages = array();
 $errors = array();
 foreach ($currencies as $c) {
-	if (require_post($c, false) !== false) {
-		if (!is_numeric(require_post($c))) {
-			$errors[] = "'" . htmlspecialchars(require_post($c)) . "' is not a valid numeric value for " . htmlspecialchars(strtoupper($c)) . ".";
+	$value = require_post($c, false);
+	if (require_post("wizard", false)) {
+		$value = require_post($c, 0);
+		if (trim($value) == "") {
+			$value = 0;
+		}
+	}
+
+	if ($value !== false) {
+		if (!is_numeric($value)) {
+			$errors[] = "'" . htmlspecialchars($value) . "' is not a valid numeric value for " . htmlspecialchars(strtoupper($c)) . ".";
 			continue;
 		}
 
@@ -38,7 +46,7 @@ foreach ($currencies as $c) {
 		$q->execute(array(
 			"currency" => $c,
 			"user_id" => user_id(),
-			"balance" => require_post($c),
+			"balance" => $value,
 		));
 
 		// we shouldn't have to wait for an offset value to be recalculated with a summary so that it's displayed correctly;
@@ -46,15 +54,26 @@ foreach ($currencies as $c) {
 		// offset value)
 		$q = db()->prepare("UPDATE summary_instances SET balance=balance+:offset WHERE user_id=:user_id AND summary_type=:summary_type AND is_recent=1");
 		$q->execute(array(
-			"offset" => require_post($c) - $offset,
+			"offset" => $value - $offset,
 			"summary_type" => "total".$c,
 			"user_id" => user_id(),
 		));
 
-		$messages[] = "Set " . htmlspecialchars(strtoupper($c)) . " offset to " . currency_format($c, require_post($c), 8) . ".";
+		if (!require_post("wizard", false)) {
+			$messages[] = "Set " . htmlspecialchars(strtoupper($c)) . " offset to " . currency_format($c, $value, 8) . ".";
+		}
 	}
+}
+
+if (require_post("wizard", false)) {
+	$messages[] = "Updated currency offsets.";
 }
 
 set_temporary_messages($messages);
 set_temporary_errors($errors);
-redirect(url_for('profile', array('page' => require_get('page', false))));
+if (require_post("wizard", false)) {
+	redirect(url_for('wizard_accounts'));
+} else {
+	redirect(url_for('profile', array('page' => require_get('page', false))));
+}
+
