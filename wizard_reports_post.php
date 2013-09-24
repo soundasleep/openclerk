@@ -15,7 +15,7 @@ $messages = array();
 
 require("graphs/managed.php");
 
-// get all of our accounts
+// get all of our limits
 $accounts = user_limits_summary(user_id());
 
 $preferred_crypto = require_post("preferred_crypto");
@@ -44,7 +44,45 @@ foreach ($managed as $m) {
 	}
 }
 
-// TODO check that this user can have this many graphs
+// check that this user can have this many graphs
+if ($preference != 'none') {
+	$generated_graphs = calculate_user_graphs($user, $preference);
+
+	// if 'managed', also merge in any graphs that are already present on the final page
+	// ('auto' will reset the page anyway)
+	if ($preference == 'managed') {
+		$q = db()->prepare("SELECT * FROM graph_pages WHERE is_managed=1 AND user_id=?");
+		$q->execute(array(user_id()));
+		if ($graph_page = $q->fetch()) {
+			$q = db()->prepare("SELECT * FROM graphs WHERE page_id=?");
+			$q->execute(array($graph_page['id']));
+			while ($graph = $q->fetch()) {
+				$generated_graphs[$graph['graph_type']] = $graph;
+			}
+		}
+	}
+
+	if (count($generated_graphs) >= get_premium_value($user, 'graphs_per_page')) {
+		$errors[] = "Cannot update report preferences: this would add too many graphs to the managed graph page." .
+				($user['is_premium'] ? "" : " To add more graphs on the managed graph page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	}
+
+}
+
+// check that this user can have this many graph pages
+if ($preference != 'none') {
+	// we will be inserting in a new page possibly, so +1
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM graph_pages WHERE is_managed=0 AND user_id=?");
+	$q->execute(array(user_id()));
+	$count = $q->fetch();
+	if (($count['c'] + 1) >= get_premium_value($user, 'graph_pages')) {
+		// unless we will be resetting any old pages anyway
+		if (!(get_premium_value('graph_pages') > 1)) {
+			$errors[] = "Cannot update report preferences: this would add too many graph pages." .
+					($user['is_premium'] ? "" : " To add more graph pages, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		}
+	}
+}
 
 // do we need to update existing graphs? this will delete graphs that shouldn't exist,
 // and add new ones, but leave existing ones alone (e.g. layout)
@@ -150,18 +188,22 @@ if (!$errors) {
 		}
 
 		if ($total_reset_needed) {
-			// just delete everything, the next page load will display them
-			$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=?");
+			// delete all managed pages, the next page load will display them
+			// if the user can't have more than one page, then automatically
+			// delete and reset the only available page
+			$query_extra = (get_premium_value('graph_pages') > 1) ? " AND is_managed=1" : "";
+
+			$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? $query_extra");
 			$q->execute(array(user_id()));
 			$pages = $q->fetchAll();
 
 			foreach ($pages as $page) {
-				$q = db()->prepare("DELETE FROM graph_pages WHERE id=?");
-				$q->execute(array($page['id']));
-
 				$q = db()->prepare("DELETE FROM graphs WHERE page_id=?");
 				$q->execute(array($page['id']));
 			}
+
+			$q = db()->prepare("DELETE FROM graph_pages WHERE user_id=? $query_extra");
+			$q->execute(array(user_id()));
 
 			$messages[] = "Reset graphs.";
 		} else if ($update_needed) {

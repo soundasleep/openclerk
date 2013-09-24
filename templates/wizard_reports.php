@@ -23,4 +23,13 @@ global $user;
 	later, by selecting the "Preferences" link above.)
 </p>
 
+<!--<p class="tip tip_float your_account_limits">-->
+<p>
+As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
+you may have up to <?php echo plural(get_premium_value($user, 'graphs_per_page'), "graph"); ?> per page.
+<?php if (!$user['is_premium']) { ?>
+To increase this limit, please purchase a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>.
+<?php } ?>
+</p>
+
 <p><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'managed_graphs'))); ?>"><?php echo htmlspecialchars(get_knowledge_base_title('managed_graphs')); ?></a></p>

@@ -84,14 +84,14 @@ require_template("wizard_reports");
 </ul>
 
 <?php
-function print_graph_types($managed) {
-	global $graphs;
+function print_graph_types($managed, $is_auto = false) {
+	global $graphs, $user;
 
 ?>
 	<a class="report-help">?</a>
 
 	<div class="report-help-details">
-		This will display the following graphs:
+		This will display the following graphs, based on <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">your currencies</a> and <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts</a>:
 		<ul class="managed-graphs">
 		<?php foreach ($managed as $graph_key => $graph_data) { ?>
 			<li><?php echo isset($graphs[$graph_key]) ? htmlspecialchars($graphs[$graph_key]['title']) : "<i>(Unknown graph '" . htmlspecialchars($graph_key) . "')</i>"; ?>
@@ -108,6 +108,9 @@ function print_graph_types($managed) {
 		<?php if (!$managed) { ?>
 			<li><i>(No graphs yet in this category.)</i></li>
 		<?php } ?>
+		<?php if ($is_auto && !$user['is_premium']) { ?>
+			<li>Upgrade to a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a> to enable more automatic graphs.</li>
+		<?php } ?>
 		</ul>
 	</div>
 <?php
@@ -118,7 +121,7 @@ function print_graph_types($managed) {
 
 	<li>
 		<label><input type="radio" name="preference" value="auto"<?php echo require_get("preference", $user['graph_managed_type']) == 'auto' ? ' checked' : ''; ?>> Automatically select the best reports for me. (<?php echo plural(count($auto_graphs), "graph"); ?>)</label>
-		<?php print_graph_types($auto_graphs); ?>
+		<?php print_graph_types($auto_graphs, true /* is_auto */); ?>
 
 		<?php if ($user['graph_managed_type'] != 'auto') { ?>
 		<div class="reset-warning">
@@ -148,7 +151,7 @@ function print_graph_types($managed) {
 	</li>
 
 	<li>
-		<label><input type="radio" name="preference" value="none"<?php echo require_get("preference", $user['graph_managed_type']) == '' ? ' checked' : ''; ?>> I will manage my own graphs and pages.</label>
+		<label><input type="radio" name="preference" value="none"<?php echo require_get("preference", $user['graph_managed_type']) == 'none' ? ' checked' : ''; ?>> I will manage my own graphs and pages.</label>
 	</li>
 
 </ul>
