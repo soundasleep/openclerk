@@ -17,8 +17,8 @@ global $user;
 <p>
 	<?php echo htmlspecialchars(get_site_config('site_name')); ?> keeps track of your
 	cryptocurrencies, investments and equities by regularly downloading account details
-	from accounts that you define. You can add five different types of accounts - please
-	create at least one below. (You can always change these options
+	from accounts that you define. You can add five different types of accounts as
+	illustrated below. (You can always change these accounts
 	later, by selecting the "Preferences" link above.)
 </p>
 

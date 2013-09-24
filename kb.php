@@ -21,6 +21,11 @@ if (!$title) {
 	set_temporary_errors(array("No such knowledge base article '" . htmlspecialchars($q) . "'."));
 	redirect(url_for('help'));
 }
+if (is_array($title)) {
+	$kb_inline = $title['inline'];
+	$title = $title['title'];
+	$q = 'inline';
+}
 
 page_header("Knowledge Base: " . $title, "page_kb");
 
