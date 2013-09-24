@@ -1120,3 +1120,29 @@ INSERT INTO accounts_givemecoins (user_id, created_at, last_queue, title, api_ke
 UPDATE balances SET balance=0 WHERE exchange='mine_litecoin' AND is_recent=1;
 UPDATE hashrates SET mhash=0 WHERE exchange='mine_litecoin' AND is_recent=1;
 
+-- managed graph functionality
+ALTER TABLE users ADD is_graphs_managed tinyint not null default 0;
+ALTER TABLE users ADD INDEX(is_graphs_managed);
+
+ALTER TABLE users ADD graph_managed_type varchar(16);	-- null, 'auto', 'preferences'
+ALTER TABLE users ADD preferred_crypto varchar(3) not null default 'btc';	-- preferred cryptocurrency
+ALTER TABLE users ADD preferred_fiat varchar(3) not null default 'usd';	-- preferred fiat currency
+
+-- graph management preferences
+CREATE TABLE managed_graphs (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+
+	preference varchar(32) not null,
+
+	INDEX(user_id)
+);
+
+-- was this graph added automatically?
+ALTER TABLE graphs ADD is_managed tinyint not null default 0;
+ALTER TABLE graph_pages ADD is_managed tinyint not null default 0;
+
+ALTER TABLE graphs ADD INDEX(is_managed);
+ALTER TABLE graph_pages ADD INDEX(is_managed);
+

@@ -21,6 +21,10 @@ function get_all_cryptocurrencies() {
 	return array("btc", "ltc", "nmc", "ppc", "ftc");
 }
 
+function get_all_fiat_currencies() {
+	return array_diff(get_all_currencies(), get_all_cryptocurrencies());
+}
+
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
 	return array("btc", "ltc", "ppc", "ftc");	// no NMC yet
