@@ -170,7 +170,6 @@ if (!$errors) {
 	}
 }
 
-// TODO add parameters so that previous settings are not lost on error page redirect
 set_temporary_messages($messages);
 set_temporary_errors($errors);
 

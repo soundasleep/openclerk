@@ -22,3 +22,5 @@ global $user;
 	(You can always change these accounts
 	later, by selecting the "Preferences" link above.)
 </p>
+
+<p><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'managed_graphs'))); ?>"><?php echo htmlspecialchars(get_knowledge_base_title('managed_graphs')); ?></a></p>

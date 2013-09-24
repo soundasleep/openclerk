@@ -11,6 +11,7 @@ require("inc/recaptcha.php");
 require("inc/crypto.php");
 require("inc/premium.php");
 require("inc/heavy.php");
+require("inc/kb.php");
 
 $db_instance = false;
 function db() {
@@ -355,7 +356,9 @@ function implode_english($result, $or = false) {
 		$s .= $result[$i] . ", ";
 	}
 	for ($i = count($result) - 2; $i >= 0 && $i < count($result) - 1; $i++) {
-		$s .= $result[$i] . " " . ($or ? "or" : "and") . " ";
+		$s .= $result[$i] .
+			((count($result) > 2 && strpos($result[$i], " ")) !== false ? "," : "") . // for phrased terms and long lists, add an extra comma
+			" " . ($or ? "or" : "and") . " ";
 	}
 	for ($i = count($result) - 1; $i >= 0 && $i < count($result); $i++) {
 		$s .= $result[$i];

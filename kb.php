@@ -8,7 +8,6 @@ $q = require_get("q");
 
 // we define all knowledge base articles ourselves, so that there's no chance
 // of a security breach/injection
-require("inc/kb.php");
 $knowledge = get_knowledge_base();
 
 $title = false;
