@@ -221,7 +221,7 @@ function graph_types() {
 		'mtgox_usdbtc_daily' => 'mtgox_usdbtc_daily.png',
 		'bitnz_nzdbtc_daily' => 'bitnz_nzdbtc_daily.png',
 		'all2usd_mtgox_daily' => 'all2usd_mtgox_daily.png',
-		'all2nzd_daily' => 'all2nzd_daily.png',
+		'all2nzd_bitnz_daily' => 'all2nzd_bitnz_daily.png',
 		'total_btc_daily' => 'total_btc_daily.png',
 		'total_ltc_daily' => 'total_ltc_daily.png',
 		'balances_table' => 'balances_table.png',

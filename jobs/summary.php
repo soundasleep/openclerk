@@ -136,12 +136,12 @@ switch ($summary['summary_type']) {
 		add_summary_instance($job, 'all2cad_virtex', $total);
 		break;
 
-	case "summary_nzd":
+	case "summary_nzd_bitnz":
 		// TODO fiat2nzd
 
 		$total = 0;
-		require("jobs/summary/all2nzd.php");
-		add_summary_instance($job, 'all2nzd', $total);
+		require("jobs/summary/all2nzd_bitnz.php");
+		add_summary_instance($job, 'all2nzd_bitnz', $total);
 		break;
 
 	default:

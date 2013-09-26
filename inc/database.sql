@@ -1148,4 +1148,10 @@ ALTER TABLE graph_pages ADD INDEX(is_managed);
 
 -- page_order can be < 9000 due to managed graphs
 -- (alternatively we could write complicated logic to reorder new & existing graphs based on their intended order)
-ALTER TABLE graphs MODIFY page_order smallint;
+ALTER TABLE graphs MODIFY page_order smallint default 0;
+
+-- rename summary_nzd to summary_nzd_bitnz to fix wizard bug
+UPDATE summaries SET summary_type='summary_nzd_bitnz' WHERE summary_type='summary_nzd';
+UPDATE summary_instances SET summary_type='all2nzd_bitnz' WHERE summary_type='all2nzd';
+UPDATE graph_data_summary SET summary_type='all2nzd_bitnz' WHERE summary_type='all2nzd';
+UPDATE graphs SET graph_type='all2nzd_bitnz_daily' WHERE graph_type='all2nzd_daily';
