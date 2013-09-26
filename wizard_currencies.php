@@ -20,8 +20,6 @@ $messages = array();
 // get all of our accounts
 $accounts = user_limits_summary(user_id());
 
-require_template("wizard_currencies");
-
 $cryptos = get_all_cryptocurrencies();
 $fiats = array_diff(get_all_currencies(), $cryptos);
 
@@ -34,6 +32,8 @@ while ($s = $q->fetch()) {
 }
 
 ?>
+
+<?php require_template("wizard_currencies"); ?>
 
 <form action="<?php echo htmlspecialchars(url_for('wizard_currencies_post')); ?>" method="post" class="wizard">
 

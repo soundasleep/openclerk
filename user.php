@@ -72,6 +72,9 @@ if (require_get("new_purchase", false)) {
 	}
 }
 
+// get all of our accounts limits
+$accounts = user_limits_summary(user_id());
+
 page_header("User Account", "page_user", array('jquery' => true, 'common_js' => true));
 
 ?>
@@ -113,24 +116,56 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_user_currencies">Currencies</li><li id="tab_user_premium">Premium</li><li id="tab_user_contact">Contact Details</li><li id="tab_user_outstanding">Outstanding Payments</li><li id="tab_user_mailinglist">Mailing List</li>
+		<li id="tab_user_contact">Contact Details</li><li id="tab_user_premium">Premium</li><li id="tab_user_outstanding">Outstanding Payments</li><li id="tab_user_mailinglist">Mailing List</li>
 	</ul>
 
 	<ul class="tab_groups">
-	<li id="tab_user_currencies_tab">
+	<li id="tab_user_contact_tab">
 
-<h2>Currency Settings</h2>
-
-<p class="tip tip_float">
-Once you have selected currencies, you should head over to your
-<a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">accounts page</a> and link up
-your existing addresses and exchanges.
-</p>
-
-<form action="<?php echo htmlspecialchars(url_for('user_currencies')); ?>" method="post">
-<?php require("_user_currencies.php"); ?>
-<input type="submit" value="Update Currency Settings">
+<form action="<?php echo htmlspecialchars(url_for('user')); ?>" method="post">
+<table class="standard form">
+<tr>
+	<th><label for="user_name">Name:</label></th>
+	<td><input id="user_name" name="name" value="<?php echo htmlspecialchars(require_post("name", $user['name'] ? $user['name'] : false)); ?>" size="32" maxlength="64"> (optional)</td>
+</tr>
+<tr>
+	<th><label for="user_email">E-mail:</label></th>
+	<td><input id="user_email" name="email" value="<?php echo htmlspecialchars(require_post("email", $user['email'] ? $user['email'] : false)); ?>" size="32" maxlength="64"> (optional)</td>
+</tr>
+<tr>
+	<th>Account status:</th>
+	<td>
+		<a href="#user_premium"><?php if ($user['is_admin']) {
+			echo "Administrator";
+		} else if ($user['is_system']) {
+			echo "System account";
+		} else if ($user['is_premium']) {
+			echo "Premium account";
+		} else {
+			echo "Free account";
+		} ?></a>
+	</td>
+</tr>
+<tr>
+	<th>Member since:</th>
+	<td><?php echo recent_format_html($user['created_at']); ?></td>
+</tr>
+<tr>
+	<th>Last login:</th>
+	<td><?php echo recent_format_html($user['last_login']); ?></td>
+</tr>
+<tr>
+	<td colspan="2" class="buttons">
+		<input type="submit" value="Update Profile">
+	</td>
+</tr>
+</table>
 </form>
+
+<div style="margin-top: 1em;">
+<!-- TODO remove: added to help users adapt to new wizard_currencies -->
+Looking for your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">currency preferences</a>?
+</div>
 
 	</li>
 	<li id="tab_user_premium_tab">
@@ -159,6 +194,22 @@ your existing addresses and exchanges.
 	<td><?php echo recent_format_html($user['premium_expires'], " ago", "" /* no 'in the future' */); ?></td>
 </tr>
 <?php } ?>
+<tr>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses')); ?>">Tracked addresses</a>:</th>
+	<td><?php echo number_format($accounts['total_addresses']); ?> (out of <?php echo number_format(get_premium_value($user, 'addresses')); ?>)</td>
+</tr>
+<tr>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Tracked accounts</a>:</th>
+	<td><?php echo number_format($accounts['total_accounts']); ?> (out of <?php echo number_format(get_premium_value($user, 'accounts')); ?>)</td>
+</tr>
+<tr>
+	<th><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Summary pages</a>:</th>
+	<td><?php echo number_format($accounts['total_graph_pages']); ?> (out of <?php echo number_format(get_premium_value($user, 'graph_pages')); ?>)</td>
+</tr>
+<tr>
+	<th><a href="<?php echo htmlspecialchars(url_for('user')); ?>">Currencies</a>:</th>
+	<td><?php echo number_format($accounts['total_summaries']); ?> (out of <?php echo number_format(get_premium_value($user, 'summaries')); ?>)</td>
+</tr>
 </table>
 
 <p>
@@ -176,35 +227,6 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 
 <?php require("_premium_prices.php"); ?>
 </div>
-
-	</li>
-	<li id="tab_user_contact_tab">
-
-<form action="<?php echo htmlspecialchars(url_for('user')); ?>" method="post">
-<table class="standard form">
-<tr>
-	<th><label for="user_name">Name:</label></th>
-	<td><input id="user_name" name="name" value="<?php echo htmlspecialchars(require_post("name", $user['name'] ? $user['name'] : false)); ?>" size="32" maxlength="64"> (optional)</td>
-</tr>
-<tr>
-	<th><label for="user_email">E-mail:</label></th>
-	<td><input id="user_email" name="email" value="<?php echo htmlspecialchars(require_post("email", $user['email'] ? $user['email'] : false)); ?>" size="32" maxlength="64"> (optional)</td>
-</tr>
-<tr>
-	<th>Member since:</th>
-	<td><?php echo recent_format_html($user['created_at']); ?></td>
-</tr>
-<tr>
-	<th>Last login:</th>
-	<td><?php echo recent_format_html($user['last_login']); ?></td>
-</tr>
-<tr>
-	<td colspan="2" class="buttons">
-		<input type="submit" value="Update Profile">
-	</td>
-</tr>
-</table>
-</form>
 
 	</li>
 	<li id="tab_user_outstanding_tab">

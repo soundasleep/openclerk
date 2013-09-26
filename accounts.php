@@ -19,7 +19,7 @@ if (get_temporary_messages()) {
 	$messages += get_temporary_messages();
 }
 
-// get all of our accounts
+// get all of our accounts limits
 $accounts = user_limits_summary(user_id());
 
 ?>

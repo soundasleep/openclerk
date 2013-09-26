@@ -1,6 +1,15 @@
 <?php
 global $user;
 ?>
+
+<?php if (strtotime($user['created_at']) >= strtotime("-1 hour") || require_get("welcome", false)) { ?>
+<div class="success">
+<ul>
+	<li>Welcome to <?php echo htmlspecialchars(get_site_config('site_name')); ?>!</li>
+</ul>
+</div>
+<?php } ?>
+
 <div class="wizard-steps">
 	<h2>Preferences Wizard</h2>
 	<ul>
