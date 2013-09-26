@@ -22,11 +22,27 @@ if (require_post("name", false) !== false && require_post("email", false) !== fa
 		$errors[] = "Invalid e-mail.";
 	} else {
 		$email = require_post("email");
+		$subscribe = require_post("subscribe", false) ? 1 : 0;
 
 		// we can have any name
 		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=?,subscribe_announcements=? WHERE id=? LIMIT 1");
-		$q->execute(array(require_post("name"), $email, require_post("subscribe", false) ? 1 : 0, user_id()));
+		$q->execute(array(require_post("name"), $email, $subscribe, user_id()));
 		$messages[] = "Updated account details.";
+
+		// subscribe/unsubscribe
+		if ($subscribe != $user['subscribe_announcements']) {
+			$q = db()->prepare("DELETE FROM pending_subscriptions WHERE user_id=?");
+			$q->execute(array(user_id()));
+
+			$q = db()->prepare("INSERT INTO pending_subscriptions SET user_id=?,created_at=NOW(),is_subscribe=?");
+			$q->execute(array($user['id'], $subscribe));
+
+			if ($subscribe) {
+				$messages[] = "You will be added manually to the <a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">Announcements Mailing List</a> soon.";
+			} else {
+				$messages[] = "You will be removed manually from the <a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">Announcements Mailing List</a> soon.";
+			}
+		}
 
 		// try sending email
 		if ($email && $email != $old_email) {

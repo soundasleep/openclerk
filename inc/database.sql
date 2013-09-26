@@ -1160,3 +1160,15 @@ ALTER TABLE users ADD last_managed_update datetime;
 
 -- new signup form: 'subscribe to site announcements' field
 ALTER TABLE users ADD subscribe_announcements tinyint not null default 0;
+
+-- new subscriptions/unsubscriptions will be placed in here, so that they
+-- can be processed manually (since google groups doesn't have an API)
+CREATE TABLE pending_subscriptions (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	
+	is_subscribe tinyint not null default 0,
+
+	INDEX(user_id)
+);

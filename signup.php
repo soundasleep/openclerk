@@ -98,6 +98,12 @@ if ($openid && $submit) {
 			$query->execute($user);
 			$user['id'] = db()->lastInsertId();
 
+			if ($subscribe) {
+				$q = db()->prepare("INSERT INTO pending_subscriptions SET user_id=?,created_at=NOW(),is_subscribe=1");
+				$q->execute(array($user['id']));
+				$messages[] = "You will be added manually to the <a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">Announcements Mailing List</a> soon.";
+			}
+
 			// try sending email
 			if ($email) {
 				send_email($email, $email, "signup", array(

@@ -24,6 +24,7 @@ page_header("Status", "page_admin", array('common_js' => true, 'jsapi' => true))
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_email")); ?>">Send test e-mail</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_financial")); ?>">Financial report</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_users")); ?>">Users report</a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for("admin_subscribe")); ?>">Pending subscription requests</a></li>
 </ul>
 
 <table class="standard">
