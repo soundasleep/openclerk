@@ -42,8 +42,8 @@ page_header('External API Status: ' . htmlspecialchars($api_title), "page_extern
 	</p>
 
 	<p>
-		<?php /* TODO maybe add a link here, e.g. [BTC-E] ticker */ ?>
-		This graph displays the status of the <?php echo htmlspecialchars($api_title); ?> external API, in terms of how many
+		<?php /* TODO maybe add a link here, e.g. [BTC-E] ticker. TODO 'premium' should be labelled internal, not external */ ?>
+		This graph displays the status of the external <?php echo htmlspecialchars($api_title); ?>, in terms of how many
 		tasks were successful (in percent).
 	</p>
 

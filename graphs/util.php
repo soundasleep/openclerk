@@ -220,6 +220,24 @@ function get_havelock_securities_btc_historical($graph_type, $graph) {
  * Return a list of (id => title).
  * Could be cached.
  */
+function get_bitfunder_securities_btc() {
+	$result = array();
+	$q = db()->prepare("SELECT * FROM securities_bitfunder ORDER BY name ASC");
+	$q->execute();
+	while ($sec = $q->fetch()) {
+		$result[$sec['id']] = $sec['name'];
+	}
+	return $result;
+}
+
+function get_bitfunder_securities_btc_historical($graph_type, $graph) {
+	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_bitfunder_btc'));
+}
+
+/**
+ * Return a list of (id => title).
+ * Could be cached.
+ */
 function get_external_status_titles() {
 	$result = array();
 	$q = db()->prepare("SELECT * FROM external_status_types");

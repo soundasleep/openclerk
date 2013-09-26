@@ -1181,3 +1181,33 @@ ALTER TABLE users ADD INDEX(is_first_report_sent);
 
 -- all old users will not receive a first report
 UPDATE users SET is_first_report_sent=1 WHERE DATE_ADD(created_at, INTERVAL 1 DAY) < NOW();
+
+-- BitFunder publishes all asset owners to a public .json file, so
+-- we only have to request this file once per hour (as per premium users)
+INSERT INTO securities_update SET exchange='bitfunder';
+
+DROP TABLE IF EXISTS securities_bitfunder;
+
+CREATE TABLE securities_bitfunder (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	name varchar(64) not null,
+	
+	INDEX(last_queue)
+);
+
+DROP TABLE IF EXISTS accounts_bitfunder;
+
+CREATE TABLE accounts_bitfunder (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	btc_address varchar(64) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);

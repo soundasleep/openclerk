@@ -10,7 +10,7 @@ $account_data = array('exchange_name' => get_exchange_name('50btc'));
 		and visit your <a href="https://50btc.com/en/worker/stats">Mining page</a>.<br>
 		<img src="img/accounts/50btc1.png"></li>
 
-	<li>Copy and paste your <i>API Key</i> into the "Add new" form, and click "Add account".<br>
+	<li>Copy and paste your <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".<br>
 		<img src="img/accounts/50btc2.png"></li>
 </ol>
 </div>
@@ -26,6 +26,6 @@ $account_data = array('exchange_name' => get_exchange_name('50btc'));
 		site, even if you have logged in.</li>
 
 	<li>Through the <?php echo $account_data['exchange_name']; ?> interface you can revoke an API key&apos;s access at any time, by
-		visiting the <a href="https://50btc.com/en/account/api">Mining API page</a> and clicking on <i>Generate new key</i>.
+		visiting the <a href="https://50btc.com/en/account/api">Mining API page</a> and clicking on <i>Generate new key</i>.</li>
 </ul>
 </div>

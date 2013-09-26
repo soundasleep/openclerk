@@ -72,7 +72,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 #navigation li.login a { background-position: 0 -659px; }
 #navigation li.logout a { background-position: 0 -329px; }
 #navigation li.profile a { background-position: 0 -263px; }
-#navigation li.accounts a { background-position: 0 1px; }
+#navigation li.accounts a, #navigation li.admin a { background-position: 0 1px; }
 #navigation li.user a { background-position: 0 -131px; }
 #navigation li.premium a { background-position: 0 -791px; }
 #navigation li.help a { background-position: 0 -461px; }

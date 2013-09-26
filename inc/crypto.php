@@ -69,6 +69,9 @@ function get_all_exchanges() {
 		"cryptostocks" =>  	"Cryptostocks",
 		"cryptostocks_wallet" => "Cryptostocks (Wallet)",
 		"cryptostocks_securities" => "Cryptostocks (Securities)",
+		"bitfunder"			=> "BitFunder",
+		"bitfunder_wallet"	=> "BitFunder (Wallet)",
+		"bitfunder_securities" => "BitFunder (Securities)",
 		"generic" => 		"Generic API",
 		"offsets" => 		"Offsets",		// generic
 		"blockchain" =>  	"Blockchain",	// generic
@@ -139,11 +142,12 @@ function get_security_exchange_pairs() {
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"havelock" => array('btc'),
+		"bitfunder" => array('btc'),
 	);
 }
 
 function get_new_security_exchanges() {
-	return array("havelock");
+	return array("bitfunder");
 }
 
 function get_supported_wallets() {
@@ -284,6 +288,7 @@ function account_data_grouped() {
 			'btct' => array('label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities'),
 			'cryptostocks' => array('label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities'),
 			'havelock' => array('label' => 'account', 'table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
+			'bitfunder' => array('label' => 'account', 'table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities'),
 		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other'),
@@ -358,11 +363,18 @@ function get_external_apis() {
 			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
 			'ticker_virtex' => '<a href="https://www.cavirtex.com/">VirtEx</a>',
 			'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
+		),
+
+		"Security exchanges" => array(
+			// TODO should be sorted
 			'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'securities_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
-			'securities_update' => 'Securities list',
+			'securities_update_btct' => '<a href="http://btct.co">BTC Trading Co.</a> Securities list',
+			'securities_update_litecoinglobal' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
+			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
+			'securities_update_bitfunder' => '<a href="https://bitfunder.com/">BitFunder</a> Securities list',
 		),
 
 		"Other" => array(
@@ -678,6 +690,15 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_havelock',
 				'title' => 'Havelock Investments account',
+			);
+
+		case "bitfunder":
+			return array(
+				'inputs' => array(
+					'btc_address' => array('title' => 'BTC Address', 'callback' => 'is_valid_btc_address'),
+				),
+				'table' => 'accounts_bitfunder',
+				'title' => 'BitFunder account',
 			);
 
 		// --- other ---
