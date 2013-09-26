@@ -4,25 +4,22 @@
 	$screens = array(
 		'user_currencies' => array(
 			'title' => 'Currencies',
-			'url' => 'img/screenshots/user_currencies.png',
-			'text' => "A wide range of currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.",
+			'url' => 'img/screenshots/wizard_currencies.png',
+			'text' => "A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.",
 		),
 		'accounts' => array(
 			'title' => 'Account types',
-			'url' => 'img/screenshots/accounts.png',
+			'url' => 'img/screenshots/wizard_accounts.png',
 			'text' => "A wide variety of account types are supported, with more being added regularly. All account types are completely optional.",
+			'url2' => 'img/screenshots/wizard_accounts_securities.png',
+			'text2' => "Exchange, mining pools, securities and funds accounts can only be accessed once you have enabled a read-only key on the site itself, and provided that key to " . htmlspecialchars(get_site_config('site_name')) . ". Mining hashrates for most pools can also be tracked and graphed. Helpful wizards guide you through the steps to add new accounts and addresses.",
 		),
 		'litecoin' => array(
 			'title' => 'Addresses',
-			'url' => 'img/screenshots/litecoin.png',
+			'url' => 'img/screenshots/wizard_addresses.png',
 			'text' => "Cryptocurrency addresses are added directly into " . htmlspecialchars(get_site_config('site_name')) . ", and balances downloaded through public explorer APIs.",
 			'url2' => 'img/screenshots/litecoinqt-export.png',
 			'text2' => 'Addresses can be directly exported from your local BTC or LTC wallets into '. htmlspecialchars(get_site_config('site_name')) . '.',
-		),
-		'litecoinglobal' => array(
-			'title' => 'Exchanges and pools',
-			'url' => 'img/screenshots/litecoinglobal.png',
-			'text' => "Exchange, mining pools, securities and funds accounts can only be accessed once you have enabled a read-only key on the site itself, and provided that key to " . htmlspecialchars(get_site_config('site_name')) . ". Mining hashrates for most pools can also be tracked and graphed.",
 		),
 		'profile_summary' => array(
 			'title' => 'Graphs',
@@ -40,8 +37,10 @@
 		),
 		'profile_addgraph' => array(
 			'title' => 'Adding graphs',
-			'url' => 'img/screenshots/profile_addgraph.png',
-			'text' => "A simple interface lets you add new graph types, reconfigure them, and reorder them. Graphs can also be grouped together into <i>pages</i> (premium users only).",
+			'url' => 'img/screenshots/wizard_reports.png',
+			'text' => htmlspecialchars(get_site_config('site_name')) . " automatically manages your reports based on your currency, address and reporting preferences.",
+			'url2' => 'img/screenshots/profile_addgraph.png',
+			'text2' => "Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them. Graphs can also be grouped together into <i>pages</i> (premium users only).",
 		),
 
 	);
