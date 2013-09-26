@@ -45,6 +45,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"get_contents_timeout" => 5, // in seconds
 		"get_openid_timeout" => 10,	// in seconds, should be <= heavy_requests_seconds
 		"default_login" => 'user',		// default login destination
+		"signup_login" => 'wizard_currencies',		// login destination when signing up; overridden by premium_welcome -> 'welcome'
 		"autologin_expire_days" => 30,
 		"autologin_cookie_seconds" => 60 * 60 * 24 * 30,
 
@@ -58,6 +59,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"sleep_vircurex_balance" => 5,
 		"sleep_cryptostocks_balance" => 5,
 		"sleep_themoneyconverter_ticker" => 5,
+		"sleep_givemecoins" => 0,
 		"max_job_executions" => 5,	// if a job fails to run more than this number of times, then explicitly mark it as failed
 		"throttle_btcguild" => 30,	// only execute this job once every X seconds
 		"throttle_blockchain" => 5,
@@ -68,15 +70,21 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		// layout properties
 		"default_graph_width" => 110, // in px, default *2
 		"default_graph_height" => 110, // in px, default *2
+		"default_user_graph_width" => 4,	// see _profile_add_graph.php
+		"default_user_graph_height" => 2,	// see _profile_add_graph.php
+		"default_user_graph_days" => 45,
 
 		// technical data
 		"technical_period_max" => 365,
 
 		// external URLs
 		"ltc_address_url" => "http://explorer.litecoin.net/address/",
+		"ltc_block_url" => "http://explorer.litecoin.net/chain/Litecoin/q/getblockcount",
 		"btc_address_url" => "http://blockchain.info/address/",
-		"ftc_address_url" => "http://cryptocoinexplorer.com:5750/address/",
+		"ftc_address_url" => "http://explorer.feathercoin.com/address/",
+		"ftc_block_url" => "http://explorer.feathercoin.com/chain/Feathercoin/q/getblockcount",
 		"ppc_address_url" => "http://ppc.cryptocoinexplorer.com/address/",
+		"ppc_block_url" => "http://ppc.cryptocoinexplorer.com/chain/PPCoin/q/getblockcount",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
@@ -94,7 +102,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 
 		"premium_btc_discount" => 0, // in %, e.g. 1=100%
 		"premium_ltc_discount" => 0, // in %
-		"premium_welcome" => true,
+		"premium_welcome" => false,		// redirect to a welcome page
 		"new_user_premium_update_hours" => 24,	// how many hours to give a new user premium-level updates, or false for none
 		"user_expiry_days" => 30,		// a free user must login every X days to prevent account being disabled
 
@@ -103,7 +111,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"archive_summary_data" => "-31 days",
 		"archive_balances_data" => "-31 days",
 
-		// custom settings
+		// custom template settings
 		"custom_css" => false,
 		"custom_index" => false,
 		"custom_login" => false,
@@ -111,6 +119,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"custom_help" => false,
 		"custom_screenshots" => false,
 		"custom_templates_copyright" => false,
+		// more custom templates go here
 		"forum_link" => "http://bitcointalk.org/",
 		"google_groups_announce" => "openclerk-announce",
 
