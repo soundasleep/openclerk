@@ -50,7 +50,8 @@ function get_blockchain_currencies() {
 	return array(
 		"Blockchain" => array('btc'),
 		"Litecoin Explorer" => array('ltc'),
-		"CryptoCoin Explorer" => array('ftc', 'ppc'),
+		"CryptoCoin Explorer" => array('ppc'),
+		"Feathercoin Search" => array('ftc'),
 	);
 }
 
