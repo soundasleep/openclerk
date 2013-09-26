@@ -36,7 +36,7 @@
 		'accounts' => 'Tracked accounts (BTC-e, Mt.Gox, ...)',
 		'graph_pages' => $welcome ? "Reports pages" : '<a href="' . htmlspecialchars(url_for('profile')) . '">Reports pages</a>',
 		'graphs_per_page' => 'Graphs per report page',
-		'summaries' => $welcome ? "Currencies" :'<a href="' . htmlspecialchars(url_for('user')) . '">Currencies</a>',
+		'summaries' => $welcome ? "Currencies" :'<a href="' . htmlspecialchars(url_for('wizard_currencies')) . '">Currencies</a>',
 	);
 	foreach ($predef as $key => $title) { ?>
 	<tr>

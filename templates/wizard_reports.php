@@ -16,7 +16,7 @@ global $user;
 
 <p>
 	Once information from your accounts have been downloaded and compiled into reports,
-	you may view these reports in many ways by defining graphs and pages.
+	you may view <a href="<?php echo htmlspecialchars(url_for('profile')); ?>">these reports</a> by defining graphs and pages.
 	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can automatically
 	manage these reports for you, or you may opt to define these manually.
 	(You can always change these accounts

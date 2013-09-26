@@ -175,6 +175,9 @@ page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 				<td>
 					<input type="text" name="openid" class="openid" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
 					<input type="submit" name="submit" value="Signup">
+					<?php if ($destination) { ?>
+					<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
+					<?php } ?>
 				</td>
 			</table>
 			</div>

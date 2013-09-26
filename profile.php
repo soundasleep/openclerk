@@ -48,7 +48,7 @@ if (get_site_config('new_user_premium_update_hours') && strtotime($user['created
 	// does a non-zero report exist yet for this user?
 	$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND is_recent=1 AND balance > 0 LIMIT 1");
 	$q->execute(array(user_id()));
-	if ($non_zero = $q->fetch()) {
+	if (!($non_zero = $q->fetch())) {
 		$q = db()->prepare("SELECT premium_delay_minutes FROM site_statistics WHERE is_recent=1 LIMIT 1");
 		$q->execute();
 		$stats = $q->fetch();
@@ -227,7 +227,7 @@ if (!$graphs) { ?>
 	<div class="graph_collection_empty">
 		<?php if (require_get("securities", false)) {
 			if (get_premium_value($user, 'your_securities')) {
-				echo "No securities to display! You might want to add details about <a href=\"" . htmlspecialchars(url_for('accounts')) . "\">your securities exchanges</a>, if you have any.";
+				echo "No securities to display! You might want to add details about <a href=\"" . htmlspecialchars(url_for('wizard_accounts_securities')) . "\">your securities exchanges</a>, if you have any.";
 			} else {
 				echo "To display historical value graphs of your securities, please <a href=\"" . htmlspecialchars(url_for('premium')) . "\">purchase a premium account</a>, or
 					add them as normal \"security value\" graphs on one of your other <a href=\"" . htmlspecialchars(url_for('profile')) . "\">report pages</a>.";

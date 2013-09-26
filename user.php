@@ -213,7 +213,7 @@ Looking for your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies
 	<td><?php echo number_format($accounts['total_graph_pages']); ?> (out of <?php echo number_format(get_premium_value($user, 'graph_pages')); ?>)</td>
 </tr>
 <tr>
-	<th><a href="<?php echo htmlspecialchars(url_for('user')); ?>">Currencies</a>:</th>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">Currencies</a>:</th>
 	<td><?php echo number_format($accounts['total_summaries']); ?> (out of <?php echo number_format(get_premium_value($user, 'summaries')); ?>)</td>
 </tr>
 </table>

@@ -45,7 +45,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 	<li class="home"><a href="<?php echo url_for('index'); ?>"><?php echo htmlspecialchars(get_site_config('site_name')); ?></a></li>
 	<?php if (user_logged_in()) { ?>
 		<li class="profile"><a href="<?php echo url_for('profile'); ?>">Your Reports</a></li>
-		<li class="accounts"><a href="<?php echo url_for('accounts'); ?>">Your Accounts</a></li>
+		<li class="accounts"><a href="<?php echo url_for('wizard_accounts'); ?>">Configure Accounts</a></li>
 		<li class="user"><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
 		<li class="login"><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
 		<?php if (is_admin()) { ?>
@@ -94,8 +94,9 @@ function page_footer() {
 			<ul>
 				<?php if (user_logged_in()) { ?>
 				<li><a href="<?php echo htmlspecialchars(url_for('user')); ?>">User Profile</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('accounts')); ?>">Your Accounts</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Your Summaries</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">Currency Preferences</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Configure Accounts</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Your Reports</a></li>
 				<?php } else { ?>
 				<li><a href="<?php echo htmlspecialchars(url_for('signup')); ?>">Signup</a></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('login')); ?>">Login</a></li>

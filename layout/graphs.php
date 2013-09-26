@@ -77,7 +77,7 @@ function render_graph($graph, $is_public = false) {
 	echo "</h2>\n";
 	render_graph_controls($graph);
 
-	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('user')) . "\">Add more currencies</a>";
+	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Add more currencies</a>";
 
 	switch ($graph['graph_type']) {
 
@@ -122,7 +122,7 @@ function render_graph($graph, $is_public = false) {
 				render_pie_chart($graph, $data, 'Currency', 'BTC');
 			} else {
 				render_text($graph, "Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated.
-					<br><a href=\"" . htmlspecialchars(url_for('accounts')) . "\">Add accounts and addresses</a>");
+					<br><a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
 			}
 			break;
 
@@ -456,7 +456,7 @@ function render_graph($graph, $is_public = false) {
 								render_pie_chart($graph, $data, 'Source', strtoupper($currency));
 							} else {
 								render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated.
-									<br><a href=\"" . htmlspecialchars(url_for('accounts')) . "\">Add accounts and addresses</a>");
+									<br><a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
 							}
 							break 2;
 

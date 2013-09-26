@@ -254,39 +254,39 @@ function get_crypto_conversion_summary_types() {
 function account_data_grouped() {
 	$data = array(
 		'Addresses' => array(
-			'blockchain' => array('url' => 'accounts_blockchain', 'title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'btc\'', 'wizard' => 'addresses'),
-			'litecoin' => array('url' => 'accounts_litecoin', 'title' => 'LTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ltc\'', 'wizard' => 'addresses'),
-			'feathercoin' => array('url' => 'accounts_feathercoin', 'title' => 'FTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ftc\'', 'wizard' => 'addresses'),
-			'ppcoin' => array('url' => 'accounts_ppcoin', 'title' => 'PPC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ppc\'', 'wizard' => 'addresses'),
+			'blockchain' => array('title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'btc\'', 'wizard' => 'addresses'),
+			'litecoin' => array('title' => 'LTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ltc\'', 'wizard' => 'addresses'),
+			'feathercoin' => array('title' => 'FTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ftc\'', 'wizard' => 'addresses'),
+			'ppcoin' => array('title' => 'PPC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ppc\'', 'wizard' => 'addresses'),
 		),
 		'Mining pools' => array(
-			'poolx' => array('url' => 'accounts_poolx', 'label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools'),
-			'slush' => array('url' => 'accounts_slush', 'label' => 'account', 'table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools'),
-			'wemineltc' => array('url' => 'accounts_wemineltc', 'label' => 'account', 'table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools'),
-			'givemecoins' => array('url' => 'accounts_givemecoins', 'label' => 'account', 'table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools'),
-			'btcguild' => array('url' => 'accounts_btcguild', 'label' => 'account', 'table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools'),
-			'50btc' => array('url' => 'accounts_50btc', 'label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools'),
-			'hypernova' => array('url' => 'accounts_hypernova', 'label' => 'account', 'table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools'),
-			'ltcmineru' => array('url' => 'accounts_ltcmineru', 'label' => 'account', 'table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools'),
-			'miningforeman' => array('url' => 'accounts_miningforeman', 'label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools'),
-			'miningforeman_ftc' => array('url' => 'accounts_miningforeman_ftc', 'label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools'),
-			'bitminter' => array('url' => 'accounts_bitminter', 'label' => 'account', 'table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools'),
-			'liteguardian' => array('url' => 'accounts_liteguardian', 'label' => 'account', 'table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools'),
+			'poolx' => array('label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools'),
+			'slush' => array('label' => 'account', 'table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools'),
+			'wemineltc' => array('label' => 'account', 'table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools'),
+			'givemecoins' => array('label' => 'account', 'table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools'),
+			'btcguild' => array('label' => 'account', 'table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools'),
+			'50btc' => array('label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools'),
+			'hypernova' => array('label' => 'account', 'table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools'),
+			'ltcmineru' => array('label' => 'account', 'table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools'),
+			'miningforeman' => array('label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools'),
+			'miningforeman_ftc' => array('label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools'),
+			'bitminter' => array('label' => 'account', 'table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools'),
+			'liteguardian' => array('label' => 'account', 'table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools'),
 		),
 		'Exchanges' => array(
-			'mtgox' => array('url' => 'accounts_mtgox', 'label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges'),
-			'btce' => array('url' => 'accounts_btce', 'label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges'),
-			'vircurex' => array('url' => 'accounts_vircurex', 'label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges'),
-			'bips' => array('url' => 'accounts_bips', 'label' => 'account', 'table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'mtgox' => array('label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'btce' => array('label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'vircurex' => array('label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'bips' => array('label' => 'account', 'table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
 		),
 		'Securities' => array(
-			'litecoinglobal' => array('url' => 'accounts_litecoinglobal', 'label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities'),
-			'btct' => array('url' => 'accounts_btct', 'label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities'),
-			'cryptostocks' => array('url' => 'accounts_cryptostocks', 'label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities'),
-			'havelock' => array('url' => 'accounts_havelock', 'label' => 'account', 'table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
+			'litecoinglobal' => array('label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities'),
+			'btct' => array('label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities'),
+			'cryptostocks' => array('label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities'),
+			'havelock' => array('label' => 'account', 'table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
 		),
 		'Other' => array(
-			'generic' => array('url' => 'accounts_generic', 'title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other'),
+			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other'),
 		),
 		'Hidden' => array(
 			'graph' => array('title' => 'Graphs', 'table' => 'graphs', 'query' => ' AND is_removed=0'),
@@ -412,7 +412,6 @@ function translate_external_api_group_to_suffix($group) {
 	}
 }
 
-// TODO remove 'url' property
 function get_blockchain_wizard_config($currency) {
 	switch ($currency) {
 		case "btc":
@@ -423,7 +422,6 @@ function get_blockchain_wizard_config($currency) {
 				'table' => 'addresses',
 				'currency' => 'btc',
 				'callback' => 'is_valid_btc_address',
-				'url' => 'accounts_blockchain',
 				'job_type' => 'blockchain',
 				'address_callback' => 'btc_address',
 				'client' => 'Bitcoin-Qt',
@@ -438,7 +436,6 @@ function get_blockchain_wizard_config($currency) {
 				'table' => 'addresses',
 				'currency' => 'ltc',
 				'callback' => 'is_valid_ltc_address',
-				'url' => 'accounts_litecoin',
 				'job_type' => 'litecoin',
 				'address_callback' => 'ltc_address',
 				'client' => 'Litecoin-Qt',
@@ -453,7 +450,6 @@ function get_blockchain_wizard_config($currency) {
 				'table' => 'addresses',
 				'currency' => 'ftc',
 				'callback' => 'is_valid_ftc_address',
-				'url' => 'accounts_feathercoin',
 				'job_type' => 'feathercoin',
 				'address_callback' => 'ftc_address',
 			);
@@ -466,7 +462,6 @@ function get_blockchain_wizard_config($currency) {
 				'table' => 'addresses',
 				'currency' => 'ppc',
 				'callback' => 'is_valid_ppc_address',
-				'url' => 'accounts_ppcoin',
 				'job_type' => 'ppcoin',
 				'address_callback' => 'ppc_address',
 			);

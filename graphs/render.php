@@ -239,7 +239,7 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 		render_linegraph_date($graph, array_values($data));
 	} else {
 		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated.
-					<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");
+					<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
 	}
 
 }
@@ -302,7 +302,7 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 			render_text($graph, "Invalid balance type.");
 		} else {
 			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
-						<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");
+						<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
 		}
 	}
 
@@ -420,7 +420,7 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 			render_text($graph, "Invalid balance type.");
 		} else {
 			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
-						<br><a href=\"" . htmlspecialchars(url_for('user')) . "\">Configure currencies</a>");
+						<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
 		}
 	}
 
