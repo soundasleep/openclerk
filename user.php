@@ -24,8 +24,8 @@ if (require_post("name", false) !== false && require_post("email", false) !== fa
 		$email = require_post("email");
 
 		// we can have any name
-		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=? WHERE id=? LIMIT 1");
-		$q->execute(array(require_post("name"), $email, user_id()));
+		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=?,subscribe_announcements=? WHERE id=? LIMIT 1");
+		$q->execute(array(require_post("name"), $email, require_post("subscribe", false) ? 1 : 0, user_id()));
 		$messages[] = "Updated account details.";
 
 		// try sending email
@@ -109,14 +109,18 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 	<li id="tab_user_contact_tab">
 
 <form action="<?php echo htmlspecialchars(url_for('user')); ?>" method="post">
-<table class="standard form">
+<table class="user-profile">
 <tr>
 	<th><label for="user_name">Name:</label></th>
-	<td><input id="user_name" name="name" value="<?php echo htmlspecialchars(require_post("name", $user['name'] ? $user['name'] : false)); ?>" size="32" maxlength="64"> (optional)</td>
+	<td><input id="user_name" name="name" size="32" value="<?php echo htmlspecialchars(require_post("name", $user['name'] ? $user['name'] : false)); ?>" size="32" maxlength="64"></td>
 </tr>
 <tr>
 	<th><label for="user_email">E-mail:</label></th>
-	<td><input id="user_email" name="email" value="<?php echo htmlspecialchars(require_post("email", $user['email'] ? $user['email'] : false)); ?>" size="32" maxlength="64"> (optional)</td>
+	<td><input id="user_email" name="email" size="48" value="<?php echo htmlspecialchars(require_post("email", $user['email'] ? $user['email'] : false)); ?>" size="32" maxlength="64"></td>
+</tr>
+<tr>
+	<th></th>
+	<td><label><input type="checkbox" name="subscribe" value="1"<?php echo $user['subscribe_announcements'] ? " checked" : ""; ?>> Subscribe to <a href="#user_mailinglist">site announcements</a></label></td>
 </tr>
 <tr>
 	<th>Account status:</th>

@@ -1157,3 +1157,6 @@ UPDATE graph_data_summary SET summary_type='all2nzd_bitnz' WHERE summary_type='a
 UPDATE graphs SET graph_type='all2nzd_bitnz_daily' WHERE graph_type='all2nzd_daily';
 
 ALTER TABLE users ADD last_managed_update datetime;
+
+-- new signup form: 'subscribe to site announcements' field
+ALTER TABLE users ADD subscribe_announcements tinyint not null default 0;

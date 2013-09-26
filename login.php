@@ -143,99 +143,46 @@ if ($destination && !require_get("pause", false)) {
 }
 
 require("layout/templates.php");
-page_header("Login", "page_login", array('jquery' => true, 'common_js' => true));
+page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 
 ?>
 
 <?php require_template("login"); ?>
 
-<div class="columns2">
-<div class="column">
+<div class="authentication-form">
+<h2>Login</h2>
 
-<div class="tabs" id="tabs_login1">
-	<ul class="tab_list">
-		<li id="tab_login1_openid" class="openid">OpenID</li>
-	</ul>
-	<ul class="tab_groups">
-		<li id="tab_login1_openid_tab">
+<form action="<?php echo url_for('login'); ?>" method="post">
+<table class="login_form">
+	<tr class="signup-with">
+		<th>Login with:</th>
+		<td>
+			<input type="hidden" name="submit" value="1">
 
-	<div class="create_openid"><a href="http://openid.net/get-an-openid/" target="_blank">Get an OpenID</a></div>
-	<h2>Login with OpenID</h2>
+			<?php
+			$openids = get_default_openid_providers();
+			foreach ($openids as $key => $data) { ?>
+				<button type="submit" name="openid" class="openid openid-submit" value="<?php echo htmlspecialchars($data[1]); ?>"><span class="openid <?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data[0]); ?></span></button>
+			<?php }
+			?>
 
-	<form action="<?php echo url_for('login'); ?>" method="POST" class="login">
-	<table class="login_form">
-	<tr>
-		<th>OpenID URL</th>
-		<td><input type="text" name="openid" value="<?php if ($openid) echo htmlspecialchars($openid); ?>" class="openid_url" maxlength="255"></td>
-	</tr>
-	<tr>
-		<th></th>
-		<td><label><input type="checkbox" name="autologin"<?php if ($autologin) echo " checked"; ?>> Automatically log in</label></td>
-	</tr>
-	<tr>
-		<td colspan="2" class="buttons">
-			<?php $destination = require_get("destination", require_post("destination", false));
-			if ($destination) { ?>
-			<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
-			<?php } ?>
-			<input type="submit" value="Login">
+			<br>
+			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</a></button>
+
+			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Signup" ? "" : "display:none;"; ?>">
+			<table>
+				<th>OpenID URL:</th>
+				<td>
+					<input type="text" name="openid" class="openid" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
+					<input type="submit" name="submit" value="Signup">
+				</td>
+			</table>
+			</div>
 		</td>
 	</tr>
-	</table>
-	</form>
-
-		</li>
-	</ul>
+</table>
+</form>
 </div>
-
-</div>
-
-<div class="column">
-
-<?php $openid = get_default_openid_providers(); ?>
-<div class="tabs" id="tabs_login">
-	<ul class="tab_list">
-		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<?php foreach ($openid as $key => $data) {
-			echo "<li id=\"tab_login_$key\" class=\"$key\">" . htmlspecialchars($data[0]) . "</li>";
-		} ?>
-	</ul>
-
-	<ul class="tab_groups">
-	<?php foreach ($openid as $key => $data) { ?>
-		<li id="tab_login_<?php echo $key; ?>_tab">
-
-        <h2>Login with <?php echo htmlspecialchars($data[0]); ?></h2>
-
-        <form action="<?php echo url_for('login'); ?>" method="POST">
-        <table class="login_form">
-		<tr>
-			<td><label><input type="checkbox" name="autologin"<?php if ($autologin) echo " checked"; ?>> Automatically log in</label></td>
-		</tr>
-		<tr>
-			<td class="buttons">
-				<input type="hidden" name="openid" value="<?php echo htmlspecialchars($data[1]); ?>">
-				<input type="submit" value="Login">
-			</td>
-		</tr>
-        </table>
-        </form>
-        </li>
-    <?php } ?>
-    </ul>
-</div>
-
-</div>
-</div>
-
-<div style="clear:both;"></div>
-
-<script type="text/javascript">
-$(document).ready(function() {
-	initialise_tabs('#tabs_login');
-	initialise_tabs('#tabs_login1');
-});
-</script>
 
 <?php
 page_footer();

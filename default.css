@@ -4,7 +4,7 @@ html,body {
 	background: #111;
 	color: #eee;
 }
-select {
+select,button,input {
 	font-family: Calibri, Arial; 
 	font-size: 95%;
 }
@@ -123,6 +123,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	margin-top: 0;
 }
 .error ul, .success ul, .message ul, .warning ul { margin: 0; padding: 0; list-style: none; }
+span.required { color: red; font-weight: normal; }
 
 h1 { font-size: 120%; }
 h2 { font-size: 110%; }
@@ -238,8 +239,17 @@ input.currency_name_btc, input.currency_name_ltc, input.currency_name_nmc, input
 .help_list .currency_list { margin-top: 10px; }
 .help_list .currency_list li { line-height: 2em; }
 
-.tabs .tab_list li.openid { background: url('img/openid.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
-.tabs .tab_list li.google { background: url('img/google2.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
-.tabs .tab_list li.stackexchange { background: url('img/stackexchange.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
-.tabs .tab_list li.yahoo { background: url('img/yahoo.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
-.tabs .tab_list li.blogspot { background: url('img/blogspot.png') 4px 6px no-repeat; padding-left: 24px; min-width: 100px; } 
+select.country { max-width: 240px; }
+.authentication-form { background: #222; border: 1px solid #333; border-radius: 16px; padding: 16px; margin: 10px auto 10px auto; max-width: 600px; }
+.authentication-form h2 { margin-top: 0; }
+.authentication-form th, .user-profile th { text-align: left; white-space: nowrap; width: 10%; vertical-align: top; line-height: 150%; min-width: 100px; }
+.authentication-form .signup-with th { padding-top: 5px; }
+
+.authentication-form button { margin-bottom: 5px; }
+.authentication-form button.openid { height: 32px; padding: 2px 5px 5px 5px; margin-right: 3px; }
+button .openid { padding-left: 20px; line-height: 20px; }
+.openid.openid_manual { background: url('img/openid.png') 0 0 no-repeat; }
+.openid.google { background: url('img/google2.png') 0 0 no-repeat; }
+.openid.stackexchange { background: url('img/stackexchange.png') 0 0 no-repeat; }
+.openid.yahoo { background: url('img/yahoo.png') 0 0 no-repeat; }
+.openid.blogspot { background: url('img/blogspot.png') 0 0 no-repeat; }\
