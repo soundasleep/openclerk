@@ -450,6 +450,12 @@ function url_add($url, $arguments) {
 	return $url;
 }
 
+function request_url() {
+	return ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? "https" : "http") . "://" .
+			(isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['SERVER_ADDR']) .
+			$_SERVER["REQUEST_URI"];
+}
+
 /**
  * Very basic verification function: It needs to have a dot, and an at sign.
  */

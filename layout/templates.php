@@ -40,6 +40,8 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?><?php if (isset($options['class'])) echo " class=\"" . htmlspecialchars($options['class']) . "\""; ?>>
 <div class="body_wrapper">
 
+<?php require_template("templates_header"); ?>
+
 <div id="navigation">
 <ul>
 	<li class="home"><a href="<?php echo url_for('index'); ?>"><?php echo htmlspecialchars(get_site_config('site_name')); ?></a></li>
@@ -79,6 +81,8 @@ function page_footer() {
 ?>
 	</div>
 </div>
+
+<?php require_template("templates_footer"); ?>
 
 <div id="footer_nav">
 	<ul class="footer_nav_list">
