@@ -30,7 +30,7 @@ if (require_post("name", false) !== false && require_post("email", false) !== fa
 		$messages[] = "Updated account details.";
 
 		// subscribe/unsubscribe
-		if ($subscribe != $user['subscribe_announcements']) {
+		if ($subscribe != $user['subscribe_announcements'] || ($subscribe && $user['email'] != $email)) {
 			$q = db()->prepare("DELETE FROM pending_subscriptions WHERE user_id=?");
 			$q->execute(array(user_id()));
 
