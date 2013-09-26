@@ -75,21 +75,6 @@ try {
 
 		}
 
-		// display warning if account was disabled
-		if ($user['is_disabled']) {
-			$messages[] = "Your account was disabled " . recent_format($user['disabled_at']) . " due to inactivity; your account is now re-enabled, and account data will be updated again soon.";
-		}
-
-		// update login time
-		$query = db()->prepare("UPDATE users SET last_login=NOW(),is_disabled=0 WHERE id=?");
-		$query->execute(array($user["id"]));
-
-		// if we don't have an IP set, update it now
-		if (!$user["user_ip"]) {
-			$q = db()->prepare("UPDATE users SET user_ip=? WHERE id=?");
-			$q->execute(array(user_ip(), $user['id']));
-		}
-
 		// delete old web keys
 		$query = db()->prepare("DELETE FROM valid_user_keys WHERE user_id=? AND DATEDIFF(NOW(), created_at) > ?");
 		$query->execute(array($user["id"], get_site_config("autologin_expire_days") /* maximum length of autologin key or web key */ ));
@@ -115,6 +100,9 @@ try {
 			setcookie('autologin_id', "", time() - 3600);
 			setcookie('autologin_key', "", time() - 3600);
 		}
+
+		// handle post-login
+		handle_post_login();
 
 		// redirect
 		if (!$destination) {

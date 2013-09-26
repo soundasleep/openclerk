@@ -53,7 +53,45 @@ function user_logged_in() {
 
 	// we're logged in successfully
 	$global_user_logged_in = true;
-    return true;
+	return true;
+}
+
+/**
+ * Call this function only after we have successfully logged in.
+ * Updates user status etc.
+ */
+function handle_post_login() {
+	global $messages;
+	if (!isset($messages)) {
+		// we might be in auto-login, create a temporary message field anyway
+		$messages = array();
+	}
+
+	$user = get_user(user_id());
+
+	// display warning if account was disabled
+	if ($user['is_disabled']) {
+		$messages[] = "Your account was disabled " . recent_format($user['disabled_at']) . " due to inactivity; your account is now re-enabled, and account data will be updated again soon.";
+		$q = db()->prepare("UPDATE users SET is_disabled=0,logins_after_disabled=logins_after_disabled+1 WHERE id=?");
+		$q->execute(array($user['id']));
+	}
+
+	// keep track of users that logged in after receiving a warning
+	if ($user['is_disable_warned']) {
+		$q = db()->prepare("UPDATE users SET is_disable_warned=0,logins_after_disable_warned=logins_after_disable_warned+1 WHERE id=?");
+		$q->execute(array($user['id']));
+	}
+
+	// update login time
+	$query = db()->prepare("UPDATE users SET last_login=NOW(),is_disabled=0 WHERE id=?");
+	$query->execute(array($user["id"]));
+
+	// if we don't have an IP set, update it now
+	if (!$user["user_ip"]) {
+		$q = db()->prepare("UPDATE users SET user_ip=? WHERE id=?");
+		$q->execute(array(user_ip(), $user['id']));
+	}
+
 }
 
 // global variables for autologin
@@ -103,9 +141,8 @@ function try_autologin() {
 			$global_temporary_messages[] = "Your account was disabled " . recent_format($user['disabled_at']) . " due to inactivity; your account is now re-enabled, and account data will be updated again soon.";
 		}
 
-		// update login time
-		$query = db()->prepare("UPDATE users SET last_login=NOW(),is_disabled=0 WHERE id=?");
-		$query->execute(array($user["id"]));
+		// handle post-login
+		handle_post_login();
 
 		global $global_did_autologin;
 		$global_did_autologin = true;
@@ -123,7 +160,7 @@ function did_autologin() {
  */
 function user_id() {
 	require_login();
-    return require_session("user_id");
+	return require_session("user_id");
 }
 
 function user_ip() {
@@ -175,56 +212,6 @@ function require_admin() {
 function has_required_admin() {
 	global $has_required_admin;
 	return $has_required_admin;
-}
-
-/**
- * Try a conventional user login (email, password). Does not modify the database or session in any way.
- * Also does not check to see whether the user is verified or not.
- *
- * @return true if login was successful, false otherwise.
- */
-function try_login($email, $password) {
-	throw new Exception("Login is not supported yet");
-	$query = db()->prepare("SELECT * FROM users_conventional WHERE email=? AND password_hash=? LIMIT 1");
-	$query->execute(array($email, hash_password($password)));
-	if (!($result = $query->fetch())) {
-		return false;
-	}
-
-	return $result;
-}
-
-/**
- * Update the password of the given user. Also resets all existing login keys, both web and client.
- */
-function set_password($email, $password) {
-	throw new Exception("Set password is not supported yet");
-	// get the user
-	$query = db()->prepare("SELECT * FROM users_conventional WHERE email=? LIMIT 1");
-	$query->execute(array($email));
-	if (!($user = $query->fetch())) {
-		throw new Exception("No such user found for e-mail address '$email'");
-	}
-
-	// update hash
-	$query = db()->prepare("UPDATE users_conventional SET password_hash=? WHERE email=? LIMIT 1");
-	$query->execute(array(hash_password($password), $email));
-
-	// remove all valid keys
-	$query = db()->prepare("DELETE FROM valid_user_keys WHERE user_id=?");
-	$query->execute(array($user["id"]));
-
-}
-
-function hash_password($password) {
-	return md5(get_site_config('password_salt') . $password);
-}
-
-function is_valid_password($p) {
-	return strlen($p) >= 6;
-}
-function valid_password_reason() {
-	return "is at least six characters long";
 }
 
 class SecurityException extends Exception { }

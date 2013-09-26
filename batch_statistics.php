@@ -35,6 +35,60 @@ $data = array();
 	$c = $q->fetch();
 	$data['premium_users'] = $c['c'];
 }
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE graph_managed_type=?");
+	$q->execute(array('none'));
+	$c = $q->fetch();
+	$data['users_graphs_managed_none'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE graph_managed_type=?");
+	$q->execute(array('managed'));
+	$c = $q->fetch();
+	$data['users_graphs_managed_managed'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE graph_managed_type=?");
+	$q->execute(array('auto'));
+	$c = $q->fetch();
+	$data['users_graphs_managed_auto'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE needs_managed_update=1");
+	$q->execute();
+	$c = $q->fetch();
+	$data['users_graphs_need_update'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE subscribe_announcements=1");
+	$q->execute();
+	$c = $q->fetch();
+	$data['users_subscribe_announcements'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT SUM(logins_after_disable_warned) AS c FROM users");
+	$q->execute();
+	$c = $q->fetch();
+	$data['user_logins_after_warned'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE logins_after_disable_warned <> 0");
+	$q->execute();
+	$c = $q->fetch();
+	$data['users_login_after_warned'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT SUM(logins_after_disabled) AS c FROM users");
+	$q->execute();
+	$c = $q->fetch();
+	$data['user_logins_after_disabled'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE logins_after_disabled <> 0");
+	$q->execute();
+	$c = $q->fetch();
+	$data['users_login_after_disabled'] = $c['c'];
+}
 
 {
 	$q = db()->prepare("SELECT jobs.* FROM jobs JOIN users ON jobs.user_id=users.id WHERE users.is_premium=0 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
@@ -60,6 +114,19 @@ $data = array();
 	$c = $q->fetch();
 	$data['external_status_job_count'] = $c['jc'];
 	$data['external_status_job_errors'] = $c['je'];
+}
+
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM pending_subscriptions WHERE is_subscribe=1");
+	$q->execute();
+	$c = $q->fetch();
+	$data['pending_subscriptions'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM pending_subscriptions WHERE is_subscribe=0");
+	$q->execute();
+	$c = $q->fetch();
+	$data['pending_unsubscriptions'] = $c['c'];
 }
 
 // calculate MySQL statistics
@@ -117,6 +184,19 @@ $q = db()->prepare("INSERT INTO site_statistics SET
 	mysql_opens = :mysql_opens,
 	mysql_flush_tables = :mysql_flush_tables,
 	mysql_open_tables = :mysql_open_tables,
+
+	users_graphs_managed_none = :users_graphs_managed_none,
+	users_graphs_managed_managed = :users_graphs_managed_managed,
+	users_graphs_managed_auto = :users_graphs_managed_auto,
+	users_graphs_need_update = :users_graphs_need_update,
+	users_subscribe_announcements = :users_subscribe_announcements,
+	pending_subscriptions = :pending_subscriptions,
+	pending_unsubscriptions = :pending_unsubscriptions,
+
+	user_logins_after_warned = :user_logins_after_warned,
+	users_login_after_warned = :users_login_after_warned,
+	user_logins_after_disabled = :user_logins_after_disabled,
+	users_login_after_disabled = :users_login_after_disabled,
 
 	$query_extra
 

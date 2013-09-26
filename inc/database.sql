@@ -1211,3 +1211,19 @@ CREATE TABLE accounts_bitfunder (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+-- more site statistics
+ALTER TABLE site_statistics ADD users_graphs_managed_none int;
+ALTER TABLE site_statistics ADD users_graphs_managed_managed int;
+ALTER TABLE site_statistics ADD users_graphs_managed_auto int;
+ALTER TABLE site_statistics ADD users_graphs_need_update int;
+ALTER TABLE site_statistics ADD users_subscribe_announcements int;
+ALTER TABLE site_statistics ADD pending_subscriptions int;
+ALTER TABLE site_statistics ADD pending_unsubscriptions int;
+
+ALTER TABLE users ADD logins_after_disable_warned tinyint not null default 0;	-- not just a switch, but a count
+ALTER TABLE site_statistics ADD user_logins_after_warned int;	-- total count
+ALTER TABLE site_statistics ADD users_login_after_warned int;	-- total users
+ALTER TABLE users ADD logins_after_disabled tinyint not null default 0;	-- not just a switch, but a count
+ALTER TABLE site_statistics ADD user_logins_after_disabled int;	-- total count
+ALTER TABLE site_statistics ADD users_login_after_disabled int;	-- total users
