@@ -339,6 +339,18 @@ function recent_format_html($date, $suffix = false, $future_suffix = false) {
 	return '<span title="' . ($date ? htmlspecialchars(iso_date($date)) : "Never") . '">' . recent_format($date, $suffix, $future_suffix) . '</span>';
 }
 
+function expected_delay_html($minutes) {
+	if ($minutes == 0) {
+		return "<i>none</i>";
+	} else if ($minutes < 60) {
+		return "&lt; " . plural(ceil($minutes), "min");
+	} else if ($minutes < (60 * 60)) {
+		return "&lt; " . plural(ceil($minutes / 60), "hour");
+	} else {
+		return "&lt; " . plural(ceil($minutes / (60 * 60)), "day");
+	}
+}
+
 function year_count($sec) {
 	return $sec / (60 * 60 * 24 * 365.242);
 }
