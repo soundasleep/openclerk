@@ -21,6 +21,10 @@ if ($user['is_premium']) {
 
 $disables_at = strtotime(($user['last_login'] ? $user['last_login'] : $user['created_at']) . " +" . get_site_config('user_expiry_days') . " day");
 
+// update user (before sending email)
+$q = db()->prepare("UPDATE users SET is_disable_warned=1,disable_warned_at=NOW() WHERE id=? LIMIT 1");
+$q->execute(array($user['id']));
+
 if ($disables_at > time()) {
 	// there's no point in sending an email if it's going to be disabled in the past; it will be disabled on our very next run anyway
 
@@ -42,7 +46,3 @@ if ($disables_at > time()) {
 } else {
 	crypto_log("Did not send any disable warning: disable time is set into the past (" . iso_date($disables_at) . ")");
 }
-
-// update user
-$q = db()->prepare("UPDATE users SET is_disable_warned=1,disable_warned_at=NOW() WHERE id=? LIMIT 1");
-$q->execute(array($user['id']));

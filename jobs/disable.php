@@ -16,6 +16,10 @@ if ($user['is_premium']) {
 	throw new JobException("Premium user was requested to be disabled - this should not happen");
 }
 
+// update user (before sending email)
+$q = db()->prepare("UPDATE users SET is_disabled=1,disabled_at=NOW() WHERE id=? LIMIT 1");
+$q->execute(array($user['id']));
+
 // construct email
 if ($user['email']) {
 	$disables_at = strtotime(($user['last_login'] ? $user['last_login'] : $user['created_at']) . " +" . get_site_config('user_expiry_days') . " day");
@@ -32,7 +36,3 @@ if ($user['email']) {
 } else {
 	crypto_log("User had no valid e-mail address.");
 }
-
-// update user
-$q = db()->prepare("UPDATE users SET is_disabled=1,disabled_at=NOW() WHERE id=? LIMIT 1");
-$q->execute(array($user['id']));

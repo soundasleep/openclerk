@@ -12,6 +12,7 @@ if (!$user) {
 }
 $was_premium = $user['is_premium'];
 
+// update user (before sending email)
 $q = db()->prepare("UPDATE users SET updated_at=NOW(),is_premium=0 WHERE id=? LIMIT 1");
 $q->execute(array($user['id']));
 crypto_log("Disabled premium status on user " . $user['id'] . ".");

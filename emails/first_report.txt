@@ -1,0 +1,10 @@
+Your first {$site_name} reports are available
+Hello {$name},
+
+Congratulations - you have correctly configured your {$site_name} account and your first reports are now available: {$url}
+
+{$site_name} will now keep your reports updated by regularly downloading balances from your addresses and accounts, with your latest reports always available at {$url}.
+
+Thanks,
+{$site_name}
+{$site_url}

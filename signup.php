@@ -108,6 +108,8 @@ if ($openid && $submit) {
 			if ($email) {
 				send_email($email, $email, "signup", array(
 					"email" => $email,
+					"name" => $name ? $name : $email,
+					"announcements" => "http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')),
 					"url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),
 				));
 			}

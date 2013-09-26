@@ -107,6 +107,7 @@ $standard_jobs = array(
 		AND DATE_ADD(GREATEST(IFNULL(last_login, 0),
 				IFNULL(DATE_ADD(premium_expires, INTERVAL ' . get_site_config('user_expiry_days') . ' DAY), 0),
 				created_at), INTERVAL ' . (get_site_config('user_expiry_days')) . '+1 DAY) < NOW()', 'user_id' => get_site_config('system_user_id'), 'always' => true),
+	array('table' => 'users', 'type' => 'first_report', 'query' => ' AND is_first_report_sent=0', 'user_id' => get_site_config('system_user_id'), 'queue_field' => 'last_report_queue'),
 	array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id'), 'hours' => 24),
 );
 
@@ -156,8 +157,10 @@ foreach ($standard_jobs as $standard) {
 		}
 	}
 
+	$queue_field = isset($standard['queue_field']) ? $standard['queue_field'] : 'last_queue';
+
 	// multiply queue_hours by 0.8 to ensure that user jobs are always executed within the specified timeframe
-	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "(last_queue <= DATE_SUB(NOW(), INTERVAL (? * 0.8) HOUR) OR ISNULL(last_queue))") . " $query_extra");
+	$q = db()->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "($queue_field <= DATE_SUB(NOW(), INTERVAL (? * 0.8) HOUR) OR ISNULL($queue_field))") . " $query_extra");
 	$q->execute(array_join($args, $args_extra));
 	$disabled_count = 0;
 	while ($address = $q->fetch()) {
@@ -177,13 +180,13 @@ foreach ($standard_jobs as $standard) {
 			continue;
 		}
 
-		insert_new_job($job, $address);
+		insert_new_job($job, $address, $queue_field);
 
 		// update the address
 		try {
 			// only update last_queue if that field actually exists
-			if (isset($address['last_queue']) || array_key_exists('last_queue', $address) /* necessary to set last_queue when last_queue is null: isset() returns false on null */) {
-				$q2 = db()->prepare("UPDATE " . $standard['table'] . " SET last_queue=NOW() WHERE id=?");
+			if (isset($address[$queue_field]) || array_key_exists($queue_field, $address) /* necessary to set last_queue when last_queue is null: isset() returns false on null */) {
+				$q2 = db()->prepare("UPDATE " . $standard['table'] . " SET $queue_field=NOW() WHERE id=?");
 				$q2->execute(array($address['id']));
 			}
 		} catch (PDOException $e) {
@@ -234,7 +237,7 @@ if (!$premium_only) {
  * @param $old the previous database row that was used to generae this job (may have last_queue), or {@code false}
  * 		if this job has no parent database row (e.g. litecoin_block jobs)
  */
-function insert_new_job($job, $old) {
+function insert_new_job($job, $old, $queue_field = 'last_queue') {
 	// make sure the new job doesn't already exist
 	$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND priority <= :priority AND is_executed=0 LIMIT 1");
 	$q2->execute(array(
@@ -247,7 +250,7 @@ function insert_new_job($job, $old) {
 		$q2 = db()->prepare("INSERT INTO jobs SET priority=:priority, job_type=:type, user_id=:user_id, arg_id=:arg_id");
 		$q2->execute($job);
 		$job['id'] = db()->lastInsertId();
-		added_job($job, ($old && isset($old['last_queue'])) ? " - last queue " . recent_format_html($old['last_queue']) : " - no last queue" );
+		added_job($job, ($old && isset($old[$queue_field])) ? " - last queue " . recent_format_html($old[$queue_field]) : " - no last queue" );
 	} else {
 		crypto_log("Job " . htmlspecialchars(print_r($job, true)) . " already exists (<a href=\"" . htmlspecialchars(url_for('batch_run',
 			array('key' => require_get("key", false), 'job_id' => $existing['id']))) . "\">run job now</a>)");

@@ -1172,3 +1172,12 @@ CREATE TABLE pending_subscriptions (
 
 	INDEX(user_id)
 );
+
+-- fields to send users a message when their first reports have been completed
+-- (and, eventually into automated emails)
+ALTER TABLE users ADD last_report_queue datetime;
+ALTER TABLE users ADD is_first_report_sent tinyint not null default 0;
+ALTER TABLE users ADD INDEX(is_first_report_sent);
+
+-- all old users will not receive a first report
+UPDATE users SET is_first_report_sent=1 WHERE DATE_ADD(created_at, INTERVAL 1 DAY) < NOW();

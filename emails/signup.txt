@@ -1,5 +1,5 @@
 Welcome to {$site_name}
-Hello {$email},
+Hello {$name},
 
 Welcome to {$site_name}! This e-mail address will be used to notify you of changes to your {$site_name} user profile, and of any other important site notifications.
 
