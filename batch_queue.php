@@ -25,6 +25,12 @@ require("_batch.php");
 require_batch_key();
 batch_header("Batch queue", "batch_queue");
 
+if (!get_site_config('jobs_enabled')) {
+	// we've disabled jobs for now
+	crypto_log("Job execution disabled ('jobs_enabled').");
+	die;
+}
+
 // TODO all of these need to be duplicated for e.g. premium users
 $user_id = false;
 if (isset($argv[2]) && $argv[2] && $argv[2] != "-") {
