@@ -4,7 +4,7 @@ require("inc/global.php");
 
 // POST overrides GET
 $destination = require_post("destination", require_get("destination", false));
-$autologin = require_post("autologin", require_get("autologin", false));
+$autologin = require_post("autologin", require_get("autologin", true));
 $error = "";
 $logout = require_post("logout", require_get("logout", false));
 $openid = require_post("openid", require_get("openid", false));
@@ -170,7 +170,7 @@ page_header("Login", "page_login", array('jquery' => true, 'common_js' => true))
 	</tr>
 	<tr>
 		<th></th>
-		<td><label><input type="checkbox" name="autologin" checked> Automatically log in</label></td>
+		<td><label><input type="checkbox" name="autologin"<?php if ($autologin) echo " checked"; ?>> Automatically log in</label></td>
 	</tr>
 	<tr>
 		<td colspan="2" class="buttons">
