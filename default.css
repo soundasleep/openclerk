@@ -65,15 +65,17 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	font-weight: bold; color: white; 
 }
 
-#navigation li.home a { background: url('img/nuvola/kfm_home.png') left center no-repeat; }
-#navigation li.signup a { background: url('img/nuvola/kgpg_sign.png') left center no-repeat; }
-#navigation li.login a { background: url('img/nuvola/password.png') left center no-repeat; }
-#navigation li.logout a { background: url('img/nuvola/kweather.png') left center no-repeat; }
-#navigation li.profile a { background: url('img/nuvola/klipper_dock.png') left center no-repeat; }
-#navigation li.accounts a { background: url('img/nuvola/kcontrol.png') left center no-repeat; }
-#navigation li.user a { background: url('img/nuvola/kgpg_identity.png') left center no-repeat; }
-#navigation li.premium a { background: url('img/premium16.png') left center no-repeat; }
-#navigation li.help a { background: url('img/nuvola/messagebox_info.png') left center no-repeat; }
+#navigation li a { background: url('img/nuvola/sprites.png') top left no-repeat; }
+
+#navigation li.home a { background-position: 0 -65px; }
+#navigation li.signup a { background-position: 0 -197px; }
+#navigation li.login a { background-position: 0 -659px; }
+#navigation li.logout a { background-position: 0 -329px; }
+#navigation li.profile a { background-position: 0 -263px; }
+#navigation li.accounts a { background-position: 0 1px; }
+#navigation li.user a { background-position: 0 -131px; }
+#navigation li.premium a { background-position: 0 -791px; }
+#navigation li.help a { background-position: 0 -461px; }
 
 #page_signup h1, #page_login h1, #page_profile h1, .page_accounts h1, #page_user h1, #page_premium h1, #page_help h1, #page_kb h1 { padding-left: 40px; line-height: 32px; }
 #page_signup h1 { background: url('img/nuvola/32x32/kgpg_sign.png') left center no-repeat; }
