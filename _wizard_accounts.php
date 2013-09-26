@@ -81,13 +81,27 @@ $count = 0;
 foreach ($accounts as $a) {
 	$count++;
 	$balances = array();
+	$balances_wallet = array();
+	$balances_securities = array();
 	$last_updated = null;
 
 	// an account may have multiple currency balances
-	$q = db()->prepare("SELECT balances.* FROM balances WHERE user_id=? AND account_id=? AND exchange=? AND is_recent=1 ORDER BY currency ASC");
-	$q->execute(array(user_id(), $a['id'], $a['exchange']));
+	$q = db()->prepare("SELECT balances.* FROM balances WHERE user_id=? AND account_id=? AND (exchange=? OR exchange=? OR exchange=?) AND is_recent=1 ORDER BY currency ASC");
+	$q->execute(array(user_id(), $a['id'], $a['exchange'], $a['exchange'] . "_wallet", $a['exchange'] . "_securities"));
 	while ($balance = $q->fetch()) {
-		$balances[$balance['currency']] = $balance['balance'];
+		switch ($balance['exchange']) {
+			case $a['exchange']:
+				$balances[$balance['currency']] = $balance['balance'];
+				break;
+			case $a['exchange'] . "_wallet":
+				$balances_wallet[$balance['currency']] = $balance['balance'];
+				break;
+			case $a['exchange'] . "_securities":
+				$balances_securities[$balance['currency']] = $balance['balance'];
+				break;
+			default:
+				echo "Unknown exchange '" . htmlspecialchars($balance['exchange']) . "'";
+		}
 		$last_updated = $balance['created_at'];
 	}
 
@@ -128,6 +142,18 @@ foreach ($accounts as $a) {
 				if ($value != 0) {
 					$had_balance = true;
 					echo "<li>" . currency_format($c, $value, 4) . "</li>\n";
+				}
+			}
+			foreach ($balances_wallet as $c => $value) {
+				if ($value != 0) {
+					$had_balance = true;
+					echo "<li>" . currency_format($c, $value, 4) . " (wallet)</li>\n";
+				}
+			}
+			foreach ($balances_securities as $c => $value) {
+				if ($value != 0) {
+					$had_balance = true;
+					echo "<li>" . currency_format($c, $value, 4) . " (securities)</li>\n";
 				}
 			}
 			echo "</ul>";

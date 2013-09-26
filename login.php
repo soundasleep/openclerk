@@ -183,6 +183,10 @@ page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 			</div>
 		</td>
 	</tr>
+	<tr>
+		<th></th>
+		<td><label><input type="checkbox" name="autologin" value="1"<?php echo $autologin ? " checked" : ""; ?>> Log in automatically</label></td>
+	</tr>
 </table>
 </form>
 </div>
