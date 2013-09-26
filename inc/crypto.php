@@ -736,35 +736,26 @@ function reset_user_settings($user_id) {
 	$q = db()->prepare("INSERT INTO summaries SET user_id=?,summary_type=?");
 	$q->execute(array($user_id, 'summary_usd_mtgox'));
 
+	$q = db()->prepare("UPDATE users SET preferred_crypto=?, preferred_fiat=? WHERE id=?");
+	$q->execute(array('btc', 'usd', $user_id));
+
 	reset_user_graphs($user_id);
 
 }
 
 function reset_user_graphs($user_id) {
 
+	// delete all graphs and graph pages
 	$q = db()->prepare("DELETE FROM graphs WHERE page_id IN (SELECT id AS page_id FROM graph_pages WHERE user_id=?)");
 	$q->execute(array($user_id));
 
 	$q = db()->prepare("DELETE FROM graph_pages WHERE user_id=?");
 	$q->execute(array($user_id));
 
-	// default page
-	$q = db()->prepare("INSERT INTO graph_pages SET user_id=?,title=?");
-	$q->execute(array($user_id, "Summary"));
-	$page_id = db()->lastInsertId();
-
-	// default graphs
-	$order = 1;
-	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='btc_equivalent',width=2,height=2,page_order=" . $order++);
-	$q->execute(array($page_id));
-	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='ticker_matrix',width=2,height=2,page_order=" . $order++);
-	$q->execute(array($page_id));
-	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='total_converted_table',width=2,height=2,page_order=" . $order++);
-	$q->execute(array($page_id));
-	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='balances_offset_table',width=4,height=2,page_order=" . $order++);
-	$q->execute(array($page_id));
-	$q = db()->prepare("INSERT INTO graphs SET page_id=?,graph_type='mtgox_usdbtc_daily',width=4,height=2,page_order=" . $order++);
-	$q->execute(array($page_id));
+	// set the user preferences to 'auto'
+	// and request graph updating
+	$q = db()->prepare("UPDATE users SET is_graphs_managed=1, needs_managed_update=1, graph_managed_type=? WHERE id=?");
+	$q->execute(array('auto', $user_id));
 
 }
 

@@ -1155,3 +1155,5 @@ UPDATE summaries SET summary_type='summary_nzd_bitnz' WHERE summary_type='summar
 UPDATE summary_instances SET summary_type='all2nzd_bitnz' WHERE summary_type='all2nzd';
 UPDATE graph_data_summary SET summary_type='all2nzd_bitnz' WHERE summary_type='all2nzd';
 UPDATE graphs SET graph_type='all2nzd_bitnz_daily' WHERE graph_type='all2nzd_daily';
+
+ALTER TABLE users ADD last_managed_update datetime;

@@ -62,6 +62,8 @@ function render_table_horizontal_vertical($graph, $data) {
 }
 
 function render_graph_controls($graph) {
+	global $user;
+
 	if (isset($graph['public']) && $graph['public']) {
 		// don't display controls if this graph is public
 		return;
@@ -77,7 +79,9 @@ function render_graph_controls($graph) {
 	<li class="remove"><a href="<?php echo htmlspecialchars(url_for('profile', array(
 		'page' => $graph['page_id'],
 		'remove' => $graph['id']))); ?>">Remove</a></li>
+	<?php if (!isset($user) || !($user['graph_managed_type'] == 'auto' && $graph['is_managed'])) { ?>
 	<li class="edit"><a onclick="javascript:editGraphProperty(this, <?php echo htmlspecialchars($graph['id']); ?>, get_graph_<?php echo htmlspecialchars($graph['id']); ?>()); return false;">Edit</a></li>
+	<?php } ?>
 </ul>
 <script type="text/javascript">
 function get_graph_<?php echo htmlspecialchars($graph['id']); ?>() {

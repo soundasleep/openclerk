@@ -351,10 +351,10 @@ function update_user_managed_graphs($user) {
 	}
 
 	if (is_admin()) {
-		$messages[] = "Added " . plural($graphs_added, "graph") . " and removed " . plural($graphs_deleted, "graph") . ".";
+		$messages[] = "Added " . plural($graphs_added, "graph") . ($graphs_deleted ? " and removed " . plural($graphs_deleted, "graph") : "") . ".";
 	}
 
 	// finally, update the needs_managed_update flag
-	$q = db()->prepare("UPDATE users SET needs_managed_update=0 WHERE id=?");
+	$q = db()->prepare("UPDATE users SET needs_managed_update=0, last_managed_update=NOW() WHERE id=?");
 	$q->execute(array($user['id']));
 }

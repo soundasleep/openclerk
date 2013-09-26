@@ -242,11 +242,11 @@ if (!$graphs) { ?>
 			<div class="add_graph">
 			<h2>Add new graph</h2>
 
-<?php if ($graph_page['is_managed']) { ?>
-	<div>These graphs are currently <a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">managed <?php echo $user['graph_managed_type'] == 'auto' ? 'automatically' : 'based on your profile preferences'; ?></a>.</div>
-<?php } else {
-	require("_profile_add_graph.php");
-} ?>
+<?php if ($graph_page['is_managed'] && $user['graph_managed_type'] == 'auto') { ?>
+	<div>These graphs are currently <a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">managed automatically</a>.</div>
+<?php } else { ?>
+	<?php require("_profile_add_graph.php"); ?>
+<?php } ?>
 
 			</div>
 

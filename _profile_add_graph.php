@@ -62,6 +62,15 @@ foreach ($size_options as $size_key => $size_value) { ?>
 		<input type="hidden" name="page" value="<?php echo htmlspecialchars($page_id); ?>">
 		<input type="submit" value="Add graph">
 		<input type="hidden" name="id" value="">
+
+		<div class="managed-notice">
+		<?php if ($graph_page['is_managed'] && $user['graph_managed_type'] == 'managed') { ?>
+			These graphs are currently <a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">managed based on your portfolio preferences</a>.
+		<?php } else { ?>
+			You can also <a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">add graphs based on your portfolio preferences</a>.
+		<?php } ?>
+		</div>
+
 	</td>
 </tr>
 </table>
