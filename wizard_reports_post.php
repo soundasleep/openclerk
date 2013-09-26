@@ -83,7 +83,7 @@ if ($preference != 'none') {
 	$count = $q->fetch();
 	if (($count['c'] + 1) >= get_premium_value($user, 'graph_pages')) {
 		// unless we will be resetting any old pages anyway
-		if (!(get_premium_value('graph_pages') > 1)) {
+		if (get_premium_value('graph_pages') > 1) {
 			$errors[] = "Cannot update report preferences: this would add too many graph pages." .
 					($user['is_premium'] ? "" : " To add more graph pages, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 		}
