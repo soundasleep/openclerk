@@ -56,7 +56,7 @@ if ($user['is_new'] && !$user['is_premium']) echo " (for the next " . plural(
 	, "hour") . ")"; ?>.
 </p>
 
-<h1>Your <?php echo htmlspecialchars($account_type['titles']); ?></h1>
+<h2>Your <?php echo htmlspecialchars($account_type['titles']); ?></h2>
 
 <span style="display:none;" id="sort_buttons_template">
 <!-- heading sort buttons -->

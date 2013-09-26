@@ -37,7 +37,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
     } ?>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?>>
+<body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?><?php if (isset($options['class'])) echo " class=\"" . htmlspecialchars($options['class']) . "\""; ?>>
 <div class="body_wrapper">
 
 <div id="navigation">
@@ -47,7 +47,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 		<li class="profile"><a href="<?php echo url_for('profile'); ?>">Your Reports</a></li>
 		<li class="accounts"><a href="<?php echo url_for('wizard_accounts'); ?>">Configure Accounts</a></li>
 		<li class="user"><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
-		<li class="login"><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
+		<li class="logout"><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
 		<?php if (is_admin()) { ?>
 			<li class="admin"><a href="<?php echo url_for('admin'); ?>">System Status</a></li>
 		<?php } ?>

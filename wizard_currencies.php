@@ -10,7 +10,7 @@ require("inc/global.php");
 require_login();
 
 require("layout/templates.php");
-page_header("Currency Preferences", "page_wizard_currencies", array('jquery' => true, 'js' => 'wizard'));
+page_header("Currency Preferences", "page_wizard_currencies", array('jquery' => true, 'js' => 'wizard', 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);

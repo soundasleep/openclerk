@@ -10,7 +10,7 @@ require("inc/global.php");
 require_login();
 
 require("layout/templates.php");
-page_header("Add Accounts and Addresses", "page_wizard_accounts", array('jquery' => true, 'js' => 'wizard'));
+page_header("Add Accounts and Addresses", "page_wizard_accounts", array('jquery' => true, 'js' => 'wizard', 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);

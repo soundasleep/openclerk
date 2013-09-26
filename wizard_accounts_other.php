@@ -12,20 +12,13 @@ require_login();
 require("graphs/util.php");
 
 require("layout/templates.php");
-page_header("Add Other Account", "page_wizard_accounts_other", array('jquery' => true, 'js' => array('accounts', 'wizard'), 'common_js' => true));
+page_header("Add Other Account", "page_wizard_accounts_other", array('jquery' => true, 'js' => array('accounts', 'wizard'), 'common_js' => true, 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
 
 $messages = array();
 
-require_template("wizard_accounts_other");
-
-?>
-
-<div class="wizard">
-
-<?php
 $account_type = array(
 	'title' => 'Other Account',
 	'titles' => 'Other Accounts',
@@ -34,6 +27,13 @@ $account_type = array(
 	'url' => 'wizard_accounts_other',
 );
 
+require_template("wizard_accounts_other");
+
+?>
+
+<div class="wizard">
+
+<?php
 require("_wizard_accounts.php");
 ?>
 

@@ -12,7 +12,7 @@ require_login();
 require("graphs/util.php");
 
 require("layout/templates.php");
-page_header("Add Addresses", "page_wizard_accounts_addresses", array('jquery' => true, 'js' => array('accounts', 'wizard'), 'common_js' => true));
+page_header("Add Addresses", "page_wizard_accounts_addresses", array('jquery' => true, 'js' => array('accounts', 'wizard'), 'common_js' => true, 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);

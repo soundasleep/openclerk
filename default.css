@@ -39,29 +39,50 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 
 /* navigation */
 #navigation {
-	margin: 5px auto 5px auto;
-	width: 80%;
+	margin: 5px auto 15px auto;
+	max-width: 820px;
 	text-align: center;
 	background: #432;
 	border: 1px solid #654;
-	padding: 5px;
+	padding: 6px;
 	font-size: 100%;
 }
 #navigation ul { margin: 0; padding: 0; }
-#navigation li { list-style: none; display: inline; display: inline-block; padding: 2px 9px 2px 9px; border: 1px solid #543; background: #321; margin: 0 2px 0 2px; }
-#navigation li a { text-decoration: none; }
+#navigation li { list-style: none; display: inline; display: inline-block; padding: 4px 10px 4px 8px; border: 1px solid #543; border-radius: 4px; background: #321; margin: 0 2px 0 2px; box-shadow: 2px 2px 2px rgba(0,0,0,0.3); }
+#navigation li + li { margin-left: 5px; }
+#navigation li a { text-decoration: none; padding-left: 21px; display: inline-block; min-height: 16px; }
 #navigation li a:hover { text-decoration: hover; }
 
 #page_home #navigation li.home a,
 #page_profile #navigation li.profile a,
-#page_accounts #navigation li.accounts a,
+.page_accounts #navigation li.accounts a,
 #page_user #navigation li.user a,
 #page_login #navigation li.login a,
+#page_signup #navigation li.signup a,
 #page_admin #navigation li.admin a,
 #page_premium #navigation li.premium a,
 #page_help #navigation li.help a { 
 	font-weight: bold; color: white; 
 }
+
+#navigation li.home a { background: url('img/nuvola/kfm_home.png') left center no-repeat; }
+#navigation li.signup a { background: url('img/nuvola/kgpg_sign.png') left center no-repeat; }
+#navigation li.login a { background: url('img/nuvola/password.png') left center no-repeat; }
+#navigation li.logout a { background: url('img/nuvola/kweather.png') left center no-repeat; }
+#navigation li.profile a { background: url('img/nuvola/klipper_dock.png') left center no-repeat; }
+#navigation li.accounts a { background: url('img/nuvola/kcontrol.png') left center no-repeat; }
+#navigation li.user a { background: url('img/nuvola/kgpg_identity.png') left center no-repeat; }
+#navigation li.premium a { background: url('img/premium16.png') left center no-repeat; }
+#navigation li.help a { background: url('img/nuvola/messagebox_info.png') left center no-repeat; }
+
+#page_signup h1, #page_login h1, #page_profile h1, .page_accounts h1, #page_user h1, #page_premium h1, #page_help h1, #page_kb h1 { padding-left: 40px; line-height: 32px; }
+#page_signup h1 { background: url('img/nuvola/32x32/kgpg_sign.png') left center no-repeat; }
+#page_login h1 { background: url('img/nuvola/32x32/password.png') left center no-repeat; }
+#page_profile h1 { background: url('img/nuvola/32x32/klipper_dock.png') left center no-repeat; }
+.page_accounts h1 { background: url('img/nuvola/32x32/kcontrol.png') left center no-repeat; }
+#page_user h1 { background: url('img/nuvola/32x32/kgpg_identity.png') left center no-repeat; }
+#page_premium h1 { background: url('img/premium32.png') left center no-repeat; }
+#page_help h1, #page_kb h1 { background: url('img/nuvola/32x32/messagebox_info.png') left center no-repeat; }
 
 #autologin { 
 	font-size: 80%; 
@@ -76,7 +97,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	border: 1px solid #944; 
 	padding: 10px; 
 	margin: 5px auto 5px auto; 
-	background: #622 url('img/nuvola/messagebox_critical.png') 10px center no-repeat;
+	background: #622 url('img/nuvola/32x32/messagebox_critical.png') 10px center no-repeat;
 	padding-left: 50px;
 	min-height: 32px;
 }
@@ -85,7 +106,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	border: 1px solid #974; 
 	padding: 10px; 
 	margin: 5px auto 5px auto; 
-	background: #642 url('img/nuvola/messagebox_warning.png') 10px center no-repeat;
+	background: #642 url('img/nuvola/32x32/messagebox_warning.png') 10px center no-repeat;
 	padding-left: 50px;
 	min-height: 32px;
 }
@@ -94,7 +115,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	border: 1px solid #496; 
 	padding: 10px; 
 	margin: 5px auto 5px auto; 
-	background: #264 url('img/nuvola/ok.png') 10px center no-repeat;
+	background: #264 url('img/nuvola/32x32/ok.png') 10px center no-repeat;
 	padding-left: 50px;
 	min-height: 32px;
 }
@@ -103,7 +124,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	border: 1px solid #469; 
 	padding: 10px; 
 	margin: 5px auto 5px auto; 
-	background: #246 url('img/nuvola/messagebox_info.png') 10px center no-repeat;
+	background: #246 url('img/nuvola/32x32/messagebox_info.png') 10px center no-repeat;
 	padding-left: 50px;
 	min-height: 32px;
 }
@@ -111,7 +132,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	padding: 10px; 
 	border: 1px solid #469; 
 	margin: 5px 10px 5px 10px;
-	background: #246 url('img/nuvola/messagebox_info.png') 10px center no-repeat;
+	background: #246 url('img/nuvola/32x32/messagebox_info.png') 10px center no-repeat;
 	padding-left: 50px;
 }
 .tip_float {
@@ -154,13 +175,13 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 #page_external .external_list .title { display: inline-block; width: 240px; padding: 5px; }
 #page_external .external_list .status_percent { display: inline-block; width: 75px; padding: 5px 0px 5px 20px; margin-right: 5px; text-align: center; }
 
-#page_external .external_list .perfect { background: #473 url('img/nuvola/ok_16.png') 7px center no-repeat; }
-#page_external .external_list .good { background: #363 url('img/nuvola/ok_16.png') 7px center no-repeat; }
-#page_external .external_list .ok { background: #352 url('img/nuvola/ok_16.png') 7px center no-repeat; }
-#page_external .external_list .poor { background: #862 url('img/nuvola/messagebox_warning_16.png') 7px center no-repeat; }
-#page_external .external_list .bad { background: #952 url('img/nuvola/messagebox_warning_16.png') 7px center no-repeat; }
-#page_external .external_list .broken { background: #722 url('img/nuvola/messagebox_critical_16.png') 7px center no-repeat; }
-#page_external .external_list .dead { background: #822 url('img/nuvola/messagebox_critical_16.png') 7px center no-repeat; }
+#page_external .external_list .perfect { background: #473 url('img/nuvola/ok.png') 7px center no-repeat; }
+#page_external .external_list .good { background: #363 url('img/nuvola/ok.png') 7px center no-repeat; }
+#page_external .external_list .ok { background: #352 url('img/nuvola/ok.png') 7px center no-repeat; }
+#page_external .external_list .poor { background: #862 url('img/nuvola/messagebox_warning.png') 7px center no-repeat; }
+#page_external .external_list .bad { background: #952 url('img/nuvola/messagebox_warning.png') 7px center no-repeat; }
+#page_external .external_list .broken { background: #722 url('img/nuvola/messagebox_critical.png') 7px center no-repeat; }
+#page_external .external_list .dead { background: #822 url('img/nuvola/messagebox_critical.png') 7px center no-repeat; }
 
 #page_screenshots .tabs .tab_open { text-align: center; }
 #page_screenshots .tabs .tab_open img { max-width: 66%; border: 1px solid #333; }
