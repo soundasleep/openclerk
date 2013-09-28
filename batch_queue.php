@@ -114,7 +114,7 @@ $standard_jobs = array(
 				IFNULL(DATE_ADD(premium_expires, INTERVAL ' . get_site_config('user_expiry_days') . ' DAY), 0),
 				created_at), INTERVAL ' . (get_site_config('user_expiry_days')) . '+1 DAY) < NOW()', 'user_id' => get_site_config('system_user_id'), 'always' => true),
 	array('table' => 'users', 'type' => 'first_report', 'query' => ' AND is_first_report_sent=0', 'user_id' => get_site_config('system_user_id'), 'queue_field' => 'last_report_queue'),
-	array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id'), 'hours' => 24),
+	array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id')),
 );
 
 crypto_log("Current time: " . date('r'));
