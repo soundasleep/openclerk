@@ -771,7 +771,7 @@ function reset_user_graphs($user_id) {
 
 	// set the user preferences to 'auto'
 	// and request graph updating
-	$q = db()->prepare("UPDATE users SET is_graphs_managed=1, needs_managed_update=1, graph_managed_type=? WHERE id=?");
+	$q = db()->prepare("UPDATE users SET needs_managed_update=1, graph_managed_type=? WHERE id=?");
 	$q->execute(array('auto', $user_id));
 
 }
