@@ -91,7 +91,7 @@ if (require_post("months", false) || require_post("years", false)) {
 		}
 
 		// success! inform the user
-		redirect(url_for('user', array('new_purchase' => $purchase_id)));
+		redirect(url_for('user#user_outstanding', array('new_purchase' => $purchase_id)));
 
 	} catch (PurchaseException $e) {
 		$errors[] = $e->getMessage();

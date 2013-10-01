@@ -259,7 +259,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 		<td><?php echo $o['months'] ? plural($o['months'], "month") : ""; echo $o['years'] ? plural($o['years'], "year") : ""; ?></td>
 		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
 		<td class="number"><?php echo currency_format($o['currency'], $o['balance']); ?></td>
-		<td class="number"><?php echo currency_format($o['currency'], $o['last_balance']); ?></td>
+		<td class="number"><?php echo currency_format($o['currency'], $o['last_balance'] ? $o['last_balance'] : 0); ?></td>
 		<td><?php echo recent_format_html($o['created_at']); ?></td>
 		<td><?php echo recent_format_html($o['last_check']); ?></td>
 	</tr>
