@@ -269,10 +269,6 @@ try {
 			require("jobs/disable.php");
 			break;
 
-		case "first_report":
-			require("jobs/first_report.php");
-			break;
-
 		default:
 			throw new JobException("Unknown job type '" . htmlspecialchars($job['job_type']) . "'");
 
