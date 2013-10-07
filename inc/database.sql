@@ -1227,3 +1227,7 @@ ALTER TABLE site_statistics ADD users_login_after_warned int;	-- total users
 ALTER TABLE users ADD logins_after_disabled tinyint not null default 0;	-- not just a switch, but a count
 ALTER TABLE site_statistics ADD user_logins_after_disabled int;	-- total count
 ALTER TABLE site_statistics ADD users_login_after_disabled int;	-- total users
+
+ALTER TABLE site_statistics MODIFY system_load_1min float;
+ALTER TABLE site_statistics MODIFY system_load_5min float;
+ALTER TABLE site_statistics MODIFY system_load_15min float;

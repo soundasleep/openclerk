@@ -176,10 +176,11 @@ $graph = array(
 	$stats = $q->fetch();
 	foreach ($stats as $key => $value) {
 		if (is_numeric($key)) continue;
+		$dp = ($key == "system_load_1min" || $key == "system_load_5min" || $key == "system_load_15min") ? 2 : 0;
 		?>
 	<tr>
 		<th><?php echo htmlspecialchars($key); ?></th>
-		<td class="number"><?php echo $key == "created_at" ? recent_format_html($value) : number_format($value); ?></td>
+		<td class="number"><?php echo $key == "created_at" ? recent_format_html($value) : number_format($value, $dp); ?></td>
 	</tr>
 	<?php } ?>
 	<tr>
