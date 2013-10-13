@@ -4,14 +4,14 @@
 require("inc/locale.php");
 require("inc/standard.php");
 */
-require("inc/config.php");
-require("inc/security.php");
-require("inc/email.php");
-require("inc/recaptcha.php");
-require("inc/crypto.php");
-require("inc/premium.php");
-require("inc/heavy.php");
-require("inc/kb.php");
+require(__DIR__ . "/config.php");
+require(__DIR__ . "/security.php");
+require(__DIR__ . "/email.php");
+require(__DIR__ . "/recaptcha.php");
+require(__DIR__ . "/crypto.php");
+require(__DIR__ . "/premium.php");
+require(__DIR__ . "/heavy.php");
+require(__DIR__ . "/kb.php");
 
 $db_instance = false;
 function db() {
@@ -290,6 +290,26 @@ function array_join($a1, $a2) {
 		$a1[] = $value;
 	}
 	return $a1;
+}
+
+/**
+ * Returns {@code true} if the two arrays have the same values, in any order.
+ * @param $strict if {@code true}, then search will be via identity (===)
+ */
+function array_equals($a, $b, $strict = false) {
+	foreach ($a as $aa) {
+		if (($key = array_search($aa, $b, $strict)) !== false) {
+			unset($b[$key]);
+		} else {
+			return false;	// we found a key in $a that isn't in $b
+		}
+	}
+	if (!$b) {
+		// all of $b was in $a, so the arrays are equal
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function recent_format($date = null, $suffix = false, $future_suffix = false) {

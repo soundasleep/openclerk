@@ -1,6 +1,6 @@
 <?php
 
-require("inc/phpmailer/class.phpmailer.php");
+require(__DIR__ . "/phpmailer/class.phpmailer.php");
 
 function phpmailer($to, $to_name, $subject, $message) {
   $mail = new PHPMailer();

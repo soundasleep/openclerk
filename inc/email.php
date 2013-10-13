@@ -1,6 +1,6 @@
 <?php
 
-require("inc/phpmailer.php");
+require(__DIR__ . "/phpmailer.php");
 
 /**
  * The subject of the e-mail is obtained from the first line of the e-mail template.
