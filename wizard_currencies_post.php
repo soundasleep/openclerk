@@ -69,6 +69,15 @@ if (count($exchanges) > get_premium_value($user, 'summaries')) {
 	redirect(url_for('wizard_currencies'));	// go back
 }
 
+// get all the currencies we're currently interested in
+// (so we know if we need to reset managed graphs)
+$q = db()->prepare("SELECT * FROM summaries WHERE user_id=?");
+$q->execute(array(user_id()));
+$existing = array();
+while ($summary = $q->fetch()) {
+	$existing[] = $summary['summary_type'];
+}
+
 // reset our currencies
 $q = db()->prepare("DELETE FROM summaries WHERE user_id=?");
 $q->execute(array(user_id()));
@@ -76,6 +85,12 @@ $q->execute(array(user_id()));
 foreach ($exchanges as $type) {
 	$q = db()->prepare("INSERT INTO summaries SET user_id=?, summary_type=?, created_at=NOW()");
 	$q->execute(array(user_id(), $type));
+}
+
+// if we've changed our summary types, then we should update our managed graphs if necessary
+if (!array_equals($existing, $exchanges) && ($user['graph_managed_type'] == 'auto' || $user['graph_managed_type'] == 'managed')) {
+	$q = db()->prepare("UPDATE users SET needs_managed_update=1 WHERE id=?");
+	$q->execute(array(user_id()));
 }
 
 // $messages[] =
