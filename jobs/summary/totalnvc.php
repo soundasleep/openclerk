@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Summary job: total NMC.
+ * Summary job: total NVC.
  */
 
-$currency = 'nmc';
+$currency = 'nvc';
 
 // get the most recent blockchain balances
 $q = db()->prepare("SELECT * FROM address_balances

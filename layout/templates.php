@@ -207,6 +207,10 @@ function ppc_address($address) {
 	return "<span class=\"address ppc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ppc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 }
 
+function nvc_address($address) {
+	return "<span class=\"address nvc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("nvc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
+}
+
 function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {
 	$currency = strtoupper($currency_code);
 

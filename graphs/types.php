@@ -81,12 +81,12 @@ function graph_types() {
 	$total_fiat_currencies = implode_english($total_fiat_currencies);
 
 	$data = array(
-		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC.'),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC/NVC.'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'ticker_matrix' => array('title' => 'All currencies exchange rates (matrix)', 'heading' => 'All exchanges', 'description' => 'A matrix displaying the current buy/sell of all of the currencies and exchanges <a href="' . htmlspecialchars(url_for('user')) .'">you are interested in</a>.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),
-		'total_converted_table' => array('title' => 'Total converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.<p>Supports ' . $total_fiat_currencies . '.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC, Mt.Gox for USD, BitNZ for NZD'),
-		'crypto_converted_table' => array('title' => 'Total converted crypto balances (table)', 'heading' => 'Converted crypto', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies - if they were immediately converted into other cryptocurrencies.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC.'),
+		'total_converted_table' => array('title' => 'Total converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.<p>Supports ' . $total_fiat_currencies . '.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC/NVC, Mt.Gox for USD, BitNZ for NZD'),
+		'crypto_converted_table' => array('title' => 'Total converted crypto balances (table)', 'heading' => 'Converted crypto', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies - if they were immediately converted into other cryptocurrencies.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC/NVC.'),
 		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.'),
 	);
 
@@ -234,6 +234,7 @@ function graph_types() {
 		'composition_nmc_daily' => 'composition_ltc_daily.png',
 		'composition_ftc_daily' => 'composition_ltc_daily.png',
 		'composition_ppc_daily' => 'composition_ltc_daily.png',
+		'composition_nvc_daily' => 'composition_ltc_daily.png',
 		'ticker_matrix' => 'ticker_matrix.png',
 	);
 	$data = add_example_images($data, $images);

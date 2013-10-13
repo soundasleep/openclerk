@@ -37,6 +37,12 @@ add_summary_instance($job, 'blockchainppc', $total_blockchain_balance);
 add_summary_instance($job, 'offsetsppc', $total_offsets_balance);
 
 $total = 0;
+require("jobs/summary/totalnvc.php");
+add_summary_instance($job, 'totalnvc', $total);
+add_summary_instance($job, 'blockchainnvc', $total_blockchain_balance);
+add_summary_instance($job, 'offsetsnvc', $total_offsets_balance);
+
+$total = 0;
 require("jobs/summary/totalusd.php");
 add_summary_instance($job, 'totalusd', $total);
 //add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);

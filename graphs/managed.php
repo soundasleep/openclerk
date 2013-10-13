@@ -78,6 +78,7 @@ function calculate_all_managed_graphs($user) {
 	}
 
 	$default_order = array(
+		'btc_equivalent' => -1000,
 		'composition_pie' => 0,
 		'balances_table' => 1000,
 		'exchange_daily' => 2000,
@@ -94,6 +95,13 @@ function calculate_all_managed_graphs($user) {
 		'width' => get_site_config('default_user_graph_height'),	// square
 		'free' => true,		// free user priority
 	);
+	if (count($summaries) >= 2 && isset($summaries['btc'])) {
+		$result['summary']['btc_equivalent'] = array(
+			'order' => $default_order['btc_equivalent'],
+			'width' => get_site_config('default_user_graph_height'),	// square
+			'free' => true,		// free user priority
+		);
+	}
 	foreach (get_all_cryptocurrencies() as $cur) {
 		if (isset($summaries[$cur])) {
 			$result['summary']["composition_" . $cur . "_pie"] = array(
@@ -275,6 +283,10 @@ class ManagedGraphException extends GraphException { }
 
 /**
  * Update all of the managed graphs of the given user.
+ * This handles both 'auto' and 'managed' graph types.
+ * This does not automatically delete all of the graphs on a user page - this is done in wizard_reports_post if necessary.
+ * But it will delete any graphs that shouldn't be here. This way, any modified graphs should retain their changes
+ * (especially if the graphs are 'managed' and not 'auto').
  */
 function update_user_managed_graphs($user) {
 	global $messages;

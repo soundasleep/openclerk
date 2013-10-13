@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Summary job: convert all cryptocurrencies to PPC.
+ * Summary job: convert all cryptocurrencies to NVC.
  */
 
-// PPC is kept as-is
+// NVC is kept as-is
 $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
-$q->execute(array("totalppc", $job['user_id']));
+$q->execute(array("totalnvc", $job['user_id']));
 if ($balance = $q->fetch()) {
 	$total += $balance['balance'];
 }
@@ -19,7 +19,7 @@ if ($balance = $q->fetch()) {
 	$q->execute(array(
 		"exchange" => "btce",
 		"currency1" => "btc",
-		"currency2" => "ppc",
+		"currency2" => "nvc",
 	));
 	if ($ticker = $q->fetch()) {
 		crypto_log("+ from BTC: " . ($balance['balance'] / $ticker['buy']));
@@ -27,7 +27,7 @@ if ($balance = $q->fetch()) {
 	}
 }
 
-// LTC is first converted to BTC then converted to PPC at BTC-e ticker rate sell
+// LTC is first converted to BTC then converted to NVC at BTC-e ticker rate sell
 $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
 $q->execute(array("totalltc", $job['user_id']));
 if ($balance = $q->fetch()) {
@@ -45,17 +45,17 @@ if ($balance = $q->fetch()) {
 		$q->execute(array(
 			"exchange" => "btce",
 			"currency1" => "btc",
-			"currency2" => "ppc",
+			"currency2" => "nvc",
 		));
 		if ($ticker = $q->fetch()) {
-			crypto_log("+ from LTC (PPC): " . ($temp / $ticker['buy']));
+			crypto_log("+ from LTC (NVC): " . ($temp / $ticker['buy']));
 			$total += $temp / $ticker['buy'];
 		}
 	}
 
 }
 
-// NMC is first converted to BTC then converted to PPC at BTC-e ticker rate sell
+// NMC is first converted to BTC then converted to NVC at BTC-e ticker rate sell
 $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
 $q->execute(array("totalltc", $job['user_id']));
 if ($balance = $q->fetch()) {
@@ -73,17 +73,17 @@ if ($balance = $q->fetch()) {
 		$q->execute(array(
 			"exchange" => "btce",
 			"currency1" => "btc",
-			"currency2" => "ppc",
+			"currency2" => "nvc",
 		));
 		if ($ticker = $q->fetch()) {
-			crypto_log("+ from NMC (PPC): " . ($temp / $ticker['buy']));
+			crypto_log("+ from NMC (NVC): " . ($temp / $ticker['buy']));
 			$total += $temp / $ticker['buy'];
 		}
 	}
 
 }
 
-// FTC is first converted to BTC then converted to PPC at BTC-e ticker rate sell
+// FTC is first converted to BTC then converted to NVC at BTC-e ticker rate sell
 $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
 $q->execute(array("totalftc", $job['user_id']));
 if ($balance = $q->fetch()) {
@@ -101,42 +101,42 @@ if ($balance = $q->fetch()) {
 		$q->execute(array(
 			"exchange" => "btce",
 			"currency1" => "btc",
-			"currency2" => "ppc",
+			"currency2" => "nvc",
 		));
 		if ($ticker = $q->fetch()) {
-			crypto_log("+ from FTC (PPC): " . ($temp / $ticker['buy']));
+			crypto_log("+ from FTC (NVC): " . ($temp / $ticker['buy']));
 			$total += $temp / $ticker['buy'];
 		}
 	}
 
 }
 
-// NVC is first converted to BTC then converted to PPC at BTC-e ticker rate sell
+// PPC is first converted to BTC then converted to NVC at BTC-e ticker rate sell
 $q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
-$q->execute(array("totalnvc", $job['user_id']));
+$q->execute(array("totalppc", $job['user_id']));
 if ($balance = $q->fetch()) {
 	$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
 	$q->execute(array(
 		"exchange" => "btce",
 		"currency1" => "btc",
-		"currency2" => "nvc",
+		"currency2" => "ppc",
 	));
 	if ($ticker = $q->fetch()) {
 		$temp = $balance['balance'] * $ticker['sell'];
-		crypto_log("+ from NVC (BTC): " . ($temp));
+		crypto_log("+ from PPC (BTC): " . ($temp));
 
 		$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
 		$q->execute(array(
 			"exchange" => "btce",
 			"currency1" => "btc",
-			"currency2" => "ppc",
+			"currency2" => "nvc",
 		));
 		if ($ticker = $q->fetch()) {
-			crypto_log("+ from NVC (PPC): " . ($temp / $ticker['buy']));
+			crypto_log("+ from PPC (NVC): " . ($temp / $ticker['buy']));
 			$total += $temp / $ticker['buy'];
 		}
 	}
 
 }
 
-crypto_log("Total converted PPC balance for user " . $job['user_id'] . ": " . $total);
+crypto_log("Total converted NVC balance for user " . $job['user_id'] . ": " . $total);

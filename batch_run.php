@@ -118,6 +118,10 @@ try {
 			require("jobs/ppcoin.php");
 			break;
 
+		case "novacoin":
+			require("jobs/novacoin.php");
+			break;
+
 		case "litecoin_block":
 			require("jobs/litecoin_block.php");
 			break;
@@ -128,6 +132,10 @@ try {
 
 		case "ppcoin_block":
 			require("jobs/ppcoin_block.php");
+			break;
+
+		case "novacoin_block":
+			require("jobs/novacoin_block.php");
 			break;
 
 		case "generic":

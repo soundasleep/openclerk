@@ -38,7 +38,7 @@ $accounts = $q->fetchAll();
 		<th>Title</th>
 		<th>Address</th>
 		<th>Added</th>
-		<th>Last checked</th>
+		<th class="job_status">Last checked</th>
 		<th>Balance</th>
 		<th></th>
 	</tr>
@@ -73,7 +73,7 @@ foreach ($accounts as $a) {
 		</td>
 		<td><?php $address_callback = $account_data['address_callback']; echo $address_callback($a['address']); ?></td>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
-		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
+		<td class="job_status <?php if ($job) { echo $job['is_error'] ? "job_error" : "job_success"; } ?>">
 			<?php echo recent_format_html($last_updated); ?>
 			<?php if ($job['message']) { ?>
 			: <?php echo htmlspecialchars($job['message']); ?>

@@ -112,4 +112,32 @@ if ($balance = $q->fetch()) {
 
 }
 
+// NVC is first converted to BTC then converted to NMC at BTC-e ticker rate sell
+$q = db()->prepare("SELECT * FROM summary_instances WHERE summary_type=? AND user_id=? AND is_recent=1");
+$q->execute(array("totalnvc", $job['user_id']));
+if ($balance = $q->fetch()) {
+	$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+	$q->execute(array(
+		"exchange" => "btce",
+		"currency1" => "btc",
+		"currency2" => "nvc",
+	));
+	if ($ticker = $q->fetch()) {
+		$temp = $balance['balance'] * $ticker['sell'];
+		crypto_log("+ from NVC (BTC): " . ($temp));
+
+		$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+		$q->execute(array(
+			"exchange" => "btce",
+			"currency1" => "btc",
+			"currency2" => "nmc",
+		));
+		if ($ticker = $q->fetch()) {
+			crypto_log("+ from NVC (NMC): " . ($temp / $ticker['buy']));
+			$total += $temp / $ticker['buy'];
+		}
+	}
+
+}
+
 crypto_log("Total converted NMC balance for user " . $job['user_id'] . ": " . $total);

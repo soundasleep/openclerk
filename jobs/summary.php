@@ -62,6 +62,14 @@ switch ($summary['summary_type']) {
 		// TODO all2ppc
 		break;
 
+	case "summary_nvc":
+		$total = 0;
+		require("jobs/summary/crypto2nvc.php");
+		add_summary_instance($job, 'crypto2nvc', $total);
+
+		// TODO all2ppc
+		break;
+
 	case "summary_usd_btce":
 		// TODO fiat2usd
 

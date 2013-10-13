@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "usd", "eur", "cad", "aud", "nzd");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "usd", "eur", "cad", "aud", "nzd");
 }
 
 function get_all_hashrate_currencies() {
@@ -14,11 +14,11 @@ function get_all_hashrate_currencies() {
 }
 
 function get_new_supported_currencies() {
-	return array("ppc", "cad");
+	return array("nvc", "cad");
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc");
 }
 
 function get_all_fiat_currencies() {
@@ -27,7 +27,7 @@ function get_all_fiat_currencies() {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "ppc", "ftc");	// no NMC yet
+	return array("btc", "ltc", "ppc", "ftc", "nvc");	// no NMC yet
 }
 
 function get_currency_name($n) {
@@ -36,6 +36,7 @@ function get_currency_name($n) {
 		case "ltc":	return "Litecoin";
 		case "ppc":	return "PPCoin";
 		case "ftc": return "Feathercoin";
+		case "nvc": return "Novacoin";
 		case "nmc":	return "Namecoin";
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
@@ -50,7 +51,7 @@ function get_blockchain_currencies() {
 	return array(
 		"Blockchain" => array('btc'),
 		"Litecoin Explorer" => array('ltc'),
-		"CryptoCoin Explorer" => array('ppc'),
+		"CryptoCoin Explorer" => array('ppc', 'nvc'),
 		"Feathercoin Search" => array('ftc'),
 	);
 }
@@ -187,6 +188,7 @@ function crypto_address($currency, $address) {
 		case 'ltc': return ltc_address($address);
 		case 'ftc': return ftc_address($address);
 		case 'ppc': return ppc_address($address);
+		case 'nvc': return nvc_address($address);
 		default: return htmlspecialchars($address);
 	}
 }
@@ -198,6 +200,7 @@ function get_summary_types() {
 		'summary_nmc' => array('currency' => 'nmc', 'key' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
 		'summary_ftc' => array('currency' => 'ftc', 'key' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => 'FTC'),
 		'summary_ppc' => array('currency' => 'ppc', 'key' => 'ppc', 'title' => get_currency_name('ppc'), 'short_title' => 'PPC'),
+		'summary_nvc' => array('currency' => 'nvc', 'key' => 'nvc', 'title' => get_currency_name('nvc'), 'short_title' => 'NVC'),
 		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)', 'exchange' => 'btce'),
 		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)', 'exchange' => 'virtex'),
@@ -253,6 +256,7 @@ function get_crypto_conversion_summary_types() {
 		'nmc' => array('currency' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => 'NMC'),
 		'ftc' => array('currency' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => 'FTC'),
 		'ppc' => array('currency' => 'ppc', 'title' => get_currency_name('ppc'), 'short_title' => 'PPC'),
+		'nvc' => array('currency' => 'nvc', 'title' => get_currency_name('nvc'), 'short_title' => 'NVC'),
 	);
 }
 
@@ -263,6 +267,7 @@ function account_data_grouped() {
 			'litecoin' => array('title' => 'LTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ltc\'', 'wizard' => 'addresses'),
 			'feathercoin' => array('title' => 'FTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ftc\'', 'wizard' => 'addresses'),
 			'ppcoin' => array('title' => 'PPC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ppc\'', 'wizard' => 'addresses'),
+			'novacoin' => array('title' => 'NVC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nvc\'', 'wizard' => 'addresses'),
 		),
 		'Mining pools' => array(
 			'poolx' => array('label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools'),
@@ -325,6 +330,8 @@ function get_external_apis() {
 			'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC block count)',
 			'ppcoin' => '<a href="http://ppc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (PPC)',
 			'ppcoin_block' => '<a href="http://ppc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (PPC block count)',
+			'novacoin' => '<a href="http://nvc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (NVC)',
+			'novacoin_block' => '<a href="http://nvc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (NVC block count)',
 		),
 
 		"Mining pool wallets" => array(
@@ -477,6 +484,18 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_ppc_address',
 				'job_type' => 'ppcoin',
 				'address_callback' => 'ppc_address',
+			);
+
+		case "nvc":
+			return array(
+				'premium_group' => 'novacoin',
+				'title' => 'NVC address',
+				'titles' => 'NVC addresses',
+				'table' => 'addresses',
+				'currency' => 'nvc',
+				'callback' => 'is_valid_nvc_address',
+				'job_type' => 'novacoin',
+				'address_callback' => 'nvc_address',
 			);
 
 		default:
@@ -817,6 +836,15 @@ function is_valid_ftc_address($address) {
 function is_valid_ppc_address($address) {
 	// based on is_valid_btc_address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "P")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_nvc_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "4")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}

@@ -1231,3 +1231,20 @@ ALTER TABLE site_statistics ADD users_login_after_disabled int;	-- total users
 ALTER TABLE site_statistics MODIFY system_load_1min float;
 ALTER TABLE site_statistics MODIFY system_load_5min float;
 ALTER TABLE site_statistics MODIFY system_load_15min float;
+
+----------------------------------------------------------------------------
+-- upgrade statements from 0.9 to 0.10
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+DROP TABLE IF EXISTS novacoin_blocks;
+
+CREATE TABLE novacoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

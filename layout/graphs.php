@@ -1,9 +1,9 @@
 <?php
 
-require("graphs/util.php");
-require("graphs/types.php");
-require("graphs/render.php");
-require("graphs/output.php");
+require(__DIR__ . "/../graphs/util.php");
+require(__DIR__ . "/../graphs/types.php");
+require(__DIR__ . "/../graphs/render.php");
+require(__DIR__ . "/../graphs/output.php");
 
 /**
  * Renders a particular graph.
@@ -105,8 +105,11 @@ function render_graph($graph, $is_public = false) {
 			if (isset($balances['totalftc']) && $balances['totalftc']['balance'] != 0 && isset($rates['btcftc'])) {
 				$data['FTC'] = graph_number_format(demo_scale($balances['totalftc']['balance'] * $rates['btcftc']['sell']));
 			}
-			if (isset($balances['totalppc']) && $balances['totalppc']['balance'] != 0 && isset($rates['btcftc'])) {
+			if (isset($balances['totalppc']) && $balances['totalppc']['balance'] != 0 && isset($rates['btcppc'])) {
 				$data['PPC'] = graph_number_format(demo_scale($balances['totalppc']['balance'] * $rates['btcppc']['sell']));
+			}
+			if (isset($balances['totalnvc']) && $balances['totalnvc']['balance'] != 0 && isset($rates['btcnvc'])) {
+				$data['NVC'] = graph_number_format(demo_scale($balances['totalnvc']['balance'] * $rates['btcnvc']['sell']));
 			}
 			if (isset($balances['totalusd']) && $balances['totalusd']['balance'] != 0 && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
 				$data['USD'] = graph_number_format(demo_scale($balances['totalusd']['balance'] / $rates['usdbtc']['buy']));
