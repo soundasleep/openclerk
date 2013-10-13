@@ -1,6 +1,6 @@
 <?php
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
 $user = get_user(user_id());

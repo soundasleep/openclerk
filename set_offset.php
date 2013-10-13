@@ -1,10 +1,10 @@
 <?php
 
-require("inc/global.php");
-require("layout/graphs.php");
+require(__DIR__ . "/inc/global.php");
+require(__DIR__ . "/layout/graphs.php");
 require_login();
 
-require("layout/templates.php");	// for currency_format
+require(__DIR__ . "/layout/templates.php");	// for currency_format
 
 // adding offset
 $currencies = get_all_currencies();

@@ -9,4 +9,4 @@ $url = "http://ftc.mining-foreman.org/api?api_key=";
 $currency = 'ftc';
 $table = "accounts_miningforeman_ftc";
 
-require("_mmcfe_pool.php");
+require(__DIR__ . "/_mmcfe_pool.php");

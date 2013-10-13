@@ -9,4 +9,4 @@ $url = "http://www.mining-foreman.org/api?api_key=";
 $currency = 'ltc';
 $table = "accounts_miningforeman";
 
-require("_mmcfe_pool.php");
+require(__DIR__ . "/_mmcfe_pool.php");

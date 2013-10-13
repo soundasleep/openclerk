@@ -1,4 +1,4 @@
-<?php require("graphs/managed.php"); ?>
+<?php require(__DIR__ . "/../graphs/managed.php"); ?>
 <h2>Basics</h2>
 
 <p>

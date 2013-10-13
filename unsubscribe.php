@@ -1,6 +1,6 @@
 <?php
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 
 $email = require_get("email", false);
 $hash = require_get("hash", false);
@@ -12,7 +12,7 @@ if ($hash !== md5(get_site_config('unsubscribe_salt') . $email))
 $query = db()->prepare("UPDATE users SET email=NULL,updated_at=NOW() where email=?");
 $query->execute(array($email));
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("Unsubscribe", "page_unsubscribe");
 
 ?>

@@ -17,19 +17,19 @@ if (!$exchange) {
 // currencies are supported
 switch ($exchange['exchange']) {
 	case "btct":
-		require("jobs/securities_update/btct.php");
+		require(__DIR__ . "/securities_update/btct.php");
 		break;
 
 	case "litecoinglobal":
-		require("jobs/securities_update/litecoinglobal.php");
+		require(__DIR__ . "/securities_update/litecoinglobal.php");
 		break;
 
 	case "havelock":
-		require("jobs/securities_update/havelock.php");
+		require(__DIR__ . "/securities_update/havelock.php");
 		break;
 
 	case "bitfunder":
-		require("jobs/securities_update/bitfunder.php");
+		require(__DIR__ . "/securities_update/bitfunder.php");
 		break;
 
 	default:

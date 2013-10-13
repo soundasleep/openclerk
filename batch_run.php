@@ -11,9 +11,9 @@
  */
 
 if (!defined('ADMIN_RUN_JOB')) {
-	require("inc/global.php");
+	require(__DIR__ . "/inc/global.php");
 }
-require("_batch.php");
+require(__DIR__ . "/_batch.php");
 
 require_batch_key();
 batch_header("Batch run", "batch_run");
@@ -98,183 +98,183 @@ try {
 	switch ($job['job_type']) {
 		// ticker jobs
 		case "ticker":
-			require("jobs/ticker.php");
+			require(__DIR__ . "/jobs/ticker.php");
 			break;
 
 		// address jobs
 		case "blockchain":
-			require("jobs/blockchain.php");
+			require(__DIR__ . "/jobs/blockchain.php");
 			break;
 
 		case "litecoin":
-			require("jobs/litecoin.php");
+			require(__DIR__ . "/jobs/litecoin.php");
 			break;
 
 		case "feathercoin":
-			require("jobs/feathercoin.php");
+			require(__DIR__ . "/jobs/feathercoin.php");
 			break;
 
 		case "ppcoin":
-			require("jobs/ppcoin.php");
+			require(__DIR__ . "/jobs/ppcoin.php");
 			break;
 
 		case "novacoin":
-			require("jobs/novacoin.php");
+			require(__DIR__ . "/jobs/novacoin.php");
 			break;
 
 		case "litecoin_block":
-			require("jobs/litecoin_block.php");
+			require(__DIR__ . "/jobs/litecoin_block.php");
 			break;
 
 		case "feathercoin_block":
-			require("jobs/feathercoin_block.php");
+			require(__DIR__ . "/jobs/feathercoin_block.php");
 			break;
 
 		case "ppcoin_block":
-			require("jobs/ppcoin_block.php");
+			require(__DIR__ . "/jobs/ppcoin_block.php");
 			break;
 
 		case "novacoin_block":
-			require("jobs/novacoin_block.php");
+			require(__DIR__ . "/jobs/novacoin_block.php");
 			break;
 
 		case "generic":
-			require("jobs/generic.php");
+			require(__DIR__ . "/jobs/generic.php");
 			break;
 
 		case "btce":
-			require("jobs/btce.php");
+			require(__DIR__ . "/jobs/btce.php");
 			break;
 
 		case "mtgox":
-			require("jobs/mtgox.php");
+			require(__DIR__ . "/jobs/mtgox.php");
 			break;
 
 		case "vircurex":
-			require("jobs/vircurex.php");
+			require(__DIR__ . "/jobs/vircurex.php");
 			break;
 
 		case "poolx":
-			require("jobs/poolx.php");
+			require(__DIR__ . "/jobs/poolx.php");
 			break;
 
 		case "wemineltc":
-			require("jobs/wemineltc.php");
+			require(__DIR__ . "/jobs/wemineltc.php");
 			break;
 
 		case "givemecoins":
-			require("jobs/givemecoins.php");
+			require(__DIR__ . "/jobs/givemecoins.php");
 			break;
 
 		case "slush":
-			require("jobs/slush.php");
+			require(__DIR__ . "/jobs/slush.php");
 			break;
 
 		case "litecoinglobal":
-			require("jobs/litecoinglobal.php");
+			require(__DIR__ . "/jobs/litecoinglobal.php");
 			break;
 
 		case "securities_litecoinglobal":
-			require("jobs/securities_litecoinglobal.php");
+			require(__DIR__ . "/jobs/securities_litecoinglobal.php");
 			break;
 
 		case "btct":
-			require("jobs/btct.php");
+			require(__DIR__ . "/jobs/btct.php");
 			break;
 
 		case "securities_btct":
-			require("jobs/securities_btct.php");
+			require(__DIR__ . "/jobs/securities_btct.php");
 			break;
 
 		case "cryptostocks":
-			require("jobs/cryptostocks.php");
+			require(__DIR__ . "/jobs/cryptostocks.php");
 			break;
 
 		case "securities_cryptostocks":
-			require("jobs/securities_cryptostocks.php");
+			require(__DIR__ . "/jobs/securities_cryptostocks.php");
 			break;
 
 		case "bips":
-			require("jobs/bips.php");
+			require(__DIR__ . "/jobs/bips.php");
 			break;
 
 		case "btcguild":
-			require("jobs/btcguild.php");
+			require(__DIR__ . "/jobs/btcguild.php");
 			break;
 
 		case "50btc":
-			require("jobs/50btc.php");
+			require(__DIR__ . "/jobs/50btc.php");
 			break;
 
 		case "hypernova":
-			require("jobs/hypernova.php");
+			require(__DIR__ . "/jobs/hypernova.php");
 			break;
 
 		case "ltcmineru":
-			require("jobs/ltcmineru.php");
+			require(__DIR__ . "/jobs/ltcmineru.php");
 			break;
 
 		case "miningforeman":
-			require("jobs/miningforeman.php");
+			require(__DIR__ . "/jobs/miningforeman.php");
 			break;
 
 		case "miningforeman_ftc":
-			require("jobs/miningforeman_ftc.php");
+			require(__DIR__ . "/jobs/miningforeman_ftc.php");
 			break;
 
 		case "havelock":
-			require("jobs/havelock.php");
+			require(__DIR__ . "/jobs/havelock.php");
 			break;
 
 		case "securities_havelock":
-			require("jobs/securities_havelock.php");
+			require(__DIR__ . "/jobs/securities_havelock.php");
 			break;
 
 		case "bitminter":
-			require("jobs/bitminter.php");
+			require(__DIR__ . "/jobs/bitminter.php");
 			break;
 
 		case "liteguardian":
-			require("jobs/liteguardian.php");
+			require(__DIR__ . "/jobs/liteguardian.php");
 			break;
 
 		// summary jobs
 		case "sum":
-			require("jobs/sum.php");
+			require(__DIR__ . "/jobs/sum.php");
 			break;
 
 		case "summary":
-			require("jobs/summary.php");
+			require(__DIR__ . "/jobs/summary.php");
 			break;
 
 		// system jobs
 		case "securities_update":
-			require("jobs/securities_update.php");
+			require(__DIR__ . "/jobs/securities_update.php");
 			break;
 
 		// cleanup jobs, admin jobs etc
 		case "outstanding":
-			require("jobs/outstanding.php");
+			require(__DIR__ . "/jobs/outstanding.php");
 			break;
 
 		case "expiring":
-			require("jobs/expiring.php");
+			require(__DIR__ . "/jobs/expiring.php");
 			break;
 
 		case "expire":
-			require("jobs/expire.php");
+			require(__DIR__ . "/jobs/expire.php");
 			break;
 
 		case "cleanup":
-			require("jobs/cleanup.php");
+			require(__DIR__ . "/jobs/cleanup.php");
 			break;
 
 		case "disable_warning":
-			require("jobs/disable_warning.php");
+			require(__DIR__ . "/jobs/disable_warning.php");
 			break;
 
 		case "disable":
-			require("jobs/disable.php");
+			require(__DIR__ . "/jobs/disable.php");
 			break;
 
 		default:

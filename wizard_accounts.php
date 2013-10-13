@@ -6,10 +6,10 @@
  * This page allows the user to select which kind of accounts to add.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("Add Accounts and Addresses", "page_wizard_accounts", array('jquery' => true, 'js' => 'wizard', 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
@@ -21,7 +21,7 @@ $messages = array();
 $accounts = user_limits_summary(user_id());
 
 // get our offset values
-require("graphs/util.php");
+require(__DIR__ . "/graphs/util.php");
 $summaries = get_all_summary_currencies();
 $offsets = get_all_offset_instances();
 $currencies = get_all_currencies();

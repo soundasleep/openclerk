@@ -17,7 +17,7 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id']);
 }
 
-require("_havelock.php");
+require(__DIR__ . "/_havelock.php");
 
 $content = havelock_query("https://www.havelockinvestments.com/r/tickerfull", array('symbol' => $account['name']));
 crypto_log("Last price for " . htmlspecialchars($account['name']) . ": " . $content[$account['name']]['last']);

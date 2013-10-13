@@ -4,7 +4,7 @@
  * Process selected currencies and redirect to the next wizard page if successful.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
 $user = get_user(user_id());

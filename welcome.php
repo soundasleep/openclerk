@@ -4,10 +4,10 @@
  * Signup welcome page, offering premium signups.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 
-require("layout/templates.php");
-require("graphs/types.php");
+require(__DIR__ . "/layout/templates.php");
+require(__DIR__ . "/graphs/types.php");
 
 $user = get_user(user_id());
 require_user($user);
@@ -27,7 +27,7 @@ Welcome to <?php echo htmlspecialchars(get_site_config('site_name')); ?>! To fin
 
 <?php
 $welcome = true;
-require("_premium_features.php");
+require(__DIR__ . "/_premium_features.php");
 ?>
 
 <p>

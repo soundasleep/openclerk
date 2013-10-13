@@ -4,10 +4,10 @@
  * Admin status page: financial report
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_admin();
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 
 $messages = array();
 $errors = array();

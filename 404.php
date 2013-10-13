@@ -1,8 +1,8 @@
 <?php
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("Not Found", "page_404");
 
 ?>

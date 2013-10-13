@@ -24,7 +24,7 @@ if (!$summary) {
 switch ($summary['summary_type']) {
 	case "summary_btc":
 		$total = 0;
-		require("jobs/summary/crypto2btc.php");
+		require(__DIR__ . "/summary/crypto2btc.php");
 		add_summary_instance($job, 'crypto2btc', $total);
 
 		// TODO all2btc
@@ -32,7 +32,7 @@ switch ($summary['summary_type']) {
 
 	case "summary_ltc":
 		$total = 0;
-		require("jobs/summary/crypto2ltc.php");
+		require(__DIR__ . "/summary/crypto2ltc.php");
 		add_summary_instance($job, 'crypto2ltc', $total);
 
 		// TODO all2ltc
@@ -40,7 +40,7 @@ switch ($summary['summary_type']) {
 
 	case "summary_nmc":
 		$total = 0;
-		require("jobs/summary/crypto2nmc.php");
+		require(__DIR__ . "/summary/crypto2nmc.php");
 		add_summary_instance($job, 'crypto2nmc', $total);
 
 		// TODO all2nmc
@@ -48,7 +48,7 @@ switch ($summary['summary_type']) {
 
 	case "summary_ftc":
 		$total = 0;
-		require("jobs/summary/crypto2ftc.php");
+		require(__DIR__ . "/summary/crypto2ftc.php");
 		add_summary_instance($job, 'crypto2ftc', $total);
 
 		// TODO all2ftc
@@ -56,7 +56,7 @@ switch ($summary['summary_type']) {
 
 	case "summary_ppc":
 		$total = 0;
-		require("jobs/summary/crypto2ppc.php");
+		require(__DIR__ . "/summary/crypto2ppc.php");
 		add_summary_instance($job, 'crypto2ppc', $total);
 
 		// TODO all2ppc
@@ -64,7 +64,7 @@ switch ($summary['summary_type']) {
 
 	case "summary_nvc":
 		$total = 0;
-		require("jobs/summary/crypto2nvc.php");
+		require(__DIR__ . "/summary/crypto2nvc.php");
 		add_summary_instance($job, 'crypto2nvc', $total);
 
 		// TODO all2ppc
@@ -74,7 +74,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2usd
 
 		$total = 0;
-		require("jobs/summary/all2usd_btce.php");
+		require(__DIR__ . "/summary/all2usd_btce.php");
 		add_summary_instance($job, 'all2usd_btce', $total);
 		break;
 
@@ -82,7 +82,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2usd
 
 		$total = 0;
-		require("jobs/summary/all2usd_mtgox.php");
+		require(__DIR__ . "/summary/all2usd_mtgox.php");
 		add_summary_instance($job, 'all2usd_mtgox', $total);
 		break;
 
@@ -90,7 +90,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2usd
 
 		$total = 0;
-		require("jobs/summary/all2usd_vircurex.php");
+		require(__DIR__ . "/summary/all2usd_vircurex.php");
 		add_summary_instance($job, 'all2usd_vircurex', $total);
 		break;
 
@@ -98,7 +98,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2usd
 
 		$total = 0;
-		require("jobs/summary/all2usd_bitstamp.php");
+		require(__DIR__ . "/summary/all2usd_bitstamp.php");
 		add_summary_instance($job, 'all2usd_bitstamp', $total);
 		break;
 
@@ -106,7 +106,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2usd
 
 		$total = 0;
-		require("jobs/summary/all2eur_btce.php");
+		require(__DIR__ . "/summary/all2eur_btce.php");
 		add_summary_instance($job, 'all2eur_btce', $total);
 		break;
 
@@ -114,7 +114,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2eur
 
 		$total = 0;
-		require("jobs/summary/all2eur_mtgox.php");
+		require(__DIR__ . "/summary/all2eur_mtgox.php");
 		add_summary_instance($job, 'all2eur_mtgox', $total);
 		break;
 
@@ -122,7 +122,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2eur
 
 		$total = 0;
-		require("jobs/summary/all2eur_vircurex.php");
+		require(__DIR__ . "/summary/all2eur_vircurex.php");
 		add_summary_instance($job, 'all2eur_vircurex', $total);
 		break;
 
@@ -130,7 +130,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2aud
 
 		$total = 0;
-		require("jobs/summary/all2aud_mtgox.php");
+		require(__DIR__ . "/summary/all2aud_mtgox.php");
 		add_summary_instance($job, 'all2aud_mtgox', $total);
 		break;
 
@@ -138,7 +138,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2cad
 
 		$total = 0;
-		require("jobs/summary/all2cad_mtgox.php");
+		require(__DIR__ . "/summary/all2cad_mtgox.php");
 		add_summary_instance($job, 'all2cad_mtgox', $total);
 		break;
 
@@ -146,7 +146,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2cad
 
 		$total = 0;
-		require("jobs/summary/all2cad_virtex.php");
+		require(__DIR__ . "/summary/all2cad_virtex.php");
 		add_summary_instance($job, 'all2cad_virtex', $total);
 		break;
 
@@ -154,7 +154,7 @@ switch ($summary['summary_type']) {
 		// TODO fiat2nzd
 
 		$total = 0;
-		require("jobs/summary/all2nzd_bitnz.php");
+		require(__DIR__ . "/summary/all2nzd_bitnz.php");
 		add_summary_instance($job, 'all2nzd_bitnz', $total);
 		break;
 

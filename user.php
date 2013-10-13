@@ -4,10 +4,10 @@
  * Display user information.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 
 $user = get_user(user_id());
 require_user($user);
@@ -231,7 +231,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <p><b>NOTE:</b> You already have <a href="<?php echo htmlspecialchars(url_for("user#user_outstanding")); ?>">outstanding premium payments</a> that need to be paid.</p>
 <?php } ?>
 
-<?php require("_premium_prices.php"); ?>
+<?php require(__DIR__ . "/_premium_prices.php"); ?>
 </div>
 
 	</li>

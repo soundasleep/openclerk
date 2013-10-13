@@ -1,9 +1,9 @@
 <?php
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
-require("layout/templates.php");	// for btc_address() etc
+require(__DIR__ . "/layout/templates.php");	// for btc_address() etc
 
 $user = get_user(user_id());
 require_user($user);

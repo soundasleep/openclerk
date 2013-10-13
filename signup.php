@@ -1,7 +1,7 @@
 <?php
 
-require("inc/global.php");
-require("inc/countries.php");
+require(__DIR__ . "/inc/global.php");
+require(__DIR__ . "/inc/countries.php");
 
 // only permit POST for some variables
 $email = require_post("email", require_get("email", false));
@@ -32,7 +32,7 @@ if ($openid && $submit) {
 	if (!$errors) {
 		try {
 			// to sign up with OpenID, we must first authenticate to see if the identity already exists
-			require("inc/lightopenid/openid.php");
+			require(__DIR__ . "/inc/lightopenid/openid.php");
 			$light = new LightOpenID(get_openid_host());
 
 			if (!$light->mode) {
@@ -134,7 +134,7 @@ if ($openid && $submit) {
 	}
 }
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("Signup", "page_signup", array('jquery' => true, 'js' => 'auth'));
 
 ?>

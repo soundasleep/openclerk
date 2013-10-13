@@ -1,7 +1,7 @@
 <?php
 
-require_once("graphs/util.php");
-require_once("graphs/types.php");
+require_once(__DIR__ . "/util.php");
+require_once(__DIR__ . "/types.php");
 
 /* functionality relating to managed graphs */
 

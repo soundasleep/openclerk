@@ -4,9 +4,9 @@
  * External APIs status.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("External API Status", "page_external", array('common_js' => true));
 
 $last_updated = false;

@@ -85,7 +85,7 @@
 			</form>
 		</td>
 		<td class="premium">
-		<?php require("_premium_prices.php"); ?>
+		<?php require(__DIR__ . "/_premium_prices.php"); ?>
 		</td>
 	</tr>
 	<?php } ?>

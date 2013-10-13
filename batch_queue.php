@@ -19,8 +19,8 @@
  *   batch_queue?key=...&user=100&priority=-20&job_type=blockchain,litecoin,outstanding,expiring,expire
  */
 
-require("inc/global.php");
-require("_batch.php");
+require(__DIR__ . "/inc/global.php");
+require(__DIR__ . "/_batch.php");
 
 require_batch_key();
 batch_header("Batch queue", "batch_queue");

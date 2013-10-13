@@ -262,6 +262,6 @@ function require_template($id) {
 	if (isset($config["custom_" . $id]) && get_site_config("custom_" . $id)) {
 		require(get_site_config("custom_" . $id));
 	} else {
-		require("templates/" . $id . ".php");
+		require(__DIR__ . "/../templates/" . $id . ".php");
 	}
 }

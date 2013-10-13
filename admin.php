@@ -4,11 +4,11 @@
  * Admin status page.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_admin();
 
-require("layout/templates.php");
-require("layout/graphs.php");
+require(__DIR__ . "/layout/templates.php");
+require(__DIR__ . "/layout/graphs.php");
 
 $messages = array();
 $errors = array();

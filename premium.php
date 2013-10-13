@@ -4,10 +4,10 @@
  * Display information about premium accounts.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 
-require("layout/templates.php");
-require("graphs/types.php");
+require(__DIR__ . "/layout/templates.php");
+require(__DIR__ . "/graphs/types.php");
 
 $messages = array();
 $errors = array();
@@ -32,7 +32,7 @@ page_header("Premium Accounts", "page_premium");
 
 <?php
 $welcome = false;
-require("_premium_features.php");
+require(__DIR__ . "/_premium_features.php");
 ?>
 
 <p>
@@ -42,7 +42,7 @@ require("_premium_features.php");
 </p>
 
 <?php
-require("_premium_prices.php");
+require(__DIR__ . "/_premium_prices.php");
 ?>
 
 <?php

@@ -17,7 +17,7 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-require("_havelock.php");
+require(__DIR__ . "/_havelock.php");
 
 $content = havelock_query("https://www.havelockinvestments.com/r/balance", array('key' => $account['api_key']));
 

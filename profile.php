@@ -5,11 +5,11 @@
  * into graphs and such.
  */
 
-require("inc/global.php");
-require("layout/graphs.php");
+require(__DIR__ . "/inc/global.php");
+require(__DIR__ . "/layout/graphs.php");
 require_login();
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 
 $user = get_user(user_id());
 require_user($user);
@@ -20,10 +20,10 @@ $errors = array();
 // is there a command to the page?
 // TODO eventually replace this with ajax stuff
 $enable_editing = false;
-require("_profile_move.php");
+require(__DIR__ . "/_profile_move.php");
 
 // do we need to replace/update managed graphs?
-require("graphs/managed.php");
+require(__DIR__ . "/graphs/managed.php");
 if ($user['needs_managed_update']) {
 	update_user_managed_graphs($user);
 }
@@ -264,7 +264,7 @@ if (!$graphs) { ?>
 <?php if ($graph_page['is_managed'] && $user['graph_managed_type'] == 'auto') { ?>
 	<div>These graphs are currently <a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">managed automatically</a>.</div>
 <?php } else { ?>
-	<?php require("_profile_add_graph.php"); ?>
+	<?php require(__DIR__ . "/_profile_add_graph.php"); ?>
 <?php } ?>
 
 			</div>
@@ -297,7 +297,7 @@ if (!$graphs) { ?>
 
 <?php if (!require_get("securities", false)) { ?>
 
-<?php require("_profile_add_page.php"); ?>
+<?php require(__DIR__ . "/_profile_add_page.php"); ?>
 
 <li id="tab_profile_reset_tab">
 <h2>Reset User Graphs</h2>

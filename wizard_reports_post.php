@@ -4,7 +4,7 @@
  * Process selected currencies and redirect to the next wizard page if successful.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
 $user = get_user(user_id());
@@ -13,7 +13,7 @@ require_user($user);
 $errors = array();
 $messages = array();
 
-require("graphs/managed.php");
+require(__DIR__ . "/graphs/managed.php");
 
 // get all of our limits
 $accounts = user_limits_summary(user_id());

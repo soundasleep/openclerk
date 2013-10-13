@@ -10,7 +10,7 @@
 	$currency = 'ltc';
 	$table = "accounts_givemecoins";
 
-	require("_mmcfe_pool.php");
+	require(__DIR__ . "/_mmcfe_pool.php");
 }
 
 if (get_site_config('sleep_givemecoins')) {
@@ -24,7 +24,7 @@ if (get_site_config('sleep_givemecoins')) {
 	$currency = 'btc';
 	$table = "accounts_givemecoins";
 
-	require("_mmcfe_pool.php");
+	require(__DIR__ . "/_mmcfe_pool.php");
 }
 
 if (get_site_config('sleep_givemecoins')) {
@@ -38,7 +38,7 @@ if (get_site_config('sleep_givemecoins')) {
 	$currency = 'ftc';
 	$table = "accounts_givemecoins";
 
-	require("_mmcfe_pool.php");
+	require(__DIR__ . "/_mmcfe_pool.php");
 }
 
 // no way to API for NMC?

@@ -18,4 +18,4 @@ $abe_data = array(
 	'confirmations' => get_site_config('ftc_confirmations'),
 );
 
-require("_abe_blockchain.php");
+require(__DIR__ . "/_abe_blockchain.php");

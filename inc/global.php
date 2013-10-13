@@ -1,8 +1,8 @@
 <?php
 
 /*
-require("inc/locale.php");
-require("inc/standard.php");
+require(__DIR__ . "/locale.php");
+require(__DIR__ . "/standard.php");
 */
 require(__DIR__ . "/config.php");
 require(__DIR__ . "/security.php");

@@ -17,31 +17,31 @@ if (!$exchange) {
 // currencies are supported
 switch ($exchange['name']) {
 	case "btce":
-		require("jobs/ticker/btce.php");
+		require(__DIR__ . "/ticker/btce.php");
 		break;
 
 	case "bitnz":
-		require("jobs/ticker/bitnz.php");
+		require(__DIR__ . "/ticker/bitnz.php");
 		break;
 
 	case "mtgox":
-		require("jobs/ticker/mtgox.php");
+		require(__DIR__ . "/ticker/mtgox.php");
 		break;
 
 	case "vircurex":
-		require("jobs/ticker/vircurex.php");
+		require(__DIR__ . "/ticker/vircurex.php");
 		break;
 
 	case "themoneyconverter":
-		require("jobs/ticker/themoneyconverter.php");
+		require(__DIR__ . "/ticker/themoneyconverter.php");
 		break;
 
 	case "virtex":
-		require("jobs/ticker/virtex.php");
+		require(__DIR__ . "/ticker/virtex.php");
 		break;
 
 	case "bitstamp":
-		require("jobs/ticker/bitstamp.php");
+		require(__DIR__ . "/ticker/bitstamp.php");
 		break;
 
 	default:

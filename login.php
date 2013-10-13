@@ -1,6 +1,6 @@
 <?php
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 
 // POST overrides GET
 $destination = require_post("destination", require_get("destination", false));
@@ -26,7 +26,7 @@ try {
 		$messages[] = "Successfully logged out. You may login again here.";
 
 	} elseif ($openid && !require_get("pause", false)) {
-		require("inc/lightopenid/openid.php");
+		require(__DIR__ . "/inc/lightopenid/openid.php");
 		$light = new LightOpenID(get_openid_host());
 
 		if (!$light->mode) {
@@ -130,7 +130,7 @@ if ($destination && !require_get("pause", false)) {
 	$errors[] = "You need to be logged in to proceed.";
 }
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 
 ?>

@@ -6,10 +6,10 @@
  * This page allows the user to select their currencies and default exchanges.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("Currency Preferences", "page_wizard_currencies", array('jquery' => true, 'js' => 'wizard', 'class' => 'page_accounts'));
 
 $user = get_user(user_id());

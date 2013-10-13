@@ -13,7 +13,7 @@ function require_batch_key() {
 function batch_header($page_name, $page_id) {
 	if (require_get("key", false)) {
 		// we're running from a web browser
-		require("layout/templates.php");
+		require(__DIR__ . "/layout/templates.php");
 		$options = array();
 		if (require_get("refresh", false)) {
 			$options["refresh"] = require_get("refresh");

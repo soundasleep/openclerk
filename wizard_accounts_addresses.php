@@ -6,12 +6,12 @@
  * This page allows the user to select which kind of accounts to add.
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
-require("graphs/util.php");
+require(__DIR__ . "/graphs/util.php");
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("Add Addresses", "page_wizard_accounts_addresses", array('jquery' => true, 'js' => array('accounts', 'wizard'), 'common_js' => true, 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
@@ -50,7 +50,7 @@ require_template("wizard_accounts_addresses");
 	<li id="tab_wizard_<?php echo $c; ?>_tab">
 		<?php
 			$account_data = get_blockchain_wizard_config($c);
-			require("_wizard_addresses.php");
+			require(__DIR__ . "/_wizard_addresses.php");
 		?>
 	</li>
 	<?php } ?>

@@ -4,10 +4,10 @@
  * This page displays historical data publically.
  */
 
-require("inc/global.php");
-require("layout/graphs.php");
+require(__DIR__ . "/inc/global.php");
+require(__DIR__ . "/layout/graphs.php");
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 
 $messages = array();
 $errors = array();

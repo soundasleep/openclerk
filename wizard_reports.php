@@ -14,10 +14,10 @@
  *   none -> managed	reset + updated
  */
 
-require("inc/global.php");
+require(__DIR__ . "/inc/global.php");
 require_login();
 
-require("layout/templates.php");
+require(__DIR__ . "/layout/templates.php");
 page_header("Report Preferences", "page_wizard_reports", array('jquery' => true, 'js' => 'wizard', 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
@@ -29,15 +29,15 @@ $messages = array();
 $accounts = user_limits_summary(user_id());
 
 // get our currency preferences
-require("graphs/util.php");
+require(__DIR__ . "/graphs/util.php");
 $summaries = get_all_summary_currencies();
 $currencies = get_all_currencies();
 
-require("graphs/types.php");
+require(__DIR__ . "/graphs/types.php");
 $graphs = graph_types();
 
 // work out which graphs we would have
-require("graphs/managed.php");
+require(__DIR__ . "/raphs/managed.php");
 $auto_graphs = calculate_user_graphs($user, 'auto');
 $managed_graphs = calculate_all_managed_graphs($user);
 
