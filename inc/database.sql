@@ -1266,3 +1266,17 @@ CREATE TABLE accounts_khore (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+-- for privately-held securities
+CREATE TABLE accounts_individual_litecoinglobal (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	quantity int not null,
+	security_id int not null,	-- to securities_litecoinglobal
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+);

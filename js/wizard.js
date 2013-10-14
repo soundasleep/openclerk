@@ -80,7 +80,27 @@ $(document).ready(function() {
 								if (typeof inputs[j]['style_prefix'] != 'undefined') {
 									tempOption1.addClass(inputs[j]['style_prefix'] + option_key);
 								}
-								tempInput.append(tempOption1);
+
+								// we want to sort by text when inserting in children, so we sort in-place
+								var previous = $(tempInput).children();
+								var ia = false;
+								previous.each(function(index, element) {
+									if ($(element).attr('id')) {
+										// we don't want to process the template
+										return true;
+									}
+
+									ia = element;
+									if ($(element).text() >= dropdown[option_key]) {
+										return false;
+									}
+								});
+
+								if (ia) {
+									$(ia).before(tempOption1);
+								} else {
+									tempInput.append(tempOption1);
+								}
 							}
 						}
 						tempOption.remove();

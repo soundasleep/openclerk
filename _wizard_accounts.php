@@ -4,6 +4,15 @@
 if (!isset($account_type)) {
 	throw new Exception("account_type needs to be set");
 }
+if (!isset($account_type['display_headings'])) {
+	$account_type['display_headings'] = array();
+}
+if (!isset($account_type['display_callback'])) {
+	$account_type['display_callback'] = false;
+}
+if (!isset($account_type['first_heading'])) {
+	$account_type['first_heading'] = $account_type['title'];
+}
 
 // get all of our accounts
 $accounts = array();
@@ -66,8 +75,11 @@ if ($user['is_new'] && !$user['is_premium']) echo " (for the next " . plural(
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th><?php echo htmlspecialchars($account_type['title']); ?></th>
+		<th><?php echo htmlspecialchars($account_type['first_heading']); ?></th>
 		<th>Title</th>
+		<?php foreach ($account_type['display_headings'] as $value) { ?>
+			<th><?php echo htmlspecialchars($value); ?></th>
+		<?php } ?>
 		<th>Added</th>
 		<th>Last checked</th>
 		<th>Balances</th>
@@ -116,6 +128,12 @@ foreach ($accounts as $a) {
 	if (!$last_updated && $job) {
 		$last_updated = $job['executed_at'];
 	}
+
+	$extra_display = array();
+	if ($account_type['display_callback']) {
+		$c = $account_type['display_callback'];
+		$extra_display = $c($a);
+	}
 ?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
 		<td><?php echo htmlspecialchars(get_exchange_name($a['exchange'])); ?></td>
@@ -129,6 +147,9 @@ foreach ($accounts as $a) {
 			<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
 		</td>
+		<?php foreach ($extra_display as $value) { ?>
+			<td><?php echo $value; ?></td>
+		<?php } ?>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
 			<?php echo recent_format_html($last_updated); ?>
@@ -182,7 +203,7 @@ foreach ($accounts as $a) {
 	</tr>
 <?php } ?>
 <?php if (!$accounts) { ?>
-	<tr><td colspan="7"><i>(No accounts defined.)</i></td></tr>
+	<tr><td colspan="<?php echo 7 + count($account_type['display_headings']); ?>"><i>(No accounts defined.)</i></td></tr>
 <?php } ?>
 </tbody>
 </table>
@@ -195,7 +216,7 @@ foreach ($accounts as $a) {
 <form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" class="wizard-add-account">
 	<table class="standard">
 	<tr>
-		<th><label for="type"><?php echo htmlspecialchars($account_type['title']); ?>:</label></th>
+		<th><label for="type"><?php echo htmlspecialchars($account_type['first_heading']); ?>:</label></th>
 		<td>
 			<select id="type" name="type">
 			<?php foreach ($add_types as $exchange) {

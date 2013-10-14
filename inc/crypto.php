@@ -74,6 +74,7 @@ function get_all_exchanges() {
 		"bitfunder"			=> "BitFunder",
 		"bitfunder_wallet"	=> "BitFunder (Wallet)",
 		"bitfunder_securities" => "BitFunder (Securities)",
+		"individual_litecoinglobal" => "Litecoin Global (Individual Securities)",
 		"generic" => 		"Generic API",
 		"offsets" => 		"Offsets",		// generic
 		"blockchain" =>  	"Blockchain",	// generic
@@ -292,6 +293,15 @@ function account_data_grouped() {
 			'havelock' => array('label' => 'account', 'table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
 			'bitfunder' => array('label' => 'account', 'table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities'),
 		),
+		'Individual Securities' => array(
+			'individual_litecoinglobal' => array('label' => 'individual security', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal'),
+			/*
+			'individual_btct' => array('label' => 'individual security', 'table' => 'accounts_individual_btct', 'group' => 'accounts', 'wizard' => 'individual'),
+			'individual_cryptostocks' => array('label' => 'individual security', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual'),
+			'individual_havelock' => array('label' => 'individual security', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual'),
+			'individual_bitfunder' => array('label' => 'individual security', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual'),
+			*/
+		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other'),
 		),
@@ -380,6 +390,15 @@ function get_external_apis() {
 			'securities_update_litecoinglobal' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
 			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
 			'securities_update_bitfunder' => '<a href="https://bitfunder.com/">BitFunder</a> Securities list',
+		),
+
+		"Individual securities" => array(
+			// TODO should be sorted
+			'individual_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
+			'individual_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
+			'individual_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+			'individual_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
+			'individual_bitfunder' => '<a href="https://www.bitfunder.com">BitFunder</a>',
 		),
 
 		"Other" => array(
@@ -714,6 +733,16 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_bitfunder',
 			);
 
+		// --- securities ---
+		case "individual_litecoinglobal":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_litecoinglobal_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_litecoinglobal',
+			);
+
 		// --- other ---
 		case "generic":
 			return array(
@@ -797,6 +826,23 @@ function dropdown_currency_list() {
 		$result[$c] = strtoupper($c);
 	}
 	return $result;
+}
+
+/**
+ * Returns an array of (id => security name).
+ * Cached across calls.
+ */
+$global_dropdown_get_litecoinglobal_securities = array();
+function dropdown_get_litecoinglobal_securities() {
+	global $dropdown_get_litecoinglobal_securities;
+	if (!$dropdown_get_litecoinglobal_securities) {
+		$q = db()->prepare("SELECT * FROM securities_litecoinglobal");
+		$q->execute();
+		while ($sec = $q->fetch()) {
+			$dropdown_get_litecoinglobal_securities[$sec['id']] = $sec['name'];
+		}
+	}
+	return $dropdown_get_litecoinglobal_securities;
 }
 
 function is_valid_btc_address($address) {
@@ -958,5 +1004,13 @@ function is_valid_name($s) {
 
 function is_valid_title($s) {
 	return strlen($s) < 64;
+}
+
+function is_valid_quantity($n) {
+	return is_numeric($n) && $n == (int) $n && $n > 0;
+}
+
+function is_valid_id($n) {
+	return is_numeric($n) && $n == (int) $n && $n > 0;
 }
 

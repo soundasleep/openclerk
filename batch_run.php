@@ -242,6 +242,11 @@ try {
 			require(__DIR__ . "/jobs/khore.php");
 			break;
 
+		// individual securities jobs
+		case "individual_litecoinglobal":
+			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require(__DIR__ . "/jobs/sum.php");
