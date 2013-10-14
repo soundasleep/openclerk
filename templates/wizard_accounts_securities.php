@@ -1,6 +1,7 @@
 <?php
 global $user;
 global $account_type;
+global $accounts;
 ?>
 <div class="wizard-steps">
 	<h2>Preferences Wizard</h2>
@@ -14,6 +15,17 @@ global $account_type;
 
 <div class="wizard-content">
 <h1>Add <?php echo $account_type['titles']; ?></h1>
+
+<ul class="account-type">
+
+	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_individual_securities')); ?>">Individual Securities
+		<?php if ($accounts['wizard_individual']) { ?><span class="count">(<?php echo number_format($accounts['wizard_individual']); ?>)<?php } ?></a>
+		<ul>
+			<li>e.g. ASICMINER, S.DICE-PT</li>
+		</ul>
+	</li>
+
+</ul>
 
 <p>
 As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,

@@ -19,6 +19,9 @@ require_user($user);
 
 $messages = array();
 
+// get all of our accounts
+$accounts = user_limits_summary(user_id());
+
 $account_type = array(
 	'title' => 'Securities Exchange',
 	'titles' => 'Securities Exchanges',

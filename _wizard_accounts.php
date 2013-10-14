@@ -8,22 +8,22 @@ if (!isset($account_type)) {
 // get all of our accounts
 $accounts = array();
 $add_types = array();
-$add_type_suffixes = array();
+$add_type_names = array();
 
 foreach (account_data_grouped() as $label => $data) {
 	foreach ($data as $key => $value) {
 		if (isset($value['wizard']) && $value['wizard'] == $account_type['wizard']) {
 			// we've found a valid account type
 			$account_data = get_accounts_wizard_config($key);
-			$add_types[] = $key;
-			$add_type_suffixes[$key] = isset($value['suffix']) ? $value['suffix'] : "";
+				$add_types[] = $key;
+				$add_type_names[$key] = get_exchange_name($key) . (isset($value['suffix']) ? $value['suffix'] : "");
 
-			$q = db()->prepare("SELECT * FROM " . $account_data['table'] . "
-				WHERE user_id=? ORDER BY title ASC");
-			$q->execute(array(user_id()));
-			while ($r = $q->fetch()) {
-				$r['exchange'] = $key;
-				$r['khash'] = $account_data['khash'];
+				$q = db()->prepare("SELECT * FROM " . $account_data['table'] . "
+					WHERE user_id=? ORDER BY title ASC");
+				$q->execute(array(user_id()));
+				while ($r = $q->fetch()) {
+					$r['exchange'] = $key;
+					$r['khash'] = $account_data['khash'];
 				$accounts[] = $r;
 			}
 		}
@@ -32,8 +32,8 @@ foreach (account_data_grouped() as $label => $data) {
 
 // sort add_types by name
 function _sort_by_exchange_name($a, $b) {
-	global $add_type_suffixes;
-	return strcmp(strtolower(get_exchange_name($a) . $add_type_suffixes[$a]), strtolower(get_exchange_name($b) . $add_type_suffixes[$b]));
+	global $add_type_names;
+	return strcmp(strtolower($add_type_names[$a]), strtolower($add_type_names[$b]));
 }
 usort($add_types, '_sort_by_exchange_name');
 
@@ -84,31 +84,32 @@ foreach ($accounts as $a) {
 	$balances_wallet = array();
 	$balances_securities = array();
 	$last_updated = null;
+	$job = false;
 
 	// an account may have multiple currency balances
 	$q = db()->prepare("SELECT balances.* FROM balances WHERE user_id=? AND account_id=? AND (exchange=? OR exchange=? OR exchange=?) AND is_recent=1 ORDER BY currency ASC");
-	$q->execute(array(user_id(), $a['id'], $a['exchange'], $a['exchange'] . "_wallet", $a['exchange'] . "_securities"));
-	while ($balance = $q->fetch()) {
-		switch ($balance['exchange']) {
-			case $a['exchange']:
-				$balances[$balance['currency']] = $balance['balance'];
-				break;
-			case $a['exchange'] . "_wallet":
-				$balances_wallet[$balance['currency']] = $balance['balance'];
-				break;
-			case $a['exchange'] . "_securities":
-				$balances_securities[$balance['currency']] = $balance['balance'];
-				break;
-			default:
-				echo "Unknown exchange '" . htmlspecialchars($balance['exchange']) . "'";
+		$q->execute(array(user_id(), $a['id'], $a['exchange'], $a['exchange'] . "_wallet", $a['exchange'] . "_securities"));
+		while ($balance = $q->fetch()) {
+			switch ($balance['exchange']) {
+				case $a['exchange']:
+					$balances[$balance['currency']] = $balance['balance'];
+					break;
+				case $a['exchange'] . "_wallet":
+					$balances_wallet[$balance['currency']] = $balance['balance'];
+					break;
+				case $a['exchange'] . "_securities":
+					$balances_securities[$balance['currency']] = $balance['balance'];
+					break;
+				default:
+					echo "Unknown exchange '" . htmlspecialchars($balance['exchange']) . "'";
+			}
+			$last_updated = $balance['created_at'];
 		}
-		$last_updated = $balance['created_at'];
-	}
 
-	// was the last request successful?
-	$q = db()->prepare("SELECT jobs.*, uncaught_exceptions.message FROM jobs
-		LEFT JOIN uncaught_exceptions ON uncaught_exceptions.job_id=jobs.id
-		WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1
+		// was the last request successful?
+		$q = db()->prepare("SELECT jobs.*, uncaught_exceptions.message FROM jobs
+			LEFT JOIN uncaught_exceptions ON uncaught_exceptions.job_id=jobs.id
+			WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1
 		ORDER BY jobs.id DESC LIMIT 1");
 	$q->execute(array(user_id(), $a['id'], $a['exchange']));
 	$job = $q->fetch();
@@ -122,7 +123,7 @@ foreach ($accounts as $a) {
 			<span><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></span>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
 			<input type="text" name="title" value="<?php echo htmlspecialchars($a['title']); ?>">
-			<input type="submit" value="Save">
+			<input type="submit" value="Update Title">
 			<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
 			<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 			<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
@@ -199,7 +200,7 @@ foreach ($accounts as $a) {
 			<select id="type" name="type">
 			<?php foreach ($add_types as $exchange) {
 				echo "<option value=\"" . htmlspecialchars($exchange) . "\"" . ($exchange == require_get("exchange", false) ? " selected" : "")  . ">";
-				echo htmlspecialchars(get_exchange_name($exchange) . $add_type_suffixes[$exchange]);
+				echo htmlspecialchars($add_type_names[$exchange]);
 				echo "</option>\n";
 			} ?>
 			</select>

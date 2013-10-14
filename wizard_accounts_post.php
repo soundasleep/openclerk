@@ -31,6 +31,7 @@ switch (require_post("callback")) {
 	case "wizard_accounts_pools":
 	case "wizard_accounts_exchanges":
 	case "wizard_accounts_securities":
+	case "wizard_accounts_individual_securities":
 	case "wizard_accounts_other":
 		break;
 
@@ -88,6 +89,7 @@ if (require_post("add", false)) {
 		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . $title . "</i>. Balances from this account will be retrieved shortly.";
 
 		// redirect to GET
+		set_temporary_errors($errors);
 		set_temporary_messages($messages);
 		redirect(url_for(require_post("callback")));
 	}
@@ -99,11 +101,12 @@ if (require_post("delete", false) && require_post("id", false)) {
 
 	// also delete old address balances, since we won't be able to use them any more
 	$q = db()->prepare("DELETE FROM balances WHERE account_id=? AND user_id=? AND exchange=?");
-	$q->execute(array(require_post("id"), user_id(), $data['exchange']));
+	$q->execute(array(require_post("id"), user_id(), $account_data['exchange']));
 
 	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . ".";
 
 	// redirect to GET
+	set_temporary_errors($errors);
 	set_temporary_messages($messages);
 	redirect(url_for(require_post("callback")));
 }
