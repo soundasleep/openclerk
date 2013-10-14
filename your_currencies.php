@@ -20,7 +20,7 @@ $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 O
 $q->execute(array(user_id()));
 $pages = $q->fetchAll();
 
-// get all of our latest balances
+// get all of our latest balances, ignoring currencies we're not interested in
 $balances = array();
 $last_updated = array();
 require(__DIR__ . "/graphs/util.php");
@@ -38,6 +38,28 @@ while ($balance = $q->fetch()) {
 		$balances[$balance['currency']][$balance['exchange']] += demo_scale($balance['balance']);
 		$last_updated[$balance['exchange']] = $balance['created_at'];
 	}
+}
+
+// need to also get address balances
+$summary_balances = get_all_summary_instances();
+
+foreach ($balances as $currency => $data) {
+	if (isset($summary_balances['blockchain' . $currency]) && $summary_balances['blockchain' . $currency]['balance'] != 0) {
+		if (!isset($balances[$currency]['blockchain'])) {
+			$balances[$currency]['blockchain'] = 0;
+		}
+		$balances[$currency]['blockchain'] += demo_scale($summary_balances['blockchain' . $currency]['balance']);
+		$last_updated['blockchain'] = $summary_balances['blockchain' . $currency]['created_at'];
+	}
+
+	if (isset($summary_balances['offsets' . $currency]) && $summary_balances['offsets' . $currency]['balance'] != 0) {
+		if (!isset($balances[$currency]['offsets'])) {
+			$balances[$currency]['offsets'] = 0;
+		}
+		$balances[$currency]['offsets'] += demo_scale($summary_balances['offsets' . $currency]['balance']);
+		$last_updated['offsets'] = $summary_balances['offsets' . $currency]['created_at'];
+	}
+
 }
 
 // remove empty currencies
