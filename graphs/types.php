@@ -244,7 +244,7 @@ function graph_types() {
 		'composition_ftc_daily' => 'composition_ltc_daily.png',
 		'composition_ppc_daily' => 'composition_ltc_daily.png',
 		'composition_nvc_daily' => 'composition_ltc_daily.png',
-		'composition_btc_table' => 'composition_ltc_table.png',
+		'composition_btc_table' => 'composition_btc_table.png',
 		'composition_ltc_table' => 'composition_ltc_table.png',
 		'composition_nmc_table' => 'composition_ltc_table.png',
 		'composition_ftc_table' => 'composition_ltc_table.png',

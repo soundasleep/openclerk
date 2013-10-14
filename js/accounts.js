@@ -73,7 +73,13 @@ $(document).ready(function() {
 		});
 
 		// sort by title on page load
-		$(headings[0]).find(".sort_up").click();
+		if ($(table).find("thead th.default_sort_up").length > 0) {
+			$(table).find("thead th.default_sort_up").find(".sort_up").click();
+		} else if ($(table).find("thead th.default_sort_down").length > 0) {
+			$(table).find("thead th.default_sort_down").find(".sort_down").click();
+		} else {
+			$(headings[0]).find(".sort_up").click();
+		}
 	});
 });
 
@@ -117,6 +123,11 @@ function sortBy(table, index, ascending) {
 function getSortValue(e) {
 	if ($(e).find("span.address code").length > 0) {
 		return $(e).find("span.address code").text().trim();
+	}
+	if ($(e).find("span.currency_format").length > 0 && $(e).find("span.currency_format").attr('title')) {
+		// currency value: strip out " cur"
+		var val = $(e).find("span.currency_format").attr('title').trim();
+		return parseFloat(val.substring(0, val.lastIndexOf(" ")).replace(",", ""));
 	}
 	if ($(e).find("span").length > 0 && $(e).find("span").attr('title')) {
 		return $(e).find("span").attr('title').trim();

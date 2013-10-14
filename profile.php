@@ -28,21 +28,12 @@ if ($user['needs_managed_update']) {
 	update_user_managed_graphs($user);
 }
 
-// get all pages
-$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 ORDER BY page_order ASC, id ASC");
-$q->execute(array(user_id()));
-$pages = $q->fetchAll();
+require(__DIR__ . "/_profile_common.php");
 
 // reset stats
 if (get_site_config('timed_sql')) {
 	echo "<!-- " . db()->stats() . " -->\n";
 }
-
-// how many securities do we have?
-$q = db()->prepare("SELECT COUNT(*) AS c FROM securities WHERE user_id=? AND is_recent=1");
-$q->execute(array(user_id()));
-$count = $q->fetch();
-$securities_count = $count['c'];
 
 if (get_site_config('new_user_premium_update_hours') && strtotime($user['created_at']) >= strtotime("-" . get_site_config('new_user_premium_update_hours') . " hour")) {
 	// does a non-zero report exist yet for this user?
@@ -169,32 +160,14 @@ if ($pages) {
 
 	}
 
-	page_header(require_get("securities", false) ? $page_title : "Your Reports: " . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
+	page_header(require_get("securities", false) ? $page_title : "Your Reports: " . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile', 'class' => 'report_page'));
 
 ?>
 
 <div id="page<?php echo htmlspecialchars($page_id); ?>">
 
-<!-- list of pages -->
-<ul class="page_list">
-<?php $first = true; foreach ($pages as $page) {
-	$args = array('page' => $page['id']);
-	if (require_get("demo", false)) {
-		$args['demo'] = require_get("demo");
-	} ?>
-	<li class="page_tab<?php echo htmlspecialchars($page['id']); ?><?php if (!require_get("securities", false) && (!$page_id || $page['id'] == $page_id)) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('profile', $args)); ?>">
-		<?php echo htmlspecialchars($page['title']); ?>
-	</a></li>
-<?php $first = false; } ?>
-	<?php
-	$args = array('securities' => 1);
-	if (require_get("demo", false)) {
-		$args['demo'] = require_get("demo");
-	} ?>
-	<li class="page_tabsecurities<?php if (require_get("securities", false)) echo " page_current"; ?> premium"><a href="<?php echo htmlspecialchars(url_for('profile', $args)); ?>">
-		Your Securities (<?php echo number_format($securities_count); ?>)
-	</a></li>
-</ul>
+<!-- page list -->
+<?php require(__DIR__ . "/_profile_pages.php"); ?>
 
 <?php if (!require_get("securities", false)) { ?>
 <div class="enable_editing">
@@ -276,7 +249,7 @@ if (!$graphs) { ?>
 <?php } else {
 	/* no pages */
 
-	page_header("Your Reports", "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile'));
+	page_header("Your Reports", "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile', 'class' => 'report_page'));
 	?>
 
 <div class="message">

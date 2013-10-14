@@ -463,11 +463,11 @@ function render_graph($graph, $is_public = false) {
 									$table = array();
 									$sum = 0;
 									foreach ($data as $exchange_name => $exchange_data) {
-										$table[] = array($exchange_name, currency_format($currency, $exchange_data));
+										$table[] = array($exchange_name, currency_format($currency, $exchange_data, 4));
 										$sum += $exchange_data;
 									}
 									$head = array(
-										array("Total " . strtoupper($currency), currency_format($currency, $sum)),
+										array("Total " . strtoupper($currency), currency_format($currency, $sum, 4)),
 									);
 									render_table_vertical($graph, $table, $head);
 								}

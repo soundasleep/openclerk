@@ -29,6 +29,8 @@
 			'text2' => 'Premium users can add technical indicators to graphs, such as Simple Moving Average (SMA), Bollinger Bands (BOLL) and Relative Strength Index (RSI).',
 			'url3' => 'img/screenshots/profile_securities.png',
 			'text3' => 'Premium users can also access an automatically-generated page listing all of their securities and their current market values.',
+			'url4' => 'img/screenshots/your_currencies.png',
+			'text4' => 'All users can also access a new "Your Currencies" page, displaying all of your current balances for each currency.',
 		),
 		'profile_historical' => array(
 			'title' => 'Historical',
@@ -65,6 +67,10 @@
 			<?php if (isset($data['url3'])) { ?>
 				<img src="<?php echo htmlspecialchars($data['url3']); ?>" class="image2">
 				<p><?php echo $data['text3']; ?></p>
+			<?php } ?>
+			<?php if (isset($data['url4'])) { ?>
+				<img src="<?php echo htmlspecialchars($data['url4']); ?>" class="image2">
+				<p><?php echo $data['text4']; ?></p>
 			<?php } ?>
 		</li>
 	<?php } ?>
