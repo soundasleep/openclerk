@@ -115,9 +115,9 @@ function get_new_exchanges() {
 function get_exchange_pairs() {
 	return array(
 		"bitnz" => array(array('nzd', 'btc')),
-		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc')),
+		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc')),
-		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc')),
+		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad')),
 		"virtex" => array(array('cad', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
@@ -126,15 +126,8 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"btce_usdeur",
-		"btce_usdnmc",
-		"mtgox_cadbtc",
-		"themoneyconverter_usdeur",
-		"themoneyconverter_usdaud",
-		"themoneyconverter_usdnzd",
-		"themoneyconverter_usdcad",
-		"virtex_cadbtc",
-		"bitstamp_usdbtc",
+		"btce_btcnvc",
+		"vircurex_btcnvc",
 	);
 }
 
@@ -158,7 +151,7 @@ function get_supported_wallets() {
 		"50btc" => array('btc', 'hash'),
 		"bips" => array('btc', 'usd'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
-		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc'),		// used in jobs/btce.php
+		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
@@ -172,7 +165,7 @@ function get_supported_wallets() {
 		"miningforeman" => array('ltc', 'ftc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
-		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc'),		// used in jobs/vircurex.php
+		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc'),		// used in jobs/vircurex.php
 		"wemineltc" => array('ltc', 'hash'),
 		"generic" => get_all_currencies(),
 	);
