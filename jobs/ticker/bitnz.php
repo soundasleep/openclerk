@@ -6,7 +6,7 @@
  */
 
 $bitnz = array();
-require(__DIR__ . '../../inc/html5lib/Parser.php');
+require(__DIR__ . '/../../inc/html5lib/Parser.php');
 $html = crypto_get_contents(crypto_wrap_url("https://bitnz.com/orders"));
 $dom = HTML5_Parser::parse($html);
 

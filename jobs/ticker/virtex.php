@@ -9,7 +9,7 @@ $exchange = "virtex";
 $currency1 = "cad";
 $currency2 = "btc";
 
-require(__DIR__ . '../../inc/html5lib/Parser.php');
+require(__DIR__ . '/../../inc/html5lib/Parser.php');
 // this doesn't return valid XHTML, so we use the HTML5 parser as a temporary solution
 $html = crypto_get_contents(crypto_wrap_url("https://www.cavirtex.com/orderbook"));
 $dom = HTML5_Parser::parse($html);

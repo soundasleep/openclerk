@@ -20,7 +20,7 @@ if (!$content) {
 	throw new ExternalAPIException("market API returned empty data");
 }
 
-require(__DIR__ . '../../inc/html5lib/Parser.php');
+require(__DIR__ . '/../../inc/html5lib/Parser.php');
 $dom = HTML5_Parser::parse($content);
 
 function numberise($s) {

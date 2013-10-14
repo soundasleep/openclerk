@@ -25,6 +25,8 @@ $rates_list = array(
 	// array('cur1' => 'btc', 'cur2' => 'yac'), // all flipped around - removed in 0.6
 	array('cur1' => 'btc', 'cur2' => 'xpm'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'dgc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'anc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'i0c'), // all flipped around
 );
 
 $rates = json_decode(crypto_get_contents(crypto_wrap_url("https://vircurex.com/api/get_info_for_currency.json")), true);
