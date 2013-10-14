@@ -247,6 +247,22 @@ try {
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
 			break;
 
+		case "individual_btct":
+			require(__DIR__ . "/jobs/individual_btct.php");
+			break;
+
+		case "individual_bitfunder":
+			require(__DIR__ . "/jobs/individual_bitfunder.php");
+			break;
+
+		case "individual_cryptostocks":
+			require(__DIR__ . "/jobs/individual_cryptostocks.php");
+			break;
+
+		case "individual_havelock":
+			require(__DIR__ . "/jobs/individual_havelock.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require(__DIR__ . "/jobs/sum.php");

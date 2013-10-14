@@ -1,6 +1,6 @@
 <?php
-$exchange = get_exchange_name("litecoinglobal");
-$example = "S-DICE.PT";
+$exchange = get_exchange_name("cryptostocks");
+$example = "ABT";
 ?>
 
 <div class="instructions_add">

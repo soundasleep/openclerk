@@ -13,6 +13,9 @@ if (!isset($account_type['display_callback'])) {
 if (!isset($account_type['first_heading'])) {
 	$account_type['first_heading'] = $account_type['title'];
 }
+if (!isset($account_type['accounts'])) {
+	$account_type['accounts'] = "accounts";
+}
 
 // get all of our accounts
 $accounts = array();
@@ -58,7 +61,7 @@ $account_data = null;
 $user['is_new'] = get_site_config('new_user_premium_update_hours') && strtotime($user['created_at']) > strtotime('-' . get_site_config('new_user_premium_update_hours') . ' hour');
 ?>
 As a <?php echo $user['is_premium'] ? "premium user" : ($user['is_new'] ? "new user" : "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">free user</a>"); ?>, your
-accounts should be updated
+<?php echo $account_type['accounts']; ?> should be updated
 at least once every <?php echo plural($user['is_new'] ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours"), 'hour');
 if ($user['is_new'] && !$user['is_premium']) echo " (for the next " . plural(
 	(int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60))
@@ -203,7 +206,7 @@ foreach ($accounts as $a) {
 	</tr>
 <?php } ?>
 <?php if (!$accounts) { ?>
-	<tr><td colspan="<?php echo 7 + count($account_type['display_headings']); ?>"><i>(No accounts defined.)</i></td></tr>
+	<tr><td colspan="<?php echo 7 + count($account_type['display_headings']); ?>"><i>(No <?php echo $account_type['accounts']; ?> defined.)</i></td></tr>
 <?php } ?>
 </tbody>
 </table>

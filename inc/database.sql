@@ -1280,3 +1280,55 @@ CREATE TABLE accounts_individual_litecoinglobal (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
+
+CREATE TABLE accounts_individual_btct (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	quantity int not null,
+	security_id int not null,	-- to securities_btct
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+);
+
+CREATE TABLE accounts_individual_bitfunder (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	quantity int not null,
+	security_id int not null,	-- to securities_bitfunder
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+);
+
+CREATE TABLE accounts_individual_cryptostocks (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	quantity int not null,
+	security_id int not null,	-- to securities_cryptostocks
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+);
+
+CREATE TABLE accounts_individual_havelock (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	quantity int not null,
+	security_id int not null,	-- to securities_havelock
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+);

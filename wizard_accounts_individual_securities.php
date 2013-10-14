@@ -25,6 +25,7 @@ $accounts = user_limits_summary(user_id());
 $account_type = array(
 	'title' => 'Individual Security',
 	'titles' => 'Individual Securities',
+	'accounts' => 'securities',
 	'wizard' => 'individual',
 	'hashrate' => false,
 	'url' => 'wizard_accounts_individual_securities',
@@ -41,6 +42,21 @@ function get_individual_security_config($account) {
 		case "individual_litecoinglobal":
 			$securities = dropdown_get_litecoinglobal_securities();
 			$historical_key = 'securities_litecoinglobal_ltc';
+			break;
+		case "individual_btct":
+			$securities = dropdown_get_btct_securities();
+			$historical_key = 'securities_btct_btc';
+			break;
+		case "individual_bitfunder":
+			$securities = dropdown_get_bitfunder_securities();
+			$historical_key = 'securities_bitfunder_btc';
+			break;
+		case "individual_havelock":
+			$securities = dropdown_get_havelock_securities();
+			$historical_key = 'securities_havelock_btc';
+			break;
+		case "individual_cryptostocks":
+			$securities = dropdown_get_cryptostocks_securities();
 			break;
 	}
 

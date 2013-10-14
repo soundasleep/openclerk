@@ -75,6 +75,10 @@ function get_all_exchanges() {
 		"bitfunder_wallet"	=> "BitFunder (Wallet)",
 		"bitfunder_securities" => "BitFunder (Securities)",
 		"individual_litecoinglobal" => "Litecoin Global (Individual Securities)",
+		"individual_btct" => "BTC Trading Co. (Individual Securities)",
+		"individual_bitfunder" => "BitFunder (Individual Securities)",
+		"individual_cryptostocks" => "Cryptostocks (Individual Securities)",
+		"individual_havelock" => "Havelock Investments (Individual Securities)",
 		"generic" => 		"Generic API",
 		"offsets" => 		"Offsets",		// generic
 		"blockchain" =>  	"Blockchain",	// generic
@@ -294,13 +298,11 @@ function account_data_grouped() {
 			'bitfunder' => array('label' => 'account', 'table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities'),
 		),
 		'Individual Securities' => array(
-			'individual_litecoinglobal' => array('label' => 'individual security', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal'),
-			/*
-			'individual_btct' => array('label' => 'individual security', 'table' => 'accounts_individual_btct', 'group' => 'accounts', 'wizard' => 'individual'),
-			'individual_cryptostocks' => array('label' => 'individual security', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual'),
-			'individual_havelock' => array('label' => 'individual security', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual'),
-			'individual_bitfunder' => array('label' => 'individual security', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual'),
-			*/
+			'individual_litecoinglobal' => array('label' => 'security', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal'),
+			'individual_btct' => array('label' => 'security', 'table' => 'accounts_individual_btct', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btct'),
+			'individual_cryptostocks' => array('label' => 'security', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'cryptostocks'),
+			'individual_havelock' => array('label' => 'security', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'havelock'),
+			'individual_bitfunder' => array('label' => 'security', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'bitfunder'),
 		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other'),
@@ -743,6 +745,42 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_individual_litecoinglobal',
 			);
 
+		case "individual_btct":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_btct_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_btct',
+			);
+
+		case "individual_bitfunder":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_bitfunder_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_bitfunder',
+			);
+
+		case "individual_cryptostocks":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_cryptostocks_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_cryptostocks',
+			);
+
+		case "individual_havelock":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_havelock_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_havelock',
+			);
+
 		// --- other ---
 		case "generic":
 			return array(
@@ -828,21 +866,42 @@ function dropdown_currency_list() {
 	return $result;
 }
 
+function dropdown_get_litecoinglobal_securities() {
+	return dropdown_get_all_securities('securities_litecoinglobal');
+}
+
+function dropdown_get_btct_securities() {
+	return dropdown_get_all_securities('securities_btct');
+}
+
+function dropdown_get_bitfunder_securities() {
+	return dropdown_get_all_securities('securities_bitfunder');
+}
+
+function dropdown_get_cryptostocks_securities() {
+	return dropdown_get_all_securities('securities_cryptostocks');
+}
+
+function dropdown_get_havelock_securities() {
+	return dropdown_get_all_securities('securities_havelock');
+}
+
 /**
  * Returns an array of (id => security name).
  * Cached across calls.
  */
-$global_dropdown_get_litecoinglobal_securities = array();
-function dropdown_get_litecoinglobal_securities() {
-	global $dropdown_get_litecoinglobal_securities;
-	if (!$dropdown_get_litecoinglobal_securities) {
-		$q = db()->prepare("SELECT * FROM securities_litecoinglobal");
+$dropdown_get_all_securities = array();
+function dropdown_get_all_securities($table) {
+	global $dropdown_get_all_securities;
+	if (!isset($dropdown_get_all_securities[$table])) {
+		$dropdown_get_all_securities[$table] = array();
+		$q = db()->prepare("SELECT * FROM " . $table);
 		$q->execute();
 		while ($sec = $q->fetch()) {
-			$dropdown_get_litecoinglobal_securities[$sec['id']] = $sec['name'];
+			$dropdown_get_all_securities[$table][$sec['id']] = $sec['name'];
 		}
 	}
-	return $dropdown_get_litecoinglobal_securities;
+	return $dropdown_get_all_securities[$table];
 }
 
 function is_valid_btc_address($address) {

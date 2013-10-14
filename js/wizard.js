@@ -85,22 +85,18 @@ $(document).ready(function() {
 								var previous = $(tempInput).children();
 								var ia = false;
 								previous.each(function(index, element) {
+									ia = element;
 									if ($(element).attr('id')) {
 										// we don't want to process the template
 										return true;
 									}
 
-									ia = element;
 									if ($(element).text() >= dropdown[option_key]) {
 										return false;
 									}
 								});
 
-								if (ia) {
-									$(ia).before(tempOption1);
-								} else {
-									tempInput.append(tempOption1);
-								}
+								$(ia).before(tempOption1);
 							}
 						}
 						tempOption.remove();

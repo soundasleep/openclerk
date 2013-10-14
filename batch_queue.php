@@ -97,6 +97,10 @@ $standard_jobs = array(
 	array('table' => 'accounts_liteguardian', 'type' => 'liteguardian'),
 	array('table' => 'accounts_khore', 'type' => 'khore'),
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal'),
+	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct'),
+	array('table' => 'accounts_individual_bitfunder', 'type' => 'individual_bitfunder'),
+	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks'),
+	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock'),
 	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* so that total BTC/LTC etc will be updated together before conversion summaries */
 	array('table' => 'summaries', 'type' => 'summary'),
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),

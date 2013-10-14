@@ -1,6 +1,6 @@
 <?php
-$exchange = get_exchange_name("litecoinglobal");
-$example = "S-DICE.PT";
+$exchange = get_exchange_name("havelock");
+$example = "ASICMINER";
 ?>
 
 <div class="instructions_add">
@@ -15,7 +15,7 @@ $example = "S-DICE.PT";
 	</li>
 
 	<li>For example, if you own 10 shares of <?php echo htmlspecialchars($example); ?> privately, then you can track these shares
-		using the <?php echo htmlspecialchars($example); ?> value on the public <?php echo htmlspecialchars($exchange); ?> securities exchange.<br>
+		using one of the <?php echo htmlspecialchars($example); ?> passthrough values on the public <?php echo htmlspecialchars($exchange); ?> securities exchange.<br>
 		<img src="img/accounts/individual_securities2.png"></li>
 </ol>
 </div>
