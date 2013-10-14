@@ -45,7 +45,7 @@ function crypto_wrap_url($url) {
 	return $url;
 }
 // wraps file_get_contents() with timeout information etc
-function crypto_get_contents($url) {
+function crypto_get_contents($url, $options = array()) {
 	// normally file_get_contents is OK, but if URLs are down etc, the timeout has no value and we can just stall here forever
 	// this also means we don't have to enable OpenSSL on windows (etc), which is just a bit of a mess
 	$ch = null;
@@ -60,6 +60,9 @@ function crypto_get_contents($url) {
 	// curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
 	// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	foreach ($options as $key => $value) {
+		curl_setopt($ch, $key, $value);
+	}
 
 	// run the query
 	$res = curl_exec($ch);

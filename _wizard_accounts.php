@@ -33,7 +33,7 @@ foreach (account_data_grouped() as $label => $data) {
 // sort add_types by name
 function _sort_by_exchange_name($a, $b) {
 	global $add_type_suffixes;
-	return strcmp(get_exchange_name($a) . $add_type_suffixes[$a], get_exchange_name($b) . $add_type_suffixes[$b]);
+	return strcmp(strtolower(get_exchange_name($a) . $add_type_suffixes[$a]), strtolower(get_exchange_name($b) . $add_type_suffixes[$b]));
 }
 usort($add_types, '_sort_by_exchange_name');
 

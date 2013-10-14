@@ -88,6 +88,7 @@ function get_all_exchanges() {
 		"ltcmineru" => 		"LTCMine.ru",
 		"miningforeman" =>  "Mining Foreman",	// LTC default
 		"miningforeman_ftc" => "Mining Foreman",
+		"khore" =>			"nvc.khore.org",
 		"havelock" => 		"Havelock Investments",
 		"havelock_wallet" => "Havelock Investments (Wallet)",
 		"havelock_securities" => "Havelock Investments (Securities)",
@@ -158,6 +159,7 @@ function get_supported_wallets() {
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
 		"hypernova" => array('ltc', 'hash'),
+		"khore" => array('nvc', 'hash'),
 		"litecoinglobal" => array('ltc'),
 		"liteguardian" => array('ltc'),
 		"ltcmineru" => array('ltc'),
@@ -275,6 +277,7 @@ function account_data_grouped() {
 			'miningforeman_ftc' => array('label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools'),
 			'bitminter' => array('label' => 'account', 'table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools'),
 			'liteguardian' => array('label' => 'account', 'table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools'),
+			'khore' => array('label' => 'account', 'table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges'),
@@ -341,6 +344,7 @@ function get_external_apis() {
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
+			'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -520,7 +524,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
 				),
 				'table' => 'accounts_poolx',
-				'title' => 'Pool-x account',
 				'khash' => true,
 			);
 
@@ -530,7 +533,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_token' => array('title' => 'API current token', 'callback' => 'is_valid_slush_apitoken'),
 				),
 				'table' => 'accounts_slush',
-				'title' => 'Slush\'s pool account',
 			);
 
 		case "wemineltc":
@@ -539,7 +541,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
 				),
 				'table' => 'accounts_wemineltc',
-				'title' => 'WeMineLTC account',
 				'khash' => true,
 			);
 
@@ -549,7 +550,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
 				),
 				'table' => 'accounts_givemecoins',
-				'title' => 'Give Me Coins account',
 				'khash' => true,
 			);
 
@@ -614,7 +614,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitminter_apikey'),
 				),
 				'table' => 'accounts_bitminter',
-				'title' => 'BitMinter account',
 			);
 
 		case "liteguardian":
@@ -623,7 +622,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_liteguardian_apikey'),
 				),
 				'table' => 'accounts_liteguardian',
-				'title' => 'LiteGuardian account',
+				'khash' => true,
+			);
+
+		case "khore":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_khore_apikey'),
+				),
+				'table' => 'accounts_khore',
 				'khash' => true,
 			);
 
@@ -653,7 +660,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btce_apisecret'),
 				),
 				'table' => 'accounts_btce',
-				'title' => 'BTC-e account',
 			);
 
 		case "vircurex":
@@ -663,7 +669,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_vircurex_apisecret', 'length' => 128),
 				),
 				'table' => 'accounts_vircurex',
-				'title' => 'Vircurex account',
 			);
 
 		// --- securities ---
@@ -673,7 +678,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'Read-Only API key', 'callback' => 'is_valid_btct_apikey'),
 				),
 				'table' => 'accounts_btct',
-				'title' => 'BTC Trading Co. account',
 			);
 
 		case "litecoinglobal":
@@ -682,7 +686,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'Read-Only API key', 'callback' => 'is_valid_litecoinglobal_apikey'),
 				),
 				'table' => 'accounts_litecoinglobal',
-				'title' => 'Litecoin Global account',
 			);
 
 		case "cryptostocks":
@@ -693,7 +696,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key_share' => array('title' => 'get_share_balances API key', 'callback' => 'is_valid_generic_key'),
 				),
 				'table' => 'accounts_cryptostocks',
-				'title' => 'Cryptostocks account',
 			);
 
 		case "havelock":
@@ -702,7 +704,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_havelock_apikey'),
 				),
 				'table' => 'accounts_havelock',
-				'title' => 'Havelock Investments account',
 			);
 
 		case "bitfunder":
@@ -711,7 +712,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'btc_address' => array('title' => 'BTC Address', 'callback' => 'is_valid_btc_address'),
 				),
 				'table' => 'accounts_bitfunder',
-				'title' => 'BitFunder account',
 			);
 
 		// --- other ---
@@ -937,6 +937,11 @@ function is_valid_bitminter_apikey($key) {
 function is_valid_liteguardian_apikey($key) {
 	// looks like 'api', followed by 32 character hex string
 	return preg_match("#^api[a-f0-9]{32}$#", $key);
+}
+
+function is_valid_khore_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

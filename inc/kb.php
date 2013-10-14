@@ -44,12 +44,12 @@ function get_knowledge_base() {
 
 	// sort each section by title
 	foreach ($kb as $label => $group) {
-		asort($kb[$label]);
+		usort($kb[$label], '_sort_get_knowledge_base');
 	}
 
 	return $kb;
 }
 
 function _sort_get_knowledge_base($a, $b) {
-	return strcmp(get_exchange_name($a), get_exchange_name($b));
+	return strcmp(strtolower(isset($a['title']) ? $a['title'] : $a), strtolower(isset($b['title']) ? $b['title'] : $b));
 }

@@ -1248,3 +1248,21 @@ CREATE TABLE novacoin_blocks (
 	
 	INDEX(is_recent)
 );
+
+-- drop old tables
+DROP TABLE IF EXISTS accounts_givemeltc;
+DROP TABLE IF EXISTS accounts_mine_litecoin;
+
+DROP TABLE IF EXISTS accounts_khore;
+
+CREATE TABLE accounts_khore (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);

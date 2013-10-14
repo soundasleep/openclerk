@@ -238,6 +238,10 @@ try {
 			require(__DIR__ . "/jobs/liteguardian.php");
 			break;
 
+		case "khore":
+			require(__DIR__ . "/jobs/khore.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require(__DIR__ . "/jobs/sum.php");
