@@ -182,8 +182,17 @@ function graph_types() {
 		$data["composition_" . $currency . "_daily"] = array(
 			'title' => "All " . get_currency_name($currency) . " balances (graph)",
 			'heading' => "All " . strtoupper($currency) . " balances",
-			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions), excluding addresses and offsets.",
+			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
 			'days' => true,
+			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+		);
+	}
+
+	foreach (get_all_currencies() as $currency) {
+		$data["composition_" . $currency . "_table"] = array(
+			'title' => "Your " . get_currency_name($currency) . " balances (table)",
+			'heading' => "Your " . strtoupper($currency) . " balances",
+			'description' => "A table displaying all of your " . get_currency_name($currency) . " balances and the total balance (before any conversions).",
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
 	}
@@ -235,6 +244,12 @@ function graph_types() {
 		'composition_ftc_daily' => 'composition_ltc_daily.png',
 		'composition_ppc_daily' => 'composition_ltc_daily.png',
 		'composition_nvc_daily' => 'composition_ltc_daily.png',
+		'composition_btc_table' => 'composition_ltc_table.png',
+		'composition_ltc_table' => 'composition_ltc_table.png',
+		'composition_nmc_table' => 'composition_ltc_table.png',
+		'composition_ftc_table' => 'composition_ltc_table.png',
+		'composition_ppc_table' => 'composition_ltc_table.png',
+		'composition_nvc_table' => 'composition_ltc_table.png',
 		'ticker_matrix' => 'ticker_matrix.png',
 	);
 	$data = add_example_images($data, $images);

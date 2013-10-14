@@ -179,7 +179,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("givemecoins");
+	return array("khore");
 }
 
 function crypto_address($currency, $address) {

@@ -13,13 +13,25 @@ function render_text($graph, $text) {
 <?php
 }
 
-function render_table_vertical($graph, $data) {
+function render_table_vertical($graph, $data, $head = array()) {
 	$graph_id = htmlspecialchars($graph['id']);
 	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <div class="overflow_wrapper">
 <table class="standard">
+<?php
+	if ($head) echo "<thead>";
+	foreach ($head as $row) {
+		echo "<tr>";
+		foreach ($row as $i => $item) {
+			echo "<th>" . $item . "</th>";	// assumed to be html escaped
+		}
+		echo "</tr>\n";
+	}
+	if ($head) echo "</thead>";
+?>
+<tbody>
 <?php foreach ($data as $row) {
 	echo "<tr>";
 	foreach ($row as $i => $item) {
@@ -30,6 +42,7 @@ function render_table_vertical($graph, $data) {
 	echo "</tr>\n";
 }
 ?>
+</tbody>
 </table>
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 </div>

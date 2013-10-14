@@ -417,6 +417,7 @@ function render_graph($graph, $is_public = false) {
 
 					switch ($split[2]) {
 						case "pie":
+						case "table":
 							// get data
 							// TODO could probably cache this
 							$q = db()->prepare("SELECT SUM(balance) AS balance, exchange, MAX(created_at) AS created_at FROM balances WHERE user_id=? AND is_recent=1 AND currency=? GROUP BY exchange");
@@ -456,7 +457,20 @@ function render_graph($graph, $is_public = false) {
 							arsort($data);
 
 							if ($data) {
-								render_pie_chart($graph, $data, 'Source', strtoupper($currency));
+								if ($split[2] == "pie") {
+									render_pie_chart($graph, $data, 'Source', strtoupper($currency));
+								} else {
+									$table = array();
+									$sum = 0;
+									foreach ($data as $exchange_name => $exchange_data) {
+										$table[] = array($exchange_name, currency_format($currency, $exchange_data));
+										$sum += $exchange_data;
+									}
+									$head = array(
+										array("Total " . strtoupper($currency), currency_format($currency, $sum)),
+									);
+									render_table_vertical($graph, $table, $head);
+								}
 							} else {
 								render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated.
 									<br><a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
