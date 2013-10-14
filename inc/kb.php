@@ -44,7 +44,7 @@ function get_knowledge_base() {
 
 	// sort each section by title
 	foreach ($kb as $label => $group) {
-		usort($kb[$label], '_sort_get_knowledge_base');
+		uasort($kb[$label], '_sort_get_knowledge_base');
 	}
 
 	return $kb;
