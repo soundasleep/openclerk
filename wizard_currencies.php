@@ -21,7 +21,8 @@ $messages = array();
 $accounts = user_limits_summary(user_id());
 
 $cryptos = get_all_cryptocurrencies();
-$fiats = array_diff(get_all_currencies(), $cryptos);
+$fiats = get_all_fiat_currencies();
+$commodities = get_all_commodity_currencies();
 
 // get all of our summaries
 $summaries = array();
@@ -89,6 +90,21 @@ while ($s = $q->fetch()) {
 			</ul>
 			</div>
 		</div>
+	</li>
+<?php } ?>
+</ul>
+</div>
+
+<hr>
+
+<div class="commoditycurrencies">
+<h2>Commodity currencies</h2>
+
+<ul>
+<?php foreach ($commodities as $c) { ?>
+	<li>
+		<input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo isset($summaries["summary_" . $c]) ? " checked" : ""; ?>>
+		<label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
 	</li>
 <?php } ?>
 </ul>

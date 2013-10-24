@@ -44,6 +44,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/bitstamp.php");
 		break;
 
+	case "cexio":
+		require(__DIR__ . "/ticker/cexio.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;

@@ -158,6 +158,14 @@ switch ($summary['summary_type']) {
 		add_summary_instance($job, 'all2nzd_bitnz', $total);
 		break;
 
+	case "summary_ghs":
+		$total = 0;
+		require(__DIR__ . "/summary/crypto2ghs.php");
+		add_summary_instance($job, 'crypto2ghs', $total);
+
+		// TODO all2ghs
+		break;
+
 	default:
 		throw new JobException("Unknown summary type " . $summary['summary_type']);
 		break;

@@ -133,7 +133,7 @@ function get_exchange_pairs() {
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad')),
 		"virtex" => array(array('cad', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
-		"cexio" => array(array('ghs', 'btc')),
+		"cexio" => array(array('btc', 'ghs')),
 	);
 }
 
@@ -219,6 +219,7 @@ function get_summary_types() {
 		'summary_aud_mtgox' => array('currency' => 'aud', 'key' => 'aud_mtgox', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_cad_mtgox' => array('currency' => 'usd', 'key' => 'cad_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_cad_virtex' => array('currency' => 'usd', 'key' => 'cad_virtex', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)', 'exchange' => 'virtex'),
+		'summary_ghs' => array('currency' => 'ghs', 'key' => 'ghs', 'title' => get_currency_name('ghs'), 'short_title' => 'GHS'),
 	);
 }
 
@@ -264,6 +265,7 @@ function get_crypto_conversion_summary_types() {
 		'ftc' => array('currency' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => 'FTC'),
 		'ppc' => array('currency' => 'ppc', 'title' => get_currency_name('ppc'), 'short_title' => 'PPC'),
 		'nvc' => array('currency' => 'nvc', 'title' => get_currency_name('nvc'), 'short_title' => 'NVC'),
+		'ghs' => array('currency' => 'ghs', 'title' => get_currency_name('ghs'), 'short_title' => 'GHS'),
 	);
 }
 
@@ -389,6 +391,7 @@ function get_external_apis() {
 			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
 			'ticker_virtex' => '<a href="https://www.cavirtex.com/">VirtEx</a>',
 			'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
+			'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
 		),
 
 		"Security exchanges" => array(

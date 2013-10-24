@@ -83,3 +83,9 @@ add_summary_instance($job, 'totalmh_ltc', $total);
 $total = 0;
 require(__DIR__ . "/summary/totalhashrate_nmc.php");
 add_summary_instance($job, 'totalmh_nmc', $total);
+
+$total = 0;
+require(__DIR__ . "/summary/totalghs.php");
+add_summary_instance($job, 'totalghs', $total);
+// add_summary_instance($job, 'blockchainghs', $total_blockchain_balance);
+add_summary_instance($job, 'offsetsghs', $total_offsets_balance);

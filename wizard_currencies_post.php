@@ -20,7 +20,8 @@ $currencies = require_post("currencies");
 $exchanges = require_post("exchanges");
 
 $cryptos = get_all_cryptocurrencies();
-$fiats = array_diff(get_all_currencies(), $cryptos);
+$fiats = get_all_fiat_currencies();
+$commodities = get_all_commodity_currencies();
 
 // go through all fiat currencies and, if no exchange is selected, select a default one
 foreach ($fiats as $c) {
@@ -51,6 +52,11 @@ foreach ($fiats as $c) {
 
 // go through all crypto currencies and add just summary_CUR
 foreach ($currencies as $c) {
+	$exchanges[] = "summary_" . $c;
+}
+
+// go through all commodity currencies and add just summary_CUR
+foreach ($commodities as $c) {
 	$exchanges[] = "summary_" . $c;
 }
 

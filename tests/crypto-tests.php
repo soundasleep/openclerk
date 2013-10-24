@@ -16,4 +16,8 @@ class CryptoTestsTest extends UnitTestCase {
 		$this->assertFalse(array_search('ghs', $fiat));
 	}
 
+	function testAllCurrenciesPresent() {
+		$this->fail("Test that all currencies defined in fiat/crypto/commodity are also listed in all_currencies etc");
+	}
+
 }

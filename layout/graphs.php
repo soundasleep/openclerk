@@ -90,6 +90,7 @@ function render_graph($graph, $is_public = false) {
 
 			// and convert them using the most recent rates
 			$rates = get_all_recent_rates();
+			print_r($rates);
 
 			// create data
 			$data = array();
@@ -110,6 +111,9 @@ function render_graph($graph, $is_public = false) {
 			}
 			if (isset($balances['totalnvc']) && $balances['totalnvc']['balance'] != 0 && isset($rates['btcnvc'])) {
 				$data['NVC'] = graph_number_format(demo_scale($balances['totalnvc']['balance'] * $rates['btcnvc']['sell']));
+			}
+			if (isset($balances['totalghs']) && $balances['totalghs']['balance'] != 0 && isset($rates['btcghs'])) {
+				$data['GHS'] = graph_number_format(demo_scale($balances['totalghs']['balance'] * $rates['btcghs']['sell']));
 			}
 			if (isset($balances['totalusd']) && $balances['totalusd']['balance'] != 0 && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
 				$data['USD'] = graph_number_format(demo_scale($balances['totalusd']['balance'] / $rates['usdbtc']['buy']));

@@ -1352,3 +1352,6 @@ CREATE TABLE accounts_cexio (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+INSERT INTO exchanges SET name='cexio';
+
