@@ -15,7 +15,7 @@ $q = db()->prepare("SELECT * FROM summaries WHERE user_id=? AND id=?");
 $q->execute(array($job['user_id'], $job['arg_id']));
 $summary = $q->fetch();
 if (!$summary) {
-	throw new JobException("Cannot find an summary " . $job['arg_id'] . " for user " . $job['user_id']);
+	throw new JobException("Cannot find a summary " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
 // what kind of summary is it?

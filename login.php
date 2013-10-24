@@ -157,12 +157,12 @@ page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 			<br>
 			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</a></button>
 
-			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Signup" ? "" : "display:none;"; ?>">
+			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Login" ? "" : "display:none;"; ?>">
 			<table>
 				<th>OpenID URL:</th>
 				<td>
 					<input type="text" name="openid" class="openid" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
-					<input type="submit" name="submit" value="Signup">
+					<input type="submit" name="submit" value="Login">
 					<?php if ($destination) { ?>
 					<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
 					<?php } ?>
