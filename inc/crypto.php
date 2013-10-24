@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "usd", "eur", "cad", "aud", "nzd");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "usd", "eur", "cad", "aud", "nzd", "ghs");
 }
 
 function get_all_hashrate_currencies() {
@@ -14,15 +14,19 @@ function get_all_hashrate_currencies() {
 }
 
 function get_new_supported_currencies() {
-	return array("nvc", "cad");
+	return array("ghs");
 }
 
 function get_all_cryptocurrencies() {
 	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc");
 }
 
+function get_all_commodity_currencies() {
+	return array("ghs");
+}
+
 function get_all_fiat_currencies() {
-	return array_diff(get_all_currencies(), get_all_cryptocurrencies());
+	return array_diff(array_diff(get_all_currencies(), get_all_cryptocurrencies()), get_all_commodity_currencies());
 }
 
 // currencies which we can download balances using explorers etc
@@ -43,6 +47,7 @@ function get_currency_name($n) {
 		case "aud": return "Australian dollar";
 		case "cad": return "Canadian dollar";
 		case "eur": return "Euro";
+		case "ghs": return "CEX.io GHS";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
 	}
 }
@@ -94,6 +99,7 @@ function get_all_exchanges() {
 		"miningforeman" =>  "Mining Foreman",	// LTC default
 		"miningforeman_ftc" => "Mining Foreman",
 		"khore" =>			"nvc.khore.org",
+		"cexio" =>			"CEX.io",
 		"havelock" => 		"Havelock Investments",
 		"havelock_wallet" => "Havelock Investments (Wallet)",
 		"havelock_securities" => "Havelock Investments (Securities)",
@@ -127,13 +133,13 @@ function get_exchange_pairs() {
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad')),
 		"virtex" => array(array('cad', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
+		"cexio" => array(array('ghs', 'btc')),
 	);
 }
 
 function get_new_exchange_pairs() {
 	return array(
-		"btce_btcnvc",
-		"vircurex_btcnvc",
+		"cexio_ghsbtc",
 	);
 }
 
@@ -161,6 +167,7 @@ function get_supported_wallets() {
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
+		"cexio" => array('btc', 'ghs'),
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
 		"hypernova" => array('ltc', 'hash'),
@@ -289,6 +296,7 @@ function account_data_grouped() {
 			'btce' => array('label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'vircurex' => array('label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'bips' => array('label' => 'account', 'table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'cexio' => array('label' => 'account', 'table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges'),
 		),
 		'Securities' => array(
 			'litecoinglobal' => array('label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities'),
@@ -364,6 +372,7 @@ function get_external_apis() {
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
+			'cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
@@ -690,6 +699,16 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_vircurex_apisecret', 'length' => 128),
 				),
 				'table' => 'accounts_vircurex',
+			);
+
+		case "cexio":
+			return array(
+				'inputs' => array(
+					'api_username' => array('title' => 'Username', 'callback' => 'is_valid_cexio_apiusername'),
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cexio_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
+				),
+				'table' => 'accounts_cexio',
 			);
 
 		// --- securities ---
@@ -1047,6 +1066,21 @@ function is_valid_liteguardian_apikey($key) {
 function is_valid_khore_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_cexio_apikey($key) {
+	// looks like a 24-32 character alphanumeric mixed case string
+	return strlen($key) >= 24 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
+}
+
+function is_valid_cexio_apisecret($key) {
+	// looks like a 24-32 character alphanumeric mixed case string
+	return strlen($key) >= 24 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
+}
+
+function is_valid_cexio_apiusername($key) {
+	// this could probably be in any format but should be at least one character
+	return strlen($key) >= 1 && strlen($key) <= 255;
 }
 
 function is_valid_currency($c) {

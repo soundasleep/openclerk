@@ -96,6 +96,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_bitminter', 'type' => 'bitminter'),
 	array('table' => 'accounts_liteguardian', 'type' => 'liteguardian'),
 	array('table' => 'accounts_khore', 'type' => 'khore'),
+	array('table' => 'accounts_cexio', 'type' => 'cexio'),
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal'),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct'),
 	array('table' => 'accounts_individual_bitfunder', 'type' => 'individual_bitfunder'),

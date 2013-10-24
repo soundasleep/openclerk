@@ -1332,3 +1332,23 @@ CREATE TABLE accounts_individual_havelock (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
+
+----------------------------------------------------------------------------
+-- upgrade statements from 0.10 to 0.11
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+DROP TABLE IF EXISTS accounts_cexio;
+
+CREATE TABLE accounts_cexio (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	api_username varchar(255) not null,
+	api_secret varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
