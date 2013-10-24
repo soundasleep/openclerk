@@ -71,6 +71,28 @@ function graph_types_public($summaries = array()) {
 }
 
 /**
+ * Return some text describing the default exchanges used for the given currencies.
+ * For example:
+ *  array('ltc', 'ftc', 'usd', 'ghs') => 'BTC-e for LTC/FTC, Mt.Gox for USD, CEX.io for GHS'
+ * @see get_default_currency_exchange()
+ */
+function get_default_exchange_text($currencies) {
+	$result = array();
+	foreach ($currencies as $c) {
+		$default = get_default_currency_exchange($c);
+		if (!isset($result[$default])) {
+			$result[$default] = array();
+		}
+		$result[$default][] = strtoupper($c);
+	}
+	$result2 = array();
+	foreach ($result as $exchange => $currencies) {
+		$result2[] = get_exchange_name($exchange) . " for " . implode("/", $currencies);
+	}
+	return implode(", ", $result2);
+}
+
+/**
  * Get all of the defined graph types. Used for display and validation.
  */
 function graph_types() {
@@ -81,7 +103,7 @@ function graph_types() {
 	$total_fiat_currencies = implode_english($total_fiat_currencies);
 
 	$data = array(
-		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: BTC-e for LTC/NMC/FTC/PPC/NVC.'),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall value of all accounts if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price.'),
 		'ticker_matrix' => array('title' => 'All currencies exchange rates (matrix)', 'heading' => 'All exchanges', 'description' => 'A matrix displaying the current buy/sell of all of the currencies and exchanges <a href="' . htmlspecialchars(url_for('user')) .'">you are interested in</a>.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),

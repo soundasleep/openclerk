@@ -223,13 +223,25 @@ function get_summary_types() {
 	);
 }
 
+// used in graphs/util.php for defining BTC equivalent defaults
+// also used in wizard_currencies.php for default exchanges
+// TODO use in other graphs for default exchanges
 function get_default_currency_exchange($c) {
 	switch ($c) {
+		// cryptos
+		case "ltc": return "btce";
+		case "ftc": return "btce";
+		case "ppc": return "btce";
+		case "nmc": return "btce";
+		case "nvc": return "btce";
+		// fiats
 		case "usd": return "mtgox";
 		case "nzd": return "bitnz";
 		case "eur": return "btce";
 		case "aud": return "mtgox";
 		case "cad": return "virtex";
+		// commodities
+		case "ghs": return "cexio";
 		default: throw new Exception("Unknown currency to exchange into: $c");
 	}
 }

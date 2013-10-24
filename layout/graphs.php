@@ -90,36 +90,20 @@ function render_graph($graph, $is_public = false) {
 
 			// and convert them using the most recent rates
 			$rates = get_all_recent_rates();
-			print_r($rates);
 
 			// create data
 			$data = array();
 			if (isset($balances['totalbtc']) && $balances['totalbtc']['balance'] != 0) {
 				$data['BTC'] = graph_number_format(demo_scale($balances['totalbtc']['balance']));
 			}
-			if (isset($balances['totalltc']) && $balances['totalltc']['balance'] != 0 && isset($rates['btcltc'])) {
-				$data['LTC'] = graph_number_format(demo_scale($balances['totalltc']['balance'] * $rates['btcltc']['sell']));
-			}
-			if (isset($balances['totalnmc']) && $balances['totalnmc']['balance'] != 0 && isset($rates['btcnmc'])) {
-				$data['NMC'] = graph_number_format(demo_scale($balances['totalnmc']['balance'] * $rates['btcnmc']['sell']));
-			}
-			if (isset($balances['totalftc']) && $balances['totalftc']['balance'] != 0 && isset($rates['btcftc'])) {
-				$data['FTC'] = graph_number_format(demo_scale($balances['totalftc']['balance'] * $rates['btcftc']['sell']));
-			}
-			if (isset($balances['totalppc']) && $balances['totalppc']['balance'] != 0 && isset($rates['btcppc'])) {
-				$data['PPC'] = graph_number_format(demo_scale($balances['totalppc']['balance'] * $rates['btcppc']['sell']));
-			}
-			if (isset($balances['totalnvc']) && $balances['totalnvc']['balance'] != 0 && isset($rates['btcnvc'])) {
-				$data['NVC'] = graph_number_format(demo_scale($balances['totalnvc']['balance'] * $rates['btcnvc']['sell']));
-			}
-			if (isset($balances['totalghs']) && $balances['totalghs']['balance'] != 0 && isset($rates['btcghs'])) {
-				$data['GHS'] = graph_number_format(demo_scale($balances['totalghs']['balance'] * $rates['btcghs']['sell']));
-			}
-			if (isset($balances['totalusd']) && $balances['totalusd']['balance'] != 0 && isset($rates['usdbtc']) && $rates['usdbtc'] /* no div by 0 */) {
-				$data['USD'] = graph_number_format(demo_scale($balances['totalusd']['balance'] / $rates['usdbtc']['buy']));
-			}
-			if (isset($balances['totalnzd']) && $balances['totalnzd']['balance'] != 0 && isset($rates['nzdbtc']) && $rates['nzdbtc'] /* no div by 0 */) {
-				$data['NZD'] = graph_number_format(demo_scale($balances['totalnzd']['balance'] / $rates['nzdbtc']['buy']));
+			foreach (get_all_currencies() as $cur) {
+				if ($cur == 'btc') continue;
+				if (isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates['btc' . $cur])) {
+					$data[strtoupper($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] * $rates['btc' . $cur]['sell']));
+				}
+				if (isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates[$cur . 'btc']) && $rates[$cur . 'btc'] /* no div by 0 */) {
+					$data[strtoupper($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] / $rates[$cur . 'btc']['buy']));
+				}
 			}
 
 			// sort data by balance

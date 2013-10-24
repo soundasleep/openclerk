@@ -94,22 +94,19 @@ function get_all_conversion_currencies() {
 
 // cached
 $global_all_recent_rates = null;
-// this also makes assumptions about which is the best exchange for each rate
-// e.g. btc-e for btc/ltc, mtgox for usd/btc
+// uses the "best" exchanges as defined in get_default_currency_exchange()
 function get_all_recent_rates() {
 	global $global_all_recent_rates;
 	if ($global_all_recent_rates === null) {
 		$global_all_recent_rates = array();
-		$q = db()->prepare("SELECT * FROM ticker WHERE is_recent=1 AND (
-			(currency1 = 'btc' AND currency2 = 'ltc' AND exchange='btce') OR
-			(currency1 = 'btc' AND currency2 = 'ftc' AND exchange='btce') OR
-			(currency1 = 'btc' AND currency2 = 'ppc' AND exchange='btce') OR
-			(currency1 = 'btc' AND currency2 = 'nmc' AND exchange='btce') OR
-			(currency1 = 'btc' AND currency2 = 'nvc' AND exchange='btce') OR
-			(currency1 = 'nzd' AND currency2 = 'btc' AND exchange='bitnz') OR
-			(currency1 = 'usd' AND currency2 = 'btc' AND exchange='mtgox') OR
-			0
-		)");
+		$query = "";
+		foreach (get_all_currencies() as $cur) {
+			if ($cur == 'btc') continue;	// we don't provide a 'btcbtc' rate
+			$exchange = get_default_currency_exchange($cur);
+			$query .= "(currency1 = 'btc' AND currency2 = '$cur' AND exchange='$exchange') OR";
+			$query .= "(currency1 = '$cur' AND currency2 = 'btc' AND exchange='$exchange') OR";
+		}
+		$q = db()->prepare("SELECT * FROM ticker WHERE is_recent=1 AND ($query 0)");
 		$q->execute(array(user_id()));
 		while ($ticker = $q->fetch()) {
 			$global_all_recent_rates[$ticker['currency1'] . $ticker['currency2']] = $ticker;
