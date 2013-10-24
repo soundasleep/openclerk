@@ -11,13 +11,25 @@ class CryptoTestsTest extends UnitTestCase {
 
 	function testGetAllFiatCurrencies() {
 		$fiat = get_all_fiat_currencies();
-		$this->assertTrue(array_search('usd', $fiat));
-		$this->assertFalse(array_search('btc', $fiat));
-		$this->assertFalse(array_search('ghs', $fiat));
+		$this->assertTrue(array_search('usd', $fiat) !== false);
+		$this->assertFalse(array_search('btc', $fiat) !== false);
+		$this->assertFalse(array_search('ghs', $fiat) !== false);
 	}
 
 	function testAllCurrenciesPresent() {
-		$this->fail("Test that all currencies defined in fiat/crypto/commodity are also listed in all_currencies etc");
+		foreach (get_all_fiat_currencies() as $c) {
+			$this->assertTrue(array_search($c, get_all_currencies()) !== false);
+		}
+		foreach (get_all_cryptocurrencies() as $c) {
+			$this->assertTrue(array_search($c, get_all_currencies()) !== false);
+		}
+		foreach (get_all_commodity_currencies() as $c) {
+			$this->assertTrue(array_search($c, get_all_currencies()) !== false);
+		}
+	}
+
+	function testAllCurrenciesComplete() {
+		$this->assertIdentical(array(), array_diff(get_all_currencies(), get_all_fiat_currencies(), get_all_cryptocurrencies(), get_all_commodity_currencies()));
 	}
 
 }

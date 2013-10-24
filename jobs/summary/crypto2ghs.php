@@ -4,4 +4,4 @@
  * Summary job: convert all cryptocurrencies to GHS.
  */
 $currency = 'ghs';
-require("_crypto2.php");
+require(__DIR__ . "/jobs/summary/_crypto2.php");
