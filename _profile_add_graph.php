@@ -86,7 +86,7 @@ function graph_types() {
 	if (!(isset($graph['hide']) && $graph['hide'])) {
 		// we don't want to display graph types that we aren't interested in
 		$arg0 = (isset($graph['arg0']) && $graph['arg0']) ? $graph['arg0'] : false;
-		$arg0_values = $arg0 ? $arg0() : false;
+		$arg0_values = $arg0 ? $arg0(isset($graph['param0']) ? $graph['param0'] : false, isset($graph['param1']) ? $graph['param1'] : false) : false;
 		if ($arg0_values) {
 			// need to convert from array of (id => value) to a list of {id, value}, because JS
 			// sorts by id whereas PHP sorts by insertion order
