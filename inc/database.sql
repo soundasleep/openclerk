@@ -1371,3 +1371,23 @@ CREATE TABLE accounts_cryptotrade (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+DROP TABLE IF EXISTS securities_cryptotrade;
+
+CREATE TABLE securities_cryptotrade (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	name varchar(64) not null,
+	currency varchar(4) not null,
+	
+	INDEX(last_queue)
+);
+
+-- we insert these securities manually for now
+INSERT INTO securities_cryptotrade SET name='CTB', currency='btc';
+INSERT INTO securities_cryptotrade SET name='CTL', currency='ltc';
+INSERT INTO securities_cryptotrade SET name='ESB', currency='btc';
+INSERT INTO securities_cryptotrade SET name='ESL', currency='ltc';
+

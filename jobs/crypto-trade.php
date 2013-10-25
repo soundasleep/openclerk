@@ -55,6 +55,7 @@ if (isset($info['error'])) {
 }
 crypto_log(print_r($info, true));
 
+// we process both wallets...
 $get_supported_wallets = get_supported_wallets();
 $currencies = $get_supported_wallets['crypto-trade']; // also supports trc, cnc, wdc etc
 foreach ($currencies as $currency) {
@@ -68,3 +69,55 @@ foreach ($currencies as $currency) {
 	insert_new_balance($job, $account, $exchange, $currency, $balance);
 
 }
+
+// ...and also securities
+// set is_recent=0 for all old security instances for this user
+$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
+$q->execute(array($job['user_id'], $exchange));
+
+$q = db()->prepare("SELECT * FROM securities_cryptotrade");
+$q->execute();
+$securities = $q->fetchAll();
+$security_value = array();
+foreach ($securities as $sec) {
+	if (!isset($security_value[$sec['currency']])) {
+		$security_value[$sec['currency']] = 0;
+	}
+
+	// find the last security value
+	$q = db()->prepare("SELECT * FROM balances WHERE exchange=? AND account_id=? AND is_recent=1 LIMIT 1");
+	$q->execute(array("securities_crypto-trade", $sec['id']));
+	if ($balance = $q->fetch()) {
+		$currency = strtolower($sec['name']);
+		if (!isset($info['data']['funds'][$currency])) {
+			// no security value found
+			crypto_log("Did not find funds for currency $currency in $exchange");
+
+		} else {
+			// calculate the security value
+			if ($info['data']['funds'][$currency] >= 0) {
+				$temp = $info['data']['funds'][$currency] * $balance['balance'];
+				crypto_log($info['data']['funds'][$currency] . " x " . $balance['balance'] . " = " . $balance . " " . $sec['currency']);
+				$security_value[$sec['currency']] += $temp;
+
+				// insert security instance
+				$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, is_recent=1");
+				$q->execute(array(
+					'user_id' => $job['user_id'],
+					'exchange' => $exchange,
+					'security_id' => $sec['id'],
+					'quantity' => $info['data']['funds'][$currency],
+				));
+			}
+		}
+
+	} else {
+		crypto_log("Could not find any recent balance for " . $sec['name']);
+	}
+}
+
+crypto_log("Securities values: " . print_r($security_value, true));
+foreach ($security_value as $currency => $value) {
+	insert_new_balance($job, $account, $exchange . '_securities', $currency, $value);
+}
+

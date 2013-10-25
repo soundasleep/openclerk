@@ -102,12 +102,13 @@ if ($id && isset($historical_graphs[$id])) {
 		if ($bits[0] == "securities") {
 			$security_type = $bits[1];
 			$exchanges = get_security_exchange_pairs();
+			$tables = get_security_exchange_tables();
 			if (!isset($exchanges[$security_type])) {
 				throw new Exception("Unknown security type '" . htmlspecialchars($security_type) . "'");
 			}
 
 			// get all "new" securities
-			$q = db()->prepare("SELECT * FROM securities_" . $security_type . " WHERE created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)");
+			$q = db()->prepare("SELECT * FROM " . $tables[$security_type] . " WHERE created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)");
 			$q->execute();
 			$new_securities = array();
 			while ($sec = $q->fetch()) {

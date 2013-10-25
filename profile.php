@@ -69,10 +69,12 @@ if ($pages) {
 		if (get_premium_value($user, 'your_securities')) {
 
 			// assumes each securities_XXX table has a 'name'
+			$tables = get_security_exchange_tables();
 			foreach (get_security_exchange_pairs() as $exchange => $currencies) {
+				$table = $tables[$exchange];
 
 				$q = db()->prepare("SELECT securities.* " . (count($currencies) > 1 ? ", ss.currency" : "") . " FROM securities
-					JOIN securities_" . $exchange . " AS ss ON securities.security_id=ss.id
+					JOIN " . $table . " AS ss ON securities.security_id=ss.id
 					WHERE exchange=? AND user_id=? AND is_recent=1 ORDER BY exchange ASC, ss.name ASC");
 				$q->execute(array($exchange, user_id()));
 				$securities = $q->fetchAll();

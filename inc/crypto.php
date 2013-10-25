@@ -101,6 +101,7 @@ function get_all_exchanges() {
 		"khore" =>			"nvc.khore.org",
 		"cexio" =>			"CEX.io",
 		"crypto-trade" =>	"Crypto-Trade",
+		"crypto-trade_securities" => "Crypto-Trade (Securities)",
 		"havelock" => 		"Havelock Investments",
 		"havelock_wallet" => "Havelock Investments (Wallet)",
 		"havelock_securities" => "Havelock Investments (Securities)",
@@ -163,11 +164,23 @@ function get_security_exchange_pairs() {
 		"cryptostocks" => array('btc', 'ltc'),
 		"havelock" => array('btc'),
 		"bitfunder" => array('btc'),
+		"crypto-trade" => array('btc', 'ltc'),
+	);
+}
+
+function get_security_exchange_tables() {
+	return array(
+		"litecoinglobal" => "securities_litecoinglobal",
+		"btct" => "securities_btct",
+		"cryptostocks" => "securities_cryptostocks",
+		"havelock" => "securities_havelock",
+		"bitfunder" => "securities_bitfunder",
+		"crypto-trade" => "securities_cryptotrade",
 	);
 }
 
 function get_new_security_exchanges() {
-	return array("bitfunder");
+	return array("crypto-trade");
 }
 
 function get_supported_wallets() {
@@ -337,6 +350,7 @@ function account_data_grouped() {
 			'cryptostocks' => array('table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities'),
 			'havelock' => array('table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
 			'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities'),
+			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'securities'),
 		),
 		'Individual Securities' => array(
 			'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal'),
@@ -436,8 +450,10 @@ function get_external_apis() {
 			'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'securities_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
+			'securities_crypto-trade' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'securities_update_btct' => '<a href="http://btct.co">BTC Trading Co.</a> Securities list',
-			'securities_update_litecoinglobal' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
+			'securities_update_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a> Securities list',
+			'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
 			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
 			'securities_update_bitfunder' => '<a href="https://bitfunder.com/">BitFunder</a> Securities list',
 		),

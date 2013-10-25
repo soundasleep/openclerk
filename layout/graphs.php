@@ -36,11 +36,12 @@ function render_graph($graph, $is_public = false) {
 		// we need to unresolve the name to find the appropriate security
 		$split = explode("_", $graph['graph_type'], 3);
 		$securities = get_security_exchange_pairs();
+		$tables = get_security_exchange_tables();
 		if (count($securities[$split[1]]) > 1) {
-			$q = db()->prepare("SELECT * FROM securities_" . $split[1] . " WHERE name=? AND currency=?");
+			$q = db()->prepare("SELECT * FROM " . $tables[$split[1]] . " WHERE name=? AND currency=?");
 			$q->execute(array($graph['arg0_resolved'], $split[2]));
 		} else {
-			$q = db()->prepare("SELECT * FROM securities_" . $split[1] . " WHERE name=?");
+			$q = db()->prepare("SELECT * FROM  " . $tables[$split[1]] . " WHERE name=?");
 			$q->execute(array($graph['arg0_resolved']));
 		}
 		$sec = $q->fetch();
