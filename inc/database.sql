@@ -1403,3 +1403,12 @@ CREATE TABLE accounts_individual_cryptotrade (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
+
+-- performance improvements due to MySQL slow queries log
+ALTER TABLE securities_bitfunder ADD index(name);
+ALTER TABLE securities_btct ADD index(name);
+ALTER TABLE securities_cryptostocks ADD index(name);
+ALTER TABLE securities_cryptotrade ADD index(name);
+ALTER TABLE securities_havelock ADD index(name);
+ALTER TABLE securities_litecoinglobal ADD index(name);
+
