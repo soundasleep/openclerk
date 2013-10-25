@@ -291,40 +291,40 @@ function account_data_grouped() {
 			'novacoin' => array('title' => 'NVC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nvc\'', 'wizard' => 'addresses'),
 		),
 		'Mining pools' => array(
-			'poolx' => array('label' => 'account', 'table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools'),
-			'slush' => array('label' => 'account', 'table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools'),
-			'wemineltc' => array('label' => 'account', 'table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools'),
-			'givemecoins' => array('label' => 'account', 'table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools'),
-			'btcguild' => array('label' => 'account', 'table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools'),
-			'50btc' => array('label' => 'account', 'table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools'),
-			'hypernova' => array('label' => 'account', 'table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools'),
-			'ltcmineru' => array('label' => 'account', 'table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools'),
-			'miningforeman' => array('label' => 'account', 'table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools'),
-			'miningforeman_ftc' => array('label' => 'account', 'table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools'),
-			'bitminter' => array('label' => 'account', 'table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools'),
-			'liteguardian' => array('label' => 'account', 'table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools'),
-			'khore' => array('label' => 'account', 'table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools'),
+			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools'),
+			'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools'),
+			'wemineltc' => array('table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools'),
+			'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools'),
+			'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools'),
+			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools'),
+			'hypernova' => array('table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools'),
+			'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools'),
+			'miningforeman' => array('table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools'),
+			'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools'),
+			'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools'),
+			'liteguardian' => array('table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools'),
+			'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools'),
 		),
 		'Exchanges' => array(
-			'mtgox' => array('label' => 'account', 'table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges'),
-			'btce' => array('label' => 'account', 'table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges'),
-			'vircurex' => array('label' => 'account', 'table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges'),
-			'bips' => array('label' => 'account', 'table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
-			'cexio' => array('label' => 'account', 'table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges'),
 		),
 		'Securities' => array(
-			'litecoinglobal' => array('label' => 'account', 'table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities'),
-			'btct' => array('label' => 'account', 'table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities'),
-			'cryptostocks' => array('label' => 'account', 'table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities'),
-			'havelock' => array('label' => 'account', 'table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
-			'bitfunder' => array('label' => 'account', 'table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities'),
+			'litecoinglobal' => array('table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities'),
+			'btct' => array('table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities'),
+			'cryptostocks' => array('table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities'),
+			'havelock' => array('table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
+			'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities'),
 		),
 		'Individual Securities' => array(
-			'individual_litecoinglobal' => array('label' => 'security', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal'),
-			'individual_btct' => array('label' => 'security', 'table' => 'accounts_individual_btct', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btct'),
-			'individual_cryptostocks' => array('label' => 'security', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'cryptostocks'),
-			'individual_havelock' => array('label' => 'security', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'havelock'),
-			'individual_bitfunder' => array('label' => 'security', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'bitfunder'),
+			'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal'),
+			'individual_btct' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_btct', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btct'),
+			'individual_cryptostocks' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'cryptostocks'),
+			'individual_havelock' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'havelock'),
+			'individual_bitfunder' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'bitfunder'),
 		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other'),
@@ -335,15 +335,18 @@ function account_data_grouped() {
 			'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries'),
 		),
 	);
-	// TODO refactor
-	foreach ($data['Exchanges'] as $key => $row) {
-		$data['Exchanges'][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $row['label'] . "s";
-	}
-	foreach ($data['Securities'] as $key => $row) {
-		$data['Securities'][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $row['label'] . "s";
-	}
-	foreach ($data['Mining pools'] as $key => $row) {
-		$data['Mining pools'][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $row['label'] . "s";
+	foreach ($data as $key0 => $row0) {
+		foreach ($row0 as $key => $row) {
+			if (!isset($data[$key0][$key]['label'])) {
+				$data[$key0][$key]['label'] = "account";
+			}
+			if (!isset($data[$key0][$key]['labels'])) {
+				$data[$key0][$key]['labels'] = $data[$key0][$key]['label'] . "s";
+			}
+			if (!isset($data[$key0][$key]['title'])) {
+				$data[$key0][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $data[$key0][$key]['labels'];
+			}
+		}
 	}
 	return $data;
 }
