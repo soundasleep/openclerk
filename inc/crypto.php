@@ -100,6 +100,7 @@ function get_all_exchanges() {
 		"miningforeman_ftc" => "Mining Foreman",
 		"khore" =>			"nvc.khore.org",
 		"cexio" =>			"CEX.io",
+		"crypto-trade" =>	"Crypto-Trade",
 		"havelock" => 		"Havelock Investments",
 		"havelock_wallet" => "Havelock Investments (Wallet)",
 		"havelock_securities" => "Havelock Investments (Securities)",
@@ -121,7 +122,7 @@ function get_exchange_name($n) {
 }
 
 function get_new_exchanges() {
-	return array("themoneyconverter", "virtex", "bitstamp");
+	return array("crypto-trade");
 }
 
 function get_exchange_pairs() {
@@ -134,12 +135,25 @@ function get_exchange_pairs() {
 		"virtex" => array(array('cad', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
 		"cexio" => array(array('btc', 'ghs')),
+		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'), array('btc', 'dvc')),
 	);
 }
 
 function get_new_exchange_pairs() {
 	return array(
-		"cexio_ghsbtc",
+		"cexio_btcghs",
+		"crypto-trade_usdbtc",
+		"crypto-trade_eurbtc",
+		"crypto-trade_usdltc",
+		"crypto-trade_eurltc",
+		"crypto-trade_btcltc",
+		"crypto-trade_usdnmc",
+		"crypto-trade_btcnmc",
+		"crypto-trade_usdppc",
+		"crypto-trade_btcppc",
+		"crypto-trade_usdftc",
+		"crypto-trade_btcftc",
+		"crypto-trade_btcdvc",
 	);
 }
 
@@ -212,10 +226,12 @@ function get_summary_types() {
 		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)', 'exchange' => 'virtex'),
 		'summary_usd_bitstamp' => array('currency' => 'usd', 'key' => 'usd_bitstamp', 'title' => get_currency_name('usd') . " (converted through Bitstamp)", 'short_title' => 'USD (Bitstamp)', 'exchange' => 'bitstamp'),
+		'summary_usd_crypto-trade' => array('currency' => 'usd', 'key' => 'usd_crypto-trade', 'title' => get_currency_name('usd') . " (converted through Crypto-Trade)", 'short_title' => 'USD (Crypto-Trade)', 'exchange' => 'crypto-trade'),
 		'summary_nzd_bitnz' => array('currency' => 'nzd', 'key' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD', 'exchange' => 'bitnz'),
 		'summary_eur_btce' => array('currency' => 'eur', 'key' => 'eur_btce', 'title' => get_currency_name('eur') . " (converted through BTC-e)", 'short_title' => 'EUR (BTC-E)', 'exchange' => 'btce'),
 		'summary_eur_mtgox' => array('currency' => 'eur', 'key' => 'eur_mtgox', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_eur_vircurex' => array('currency' => 'eur', 'key' => 'eur_vircurex', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)', 'exchange' => 'vircurex'),
+		'summary_eur_crypto-trade' => array('currency' => 'eur', 'key' => 'eur_crypto-trade', 'title' => get_currency_name('eur') . " (converted through Crypto-Trade)", 'short_title' => 'EUR (Crypto-Trade)', 'exchange' => 'crypto-trade'),
 		'summary_aud_mtgox' => array('currency' => 'aud', 'key' => 'aud_mtgox', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_cad_mtgox' => array('currency' => 'usd', 'key' => 'cad_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_cad_virtex' => array('currency' => 'usd', 'key' => 'cad_virtex', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)', 'exchange' => 'virtex'),
@@ -257,9 +273,11 @@ function get_total_conversion_summary_types() {
 		'usd_mtgox' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
 		'usd_vircurex' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)'),
 		'usd_bitstamp' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Bitstamp)", 'short_title' => 'USD (Bitstamp)'),
+		'usd_crypto-trade' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Crypto-Trade)", 'short_title' => 'USD (Crypto-Trade)'),
 		'eur_btce' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through BTC-e)", 'short_title' => 'EUR (BTC-E)'),
 		'eur_mtgox' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)'),
 		'eur_vircurex' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)'),
+		'eur_crypto-trade' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Crypto-Trade)", 'short_title' => 'EUR (Crypto-Trade)'),
 		'aud_mtgox' => array('currency' => 'aud', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)'),
 		'cad_mtgox' => array('currency' => 'cad', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)'),
 		'cad_virtex' => array('currency' => 'cad', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)'),
@@ -407,6 +425,7 @@ function get_external_apis() {
 			'ticker_virtex' => '<a href="https://www.cavirtex.com/">VirtEx</a>',
 			'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
 			'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
+			'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
 		),
 
 		"Security exchanges" => array(

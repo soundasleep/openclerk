@@ -1355,3 +1355,5 @@ CREATE TABLE accounts_cexio (
 
 INSERT INTO exchanges SET name='cexio';
 
+INSERT INTO exchanges SET name='crypto-trade';
+
