@@ -3,6 +3,7 @@
 /**
  * Various batch-related helper functions.
  */
+define('BATCH_SCRIPT', true);
 
 function require_batch_key() {
 	global $argv;
