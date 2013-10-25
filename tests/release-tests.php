@@ -51,5 +51,33 @@ class ReleaseTestsTest extends UnitTestCase {
 		return $result;
 	}
 
+	/**
+	 * Test that all require()s reference a valid file, to prevent a problem like r426
+	 */
+	function testAllIncludesExist() {
+		$files = $this->recurseFindFiles("..", "");
+		$this->assertTrue(count($files) > 0);
+
+		foreach ($files as $f) {
+			$s = file_get_contents($f);
+			if (preg_match_all('#\n(require|require_once|include|include_once)\(__DIR__ . ("|\')([^"\']+)("|\')#m', $s, $matches_array, PREG_SET_ORDER)) {
+				foreach ($matches_array as $matches) {
+					$path = $matches[3];
+
+					// path should start with /
+					$this->assertTrue(substr($path, 0, 1) == "/", "Included path '$path' in '$f' did not start with /");
+
+					// get relative dir
+					$bits = explode("/", $f);
+					unset($bits[count($bits)-1]);	// remove filename
+					unset($bits[0]);	// remove ../
+					$resolved = __DIR__ . "/../" . implode("/", $bits) . $path;
+					$this->assertTrue(file_exists($resolved), "Included path '$path' in '$f' was not found: [$resolved]");
+				}
+			}
+		}
+
+	}
+
 
 }
