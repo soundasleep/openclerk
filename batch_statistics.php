@@ -129,6 +129,19 @@ $data = array();
 	$data['pending_unsubscriptions'] = $c['c'];
 }
 
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM jobs WHERE is_test_job=1");
+	$q->execute();
+	$c = $q->fetch();
+	$data['jobs_tests'] = $c['c'];
+}
+{
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM jobs WHERE is_timeout=1");
+	$q->execute();
+	$c = $q->fetch();
+	$data['jobs_timeout'] = $c['c'];
+}
+
 // calculate MySQL statistics
 $q = db()->prepare("SHOW GLOBAL STATUS");
 $q->execute();
@@ -197,6 +210,9 @@ $q = db()->prepare("INSERT INTO site_statistics SET
 	users_login_after_warned = :users_login_after_warned,
 	user_logins_after_disabled = :user_logins_after_disabled,
 	users_login_after_disabled = :users_login_after_disabled,
+
+	jobs_tests = :jobs_tests,
+	jobs_timeout = :jobs_timeout,
 
 	$query_extra
 

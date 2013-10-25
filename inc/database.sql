@@ -1430,3 +1430,6 @@ ALTER TABLE jobs ADD execution_started timestamp null;
 ALTER TABLE jobs ADD is_timeout tinyint not null default 0;
 ALTER TABLE jobs ADD INDEX(is_timeout);
 
+ALTER TABLE site_statistics ADD jobs_tests int not null default 0;
+ALTER TABLE site_statistics ADD jobs_timeout int not null default 0;
+
