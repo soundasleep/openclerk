@@ -271,6 +271,10 @@ try {
 			require(__DIR__ . "/jobs/individual_havelock.php");
 			break;
 
+		case "individual_crypto-trade":
+			require(__DIR__ . "/jobs/individual_crypto-trade.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require(__DIR__ . "/jobs/sum.php");

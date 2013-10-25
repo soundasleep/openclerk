@@ -58,6 +58,9 @@ function get_individual_security_config($account) {
 		case "individual_cryptostocks":
 			$securities = dropdown_get_cryptostocks_securities();
 			break;
+		case "individual_crypto-trade":
+			$securities = dropdown_get_cryptotrade_securities();
+			break;
 	}
 
 	if ($securities) {

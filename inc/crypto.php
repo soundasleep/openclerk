@@ -84,6 +84,7 @@ function get_all_exchanges() {
 		"individual_bitfunder" => "BitFunder (Individual Securities)",
 		"individual_cryptostocks" => "Cryptostocks (Individual Securities)",
 		"individual_havelock" => "Havelock Investments (Individual Securities)",
+		"individual_crypto-trade" => "Crypto-Trade (Individual Securities)",
 		"generic" => 		"Generic API",
 		"offsets" => 		"Offsets",		// generic
 		"blockchain" =>  	"Blockchain",	// generic
@@ -358,6 +359,7 @@ function account_data_grouped() {
 			'individual_cryptostocks' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'cryptostocks'),
 			'individual_havelock' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'havelock'),
 			'individual_bitfunder' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'bitfunder'),
+			'individual_crypto-trade' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptotrade', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'crypto-trade'),
 		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other'),
@@ -456,6 +458,7 @@ function get_external_apis() {
 			'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
 			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
 			'securities_update_bitfunder' => '<a href="https://bitfunder.com/">BitFunder</a> Securities list',
+			'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',		// securities for crypto-trade are handled by the ticker_crypto-trade
 		),
 
 		"Individual securities" => array(
@@ -465,6 +468,7 @@ function get_external_apis() {
 			'individual_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'individual_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'individual_bitfunder' => '<a href="https://www.bitfunder.com">BitFunder</a>',
+			'individual_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
 		),
 
 		"Other" => array(
@@ -864,6 +868,15 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_individual_havelock',
 			);
 
+		case "individual_crypto-trade":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_cryptotrade_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_cryptotrade',
+			);
+
 		// --- other ---
 		case "generic":
 			return array(
@@ -967,6 +980,10 @@ function dropdown_get_cryptostocks_securities() {
 
 function dropdown_get_havelock_securities() {
 	return dropdown_get_all_securities('securities_havelock');
+}
+
+function dropdown_get_cryptotrade_securities() {
+	return dropdown_get_all_securities('securities_cryptotrade' /* table */);
 }
 
 /**
