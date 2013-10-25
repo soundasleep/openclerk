@@ -111,6 +111,32 @@ if (require_post("delete", false) && require_post("id", false)) {
 	redirect(url_for(require_post("callback")));
 }
 
+// process 'test'
+if (require_post('test', false) && require_post('id', false)) {
+	// do we already have a job queued up?
+	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND user_id=? AND is_test_job=1 LIMIT 1");
+	$q->execute(array(user_id()));
+
+	if ($q->fetch()) {
+		$errors[] = "Cannot test that " . htmlspecialchars($account_data['title']) . ", because you already have a test job pending.";
+	} else {
+		$q = db()->prepare("INSERT INTO jobs SET
+			job_type=:job_type,
+			user_id=:user_id,
+			arg_id=:arg_id,
+			priority=:priority,
+			is_test_job=1");
+		$q->execute(array('job_type' => $account_data['exchange'], 'user_id' => user_id(), 'arg_id' => require_post('id'), 'priority' => get_site_config('job_test_priority')));
+
+		$messages[] = "Queued up test job for " . htmlspecialchars($account_data['title']) . "; results should be available shortly.";
+
+		set_temporary_messages($messages);
+		redirect(url_for(require_post("callback")));
+
+	}
+
+}
+
 // either there was an error or we haven't done anything; go back to callback
 set_temporary_errors($errors);
 set_temporary_messages($messages);

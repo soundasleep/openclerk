@@ -40,6 +40,12 @@ if (require_get("job_id", false)) {
 		$job_type_where = " AND job_type IN (" . $job_type_where . ") ";
 	}
 
+	// find all jobs that have crashed (that have taken longer than five minutes) and mark them as errored
+	$q = db()->prepare("UPDATE jobs SET is_executing=0,execution_count=execution_count+1,is_error=1,is_timeout=1 WHERE is_executing=1 AND
+		((is_test_job=0 AND execution_started < DATE_SUB(NOW(), INTERVAL 5 MINUTE)) OR
+		(is_test_job=1 AND execution_started < DATE_SUB(NOW(), INTERVAL 1 MINUTE)))");
+	$q->execute();
+
 	// select the most important job to execute next
 	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 $job_type_where ORDER BY priority ASC, id ASC LIMIT 20");
 	$q->execute();
@@ -85,7 +91,14 @@ crypto_log("Executing job " . htmlspecialchars(print_r($job, true)) . " (<a href
 $runtime_exception = null;
 try {
 	// have we executed this job too many times already?
-	if ($job['execution_count'] >= get_site_config("max_job_executions") && !require_get('force', false)) {
+	if ($job['is_test_job'] && $job['is_error']) {
+		crypto_log("Job is a test job and threw an error straight away; marking as failed");
+		if ($job['is_timeout']) {
+			throw new ExternalAPIException("Local timeout");
+		} else {
+			throw new ExternalAPIException("Job failed for an unknown reason");
+		}
+	} else if ($job['execution_count'] >= get_site_config("max_job_executions") && !require_get('force', false)) {
 		// TODO this job should be debugged in dev and fixed so that an execption can be thrown instead
 		crypto_log("Job has been executed too many times (" . number_format($job['execution_count']) . "): marking as failed");
 		throw new ExternalAPIException("An uncaught error occured multiple times");
@@ -96,7 +109,7 @@ try {
 		$q->execute(array($job['job_type'], $job['user_id'], $job['arg_id']));
 
 		// update the job execution count
-		$q = db()->prepare("UPDATE jobs SET is_executing=1,execution_count=execution_count+1,is_recent=1 WHERE id=?");
+		$q = db()->prepare("UPDATE jobs SET is_executing=1,execution_count=execution_count+1,is_recent=1,execution_started=NOW() WHERE id=?");
 		$q->execute(array($job['id']));
 	}
 

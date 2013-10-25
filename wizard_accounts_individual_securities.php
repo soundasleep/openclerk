@@ -22,65 +22,7 @@ $messages = array();
 // get all of our accounts
 $accounts = user_limits_summary(user_id());
 
-$account_type = array(
-	'title' => 'Individual Security',
-	'titles' => 'Individual Securities',
-	'accounts' => 'securities',
-	'wizard' => 'individual',
-	'hashrate' => false,
-	'url' => 'wizard_accounts_individual_securities',
-	'first_heading' => 'Exchange',
-	'display_headings' => array('Security', 'Quantity'),
-	'display_callback' => 'get_individual_security_config',
-);
-
-function get_individual_security_config($account) {
-	$security = "(unknown exchange)";
-	$securities = false;
-	$historical_key = false;
-	switch ($account['exchange']) {
-		case "individual_litecoinglobal":
-			$securities = dropdown_get_litecoinglobal_securities();
-			$historical_key = 'securities_litecoinglobal_ltc';
-			break;
-		case "individual_btct":
-			$securities = dropdown_get_btct_securities();
-			$historical_key = 'securities_btct_btc';
-			break;
-		case "individual_bitfunder":
-			$securities = dropdown_get_bitfunder_securities();
-			$historical_key = 'securities_bitfunder_btc';
-			break;
-		case "individual_havelock":
-			$securities = dropdown_get_havelock_securities();
-			$historical_key = 'securities_havelock_btc';
-			break;
-		case "individual_cryptostocks":
-			$securities = dropdown_get_cryptostocks_securities();
-			break;
-		case "individual_crypto-trade":
-			$securities = dropdown_get_cryptotrade_securities();
-			break;
-	}
-
-	if ($securities) {
-		if (isset($securities[$account['security_id']])) {
-			if ($historical_key) {
-				$security = "<a href=\"" . htmlspecialchars(url_for('historical', array('id' => $historical_key, 'days' => 180, 'name' => $securities[$account['security_id']]))) . "\">" . htmlspecialchars($securities[$account['security_id']]) . "</a>";
-			} else {
-				$security = htmlspecialchars($securities[$account['security_id']]);
-			}
-		} else {
-			$security = "(unknown security " . htmlspecialchars($account['security_id']) . ")";
-		}
-	}
-
-	return array(
-		$security,
-		number_format($account['quantity']),
-	);
-}
-
+$account_type = get_wizard_account_type('individual');
 require_template("wizard_accounts_individual_securities");
 
 ?>

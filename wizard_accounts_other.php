@@ -19,14 +19,7 @@ require_user($user);
 
 $messages = array();
 
-$account_type = array(
-	'title' => 'Other Account',
-	'titles' => 'Other Accounts',
-	'wizard' => 'other',
-	'hashrate' => false,
-	'url' => 'wizard_accounts_other',
-);
-
+$account_type = get_wizard_account_type('other');
 require_template("wizard_accounts_other");
 
 ?>

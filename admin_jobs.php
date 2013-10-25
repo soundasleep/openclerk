@@ -26,6 +26,7 @@ page_header("Admin: Jobs Status", "page_admin_jobs");
 		<th>Job ID</th>
 		<th>Priority</th>
 		<th>Job type</th>
+		<th>Manual</th>
 		<th>Executing</th>
 		<th>Attempts</th>
 		<th>Created at</th>
@@ -45,6 +46,7 @@ page_header("Admin: Jobs Status", "page_admin_jobs");
 		<td><?php echo number_format($job['id']); ?></td>
 		<td><?php echo number_format($job['priority']); ?></td>
 		<td><?php echo htmlspecialchars($job['job_type']); ?> (<?php echo htmlspecialchars($job['arg_id']); ?>)</td>
+		<td class="<?php echo $job['is_test_job'] ? "yes" : "no"; ?>"><?php echo $job['is_test_job'] ? "yes" : "-"; ?></td>
 		<td class="<?php echo $job['is_executing'] ? "yes" : "no"; ?>"><?php echo $job['is_executing'] ? "yes" : "-"; ?></td>
 		<td><?php echo number_format($job['execution_count']); ?></td>
 		<td><?php echo recent_format_html($job['created_at']); ?></td>

@@ -893,6 +893,130 @@ function get_accounts_wizard_config_basic($exchange) {
 	}
 }
 
+// this function is in crypto.php so we can use just one wizard_accounts_callback rather than needing wizard_accounts_exchanges_callback (etc)
+function get_wizard_account_type($wizard) {
+	switch ($wizard) {
+		case "exchanges":
+			$account_type = array(
+				'title' => 'Exchange',
+				'titles' => 'Exchanges',
+				'wizard' => 'exchanges',
+				'hashrate' => false,
+				'url' => 'wizard_accounts_exchanges',
+			);
+			break;
+
+		case "pools":
+			$account_type = array(
+				'title' => 'Mining Pool',
+				'titles' => 'Mining Pools',
+				'wizard' => 'pools',
+				'hashrate' => true,
+				'url' => 'wizard_accounts_pools',
+			);
+			break;
+
+		case "securities":
+			$account_type = array(
+				'title' => 'Securities Exchange',
+				'titles' => 'Securities Exchanges',
+				'wizard' => 'securities',
+				'hashrate' => false,
+				'url' => 'wizard_accounts_securities',
+			);
+			break;
+
+		case "individual":
+			$account_type = array(
+				'title' => 'Individual Security',
+				'titles' => 'Individual Securities',
+				'accounts' => 'securities',
+				'wizard' => 'individual',
+				'hashrate' => false,
+				'url' => 'wizard_accounts_individual_securities',
+				'first_heading' => 'Exchange',
+				'display_headings' => array('Security', 'Quantity'),
+				'display_callback' => 'get_individual_security_config',
+			);
+			break;
+
+		case "other":
+			$account_type = array(
+				'title' => 'Other Account',
+				'titles' => 'Other Accounts',
+				'wizard' => 'other',
+				'hashrate' => false,
+				'url' => 'wizard_accounts_other',
+			);
+			break;
+
+		default:
+			throw new Exception("Unknown wizard type '" . htmlspecialchars($wizard) . "'");
+	}
+
+	if (!isset($account_type['display_headings'])) {
+		$account_type['display_headings'] = array();
+	}
+	if (!isset($account_type['display_callback'])) {
+		$account_type['display_callback'] = false;
+	}
+	if (!isset($account_type['first_heading'])) {
+		$account_type['first_heading'] = $account_type['title'];
+	}
+	if (!isset($account_type['accounts'])) {
+		$account_type['accounts'] = "accounts";
+	}
+
+	return $account_type;
+}
+
+function get_individual_security_config($account) {
+	$security = "(unknown exchange)";
+	$securities = false;
+	$historical_key = false;
+	switch ($account['exchange']) {
+		case "individual_litecoinglobal":
+			$securities = dropdown_get_litecoinglobal_securities();
+			$historical_key = 'securities_litecoinglobal_ltc';
+			break;
+		case "individual_btct":
+			$securities = dropdown_get_btct_securities();
+			$historical_key = 'securities_btct_btc';
+			break;
+		case "individual_bitfunder":
+			$securities = dropdown_get_bitfunder_securities();
+			$historical_key = 'securities_bitfunder_btc';
+			break;
+		case "individual_havelock":
+			$securities = dropdown_get_havelock_securities();
+			$historical_key = 'securities_havelock_btc';
+			break;
+		case "individual_cryptostocks":
+			$securities = dropdown_get_cryptostocks_securities();
+			break;
+		case "individual_crypto-trade":
+			$securities = dropdown_get_cryptotrade_securities();
+			break;
+	}
+
+	if ($securities) {
+		if (isset($securities[$account['security_id']])) {
+			if ($historical_key) {
+				$security = "<a href=\"" . htmlspecialchars(url_for('historical', array('id' => $historical_key, 'days' => 180, 'name' => $securities[$account['security_id']]))) . "\">" . htmlspecialchars($securities[$account['security_id']]) . "</a>";
+			} else {
+				$security = htmlspecialchars($securities[$account['security_id']]);
+			}
+		} else {
+			$security = "(unknown security " . htmlspecialchars($account['security_id']) . ")";
+		}
+	}
+
+	return array(
+		$security,
+		number_format($account['quantity']),
+	);
+}
+
 function get_default_openid_providers() {
 	return array(
 		'google' => array('Google Accounts', 'https://www.google.com/accounts/o8/id'),

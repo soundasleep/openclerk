@@ -22,14 +22,7 @@ $messages = array();
 // get all of our accounts
 $accounts = user_limits_summary(user_id());
 
-$account_type = array(
-	'title' => 'Securities Exchange',
-	'titles' => 'Securities Exchanges',
-	'wizard' => 'securities',
-	'hashrate' => false,
-	'url' => 'wizard_accounts_securities',
-);
-
+$account_type = get_wizard_account_type('securities');
 require_template("wizard_accounts_securities");
 
 ?>

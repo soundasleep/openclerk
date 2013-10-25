@@ -1420,3 +1420,13 @@ ALTER TABLE jobs ADD INDEX(is_recent);
 -- mark all jobs in the last 24 hours as recent; batch_run will eventually sort everything out
 -- (this is better than freezing the production database with a very complex but correct query)
 UPDATE jobs SET is_recent=1 WHERE is_executed=1 AND executed_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR);
+
+-- allow users to trigger tests
+ALTER TABLE jobs ADD is_test_job tinyint not null default 0;
+ALTER TABLE jobs ADD INDEX(is_test_job);
+
+-- for jobs that timeout
+ALTER TABLE jobs ADD execution_started timestamp null;
+ALTER TABLE jobs ADD is_timeout tinyint not null default 0;
+ALTER TABLE jobs ADD INDEX(is_timeout);
+

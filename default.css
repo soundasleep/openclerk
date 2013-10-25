@@ -240,6 +240,8 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 h2.graph_heading { margin: 5px 0; padding-top: 5px; font-size: 130%; clear: both; }
 .standard_account_list .job_error { background: #993333; }
 .standard_account_list .job_success { background: #336633; }
+span.status_loading { font-style: italic; padding-left: 20px; background: url('img/spinning_even.gif') top left no-repeat; min-height: 16px; }
+tr.odd span.status_loading { background: url('img/spinning_odd.gif') top left no-repeat; }
 
 .address code { font-family: Consolas, Courier New, Courier, monospace; }
 .btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect, .nvc_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }

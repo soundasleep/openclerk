@@ -19,14 +19,7 @@ require_user($user);
 
 $messages = array();
 
-$account_type = array(
-	'title' => 'Exchange',
-	'titles' => 'Exchanges',
-	'wizard' => 'exchanges',
-	'hashrate' => false,
-	'url' => 'wizard_accounts_exchanges',
-);
-
+$account_type = get_wizard_account_type('exchanges');
 require_template("wizard_accounts_exchanges");
 
 ?>

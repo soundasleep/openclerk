@@ -192,3 +192,17 @@ $(document).ready(function() {
 	// hide all other warnings
 	$("#page_wizard_reports .reset-warning").hide();
 });
+
+/**
+ * Callback function to initialise a "waiting..." icon on something that's being tested, and
+ * polls the site to find out the result
+ */
+function initialise_wizard_test_callback(element, url) {
+	window.setInterval(function() {
+		$.ajax(url, {
+			'success': function(data, status, xhr) {
+				$(element).html(data);
+			},
+		});
+	}, 10000 /* ms */);
+}

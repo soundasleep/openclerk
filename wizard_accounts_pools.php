@@ -19,14 +19,7 @@ require_user($user);
 
 $messages = array();
 
-$account_type = array(
-	'title' => 'Mining Pool',
-	'titles' => 'Mining Pools',
-	'wizard' => 'pools',
-	'hashrate' => true,
-	'url' => 'wizard_accounts_pools',
-);
-
+$account_type = get_wizard_account_type('pools');
 require_template("wizard_accounts_pools");
 
 ?>
