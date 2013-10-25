@@ -41,4 +41,13 @@ class CryptoTestsTest extends UnitTestCase {
 		}
 	}
 
+	function testAllExchangeCurrencies() {
+		foreach (get_exchange_pairs() as $exchange => $pairs) {
+			foreach ($pairs as $p) {
+				$this->assertTrue(in_array($p[0], get_all_currencies()), "Exchange $exchange had invalid currency $p[0] in pair $p[0]/$p[1]");
+				$this->assertTrue(in_array($p[1], get_all_currencies()), "Exchange $exchange had invalid currency $p[1] in pair $p[0]/$p[1]");
+			}
+		}
+	}
+
 }

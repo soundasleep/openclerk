@@ -135,7 +135,7 @@ function get_exchange_pairs() {
 		"virtex" => array(array('cad', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
 		"cexio" => array(array('btc', 'ghs')),
-		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'), array('btc', 'dvc')),
+		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc')),
 	);
 }
 
@@ -153,7 +153,6 @@ function get_new_exchange_pairs() {
 		"crypto-trade_btcppc",
 		"crypto-trade_usdftc",
 		"crypto-trade_btcftc",
-		"crypto-trade_btcdvc",
 	);
 }
 
