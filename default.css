@@ -51,6 +51,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 #navigation li { list-style: none; display: inline; display: inline-block; padding: 4px 10px 4px 8px; border: 1px solid #543; border-radius: 4px; background: #321; margin: 0 2px 0 2px; box-shadow: 2px 2px 2px rgba(0,0,0,0.3); }
 #navigation li + li { margin-left: 5px; }
 #navigation li a { text-decoration: none; padding-left: 21px; display: inline-block; min-height: 16px; }
+.screenshots_group li.signup a { text-decoration: none; padding-left: 23px; display: inline-block; min-height: 16px; }
 #navigation li a:hover { text-decoration: hover; }
 
 #page_home #navigation li.home a,
@@ -65,9 +66,10 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	font-weight: bold; color: white; 
 }
 
-#navigation li a { background: url('img/nuvola/sprites.png') top left no-repeat; }
+#navigation li a, .screenshots_group li.signup a { background: url('img/nuvola/sprites.png') top left no-repeat; }
 
 #navigation li.home a { background-position: 0 -65px; }
+.screenshots_group li.signup a { background-position: 0 -195px; }
 #navigation li.signup a { background-position: 0 -197px; }
 #navigation li.login a { background-position: 0 -659px; }
 #navigation li.logout a { background-position: 0 -329px; }
