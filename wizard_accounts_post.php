@@ -84,9 +84,19 @@ if (require_post("add", false)) {
 		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, title=? $query");
 		$full_args = array_join(array(user_id(), require_post("title", false)), $args);
 		$q->execute($full_args);
+		$id = db()->lastInsertId();
 		$title = htmlspecialchars(require_post("title", ""));
 		if (!$title) $title = "<i>(untitled)</i>";
 		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . $title . "</i>. Balances from this account will be retrieved shortly.";
+
+		// create a test job for this new account
+		$q = db()->prepare("INSERT INTO jobs SET
+					job_type=:job_type,
+					user_id=:user_id,
+					arg_id=:arg_id,
+					priority=:priority,
+					is_test_job=1");
+		$q->execute(array('job_type' => $account_data['exchange'], 'user_id' => user_id(), 'arg_id' => $id, 'priority' => get_site_config('job_test_priority')));
 
 		// redirect to GET
 		set_temporary_errors($errors);
@@ -117,8 +127,8 @@ if (require_post('test', false) && require_post('id', false)) {
 	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND user_id=? AND is_test_job=1 LIMIT 1");
 	$q->execute(array(user_id()));
 
-	if ($q->fetch()) {
-		$errors[] = "Cannot test that " . htmlspecialchars($account_data['title']) . ", because you already have a test job pending.";
+	if ($job = $q->fetch()) {
+		$errors[] = "Cannot create a " . htmlspecialchars($account_data['title']) . " test, because you already have a " . get_exchange_name($job['job_type']) . " test pending.";
 	} else {
 		$q = db()->prepare("INSERT INTO jobs SET
 			job_type=:job_type,
@@ -128,7 +138,7 @@ if (require_post('test', false) && require_post('id', false)) {
 			is_test_job=1");
 		$q->execute(array('job_type' => $account_data['exchange'], 'user_id' => user_id(), 'arg_id' => require_post('id'), 'priority' => get_site_config('job_test_priority')));
 
-		$messages[] = "Queued up test job for " . htmlspecialchars($account_data['title']) . "; results should be available shortly.";
+		$messages[] = "Queued up " . htmlspecialchars($account_data['title']) . " test; results should be available shortly.";
 
 		set_temporary_messages($messages);
 		redirect(url_for(require_post("callback")));
