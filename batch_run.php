@@ -90,8 +90,13 @@ try {
 		crypto_log("Job has been executed too many times (" . number_format($job['execution_count']) . "): marking as failed");
 		throw new ExternalAPIException("An uncaught error occured multiple times");
 	} else {
+		// update old jobs that they are no longer recent
+		// assumes all jobs can be grouped by (job_type,user_id,arg_id)
+		$q = db()->prepare("UPDATE jobs SET is_recent=0 WHERE is_recent=1 AND job_type=? AND user_id=? AND arg_id=?");
+		$q->execute(array($job['job_type'], $job['user_id'], $job['arg_id']));
+
 		// update the job execution count
-		$q = db()->prepare("UPDATE jobs SET is_executing=1,execution_count=execution_count+1 WHERE id=?");
+		$q = db()->prepare("UPDATE jobs SET is_executing=1,execution_count=execution_count+1,is_recent=1 WHERE id=?");
 		$q->execute(array($job['id']));
 	}
 

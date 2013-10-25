@@ -124,7 +124,7 @@ foreach ($accounts as $a) {
 		// was the last request successful?
 		$q = db()->prepare("SELECT jobs.*, uncaught_exceptions.message FROM jobs
 			LEFT JOIN uncaught_exceptions ON uncaught_exceptions.job_id=jobs.id
-			WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1
+			WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 AND jobs.is_recent=1
 		ORDER BY jobs.id DESC LIMIT 1");
 	$q->execute(array(user_id(), $a['id'], $a['exchange']));
 	$job = $q->fetch();

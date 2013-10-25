@@ -1,6 +1,6 @@
 <?php
-$exchange = get_exchange_name("havelock");
-$example = "ASICMINER";
+$exchange = get_exchange_name("crypto-trade");
+$example = "ESB";
 ?>
 
 <div class="instructions_add">

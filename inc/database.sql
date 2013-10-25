@@ -1412,3 +1412,11 @@ ALTER TABLE securities_cryptotrade ADD index(name);
 ALTER TABLE securities_havelock ADD index(name);
 ALTER TABLE securities_litecoinglobal ADD index(name);
 
+-- since wizard_addresses always searches for the most recent job for a given address,
+-- adding an is_recent/is_archived flag will allow us to reduce the search set significantly
+ALTER TABLE jobs ADD is_recent tinyint not null default 0;
+ALTER TABLE jobs ADD INDEX(is_recent);
+
+-- mark all jobs in the last 24 hours as recent; batch_run will eventually sort everything out
+-- (this is better than freezing the production database with a very complex but correct query)
+UPDATE jobs SET is_recent=1 WHERE is_executed=1 AND executed_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR);
