@@ -37,7 +37,7 @@ require(__DIR__ . "/graphs/types.php");
 $graphs = graph_types();
 
 // work out which graphs we would have
-require(__DIR__ . "/raphs/managed.php");
+require(__DIR__ . "/graphs/managed.php");
 $auto_graphs = calculate_user_graphs($user, 'auto');
 $managed_graphs = calculate_all_managed_graphs($user);
 
