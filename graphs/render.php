@@ -299,7 +299,7 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 		render_linegraph_date($graph, array_values($data));
 	} else {
 		if ($user_id == get_site_config('system_user_id')) {
-			render_text($graph, "Invalid balance type.");
+			render_text($graph, "Invalid balance type.");	// or there is no data to display
 		} else {
 			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
 						<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
@@ -417,7 +417,7 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 		render_linegraph_date($graph, array_values($data));
 	} else {
 		if ($user_id == get_site_config('system_user_id')) {
-			render_text($graph, "Invalid balance type.");
+			render_text($graph, "Invalid balance type.");	// or there is no data to display
 		} else {
 			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
 						<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");

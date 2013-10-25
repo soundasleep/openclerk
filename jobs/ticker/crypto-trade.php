@@ -25,6 +25,7 @@ $rates_list = array(
 	array('btc', 'dgc'),
 );
 
+// tickers...
 $first = true;
 foreach ($rates_list as $rl) {
 	$cur1 = $rl[0];
@@ -48,7 +49,7 @@ foreach ($rates_list as $rl) {
 			throw new ExternalAPIException("Could not find $cur1/$cur2 rate for $exchange_name: " . htmlspecialchars($rates['error']));
 		}
 
-		throw new ExternalAPIException("No $cur1/$cur2 rate for $exchange");
+		throw new ExternalAPIException("No $cur1/$cur2 rate for $exchange_name");
 	}
 
 	crypto_log("$exchange_name rate for $cur1/$cur2: " . $rates['data']['last'] . " (" . $rates['data']['max_bid'] . " / " . $rates['data']['min_ask'] . ")");
@@ -88,4 +89,43 @@ foreach ($rates_list as $rl) {
 	));
 
 	crypto_log("Inserted new ticker id=" . db()->lastInsertId());
+}
+
+// ...and securities
+// all existing security values are no longer recent
+$q = db()->prepare("UPDATE balances SET is_recent=0 WHERE exchange=?");
+$q->execute(array("securities_crypto-trade"));
+
+$q = db()->prepare("SELECT * FROM securities_cryptotrade");
+$q->execute();
+$securities = $q->fetchAll();
+foreach ($securities as $sec) {
+
+	$cur1 = $sec['currency'];
+	$cur2 = strtolower($sec['name']);
+	$exchange_name = $exchange['name'];
+
+	// sleep between requests
+	if (!$first) {
+		set_time_limit(30 + (get_site_config('sleep_crypto-trade_ticker') * 2));
+		sleep(get_site_config('sleep_crypto-trade_ticker'));
+	}
+	$first = false;
+
+	$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://crypto-trade.com/api/1/ticker/" . $cur2 . "_" . $cur1)), true);
+	if ($rates === null) {
+		throw new ExternalAPIException("Invalid JSON detected.");
+	}
+
+	if (!isset($rates['data']['max_bid'])) {
+		if (isset($rates['error'])) {
+			throw new ExternalAPIException("Could not find $cur1/$cur2 rate for $exchange_name: " . htmlspecialchars($rates['error']));
+		}
+
+		throw new ExternalAPIException("No $cur1/$cur2 rate for $exchange_name");
+	}
+
+	// insert new balance
+	insert_new_balance($job, $sec, 'securities_crypto-trade', $sec['currency'], $rates['data']['max_bid']);
+
 }

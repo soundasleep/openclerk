@@ -134,102 +134,54 @@ function get_exchange_historical($arg0, $graph_type, $graph) {
 }
 
 /**
- * Return a list of (id => title).
+ * Return a list of (id => title) for the given exchange and currency.
  * Could be cached.
  */
-function get_litecoinglobal_securities_ltc() {
+function get_security_instances($exchange, $currency) {
 	$result = array();
-	$q = db()->prepare("SELECT * FROM securities_litecoinglobal ORDER BY name ASC");
-	$q->execute();
+	$args = array();
+
+	switch ($exchange) {
+		case "litecoinglobal":
+			$q = db()->prepare("SELECT * FROM securities_litecoinglobal ORDER BY name ASC");
+			break;
+
+		case "btct":
+			$q = db()->prepare("SELECT * FROM securities_btct ORDER BY name ASC");
+			break;
+
+		case "cryptostocks":
+			$q = db()->prepare("SELECT * FROM securities_cryptostocks WHERE currency=? ORDER BY name ASC");
+			$args = array($currency);
+			break;
+
+		case "havelock":
+			$q = db()->prepare("SELECT * FROM securities_havelock ORDER BY name ASC");
+			break;
+
+		case "bitfunder":
+			$q = db()->prepare("SELECT * FROM securities_bitfunder ORDER BY name ASC");
+			break;
+
+		case "crypto-trade":
+			$q = db()->prepare("SELECT * FROM securities_cryptotrade WHERE currency=? ORDER BY name ASC");
+			$args = array($currency);
+			break;
+
+		default:
+			throw new GraphException("Unknown security exchange '" . htmlspecialchars($exchange) . "' for currency '" . htmlspecialchars($currency) . "'");
+	}
+
+	$q->execute($args);
 	while ($sec = $q->fetch()) {
 		$result[$sec['id']] = $sec['name'];
 	}
 	return $result;
+
 }
 
-/**
- * Return a list of (id => title).
- * Could be cached.
- */
-function get_btct_securities_btc() {
-	$result = array();
-	$q = db()->prepare("SELECT * FROM securities_btct ORDER BY name ASC");
-	$q->execute();
-	while ($sec = $q->fetch()) {
-		$result[$sec['id']] = $sec['name'];
-	}
-	return $result;
-}
-
-function get_btct_securities_btc_historical($graph_type, $graph) {
-	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_btct_btc'));
-}
-function get_litecoinglobal_securities_ltc_historical($graph_type, $graph) {
-	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_litecoinglobal_ltc'));
-}
-
-/**
- * Return a list of (id => title).
- * Could be cached.
- */
-function get_cryptostocks_securities($cur) {
-	$result = array();
-	$q = db()->prepare("SELECT * FROM securities_cryptostocks WHERE currency=? ORDER BY name ASC");
-	$q->execute(array($cur));
-	while ($sec = $q->fetch()) {
-		$result[$sec['id']] = $sec['name'];
-	}
-	return $result;
-}
-
-function get_cryptostocks_securities_btc() {
-	return get_cryptostocks_securities('btc');
-}
-function get_cryptostocks_securities_ltc() {
-	return get_cryptostocks_securities('ltc');
-}
-
-function get_cryptostocks_securities_btc_historical($graph_type, $graph) {
-	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_cryptostocks_btc'));
-}
-function get_cryptostocks_securities_ltc_historical($graph_type, $graph) {
-	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_cryptostocks_ltc'));
-}
-
-/**
- * Return a list of (id => title).
- * Could be cached.
- */
-function get_havelock_securities_btc() {
-	$result = array();
-	$q = db()->prepare("SELECT * FROM securities_havelock ORDER BY name ASC");
-	$q->execute();
-	while ($sec = $q->fetch()) {
-		$result[$sec['id']] = $sec['name'];
-	}
-	return $result;
-}
-
-function get_havelock_securities_btc_historical($graph_type, $graph) {
-	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_havelock_btc'));
-}
-
-/**
- * Return a list of (id => title).
- * Could be cached.
- */
-function get_bitfunder_securities_btc() {
-	$result = array();
-	$q = db()->prepare("SELECT * FROM securities_bitfunder ORDER BY name ASC");
-	$q->execute();
-	while ($sec = $q->fetch()) {
-		$result[$sec['id']] = $sec['name'];
-	}
-	return $result;
-}
-
-function get_bitfunder_securities_btc_historical($graph_type, $graph) {
-	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_bitfunder_btc'));
+function get_security_instances_historical($graph_type, $graph, $exchange, $currency) {
+	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_' . $exchange . '_' . $currency));
 }
 
 /**

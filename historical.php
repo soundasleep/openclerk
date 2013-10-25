@@ -116,8 +116,9 @@ if ($id && isset($historical_graphs[$id])) {
 			}
 		}
 
+		// TODO should refactor this with layout/graphs.php
 		if (isset($def['arg0'])) {
-			$values = $def['arg0']();
+			$values = $def['arg0'](isset($def['param0']) ? $def['param0'] : false, isset($def['param1']) ? $def['param1'] : false);
 			if ($values) {
 				echo "<h2>" . htmlspecialchars($def['heading']);
 				if ($bits[0] == "securities" && in_array($security_type, get_new_security_exchanges())) {

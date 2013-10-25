@@ -48,10 +48,14 @@ function graph_types_public($summaries = array()) {
 				'description' => 'A line graph displaying the historical value of a particular ' . get_exchange_name($key) . ' security.',
 				'hide' => !isset($summaries[$c]),	// only show securities in currencies we're interested in
 				'days' => true,
-				'arg0' => 'get_' . $key . '_securities_' . $c,
+				'arg0' => 'get_security_instances',
 				'arg0_title' => 'Security:',
+				'param0' => $key,
+				'param1' => $c,
 				'technical' => true,
-				'historical' => 'get_' . $key . '_securities_' . $c . '_historical',
+				'historical' => 'get_security_instances_historical',
+				'historical_param0' => $key,
+				'historical_param1' => $c,
 			);
 		}
 	}

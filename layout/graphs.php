@@ -51,8 +51,9 @@ function render_graph($graph, $is_public = false) {
 	}
 
 	// obtain the heading from a callback?
+	// TODO should refactor this with historical.php
 	if (isset($graph_type['arg0']) && isset($graph['arg0'])) {
-		$new_titles = $graph_type['arg0']();
+		$new_titles = $graph_type['arg0'](isset($graph_type['param0']) ? $graph_type['param0'] : false, isset($graph_type['param1']) ? $graph_type['param1'] : false);
 		if (!isset($new_titles[$graph['arg0']])) {
 			// has arg0 been set?
 			$graph_type['heading'] = "(Unknown: " . htmlspecialchars($graph['arg0']) . ")";
@@ -65,9 +66,9 @@ function render_graph($graph, $is_public = false) {
 	$historical = false;
 	if (isset($graph_type['historical']) && $graph_type['historical']) {
 		if (isset($graph_type['historical_arg0'])) {
-			$historical = $graph_type['historical']($graph_type['historical_arg0'], $graph_type, $graph);
+			$historical = $graph_type['historical']($graph_type['historical_arg0'], $graph_type, $graph, isset($graph_type['historical_param0']) ? $graph_type['historical_param0'] : false, isset($graph_type['historical_param1']) ? $graph_type['historical_param1'] : false);
 		} else {
-			$historical = $graph_type['historical']($graph_type, $graph);
+			$historical = $graph_type['historical']($graph_type, $graph, isset($graph_type['historical_param0']) ? $graph_type['historical_param0'] : false, isset($graph_type['historical_param1']) ? $graph_type['historical_param1'] : false);
 		}
 	}
 
