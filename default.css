@@ -79,14 +79,14 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 #navigation li.premium a { background-position: 0 -791px; }
 #navigation li.help a { background-position: 0 -461px; }
 
-#page_signup h1, #page_login h1, #page_profile h1, .page_accounts h1, #page_user h1, #page_premium h1, #page_help h1, #page_kb h1 { padding-left: 40px; line-height: 32px; }
+#page_signup h1, #page_login h1, #page_profile h1, .page_accounts h1, #page_user h1, #page_premium h1, #page_help h1, #page_kb h1, #page_contact h1 { padding-left: 40px; line-height: 32px; }
 #page_signup h1 { background: url('img/nuvola/32x32/kgpg_sign.png') left center no-repeat; }
 #page_login h1 { background: url('img/nuvola/32x32/password.png') left center no-repeat; }
 #page_profile h1 { background: url('img/nuvola/32x32/klipper_dock.png') left center no-repeat; }
 .page_accounts h1 { background: url('img/nuvola/32x32/kcontrol.png') left center no-repeat; }
 #page_user h1 { background: url('img/nuvola/32x32/kgpg_identity.png') left center no-repeat; }
 #page_premium h1 { background: url('img/premium32.png') left center no-repeat; }
-#page_help h1, #page_kb h1 { background: url('img/nuvola/32x32/messagebox_info.png') left center no-repeat; }
+#page_help h1, #page_kb h1, #page_contact h1 { background: url('img/nuvola/32x32/messagebox_info.png') left center no-repeat; }
 
 #autologin { 
 	font-size: 80%; 
@@ -262,11 +262,12 @@ input.currency_name_btc, input.currency_name_ltc, input.currency_name_nmc, input
 .help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 
 .help_name_litecoinforum { background: url('img/litecoin.png') top left no-repeat; padding-left: 20px; } 
 .help_name_groups { background: url('img/groups.png') top left no-repeat; padding-left: 20px; } 
+table.fancy.contact-table { margin-top: 10px; margin-bottom: 10px; }
 .discounted { color: #666; text-decoration: line-through; }
 .twitter { background: url('img/twitter.png') 0px 2px no-repeat; padding-left: 20px; display: inline-block; height: 18px; } 
 .facebook { background: url('img/facebook.png') 0px 2px no-repeat; padding-left: 20px; display: inline-block; height: 18px; } 
-.help_list .currency_list { margin-top: 10px; }
-.help_list .currency_list li { line-height: 2em; }
+.currency_list { margin-top: 10px; }
+.currency_list li { line-height: 2em; }
 
 select.country { max-width: 240px; }
 .authentication-form { background: #222; border: 1px solid #333; border-radius: 16px; padding: 16px; margin: 10px auto 10px auto; max-width: 600px; }

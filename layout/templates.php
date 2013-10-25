@@ -113,7 +113,7 @@ function page_footer() {
 				<?php if (get_site_config('forum_link')) { ?>
 				<li><a href="<?php echo htmlspecialchars(get_site_config('forum_link')); ?>" target="_blank">Forums</a></li>
 				<?php } ?>
-				<li><a href="mailto:<?php echo htmlspecialchars(get_site_config('site_email')); ?>">Contact Us</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('contact')); ?>">Contact Us</a></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('external')); ?>">External API Status</a></li>
 			</ul>
 		</li>
