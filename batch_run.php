@@ -246,6 +246,10 @@ try {
 			require(__DIR__ . "/jobs/cexio.php");
 			break;
 
+		case "crypto-trade":
+			require(__DIR__ . "/jobs/crypto-trade.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

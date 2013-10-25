@@ -181,6 +181,7 @@ function get_supported_wallets() {
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
+		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc'),
 		"cexio" => array('btc', 'ghs'),
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
@@ -200,7 +201,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("khore");
+	return array("crypto-trade");
 }
 
 function crypto_address($currency, $address) {
@@ -329,6 +330,7 @@ function account_data_grouped() {
 			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges'),
 		),
 		'Securities' => array(
 			'litecoinglobal' => array('table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities'),
@@ -413,6 +415,7 @@ function get_external_apis() {
 			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'bips' => '<a href="https://bips.me">BIPS</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
+			'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
 		),
 
 		"Exchange tickers" => array(
@@ -746,6 +749,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
 				),
 				'table' => 'accounts_cexio',
+			);
+
+		case "crypto-trade":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cryptotrade_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cryptotrade_apisecret'),
+				),
+				'table' => 'accounts_cryptotrade',
 			);
 
 		// --- securities ---
@@ -1118,6 +1130,16 @@ function is_valid_cexio_apisecret($key) {
 function is_valid_cexio_apiusername($key) {
 	// this could probably be in any format but should be at least one character
 	return strlen($key) >= 1 && strlen($key) <= 255;
+}
+
+function is_valid_cryptotrade_apikey($key) {
+	// guessing the format
+	return preg_match("#^[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}$#", $key);
+}
+
+function is_valid_cryptotrade_apisecret($key) {
+	// looks like a 40 character hex string
+	return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
