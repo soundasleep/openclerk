@@ -98,10 +98,10 @@ function render_graph($graph, $is_public = false) {
 			}
 			foreach (get_all_currencies() as $cur) {
 				if ($cur == 'btc') continue;
-				if (isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates['btc' . $cur])) {
+				if (!in_array($cur, get_all_fiat_currencies()) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates['btc' . $cur])) {
 					$data[strtoupper($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] * $rates['btc' . $cur]['sell']));
 				}
-				if (isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates[$cur . 'btc']) && $rates[$cur . 'btc'] /* no div by 0 */) {
+				if (in_array($cur, get_all_fiat_currencies()) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates[$cur . 'btc']) && $rates[$cur . 'btc'] /* no div by 0 */) {
 					$data[strtoupper($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] / $rates[$cur . 'btc']['buy']));
 				}
 			}
