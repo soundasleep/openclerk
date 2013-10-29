@@ -27,4 +27,13 @@ $(document).ready(function() {
 
 	$("button.openid-submit").click(callback);
 	$("button.openid-submit").keypress(callback);
+
+	// so pressing enter submits OpenID and not Google Accounts
+	var callback2 = function(event) {
+		if (event.which == 13) {
+			$("#openid_manual_submit").click();
+			return true;
+		}
+	};
+	$("#openid_manual").keypress(callback2);
 });

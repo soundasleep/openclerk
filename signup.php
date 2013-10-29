@@ -194,8 +194,8 @@ page_header("Signup", "page_signup", array('jquery' => true, 'js' => 'auth'));
 			<table>
 				<th>OpenID URL:</th>
 				<td>
-					<input type="text" name="openid_manual" class="openid" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
-					<input type="submit" name="submit" value="Signup">
+					<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
+					<input type="submit" name="submit" value="Signup" id="openid_manual_submit">
 				</td>
 			</table>
 			</div>
