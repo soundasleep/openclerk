@@ -452,7 +452,7 @@ function get_external_apis() {
 			'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'securities_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
-			'securities_crypto-trade' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
+			'securities_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
 			'securities_update_btct' => '<a href="http://btct.co">BTC Trading Co.</a> Securities list',
 			'securities_update_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a> Securities list',
 			'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
