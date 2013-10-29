@@ -19,15 +19,16 @@ crypto_log("Current time: " . date('r'));
 // (rather than the last X minutes, which would require a sort of all jobs)
 // because 'ticker' jobs are broken down into exchanges, we also want to get each individual exchange data
 $summary = array();
+$jobs = (int) get_site_config('external_sample_size');
 $queries = array(
 	"SELECT jobs.* FROM jobs
-		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - 10000 AND is_executed=1 AND job_type <> 'ticker' AND job_type <> 'securities_update'",
+		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type <> 'ticker' AND job_type <> 'securities_update'",
 	"SELECT jobs.*, exchanges.name AS exchange FROM jobs
 		JOIN exchanges ON jobs.arg_id=exchanges.id
-		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - 10000 AND is_executed=1 AND job_type = 'ticker'",
+		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type = 'ticker'",
 	"SELECT jobs.*, securities_update.exchange AS exchange FROM jobs
 		JOIN securities_update ON jobs.arg_id=securities_update.id
-		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - 10000 AND is_executed=1 AND job_type = 'securities_update'",
+		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type = 'securities_update'",
 );
 $sample_size = 0;
 foreach ($queries as $query) {

@@ -48,6 +48,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"signup_login" => 'wizard_currencies',		// login destination when signing up; overridden by premium_welcome -> 'welcome'
 		"autologin_expire_days" => 30,
 		"autologin_cookie_seconds" => 60 * 60 * 24 * 30,
+		"external_sample_size" => 10000,	// what is the max number of jobs to sample when updating the external API page?
 
 		// debug control
 		"timed_sql" => false,
