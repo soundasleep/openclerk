@@ -7,7 +7,7 @@ $destination = require_post("destination", require_get("destination", false));
 $autologin = require_post("autologin", require_get("autologin", true));
 $error = "";
 $logout = require_post("logout", require_get("logout", false));
-$openid = require_post("openid", require_get("openid", false));
+$openid = require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
 
 $messages = array();
 $errors = array();
@@ -161,7 +161,7 @@ page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 			<table>
 				<th>OpenID URL:</th>
 				<td>
-					<input type="text" name="openid" class="openid" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
+					<input type="text" name="openid_manual" class="openid" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
 					<input type="submit" name="submit" value="Login">
 					<?php if ($destination) { ?>
 					<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">

@@ -7,15 +7,14 @@ require(__DIR__ . "/inc/countries.php");
 $email = require_post("email", require_get("email", false));
 $name = require_post("name", require_get("name", false));
 $agree = require_post("agree", require_get("agree", false));
-$submit = require_post("submit", require_get("submit", false));
-$subscribe = require_post("subscribe", require_get("subscribe", $submit ? false : true));
-$openid = require_post("openid", require_get("openid", false));
+$openid = require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+$subscribe = require_post("subscribe", require_get("subscribe", $openid ? false : true));
 $country = require_post("country", require_get("country", false));
 
 $messages = array();
 $errors = array();
 
-if ($openid && $submit) {
+if ($openid) {
 	if (!$country || strlen($country) != 2) {
 		$errors[] = "You need to select your country.";
 	}
@@ -195,7 +194,7 @@ page_header("Signup", "page_signup", array('jquery' => true, 'js' => 'auth'));
 			<table>
 				<th>OpenID URL:</th>
 				<td>
-					<input type="text" name="openid" class="openid" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
+					<input type="text" name="openid_manual" class="openid" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
 					<input type="submit" name="submit" value="Signup">
 				</td>
 			</table>
