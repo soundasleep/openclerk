@@ -57,6 +57,7 @@ function get_error_class($n) {
 		<th>Errors/Job</th>
 		<th>Average Priority</th>
 		<th>Count</th>
+		<th>Percent</th>
 	</tr>
 </thead>
 <tbody>
@@ -74,7 +75,8 @@ function get_error_class($n) {
 			echo "</span>";
 		?>
 		<td class="number"><?php echo number_format($job['priority'], 2); ?></td>
-		<td class="number"><?php echo number_format($job['c']); ?> (<?php echo number_format(($job['c'] / $total_c) * 100) . "%"; ?>)</td>
+		<td class="number"><?php echo number_format($job['c']); ?></td>
+		<td class="number"><?php echo number_format(($job['c'] / $total_c) * 100) . "%"; ?></td>
 	</tr>
 <?php } ?>
 </tbody>
