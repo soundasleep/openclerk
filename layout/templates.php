@@ -123,7 +123,7 @@ function page_footer() {
 		<?php require_template("templates_copyright"); ?>
 	</div>
 </div>
-<?php if (!has_required_admin()) { ?>
+<?php if (!(has_required_admin() || defined('BATCH_SCRIPT'))) { ?>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
