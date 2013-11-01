@@ -16,11 +16,8 @@ if (!$account) {
 
 function cryptotrade_query($key, $secret, $url) {
 
-	// generate a nonce as microtime, with as-string handling to avoid problems with 32bits systems
-	$mt = explode(' ', microtime());
-
 	$req = array(
-		'nonce' => $mt[1].substr($mt[0], 2, 3),
+		'nonce' => round(microtime(true) * 1000),
 	);
 
 	// generate the POST data string
