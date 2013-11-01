@@ -20,7 +20,7 @@ function cryptotrade_query($key, $secret, $url) {
 	$mt = explode(' ', microtime());
 
 	$req = array(
-		'nonce' => $mt[1].substr($mt[0], 2, 6);
+		'nonce' => $mt[1].substr($mt[0], 2, 6),
 	);
 
 	// generate the POST data string
