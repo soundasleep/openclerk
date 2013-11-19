@@ -1433,3 +1433,68 @@ ALTER TABLE jobs ADD INDEX(is_timeout);
 ALTER TABLE site_statistics ADD jobs_tests int not null default 0;
 ALTER TABLE site_statistics ADD jobs_timeout int not null default 0;
 
+----------------------------------------------------------------------------
+-- upgrade statements from 0.11 to 0.12
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+-- all date columns should be timestamp not datetime, so that all values are stored local to UTC
+ALTER TABLE accounts_50btc MODIFY last_queue timestamp null;
+ALTER TABLE accounts_bips MODIFY last_queue timestamp null;
+ALTER TABLE accounts_bitfunder MODIFY last_queue timestamp null;
+ALTER TABLE accounts_bitminter MODIFY last_queue timestamp null;
+ALTER TABLE accounts_btce MODIFY last_queue timestamp null;
+ALTER TABLE accounts_btcguild MODIFY last_queue timestamp null;
+ALTER TABLE accounts_btct MODIFY last_queue timestamp null;
+ALTER TABLE accounts_cexio MODIFY last_queue timestamp null;
+ALTER TABLE accounts_cryptostocks MODIFY last_queue timestamp null;
+ALTER TABLE accounts_cryptotrade MODIFY last_queue timestamp null;
+ALTER TABLE accounts_generic MODIFY last_queue timestamp null;
+ALTER TABLE accounts_givemecoins MODIFY last_queue timestamp null;
+ALTER TABLE accounts_havelock MODIFY last_queue timestamp null;
+ALTER TABLE accounts_hypernova MODIFY last_queue timestamp null;
+ALTER TABLE accounts_individual_bitfunder MODIFY last_queue timestamp null;
+ALTER TABLE accounts_individual_btct MODIFY last_queue timestamp null;
+ALTER TABLE accounts_individual_cryptostocks MODIFY last_queue timestamp null;
+ALTER TABLE accounts_individual_cryptotrade MODIFY last_queue timestamp null;
+ALTER TABLE accounts_individual_havelock MODIFY last_queue timestamp null;
+ALTER TABLE accounts_individual_litecoinglobal MODIFY last_queue timestamp null;
+ALTER TABLE accounts_khore MODIFY last_queue timestamp null;
+ALTER TABLE accounts_litecoinglobal MODIFY last_queue timestamp null;
+ALTER TABLE accounts_liteguardian MODIFY last_queue timestamp null;
+ALTER TABLE accounts_ltcmineru MODIFY last_queue timestamp null;
+ALTER TABLE accounts_miningforeman MODIFY last_queue timestamp null;
+ALTER TABLE accounts_miningforeman_ftc MODIFY last_queue timestamp null;
+ALTER TABLE accounts_mtgox MODIFY last_queue timestamp null;
+ALTER TABLE accounts_poolx MODIFY last_queue timestamp null;
+ALTER TABLE accounts_slush MODIFY last_queue timestamp null;
+ALTER TABLE accounts_vircurex MODIFY last_queue timestamp null;
+ALTER TABLE accounts_wemineltc MODIFY last_queue timestamp null;
+ALTER TABLE addresses MODIFY last_queue timestamp null;
+ALTER TABLE exchanges MODIFY last_queue timestamp null;
+ALTER TABLE external_status MODIFY job_first timestamp not null;
+ALTER TABLE external_status MODIFY job_last timestamp not null;
+ALTER TABLE graph_pages MODIFY updated_at timestamp null;
+ALTER TABLE jobs MODIFY executed_at timestamp null;
+ALTER TABLE outstanding_premiums MODIFY paid_at timestamp null;
+ALTER TABLE outstanding_premiums MODIFY last_queue timestamp null;
+ALTER TABLE outstanding_premiums MODIFY last_reminder timestamp null;
+ALTER TABLE outstanding_premiums MODIFY cancelled_at timestamp null;
+ALTER TABLE premium_addresses MODIFY used_at timestamp null;
+ALTER TABLE securities_bitfunder MODIFY last_queue timestamp null;
+ALTER TABLE securities_btct MODIFY last_queue timestamp null;
+ALTER TABLE securities_cryptostocks MODIFY last_queue timestamp null;
+ALTER TABLE securities_cryptotrade MODIFY last_queue timestamp null;
+ALTER TABLE securities_havelock MODIFY last_queue timestamp null;
+ALTER TABLE securities_litecoinglobal MODIFY last_queue timestamp null;
+ALTER TABLE securities_update MODIFY last_queue timestamp null;
+ALTER TABLE summaries MODIFY last_queue timestamp null;
+ALTER TABLE users MODIFY updated_at timestamp null;
+ALTER TABLE users MODIFY last_login timestamp null;
+ALTER TABLE users MODIFY premium_expires timestamp null;
+ALTER TABLE users MODIFY last_queue timestamp null;
+ALTER TABLE users MODIFY disabled_at timestamp null;
+ALTER TABLE users MODIFY disable_warned_at timestamp null;
+ALTER TABLE users MODIFY last_managed_update timestamp null;
+ALTER TABLE users MODIFY last_report_queue timestamp null;
+
