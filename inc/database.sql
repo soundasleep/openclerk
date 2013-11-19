@@ -1514,3 +1514,6 @@ DELETE FROM balances WHERE exchange='havelock_securities' AND account_id NOT IN 
 DELETE FROM balances WHERE exchange='havelock_wallet' AND account_id NOT IN (SELECT id FROM accounts_havelock);
 DELETE FROM balances WHERE exchange='bitfunder_securities' AND account_id NOT IN (SELECT id FROM accounts_bitfunder);
 
+-- database cleanup
+DELETE FROM ticker WHERE currency1='nzd' AND currency2='btc' AND last_trade=0;
+

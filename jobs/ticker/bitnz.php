@@ -32,6 +32,11 @@ if (!isset($bitnz['price'])) {
 	throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for Bitnz");
 }
 
+if ($bitnz['price'] == 0) {
+	// don't insert in a zero balance
+	throw new ExternalAPIException("Cannot insert in a zero value for BitNZ");
+}
+
 crypto_log("Bitnz rate for " . $rl['cur1'] . "/" . $rl['cur2'] . ": " . $bitnz['price']);
 
 // update old recent values
