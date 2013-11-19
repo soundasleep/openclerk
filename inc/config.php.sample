@@ -20,6 +20,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"database_url" => "mysql:host=localhost;dbname=clerk",
 		"database_username" => "clerk",
 		"database_password" => "clerk",
+		"database_timezone" => false,	// e.g. "-08:00" if your DB is in UTC and your web server is in PST
 
 		"phpmailer_host" => "mail.example.com",
 		"phpmailer_username" => "sync",

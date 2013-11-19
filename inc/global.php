@@ -22,6 +22,12 @@ function db() {
 			$db_instance = new DebugPDOWrapper($db_instance);
 		}
 		$db_instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		// set timezone
+		if (get_site_config('database_timezone', false)) {
+			$q = db()->prepare("SET time_zone=?");
+			$q->execute(array(get_site_config('database_timezone')));	// TODO make get_site_config parameter
+		}
 	}
 	return $db_instance;
 }
