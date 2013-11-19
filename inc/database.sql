@@ -1516,4 +1516,7 @@ DELETE FROM balances WHERE exchange='bitfunder_securities' AND account_id NOT IN
 
 -- database cleanup
 DELETE FROM ticker WHERE currency1='nzd' AND currency2='btc' AND last_trade=0;
-
+CREATE TABLE temp (id int);
+INSERT INTO temp (SELECT user_id FROM summary_instances WHERE summary_type='all2nzd_bitnz' AND balance > 0 GROUP BY user_id);
+DELETE FROM summary_instances WHERE summary_type='all2nzd_bitnz' AND balance=0 AND user_id IN (SELECT id FROM temp);
+DROP TABLE temp;
