@@ -120,6 +120,15 @@ function calculate_all_managed_graphs($user) {
 			);
 		}
 	}
+	foreach (get_all_commodity_currencies() as $cur) {
+		if (isset($summaries[$cur])) {
+			$result['summary']['total_' . $cur . '_daily'] = array(
+				'order' => $default_order['total_daily'] + $order_currency[$cur],
+				'source' => $cur,
+				'free' => $cur == $user['preferred_crypto'],		// free user priority
+			);
+		}
+	}
 
 	$result['currency'] = array();
 	$result['all_currency'] = array();
