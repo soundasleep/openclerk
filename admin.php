@@ -176,7 +176,7 @@ $graph = array(
 	$stats = $q->fetch();
 	foreach ($stats as $key => $value) {
 		if (is_numeric($key)) continue;
-		$dp = ($key == "system_load_1min" || $key == "system_load_5min" || $key == "system_load_15min") ? 2 : 0;
+		$dp = 0;
 		$suffix = "";
 		$status = "";
 		if (substr($key, -strlen("disk_free_space")) == "disk_free_space") {
@@ -196,6 +196,7 @@ $graph = array(
 			$dp = 3;
 		}
 		if (strpos($key, "system_load") !== false) {
+			$dp = 2;
 			if ($value > 2) {
 				$status = "bad";
 			} else if ($value > 1) {
