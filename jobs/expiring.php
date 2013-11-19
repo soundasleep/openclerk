@@ -14,7 +14,7 @@ if (!$user) {
 // construct email
 if ($user['email']) {
 	// update user (before sending email)
-	$q = db()->prepare("UPDATE users SET updated_at=NOW(),is_reminder_sent=1 WHERE id=? LIMIT 1");
+	$q = db()->prepare("UPDATE users SET updated_at=NOW(),is_reminder_sent=1,reminder_sent=NOW() WHERE id=? LIMIT 1");
 	$q->execute(array($user['id']));
 
 	send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "expiring", array(

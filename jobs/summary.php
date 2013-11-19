@@ -195,7 +195,7 @@ if (!$user['is_first_report_sent']) {
 		crypto_log("User has a non-zero summary instance.");
 
 		// update that we've reported now
-		$q = db()->prepare("UPDATE users SET is_first_report_sent=1 WHERE id=?");
+		$q = db()->prepare("UPDATE users SET is_first_report_sent=1,first_report_sent=NOW() WHERE id=?");
 		$q->execute(array($user['id']));
 
 		// send email

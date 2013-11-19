@@ -1520,3 +1520,7 @@ CREATE TABLE temp (id int);
 INSERT INTO temp (SELECT user_id FROM summary_instances WHERE summary_type='all2nzd_bitnz' AND balance > 0 GROUP BY user_id);
 DELETE FROM summary_instances WHERE summary_type='all2nzd_bitnz' AND balance=0 AND user_id IN (SELECT id FROM temp);
 DROP TABLE temp;
+
+-- track time between account creation and first report ready
+ALTER TABLE users ADD first_report_sent timestamp null;
+ALTER TABLE users ADD reminder_sent timestamp null;
