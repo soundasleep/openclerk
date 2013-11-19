@@ -8,22 +8,22 @@ $account_data = array('exchange_name' => get_exchange_name('cexio'));
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account
 		and visit your <a href="https://cex.io/trade/profile">Profile page</a>.<br>
-		<img src="img/accounts/cexio1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cexio1.png')); ?>"></li>
 
 	<li>In the <i>API Access</i> section, generate a new key with only the <i>Account balance</i> permissions.<br>
-		<img src="img/accounts/cexio2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cexio2.png')); ?>"></li>
 
 	<li>Copy and paste your <i>Key</i> and <i>Secret</i>, along with your <?php echo $account_data['exchange_name']; ?> username, into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Exchange" form</a>, and click "Add account".<br>
-		<img src="img/accounts/cexio3.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cexio3.png')); ?>"></li>
 
 	<li>You must first activate the API key; once copying your <i>Key</i> and <i>Secret</i>, click on "Activate" to activate the key.<br>
-		<img src="img/accounts/cexio4.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cexio4.png')); ?>"></li>
 
 	<li>You will receive a confirmation e-mail from <?php echo $account_data['exchange_name']; ?>; click on this link to complete the key activation.<br>
-		<img src="img/accounts/cexio5.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cexio5.png')); ?>"></li>
 
 	<li>The <i>Secret</i> for your key will now be hidden. Finally, click "Add Account" on the completed "Add new Exchange" form.<br>
-		<img src="img/accounts/cexio6.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cexio6.png')); ?>"></li>
 
 </ol>
 </div>
@@ -40,7 +40,7 @@ $account_data = array('exchange_name' => get_exchange_name('cexio'));
 		site, even if you have logged in.</li>
 
 	<li>Through the <?php echo $account_data['exchange_name']; ?> interface you can revoke an API key&apos;s access at any time by clicking <i>Delete</i>.<br>
-		<img src="img/accounts/cexio_delete.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cexio_delete.png')); ?>"></li>
 
 </ul>
 </div>

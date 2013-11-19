@@ -8,10 +8,10 @@ $account_data = array('exchange_name' => get_exchange_name('ltcmineru'));
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account
 		and visit the <a href="http://ltcmine.ru/tweak">Options page</a>.<br>
-		<img src="img/accounts/ltcmineru1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/ltcmineru1.png')); ?>"></li>
 
 	<li>Copy and paste your <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".<br>
-		<img src="img/accounts/ltcmineru2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/ltcmineru2.png')); ?>"></li>
 </ol>
 </div>
 

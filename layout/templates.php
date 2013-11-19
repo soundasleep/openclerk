@@ -10,32 +10,32 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <html<?php if (has_required_admin()) { echo " class=\"body_admin\""; } ?>>
 <head>
     <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
-    <link rel="stylesheet" type="text/css" href="default.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('default.css')); ?>" />
     <?php if (get_site_config('custom_css')) { ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(get_site_config('custom_css')); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for(get_site_config('custom_css'))); ?>" />
     <?php } ?>
     <?php if (has_required_admin()) { ?>
-    <link rel="stylesheet" type="text/css" href="admin.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('admin.css')); ?>" />
     <?php } ?>
     <?php if (isset($options["refresh"])) { ?>
     <meta http-equiv="refresh" content="<?php echo htmlspecialchars($options['refresh']); ?>">
     <?php } ?>
     <?php if (isset($options["jquery"]) && $options["jquery"]) { ?>
-    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/jquery-1.9.1.min.js')); ?>"></script>
     <?php } ?>
     <?php if (isset($options['jsapi']) && $options['jsapi']) { ?>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <?php } ?>
     <?php if (isset($options["common_js"]) && $options["common_js"]) { ?>
-    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/common.js')); ?>"></script>
     <?php } ?>
     <?php if (isset($options["js"]) && $options["js"]) {
     	if (!is_array($options['js'])) $options['js'] = array($options['js']);
     	foreach ($options['js'] as $js) { ?>
-    <script type="text/javascript" src="js/<?php echo htmlspecialchars($js); ?>.js"></script>
+    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/' . $js . '.js')); ?>"></script>
     <?php }
     } ?>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo htmlspecialchars(url_for('favicon.ico')); ?>" type="image/x-icon">
 </head>
 <body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?><?php if (isset($options['class'])) echo " class=\"" . htmlspecialchars($options['class']) . "\""; ?>>
 <div class="body_wrapper">

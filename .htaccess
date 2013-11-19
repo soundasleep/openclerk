@@ -5,14 +5,21 @@
 
 RewriteEngine on
 
-ErrorDocument 404 /404.php
-
 # client-side URI mapping
 # if you are running in a top-level domain, you should use this:
 # RewriteBase /
+# ErrorDocument 404 /404.php
 # if you are running in a subfolder, you should instead use this:
 RewriteBase /clerk
+ErrorDocument 404 /clerk/404.php
 
 # rewrite urls
+
+RewriteCond %{QUERY_STRING}     	^q=(.*)$    [NC]
+RewriteRule ^kb$         help/%1     [R=301,L]
+
+RewriteRule ^help/([0-9a-z_]+)$         kb.php?q=$1     [L,QSA]
+
 #RewriteRule ^([0-9a-z_]+)/$        $1         [R,QSA]
 RewriteRule ^([0-9a-z_]+)$         $1.php     [L,QSA]
+

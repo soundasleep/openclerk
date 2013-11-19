@@ -7,13 +7,13 @@ $account_data = array('exchange_name' => get_exchange_name('crypto-trade'));
 
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account and visit your <a href="https://crypto-trade.com/member/apisettings">API Settings</a>.<br>
-	<img src="img/accounts/crypto-trade1.png"></li>
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/crypto-trade1.png')); ?>"></li>
 
 	<li>Select the <i>Info</i> permission, and click the "Generate New API" button.<br>
-	<img src="img/accounts/crypto-trade2.png"></li>
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/crypto-trade2.png')); ?>"></li>
 
 	<li>Copy and paste the <i>API Key</i> and <i>API Secret</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">"Add new Exchange" form</a>, and click "Add account".<br>
-	<img src="img/accounts/crypto-trade3.png"></li>
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/crypto-trade3.png')); ?>"></li>
 </ol>
 </div>
 
@@ -29,6 +29,6 @@ $account_data = array('exchange_name' => get_exchange_name('crypto-trade'));
 		site, even if you have logged in.</li>
 
 	<li>Through the <?php echo $account_data['exchange_name']; ?> interface you can revoke an API key&apos;s access at any time by generating a new API key/secret.<br>
-		<img src="img/accounts/crypto-trade_delete.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/crypto-trade_delete.png')); ?>"></li>
 </ul>
 </div>

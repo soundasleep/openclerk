@@ -8,10 +8,10 @@ $account_data = array('exchange_name' => get_exchange_name('slush'));
 <ol class="steps">
 	<li>Log into your <a href="https://mining.bitcoin.cz/accounts/profile/">Slush&apos;s pool account details</a>, and select
 		the <i>Manage API tokens</i> tab.<br>
-		<img src="img/accounts/slush1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/slush1.png')); ?>"></li>
 
 	<li>Find your <i>current token</i>, as illustrated below: <br>
-		<img src="img/accounts/slush2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/slush2.png')); ?>"></li>
 
 	<li>Copy and paste this <i>current token</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".</li>
 </ol>

@@ -7,14 +7,14 @@ $account_data = array('exchange_name' => get_exchange_name('mtgox'));
 
 <ol class="steps">
 	<li>Log into your <a href="https://mtgox.com/security">Mt.Gox account</a> and visit the <i>security center</i>.<br>
-		<img src="img/accounts/mtgox1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/mtgox1.png')); ?>"></li>
 
 	<li>Under <i>Advanced API Key Creation</i>, create a name for a new key (such as "<?php echo htmlspecialchars(get_site_config('site_name')); ?>");
 		give the key <i>Get Info</i> rights; and click <i>Create</i>.<br>
-		<img src="img/accounts/mtgox2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/mtgox2.png')); ?>"></li>
 
 	<li>Copy and paste the <i>API Key</i> and <i>Secret</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">"Add new Exchange" form</a>, and click "Add account". Click "Update" on the Mt.Gox site to save your changes.<br>
-		<img src="img/accounts/mtgox3.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/mtgox3.png')); ?>"></li>
 </ol>
 </div>
 

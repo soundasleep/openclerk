@@ -7,12 +7,12 @@ $account_data = array('exchange_name' => get_exchange_name('cryptostocks'));
 
 <ol class="steps">
 	<li>Log into your <a href="https://cryptostocks.com/settings/edit">Cryptostocks account</a> and visit your <i>Account</i>.<br>
-		<img src="img/accounts/cryptostocks1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cryptostocks1.png"></li>
 
 	<li>In the <i>API Secret Words</i> section, enter in two different random secret strings - for example,
 		you can use <a href="https://www.grc.com/passwords.htm">GRC&apos;s random password generator</a> to generate
 		a 63-character random alphanumeric string - into both the <i>get_coin_balances</i> and <i>get_share_balances</i> fields. Click <i>Save</i>.<br>
-		<img src="img/accounts/cryptostocks2.png">
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cryptostocks2.png"></li>
 
 	<li>Copy and paste these keys, along with your Cryptostocks account e-mail address, into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_securities')); ?>">"Add new Securities Exchange" form</a> and click "Add account".</li>
 </ol>

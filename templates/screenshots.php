@@ -58,18 +58,18 @@
 	<ul class="tab_groups">
 	<?php foreach ($screens as $key => $data) { ?>
 		<li id="tab_screenshots_<?php echo $key; ?>_tab">
-			<img src="<?php echo htmlspecialchars($data['url']); ?>">
+			<img src="<?php echo htmlspecialchars(url_for($data['url'])); ?>">
 			<p><?php echo $data['text']; ?></p>
 			<?php if (isset($data['url2'])) { ?>
-				<img src="<?php echo htmlspecialchars($data['url2']); ?>" class="image2">
+				<img src="<?php echo htmlspecialchars(url_for($data['url2'])); ?>" class="image2">
 				<p><?php echo $data['text2']; ?></p>
 			<?php } ?>
 			<?php if (isset($data['url3'])) { ?>
-				<img src="<?php echo htmlspecialchars($data['url3']); ?>" class="image2">
+				<img src="<?php echo htmlspecialchars(url_for($data['url3'])); ?>" class="image2">
 				<p><?php echo $data['text3']; ?></p>
 			<?php } ?>
 			<?php if (isset($data['url4'])) { ?>
-				<img src="<?php echo htmlspecialchars($data['url4']); ?>" class="image2">
+				<img src="<?php echo htmlspecialchars(url_for($data['url4'])); ?>" class="image2">
 				<p><?php echo $data['text4']; ?></p>
 			<?php } ?>
 		</li>

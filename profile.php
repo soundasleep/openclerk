@@ -213,7 +213,7 @@ if (!$graphs) { ?>
 	</div>
 
 	<?php if (require_get("securities", false)) { ?>
-	<div class="graph_collection_screenshot"><a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>" title="Illustration of Your Securities page"><img src="img/screenshots/profile_securities.png" class="screenshot_image"></a></div>
+	<div class="graph_collection_screenshot"><a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>" title="Illustration of Your Securities page"><img src="<?php echo htmlspecialchars(url_for('img/screenshots/profile_securities.png')); ?>" class="screenshot_image"></a></div>
 	<?php } ?>
 <?php } ?>
 </div>

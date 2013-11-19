@@ -434,15 +434,52 @@ function display_xml_error($e) {
 }
 
 /**
+ * Can be cached.
+ */
+$global_calculate_relative_path = null;
+function calculate_relative_path() {
+	global $global_calculate_relative_path;
+	if ($global_calculate_relative_path === null) {
+		// construct a relative path for this request based on the request URI, but only if it is set
+		if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI']) {
+			$uri = $_SERVER['REQUEST_URI'];
+			// strip out the hostname from the absolute_url
+			$intended = substr(get_site_config('absolute_url'), strpos(get_site_config('absolute_url'), '://') + 4);
+			$intended = substr($intended, strpos($intended, '/'));
+			// if we're in this path, remove it
+			// now generate ../s as necessary
+			if (strtolower(substr($uri, 0, strlen($intended))) == strtolower($intended)) {
+				$uri = substr($uri, strlen($intended) + 1);
+			}
+			$global_calculate_relative_path = str_repeat('../', substr_count($uri, '/'));
+		} else {
+			$global_calculate_relative_path = "";
+		}
+	}
+	return $global_calculate_relative_path;
+}
+
+/**
  * Generate the url for a particular module (i.e. script) and particular arguments (i.e. query string elements).
- * TODO Currently just assumes everything is .htaccess'd to the root with no subdirs
+ * Handles relative paths back to the root, but /clerk/foo/bar to /clerk/bar/foo is untested.
  * Also handles #hash arguments.
+ * Should handle absolute arguments OK.
  */
 function url_for($module, $arguments = array()) {
+	$is_absolute = (strpos($module, "://") !== false);
 	$hash = false;
 	if (strpos($module, "#") !== false) {
 		$hash = substr($module, strpos($module, "#") + 1);
 		$module = substr($module, 0, strpos($module, "#"));
+	}
+	// rewrite e.g. help?kb=foo to help/foo
+	switch ($module) {
+		case "kb":
+			if (isset($arguments['q'])) {
+				$module = 'help/' . urlencode($arguments['q']);
+				unset($arguments['q']);
+			}
+			break;
 	}
 	$query = array();
 	if (count($arguments) > 0) {
@@ -450,7 +487,7 @@ function url_for($module, $arguments = array()) {
 			$query[] = urlencode($key) . "=" . urlencode($value);
 		}
 	}
-	return $module . /* ".php" . */ (count($query) ? "?" . implode("&", $query) : "") . ($hash ? "#" . $hash : "");
+	return ($is_absolute ? "" : calculate_relative_path()) . $module . /* ".php" . */ (count($query) ? "?" . implode("&", $query) : "") . ($hash ? "#" . $hash : "");
 }
 
 /**

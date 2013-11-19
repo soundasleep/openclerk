@@ -7,10 +7,10 @@ $account_data = array('exchange_name' => get_exchange_name('givemecoins'));
 
 <ol class="steps">
 	<li>Log into your <a href="https://give-me-coins.com/pool/accountdetails"><?php echo $account_data['exchange_name']; ?> Account Details</a>.<br>
-		<img src="img/accounts/givemecoins2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/givemecoins2.png')); ?>"></li>
 
 	<li>Find your <i>API Key</i>, as illustrated below: <br>
-		<img src="img/accounts/givemecoins3.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/givemecoins3.png')); ?>"></li>
 
 	<li>Copy and paste this <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".</li>
 </ol>

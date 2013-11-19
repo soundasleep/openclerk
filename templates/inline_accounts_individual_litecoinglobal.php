@@ -11,12 +11,12 @@ $example = "S-DICE.PT";
 		to your portfolio, and estimate their value against those traded on <?php echo htmlspecialchars($exchange); ?>,
 		by visiting your <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_individual_securities')); ?>">"Individual Securities" wizard page</a>
 		through your <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_securities')); ?>">"Securities" wizard page</a>.<br>
-		<img src="img/accounts/individual_securities.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/individual_securities.png')); ?>"></li>
 	</li>
 
 	<li>For example, if you own 10 shares of <?php echo htmlspecialchars($example); ?> privately, then you can track these shares
 		using the <?php echo htmlspecialchars($example); ?> value on the public <?php echo htmlspecialchars($exchange); ?> securities exchange.<br>
-		<img src="img/accounts/individual_securities2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/individual_securities2.png')); ?>"></li>
 </ol>
 </div>
 

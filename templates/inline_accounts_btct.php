@@ -7,10 +7,10 @@ $account_data = array('exchange_name' => get_exchange_name('btct'));
 
 <ol class="steps">
 	<li>Log into your <a href="https://btct.co/account">BTC Trading Co. account</a> and visit your <i>Account</i>.<br>
-		<img src="img/accounts/btct1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/btct1.png')); ?>"></li>
 
 	<li>In the <i>Account Information</i> tab, copy and paste the <i>Read-Only API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_securities')); ?>">"Add new Securities Exchange" form</a>, and click "Add account".<br>
-		<img src="img/accounts/btct2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/btct2.png')); ?>"></li>
 </ol>
 </div>
 

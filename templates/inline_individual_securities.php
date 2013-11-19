@@ -6,7 +6,7 @@
 	<li>As of version 0.10, you can manually add quantities of privately-owned securities
 		to your portfolio, and estimate their value against those traded on public security exchanges,
 		by visiting your <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_individual_securities')); ?>">"Individual Securities" wizard page</a>.<br>
-		<img src="img/accounts/individual_securities.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/individual_securities.png')); ?>"></li>
 	</li>
 
 	<li>For example, if you own 10 shares of <a href="http://www.asicminer.co" target="_blank">ASICMINER</a> privately, then you can track these shares

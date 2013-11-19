@@ -8,10 +8,10 @@ $account_data = array('exchange_name' => get_exchange_name('bitfunder'));
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account
 		and visit your <a href="https://bitfunder.com/settings">Settings page</a>.<br>
-		<img src="img/accounts/bitfunder1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bitfunder1.png')); ?>"></li>
 
 	<li>Copy and paste your <i>Public Bitcoin Address</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_securities')); ?>">"Add new Securities Exchange" form</a>, and click "Add account".<br>
-		<img src="img/accounts/bitfunder2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bitfunder2.png')); ?>"></li>
 
 	<li><?php echo htmlspecialchars(get_site_config('site_name')); ?> will match your Public Bitcoin Address against
 		the BitFunder <a href="https://bitfunder.com/assetlist" target="_blank">Public Asset Holdings List</a> to calculate the value of

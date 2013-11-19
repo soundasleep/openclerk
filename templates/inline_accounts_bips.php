@@ -8,15 +8,15 @@ $account_data = array('exchange_name' => get_exchange_name('bips'));
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account
 		and visit your <a href="https://bips.me/merchant">Merchant page</a>.<br>
-		<img src="img/accounts/bips1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bips1.png')); ?>"></li>
 
 	<li>Browse down to <i>API Keys</i>, select the <i>GetBalance</i> tab, and click
 		on <i>Get new GetBalance API key</i>.<br>
-		<img src="img/accounts/bips2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bips2.png')); ?>"></li>
 
 	<li>Browse back down to <i>API Keys</i>, and select the <i>GetBalance</i> tab again. Copy and
 		paste this new <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">"Add new Exchange" form</a>, and click "Add account".<br>
-		<img src="img/accounts/bips3.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bips3.png')); ?>"></li>
 </ol>
 </div>
 

@@ -7,10 +7,10 @@ $account_data = array('exchange_name' => get_exchange_name('liteguardian'));
 
 <ol class="steps">
 	<li>Log into your <a href="https://www.liteguardian.com/secure/user/manageAccount">LiteGuardian account details</a>.<br>
-		<img src="img/accounts/liteguardian1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/liteguardian1.png')); ?>"></li>
 
 	<li>Find your <i>Api Key</i>, as illustrated below: <br>
-		<img src="img/accounts/liteguardian2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/liteguardian2.png')); ?>"></li>
 
 	<li>Copy and paste this <i>Api Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".</li>
 </ol>

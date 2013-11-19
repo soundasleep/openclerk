@@ -5,7 +5,7 @@
 	<li>Log into your <a href="http://pool-x.eu/accountdetails">Pool-x.eu account details</a>.</li>
 
 	<li>Find your <i>API Key</i>, as illustrated below: <br>
-	<img src="img/accounts/poolx.png"></li>
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/poolx.png')); ?>"></li>
 
 	<li>Copy and paste this <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".</li>
 </ol>

@@ -7,12 +7,12 @@ $account_data = array('exchange_name' => get_exchange_name('vircurex'));
 
 <ol class="steps">
 	<li>Log into your <a href="https://mtgox.com/security">Vircurex account</a> and visit <i>Settings</i> in the top right navigation.<br>
-		<img src="img/accounts/vircurex1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/vircurex1.png')); ?>"></li>
 
 	<li>Under the <i>API tab</i>, check <i>Get balance</i>, insert in any random secret string - for example,
 		you can use <a href="https://www.grc.com/passwords.htm">GRC&apos;s random password generator</a> to generate
 		a 63-character random alphanumeric string - and click <i>Save</i>.<br>
-		<img src="img/accounts/vircurex2.png">
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/vircurex2.png')); ?>"></li>
 
 	<li>Copy and paste your both your username and your chosen random secret string into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">"Add new Exchange" form</a>, and click "Add account".</li>
 </ol>

@@ -14,16 +14,16 @@ global $title;
 <ol class="steps">
 	<li>Open your Bitcoin-Qt client, and
 		open the "Receive coins" tab.<br>
-		<img src="img/accounts/bitcoinqt1.png">
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bitcoinqt1.png')); ?>"></li>
 
 	<li>Click the "Export" button and save this CSV file to your computer.<br>
-		<img src="img/accounts/bitcoinqt2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bitcoinqt2.png')); ?>"></li>
 
 	<li>Once this CSV file has
 		been exported, select the "Browse..." button on the "Upload CSV" tab
 		on the <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses#wizard_btc')); ?>">add BTC Addresses page</a>
 		to locate and upload this file to <?php echo htmlspecialchars(get_site_config('site_name')); ?>.<br>
-		<img src="img/accounts/bitcoinqt3.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bitcoinqt3.png')); ?>"></li>
 </ol>
 </div>
 

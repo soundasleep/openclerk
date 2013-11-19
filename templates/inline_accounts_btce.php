@@ -7,16 +7,16 @@ $account_data = array('exchange_name' => get_exchange_name('btce'));
 
 <ol class="steps">
 	<li>Log into your <a href="https://btc-e.com/profile"><?php echo $account_data['exchange_name']; ?> profile</a>.<br>
-	<img src="img/accounts/btce1.png"></li>
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/btce1.png')); ?>"></li>
 
 	<li>From the profile, select <i>API keys</i>.<br>
-	<img src="img/accounts/btce2.png"></li>
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/btce2.png')); ?>"></li>
 
 	<li>Create a name for a new key (such as "<?php echo htmlspecialchars(get_site_config('site_name')); ?>") and click <i>Create</i>.<br>
-	<img src="img/accounts/btce3.png"></li>
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/btce3.png')); ?>"></li>
 
 	<li>Select the <i>info</i> permission, and click <i>Save</i>. Once the key has been saved, copy and paste the <i>Key</i> and <i>Secret</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">"Add new Exchange" form</a>, and click "Add account".<br>
-	<img src="img/accounts/btce4.png"></li>
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/btce4.png')); ?>"></li>
 </ol>
 </div>
 

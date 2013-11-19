@@ -14,16 +14,16 @@ global $title;
 <ol class="steps">
 	<li>Open your Litecoin-Qt client, and
 		open the "Receive coins" tab.<br>
-		<img src="img/accounts/litecoinqt1.png">
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/litecoinqt1.png')); ?>"></li>
 
 	<li>Click the "Export" button and save this CSV file to your computer.<br>
-		<img src="img/accounts/litecoinqt2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/litecoinqt2.png')); ?>"></li>
 
 	<li>Once this CSV file has
 		been exported, select the "Browse..." button on the "Upload CSV" tab
 		on the <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses#wizard_ltc')); ?>">add LTC Addresses page</a>
 		to locate and upload this file to <?php echo htmlspecialchars(get_site_config('site_name')); ?>.<br>
-		<img src="img/accounts/litecoinqt3.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/litecoinqt3.png')); ?>"></li>
 </ol>
 </div>
 

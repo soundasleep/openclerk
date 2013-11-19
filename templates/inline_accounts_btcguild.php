@@ -8,10 +8,10 @@ $account_data = array('exchange_name' => get_exchange_name('btcguild'));
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account
 		and visit your <a href="https://www.btcguild.com/index.php?page=account">settings page</a>.<br>
-		<img src="img/accounts/btcguild1.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/btcguild1.png')); ?>"></li>
 
 	<li>Copy and paste your <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".<br>
-		<img src="img/accounts/btcguild2.png"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/btcguild2.png')); ?>"></li>
 </ol>
 </div>
 
