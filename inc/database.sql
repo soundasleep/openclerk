@@ -1498,3 +1498,5 @@ ALTER TABLE users MODIFY disable_warned_at timestamp null;
 ALTER TABLE users MODIFY last_managed_update timestamp null;
 ALTER TABLE users MODIFY last_report_queue timestamp null;
 
+-- add new site_space statistics
+ALTER TABLE site_statistics ADD disk_free_space float;	-- precision isn't strictly necessary

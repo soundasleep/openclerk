@@ -115,6 +115,11 @@ try {
 		$q->execute(array($job['id']));
 	}
 
+	// sanity check
+	if (!function_exists('curl_init')) {
+		throw new Exception("curl_init() function does not exist");
+	}
+
 	switch ($job['job_type']) {
 		// ticker jobs
 		case "ticker":

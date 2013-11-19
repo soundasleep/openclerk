@@ -160,6 +160,8 @@ while ($s = $q->fetch()) {
 	}
 }
 
+$data['disk_free_space'] = disk_free_space('/');
+
 // get system statistics if defined (i.e. not Windows)
 $query_extra = "";
 if (function_exists('sys_getloadavg')) {
@@ -213,6 +215,8 @@ $q = db()->prepare("INSERT INTO site_statistics SET
 
 	jobs_tests = :jobs_tests,
 	jobs_timeout = :jobs_timeout,
+
+	disk_free_space = :disk_free_space,
 
 	$query_extra
 

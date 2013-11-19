@@ -177,10 +177,41 @@ $graph = array(
 	foreach ($stats as $key => $value) {
 		if (is_numeric($key)) continue;
 		$dp = ($key == "system_load_1min" || $key == "system_load_5min" || $key == "system_load_15min") ? 2 : 0;
+		$suffix = "";
+		$status = "";
+		if (substr($key, -strlen("disk_free_space")) == "disk_free_space") {
+			$suffix = " GB";
+			$value = $value / pow(1024, 3);
+			if ($value < 0.5) {
+				$status = "broken";
+			} if ($value < 1) {
+				$status = "bad";
+			} else if ($value < 5) {
+				$status = "poor";
+			} else if ($value < 10) {
+				$status = "good";
+			} else {
+				$status = "perfect";
+			}
+			$dp = 3;
+		}
+		if (strpos($key, "system_load") !== false) {
+			if ($value > 2) {
+				$status = "bad";
+			} else if ($value > 1) {
+				$status = "poor";
+			} else if ($value > 0.5) {
+				$status = "ok";
+			} else if ($value > 0.25) {
+				$status = "good";
+			} else {
+				$status = "perfect";
+			}
+		}
 		?>
 	<tr>
 		<th><?php echo htmlspecialchars($key); ?></th>
-		<td class="number"><?php echo $key == "created_at" ? recent_format_html($value) : number_format($value, $dp); ?></td>
+		<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>"><?php echo $key == "created_at" ? recent_format_html($value) : number_format($value, $dp); echo $suffix; ?></span></td>
 	</tr>
 	<?php } ?>
 	<tr>

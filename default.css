@@ -177,7 +177,8 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 
 #page_external .external_list li { padding-bottom: 5px; }
 #page_external .external_list .title { display: inline-block; width: 240px; padding: 5px; }
-.status_percent { display: inline-block; width: 75px; padding: 5px 0px 5px 20px; margin-right: 5px; text-align: center; }
+.status_percent { display: inline-block; width: 75px; padding: 5px 0px 5px 20px; text-align: center; }
+#page_external .status_percent { margin-right: 5px; }
 
 .status_percent.perfect { background: #473 url('img/nuvola/ok.png') 7px center no-repeat; }
 .status_percent.good { background: #363 url('img/nuvola/ok.png') 7px center no-repeat; }
