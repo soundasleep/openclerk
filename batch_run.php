@@ -10,6 +10,8 @@
  *   $job_type/2 optional restrict job execution to only this type of job, comma-separated list
  */
 
+define('BATCH_JOB_START', microtime(true));
+
 if (!defined('ADMIN_RUN_JOB')) {
 	require(__DIR__ . "/inc/global.php");
 }
@@ -345,6 +347,12 @@ try {
 // delete job
 $q = db()->prepare("UPDATE jobs SET is_executed=1,is_executing=0,is_error=?,executed_at=NOW() WHERE id=? LIMIT 1");
 $q->execute(array(($runtime_exception === null ? 0 : 1), $job['id']));
+
+if (defined('BATCH_JOB_START')) {
+	$end_time = microtime(true);
+	$time_diff = ($end_time - BATCH_JOB_START) * 1000;
+	crypto_log("Executed in " . number_format($time_diff, 2) . " ms.");
+}
 
 // rethrow exception if necessary
 if ($runtime_exception !== null) {
