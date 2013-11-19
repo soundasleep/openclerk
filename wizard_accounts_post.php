@@ -113,6 +113,13 @@ if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM balances WHERE account_id=? AND user_id=? AND exchange=?");
 	$q->execute(array(require_post("id"), user_id(), $account_data['exchange']));
 
+	// we also need to remove old _securities and _wallet balances for this exchange as well
+	// fixes bug described by Tobias
+	$q = db()->prepare("DELETE FROM balances WHERE account_id=? AND user_id=? AND exchange=?");
+	$q->execute(array(require_post("id"), user_id(), $account_data['exchange'] . '_securities'));
+	$q = db()->prepare("DELETE FROM balances WHERE account_id=? AND user_id=? AND exchange=?");
+	$q->execute(array(require_post("id"), user_id(), $account_data['exchange'] . '_wallet'));
+
 	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . ".";
 
 	// redirect to GET

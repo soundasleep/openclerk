@@ -1500,3 +1500,17 @@ ALTER TABLE users MODIFY last_report_queue timestamp null;
 
 -- add new site_space statistics
 ALTER TABLE site_statistics ADD disk_free_space float;	-- precision isn't strictly necessary
+
+-- remove orphaned _securities and _wallet balances
+DELETE FROM balances WHERE exchange='litecoinglobal_securities' AND account_id NOT IN (SELECT id FROM accounts_litecoinglobal);
+DELETE FROM balances WHERE exchange='litecoinglobal_wallet' AND account_id NOT IN (SELECT id FROM accounts_litecoinglobal);
+DELETE FROM balances WHERE exchange='btct_securities' AND account_id NOT IN (SELECT id FROM accounts_btct);
+DELETE FROM balances WHERE exchange='btct_wallet' AND account_id NOT IN (SELECT id FROM accounts_btct);
+DELETE FROM balances WHERE exchange='crypto-trade_securities' AND account_id NOT IN (SELECT id FROM accounts_cryptotrade);
+DELETE FROM balances WHERE exchange='crypto-trade_wallet' AND account_id NOT IN (SELECT id FROM accounts_cryptotrade);
+DELETE FROM balances WHERE exchange='cryptostocks_securities' AND account_id NOT IN (SELECT id FROM accounts_cryptostocks);
+DELETE FROM balances WHERE exchange='cryptostocks_wallet' AND account_id NOT IN (SELECT id FROM accounts_cryptostocks);
+DELETE FROM balances WHERE exchange='havelock_securities' AND account_id NOT IN (SELECT id FROM accounts_havelock);
+DELETE FROM balances WHERE exchange='havelock_wallet' AND account_id NOT IN (SELECT id FROM accounts_havelock);
+DELETE FROM balances WHERE exchange='bitfunder_securities' AND account_id NOT IN (SELECT id FROM accounts_bitfunder);
+
