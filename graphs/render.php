@@ -407,8 +407,11 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 				$row[$key] = graph_number_format(demo_scale($values[$key]));
 			}
 		}
-		$data[$date] = $row;
-		$previous_row = $row;
+		if (count($row) > 1) {
+			// don't add empty rows
+			$data[$date] = $row;
+			$previous_row = $row;
+		}
 	}
 
 	$graph['last_updated'] = $last_updated;
