@@ -18,6 +18,15 @@ if (!$summary) {
 	throw new JobException("Cannot find a summary " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
+// if a 'sum' job is currently running for this user, wait until it is finished
+// this should help situations where summary jobs calculate incorrect values (due to race conditions) -
+// e.g. set all totalbtc to is_recent=0 and this job executes before a new totalbtc is_recent=1 is inserted
+$q = db()->prepare("SELECT id FROM jobs WHERE user_id=? AND job_type=? AND is_executing=1 LIMIT 1");
+$q->execute(array($job['user_id'], 'sum'));
+if ($sum = $q->fetch()) {
+	throw new JobException("Cannot execute summary job yet; waiting for sum job " . $sum['id'] . " to finish first.");
+}
+
 // what kind of summary is it?
 // each job include will set a runtime value $total.
 // this will set a runtime value $total.
