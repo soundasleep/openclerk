@@ -10,7 +10,7 @@ function get_all_currencies() {
 }
 
 function get_all_hashrate_currencies() {
-	return array("btc", "ltc", "nmc");
+	return array("btc", "ltc", "nmc", "nvc");
 }
 
 function get_new_supported_currencies() {
@@ -115,6 +115,7 @@ function get_all_exchanges() {
 		"796" =>			"796 Xchange",
 		"796_wallet" =>		"796 Xchange (Wallet)",
 		"796_securities" => "796 Xchange (Securities)",
+		"kattare" =>		"ltc.kattare.com",
 	);
 }
 
@@ -209,6 +210,7 @@ function get_supported_wallets() {
 		"khore" => array('nvc', 'hash'),
 		"litecoinglobal" => array('ltc'),
 		"liteguardian" => array('ltc'),
+		"kattare" => array('ltc', 'hash'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad'),
 		"miningforeman" => array('ltc', 'ftc'),
@@ -221,7 +223,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitstamp", "796");
+	return array("bitstamp", "796", "kattare");
 }
 
 function crypto_address($currency, $address) {
@@ -343,6 +345,7 @@ function account_data_grouped() {
 			'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools'),
 			'liteguardian' => array('table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools'),
 			'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools'),
+			'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools'),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges'),
@@ -427,6 +430,7 @@ function get_external_apis() {
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
 			'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
+			'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -732,6 +736,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_khore_apikey'),
 				),
 				'table' => 'accounts_khore',
+				'khash' => true,
+			);
+
+		case "kattare":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_kattare_apikey'),
+				),
+				'table' => 'accounts_kattare',
 				'khash' => true,
 			);
 
@@ -1318,6 +1331,11 @@ function is_valid_liteguardian_apikey($key) {
 }
 
 function is_valid_khore_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_kattare_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }

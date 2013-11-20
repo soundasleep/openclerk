@@ -1591,3 +1591,17 @@ CREATE TABLE accounts_individual_796 (
 
 ALTER TABLE users ADD securities_count int not null default 0;
 ALTER TABLE users ADD securities_last_count_queue timestamp null;
+
+DROP TABLE IF EXISTS accounts_kattare;
+
+CREATE TABLE accounts_kattare (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp null,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);

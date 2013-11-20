@@ -287,6 +287,10 @@ try {
 			require(__DIR__ . "/jobs/securities_796.php");
 			break;
 
+		case "kattare":
+			require(__DIR__ . "/jobs/kattare.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

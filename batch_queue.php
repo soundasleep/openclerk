@@ -101,6 +101,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_bitstamp', 'type' => 'bitstamp'),
 	array('table' => 'accounts_796', 'type' => '796'),
 	array('table' => 'securities_796', 'type' => 'securities_796', 'user_id' => get_site_config('system_user_id')),
+	array('table' => 'accounts_kattare', 'type' => 'kattare'),
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal'),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct'),
 	array('table' => 'accounts_individual_bitfunder', 'type' => 'individual_bitfunder'),
