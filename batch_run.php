@@ -275,6 +275,10 @@ try {
 			require(__DIR__ . "/jobs/crypto-trade.php");
 			break;
 
+		case "bitstamp":
+			require(__DIR__ . "/jobs/bitstamp.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

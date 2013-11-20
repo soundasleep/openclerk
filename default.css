@@ -261,6 +261,7 @@ input.currency_name_btc, input.currency_name_ltc, input.currency_name_nmc, input
 .currency_name_nvc { background-image: url('img/novacoin.png'); } 
 .currency_name_ghs { background-image: url('img/ghs.png'); } 
 .help_name_twitter { background: url('img/twitter.png') top left no-repeat; padding-left: 20px; } 
+.help_name_facebook { background: url('img/facebook.png') top left no-repeat; padding-left: 20px; } 
 .help_name_email { background: url('img/gmail.png') top left no-repeat; padding-left: 20px; } 
 .help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 
 .help_name_litecoinforum { background: url('img/litecoin.png') top left no-repeat; padding-left: 20px; } 

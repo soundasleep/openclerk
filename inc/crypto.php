@@ -190,6 +190,7 @@ function get_supported_wallets() {
 		"50btc" => array('btc', 'hash'),
 		"bips" => array('btc', 'usd'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
+		"bitstamp" => array('btc', 'usd'),
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
@@ -214,7 +215,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("crypto-trade");
+	return array("bitstamp");
 }
 
 function crypto_address($currency, $address) {
@@ -344,6 +345,7 @@ function account_data_grouped() {
 			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges'),
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges'),
+			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges'),
 		),
 		'Securities' => array(
 			'litecoinglobal' => array('table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities'),
@@ -431,6 +433,7 @@ function get_external_apis() {
 			'bips' => '<a href="https://bips.me">BIPS</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
+			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
 		),
 
 		"Exchange tickers" => array(
@@ -777,6 +780,16 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cryptotrade_apisecret'),
 				),
 				'table' => 'accounts_cryptotrade',
+			);
+
+		case "bitstamp":
+			return array(
+				'inputs' => array(
+					'api_client_id' => array('title' => 'Customer ID', 'callback' => 'is_numeric'),
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitstamp_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitstamp_apisecret', 'length' => 32),
+				),
+				'table' => 'accounts_bitstamp',
 			);
 
 		// --- securities ---
@@ -1296,6 +1309,16 @@ function is_valid_cryptotrade_apikey($key) {
 function is_valid_cryptotrade_apisecret($key) {
 	// looks like a 40 character hex string
 	return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_bitstamp_apikey($key) {
+	// looks like a 32 character alphanumeric string
+	return strlen($key) == 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
+}
+
+function is_valid_bitstamp_apisecret($key) {
+	// looks like a 32 character alphanumeric string
+	return strlen($key) == 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

@@ -1524,3 +1524,19 @@ DROP TABLE temp;
 -- track time between account creation and first report ready
 ALTER TABLE users ADD first_report_sent timestamp null;
 ALTER TABLE users ADD reminder_sent timestamp null;
+
+DROP TABLE IF EXISTS accounts_bitstamp;
+
+CREATE TABLE accounts_bitstamp (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_client_id int not null,
+	api_key varchar(255) not null,
+	api_secret varchar(255) not null,
+	
+	INDEX(user_id), INDEX(last_queue)
+);
