@@ -70,6 +70,7 @@ if ($pages) {
 
 			// assumes each securities_XXX table has a 'name'
 			$tables = get_security_exchange_tables();
+			$account_data = account_data_grouped();
 			foreach (get_security_exchange_pairs() as $exchange => $currencies) {
 				$table = $tables[$exchange];
 
@@ -78,6 +79,19 @@ if ($pages) {
 					WHERE exchange=? AND user_id=? AND is_recent=1 ORDER BY exchange ASC, ss.name ASC");
 				$q->execute(array($exchange, user_id()));
 				$securities = $q->fetchAll();
+
+				// also get all individual securities
+				if (isset($account_data['Individual Securities']['individual_' . $exchange])) {
+					$ind_account = $account_data['Individual Securities']['individual_' . $exchange];
+					$table_name = $ind_account['table'];
+					$security_table_name = $ind_account['securities_table'];
+					$q = db()->prepare("SELECT t.* " . (count($currencies) > 1 ? ", ss.currency" : "") . " FROM $table_name AS t
+						JOIN $security_table_name AS ss ON t.security_id=ss.id
+						WHERE user_id=? ORDER BY ss.name ASC");
+					$q->execute(array(user_id()));
+					$securities2 = $q->fetchAll();
+					$securities = array_merge($securities, $securities2);
+				}
 
 				if ($securities) {
 					// insert heading (also functions as linebreak)
@@ -94,6 +108,7 @@ if ($pages) {
 						'no_technicals' => true,
 					);
 
+					$cache = array();
 					// go through each security
 					foreach ($currencies as $c) {
 						foreach ($securities as $sec) {
@@ -101,6 +116,10 @@ if ($pages) {
 								$sec['currency'] = $c;
 							}
 							if ($sec['currency'] == $c) {
+								if (isset($cache[$sec['security_id']])) {
+									continue;	// we've already displayed this security
+								}
+								$cache[$sec['security_id']] = true;
 								$graphs[] = array(
 									'id' => $id_counter++,
 									'graph_type' => 'securities_' . $exchange . '_' . $sec['currency'],

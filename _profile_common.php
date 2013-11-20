@@ -6,7 +6,5 @@ $q->execute(array(user_id()));
 $pages = $q->fetchAll();
 
 // how many securities do we have?
-$q = db()->prepare("SELECT COUNT(*) AS c FROM securities WHERE user_id=? AND is_recent=1");
-$q->execute(array(user_id()));
-$count = $q->fetch();
-$securities_count = $count['c'];
+// we have a new job 'securities_count' to update the count of securities for each user, otherwise we'd have to recalculate this on every profile page load
+$securities_count = $user['securities_count'];

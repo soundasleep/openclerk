@@ -1588,3 +1588,6 @@ CREATE TABLE accounts_individual_796 (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
+
+ALTER TABLE users ADD securities_count int not null default 0;
+ALTER TABLE users ADD securities_last_count_queue timestamp null;

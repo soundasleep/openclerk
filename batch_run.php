@@ -325,6 +325,10 @@ try {
 			require(__DIR__ . "/jobs/summary.php");
 			break;
 
+		case "securities_count":
+			require(__DIR__ . "/jobs/securities_count.php");
+			break;
+
 		// system jobs
 		case "securities_update":
 			require(__DIR__ . "/jobs/securities_update.php");
