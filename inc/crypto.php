@@ -85,6 +85,7 @@ function get_all_exchanges() {
 		"individual_cryptostocks" => "Cryptostocks (Individual Securities)",
 		"individual_havelock" => "Havelock Investments (Individual Securities)",
 		"individual_crypto-trade" => "Crypto-Trade (Individual Securities)",
+		"individual_796" => "796 Xchange (Individual Securities)",
 		"generic" => 		"Generic API",
 		"offsets" => 		"Offsets",		// generic
 		"blockchain" =>  	"Blockchain",	// generic
@@ -114,7 +115,6 @@ function get_all_exchanges() {
 		"796_wallet" =>		"796 Xchange (Wallet)",
 		"796_securities" => "796 Xchange (Securities)",
 	);
-
 }
 
 function get_exchange_name($n) {
@@ -368,6 +368,7 @@ function account_data_grouped() {
 			'individual_havelock' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'havelock'),
 			'individual_bitfunder' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'bitfunder'),
 			'individual_crypto-trade' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptotrade', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'crypto-trade'),
+			'individual_796' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_796', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => '796'),
 		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other'),
@@ -907,6 +908,15 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_individual_cryptotrade',
 			);
 
+		case "individual_796":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_796_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_796',
+			);
+
 		// --- other ---
 		case "generic":
 			return array(
@@ -1027,6 +1037,10 @@ function get_individual_security_config($account) {
 		case "individual_crypto-trade":
 			$securities = dropdown_get_cryptotrade_securities();
 			break;
+		case "individual_796":
+			$securities = dropdown_get_796_securities();
+			$historical_key = 'securities_796_btc';
+			break;
 	}
 
 	if ($securities) {
@@ -1140,16 +1154,20 @@ function dropdown_get_cryptotrade_securities() {
 	return dropdown_get_all_securities('securities_cryptotrade' /* table */);
 }
 
+function dropdown_get_796_securities() {
+	return dropdown_get_all_securities('securities_796', 'title');
+}
+
 /**
  * Returns an array of (id => security name).
  * Cached across calls.
  */
 $dropdown_get_all_securities = array();
-function dropdown_get_all_securities($table) {
+function dropdown_get_all_securities($table, $title_key = 'name') {
 	global $dropdown_get_all_securities;
 	if (!isset($dropdown_get_all_securities[$table])) {
 		$dropdown_get_all_securities[$table] = array();
-		$q = db()->prepare("SELECT * FROM " . $table);
+		$q = db()->prepare("SELECT id, $title_key AS name FROM " . $table);
 		$q->execute();
 		while ($sec = $q->fetch()) {
 			$dropdown_get_all_securities[$table][$sec['id']] = $sec['name'];

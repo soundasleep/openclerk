@@ -312,6 +312,10 @@ try {
 			require(__DIR__ . "/jobs/individual_crypto-trade.php");
 			break;
 
+		case "individual_796":
+			require(__DIR__ . "/jobs/individual_796.php");
+			break;
+
 		// summary jobs
 		case "sum":
 			require(__DIR__ . "/jobs/sum.php");

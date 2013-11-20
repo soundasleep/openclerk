@@ -1564,7 +1564,7 @@ DROP TABLE IF EXISTS securities_796;
 CREATE TABLE securities_796 (
 	id int not null auto_increment primary key,
 	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+	last_queue timestamp null,
 	
 	name varchar(64) not null,
 	title varchar(64) not null,
@@ -1576,4 +1576,15 @@ INSERT INTO securities_796 SET name='mri', title='796Xchange-MRI', api_name='xch
 INSERT INTO securities_796 SET name='asicminer', title='ASICMINER-796', api_name='asicminer';
 INSERT INTO securities_796 SET name='bd', title='BTC-DICE-796', api_name='bd';
 
--- TODO individual securities
+CREATE TABLE accounts_individual_796 (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+	
+	title varchar(255),
+	quantity int not null,
+	security_id int not null,	-- to securities_796
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+);
