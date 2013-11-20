@@ -187,6 +187,9 @@ switch ($summary['summary_type']) {
  * Send an e-mail to new users once their first non-zero summary reports have been compiled.
  */
 
+// reload user in case multiple summary jobs for the same user are all blocked at once
+$user = get_user($job['user_id']);
+
 if (!$user['is_first_report_sent']) {
 	// is there a non-zero summary instance?
 	$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND is_recent=1 AND balance > 0 LIMIT 1");
