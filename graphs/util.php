@@ -143,29 +143,33 @@ function get_security_instances($exchange, $currency) {
 
 	switch ($exchange) {
 		case "litecoinglobal":
-			$q = db()->prepare("SELECT * FROM securities_litecoinglobal ORDER BY name ASC");
+			$q = db()->prepare("SELECT id, name, name as title FROM securities_litecoinglobal ORDER BY name ASC");
 			break;
 
 		case "btct":
-			$q = db()->prepare("SELECT * FROM securities_btct ORDER BY name ASC");
+			$q = db()->prepare("SELECT id, name, name as title FROM securities_btct ORDER BY name ASC");
 			break;
 
 		case "cryptostocks":
-			$q = db()->prepare("SELECT * FROM securities_cryptostocks WHERE currency=? ORDER BY name ASC");
+			$q = db()->prepare("SELECT id, name, name as title FROM securities_cryptostocks WHERE currency=? ORDER BY name ASC");
 			$args = array($currency);
 			break;
 
 		case "havelock":
-			$q = db()->prepare("SELECT * FROM securities_havelock ORDER BY name ASC");
+			$q = db()->prepare("SELECT id, name, name as title FROM securities_havelock ORDER BY name ASC");
 			break;
 
 		case "bitfunder":
-			$q = db()->prepare("SELECT * FROM securities_bitfunder ORDER BY name ASC");
+			$q = db()->prepare("SELECT id, name, name as title FROM securities_bitfunder ORDER BY name ASC");
 			break;
 
 		case "crypto-trade":
-			$q = db()->prepare("SELECT * FROM securities_cryptotrade WHERE currency=? ORDER BY name ASC");
+			$q = db()->prepare("SELECT id, name, name as title FROM securities_cryptotrade WHERE currency=? ORDER BY name ASC");
 			$args = array($currency);
+			break;
+
+		case "796":
+			$q = db()->prepare("SELECT id, name, title FROM securities_796 ORDER BY title ASC");
 			break;
 
 		default:
@@ -174,14 +178,37 @@ function get_security_instances($exchange, $currency) {
 
 	$q->execute($args);
 	while ($sec = $q->fetch()) {
-		$result[$sec['id']] = $sec['name'];
+		$result[$sec['id']] = $sec;	// keep the name and title
 	}
 	return $result;
 
 }
 
+function get_security_instances_keys($exchange, $currency) {
+	$input = get_security_instances($exchange, $currency);
+	$result = array();
+	foreach ($input as $key => $value) {
+		$result[$key] = $value['name'];
+	}
+	return $result;
+}
+
+function get_security_instance_title($graph_id, $name) {
+	$bits = explode("_", $graph_id, 3);
+	if (count($bits) != 3) {
+		return "[Unknown graph_id type]";
+	}
+	$input = get_security_instances($bits[1], $bits[2]);
+	foreach ($input as $key => $value) {
+		if ($value['name'] == $name) {
+			return $value['title'];
+		}
+	}
+	return $name;	// fallback
+}
+
 function get_security_instances_historical($graph_type, $graph, $exchange, $currency) {
-	return url_for('historical', array('name' => $graph_type['heading'], 'days' => 180, 'id' => 'securities_' . $exchange . '_' . $currency));
+	return url_for('historical', array('name' => $graph_type['heading_key'], 'days' => 180, 'id' => 'securities_' . $exchange . '_' . $currency));
 }
 
 /**

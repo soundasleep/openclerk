@@ -111,7 +111,8 @@ function get_all_exchanges() {
 		"themoneyconverter" => "TheMoneyConverter",
 		"virtex" => 		"VirtEx",
 		"bitstamp" => 		"Bitstamp",
-		"796" =>			"796 Xchange",
+		"796_wallet" =>		"796 Xchange (Wallet)",
+		"796_securities" => "796 Xchange (Securities)",
 	);
 
 }

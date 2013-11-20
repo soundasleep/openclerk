@@ -23,7 +23,13 @@ if ($id && isset($historical_graphs[$id])) {
 	// we're displaying a specific graph
 
 	$name = require_get('name', false);
-	page_header("Historical Data: " . $historical_graphs[$id]["heading"] . ($name ? ": " . $name : ""), "page_historical", array('common_js' => true, 'jsapi' => true));
+	$title = $name;
+	// if we've got a name, then we want to get the title too
+	if (isset($historical_graphs[$id]['title_callback'])) {
+		$callback = $historical_graphs[$id]['title_callback'];
+		$title = $callback($id, $title);
+	}
+	page_header("Historical Data: " . $historical_graphs[$id]["heading"] . ($title ? ": " . $title : ""), "page_historical", array('common_js' => true, 'jsapi' => true));
 
 	$graph = array(
 		'graph_type' => $id,
@@ -46,7 +52,7 @@ if ($id && isset($historical_graphs[$id])) {
 	</div>
 	<?php } ?>
 
-	<h1>Historical Data: <?php echo htmlspecialchars($historical_graphs[$id]["heading"]) . ($name ? ": " . htmlspecialchars($name) : ""); ?></h1>
+	<h1>Historical Data: <?php echo htmlspecialchars($historical_graphs[$id]["heading"]) . ($title ? ": " . htmlspecialchars($title) : ""); ?></h1>
 
 	<p class="backlink">
 	<a href="<?php echo htmlspecialchars(url_for('historical')); ?>">&lt; Back to Historical Data</a>
@@ -128,10 +134,15 @@ if ($id && isset($historical_graphs[$id])) {
 				if ($graph_key == "external_historical") {
 					echo "<li><a href=\"" . htmlspecialchars(url_for('external')) . "\">External API status</a></li>";
 				} else {
-					foreach ($values as $key => $name) {
-						echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180, 'name' => $name))) . "\">" . htmlspecialchars($name) . "</a>";
+					foreach ($values as $key => $security) {
+						$title = $security;
+						if (isset($def['title_callback'])) {
+							$callback = $def['title_callback'];
+							$title = $callback($graph_key, $security);
+						}
+						echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180, 'name' => $security))) . "\">" . htmlspecialchars($title) . "</a>";
 						// is this new?
-						if ($bits[0] == "securities" && isset($new_securities[$name])) {
+						if ($bits[0] == "securities" && isset($new_securities[$security])) {
 							echo " <span class=\"new\">new</span>";
 						}
 						echo "</li>\n";

@@ -1556,3 +1556,24 @@ CREATE TABLE accounts_796 (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+-- 796 doesn't have an API for listing securities or their names, so we enter them in manually
+
+DROP TABLE IF EXISTS securities_796;
+
+CREATE TABLE securities_796 (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	name varchar(64) not null,
+	title varchar(64) not null,
+	api_name varchar(64) not null,		-- because 'mri's API name is 'xchange' instead
+	
+	INDEX(last_queue)
+);
+INSERT INTO securities_796 SET name='mri', title='796Xchange-MRI', api_name='xchange';
+INSERT INTO securities_796 SET name='asicminer', title='ASICMINER-796', api_name='asicminer';
+INSERT INTO securities_796 SET name='bd', title='BTC-DICE-796', api_name='bd';
+
+-- TODO individual securities

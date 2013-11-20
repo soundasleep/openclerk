@@ -62,6 +62,12 @@ function render_graph($graph, $is_public = false) {
 		}
 	}
 
+	// rewrite the heading with a title_callback?
+	$graph_type['heading_key'] = $graph_type['heading'];
+	if (isset($graph_type['title_callback']) && $graph_type['title_callback']) {
+		$graph_type['heading'] = $graph_type['title_callback']($graph['graph_type'], $graph_type['heading']);
+	}
+
 	// does it have a link to historical data?
 	$historical = false;
 	if (isset($graph_type['historical']) && $graph_type['historical']) {

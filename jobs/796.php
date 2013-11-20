@@ -108,7 +108,38 @@ foreach ($currencies as $currency) {
 	$b = $balance[$currency];
 	crypto_log($exchange . " balance for " . $currency . ": " . $b);
 
-	insert_new_balance($job, $account, $exchange, $currency, $b);
+	insert_new_balance($job, $account, $exchange . "_wallet", $currency, $b);
 }
 
-// TODO implement securities
+// also get all supported securities
+$q = db()->prepare("SELECT * FROM securities_796");
+$q->execute();
+$securities = $q->fetchAll();
+$securities_balance = 0;
+foreach ($securities as $security_def) {
+	if (isset($balance[$security_def['name']])) {
+		// get the latest balance
+		// the 'balance' for this security is the 'bid'
+		$q = db()->prepare("SELECT * FROM balances WHERE exchange=:exchange AND account_id=:account_id AND is_recent=1 LIMIT 1");
+		$q->execute(array(
+			"exchange" => "securities_796",
+			"account_id" => $security_def['id'],
+		));
+		$security_value = $q->fetch();
+		if (!$security_value) {
+			// we can't calculate the value of this security yet
+			crypto_log("Security " . htmlspecialchars($security_def['name']) . " does not yet have a calculated value");
+
+		} else {
+
+			$calculated = $security_value['balance'] * $balance[$security_def['name']];
+			crypto_log(htmlspecialchars($security_def['name']) . " @ " . htmlspecialchars($security_value['balance']) . " x " . number_format($balance[$security_def['name']]) . " = " . htmlspecialchars($calculated));
+
+			$securities_balance += $calculated;
+
+		}
+	}
+}
+
+// we've now calculated the value of all securities too
+insert_new_balance($job, $account, $exchange . "_securities", $currency, $securities_balance);

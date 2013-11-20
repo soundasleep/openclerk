@@ -2,8 +2,7 @@
 
 /**
  * Havelock Investments security value job.
- * Combines the current wallet balance with the value of all securities from this account
- * (security values are done by securities_btct).
+ * Retrieves the current 'bid' value for a particular security.
  */
 
 $exchange = "securities_havelock";
