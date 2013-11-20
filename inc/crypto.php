@@ -111,6 +111,7 @@ function get_all_exchanges() {
 		"themoneyconverter" => "TheMoneyConverter",
 		"virtex" => 		"VirtEx",
 		"bitstamp" => 		"Bitstamp",
+		"796" =>			"796 Xchange",
 	);
 
 }
@@ -166,6 +167,7 @@ function get_security_exchange_pairs() {
 		"havelock" => array('btc'),
 		"bitfunder" => array('btc'),
 		"crypto-trade" => array('btc', 'ltc'),
+		"796" => array('btc'),
 	);
 }
 
@@ -177,17 +179,19 @@ function get_security_exchange_tables() {
 		"havelock" => "securities_havelock",
 		"bitfunder" => "securities_bitfunder",
 		"crypto-trade" => "securities_cryptotrade",
+		"796" => "securities_796",
 	);
 }
 
 function get_new_security_exchanges() {
-	return array("crypto-trade");
+	return array("796");
 }
 
 function get_supported_wallets() {
 	return array(
 		// alphabetically sorted, except for generic
 		"50btc" => array('btc', 'hash'),
+		"796" => array('btc'),
 		"bips" => array('btc', 'usd'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
@@ -215,7 +219,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitstamp");
+	return array("bitstamp", "796");
 }
 
 function crypto_address($currency, $address) {
@@ -354,6 +358,7 @@ function account_data_grouped() {
 			'havelock' => array('table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities'),
 			'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities'),
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'securities'),
+			'796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities'),
 		),
 		'Individual Securities' => array(
 			'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal'),
@@ -462,6 +467,7 @@ function get_external_apis() {
 			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
 			'securities_update_bitfunder' => '<a href="https://bitfunder.com/">BitFunder</a> Securities list',
 			'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',		// securities for crypto-trade are handled by the ticker_crypto-trade
+			'securities_796' => '<a href="https://796.com">796 Xchange</a>',
 		),
 
 		"Individual securities" => array(
@@ -833,6 +839,16 @@ function get_accounts_wizard_config_basic($exchange) {
 					'btc_address' => array('title' => 'BTC Address', 'callback' => 'is_valid_btc_address'),
 				),
 				'table' => 'accounts_bitfunder',
+			);
+
+		case "796":
+			return array(
+				'inputs' => array(
+					'api_app_id' => array('title' => 'Application ID', 'callback' => 'is_numeric'),
+					'api_key' => array('title' => 'API Key', 'callback' => 'is_valid_796_apikey'),
+					'api_secret' => array('title' => 'API Secret', 'callback' => 'is_valid_796_apisecret'),
+				),
+				'table' => 'accounts_796',
 			);
 
 		// --- securities ---
@@ -1319,6 +1335,16 @@ function is_valid_bitstamp_apikey($key) {
 function is_valid_bitstamp_apisecret($key) {
 	// looks like a 32 character alphanumeric string
 	return strlen($key) == 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
+}
+
+function is_valid_796_apikey($key) {
+	// guessing the format
+	return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{8}$#", $key);
+}
+
+function is_valid_796_apisecret($key) {
+	// looks like a 60 character crazy string
+	return strlen($key) == 60 && preg_match("#^[A-Za-z0-9\\+\\/]+$#", $key);
 }
 
 function is_valid_currency($c) {

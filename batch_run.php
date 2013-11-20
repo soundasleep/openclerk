@@ -93,7 +93,7 @@ crypto_log("Executing job " . htmlspecialchars(print_r($job, true)) . " (<a href
 $runtime_exception = null;
 try {
 	// have we executed this job too many times already?
-	if ($job['is_test_job'] && $job['is_error']) {
+	if ($job['is_test_job'] && $job['is_error'] && !require_get('force', false)) {
 		crypto_log("Job is a test job and threw an error straight away; marking as failed");
 		if ($job['is_timeout']) {
 			throw new ExternalAPIException("Local timeout");
@@ -277,6 +277,10 @@ try {
 
 		case "bitstamp":
 			require(__DIR__ . "/jobs/bitstamp.php");
+			break;
+
+		case "796":
+			require(__DIR__ . "/jobs/796.php");
 			break;
 
 		// individual securities jobs
