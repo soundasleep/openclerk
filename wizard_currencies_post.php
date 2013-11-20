@@ -84,10 +84,26 @@ while ($summary = $q->fetch()) {
 	$existing[] = $summary['summary_type'];
 }
 
-// reset our currencies
-$q = db()->prepare("DELETE FROM summaries WHERE user_id=?");
+// delete any old currencies that no longer exist
+$q = db()->prepare("SELECT id, summary_type FROM summaries WHERE user_id=?");
 $q->execute(array(user_id()));
+$to_delete = array();
+while ($summary = $q->fetch()) {
+	$key = array_search($summary['summary_type'], $exchanges);
+	if ($key === false) {
+		$to_delete[] = $summary['id'];
+	} else {
+		// remove it from the list of currencies to add
+		unset($exchanges[$key]);
+	}
+}
+foreach ($to_delete as $id) {
+	$q = db()->prepare("DELETE FROM summaries WHERE user_id=? AND id=?");
+	$q->execute(array(user_id(), $id));
+	// TODO delete old summary_instances? add summary_id to summary_instances?
+}
 
+// insert in remaining currencies
 foreach ($exchanges as $type) {
 	$q = db()->prepare("INSERT INTO summaries SET user_id=?, summary_type=?, created_at=NOW()");
 	$q->execute(array(user_id(), $type));
