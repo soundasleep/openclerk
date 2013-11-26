@@ -480,6 +480,9 @@ function url_for($module, $arguments = array()) {
 				unset($arguments['q']);
 			}
 			break;
+		case "index":
+			$module = ".";
+			break;
 	}
 	$query = array();
 	if (count($arguments) > 0) {
