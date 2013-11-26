@@ -39,7 +39,7 @@ if (isset($argv[2]) && $argv[2] && $argv[2] != "-") {
 	$user_id = require_get("user");
 }
 
-$priority = 10;	// default priority
+$priority = get_site_config('default_job_priority');	// default priority
 if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
 	$priority = $argv[3];
 } else if (require_get("priority", false)) {

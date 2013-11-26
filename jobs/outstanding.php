@@ -73,6 +73,11 @@ if (!$balance) {
 		$q->execute(array($balance['address_id']));
 		crypto_log("Deleted old address and address balances");
 
+		// update jobs to premium priority
+		$q = db()->prepare("UPDATE jobs SET priority=? WHERE user_id=? AND is_executed=0 AND priority > ?");
+		$q->execute(array(get_site_config('premium_job_priority'), $address['user_id'], get_site_config('premium_job_priority')));
+		crypto_log("Updated old jobs to new priority");
+
 		// try sending email, if an email address has been registered
 		if ($user['email']) {
 			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_payment", array(
@@ -128,6 +133,11 @@ if (!$balance) {
 					// update outstanding premium as paid
 					$q = db()->prepare("UPDATE outstanding_premiums SET is_paid=1,paid_at=NOW(),paid_balance=? WHERE id=?");
 					$q->execute(array($balance['balance'], $address['id']));
+
+					// update jobs to premium priority
+					$q = db()->prepare("UPDATE jobs SET priority=? WHERE user_id=? AND is_executed=0 AND priority > ?");
+					$q->execute(array(get_site_config('premium_job_priority'), $address['user_id'], get_site_config('premium_job_priority')));
+					crypto_log("Updated old jobs to new priority");
 
 					if ($user['email']) {
 						send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_partial", array(

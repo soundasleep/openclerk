@@ -63,10 +63,16 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"sleep_cryptostocks_balance" => 5,
 		"sleep_themoneyconverter_ticker" => 5,
 		"sleep_crypto-trade_ticker" => 1,		"sleep_givemecoins" => 0,
+		"sleep_givemecoins" => 0,
 		"max_job_executions" => 5,	// if a job fails to run more than this number of times, then explicitly mark it as failed
 		"throttle_btcguild" => 30,	// only execute this job once every X seconds
 		"throttle_blockchain" => 5,
+		"external_sample_size" => 10000,	// what is the max number of jobs to sample when updating the external API page?
+
+		"default_job_priority" => 10,
+		"premium_job_priority" => 5,	// used in crontab and in premium upgrade job
 		"job_test_priority" => 5,	// when an account is 'test'ed manually by a user, what priority will it have?
+
 		// DDoS/abuse control
 		"heavy_requests_seconds" => 5,
 
