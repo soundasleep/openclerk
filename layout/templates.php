@@ -35,7 +35,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/' . $js . '.js' . '?' . get_site_config('openclerk_version'))); ?>"></script>
     <?php }
     } ?>
-    <link rel="shortcut icon" href="<?php echo htmlspecialchars(url_for('favicon.ico')); ?>" type="image/x-icon">
+	<?php require_template("templates_head"); ?>
 </head>
 <body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?><?php if (isset($options['class'])) echo " class=\"" . htmlspecialchars($options['class']) . "\""; ?>>
 <div class="body_wrapper">
