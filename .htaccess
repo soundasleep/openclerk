@@ -20,6 +20,10 @@ RewriteRule ^kb$         help/%1     [R=301,L]
 
 RewriteRule ^help/([0-9a-z\-_]+)$         kb.php?q=$1     [L,QSA]
 
-RewriteRule ^([0-9a-z_]+)/$        $1         [R,QSA]
+# RewriteRule ^([0-9a-z_]+)/$        $1         [R,QSA]
+RewriteRule ^help/$        $1         [R,QSA]
+RewriteRule ^signup/$        $1         [R,QSA]
+RewriteRule ^login/$        $1         [R,QSA]
+RewriteRule ^profile/$        $1         [R,QSA]
 RewriteRule ^([0-9a-z_]+)$         $1.php     [L,QSA]
 
