@@ -30,6 +30,7 @@ function graph_types_public($summaries = array()) {
 				'technical' => true, /* allow technical indicators */
 				'historical' => 'get_exchange_historical',
 				'historical_arg0' => array('key' => $key, 'pair' => $pair),
+				'exchange' => $key,
 			);
 		}
 	}

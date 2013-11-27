@@ -82,10 +82,19 @@ if ($id && isset($historical_graphs[$id])) {
 	<div class="columns2">
 	<div class="column">
 
-	<h2>Exchanges</h2>
+	<?php
+	$last_exchange = null;
+	foreach ($historical_graphs as $graph_key => $def) {
+		if (!isset($def['exchange']) || (isset($def['admin']) && $def['admin']))
+			continue;
 
-	<ul class="historical_graphs">
-	<?php foreach ($historical_graphs as $graph_key => $def) {
+		if ($def['exchange'] != $last_exchange) {
+			if ($last_exchange != null) echo "</ul>\n";
+			echo "<h2>" . htmlspecialchars(get_exchange_name($def['exchange'])) . "</h2>\n";
+			echo "<ul class=\"historical_graphs\">\n";
+			$last_exchange = $def['exchange'];
+		}
+
 		if (isset($def['category'])) {
 			continue;
 		}
@@ -97,7 +106,9 @@ if ($id && isset($historical_graphs[$id])) {
 			}
 			echo "</li>\n";
 		}
-	} ?>
+	}
+	if ($last_exchange != null) echo "</ul>\n";
+	?>
 	</ul>
 
 	</div>
