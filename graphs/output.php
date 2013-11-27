@@ -81,6 +81,10 @@ function render_graph_controls($graph) {
 		// don't display controls if this graph is public
 		return;
 	}
+	if (!(isset($graph['page_id']) && $graph['page_id'])) {
+		// don't display controls if this graph has no page
+		return;
+	}
 ?>
 <ul class="graph_controls">
 	<li class="move_up"><a href="<?php echo htmlspecialchars(url_for('profile', array(
