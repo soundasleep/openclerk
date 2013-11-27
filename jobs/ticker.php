@@ -52,6 +52,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/crypto-trade.php");
 		break;
 
+	case "btcchina":
+		require(__DIR__ . "/ticker/btcchina.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;

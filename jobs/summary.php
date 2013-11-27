@@ -183,6 +183,23 @@ switch ($summary['summary_type']) {
 		add_summary_instance($job, 'all2nzd_bitnz', $total);
 		break;
 
+
+	case "summary_cny_mtgox":
+		// TODO fiat2cad
+
+		$total = 0;
+		require(__DIR__ . "/summary/all2cny_mtgox.php");
+		add_summary_instance($job, 'all2cny_mtgox', $total);
+		break;
+
+	case "summary_cny_btcchina":
+		// TODO fiat2cad
+
+		$total = 0;
+		require(__DIR__ . "/summary/all2cny_btcchina.php");
+		add_summary_instance($job, 'all2cny_btcchina', $total);
+		break;
+
 	case "summary_ghs":
 		$total = 0;
 		require(__DIR__ . "/summary/crypto2ghs.php");

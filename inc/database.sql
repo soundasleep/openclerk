@@ -1753,3 +1753,5 @@ ALTER TABLE accounts_wemineltc ADD is_disabled tinyint not null default 0;
 ALTER TABLE accounts_wemineltc ADD failures tinyint not null default 0;
 ALTER TABLE accounts_wemineltc ADD first_failure timestamp null;
 ALTER TABLE accounts_wemineltc ADD INDEX(is_disabled);
+
+INSERT INTO exchanges SET name='btcchina';

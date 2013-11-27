@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "usd", "eur", "cad", "aud", "nzd", "ghs");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "usd", "eur", "cad", "aud", "nzd", "cny", "ghs");
 }
 
 function get_all_hashrate_currencies() {
@@ -46,6 +46,7 @@ function get_currency_name($n) {
 		case "nzd":	return "New Zealand dollar";
 		case "aud": return "Australian dollar";
 		case "cad": return "Canadian dollar";
+		case "cny": return "Chinese yuan";
 		case "eur": return "Euro";
 		case "ghs": return "CEX.io GHS";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
@@ -116,6 +117,7 @@ function get_all_exchanges() {
 		"796_wallet" =>		"796 Xchange (Wallet)",
 		"796_securities" => "796 Xchange (Securities)",
 		"kattare" =>		"ltc.kattare.com",
+		"btcchina" =>		"BTC China",
 	);
 }
 
@@ -128,37 +130,29 @@ function get_exchange_name($n) {
 }
 
 function get_new_exchanges() {
-	return array("crypto-trade", "cexio");
+	return array("btcchina");
 }
 
 function get_exchange_pairs() {
 	return array(
+		// should be in alphabetical order
 		"bitnz" => array(array('nzd', 'btc')),
-		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc')),
-		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc')),
-		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc')),
-		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad')),
-		"virtex" => array(array('cad', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
+		"btcchina" => array(array('cny', 'btc')),
+		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc')),
 		"cexio" => array(array('btc', 'ghs')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc')),
+		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc')),
+		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad')),
+		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc')),
+		"virtex" => array(array('cad', 'btc')),
 	);
 }
 
 function get_new_exchange_pairs() {
 	return array(
-		"cexio_btcghs",
-		"crypto-trade_usdbtc",
-		"crypto-trade_eurbtc",
-		"crypto-trade_usdltc",
-		"crypto-trade_eurltc",
-		"crypto-trade_btcltc",
-		"crypto-trade_usdnmc",
-		"crypto-trade_btcnmc",
-		"crypto-trade_usdppc",
-		"crypto-trade_btcppc",
-		"crypto-trade_usdftc",
-		"crypto-trade_btcftc",
+		"mtgox_cnybtc",
+		"btcchina_cnybtc",
 	);
 }
 
@@ -258,6 +252,8 @@ function get_summary_types() {
 		'summary_aud_mtgox' => array('currency' => 'aud', 'key' => 'aud_mtgox', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_cad_mtgox' => array('currency' => 'usd', 'key' => 'cad_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_cad_virtex' => array('currency' => 'usd', 'key' => 'cad_virtex', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)', 'exchange' => 'virtex'),
+		'summary_cny_mtgox' => array('currency' => 'cny', 'key' => 'cny_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CNY (Mt.Gox)', 'exchange' => 'mtgox'),
+		'summary_cny_btcchina' => array('currency' => 'cny', 'key' => 'cny_btcchina', 'title' => get_currency_name('cad') . " (converted through BTC China)", 'short_title' => 'CNY (BTC China)', 'exchange' => 'btcchina'),
 		'summary_ghs' => array('currency' => 'ghs', 'key' => 'ghs', 'title' => get_currency_name('ghs'), 'short_title' => 'GHS'),
 	);
 }
@@ -279,6 +275,7 @@ function get_default_currency_exchange($c) {
 		case "eur": return "btce";
 		case "aud": return "mtgox";
 		case "cad": return "virtex";
+		case "cny": return "btcchina";
 		// commodities
 		case "ghs": return "cexio";
 		default: throw new Exception("Unknown currency to exchange into: $c");
@@ -304,6 +301,8 @@ function get_total_conversion_summary_types() {
 		'aud_mtgox' => array('currency' => 'aud', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)'),
 		'cad_mtgox' => array('currency' => 'cad', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)'),
 		'cad_virtex' => array('currency' => 'cad', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)'),
+		'cny_mtgox' => array('currency' => 'cny', 'title' => get_currency_name('cny') . " (converted through Mt.Gox)", 'short_title' => 'CNY (Mt.Gox)'),
+		'cny_btcchina' => array('currency' => 'cny', 'title' => get_currency_name('cny') . " (converted through BTC China)", 'short_title' => 'CNY (BTC China)'),
 	);
 }
 
@@ -459,6 +458,7 @@ function get_external_apis() {
 			'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
 			'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
+			'ticker_btcchina' => '<a href="https://btcchina.com">BTC China</a>',
 		),
 
 		"Security exchanges" => array(

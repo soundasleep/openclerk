@@ -188,6 +188,9 @@ function format_subheading_values($graph, $input, $suffix = false) {
 			unset($array[$key]);
 		}
 	}
+	if (!$array) {
+		return "";
+	}
 	foreach ($array as $key => $value) {
 		$array[$key] = number_format_html($value, 4, $suffix);
 	}
