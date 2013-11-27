@@ -61,7 +61,7 @@ foreach ($currencies as $currency) {
 		continue;
 	}
 
-	$b = $balance[strtoupper($currency)]['available'] + $balance[strtoupper($currency)]['orders'];
+	$b = $balance[strtoupper($currency)]['available'] + (isset($balance[strtoupper($currency)]['orders']) ? $balance[strtoupper($currency)]['orders'] : 0);
 	crypto_log($exchange . " balance for " . $currency . ": " . $b);
 
 	insert_new_balance($job, $account, $exchange, $currency, $b);

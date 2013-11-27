@@ -203,7 +203,7 @@ function get_supported_wallets() {
 		"btct" => array('btc'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc'),
-		"cexio" => array('btc', 'ghs'),
+		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
 		"hypernova" => array('ltc', 'hash'),
@@ -1341,13 +1341,13 @@ function is_valid_kattare_apikey($key) {
 }
 
 function is_valid_cexio_apikey($key) {
-	// looks like a 24-32 character alphanumeric mixed case string
-	return strlen($key) >= 24 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
+	// looks like a 20-32 character alphanumeric mixed case string
+	return strlen($key) >= 20 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
 }
 
 function is_valid_cexio_apisecret($key) {
-	// looks like a 24-32 character alphanumeric mixed case string
-	return strlen($key) >= 24 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
+	// looks like a 20-32 character alphanumeric mixed case string
+	return strlen($key) >= 20 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
 }
 
 function is_valid_cexio_apiusername($key) {
