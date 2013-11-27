@@ -79,5 +79,26 @@ class ReleaseTestsTest extends UnitTestCase {
 
 	}
 
+	/**
+	 * Lint all PHP files, to prevent typos from causing release problems
+	 */
+	function testLintAll() {
+		$files = $this->recurseFindFiles("..", "");
+		$this->assertTrue(count($files) > 0);
+
+		foreach ($files as $f) {
+			$return = 0;
+			$output_array = array();
+			$output = exec("php -l \"" . $f . "\"", $output_array, $return);
+			$this->assertFalse($return, "File '$f' failed lint: '$output' ($return)");
+			if ($return) {
+				foreach ($output_array as $line) {
+					echo "<br>" . $line . "\n";
+				}
+			}
+		}
+
+	}
+
 
 }
