@@ -213,7 +213,7 @@ function get_supported_wallets() {
 		"liteguardian" => array('ltc'),
 		"kattare" => array('ltc', 'hash'),
 		"ltcmineru" => array('ltc'),
-		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad'),
+		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad', 'nzd', 'cny'),
 		"miningforeman" => array('ltc', 'ftc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
