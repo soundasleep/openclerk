@@ -171,6 +171,9 @@ function get_premium_config($key = null) {
 
 		"your_securities_free" => false,
 		"your_securities_premium" => true,
+
+		"max_failures_free" => 3,
+		"max_failures_premium" => 30,		// increase this value (e.g. 10x) because premium users are exposed to more errors
 	);
 
 }
