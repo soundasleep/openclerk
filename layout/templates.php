@@ -247,10 +247,21 @@ function default_chart_color($index) {
 		case 2: return "#ff9900";
 		case 3: return "#109618";
 		case 4: return "#990099";
-		case 5: return "#0099c6";
-		case 6: return "#dd4477";
-		case 7: return "#66aa00";
-		case 8: return "#b82e2e";
+		case 5: return "#3b3eac";
+		case 6: return "#0099c6";
+		case 7: return "#dd4477";
+		case 8: return "#66aa00";
+		case 9: return "#b82e2e";
+		case 10: return "#316395";
+		case 11: return "#994499";
+		case 12: return "#22aa99";
+		case 13: return "#aaaa11";
+		case 14: return "#6633cc";
+		case 15: return "#e67300";
+		case 16: return "#8b0707";
+		case 17: return "#329262";
+		case 18: return "#5574a6";
+		case 19: return "#3b3eac";
 	}
 	// unknown
 	return "white";
