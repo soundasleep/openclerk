@@ -320,11 +320,11 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <!-- from http://code.google.com/p/gdata-issues/issues/detail?id=27 -->
 <div id="groups_subscription">
 	<div class="link">
-		<a href="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank"><img width="132" alt="Google Groups"
-		src="http://groups.google.com/groups/img/3nb/groups_bar.gif" height="26"></a>
-		<a href="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank" class="visit">Visit this group</a>
+		<a href="https://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank"><img width="132" alt="Google Groups"
+		src="https://groups.google.com/groups/img/3nb/groups_bar.gif" height="26"></a>
+		<a href="https://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank" class="visit">Visit this group</a>
 	</div>
-	<form action="http://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>/boxsubscribe" target="_blank">
+	<form action="https://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>/boxsubscribe" target="_blank">
 	<label class="email">Email:
 	<input name="email" type="text" size="32" value="<?php echo htmlspecialchars($user['email']); ?>" /></label>
 	<input value="Subscribe" name="sub" type="submit" />
