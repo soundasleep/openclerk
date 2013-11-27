@@ -257,6 +257,9 @@ function redirect($url) {
 	die();
 }
 
+/**
+ * Return an absolute URL for a page on the current site.
+ */
 function absolute_url($url) {
 	return get_site_config('absolute_url') . $url;
 }
