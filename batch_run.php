@@ -93,6 +93,7 @@ crypto_log("Executing job " . htmlspecialchars(print_r($job, true)) . " (<a href
 $runtime_exception = null;
 try {
 	// have we executed this job too many times already?
+	// (we check this here so our exception handling code below can capture it)
 	if ($job['is_test_job'] && $job['is_error'] && !require_get('force', false)) {
 		crypto_log("Job is a test job and threw an error straight away; marking as failed");
 		if ($job['is_timeout']) {
@@ -376,6 +377,72 @@ try {
 // delete job
 $q = db()->prepare("UPDATE jobs SET is_executed=1,is_executing=0,is_error=?,executed_at=NOW() WHERE id=? LIMIT 1");
 $q->execute(array(($runtime_exception === null ? 0 : 1), $job['id']));
+
+// if this is a standard failure-enabled account, then disable the job if it has failed repeatedly,
+// or reset the failure count if it's not failed this time
+$account_data = false;
+foreach (account_data_grouped() as $label => $group) {
+	foreach ($group as $exchange => $data) {
+		if ($job['job_type'] == $exchange) {
+			$account_data = $data;
+			$account_data['exchange'] = $exchange;
+			break;
+		}
+	}
+}
+if ($account_data && isset($account_data['failure']) && $account_data['failure']) {
+	$failing_table = $account_data['table'];
+
+	// failed?
+	if ($runtime_exception !== null) {
+		$q = db()->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");
+		$q->execute(array($job['arg_id']));
+		crypto_log("Increasing account failure count");
+
+		$user = get_user($job['user_id']);
+		if (!$user) {
+			crypto_log("Warning: No user " . $job['user_id'] . " found");
+
+		} else {
+
+			// failed too many times?
+			$q = db()->prepare("SELECT * FROM $failing_table WHERE id=? LIMIT 1");
+			$q->execute(array($job['arg_id']));
+			$account = $q->fetch();
+			crypto_log("Current account failure count: " . number_format($account['failures']));
+
+			if ($account['failures'] >= get_premium_value($user, 'max_failures')) {
+				// disable it and send an email
+				$q = db()->prepare("UPDATE $failing_table SET is_disabled=1 WHERE id=?");
+				$q->execute(array($job['arg_id']));
+
+				if ($user['email'] && !$account['is_disabled'] /* don't send the same email multiple times */) {
+					send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "failure", array(
+						"name" => ($user['name'] ? $user['name'] : $user['email']),
+						"exchange" => get_exchange_name($account_data['exchange']),
+						"label" => $account_data['label'],
+						"labels" => $account_data['labels'],
+						"failures" => number_format($account['failures']),
+						"message" => $runtime_exception->getMessage(),
+						"length" => recent_format(strtotime($account['first_failure']), "", ""),
+						"title" => (isset($account['title']) && $account['title']) ? "\"" . $account['title'] . "\"" : "untitled",
+						"url" => absolute_url(url_for("wizard_accounts")),
+					));
+					crypto_log("Sent failure e-mail to " . htmlspecialchars($user['email']) . ".");
+				}
+
+			}
+
+		}
+
+	} else {
+
+		// reset the failure counter
+		$q = db()->prepare("UPDATE $failing_table SET failures=0 WHERE id=?");
+		$q->execute(array($job['arg_id']));
+
+	}
+}
 
 if (defined('BATCH_JOB_START')) {
 	$end_time = microtime(true);

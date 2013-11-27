@@ -17,7 +17,7 @@ if (!$account) {
 function bitstamp_query($key, $client_id, $secret, $url) {
 
 	$nonce = time();
-	$message = $nonce . sprintf("%05d", $client_id) . $key;
+	$message = $nonce . sprintf("%05d", $client_id) . $key;		// the $client_id must be five digits or longer; not specified in API, to prevent "Invalid signature" errors
 	$signature = strtoupper(hash_hmac("sha256", $message, $secret));
 
 	// generate the POST data string

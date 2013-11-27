@@ -154,6 +154,19 @@ if (require_post('test', false) && require_post('id', false)) {
 
 }
 
+// process 'enable'
+if (require_post('enable', false) && require_post('id', false)) {
+	// reset all failure fields
+	$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=0,first_failure=NULL,failures=0 WHERE id=? AND user_id=?");
+	$q->execute(array(require_post("id"), user_id()));
+
+	$messages[] = "Enabled " . htmlspecialchars($account_data['title']) . ".";
+
+	set_temporary_messages($messages);
+	redirect(url_for(require_post("callback")));
+
+}
+
 // either there was an error or we haven't done anything; go back to callback
 set_temporary_errors($errors);
 set_temporary_messages($messages);

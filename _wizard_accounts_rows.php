@@ -52,9 +52,10 @@ foreach ($accounts as $a) {
 	}
 
 	$row_element_id = "row_" . $a['exchange'] . "_" . $a['id'];
+	$is_disabled = isset($a['is_disabled']) && $a['is_disabled'];
 ?>
 <?php if (!isset($is_in_callback)) { ?>
-	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>" id="<?php echo htmlspecialchars($row_element_id); ?>">
+	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; echo $is_disabled ? " disabled": ""; ?>" id="<?php echo htmlspecialchars($row_element_id); ?>">
 <?php } ?>
 		<td><?php echo htmlspecialchars(get_exchange_name($a['exchange'])); ?></td>
 		<td id="account<?php echo htmlspecialchars($a['id']); ?>" class="title">
@@ -100,6 +101,7 @@ foreach ($accounts as $a) {
 			}
 			echo "</ul>";
 			if (!$had_balance) echo "<i>None</i>";
+			if ($is_disabled) echo " <i>(disabled)</i>";
 		?></td>
 		<?php if ($account_type['hashrate']) {
 			$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
@@ -132,6 +134,14 @@ foreach ($accounts as $a) {
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
 				<input type="submit" name="test" value="Test" class="test">
+				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+			</form>
+			<?php } ?>
+			<?php if ($is_disabled) { ?>
+			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+				<input type="submit" name="enable" value="Enable" class="enable">
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>

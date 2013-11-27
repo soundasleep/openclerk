@@ -1605,3 +1605,151 @@ CREATE TABLE accounts_kattare (
 	
 	INDEX(user_id), INDEX(last_queue)
 );
+
+----------------------------------------------------------------------------
+-- upgrade statements from 0.12 to 0.13
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+-- accounts can now be disabled if they fail repeatedly
+-- failing account tables need to have the following fields: is_disabled, failures, first_failure, title
+-- and set 'failures' to true in account_data_grouped()
+ALTER TABLE accounts_bitstamp ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_bitstamp ADD failures tinyint not null default 0;
+ALTER TABLE accounts_bitstamp ADD first_failure timestamp null;
+ALTER TABLE accounts_bitstamp ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_50btc ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_50btc ADD failures tinyint not null default 0;
+ALTER TABLE accounts_50btc ADD first_failure timestamp null;
+ALTER TABLE accounts_50btc ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_796 ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_796 ADD failures tinyint not null default 0;
+ALTER TABLE accounts_796 ADD first_failure timestamp null;
+ALTER TABLE accounts_796 ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_bips ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_bips ADD failures tinyint not null default 0;
+ALTER TABLE accounts_bips ADD first_failure timestamp null;
+ALTER TABLE accounts_bips ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_bitfunder ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_bitfunder ADD failures tinyint not null default 0;
+ALTER TABLE accounts_bitfunder ADD first_failure timestamp null;
+ALTER TABLE accounts_bitfunder ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_bitminter ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_bitminter ADD failures tinyint not null default 0;
+ALTER TABLE accounts_bitminter ADD first_failure timestamp null;
+ALTER TABLE accounts_bitminter ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_btce ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_btce ADD failures tinyint not null default 0;
+ALTER TABLE accounts_btce ADD first_failure timestamp null;
+ALTER TABLE accounts_btce ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_btcguild ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_btcguild ADD failures tinyint not null default 0;
+ALTER TABLE accounts_btcguild ADD first_failure timestamp null;
+ALTER TABLE accounts_btcguild ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_btct ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_btct ADD failures tinyint not null default 0;
+ALTER TABLE accounts_btct ADD first_failure timestamp null;
+ALTER TABLE accounts_btct ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_cexio ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_cexio ADD failures tinyint not null default 0;
+ALTER TABLE accounts_cexio ADD first_failure timestamp null;
+ALTER TABLE accounts_cexio ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_cryptostocks ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_cryptostocks ADD failures tinyint not null default 0;
+ALTER TABLE accounts_cryptostocks ADD first_failure timestamp null;
+ALTER TABLE accounts_cryptostocks ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_cryptotrade ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_cryptotrade ADD failures tinyint not null default 0;
+ALTER TABLE accounts_cryptotrade ADD first_failure timestamp null;
+ALTER TABLE accounts_cryptotrade ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_generic ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_generic ADD failures tinyint not null default 0;
+ALTER TABLE accounts_generic ADD first_failure timestamp null;
+ALTER TABLE accounts_generic ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_givemecoins ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_givemecoins ADD failures tinyint not null default 0;
+ALTER TABLE accounts_givemecoins ADD first_failure timestamp null;
+ALTER TABLE accounts_givemecoins ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_havelock ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_havelock ADD failures tinyint not null default 0;
+ALTER TABLE accounts_havelock ADD first_failure timestamp null;
+ALTER TABLE accounts_havelock ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_hypernova ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_hypernova ADD failures tinyint not null default 0;
+ALTER TABLE accounts_hypernova ADD first_failure timestamp null;
+ALTER TABLE accounts_hypernova ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_kattare ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_kattare ADD failures tinyint not null default 0;
+ALTER TABLE accounts_kattare ADD first_failure timestamp null;
+ALTER TABLE accounts_kattare ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_khore ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_khore ADD failures tinyint not null default 0;
+ALTER TABLE accounts_khore ADD first_failure timestamp null;
+ALTER TABLE accounts_khore ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_litecoinglobal ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_litecoinglobal ADD failures tinyint not null default 0;
+ALTER TABLE accounts_litecoinglobal ADD first_failure timestamp null;
+ALTER TABLE accounts_litecoinglobal ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_liteguardian ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_liteguardian ADD failures tinyint not null default 0;
+ALTER TABLE accounts_liteguardian ADD first_failure timestamp null;
+ALTER TABLE accounts_liteguardian ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_ltcmineru ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_ltcmineru ADD failures tinyint not null default 0;
+ALTER TABLE accounts_ltcmineru ADD first_failure timestamp null;
+ALTER TABLE accounts_ltcmineru ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_miningforeman ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_miningforeman ADD failures tinyint not null default 0;
+ALTER TABLE accounts_miningforeman ADD first_failure timestamp null;
+ALTER TABLE accounts_miningforeman ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_miningforeman_ftc ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_miningforeman_ftc ADD failures tinyint not null default 0;
+ALTER TABLE accounts_miningforeman_ftc ADD first_failure timestamp null;
+ALTER TABLE accounts_miningforeman_ftc ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_mtgox ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_mtgox ADD failures tinyint not null default 0;
+ALTER TABLE accounts_mtgox ADD first_failure timestamp null;
+ALTER TABLE accounts_mtgox ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_poolx ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_poolx ADD failures tinyint not null default 0;
+ALTER TABLE accounts_poolx ADD first_failure timestamp null;
+ALTER TABLE accounts_poolx ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_slush ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_slush ADD failures tinyint not null default 0;
+ALTER TABLE accounts_slush ADD first_failure timestamp null;
+ALTER TABLE accounts_slush ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_vircurex ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_vircurex ADD failures tinyint not null default 0;
+ALTER TABLE accounts_vircurex ADD first_failure timestamp null;
+ALTER TABLE accounts_vircurex ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_wemineltc ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_wemineltc ADD failures tinyint not null default 0;
+ALTER TABLE accounts_wemineltc ADD first_failure timestamp null;
+ALTER TABLE accounts_wemineltc ADD INDEX(is_disabled);

@@ -70,38 +70,38 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'feathercoin', 'query' => ' AND currency=\'ftc\''), // make sure to add feathercoin_block job below too
 	array('table' => 'addresses', 'type' => 'ppcoin', 'query' => ' AND currency=\'ppc\''), // make sure to add feathercoin_block job below too
 	array('table' => 'addresses', 'type' => 'novacoin', 'query' => ' AND currency=\'nvc\''), // make sure to add feathercoin_block job below too
-	array('table' => 'accounts_generic', 'type' => 'generic'),
-	array('table' => 'accounts_btce', 'type' => 'btce'),
-	array('table' => 'accounts_mtgox', 'type' => 'mtgox'),
-	array('table' => 'accounts_vircurex', 'type' => 'vircurex'),
-	array('table' => 'accounts_poolx', 'type' => 'poolx'),
-	array('table' => 'accounts_wemineltc', 'type' => 'wemineltc'),
-	array('table' => 'accounts_givemecoins', 'type' => 'givemecoins'),
-	array('table' => 'accounts_slush', 'type' => 'slush'),
-	array('table' => 'accounts_litecoinglobal', 'type' => 'litecoinglobal'),
+	array('table' => 'accounts_generic', 'type' => 'generic', 'disabled' => true),
+	array('table' => 'accounts_btce', 'type' => 'btce', 'disabled' => true),
+	array('table' => 'accounts_mtgox', 'type' => 'mtgox', 'disabled' => true),
+	array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'disabled' => true),
+	array('table' => 'accounts_poolx', 'type' => 'poolx', 'disabled' => true),
+	array('table' => 'accounts_wemineltc', 'type' => 'wemineltc', 'disabled' => true),
+	array('table' => 'accounts_givemecoins', 'type' => 'givemecoins', 'disabled' => true),
+	array('table' => 'accounts_slush', 'type' => 'slush', 'disabled' => true),
+	array('table' => 'accounts_litecoinglobal', 'type' => 'litecoinglobal', 'disabled' => true),
 	array('table' => 'securities_litecoinglobal', 'type' => 'securities_litecoinglobal', 'user_id' => get_site_config('system_user_id')),
-	array('table' => 'accounts_btct', 'type' => 'btct'),
+	array('table' => 'accounts_btct', 'type' => 'btct', 'disabled' => true),
 	array('table' => 'securities_btct', 'type' => 'securities_btct', 'user_id' => get_site_config('system_user_id')),
-	array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks'),
+	array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks', 'disabled' => true),
 	array('table' => 'securities_cryptostocks', 'type' => 'securities_cryptostocks', 'user_id' => get_site_config('system_user_id')),
-	array('table' => 'accounts_bips', 'type' => 'bips'),
-	array('table' => 'accounts_btcguild', 'type' => 'btcguild'),
-	array('table' => 'accounts_50btc', 'type' => '50btc'),
-	array('table' => 'accounts_hypernova', 'type' => 'hypernova'),
-	array('table' => 'accounts_ltcmineru', 'type' => 'ltcmineru'),
-	array('table' => 'accounts_miningforeman', 'type' => 'miningforeman'),
-	array('table' => 'accounts_miningforeman_ftc', 'type' => 'miningforeman_ftc'),
-	array('table' => 'accounts_havelock', 'type' => 'havelock'),
+	array('table' => 'accounts_bips', 'type' => 'bips', 'disabled' => true),
+	array('table' => 'accounts_btcguild', 'type' => 'btcguild', 'disabled' => true),
+	array('table' => 'accounts_50btc', 'type' => '50btc', 'disabled' => true),
+	array('table' => 'accounts_hypernova', 'type' => 'hypernova', 'disabled' => true),
+	array('table' => 'accounts_ltcmineru', 'type' => 'ltcmineru', 'disabled' => true),
+	array('table' => 'accounts_miningforeman', 'type' => 'miningforeman', 'disabled' => true),
+	array('table' => 'accounts_miningforeman_ftc', 'type' => 'miningforeman_ftc', 'disabled' => true),
+	array('table' => 'accounts_havelock', 'type' => 'havelock', 'disabled' => true),
 	array('table' => 'securities_havelock', 'type' => 'securities_havelock', 'user_id' => get_site_config('system_user_id')),
-	array('table' => 'accounts_bitminter', 'type' => 'bitminter'),
-	array('table' => 'accounts_liteguardian', 'type' => 'liteguardian'),
-	array('table' => 'accounts_khore', 'type' => 'khore'),
-	array('table' => 'accounts_cexio', 'type' => 'cexio'),
+	array('table' => 'accounts_bitminter', 'type' => 'bitminter', 'disabled' => true),
+	array('table' => 'accounts_liteguardian', 'type' => 'liteguardian', 'disabled' => true),
+	array('table' => 'accounts_khore', 'type' => 'khore', 'disabled' => true),
+	array('table' => 'accounts_cexio', 'type' => 'cexio', 'disabled' => true),
 	array('table' => 'accounts_cryptotrade', 'type' => 'crypto-trade'),
-	array('table' => 'accounts_bitstamp', 'type' => 'bitstamp'),
-	array('table' => 'accounts_796', 'type' => '796'),
+	array('table' => 'accounts_bitstamp', 'type' => 'bitstamp', 'disabled' => true),
+	array('table' => 'accounts_796', 'type' => '796', 'disabled' => true),
 	array('table' => 'securities_796', 'type' => 'securities_796', 'user_id' => get_site_config('system_user_id')),
-	array('table' => 'accounts_kattare', 'type' => 'kattare'),
+	array('table' => 'accounts_kattare', 'type' => 'kattare', 'disabled' => true),
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal'),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct'),
 	array('table' => 'accounts_individual_bitfunder', 'type' => 'individual_bitfunder'),
@@ -160,6 +160,10 @@ foreach ($standard_jobs as $standard) {
 	if ($user_id && !isset($standard['user_id'])) {
 		$query_extra .= " AND user_id=?";
 		$args_extra[] = $user_id;
+	}
+
+	if (isset($standard['disabled']) && $standard['disabled']) {
+		$query_extra .= " AND is_disabled=0";
 	}
 
 	$args = array();
