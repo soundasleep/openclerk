@@ -170,5 +170,6 @@ if (require_post('enable', false) && require_post('id', false)) {
 // either there was an error or we haven't done anything; go back to callback
 set_temporary_errors($errors);
 set_temporary_messages($messages);
+$_SESSION['wizard_data'] = $_POST;		// store so we can restore it on the callback page
 redirect(url_for(require_post("callback"), array("title" => require_post("title", false), "exchange" => require_post("type", false))));
 

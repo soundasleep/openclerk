@@ -104,6 +104,13 @@ $(document).ready(function() {
 						tempInput.attr('maxlength', inputs[j]['length']);
 						tempInput.attr('size', 20 + (inputs[j]['length'] * 1/5));
 					}
+					// set value if it's been provided
+					var previous = previous_data();
+					if (previous && typeof previous['type'] != 'undefined' && previous['type'] == key) {
+						if (typeof previous[inputs[j]['key']] != 'undefined') {
+							tempInput.val(previous[inputs[j]['key']]);
+						}
+					}
 
 					var tempTitle = temp.find("label");
 					tempTitle.html(inputs[j]['title'] + ":");

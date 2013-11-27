@@ -9,6 +9,8 @@ if (!isset($account_type)) {
 $accounts = array();
 $add_types = array();
 $add_type_names = array();
+$previous_data = isset($_SESSION['wizard_data']) ? $_SESSION['wizard_data'] : array();
+unset($_SESSION['wizard_data']);
 
 foreach (account_data_grouped() as $label => $data) {
 	foreach ($data as $key => $value) {
@@ -151,6 +153,9 @@ function available_exchanges() {
 	echo "},\n";
 } ?>
 	];
+}
+function previous_data() {
+	return <?php echo json_encode($previous_data); ?>;
 }
 </script>
 
