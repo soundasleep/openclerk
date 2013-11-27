@@ -10,12 +10,12 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <html<?php if (has_required_admin()) { echo " class=\"body_admin\""; } ?>>
 <head>
     <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
-    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('default.css')); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('default.css' . '?' . get_site_config('openclerk_version'))); ?>" />
     <?php if (get_site_config('custom_css')) { ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for(get_site_config('custom_css'))); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for(get_site_config('custom_css') . '?' . get_site_config('openclerk_version'))); ?>" />
     <?php } ?>
     <?php if (has_required_admin()) { ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('admin.css')); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('admin.css' . '?' . get_site_config('openclerk_version'))); ?>" />
     <?php } ?>
     <?php if (isset($options["refresh"])) { ?>
     <meta http-equiv="refresh" content="<?php echo htmlspecialchars($options['refresh']); ?>">
@@ -27,12 +27,12 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <?php } ?>
     <?php if (isset($options["common_js"]) && $options["common_js"]) { ?>
-    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/common.js')); ?>"></script>
+    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/common.js' . '?' . get_site_config('openclerk_version'))); ?>"></script>
     <?php } ?>
     <?php if (isset($options["js"]) && $options["js"]) {
     	if (!is_array($options['js'])) $options['js'] = array($options['js']);
     	foreach ($options['js'] as $js) { ?>
-    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/' . $js . '.js')); ?>"></script>
+    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/' . $js . '.js' . '?' . get_site_config('openclerk_version'))); ?>"></script>
     <?php }
     } ?>
     <link rel="shortcut icon" href="<?php echo htmlspecialchars(url_for('favicon.ico')); ?>" type="image/x-icon">
