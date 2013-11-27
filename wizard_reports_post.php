@@ -83,7 +83,7 @@ if ($preference != 'none') {
 	$count = $q->fetch();
 	if (($count['c'] + 1) >= get_premium_value($user, 'graph_pages')) {
 		// unless we will be resetting any old pages anyway
-		if (get_premium_value('graph_pages') > 1) {
+		if (get_premium_value($user, 'graph_pages') > 1) {
 			$errors[] = "Cannot update report preferences: this would add too many graph pages." .
 					($user['is_premium'] ? "" : " To add more graph pages, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 		}
@@ -197,7 +197,7 @@ if (!$errors) {
 			// delete all managed pages, the next page load will display them
 			// if the user can't have more than one page, then automatically
 			// delete and reset the only available page
-			$query_extra = (get_premium_value('graph_pages') > 1) ? " AND is_managed=1" : "";
+			$query_extra = (get_premium_config('graph_pages') > 1) ? " AND is_managed=1" : "";
 
 			$q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? $query_extra");
 			$q->execute(array(user_id()));
