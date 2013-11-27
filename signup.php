@@ -143,7 +143,7 @@ page_header("Signup", "page_signup", array('jquery' => true, 'js' => 'auth'));
 <div class="authentication-form">
 <h2>Signup</h2>
 
-<form action="<?php echo url_for('signup'); ?>" method="post">
+<form action="<?php echo htmlspecialchars(absolute_url(url_for('signup'))); ?>" method="post">
 <table class="login_form">
 	<tr>
 		<th><label for="name">Name:</label></th>
