@@ -131,6 +131,9 @@ function render_graph_last_updated($graph) {
 function render_pie_chart($graph, $data, $key_label, $value_label, $callback = 'graph_number_format') {
 	$graph_id = htmlspecialchars($graph['id']);
 	render_graph_last_updated($graph);
+	if (isset($graph['subheading'])) {
+		echo "<h3 class=\"subheading\">" . $graph['subheading'] . "</h3>\n";
+	}
 ?>
 <script type="text/javascript">
   google.load("visualization", "1", {packages:["corechart"]});
@@ -164,6 +167,9 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 function render_linegraph_date($graph, $data) {
 	$graph_id = htmlspecialchars($graph['id']);
 	render_graph_last_updated($graph);
+	if (isset($graph['subheading'])) {
+		echo "<h3 class=\"subheading\">" . $graph['subheading'] . "</h3>\n";
+	}
 ?>
 <script type="text/javascript">
   google.load("visualization", "1", {packages:["corechart"]});

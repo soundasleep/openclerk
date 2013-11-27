@@ -221,8 +221,12 @@ function currency_format($currency_code, $n, $precision = 8 /* must be 8 for iss
 	return "<span class=\"" . strtolower($currency) . "_format currency_format\" title=\"" . number_format_autoprecision($n, 8) . " $currency\">" . number_format_precision($n, $precision) . " $currency</span>";
 }
 
-function number_format_html($n, $precision) {
-	return "<span title=\"" . number_format_autoprecision($n, 8) . "\">" . number_format_precision($n, $precision) . "</span>";
+function number_format_html($n, $precision, $suffix = false) {
+	return "<span title=\"" . number_format_autoprecision($n, 8) . ($suffix ? $suffix : "") . "\">" . number_format_precision($n, $precision) . ($suffix ? $suffix : "") ."</span>";
+}
+
+function number_format_autoprecision_html($n) {
+	return "<span title=\"" . number_format_autoprecision($n, 8) . "\">" . number_format_autoprecision($n) . "</span>";
 }
 
 function capitalize($s) {

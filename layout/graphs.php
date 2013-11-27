@@ -121,6 +121,13 @@ function render_graph($graph, $is_public = false) {
 				}
 			}
 
+			// calculate total for subheading
+			$total = 0;
+			foreach ($data as $currency => $value) {
+				$total += $value;
+			}
+			$graph['subheading'] = number_format_html($total, 4);
+
 			// sort data by balance
 			arsort($data);
 
@@ -449,12 +456,16 @@ function render_graph($graph, $is_public = false) {
 
 							$graph['last_updated'] = find_latest_created_at($balances);
 
+							// apply demo_scale and calculate total summary
 							$data = array();
+							$total = 0;
 							foreach ($balances as $b) {
 								if ($b['balance'] != 0) {
 									$data[get_exchange_name($b['exchange'])] = demo_scale($b['balance']);
+									$total += $data[get_exchange_name($b['exchange'])];
 								}
 							}
+							$graph['subheading'] = number_format_html($total, 4);
 
 							// sort data by balance
 							arsort($data);

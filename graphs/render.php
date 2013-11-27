@@ -167,8 +167,20 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
+	$graph['subheading'] = format_subheading_values($data);
 	$graph['last_updated'] = $last_updated;
 	render_linegraph_date($graph, array_values($data));
+}
+
+function format_subheading_values($array, $suffix = false) {
+	$array = array_slice($array, 1 /* skip heading row */, 1, true);
+	$array = array_pop($array);	// array_slice returns an array(array(...))
+	// array[0] is always the date; the remaining values are the formatted data
+	unset($array[0]);
+	foreach ($array as $key => $value) {
+		$array[$key] = number_format_html($value, 4, $suffix);
+	}
+	return implode(" / ", $array);
 }
 
 function discard_early_data($data, $days) {
@@ -233,6 +245,7 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
+	$graph['subheading'] = format_subheading_values($data);
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {
@@ -293,6 +306,7 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
+	$graph['subheading'] = format_subheading_values($data);
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {
@@ -491,6 +505,7 @@ function render_external_graph($graph) {
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
+	$graph['subheading'] = format_subheading_values($data, "%");
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {
