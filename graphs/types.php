@@ -231,12 +231,14 @@ function graph_types() {
 
 	$data['linebreak'] = array(
 		'title' => 'Line break',
-		'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.'
+		'description' => 'Forces a line break at a particular location. Select \'Enable layout editing\' to move it.',
+		'heading' => 'Line break',		// not actually rendered
 	);
 	$data['heading'] = array(
 		'title' => 'Heading',
 		'description' => 'Displays a line of text as a heading at a particular location. Also functions as a line break. Select \'Enable layout editing\' to move it.',
 		'string0' => "Example heading",			// sample text
+		'heading' => 'Heading',		// not actually rendered
 	);
 
 	$data['statistics_queue'] = array(
