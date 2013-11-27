@@ -209,11 +209,11 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .graph_collection .graph table.standard { width: 100%; }
 .graph_collection .graph table.standard th { min-width: 1px; }
 .graph_collection .graph .last_updated { float: right; text-align: right; width: 120px; position: relative; top: -1.75em; color: #333; font-size: 80%; }
-.graph_collection .graph .render_time { display: block; text-align: right; position: relative; width: 100%; color: #333; font-size: 80%; }
+.graph_collection .graph .render_time { display: inline-block; float: right; color: #333; font-size: 80%; z-index: 1; /* float over graph */ top: -1.25em; }
 .graph_collection .graph .graph_title a { color: white; text-decoration: none; }
-.graph_collection .graph .subheading { color: #777; }
+.graph_collection .graph .subheading { color: #777; display: inline-block; font-size: 90%; }
 .graph_collection .graph .graph_title a:hover { color: white; text-decoration: underline; }
-.graph_collection .graph h2, .graph_collection .graph h3 { display: inline-block; }
+.graph_collection .graph h2 { display: inline-block; }
 
 .graph_collection .graph .rate_matrix { list-style: none; margin: 0; padding: 0; }
 .graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
@@ -247,6 +247,7 @@ h2.graph_heading { margin: 5px 0; padding-top: 5px; font-size: 130%; clear: both
 .standard_account_list .job_success { background: #336633; }
 .standard_account_list .disabled { color: #ccc; font-style: italic; }
 span.status_loading { font-style: italic; padding-left: 20px; background: url('img/spinning_even.gif') top left no-repeat; min-height: 16px; }
+.graph span.status_loading { background: url('img/spinning_none.gif') top left no-repeat; margin: 10px; color: #777; }
 tr.odd span.status_loading { background: url('img/spinning_odd.gif') top left no-repeat; }
 
 .address code { font-family: Consolas, Courier New, Courier, monospace; }

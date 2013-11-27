@@ -32,7 +32,7 @@ $graph = array(
 	'public' => true,
 );
 
-page_header('External API Status: ' . htmlspecialchars($api_title), "page_external_historical", array('common_js' => true, 'jsapi' => true));
+page_header('External API Status: ' . htmlspecialchars($api_title), "page_external_historical", array('common_js' => true, 'jquery' => true, 'jsapi' => true));
 
 ?>
 	<h1>External API Status: <?php echo htmlspecialchars($api_title); ?></h1>

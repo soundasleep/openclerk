@@ -72,6 +72,14 @@ function graph_types_public($summaries = array()) {
 		'historical' => 'get_external_status_historical',
 	);
 
+	$data['statistics_queue'] = array(
+		'title' => "Job queue delay (graph)",
+		'heading' => "Job queue delay (hours)",
+		'description' => 'The job queue delay for free and premium users.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);
+
 	return $data;
 }
 
@@ -239,13 +247,6 @@ function graph_types() {
 		'description' => 'Displays a line of text as a heading at a particular location. Also functions as a line break. Select \'Enable layout editing\' to move it.',
 		'string0' => "Example heading",			// sample text
 		'heading' => 'Heading',		// not actually rendered
-	);
-
-	$data['statistics_queue'] = array(
-		'title' => "Job queue delay (graph)",
-		'heading' => "Job queue delay (hours)",
-		'description' => 'The job queue delay for free and premium users.',
-		'hide' => true,		// should only be accessible by admins
 	);
 
 	// add sample images

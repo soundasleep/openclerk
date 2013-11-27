@@ -40,6 +40,7 @@ function calculate_technicals($graph, $data) {
 							'title' => "SMA (" . number_format($t['technical_period']) . ")",
 							'line_width' => 1,
 							'color' => default_chart_color(2),
+							'technical' => true,
 						));
 
 						$last = 0;
@@ -167,16 +168,26 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
-	$graph['subheading'] = format_subheading_values($data);
+	$graph['subheading'] = format_subheading_values($graph, $data);
 	$graph['last_updated'] = $last_updated;
 	render_linegraph_date($graph, array_values($data));
 }
 
-function format_subheading_values($array, $suffix = false) {
-	$array = array_slice($array, 1 /* skip heading row */, 1, true);
+/**
+ * Get the most recent data values, strip out any dates and technical indicator
+ * values, and return a HTML string that can be used to show the most recent
+ * data for this graph.
+ */
+function format_subheading_values($graph, $input, $suffix = false) {
+	$array = array_slice($input, 1 /* skip heading row */, 1, true);
 	$array = array_pop($array);	// array_slice returns an array(array(...))
 	// array[0] is always the date; the remaining values are the formatted data
-	unset($array[0]);
+	// remove any data that is a Date heading or a technical value
+	foreach ($input[0] as $key => $heading) {
+		if ($key == 0 || (is_array($heading) && isset($heading['technical']) && $heading['technical'])) {
+			unset($array[$key]);
+		}
+	}
 	foreach ($array as $key => $value) {
 		$array[$key] = number_format_html($value, 4, $suffix);
 	}
@@ -245,7 +256,7 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
-	$graph['subheading'] = format_subheading_values($data);
+	$graph['subheading'] = format_subheading_values($graph, $data);
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {
@@ -306,7 +317,7 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
-	$graph['subheading'] = format_subheading_values($data);
+	$graph['subheading'] = format_subheading_values($graph, $data);
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {
@@ -505,7 +516,7 @@ function render_external_graph($graph) {
 
 	// sort by key, but we only want values
 	uksort($data, 'cmp_time');
-	$graph['subheading'] = format_subheading_values($data, "%");
+	$graph['subheading'] = format_subheading_values($graph, $data, "%");
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {

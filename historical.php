@@ -29,7 +29,7 @@ if ($id && isset($historical_graphs[$id])) {
 		$callback = $historical_graphs[$id]['title_callback'];
 		$title = $callback($id, $title);
 	}
-	page_header("Historical Data: " . $historical_graphs[$id]["heading"] . ($title ? ": " . $title : ""), "page_historical", array('common_js' => true, 'jsapi' => true));
+	page_header("Historical Data: " . $historical_graphs[$id]["heading"] . ($title ? ": " . $title : ""), "page_historical", array('common_js' => true, 'jquery' => true, 'jsapi' => true));
 
 	$graph = array(
 		'graph_type' => $id,

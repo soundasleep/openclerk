@@ -6,13 +6,30 @@ require(__DIR__ . "/../graphs/render.php");
 require(__DIR__ . "/../graphs/output.php");
 
 /**
+ * Load technicals information for a graph; returns an array
+ * (which is intended to be inserted as 'technicals' back into the $graph).
+ */
+function load_technicals($graph, $is_public) {
+
+	$graph_types = $is_public ? graph_types_public() : graph_types();
+	if (!isset($graph_types[$graph['graph_type']])) {
+		// this should never happen because graph_types should be checked before load_technicals is called
+		throw new Exception("Could not load graph_type in load_technicals: this should never happen");
+	}
+
+	if (!isset($graph['no_technicals']) && isset($graph_types[$graph['graph_type']]['technical']) && $graph_types[$graph['graph_type']]['technical']) {
+		$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=?");
+		$q->execute(array($graph['id']));
+		return $q->fetchAll();
+	}
+	return array();
+
+}
+
+/**
  * Renders a particular graph.
  */
 function render_graph($graph, $is_public = false) {
-
-	if (is_admin() && !require_get("demo", false)) {
-		$start_time = microtime(true);
-	}
 
 	$graph_types = $is_public ? graph_types_public() : graph_types();
 	if (!isset($graph_types[$graph['graph_type']])) {
@@ -24,13 +41,14 @@ function render_graph($graph, $is_public = false) {
 	}
 	$graph_type = $graph_types[$graph['graph_type']];
 
+	// check that if this graph is only for admins, then we are an admin
+	if (isset($graph_type['admin']) && $graph_type['admin'] && !is_admin()) {
+		throw new GraphException("Access denied to admin-only graph");
+	}
+
 	// get relevant technicals, if any
 	// (we need to get these before render_graph_controls() so that the edit graph inline form knows about technicals)
-	if (!isset($graph['no_technicals']) && isset($graph_types[$graph['graph_type']]['technical']) && $graph_types[$graph['graph_type']]['technical']) {
-		$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=?");
-		$q->execute(array($graph['id']));
-		$graph['technicals'] = $q->fetchAll();
-	}
+	$graph['technicals'] = load_technicals($graph, $is_public);
 
 	if (isset($graph['arg0_resolved']) && substr($graph['graph_type'], 0, strlen("securities_")) == "securities_") {
 		// we need to unresolve the name to find the appropriate security
@@ -90,7 +108,62 @@ function render_graph($graph, $is_public = false) {
 	echo htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']);
 	if ($historical) echo "</a>";
 	echo "</h2>\n";
+	echo "<span class=\"subheading\" id=\"subheading_" . htmlspecialchars($graph['id']) . "\"></span>\n";
 	render_graph_controls($graph);
+
+	// we'll use ajax to render the graph
+	if ($is_public) {
+		$ajax_url = url_for('graph_public', array(
+			'graph_type' => $graph['graph_type'],
+			'days' => isset($graph['days']) ? $graph['days'] : null,
+			'height' => $graph['height'],
+			'width' => $graph['width'],
+			'arg0' => isset($graph['arg0']) ? $graph['arg0'] : null,
+			'arg0_resolved' => isset($graph['arg0_resolved']) ? $graph['arg0_resolved'] : null,
+		));
+	} else {
+		$ajax_url = url_for('graph', array('id' => $graph['id']));
+	}
+
+	?>
+	<script type="text/javascript">
+	google.load("visualization", "1", {packages:["corechart"]});
+	$(document).ready(function() {
+		$.ajax(<?php echo json_encode($ajax_url); ?>, {
+			'success': function(data, text, xhr) {
+				$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(data);
+			},
+			'error': function(xhr, text, error) {
+				$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(xhr.responseText);
+			}
+		})
+	});
+	</script>
+	<div id="ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>"<?php echo get_dimensions($graph); ?>><span class="status_loading">Loading...</span></div>
+	<?php
+
+	}
+
+function render_graph_actual($graph, $is_public) {
+
+	if (is_admin() && !require_get("demo", false)) {
+		$start_time = microtime(true);
+	}
+
+	$graph_types = $is_public ? graph_types_public() : graph_types();
+	if (!isset($graph_types[$graph['graph_type']])) {
+		// this should never happen because graph_types should be checked before load_technicals is called
+		throw new Exception("Could not render graph '" . htmlspecialchars($graph['graph_type']) . "': no such graph type");
+	}
+
+	// check that if this graph is only for admins, then we are an admin
+	if (isset($graph_type['admin']) && $graph_type['admin'] && !is_admin()) {
+		throw new GraphException("Access denied to admin-only graph");
+	}
+
+	// get relevant technicals, if any
+	// (we need to get these before render_graph_controls() so that the edit graph inline form knows about technicals)
+	$graph['technicals'] = load_technicals($graph, $is_public);
 
 	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Add more currencies</a>";
 
@@ -520,7 +593,7 @@ function render_graph($graph, $is_public = false) {
 	if (is_admin() && !require_get("demo", false)) {
 		$end_time = microtime(true);
 		$time_diff = ($end_time - $start_time) * 1000;
-		echo "<span class=\"render_time\">" . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . ", order " . number_format($graph['page_order']) . "</span>";
+		echo "<div style=\"position: relative; width: 100%; height: 0;\"><span style=\"position: absolute; text-align: right; width: 100%; height: 1em; overflow: hidden;\" class=\"render_time\">" . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . ", order " . number_format($graph['page_order']) . "</span></div>";
 	}
 
 }

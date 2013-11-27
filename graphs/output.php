@@ -106,8 +106,8 @@ function get_graph_<?php echo htmlspecialchars($graph['id']); ?>() {
 		'days' : <?php echo json_encode($graph['days']); ?>,
 		'technical' : <?php echo json_encode(isset($graph['technicals']) && $graph['technicals'] ? $graph['technicals'][0]['technical_type'] : ""); ?>,
 		'period' : <?php echo json_encode(isset($graph['technicals']) && $graph['technicals'] ? $graph['technicals'][0]['technical_period'] : ""); ?>,
-		'arg0' : <?php echo json_encode($graph['arg0']); ?>,
-		'string0' : <?php echo json_encode($graph['string0']); ?>,
+		'arg0' : <?php echo json_encode(isset($graph['arg0']) ? $graph['arg0'] : null); ?>,
+		'string0' : <?php echo json_encode(isset($graph['string0']) ? $graph['string0'] : null); ?>,
 	};
 }
 </script>
@@ -131,13 +131,8 @@ function render_graph_last_updated($graph) {
 function render_pie_chart($graph, $data, $key_label, $value_label, $callback = 'graph_number_format') {
 	$graph_id = htmlspecialchars($graph['id']);
 	render_graph_last_updated($graph);
-	if (isset($graph['subheading'])) {
-		echo "<h3 class=\"subheading\">" . $graph['subheading'] . "</h3>\n";
-	}
 ?>
 <script type="text/javascript">
-  google.load("visualization", "1", {packages:["corechart"]});
-  google.setOnLoadCallback(drawChart<?php echo $graph_id; ?>);
   function drawChart<?php echo $graph_id; ?>() {
 	var data = google.visualization.arrayToDataTable([
 	  ['<?php echo htmlspecialchars($key_label); ?>', '<?php echo htmlspecialchars($value_label); ?>'],
@@ -157,6 +152,10 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 	var chart = new google.visualization.PieChart(document.getElementById('graph_<?php echo $graph_id; ?>'));
 	chart.draw(data, options);
   }
+  drawChart<?php echo $graph_id; ?>();	// for ajax call
+  <?php if (isset($graph['subheading'])) { ?>
+  	$("#subheading_<?php echo $graph_id; ?>").html(<?php echo json_encode($graph['subheading']); ?>);
+  <?php } ?>
 </script>
 
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
@@ -167,13 +166,8 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 function render_linegraph_date($graph, $data) {
 	$graph_id = htmlspecialchars($graph['id']);
 	render_graph_last_updated($graph);
-	if (isset($graph['subheading'])) {
-		echo "<h3 class=\"subheading\">" . $graph['subheading'] . "</h3>\n";
-	}
 ?>
 <script type="text/javascript">
-  google.load("visualization", "1", {packages:["corechart"]});
-  google.setOnLoadCallback(drawChart<?php echo $graph_id; ?>);
   function drawChart<?php echo $graph_id; ?>() {
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Date');
@@ -246,6 +240,10 @@ function render_linegraph_date($graph, $data) {
 	var chart = new google.visualization.LineChart(document.getElementById('graph_<?php echo $graph_id; ?>'));
 	chart.draw(data, options);
   }
+  drawChart<?php echo $graph_id; ?>();	// for ajax call
+  <?php if (isset($graph['subheading'])) { ?>
+  	$("#subheading_<?php echo $graph_id; ?>").html(<?php echo json_encode($graph['subheading']); ?>);
+  <?php } ?>
 </script>
 
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
