@@ -146,7 +146,7 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 				// hack fix because TheMoneyConverter only has last_trade
 				$data[$data_key] = array(
 					'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
-					graph_number_format($ticker['last_trade']),
+					graph_number_format(/* last_trade is in ticker; last_trade_closing is in graph_data_ticker */ isset($ticker['last_trade']) ? $ticker['last_trade'] : $ticker['last_trade_closing']),
 				);
 			} else {
 				$data[$data_key] = array(
