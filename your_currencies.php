@@ -132,6 +132,13 @@ foreach ($data as $exchange => $balance) {
 
 		</li>
 		<?php } ?>
+
+		<?php if (!$balances) { ?>
+		<li>
+		Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated.<br>
+		<a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Add accounts and addresses</a>
+		</li>
+		<?php } ?>
 	</ul>
 </div>
 
