@@ -122,7 +122,7 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
 			<option id="option_template"></option>
 		</select></td>
 	</tr>
-	<tr>
+	<tr class="buttons">
 		<td colspan="2" class="buttons">
 			<input type="submit" name="add" value="Add account" class="add">
 			<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
