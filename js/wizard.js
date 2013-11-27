@@ -116,7 +116,7 @@ $(document).ready(function() {
 					tempTitle.html(inputs[j]['title'] + ":");
 					tempTitle.attr('for', 'input_' + inputs[j]['key']);
 
-					temp.insertBefore("#wizard_target_table tr.buttons");
+					temp.insertBefore($("#wizard_account_table tr.buttons"));
 					temp.show();
 				}
 

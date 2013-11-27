@@ -95,7 +95,7 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
 <h2>Add new <?php echo htmlspecialchars($account_type['title']); ?></h2>
 
 <form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" class="wizard-add-account">
-	<table class="standard">
+	<table class="standard" id="wizard_account_table">
 	<tr>
 		<th><label for="type"><?php echo htmlspecialchars($account_type['first_heading']); ?>:</label></th>
 		<td>
