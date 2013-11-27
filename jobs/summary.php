@@ -111,6 +111,14 @@ switch ($summary['summary_type']) {
 		add_summary_instance($job, 'all2usd_bitstamp', $total);
 		break;
 
+	case "summary_usd_crypto-trade":
+		// TODO fiat2usd
+
+		$total = 0;
+		require(__DIR__ . "/summary/all2usd_crypto-trade.php");
+		add_summary_instance($job, 'all2usd_crypto-trade', $total);
+		break;
+
 	case "summary_eur_btce":
 		// TODO fiat2usd
 
@@ -133,6 +141,14 @@ switch ($summary['summary_type']) {
 		$total = 0;
 		require(__DIR__ . "/summary/all2eur_vircurex.php");
 		add_summary_instance($job, 'all2eur_vircurex', $total);
+		break;
+
+	case "summary_eur_crypto-trade":
+		// TODO fiat2usd
+
+		$total = 0;
+		require(__DIR__ . "/summary/all2eur_crypto-trade.php");
+		add_summary_instance($job, 'all2eur_crypto-trade', $total);
 		break;
 
 	case "summary_aud_mtgox":

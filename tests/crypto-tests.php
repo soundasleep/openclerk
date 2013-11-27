@@ -50,4 +50,26 @@ class CryptoTestsTest extends UnitTestCase {
 		}
 	}
 
+	/**
+	 * Tests that for all summaries (such as 'summary_nzd_bitnz') that the script to
+	 * generate the summary value actually exists.
+	 *
+	 * Prevents errors like "Unknown summary type summary_usd_crypto-trade".
+	 *
+	 * TODO Could extend it to actually test summary.php, right now it just checks
+	 * that the script file exists.
+	 */
+	function testAllSummaryCurrenciesHaveFiles() {
+		foreach (get_summary_types() as $key => $data) {
+			$file = __DIR__ . "/../jobs/summary/all2" . $data['key'] . ".php";
+			// TODO make this to be for not just fiat currencies but for ALL currencies
+			if (in_array($data['currency'], get_all_fiat_currencies())) {
+				$this->assertTrue(file_exists($file), "Expected file '$file' to exist for summary '$key'");
+			} else {
+				// this will fail if we eventually create an all2btc job for example
+				$this->assertFalse(file_exists($file), "Did not expect file '$file' to exist for summary '$key'");
+			}
+		}
+	}
+
 }
