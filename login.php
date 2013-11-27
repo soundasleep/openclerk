@@ -159,6 +159,7 @@ page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 
 			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Login" ? "" : "display:none;"; ?>">
 			<table>
+			<tr>
 				<th>OpenID URL:</th>
 				<td>
 					<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
@@ -167,6 +168,7 @@ page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 					<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
 					<?php } ?>
 				</td>
+			</tr>
 			</table>
 			</div>
 		</td>
