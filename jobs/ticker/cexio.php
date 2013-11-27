@@ -10,7 +10,7 @@ $currency2 = "ghs";
 
 $rates = json_decode(crypto_get_contents(crypto_wrap_url("https://cex.io/api/ticker/" . strtoupper($currency2) . "/" . strtoupper($currency1))), true);
 if ($rates === null) {
-	throw new ExternalAPIException("Invalid JSON detected.");
+	throw new ExternalAPIException("Invalid JSON detected");
 }
 
 if (!isset($rates['last'])) {

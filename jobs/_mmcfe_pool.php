@@ -10,7 +10,7 @@ if (!$account) {
 
 $poolx = json_decode(crypto_get_contents(crypto_wrap_url($url . $account['api_key']), isset($curl_options) ? $curl_options : array()), true);
 if ($poolx === null) {
-	throw new ExternalAPIException("Invalid JSON detected (null).");
+	throw new ExternalAPIException("Invalid JSON detected");
 } else {
 	$balance = $poolx['confirmed_rewards'];
 

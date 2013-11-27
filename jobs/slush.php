@@ -16,7 +16,7 @@ if (!$account) {
 
 $data = json_decode(crypto_get_contents(crypto_wrap_url("https://mining.bitcoin.cz/accounts/profile/json/" . $account['api_token'])), true);
 if ($data === null) {
-	throw new ExternalAPIException("Invalid JSON detected (null).");
+	throw new ExternalAPIException("Invalid JSON detected");
 } else {
 	if (!isset($data['confirmed_reward'])) {
 		throw new ExternalAPIException("No confirmed reward found");

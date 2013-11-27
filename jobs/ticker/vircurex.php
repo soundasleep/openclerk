@@ -31,7 +31,7 @@ $rates_list = array(
 
 $rates = json_decode(crypto_get_contents(crypto_wrap_url("https://vircurex.com/api/get_info_for_currency.json")), true);
 if ($rates === null) {
-	throw new ExternalAPIException("Invalid JSON detected.");
+	throw new ExternalAPIException("Invalid JSON detected");
 }
 
 foreach ($rates_list as $rl) {

@@ -10,7 +10,7 @@ $currency2 = "btc";
 
 $rates = json_decode(crypto_get_contents(crypto_wrap_url("https://www.bitstamp.net/api/ticker/")), true);
 if ($rates === null) {
-	throw new ExternalAPIException("Invalid JSON detected.");
+	throw new ExternalAPIException("Invalid JSON detected");
 }
 
 if (!isset($rates['last'])) {

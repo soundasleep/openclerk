@@ -16,7 +16,7 @@ if (!$account) {
 
 $data = json_decode(crypto_get_contents(crypto_wrap_url("http://ltcmine.ru/apiex?act=getuserstatsext&key=" . urlencode($account['api_key']))), true);
 if ($data === null) {
-	throw new ExternalAPIException("Invalid JSON detected (null).");
+	throw new ExternalAPIException("Invalid JSON detected");
 } else {
 	if (!isset($data['account_stat']['user_balance'])) {
 		throw new ExternalAPIException("No user balance found");

@@ -38,7 +38,7 @@ foreach ($currencies as $i => $currency) {
 
 	$balance = vircurex_balance($account['api_username'], $currency, $account['api_secret']);
 	if (!$balance) {
-		throw new ExternalAPIException("Invalid JSON detected.");
+		throw new ExternalAPIException("Invalid JSON detected");
 	}
 
 	// if auth fails, display helpful message

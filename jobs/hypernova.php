@@ -16,7 +16,7 @@ if (!$account) {
 
 $data = json_decode(crypto_get_contents(crypto_wrap_url("https://hypernova.pw/api/key/" . $account['api_key'] . "/")), true);
 if ($data === null) {
-	throw new ExternalAPIException("Invalid JSON detected (null).");
+	throw new ExternalAPIException("Invalid JSON detected");
 } else {
 	if (!isset($data['confirmed_rewards'])) {
 		throw new ExternalAPIException("No confirmed rewards found");

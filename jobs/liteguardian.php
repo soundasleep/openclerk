@@ -18,7 +18,7 @@ $currency = 'ltc';
 
 $data = json_decode(crypto_get_contents(crypto_wrap_url("https://www.liteguardian.com/api/" . $account['api_key'])), true);
 if ($data === null) {
-	throw new ExternalAPIException("Invalid JSON detected (null).");
+	throw new ExternalAPIException("Invalid JSON detected");
 } else {
 	if (!isset($data['balance'])) {
 		throw new ExternalAPIException("No balance found");

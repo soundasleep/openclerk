@@ -17,7 +17,11 @@ if (!$account) {
 $raw = crypto_get_contents(crypto_wrap_url("https://www.btcguild.com/api.php?api_key=" . urlencode($account['api_key'])));
 $data = json_decode($raw, true);
 if ($data === null) {
-	throw new ExternalAPIException($raw);
+	if (substr($raw, 0, 1) == "<") {
+		throw new ExternalAPIException("Unexpectedly received HTML instead of JSON");
+	} else {
+		throw new ExternalAPIException("Invalid JSON detected");
+	}
 } else {
 	if (!isset($data['user']['unpaid_rewards'])) {
 		throw new ExternalAPIException("No unpaid reward found");

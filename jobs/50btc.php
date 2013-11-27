@@ -28,7 +28,11 @@ if (strpos($raw, "Temporary Unavailable") !== false) {
 
 $data = json_decode($raw, true);
 if ($data === null) {
-	throw new ExternalAPIException($raw);
+	if (substr($raw, 0, 1) == "<") {
+		throw new ExternalAPIException("Unexpectedly received HTML instead of JSON");
+	} else {
+		throw new ExternalAPIException("Invalid JSON detected");
+	}
 } else {
 	if (!isset($data['user']['confirmed_rewards'])) {
 		throw new ExternalAPIException("No confirmed reward found");

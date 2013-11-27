@@ -41,7 +41,7 @@ if (!$account) {
 
 $data = bitminter_query("https://bitminter.com/api/users", array("Authorization: key=" . $account['api_key']));
 if ($data === null) {
-	throw new ExternalAPIException("Invalid JSON detected (null).");
+	throw new ExternalAPIException("Invalid JSON detected");
 } else {
 	if (!isset($data['balances'])) {
 		throw new ExternalAPIException("No balances found");

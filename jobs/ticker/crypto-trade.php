@@ -41,7 +41,7 @@ foreach ($rates_list as $rl) {
 
 	$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://crypto-trade.com/api/1/ticker/" . $cur2 . "_" . $cur1)), true);
 	if ($rates === null) {
-		throw new ExternalAPIException("Invalid JSON detected.");
+		throw new ExternalAPIException("Invalid JSON detected");
 	}
 
 	if (!isset($rates['data']['last'])) {
@@ -114,7 +114,7 @@ foreach ($securities as $sec) {
 
 	$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://crypto-trade.com/api/1/ticker/" . $cur2 . "_" . $cur1)), true);
 	if ($rates === null) {
-		throw new ExternalAPIException("Invalid JSON detected.");
+		throw new ExternalAPIException("Invalid JSON detected");
 	}
 
 	if (!isset($rates['data']['max_bid'])) {

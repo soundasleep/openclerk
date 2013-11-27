@@ -42,7 +42,11 @@ if (!$content1) {
 
 	$data = json_decode($content, true);
 	if (!$data) {
-		throw new ExternalAPIException("Invalid JSON detected.");
+		if (substr($content, 0, 1) == "<") {
+			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON");
+		} else {
+			throw new ExternalAPIException("Invalid JSON detected");
+		}
 	}
 
 	// we now have a new value
