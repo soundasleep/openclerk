@@ -118,6 +118,7 @@ function get_all_exchanges() {
 		"796_securities" => "796 Xchange (Securities)",
 		"kattare" =>		"ltc.kattare.com",
 		"btcchina" =>		"BTC China",
+		"cryptsy" =>		"Cryptsy",
 	);
 }
 
@@ -130,7 +131,7 @@ function get_exchange_name($n) {
 }
 
 function get_new_exchanges() {
-	return array("btcchina");
+	return array("btcchina", "cryptsy");
 }
 
 function get_exchange_pairs() {
@@ -141,6 +142,7 @@ function get_exchange_pairs() {
 		"btcchina" => array(array('cny', 'btc')),
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc')),
 		"cexio" => array(array('btc', 'ghs')),
+		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad')),
@@ -153,18 +155,23 @@ function get_new_exchange_pairs() {
 	return array(
 		"mtgox_cnybtc",
 		"btcchina_cnybtc",
+		"cryptsy_btcltc",
+		"cryptsy_btcppc",
+		"cryptsy_btcftc",
+		"cryptsy_btcnvc",
 	);
 }
 
 function get_security_exchange_pairs() {
 	return array(
-		"litecoinglobal" => array('ltc'),
-		"btct" => array('btc'),
-		"cryptostocks" => array('btc', 'ltc'),
-		"havelock" => array('btc'),
-		"bitfunder" => array('btc'),
-		"crypto-trade" => array('btc', 'ltc'),
+		// should be in alphabetical order
 		"796" => array('btc'),
+		"bitfunder" => array('btc'),
+		"btct" => array('btc'),
+		"crypto-trade" => array('btc', 'ltc'),
+		"cryptostocks" => array('btc', 'ltc'),
+		"litecoinglobal" => array('ltc'),
+		"havelock" => array('btc'),
 	);
 }
 

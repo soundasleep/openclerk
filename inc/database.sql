@@ -1755,3 +1755,5 @@ ALTER TABLE accounts_wemineltc ADD first_failure timestamp null;
 ALTER TABLE accounts_wemineltc ADD INDEX(is_disabled);
 
 INSERT INTO exchanges SET name='btcchina';
+
+INSERT INTO exchanges SET name='cryptsy';
