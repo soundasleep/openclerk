@@ -1757,3 +1757,21 @@ ALTER TABLE accounts_wemineltc ADD INDEX(is_disabled);
 INSERT INTO exchanges SET name='btcchina';
 
 INSERT INTO exchanges SET name='cryptsy';
+
+DROP TABLE IF EXISTS accounts_litepooleu;
+
+CREATE TABLE accounts_litepooleu (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);

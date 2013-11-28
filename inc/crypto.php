@@ -119,6 +119,7 @@ function get_all_exchanges() {
 		"kattare" =>		"ltc.kattare.com",
 		"btcchina" =>		"BTC China",
 		"cryptsy" =>		"Cryptsy",
+		"litepooleu" =>		"Litepool",
 	);
 }
 
@@ -211,6 +212,7 @@ function get_supported_wallets() {
 		"khore" => array('nvc', 'hash'),
 		"litecoinglobal" => array('ltc'),
 		"liteguardian" => array('ltc'),
+		"litepooleu" => array('ltc', 'hash'),
 		"kattare" => array('ltc', 'hash'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad', 'nzd', 'cny'),
@@ -224,7 +226,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitstamp", "796", "kattare");
+	return array("litepooleu");
 }
 
 function crypto_address($currency, $address) {
@@ -352,6 +354,7 @@ function account_data_grouped() {
 			'liteguardian' => array('table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'litepooleu' => array('table' => 'accounts_litepooleu', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -437,6 +440,7 @@ function get_external_apis() {
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
 			'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
 			'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
+			'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -752,6 +756,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_kattare_apikey'),
 				),
 				'table' => 'accounts_kattare',
+				'khash' => true,
+			);
+
+		case "litepooleu":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litepooleu_apikey'),
+				),
+				'table' => 'accounts_litepooleu',
 				'khash' => true,
 			);
 
@@ -1390,6 +1403,11 @@ function is_valid_796_apikey($key) {
 function is_valid_796_apisecret($key) {
 	// looks like a 60 character crazy string
 	return strlen($key) == 60 && preg_match("#^[A-Za-z0-9\\+\\/]+$#", $key);
+}
+
+function is_valid_litepooleu_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
