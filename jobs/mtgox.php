@@ -49,9 +49,9 @@ function mtgox_query($key, $secret, $path, array $req = array()) {
 
 $get_supported_wallets = get_supported_wallets();
 $currencies1 = $get_supported_wallets['mtgox']; // also supports rur, eur, nvc, trc, ppc, nvc
-$currencies = array('btc' => 1e8);
+$currencies = array();
 foreach ($currencies1 as $cur) {
-	$currencies[$cur] = 1e5 /* assumed */;
+	$currencies[$cur] = ($cur == 'btc' ? 1e8 : 1e5 /* assumed */);
 }
 $mtgox_info = mtgox_query($account['api_key'], $account['api_secret'], 'https://mtgox.com/api/1/generic/private/info');
 if (isset($mtgox_info['error'])) {
