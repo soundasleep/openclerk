@@ -72,4 +72,29 @@ class CryptoTestsTest extends UnitTestCase {
 		}
 	}
 
+	/**
+	 * All cryptocurrencies should have a 'totalX.php' file and 'crypto2X.php' file
+	 * (This doesn't actually test that the jobs are implemented in summary.php)
+	 */
+	function testAllCryptoCurrenciesHaveFiles() {
+		foreach (get_all_cryptocurrencies() as $cur) {
+			$file = __DIR__ . "/../jobs/summary/total" . $cur . ".php";
+			$this->assertTrue(file_exists($file), "Expected file '$file' to exist for cryptocurrency '$cur'");
+
+			$file = __DIR__ . "/../jobs/summary/crypto2" . $cur . ".php";
+			$this->assertTrue(file_exists($file), "Expected file '$file' to exist for cryptocurrency '$cur'");
+		}
+	}
+
+	/**
+	 * All hashrate cryptocurrencies should have a 'totalhashrate_X.php' file
+	 * (This doesn't actually test that the jobs are implemented in summary.php)
+	 */
+	function testAllHashrateCurrenciesHaveFiles() {
+		foreach (get_all_hashrate_currencies() as $cur) {
+			$file = __DIR__ . "/../jobs/summary/totalhashrate_" . $cur . ".php";
+			$this->assertTrue(file_exists($file), "Expected file '$file' to exist for hashrate currency '$cur'");
+		}
+	}
+
 }
