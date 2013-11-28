@@ -17,7 +17,7 @@ function load_technicals($graph, $is_public) {
 		throw new Exception("Could not load graph_type in load_technicals: this should never happen");
 	}
 
-	if (!isset($graph['no_technicals']) && isset($graph_types[$graph['graph_type']]['technical']) && $graph_types[$graph['graph_type']]['technical']) {
+	if (!(isset($graph['no_technicals']) && $graph['no_technicals']) && isset($graph_types[$graph['graph_type']]['technical']) && $graph_types[$graph['graph_type']]['technical']) {
 		$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=?");
 		$q->execute(array($graph['id']));
 		return $q->fetchAll();
@@ -121,6 +121,7 @@ function render_graph($graph, $is_public = false) {
 			'arg0' => isset($graph['arg0']) ? $graph['arg0'] : null,
 			'arg0_resolved' => isset($graph['arg0_resolved']) ? $graph['arg0_resolved'] : null,
 			'id' => isset($graph['id']) ? $graph['id'] : null,
+			'no_technicals' => isset($graph['no_technicals']) ? $graph['no_technicals'] : null,
 		));
 	} else {
 		$ajax_url = url_for('graph', array('id' => $graph['id']));

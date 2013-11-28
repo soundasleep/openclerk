@@ -23,6 +23,7 @@ $graph = array(
 	'id' => require_get("id", 0),		// we need to have an id if we will have multiple public graphs per page (such as profile?securities=1)
 	'arg0' => require_get("arg0", false),
 	'arg0_resolved' => require_get("arg0_resolved", false),
+	'no_technicals' => require_get("no_technicals", false),
 	'public' => true,
 );
 
