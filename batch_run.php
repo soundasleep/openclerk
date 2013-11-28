@@ -304,6 +304,10 @@ try {
 			require(__DIR__ . "/jobs/eligius.php");
 			break;
 
+		case "lite_coinpool":
+			require(__DIR__ . "/jobs/lite_coinpool.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

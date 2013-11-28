@@ -104,7 +104,8 @@ $standard_jobs = array(
 	array('table' => 'accounts_kattare', 'type' => 'kattare', 'failure' => true),
 	array('table' => 'accounts_litepooleu', 'type' => 'litepooleu', 'failure' => true),
 	array('table' => 'accounts_coinhuntr', 'type' => 'coinhuntr', 'failure' => true),
-	array('table' => 'accounts_eligius', 'type' => 'eligius', 'failure' => true),		// for hashrates
+	array('table' => 'accounts_eligius', 'type' => 'eligius', 'failure' => true),		// for hashrates; balance is handled by securities_update[eligius]
+	array('table' => 'accounts_lite_coinpool', 'type' => 'lite_coinpool', 'failure' => true),
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal'),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct'),
 	array('table' => 'accounts_individual_bitfunder', 'type' => 'individual_bitfunder'),

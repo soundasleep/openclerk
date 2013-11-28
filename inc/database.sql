@@ -1814,3 +1814,21 @@ CREATE TABLE accounts_eligius (
 
 -- for tracking unpaid balances on Eligius accounts
 INSERT INTO securities_update SET exchange='eligius';
+
+DROP TABLE IF EXISTS accounts_lite_coinpool;
+
+CREATE TABLE accounts_lite_coinpool (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);

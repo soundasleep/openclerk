@@ -122,6 +122,7 @@ function get_all_exchanges() {
 		"litepooleu" =>		"Litepool",
 		"coinhuntr" =>		"CoinHuntr",
 		"eligius" =>		"Eligius",
+		"lite_coinpool" =>	"lite.coin-pool.com",
 	);
 }
 
@@ -214,6 +215,7 @@ function get_supported_wallets() {
 		"havelock" => array('btc'),
 		"hypernova" => array('ltc', 'hash'),
 		"khore" => array('nvc', 'hash'),
+		"lite_coinpool" => array('ltc', 'hash'),
 		"litecoinglobal" => array('ltc'),
 		"liteguardian" => array('ltc'),
 		"litepooleu" => array('ltc', 'hash'),
@@ -230,7 +232,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("litepooleu", "coinhuntr", "eligius");
+	return array("litepooleu", "coinhuntr", "eligius", "lite_coinpool");
 }
 
 function crypto_address($currency, $address) {
@@ -361,6 +363,7 @@ function account_data_grouped() {
 			'litepooleu' => array('table' => 'accounts_litepooleu', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'lite_coinpool' => array('table' => 'accounts_lite_coinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -450,6 +453,7 @@ function get_external_apis() {
 			'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
 			'eligius' => '<a href="http://eligius.st/">Eligius</a>',
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
+			'lite_coinpool' => '<a href="http://lite.coin-pool.com/">lite.coin-pool.com</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -792,6 +796,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'btc_address' => array('title' => 'BTC Address', 'callback' => 'is_valid_btc_address'),
 				),
 				'table' => 'accounts_eligius',
+			);
+
+		case "lite_coinpool":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_lite_coinpool_apikey'),
+				),
+				'table' => 'accounts_lite_coinpool',
+				'khash' => true,
 			);
 
 		// --- exchanges ---
@@ -1437,6 +1450,11 @@ function is_valid_litepooleu_apikey($key) {
 }
 
 function is_valid_coinhuntr_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_lite_coinpool_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
