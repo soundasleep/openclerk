@@ -113,7 +113,7 @@ function render_graph($graph, $is_public = false) {
 
 	// we'll use ajax to render the graph
 	if ($is_public) {
-		$ajax_url = url_for('graph_public', array(
+		$args = array(
 			'graph_type' => $graph['graph_type'],
 			'days' => isset($graph['days']) ? $graph['days'] : null,
 			'height' => $graph['height'],
@@ -122,9 +122,19 @@ function render_graph($graph, $is_public = false) {
 			'arg0_resolved' => isset($graph['arg0_resolved']) ? $graph['arg0_resolved'] : null,
 			'id' => isset($graph['id']) ? $graph['id'] : null,
 			'no_technicals' => isset($graph['no_technicals']) ? $graph['no_technicals'] : null,
-		));
+		);
+		if (require_get('demo', false)) {
+			$args['demo'] = require_get('demo');
+		}
+		$ajax_url = url_for('graph_public', $args);
 	} else {
-		$ajax_url = url_for('graph', array('id' => $graph['id']));
+		$args = array(
+			'id' => $graph['id'],
+		);
+		if (require_get('demo', false)) {
+			$args['demo'] = require_get('demo');
+		}
+		$ajax_url = url_for('graph', $args);
 	}
 
 	?>
