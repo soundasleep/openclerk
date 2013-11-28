@@ -2,6 +2,7 @@
 
 /**
  * Securites update job (any exchange) - delegates out to jobs/securities_update/<type>
+ * Also processes the unpaid balances for eligius mining pool.
  */
 
 // get the relevant summary
@@ -30,6 +31,10 @@ switch ($exchange['exchange']) {
 
 	case "bitfunder":
 		require(__DIR__ . "/securities_update/bitfunder.php");
+		break;
+
+	case "eligius":
+		require(__DIR__ . "/securities_update/eligius.php");
 		break;
 
 	default:

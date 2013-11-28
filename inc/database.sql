@@ -1775,3 +1775,42 @@ CREATE TABLE accounts_litepooleu (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+DROP TABLE IF EXISTS accounts_coinhuntr;
+
+CREATE TABLE accounts_coinhuntr (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);
+
+DROP TABLE IF EXISTS accounts_eligius;
+
+CREATE TABLE accounts_eligius (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	btc_address varchar(64) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);
+
+-- for tracking unpaid balances on Eligius accounts
+INSERT INTO securities_update SET exchange='eligius';

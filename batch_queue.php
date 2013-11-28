@@ -103,6 +103,8 @@ $standard_jobs = array(
 	array('table' => 'securities_796', 'type' => 'securities_796', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'accounts_kattare', 'type' => 'kattare', 'failure' => true),
 	array('table' => 'accounts_litepooleu', 'type' => 'litepooleu', 'failure' => true),
+	array('table' => 'accounts_coinhuntr', 'type' => 'coinhuntr', 'failure' => true),
+	array('table' => 'accounts_eligius', 'type' => 'eligius', 'failure' => true),		// for hashrates
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal'),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct'),
 	array('table' => 'accounts_individual_bitfunder', 'type' => 'individual_bitfunder'),

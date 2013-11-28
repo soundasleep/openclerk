@@ -296,6 +296,14 @@ try {
 			require(__DIR__ . "/jobs/litepooleu.php");
 			break;
 
+		case "coinhuntr":
+			require(__DIR__ . "/jobs/coinhuntr.php");
+			break;
+
+		case "eligius":
+			require(__DIR__ . "/jobs/eligius.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

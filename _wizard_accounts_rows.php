@@ -108,7 +108,7 @@ foreach ($accounts as $a) {
 			$q->execute(array($a['exchange'], $a['id'], $a['user_id']));
 			echo "<td>";
 			if ($mhash = $q->fetch()) {
-				echo $mhash['mhash'] ? (!isset($a['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
+				echo $mhash['mhash'] ? (!(isset($a['khash']) && $a['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
 			} else {
 				echo "-";
 			}

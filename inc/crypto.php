@@ -120,6 +120,8 @@ function get_all_exchanges() {
 		"btcchina" =>		"BTC China",
 		"cryptsy" =>		"Cryptsy",
 		"litepooleu" =>		"Litepool",
+		"coinhuntr" =>		"CoinHuntr",
+		"eligius" =>		"Eligius",
 	);
 }
 
@@ -203,9 +205,11 @@ function get_supported_wallets() {
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
+		"coinhuntr" => array('ltc', 'hash'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc'),
 		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
+		"eligius" => array('btc', 'hash'),		// BTC is paid directly to BTC address but also stored temporarily
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
 		"hypernova" => array('ltc', 'hash'),
@@ -226,7 +230,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("litepooleu");
+	return array("litepooleu", "coinhuntr", "eligius");
 }
 
 function crypto_address($currency, $address) {
@@ -355,6 +359,8 @@ function account_data_grouped() {
 			'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'litepooleu' => array('table' => 'accounts_litepooleu', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -441,6 +447,9 @@ function get_external_apis() {
 			'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
 			'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
 			'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
+			'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
+			'eligius' => '<a href="http://eligius.st/">Eligius</a>',
+			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
 		),
 
 		"Exchange wallets" => array(
@@ -766,6 +775,23 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_litepooleu',
 				'khash' => true,
+			);
+
+		case "coinhuntr":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_coinhuntr_apikey'),
+				),
+				'table' => 'accounts_coinhuntr',
+				'khash' => true,
+			);
+
+		case "eligius":
+			return array(
+				'inputs' => array(
+					'btc_address' => array('title' => 'BTC Address', 'callback' => 'is_valid_btc_address'),
+				),
+				'table' => 'accounts_eligius',
 			);
 
 		// --- exchanges ---
@@ -1406,6 +1432,11 @@ function is_valid_796_apisecret($key) {
 }
 
 function is_valid_litepooleu_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_coinhuntr_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
