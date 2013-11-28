@@ -17,52 +17,14 @@ while ($summary = $q->fetch()) {
 }
 
 // overall summary job of all cryptocurrencies and fiat currencies, before any conversions
-if (in_array('btc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalbtc.php");
-	add_summary_instance($job, 'totalbtc', $total);
-	add_summary_instance($job, 'blockchainbtc', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsbtc', $total_offsets_balance);
-}
-
-if (in_array('ltc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalltc.php");
-	add_summary_instance($job, 'totalltc', $total);
-	add_summary_instance($job, 'blockchainltc', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsltc', $total_offsets_balance);
-}
-
-if (in_array('nmc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalnmc.php");
-	add_summary_instance($job, 'totalnmc', $total);
-	add_summary_instance($job, 'blockchainnmc', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsnmc', $total_offsets_balance);
-}
-
-if (in_array('ftc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalftc.php");
-	add_summary_instance($job, 'totalftc', $total);
-	add_summary_instance($job, 'blockchainftc', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsftc', $total_offsets_balance);
-}
-
-if (in_array('ppc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalppc.php");
-	add_summary_instance($job, 'totalppc', $total);
-	add_summary_instance($job, 'blockchainppc', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsppc', $total_offsets_balance);
-}
-
-if (in_array('nvc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalnvc.php");
-	add_summary_instance($job, 'totalnvc', $total);
-	add_summary_instance($job, 'blockchainnvc', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsnvc', $total_offsets_balance);
+foreach (get_all_cryptocurrencies() as $cur) {
+	if (in_array($cur, $currencies)) {
+		$total = 0;
+		require(__DIR__ . "/summary/total" . $cur . ".php");
+		add_summary_instance($job, 'total' . $cur, $total);
+		add_summary_instance($job, 'blockchain' . $cur, $total_blockchain_balance);
+		add_summary_instance($job, 'offsets' . $cur, $total_offsets_balance);
+	}
 }
 
 if (in_array('usd', $currencies)) {
@@ -121,6 +83,12 @@ if (in_array('nmc', $currencies)) {
 	$total = 0;
 	require(__DIR__ . "/summary/totalhashrate_nmc.php");
 	add_summary_instance($job, 'totalmh_nmc', $total);
+}
+
+if (in_array('nvc', $currencies)) {
+	$total = 0;
+	require(__DIR__ . "/summary/totalhashrate_nvc.php");
+	add_summary_instance($job, 'totalmh_nvc', $total);
 }
 
 if (in_array('ghs', $currencies)) {

@@ -30,7 +30,11 @@ foreach (get_all_cryptocurrencies() as $c) {
 			$temp = $balance['balance'] * $ticker['sell'];
 			crypto_log("+ from " . strtoupper($c) . " (" . strtoupper($currency) . "): " . ($temp));
 			$total += $temp;
+		} else {
+			crypto_log("No $exchange ticket found for btc/$c");
 		}
+	} else {
+		crypto_log("No balance found for currency '$c'");
 	}
 }
 

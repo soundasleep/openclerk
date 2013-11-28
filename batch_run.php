@@ -148,6 +148,10 @@ try {
 			require(__DIR__ . "/jobs/novacoin.php");
 			break;
 
+		case "primecoin":
+			require(__DIR__ . "/jobs/primecoin.php");
+			break;
+
 		case "litecoin_block":
 			require(__DIR__ . "/jobs/litecoin_block.php");
 			break;
@@ -162,6 +166,10 @@ try {
 
 		case "novacoin_block":
 			require(__DIR__ . "/jobs/novacoin_block.php");
+			break;
+
+		case "primecoin_block":
+			require(__DIR__ . "/jobs/primecoin_block.php");
 			break;
 
 		case "generic":

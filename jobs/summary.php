@@ -76,7 +76,15 @@ switch ($summary['summary_type']) {
 		require(__DIR__ . "/summary/crypto2nvc.php");
 		add_summary_instance($job, 'crypto2nvc', $total);
 
-		// TODO all2ppc
+		// TODO all2nvc
+		break;
+
+	case "summary_xpm":
+		$total = 0;
+		require(__DIR__ . "/summary/crypto2xpm.php");
+		add_summary_instance($job, 'crypto2xpm', $total);
+
+		// TODO all2xpm
 		break;
 
 	case "summary_usd_btce":
