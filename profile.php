@@ -100,7 +100,7 @@ if ($pages) {
 						'graph_type' => 'heading',
 						'string0' => get_exchange_name($exchange),
 						'page_order' => 0,
-						'public' => true,
+						'public' => false,		// headings are actually private graphs to help with layout
 						'width' => 1,
 						'height' => 1,
 						'days' => 0,
@@ -209,7 +209,7 @@ if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { 
 <?php } ?>
 <div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>"
 	id="graph<?php echo htmlspecialchars($graph['id']); ?>">
-	<?php render_graph($graph); ?>
+	<?php render_graph($graph, isset($graph['public']) && $graph['public']); ?>
 </div>
 <?php if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { ?>
 </div>

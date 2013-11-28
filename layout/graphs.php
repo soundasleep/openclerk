@@ -120,6 +120,7 @@ function render_graph($graph, $is_public = false) {
 			'width' => $graph['width'],
 			'arg0' => isset($graph['arg0']) ? $graph['arg0'] : null,
 			'arg0_resolved' => isset($graph['arg0_resolved']) ? $graph['arg0_resolved'] : null,
+			'id' => isset($graph['id']) ? $graph['id'] : null,
 		));
 	} else {
 		$ajax_url = url_for('graph', array('id' => $graph['id']));
