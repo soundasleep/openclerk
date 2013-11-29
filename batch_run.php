@@ -607,7 +607,7 @@ function crypto_json_decode($string, $message = false) {
 	$json = json_decode($string, true);
 	if (!$json) {
 		crypto_log(htmlspecialchars($string));
-		if (strpos($res, 'DDoS protection by CloudFlare') !== false) {
+		if (strpos($string, 'DDoS protection by CloudFlare') !== false) {
 			throw new CloudFlareException('Throttled by CloudFlare' . ($message ? " $message" : ""));
 		}
 		if (substr($string, 0, 1) == "<") {
