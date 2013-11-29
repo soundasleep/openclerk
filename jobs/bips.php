@@ -34,7 +34,10 @@ function bips_query($url, $userpwd, array $req = array()) {
 		throw new ExternalAPIException("API response: Access denied");
 	}
 	$dec = json_decode($res, true);
-	if (!$dec) throw new ExternalAPIException('Invalid data received, please make sure connection is working and requested API exists');
+	if (!$dec) {
+		crypto_log(htmlspecialchars($res));
+		throw new ExternalAPIException('Invalid data received');
+	}
 	return $dec;
 
 }

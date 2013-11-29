@@ -43,7 +43,10 @@ function mtgox_query($key, $secret, $path, array $req = array()) {
 	$res = curl_exec($ch);
 	if ($res === false) throw new ExternalAPIException('Could not get reply: '.curl_error($ch));
 	$dec = json_decode($res, true);
-	if (!$dec) throw new ExternalAPIException('Invalid data received, please make sure connection is working and requested API exists');
+	if (!$dec) {
+		crypto_log(htmlspecialchars($res));
+		throw new ExternalAPIException('Invalid data received');
+	}
 	return $dec;
 }
 

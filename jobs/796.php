@@ -49,7 +49,10 @@ function xchange796_query($appid, $apikey, $secretkey, $url) {
 	$res = curl_exec($ch);
 	if ($res === false) throw new ExternalAPIException('Could not get reply: '.curl_error($ch));
 	$dec = json_decode($res, true);
-	if (!$dec) throw new ExternalAPIException('Invalid data received, please make sure connection is working and requested API exists');
+	if (!$dec) {
+		crypto_log(htmlspecialchars($res));
+		throw new ExternalAPIException('Invalid data received in authentication');
+	}
 
 	if (isset($dec['errno']) && $dec['errno']) {
 		throw new ExternalAPIException("Could not get OAuth Token: " . htmlspecialchars($dec['msg']));
@@ -78,7 +81,10 @@ function xchange796_query($appid, $apikey, $secretkey, $url) {
 	$res = curl_exec($ch);
 	if ($res === false) throw new ExternalAPIException('Could not get reply: '.curl_error($ch));
 	$dec = json_decode($res, true);
-	if (!$dec) throw new ExternalAPIException('Invalid data received, please make sure connection is working and requested API exists');
+	if (!$dec) {
+		crypto_log(htmlspecialchars($res));
+		throw new ExternalAPIException('Invalid data received in request');
+	}
 
 	if (isset($dec['errno']) && $dec['errno']) {
 		throw new ExternalAPIException("Error in reply: " . htmlspecialchars($dec['msg']));
