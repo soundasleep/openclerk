@@ -15,36 +15,29 @@ if (!$account) {
 }
 
 $raw = crypto_get_contents(crypto_wrap_url("https://www.btcguild.com/api.php?api_key=" . urlencode($account['api_key'])));
-$data = json_decode($raw, true);
-if ($data === null) {
-	if (substr($raw, 0, 1) == "<") {
-		throw new ExternalAPIException("Unexpectedly received HTML instead of JSON");
-	} else {
-		throw new ExternalAPIException("Invalid JSON detected");
-	}
-} else {
-	if (!isset($data['user']['unpaid_rewards'])) {
-		throw new ExternalAPIException("No unpaid reward found");
-	}
-	if (!isset($data['user']['unpaid_rewards_nmc'])) {
-		throw new ExternalAPIException("No unpaid NMC reward found");
-	}
+$data = crypto_json_decode($raw);
 
-	// calculate hash rate
-	$hash_rate = 0;
-	foreach ($data['workers'] as $name => $worker) {
-		$hash_rate += $worker['hash_rate'];
+if (!isset($data['user']['unpaid_rewards'])) {
+	throw new ExternalAPIException("No unpaid reward found");
+}
+if (!isset($data['user']['unpaid_rewards_nmc'])) {
+	throw new ExternalAPIException("No unpaid NMC reward found");
+}
+
+// calculate hash rate
+$hash_rate = 0;
+foreach ($data['workers'] as $name => $worker) {
+	$hash_rate += $worker['hash_rate'];
+}
+
+$balances = array('btc' => $data['user']['unpaid_rewards'], 'nmc' => $data['user']['unpaid_rewards_nmc']);
+foreach ($balances as $currency => $balance) {
+
+	if (!is_numeric($balance)) {
+		throw new ExternalAPIException("$exchange $currency balance is not numeric");
 	}
-
-	$balances = array('btc' => $data['user']['unpaid_rewards'], 'nmc' => $data['user']['unpaid_rewards_nmc']);
-	foreach ($balances as $currency => $balance) {
-
-		if (!is_numeric($balance)) {
-			throw new ExternalAPIException("$exchange $currency balance is not numeric");
-		}
-		insert_new_balance($job, $account, $exchange, $currency, $balance);
-		insert_new_hashrate($job, $account, $exchange, $currency, $hash_rate);
-
-	}
+	insert_new_balance($job, $account, $exchange, $currency, $balance);
+	insert_new_hashrate($job, $account, $exchange, $currency, $hash_rate);
 
 }
+

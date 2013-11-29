@@ -19,10 +19,7 @@ $rates_list = array(
 );
 
 // get all the orderbook data (this is a big file!)
-$rates = json_decode(crypto_get_contents(crypto_wrap_url("http://pubapi.cryptsy.com/api.php?method=marketdatav2")), true);
-if ($rates === null) {
-	throw new ExternalAPIException("Invalid JSON detected");
-}
+$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("http://pubapi.cryptsy.com/api.php?method=marketdatav2")));
 if (isset($rates['notice'])) {
 	log_uncaught_exception(new ExternalAPIException("Notice from " . $exchange['name'] . ": " . $rates['notice']));
 }

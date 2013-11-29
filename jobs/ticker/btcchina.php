@@ -8,10 +8,7 @@ $exchange = "btcchina";
 $currency1 = "cny";
 $currency2 = "btc";
 
-$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://data.btcchina.com/data/ticker")), true);
-if ($rates === null) {
-	throw new ExternalAPIException("Invalid JSON detected");
-}
+$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://data.btcchina.com/data/ticker")));
 
 if (!isset($rates['ticker']['last'])) {
 	throw new ExternalAPIException("No $currency1/$currency2 last rate for $exchange");

@@ -8,10 +8,7 @@ $exchange = "cexio";
 $currency1 = "btc";
 $currency2 = "ghs";
 
-$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://cex.io/api/ticker/" . strtoupper($currency2) . "/" . strtoupper($currency1))), true);
-if ($rates === null) {
-	throw new ExternalAPIException("Invalid JSON detected");
-}
+$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://cex.io/api/ticker/" . strtoupper($currency2) . "/" . strtoupper($currency1))));
 
 if (!isset($rates['last'])) {
 	throw new ExternalAPIException("No $currency1/$currency2 last rate for $exchange");

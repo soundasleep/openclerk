@@ -34,10 +34,7 @@ foreach ($rates_list as $rl) {
 	}
 	$first = false;
 
-	$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://btc-e.com/api/2/" . $rl["cur2"] . "_" . $rl["cur1"] . "/ticker")), true);
-	if ($rates === null) {
-		throw new ExternalAPIException("Invalid JSON detected");
-	}
+	$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://btc-e.com/api/2/" . $rl["cur2"] . "_" . $rl["cur1"] . "/ticker")));
 
 	if (!isset($rates['ticker']['last'])) {
 		if (isset($rates['error'])) {

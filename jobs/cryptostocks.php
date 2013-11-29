@@ -28,14 +28,7 @@ function cryptostocks_api($key, $email, $method) {
 		throw new ExternalAPIException("API returned empty data");
 	}
 
-	$data = json_decode($content, true);
-	if (!$data) {
-		if (substr($content, 0, 1) == "<") {
-			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON");
-		} else {
-			throw new ExternalAPIException("Invalid JSON detected");
-		}
-	}
+	$data = crypto_json_decode($content);
 
 	return $data;
 }

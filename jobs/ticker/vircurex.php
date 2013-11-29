@@ -29,10 +29,7 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'i0c'), // all flipped around
 );
 
-$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://vircurex.com/api/get_info_for_currency.json")), true);
-if ($rates === null) {
-	throw new ExternalAPIException("Invalid JSON detected");
-}
+$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://vircurex.com/api/get_info_for_currency.json")));
 
 foreach ($rates_list as $rl) {
 

@@ -25,7 +25,7 @@ function vircurex_balance($username, $currency, $secret) {
 	$token = hash('sha256', $secret . ";" . $username . ";" . $timestamp . ";" . $id . ";" . "get_balance" . ";" . $currency);
 	$url = "https://vircurex.com/api/get_balance.json?account=" . urlencode($username) . "&id=" . urlencode($id) . "&token=" . urlencode($token) . "&timestamp=" . urlencode($timestamp) . "&currency=" . urlencode($currency);
 
-	return json_decode(crypto_get_contents(crypto_wrap_url($url)), true);
+	return crypto_json_decode(crypto_get_contents(crypto_wrap_url($url)));
 }
 
 $get_supported_wallets = get_supported_wallets();
@@ -37,9 +37,6 @@ foreach ($currencies as $i => $currency) {
 	}
 
 	$balance = vircurex_balance($account['api_username'], $currency, $account['api_secret']);
-	if (!$balance) {
-		throw new ExternalAPIException("Invalid JSON detected");
-	}
 
 	// if auth fails, display helpful message
 	if (!isset($balance["currency"]) && isset($balance["statustxt"])) {

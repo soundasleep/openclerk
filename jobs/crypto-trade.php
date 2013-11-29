@@ -43,11 +43,7 @@ function cryptotrade_query($key, $secret, $url) {
 	// run the query
 	$res = curl_exec($ch);
 	if ($res === false) throw new ExternalAPIException('Could not get reply: '.curl_error($ch));
-	$dec = json_decode($res, true);
-	if (!$dec) {
-		crypto_log(htmlspecialchars($res));
-		throw new ExternalAPIException('Invalid data received');
-	}
+	$dec = crypto_json_decode($res);
 	return $dec;
 
 }

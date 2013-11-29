@@ -16,18 +16,14 @@ if (!$account) {
 
 $currency = 'ltc';
 
-$data = json_decode(crypto_get_contents(crypto_wrap_url("https://www.liteguardian.com/api/" . $account['api_key'])), true);
-if ($data === null) {
-	throw new ExternalAPIException("Invalid JSON detected");
-} else {
-	if (!isset($data['balance'])) {
-		throw new ExternalAPIException("No balance found");
-	}
-	if (!isset($data['hashrate'])) {
-		throw new ExternalAPIException("No hashrate found");
-	}
+$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://www.liteguardian.com/api/" . $account['api_key'])));
 
-	insert_new_balance($job, $account, $exchange, $currency, $data['balance']);
-	insert_new_hashrate($job, $account, $exchange, $currency, $data['hashrate'] / 1000 /* API returns KHash */);
-
+if (!isset($data['balance'])) {
+	throw new ExternalAPIException("No balance found");
 }
+if (!isset($data['hashrate'])) {
+	throw new ExternalAPIException("No hashrate found");
+}
+
+insert_new_balance($job, $account, $exchange, $currency, $data['balance']);
+insert_new_hashrate($job, $account, $exchange, $currency, $data['hashrate'] / 1000 /* API returns KHash */);

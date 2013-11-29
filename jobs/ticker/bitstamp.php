@@ -8,10 +8,7 @@ $exchange = "bitstamp";
 $currency1 = "usd";
 $currency2 = "btc";
 
-$rates = json_decode(crypto_get_contents(crypto_wrap_url("https://www.bitstamp.net/api/ticker/")), true);
-if ($rates === null) {
-	throw new ExternalAPIException("Invalid JSON detected");
-}
+$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://www.bitstamp.net/api/ticker/")));
 
 if (!isset($rates['last'])) {
 	throw new ExternalAPIException("No $currency1/$currency2 last rate for Vircurex");

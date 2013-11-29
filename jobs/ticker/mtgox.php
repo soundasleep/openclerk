@@ -36,10 +36,7 @@ foreach ($rates_list as $rl) {
 	}
 	$first = false;
 
-	$rates = json_decode(crypto_get_contents(crypto_wrap_url('https://data.mtgox.com/api/1/' . $rl["cur2"] . $rl["cur1"] . '/ticker')), true);
-	if ($rates === null) {
-		throw new ExternalAPIException("Invalid JSON detected");
-	}
+	$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url('https://data.mtgox.com/api/1/' . $rl["cur2"] . $rl["cur1"] . '/ticker')));
 
 	if (!isset($rates['return']['avg']['value_int'])) {
 		throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for " . $exchange['name']);

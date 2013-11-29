@@ -22,11 +22,7 @@ function bitminter_query($url, $headers = array()) {
 	if ($res === "Access denied") {
 		throw new ExternalAPIException("API response: Access denied");
 	}
-	$dec = json_decode($res, true);
-	if (!$dec) {
-		crypto_log(htmlspecialchars($res));
-		throw new ExternalAPIException('Invalid data received');
-	}
+	$dec = crypto_json_decode($res);
 	if (isset($dec['message'])) {
 		throw new ExternalAPIException(htmlspecialchars($dec['message']));
 	}
@@ -43,24 +39,19 @@ if (!$account) {
 }
 
 $data = bitminter_query("https://bitminter.com/api/users", array("Authorization: key=" . $account['api_key']));
-if ($data === null) {
-	throw new ExternalAPIException("Invalid JSON detected");
-} else {
-	if (!isset($data['balances'])) {
-		throw new ExternalAPIException("No balances found");
-	}
-	if (!isset($data['hash_rate'])) {
-		throw new ExternalAPIException("No hash rate found");
-	}
-
-	$btc = isset($data['balances']['BTC']) ? $data['balances']['BTC'] : 0;
-	$nmc = isset($data['balances']['NMC']) ? $data['balances']['NMC'] : 0;
-	$hashrate = $data['hash_rate'];
-
-	insert_new_balance($job, $account, $exchange, 'btc', $btc);
-	insert_new_hashrate($job, $account, $exchange, 'btc', $hashrate /* mhash */);
-
-	insert_new_balance($job, $account, $exchange, 'nmc', $nmc);
-	insert_new_hashrate($job, $account, $exchange, 'nmc', $hashrate /* mhash */);
-
+if (!isset($data['balances'])) {
+	throw new ExternalAPIException("No balances found");
 }
+if (!isset($data['hash_rate'])) {
+	throw new ExternalAPIException("No hash rate found");
+}
+
+$btc = isset($data['balances']['BTC']) ? $data['balances']['BTC'] : 0;
+$nmc = isset($data['balances']['NMC']) ? $data['balances']['NMC'] : 0;
+$hashrate = $data['hash_rate'];
+
+insert_new_balance($job, $account, $exchange, 'btc', $btc);
+insert_new_hashrate($job, $account, $exchange, 'btc', $hashrate /* mhash */);
+
+insert_new_balance($job, $account, $exchange, 'nmc', $nmc);
+insert_new_hashrate($job, $account, $exchange, 'nmc', $hashrate /* mhash */);

@@ -14,26 +14,23 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-$data = json_decode(crypto_get_contents(crypto_wrap_url("https://mining.bitcoin.cz/accounts/profile/json/" . $account['api_token'])), true);
-if ($data === null) {
-	throw new ExternalAPIException("Invalid JSON detected");
-} else {
-	if (!isset($data['confirmed_reward'])) {
-		throw new ExternalAPIException("No confirmed reward found");
-	}
-	if (!isset($data['confirmed_nmc_reward'])) {
-		throw new ExternalAPIException("No confirmed NMC reward found");
-	}
+$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://mining.bitcoin.cz/accounts/profile/json/" . $account['api_token'])));
 
-	$balances = array('btc' => $data['confirmed_reward'], 'nmc' => $data['confirmed_nmc_reward']);
-	foreach ($balances as $currency => $balance) {
+if (!isset($data['confirmed_reward'])) {
+	throw new ExternalAPIException("No confirmed reward found");
+}
+if (!isset($data['confirmed_nmc_reward'])) {
+	throw new ExternalAPIException("No confirmed NMC reward found");
+}
 
-		if (!is_numeric($balance)) {
-			throw new ExternalAPIException("$exchange $currency balance is not numeric");
-		}
-		insert_new_balance($job, $account, $exchange, $currency, $balance);
-		insert_new_hashrate($job, $account, $exchange, $currency, $data['hashrate']);
+$balances = array('btc' => $data['confirmed_reward'], 'nmc' => $data['confirmed_nmc_reward']);
+foreach ($balances as $currency => $balance) {
 
+	if (!is_numeric($balance)) {
+		throw new ExternalAPIException("$exchange $currency balance is not numeric");
 	}
+	insert_new_balance($job, $account, $exchange, $currency, $balance);
+	insert_new_hashrate($job, $account, $exchange, $currency, $data['hashrate']);
 
 }
+

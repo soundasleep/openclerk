@@ -419,9 +419,14 @@ if ($account_data && isset($account_data['failure']) && $account_data['failure']
 
 	// failed?
 	if ($runtime_exception !== null) {
-		$q = db()->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");
-		$q->execute(array($job['arg_id']));
-		crypto_log("Increasing account failure count");
+		// don't count CloudFlare as a failure
+		if ($runtime_exception instanceof CloudFlareException) {
+			crypto_log("Not increasing failure count: was a CloudFlareException");
+		} else {
+			$q = db()->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");
+			$q->execute(array($job['arg_id']));
+			crypto_log("Increasing account failure count");
+		}
 
 		$user = get_user($job['user_id']);
 		if (!$user) {
@@ -592,4 +597,23 @@ function add_summary_instance($job, $summary_type, $total) {
 	));
 	crypto_log("Inserted new summary_instances id=" . db()->lastInsertId());
 
+}
+
+/**
+ * Try to decode a JSON string, or try and work out why it failed to decode but throw an exception
+ * if it was not a valid JSON string.
+ */
+function crypto_json_decode($string, $message = false) {
+	$json = json_decode($string, true);
+	if (!$json) {
+		crypto_log(htmlspecialchars($res));
+		if (strpos($res, 'DDoS protection by CloudFlare') !== false) {
+			throw new CloudFlareException('Throttled by CloudFlare' . ($message ? " $message" : ""));
+		}
+		if (substr($string, 0, 1) == "<") {
+			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON" . ($message ? " $message" : ""));
+		}
+		throw new ExternalAPIException('Invalid data received' . ($message ? " $message" : ""));
+	}
+	return $json;
 }

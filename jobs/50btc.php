@@ -26,27 +26,19 @@ if (strpos($raw, "Temporary Unavailable") !== false) {
 	throw new ExternalAPIException("Temporary Unavailable");
 }
 
-$data = json_decode($raw, true);
-if ($data === null) {
-	if (substr($raw, 0, 1) == "<") {
-		throw new ExternalAPIException("Unexpectedly received HTML instead of JSON");
-	} else {
-		throw new ExternalAPIException("Invalid JSON detected");
-	}
-} else {
-	if (!isset($data['user']['confirmed_rewards'])) {
-		throw new ExternalAPIException("No confirmed reward found");
-	}
+$data = crypto_json_decode($raw);
+if (!isset($data['user']['confirmed_rewards'])) {
+	throw new ExternalAPIException("No confirmed reward found");
+}
 
-	$balances = array('btc' => $data['user']['confirmed_rewards']);
-	foreach ($balances as $currency => $balance) {
+$balances = array('btc' => $data['user']['confirmed_rewards']);
+foreach ($balances as $currency => $balance) {
 
-		if (!is_numeric($balance)) {
-			throw new ExternalAPIException("$exchange $currency balance is not numeric");
-		}
-		insert_new_balance($job, $account, $exchange, $currency, $balance);
-		insert_new_hashrate($job, $account, $exchange, $currency, $data['user']['hash_rate'] /* hash rates are all in MHash */);
-
+	if (!is_numeric($balance)) {
+		throw new ExternalAPIException("$exchange $currency balance is not numeric");
 	}
+	insert_new_balance($job, $account, $exchange, $currency, $balance);
+	insert_new_hashrate($job, $account, $exchange, $currency, $data['user']['hash_rate'] /* hash rates are all in MHash */);
 
 }
+
