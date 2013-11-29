@@ -606,7 +606,7 @@ function add_summary_instance($job, $summary_type, $total) {
 function crypto_json_decode($string, $message = false) {
 	$json = json_decode($string, true);
 	if (!$json) {
-		crypto_log(htmlspecialchars($res));
+		crypto_log(htmlspecialchars($string));
 		if (strpos($res, 'DDoS protection by CloudFlare') !== false) {
 			throw new CloudFlareException('Throttled by CloudFlare' . ($message ? " $message" : ""));
 		}
