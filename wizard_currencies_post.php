@@ -16,7 +16,7 @@ $messages = array();
 // get all of our accounts
 $accounts = user_limits_summary(user_id());
 
-$currencies = require_post("currencies");
+$currencies = require_post("currencies", array() /* in case no cryptocurrencies are selected (which wouldn't make much sense probably) */);
 $exchanges = require_post("exchanges", array() /* in case no fiat currencies are selected */);
 
 $cryptos = get_all_cryptocurrencies();
