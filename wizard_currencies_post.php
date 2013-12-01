@@ -17,7 +17,7 @@ $messages = array();
 $accounts = user_limits_summary(user_id());
 
 $currencies = require_post("currencies");
-$exchanges = require_post("exchanges");
+$exchanges = require_post("exchanges", array() /* in case no fiat currencies are selected */);
 
 $cryptos = get_all_cryptocurrencies();
 $fiats = get_all_fiat_currencies();
