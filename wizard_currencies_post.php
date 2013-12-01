@@ -55,10 +55,7 @@ foreach ($currencies as $c) {
 	$exchanges[] = "summary_" . $c;
 }
 
-// go through all commodity currencies and add just summary_CUR
-foreach ($commodities as $c) {
-	$exchanges[] = "summary_" . $c;
-}
+// don't do this with commodity currencies, since summary_CUR is actually a valid currency
 
 // strip out any invalid exchanges
 $exchanges = array_intersect($exchanges, array_keys(get_summary_types()));
