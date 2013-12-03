@@ -112,8 +112,15 @@ function render_graph($graph, $is_public = false) {
 	render_graph_controls($graph);
 
 	// we'll use ajax to render the graph
+	$args = array();
+	if (require_get('demo', false)) {
+		$args['demo'] = require_get('demo');
+	}
+	if (require_get('debug_show_missing_data', false)) {
+		$args['debug_show_missing_data'] = require_get('debug_show_missing_data');
+	}
 	if ($is_public) {
-		$args = array(
+		$args += array(
 			'graph_type' => $graph['graph_type'],
 			'days' => isset($graph['days']) ? $graph['days'] : null,
 			'height' => $graph['height'],
@@ -123,17 +130,11 @@ function render_graph($graph, $is_public = false) {
 			'id' => isset($graph['id']) ? $graph['id'] : null,
 			'no_technicals' => isset($graph['no_technicals']) ? $graph['no_technicals'] : null,
 		);
-		if (require_get('demo', false)) {
-			$args['demo'] = require_get('demo');
-		}
 		$ajax_url = url_for('graph_public', $args);
 	} else {
-		$args = array(
+		$args += array(
 			'id' => $graph['id'],
 		);
-		if (require_get('demo', false)) {
-			$args['demo'] = require_get('demo');
-		}
 		$ajax_url = url_for('graph', $args);
 	}
 

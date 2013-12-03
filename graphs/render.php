@@ -371,6 +371,8 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	);
 
 	$data_temp = array();
+	$hide_missing_data = !require_get("debug_show_missing_data", false);
+	$latest = array();
 	foreach ($sources as $source) {
 		$q = db()->prepare($source['query']);
 		$q->execute(array(
@@ -392,6 +394,10 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 				$maximum_balances[$ticker['exchange']] = 0;
 			}
 			$maximum_balances[$ticker['exchange']] = max($ticker[$source['balance_key']], $maximum_balances[$ticker['exchange']]);
+			if (!isset($latest[$ticker['exchange']])) {
+				$latest[$ticker['exchange']] = 0;
+			}
+			$latest[$ticker['exchange']] = max($latest[$ticker['exchange']], strtotime($ticker[$source['key']]));
 		}
 	}
 
@@ -425,14 +431,20 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	$data[0] = $headings;
 
 	// add '0' for exchanges that we've found at one point, but don't have a data point
+	// but reset to '0' for exchanges that are no longer present (i.e. from graph_data_balances archives)
+	// this fixes a bug where old securities data is still displayed as present in long historical graphs
 	$previous_row = array();
 	foreach ($data_temp as $date => $values) {
 		$row = array('new Date(' . date('Y, n-1, j', strtotime($date)) . ')',);
 		foreach ($exchanges_found as $key => $ignored) {
-			if (!isset($values[$key])) {
-				$row[$key] = graph_number_format(isset($previous_row[$key]) ? $previous_row[$key] : 0);
+			if (!$hide_missing_data || strtotime($date) <= $latest[$key]) {
+				if (!isset($values[$key])) {
+					$row[$key] = graph_number_format(isset($previous_row[$key]) ? $previous_row[$key] : 0);
+				} else {
+					$row[$key] = graph_number_format(demo_scale($values[$key]));
+				}
 			} else {
-				$row[$key] = graph_number_format(demo_scale($values[$key]));
+				$row[$key] = graph_number_format(0);
 			}
 		}
 		if (count($row) > 1) {
