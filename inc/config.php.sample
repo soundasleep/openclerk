@@ -57,6 +57,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 
 		// debug control
 		"timed_sql" => false,
+		"allow_fake_login" => false,		// see admin_login.php
 
 		// job control
 		"jobs_enabled" => true,		// disable when performing upgrades
