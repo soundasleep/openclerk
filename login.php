@@ -8,6 +8,9 @@ $autologin = require_post("autologin", require_get("autologin", true));
 $error = "";
 $logout = require_post("logout", require_get("logout", false));
 $openid = require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+if ($openid && !is_string($openid)) {
+	throw new Exception("Invalid openid parameter");
+}
 
 $messages = array();
 $errors = array();
