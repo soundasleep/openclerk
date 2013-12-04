@@ -112,7 +112,7 @@ $crypto2btc = 0;
 	// BTC is kept as-is
 	if (isset($totals[$currency])) {
 		crypto_log("Initial $currency balance: " . $totals[$currency]);
-		$total += $balance['balance'];
+		$total += $totals[$currency];
 	}
 
 	// other cryptocurrencies are converted first to BTC, and then to the given currency
@@ -141,8 +141,6 @@ $crypto2btc = 0;
 
 	// we also want to calculate equivalent_btc_FIAT for each fiat currency
 	foreach (get_all_fiat_currencies() as $c) {
-		if ($c == $currency || $c == 'btc') continue;
-
 		// e.g. NMC to BTC
 		if (isset($totals[$c])) {
 			// TODO could cache this value
@@ -157,8 +155,6 @@ $crypto2btc = 0;
 				crypto_log("equivalent " . strtoupper($c) . " (BTC): " . ($temp));
 
 				add_summary_instance($job, 'equivalent_btc_' . $c, $temp);
-
-				$total += $temp;
 			}
 		}
 	}

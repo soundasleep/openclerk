@@ -1847,7 +1847,7 @@ CREATE TABLE primecoin_blocks (
 );
 
 ----------------------------------------------------------------------------
--- upgrade statements from 0.13 to 0.14
+-- upgrade statements from 0.13 to 0.13.1
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
 ----------------------------------------------------------------------------
 
