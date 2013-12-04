@@ -120,7 +120,7 @@ function graph_types() {
 		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall proportional value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.'),
 		'btc_equivalent_graph' => array('title' => 'Equivalent BTC balances (graph)', 'heading' => 'Equivalent BTC', 'description' => 'A line graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.'),
 		'btc_equivalent_stacked' => array('title' => 'Equivalent BTC balances (stacked)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.'),
-		'btc_equivalent_proportional' => array('title' => 'Equivalent BTC balances (proportional)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked proportional area graph displaying the historical value of all cryptocurrencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.'),
+		'btc_equivalent_proportional' => array('title' => 'Equivalent BTC balances (proportional)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the proportional historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.'),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current buy/sell USD/BTC price on Mt.Gox.'),
 		'ticker_matrix' => array('title' => 'All currencies exchange rates (matrix)', 'heading' => 'All exchanges', 'description' => 'A matrix displaying the current buy/sell of all of the currencies and exchanges <a href="' . htmlspecialchars(url_for('wizard_currencies')) .'">you are interested in</a>.'),
 		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).'),
@@ -232,6 +232,31 @@ function graph_types() {
 			'title' => "Your " . get_currency_name($currency) . " balances (table)",
 			'heading' => "Your " . strtoupper($currency) . " balances",
 			'description' => "A table displaying all of your " . get_currency_name($currency) . " balances and the total balance (before any conversions).",
+			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+		);
+	}
+
+	$data['category_composition_advanced'] = array(
+		'title' => 'Composition (Advanced)',
+		'category' => true,
+	);
+
+	foreach (get_all_currencies() as $currency) {
+		$data["composition_" . $currency . "_stacked"] = array(
+			'title' => "All " . get_currency_name($currency) . " balances (stacked)",
+			'heading' => "All " . strtoupper($currency) . " balances",
+			'description' => "A stacked area graph displaying the historical value of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
+			'days' => true,
+			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+		);
+	}
+
+	foreach (get_all_currencies() as $currency) {
+		$data["composition_" . $currency . "_proportional"] = array(
+			'title' => "All " . get_currency_name($currency) . " balances (proportional)",
+			'heading' => "All " . strtoupper($currency) . " balances",
+			'description' => "A stacked area graph displaying the proportional historical value of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
+			'days' => true,
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
 	}

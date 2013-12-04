@@ -597,6 +597,16 @@ function render_graph_actual($graph, $is_public) {
 							render_balances_composition_graph($graph, $currency, user_id());
 							break 2;
 
+						case "stacked":
+							// pass it off to the graph helper
+							render_balances_composition_graph($graph, $currency, user_id(), true /* stacked */);
+							break 2;
+
+						case "proportional":
+							// pass it off to the graph helper
+							render_balances_composition_graph($graph, $currency, user_id(), true /* stacked */, true /* proportional */);
+							break 2;
+
 					}
 
 				}

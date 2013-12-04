@@ -324,7 +324,7 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 
 function render_graph_return_currency($exchange, $args) { return strtoupper($args['currency']); }
 
-function render_balances_composition_graph($graph, $currency, $user_id) {
+function render_balances_composition_graph($graph, $currency, $user_id, $stacked = false, $proportional = false) {
 
 	$days = get_graph_days($graph);
 	$extra_days = extra_days_necessary($graph);
@@ -353,7 +353,7 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 			user_id=:user_id ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
-	render_sources_graph($graph, $sources, array('currency' => $currency), $user_id, 'get_exchange_name', false /* $has_subheadings */);
+	render_sources_graph($graph, $sources, array('currency' => $currency), $user_id, 'get_exchange_name', false /* $has_subheadings */, $stacked, $proportional);
 }
 
 function render_balances_btc_equivalent_graph($graph, $user_id, $stacked = false, $proportional = false) {
