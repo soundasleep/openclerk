@@ -324,6 +324,10 @@ try {
 			require(__DIR__ . "/jobs/lite_coinpool.php");
 			break;
 
+		case "beeeeer":
+			require(__DIR__ . "/jobs/beeeeer.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

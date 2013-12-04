@@ -125,6 +125,7 @@ function get_all_exchanges() {
 		"coinhuntr" =>		"CoinHuntr",
 		"eligius" =>		"Eligius",
 		"lite_coinpool" =>	"lite.coin-pool.com",
+		"beeeeer" =>		"b(e^5)r.org",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -203,6 +204,7 @@ function get_supported_wallets() {
 		// alphabetically sorted, except for generic
 		"50btc" => array('btc', 'hash'),
 		"796" => array('btc'),
+		"beeeeer" => array('xpm'),
 		"bips" => array('btc', 'usd'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
@@ -235,7 +237,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("litepooleu", "coinhuntr", "eligius", "lite_coinpool");
+	return array("beeeeer");
 }
 
 function crypto_address($currency, $address) {
@@ -377,6 +379,7 @@ function account_data_grouped() {
 			'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'lite_coinpool' => array('table' => 'accounts_lite_coinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -471,6 +474,7 @@ function get_external_apis() {
 			'eligius' => '<a href="http://eligius.st/">Eligius</a>',
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
 			'lite_coinpool' => '<a href="http://lite.coin-pool.com/">lite.coin-pool.com</a>',
+			'beeeeer' => '<a href="http://beeeeer.org/">' . htmlspecialchars(get_exchange_name('beeeeer')) . '</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -844,6 +848,14 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_lite_coinpool',
 				'khash' => true,
+			);
+
+		case "beeeeer":
+			return array(
+				'inputs' => array(
+					'xpm_address' => array('title' => 'XPM Address', 'callback' => 'is_valid_xpm_address'),
+				),
+				'table' => 'accounts_beeeeer',
 			);
 
 		// --- exchanges ---

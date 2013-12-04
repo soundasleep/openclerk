@@ -1935,3 +1935,21 @@ CREATE TABLE admin_messages (
 
 	INDEX(is_read), INDEX(message_type)
 );
+
+DROP TABLE IF EXISTS accounts_beeeeer;
+
+CREATE TABLE accounts_beeeeer (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	xpm_address varchar(64) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);
