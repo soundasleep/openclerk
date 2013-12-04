@@ -132,6 +132,8 @@ $crypto2btc = 0;
 				$temp = $totals[$c] * $ticker['sell'];
 				crypto_log("+ from " . strtoupper($c) . " (BTC): " . ($temp));
 
+				add_summary_instance($job, 'equivalent_btc_' . $c, $temp);
+
 				$total += $temp;
 			}
 		}

@@ -332,6 +332,44 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	render_sources_graph($graph, $sources, array('currency' => $currency), $user_id, 'get_exchange_name', false /* $has_subheadings */);
 }
 
+function render_balances_btc_equivalent_graph($graph, $user_id) {
+
+	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
+
+	$sources = array();
+	$summaries = get_all_summaries();
+	foreach (get_all_currencies() as $cur) {
+		if (in_array($cur, get_all_fiat_currencies())) {
+			continue;		// ignore fiat currencies, they don't have equivalent_btc_X generated
+		}
+
+		if (isset($summaries['summary_' . $cur])) {
+			if ($cur == 'btc') {
+				// we can't LIMIT by days here, because we may have many accounts for one exchange
+				// first get summarised data
+				$sources[] = array('query' => "SELECT *, '$cur' AS exchange FROM graph_data_summary WHERE user_id=:user_id AND summary_type='totalbtc'
+					AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date', 'balance_key' => 'balance_closing');
+				// and then get more recent data
+				$sources[] = array('query' => "SELECT *, '$cur' AS exchange FROM summary_instances WHERE is_daily_data=1 AND summary_type='totalbtc'
+					AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance');
+			} else {
+				// we can't LIMIT by days here, because we may have many accounts for one exchange
+				// first get summarised data
+				$sources[] = array('query' => "SELECT *, '$cur' AS exchange FROM graph_data_summary WHERE user_id=:user_id AND summary_type='equivalent_btc_$cur'
+					AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date', 'balance_key' => 'balance_closing');
+				// and then get more recent data
+				$sources[] = array('query' => "SELECT *, '$cur' AS exchange FROM summary_instances WHERE is_daily_data=1 AND summary_type='equivalent_btc_$cur'
+					AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance');
+			}
+		}
+	}
+
+	render_sources_graph($graph, $sources, array(/* args */), $user_id, 'render_graph_return_exchange_currency', false /* $has_subheadings */);
+}
+
+function render_graph_return_exchange_currency($exchange, $args) { return strtoupper($exchange); }
+
 /**
  * Renders a collection of $sources with a given set of arguments $args, a user ID $user_id
  * and a heading callback function $get_heading_title.
