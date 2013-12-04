@@ -16,6 +16,10 @@ function havelock_query($url, array $req = array()) {
 	if ($res === "Access denied") {
 		throw new ExternalAPIException("API response: Access denied");
 	}
+	$temp = json_decode($res, true);
+	if (is_array($temp) && !$temp) {
+		throw new ExternalAPIException("No ticket data received");
+	}
 	$dec = crypto_json_decode($res);
 	if (isset($dec['message'])) {
 		throw new ExternalAPIException(htmlspecialchars($dec['message']));

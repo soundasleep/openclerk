@@ -1845,3 +1845,14 @@ CREATE TABLE primecoin_blocks (
 	
 	INDEX(is_recent)
 );
+
+----------------------------------------------------------------------------
+-- upgrade statements from 0.13 to 0.14
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+-- allow securities_havelock accounts to be disabled automatically
+ALTER TABLE securities_havelock ADD is_disabled tinyint not null default 0;
+ALTER TABLE securities_havelock ADD failures tinyint not null default 0;
+ALTER TABLE securities_havelock ADD first_failure timestamp null;
+ALTER TABLE securities_havelock ADD INDEX(is_disabled);

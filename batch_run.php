@@ -414,6 +414,11 @@ foreach (account_data_grouped() as $label => $group) {
 		}
 	}
 }
+if (!$account_data) {
+	if ($job['job_type'] == 'securities_havelock') {
+		$account_data = array('failure' => true, 'table' => 'securities_havelock', 'exchange' => 'securities_havelock', 'label' => 'ticker', 'labels' => 'tickers', 'title' => $job['arg_id']);
+	}
+}
 if ($account_data && isset($account_data['failure']) && $account_data['failure']) {
 	$failing_table = $account_data['table'];
 

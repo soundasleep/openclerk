@@ -124,6 +124,9 @@ function get_all_exchanges() {
 		"coinhuntr" =>		"CoinHuntr",
 		"eligius" =>		"Eligius",
 		"lite_coinpool" =>	"lite.coin-pool.com",
+
+		// for failing server jobs
+		"securities_havelock" => "Havelock Investments security",
 	);
 }
 
