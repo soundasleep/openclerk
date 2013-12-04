@@ -173,6 +173,14 @@ function display_messages() {
 	if (get_temporary_errors()) {
 		$errors = array_join($errors, get_temporary_errors());
 	}
+	// if admin, load any admin messages
+	if (is_admin()) {
+		$q = db()->prepare("SELECT * FROM admin_messages WHERE is_read=0 ORDER BY created_at ASC");
+		$q->execute();
+		while ($message = $q->fetch()) {
+			$messages[] = "Admin message: " . $message['message'] /* assumes encoded */ . " (<a href=\"" . htmlspecialchars(url_for('admin_message', array('id' => $message['id']))) . "\">hide</a>)";
+		}
+	}
 
 	if ($messages) { ?>
 <div class="message">

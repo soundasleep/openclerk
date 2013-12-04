@@ -602,12 +602,6 @@ function log_error($error) {
 	return $error;
 }
 
-// TODO implement
-// also see json_encode: http://stackoverflow.com/questions/168214/pass-a-php-string-to-a-javascript-variable-and-escape-newlines
-function json_escape($s) {
-	return htmlspecialchars($s);
-}
-
 class ServiceException extends Exception { }
 
 class WebException extends Exception { }

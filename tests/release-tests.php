@@ -100,5 +100,19 @@ class ReleaseTestsTest extends UnitTestCase {
 
 	}
 
+	/**
+	 * Sanity checks for PHP's version_compare().
+	 */
+	function testVersionCompare() {
+		$this->assertEqual(-1, version_compare("0.1", "0.2"), "0.1 < 0.2");
+		$this->assertEqual(1, version_compare("0.2", "0.1"), "0.2 > 0.1");
+		$this->assertEqual(0, version_compare("0.1", "0.1"), "0.1 = 0.1");
+		$this->assertEqual(0, version_compare("0.12", "0.12"));
+		$this->assertEqual(1, version_compare("0.12", "0.1"));
+		$this->assertEqual(1, version_compare("0.12", "0.2"));
+		$this->assertEqual(1, version_compare("0.12.1", "0.2"));
+		$this->assertEqual(1, version_compare("0.13", "0.12.1"));
+		$this->assertEqual(-1, version_compare("0.12.1", "0.13"));
+	}
 
 }

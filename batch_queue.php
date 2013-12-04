@@ -229,7 +229,7 @@ foreach ($standard_jobs as $standard) {
 }
 
 if (!$premium_only) {
-	$block_jobs = array('litecoin_block', 'feathercoin_block', 'ppcoin_block', 'novacoin_block', 'primecoin_block', 'terracoin_block');
+	$block_jobs = array('version_check', 'litecoin_block', 'feathercoin_block', 'ppcoin_block', 'novacoin_block', 'primecoin_block', 'terracoin_block');
 	foreach ($block_jobs as $name) {
 		// as often as we can (or on request), run litecoin_block jobs
 		if (!$job_type || in_array($name, $job_type)) {
@@ -247,18 +247,6 @@ if (!$premium_only) {
 	$q = db()->prepare("UPDATE jobs SET is_executing=0 WHERE is_executing=1");
 	$q->execute();
 	crypto_log("Reset old executing jobs");
-
-	// once a day (at 6am) (or on request), run cleanup jobs
-	/*
-	if (date('H') == 6 || in_array("cleanup", $job_type)) {
-		insert_new_job(array(
-			'priority' => $priority,
-			'type' => 'cleanup',
-			'user_id' => get_site_config('system_user_id'),
-			'arg_id' => -1,
-		), false);
-	}
-	*/
 
 }
 

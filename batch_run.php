@@ -363,6 +363,10 @@ try {
 			require(__DIR__ . "/jobs/securities_update.php");
 			break;
 
+		case "version_check":
+			require(__DIR__ . "/jobs/version_check.php");
+			break;
+
 		// cleanup jobs, admin jobs etc
 		case "outstanding":
 			require(__DIR__ . "/jobs/outstanding.php");

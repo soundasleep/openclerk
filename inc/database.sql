@@ -1922,3 +1922,16 @@ CREATE TABLE terracoin_blocks (
 	
 	INDEX(is_recent)
 );
+
+-- admin messages (for now, just for version_checks)
+CREATE TABLE admin_messages (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	message_type varchar(32) not null,
+	message varchar(255) not null,		-- NOTE must be htmlspecialchars() as necessary!
+	
+	is_read tinyint not null default 0,
+
+	INDEX(is_read), INDEX(message_type)
+);
