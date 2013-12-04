@@ -540,6 +540,12 @@ function is_valid_email($e) {
 	return strlen($e) <= 255 && filter_var($e, FILTER_VALIDATE_EMAIL);
 }
 
+function is_valid_url($e) {
+	$e = strtolower($e);
+	return strlen($e) <= 255 &&
+		(substr($e, 0, strlen("http://") == "http://") || substr($e, 0, strlen("https://") == "https://"));
+}
+
 /**
  * Generate a random key of the specified length. This key needs to be
  * alphanumeric. Case-sensitivity is not specified.

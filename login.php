@@ -29,6 +29,10 @@ try {
 		$messages[] = "Successfully logged out. You may login again here.";
 
 	} elseif ($openid && !require_get("pause", false)) {
+		if (!is_valid_url($openid)) {
+			throw new EscapedException("That is not a valid OpenID identity.");
+		}
+
 		require(__DIR__ . "/inc/lightopenid/openid.php");
 		$light = new LightOpenID(get_openid_host());
 

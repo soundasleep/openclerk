@@ -33,6 +33,10 @@ if ($openid) {
 
 	if (!$errors) {
 		try {
+			if (!is_valid_url($openid)) {
+				throw new EscapedException("That is not a valid OpenID identity.");
+			}
+
 			// to sign up with OpenID, we must first authenticate to see if the identity already exists
 			require(__DIR__ . "/inc/lightopenid/openid.php");
 			$light = new LightOpenID(get_openid_host());
