@@ -356,7 +356,7 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	render_sources_graph($graph, $sources, array('currency' => $currency), $user_id, 'get_exchange_name', false /* $has_subheadings */);
 }
 
-function render_balances_btc_equivalent_graph($graph, $user_id, $stacked = false) {
+function render_balances_btc_equivalent_graph($graph, $user_id, $stacked = false, $proportional = false) {
 
 	$days = get_graph_days($graph);
 	$extra_days = extra_days_necessary($graph);
@@ -385,7 +385,7 @@ function render_balances_btc_equivalent_graph($graph, $user_id, $stacked = false
 		}
 	}
 
-	render_sources_graph($graph, $sources, array(/* args */), $user_id, 'render_graph_return_exchange_currency', 'last_total' /* $has_subheadings */, $stacked);
+	render_sources_graph($graph, $sources, array(/* args */), $user_id, 'render_graph_return_exchange_currency', 'last_total' /* $has_subheadings */, $stacked, $proportional);
 }
 
 function render_graph_return_exchange_currency($exchange, $args) { return strtoupper($exchange); }
@@ -395,8 +395,10 @@ function render_graph_return_exchange_currency($exchange, $args) { return strtou
  * and a heading callback function $get_heading_title.
  *
  * @param $has_subheadings true (default), false (no subheading), 'last_total' (total the most recent data)
+ * @param $stacked if true, renders the graph as a stacked graph rather than line graph. defaults to false.
+ * @param $make_proportional if true, converts all values to proportional data w.r.t. each date point. defaults to false.
  */
-function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_title /* callback */, $has_subheadings = true, $stacked = false) {
+function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_title /* callback */, $has_subheadings = true, $stacked = false, $make_proportional = false) {
 
 	$data = array();
 	$last_updated = false;
@@ -488,6 +490,32 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 		}
 	}
 
+	// make proportional?
+	if ($make_proportional) {
+		$data_temp = array();
+		foreach ($data as $row => $columns) {
+			$row_temp = array();
+			if ($row == 0) {
+				foreach ($columns as $key => $value) {
+					if ($key !== 0) {
+						$value['title'] .= " %";
+					}
+					$row_temp[$key] = $value;
+				}
+			} else {
+				$total = 0;
+				foreach ($columns as $key => $value) {
+					$total += ($key === 0) ? 0 : $value;
+				}
+				foreach ($columns as $key => $value) {
+					$row_temp[$key] = ($key === 0) ? $value : graph_number_format($total == 0 ? 0 /* prevent div/0 */ : ($value / $total) * 100);
+				}
+			}
+			$data_temp[$row] = $row_temp;
+		}
+		$data = $data_temp;
+	}
+
 	// sort each row by the biggest value in the most recent data
 	// so e.g. BTC comes first, LTC comes second, regardless of order of summary_instances, balances etc
 	$keys = array_keys($data);
@@ -496,8 +524,11 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 	$data_temp = array();
 	foreach ($data as $row => $columns) {
 		$temp = array();
+		$temp[0] = $columns[0];		// keep row 0 the same
 		foreach ($last_row as $key => $ignored) {
-			$temp[$key] = $columns[$key];
+			if ($key !== 0) {
+				$temp[$key] = $columns[$key];
+			}
 		}
 		$data_temp[$row] = $temp;
 	}
