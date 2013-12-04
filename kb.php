@@ -5,6 +5,10 @@ require(__DIR__ . "/inc/global.php");
 require(__DIR__ . "/layout/templates.php");
 
 $q = require_get("q");
+if (!is_string($q)) {
+	set_temporary_errors(array("Invalid article key."));
+	redirect(url_for('help'));
+}
 
 // we define all knowledge base articles ourselves, so that there's no chance
 // of a security breach/injection
