@@ -189,7 +189,7 @@ function format_subheading_values($graph, $input, $suffix = false) {
 	// array[0] is always the date; the remaining values are the formatted data
 	// remove any data that is a Date heading or a technical value
 	foreach ($input[0] as $key => $heading) {
-		if ($key == 0 || (is_array($heading) && isset($heading['technical']) && $heading['technical'])) {
+		if ($key === 0 || (is_array($heading) && isset($heading['technical']) && $heading['technical'])) {
 			unset($array[$key]);
 		}
 	}
@@ -200,6 +200,30 @@ function format_subheading_values($graph, $input, $suffix = false) {
 		$array[$key] = number_format_html($value, 4, $suffix);
 	}
 	return implode(" / ", $array);
+}
+
+
+/**
+ * Same as format_subheading_values(), but sum all values together.
+ */
+function format_subheading_values_subtotal($graph, $input, $suffix = false) {
+	$array = array_slice($input, 1 /* skip heading row */, 1, true);
+	$array = array_pop($array);	// array_slice returns an array(array(...))
+	// array[0] is always the date; the remaining values are the formatted data
+	// remove any data that is a Date heading or a technical value
+	foreach ($input[0] as $key => $heading) {
+		if ($key === 0 || (is_array($heading) && isset($heading['technical']) && $heading['technical'])) {
+			unset($array[$key]);
+		}
+	}
+	if (!$array) {
+		return "";
+	}
+	$total = 0;
+	foreach ($array as $key => $value) {
+		$total += $value;
+	}
+	return number_format_html($total, 4, $suffix);
 }
 
 function discard_early_data($data, $days) {
@@ -332,19 +356,15 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	render_sources_graph($graph, $sources, array('currency' => $currency), $user_id, 'get_exchange_name', false /* $has_subheadings */);
 }
 
-function render_balances_btc_equivalent_graph($graph, $user_id) {
+function render_balances_btc_equivalent_graph($graph, $user_id, $stacked = false) {
 
 	$days = get_graph_days($graph);
 	$extra_days = extra_days_necessary($graph);
 
 	$sources = array();
-	$summaries = get_all_summaries();
+	$summary_currencies = get_all_summary_currencies();
 	foreach (get_all_currencies() as $cur) {
-		if (in_array($cur, get_all_fiat_currencies())) {
-			continue;		// ignore fiat currencies, they don't have equivalent_btc_X generated
-		}
-
-		if (isset($summaries['summary_' . $cur])) {
+		if (isset($summary_currencies[$cur])) {
 			if ($cur == 'btc') {
 				// we can't LIMIT by days here, because we may have many accounts for one exchange
 				// first get summarised data
@@ -365,7 +385,7 @@ function render_balances_btc_equivalent_graph($graph, $user_id) {
 		}
 	}
 
-	render_sources_graph($graph, $sources, array(/* args */), $user_id, 'render_graph_return_exchange_currency', false /* $has_subheadings */);
+	render_sources_graph($graph, $sources, array(/* args */), $user_id, 'render_graph_return_exchange_currency', 'last_total' /* $has_subheadings */, $stacked);
 }
 
 function render_graph_return_exchange_currency($exchange, $args) { return strtoupper($exchange); }
@@ -373,8 +393,10 @@ function render_graph_return_exchange_currency($exchange, $args) { return strtou
 /**
  * Renders a collection of $sources with a given set of arguments $args, a user ID $user_id
  * and a heading callback function $get_heading_title.
+ *
+ * @param $has_subheadings true (default), false (no subheading), 'last_total' (total the most recent data)
  */
-function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_title /* callback */, $has_subheadings = true) {
+function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_title /* callback */, $has_subheadings = true, $stacked = false) {
 
 	$data = array();
 	$last_updated = false;
@@ -434,7 +456,7 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 	// sort them so they're always in the same order
 	ksort($exchanges_found);
 	foreach ($exchanges_found as $key => $ignored) {
-		$headings[] = array(
+		$headings[$key] = array(
 			'title' => $get_heading_title($key, $args),
 			'line_width' => 2,
 			'color' => default_chart_color($i++),
@@ -466,6 +488,21 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 		}
 	}
 
+	// sort each row by the biggest value in the most recent data
+	// so e.g. BTC comes first, LTC comes second, regardless of order of summary_instances, balances etc
+	$keys = array_keys($data);
+	$last_row = $data[$keys[count($keys)-1]];
+	arsort($last_row);
+	$data_temp = array();
+	foreach ($data as $row => $columns) {
+		$temp = array();
+		foreach ($last_row as $key => $ignored) {
+			$temp[$key] = $columns[$key];
+		}
+		$data_temp[$row] = $temp;
+	}
+	$data = $data_temp;
+
 	// calculate technicals
 	$data = calculate_technicals($graph, $data);
 
@@ -473,14 +510,19 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 	$data = discard_early_data($data, $days);
 
 	// sort by key, but we only want values
+	// we also need to sort by time *before* calculating subheadings
 	uksort($data, 'cmp_time');
 	if ($has_subheadings) {
-		$graph['subheading'] = format_subheading_values($graph, $data);
+		if ($has_subheadings == 'last_total') {
+			$graph['subheading'] = format_subheading_values_subtotal($graph, $data);
+		} else {
+			$graph['subheading'] = format_subheading_values($graph, $data);
+		}
 	}
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {
-		render_linegraph_date($graph, array_values($data));
+		render_linegraph_date($graph, array_values($data), $stacked);
 	} else {
 		if ($user_id == get_site_config('system_user_id')) {
 			render_text($graph, "Invalid balance type.");	// or there is no data to display

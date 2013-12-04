@@ -139,6 +139,30 @@ $crypto2btc = 0;
 		}
 	}
 
+	// we also want to calculate equivalent_btc_FIAT for each fiat currency
+	foreach (get_all_fiat_currencies() as $c) {
+		if ($c == $currency || $c == 'btc') continue;
+
+		// e.g. NMC to BTC
+		if (isset($totals[$c])) {
+			// TODO could cache this value
+			$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+			$q->execute(array(
+				"exchange" => get_default_currency_exchange($c),
+				"currency1" => $c,
+				"currency2" => "btc",
+			));
+			if ($ticker = $q->fetch()) {
+				$temp = $totals[$c] / $ticker['sell'];
+				crypto_log("equivalent " . strtoupper($c) . " (BTC): " . ($temp));
+
+				add_summary_instance($job, 'equivalent_btc_' . $c, $temp);
+
+				$total += $temp;
+			}
+		}
+	}
+
 	crypto_log("Total converted " . strtoupper($currency) . " balance for user " . $job['user_id'] . ": " . $total);
 	$crypto2btc = $total;
 

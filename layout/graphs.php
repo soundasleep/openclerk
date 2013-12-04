@@ -230,6 +230,11 @@ function render_graph_actual($graph, $is_public) {
 			render_balances_btc_equivalent_graph($graph, user_id());
 			break;
 
+		case "btc_equivalent_stacked":
+			// pass it off to the graph helper
+			render_balances_btc_equivalent_graph($graph, user_id(), true /* stacked */);
+			break;
+
 		case "mtgox_btc_table":
 			// a table of just BTC/USD rates
 			$rates = get_all_recent_rates();

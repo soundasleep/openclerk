@@ -596,7 +596,7 @@ function add_summary_instance($job, $summary_type, $total) {
 		"balance" => $total,
 		"job_id" => $job['id'],
 	));
-	crypto_log("Inserted new summary_instances id=" . db()->lastInsertId());
+	crypto_log("Inserted new summary_instances '$summary_type' id=" . db()->lastInsertId());
 
 }
 

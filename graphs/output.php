@@ -167,7 +167,7 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 <?php
 }
 
-function render_linegraph_date($graph, $data) {
+function render_linegraph_date($graph, $data, $stacked = false) {
 	$graph_id = htmlspecialchars($graph['id']);
 	render_graph_last_updated($graph);
 ?>
@@ -175,8 +175,9 @@ function render_linegraph_date($graph, $data) {
   function drawChart<?php echo $graph_id; ?>() {
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Date');
-        <?php for ($i = 1; $i < count($data[0]); $i++) {
-        	$heading = $data[0][$i];
+        <?php $i = 0;
+        foreach ($data[0] as $heading) {
+        	if ($i++ == 0) continue;
         	$heading = isset($heading['title']) ? $heading['title'] : $heading; ?>
         	data.addColumn('number', <?php echo json_encode($heading); ?>);
         <?php } ?>
@@ -198,8 +199,13 @@ function render_linegraph_date($graph, $data) {
 				gridlines: { color: '#333' },
 				textStyle: { color: 'white' },
 			},
-			<?php for ($i = 1; $i < count($data[0]); $i++) {
-				$heading = $data[0][$i];
+			<?php if ($stacked) { ?>
+			isStacked: true,
+			<?php } ?>
+			<?php
+			$i = 0;
+			foreach ($data[0] as $heading) {
+				if ($i++ == 0) continue;
 				// primary axis
 				if (isset($heading['min']) && isset($heading['max'])) {
 				?>
@@ -216,8 +222,10 @@ function render_linegraph_date($graph, $data) {
 				}
 			}?>
 			series: [
-				<?php for ($i = 1; $i < count($data[0]); $i++) {
-					$heading = $data[0][$i];
+				<?php
+				$i = 0;
+				foreach ($data[0] as $heading) {
+					if ($i++ == 0) continue;
 					echo "{";
 					$bits = array();
 					if (isset($heading['line_width'])) {
@@ -241,7 +249,7 @@ function render_linegraph_date($graph, $data) {
 			backgroundColor: '#111',
         };
 
-	var chart = new google.visualization.LineChart(document.getElementById('graph_<?php echo $graph_id; ?>'));
+	var chart = new google.visualization.<?php echo $stacked ? 'AreaChart' : 'LineChart'; ?>(document.getElementById('graph_<?php echo $graph_id; ?>'));
 	chart.draw(data, options);
   }
   drawChart<?php echo $graph_id; ?>();	// for ajax call
