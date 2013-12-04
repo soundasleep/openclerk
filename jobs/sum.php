@@ -5,6 +5,30 @@
  * Also see summary.php, which handles conversions
  */
 
+$latest_tickers = array();
+/**
+ * Get the latest ticker value for the given exchange and currency pairs.
+ * Allows for caching these values.
+ * @returns false if no ticker value could be found.
+ */
+function get_latest_ticker($exchange, $cur1, $cur2) {
+	$key = $exchange . '_' . $cur1 . '_' . $cur2;
+	global $latest_tickers;
+	if (!isset($latest_tickers[$key])) {
+		$latest_tickers[$key] = false;
+		$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+		$q->execute(array(
+			"exchange" => $exchange,
+			"currency1" => $cur1,
+			"currency2" => $cur2,
+		));
+		if ($ticker = $q->fetch()) {
+			$latest_tickers[$key] = $ticker;
+		}
+	}
+	return $latest_tickers[$key];
+}
+
 // get all of the relevant summaries for this user; we don't want to generate empty
 // summary values for summary currencies that this user does not use
 $q = db()->prepare("SELECT summary_type FROM summaries WHERE user_id=?");
@@ -121,14 +145,7 @@ $crypto2btc = 0;
 
 		// e.g. NMC to BTC
 		if (isset($totals[$c])) {
-			// TODO could cache this value
-			$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
-			$q->execute(array(
-				"exchange" => get_default_currency_exchange($c),
-				"currency1" => "btc",
-				"currency2" => $c,
-			));
-			if ($ticker = $q->fetch()) {
+			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), "btc", $c)) {
 				$temp = $totals[$c] * $ticker['sell'];
 				crypto_log("+ from " . strtoupper($c) . " (BTC): " . ($temp));
 
@@ -143,14 +160,7 @@ $crypto2btc = 0;
 	foreach (get_all_fiat_currencies() as $c) {
 		// e.g. NMC to BTC
 		if (isset($totals[$c])) {
-			// TODO could cache this value
-			$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
-			$q->execute(array(
-				"exchange" => get_default_currency_exchange($c),
-				"currency1" => $c,
-				"currency2" => "btc",
-			));
-			if ($ticker = $q->fetch()) {
+			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), $c, "btc")) {
 				$temp = $totals[$c] / $ticker['sell'];
 				crypto_log("equivalent " . strtoupper($c) . " (BTC): " . ($temp));
 
@@ -190,13 +200,7 @@ foreach ($summaries as $summary) {
 
 		// BTC is converted at the exchange's last sell rate
 		// fail if there is no current rate (otherwise there is no point of this job, we don't want erraneous zero balances)
-		$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
-		$q->execute(array(
-			"exchange" => $exchange,
-			"currency1" => $currency,
-			"currency2" => "btc",
-		));
-		if ($ticker = $q->fetch()) {
+		if ($ticker = get_latest_ticker($exchange, $currency, "btc")) {
 			$total += $crypto2btc * $ticker['sell'];
 		} else {
 			throw new JobException("There is no recent ticker balance for $currency/btc on $exchange - cannot convert");
@@ -231,14 +235,7 @@ foreach ($summaries as $summary) {
 
 		// BTC is converted at default ticker rate buy
 		if (isset($totals['btc'])) {
-			// TODO could cache this value
-			$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
-			$q->execute(array(
-				"exchange" => get_default_currency_exchange($currency),
-				"currency1" => "btc",
-				"currency2" => $currency,
-			));
-			if ($ticker = $q->fetch()) {
+			if ($ticker = get_latest_ticker(get_default_currency_exchange($currency), "btc", $currency)) {
 				crypto_log("+ from BTC: " . ($totals['btc'] / $ticker['buy']));
 				$total += $totals['btc'] / $ticker['buy'];
 			}
@@ -250,26 +247,12 @@ foreach ($summaries as $summary) {
 
 			// e.g. NMC to BTC
 			if (isset($totals[$c])) {
-				// TODO could cache this value
-				$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
-				$q->execute(array(
-					"exchange" => get_default_currency_exchange($c),
-					"currency1" => "btc",
-					"currency2" => $c,
-				));
-				if ($ticker = $q->fetch()) {
+				if ($ticker = get_latest_ticker(get_default_currency_exchange($c), "btc", $c)) {
 					$temp = $totals[$c] * $ticker['sell'];
 					crypto_log("+ from " . strtoupper($c) . " (BTC): " . ($temp));
 
 					// and then BTC to CUR
-					// TODO could cache this value
-					$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
-					$q->execute(array(
-						"exchange" => get_default_currency_exchange($currency),
-						"currency1" => "btc",
-						"currency2" => $currency,
-					));
-					if ($ticker = $q->fetch()) {
+					if ($ticker = get_latest_ticker(get_default_currency_exchange($currency), "btc", $currency)) {
 						crypto_log("+ from " . strtoupper($c) . " (" . strtoupper($currency) . "): " . ($temp / $ticker['buy']));
 						$total += $temp / $ticker['buy'];
 					}
