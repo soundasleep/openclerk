@@ -5,7 +5,7 @@
  */
 
 $exchange = "eligius";
-$currency = 'ltc';
+$currency = 'btc';
 
 // get the relevant address
 $q = db()->prepare("SELECT * FROM accounts_eligius WHERE user_id=? AND id=?");
