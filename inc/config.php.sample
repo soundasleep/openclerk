@@ -104,11 +104,15 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		// not implemented yet!
 		// "xpm_block_url" => "http://xpm.cryptocoinexplorer.com/chain/Primecoin/q/getblockcount",
 		"xpm_block_url_html" => "http://xpm.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
+		"trc_address_url" => "http://trc.cryptocoinexplorer.com/address/",
+		"trc_block_url" => "http://trc.cryptocoinexplorer.com/chain/Terracoin/q/getblockcount",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
 		"ppc_confirmations" => 6,
 		"nvc_confirmations" => 6,
+		// "xpm_confirmations" => 6, -- not implemented yet!
+		"trc_confirmations" => 6,
 
 		// premium properties
 		"premium_currencies" => array('btc', 'ltc'),

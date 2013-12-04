@@ -12,6 +12,7 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'nmc'), // all flipped around
 	array('cur1' => 'usd', 'cur2' => 'nmc'), // all flipped around
 	array('cur1' => 'ltc', 'cur2' => 'nmc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
 	// currencies not yet exposed to users or public
 	// array('cur1' => 'btc', 'cur2' => 'bqc'), // all flipped around - removed in 0.6
 	// array('cur1' => 'btc', 'cur2' => 'cnc'), // all flipped around - removed in 0.6
@@ -21,7 +22,6 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'ixc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
 	// array('cur1' => 'btc', 'cur2' => 'yac'), // all flipped around - removed in 0.6
 	array('cur1' => 'btc', 'cur2' => 'xpm'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'dgc'), // all flipped around

@@ -1909,3 +1909,16 @@ ALTER TABLE accounts_individual_litecoinglobal ADD INDEX(is_disabled);
 DELETE FROM securities_update WHERE exchange='bitfunder';
 UPDATE accounts_bitfunder SET is_disabled=1;
 UPDATE accounts_individual_bitfunder SET is_disabled=1;
+
+DROP TABLE IF EXISTS terracoin_blocks;
+
+CREATE TABLE terracoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

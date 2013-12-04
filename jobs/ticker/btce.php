@@ -16,11 +16,11 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
 	array('cur1' => 'usd', 'cur2' => 'eur'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
 	// currencies not yet exposed to users or public
 	array('cur1' => 'rur', 'cur2' => 'btc'), // all flipped around
 	array('cur1' => 'rur', 'cur2' => 'ltc'), // all flipped around
 	array('cur1' => 'rur', 'cur2' => 'usd'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'xpm'), // all flipped around
 	array('cur1' => 'usd', 'cur2' => 'nvc'), // all flipped around
 );
