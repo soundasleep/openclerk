@@ -543,7 +543,7 @@ function is_valid_email($e) {
 function is_valid_url($e) {
 	$e = strtolower($e);
 	return strlen($e) <= 255 &&
-		(substr($e, 0, strlen("http://") == "http://") || substr($e, 0, strlen("https://") == "https://"));
+		(substr($e, 0, strlen("http://")) == "http://" || substr($e, 0, strlen("https://")) == "https://");
 }
 
 /**
