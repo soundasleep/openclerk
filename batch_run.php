@@ -350,10 +350,6 @@ try {
 			require(__DIR__ . "/jobs/sum.php");
 			break;
 
-		case "summary":
-			require(__DIR__ . "/jobs/summary.php");
-			break;
-
 		case "securities_count":
 			require(__DIR__ . "/jobs/securities_count.php");
 			break;

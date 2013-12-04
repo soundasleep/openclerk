@@ -10,91 +10,293 @@
 $q = db()->prepare("SELECT summary_type FROM summaries WHERE user_id=?");
 $q->execute(array($job['user_id']));
 $currencies = array();
+$summaries = array();
 while ($summary = $q->fetch()) {
+	$summaries[] = $summary;
 	if (substr($summary['summary_type'], 0, strlen('summary_')) == 'summary_') {
 		$currencies[] = substr($summary['summary_type'], strlen('summary_'), 3);	// usd_mtgox -> usd
 	}
 }
 
-// overall summary job of all cryptocurrencies and fiat currencies, before any conversions
-foreach (get_all_cryptocurrencies() as $cur) {
+// collate all of the total/blockchain/offsets for each currency
+$totals = array();
+foreach (get_all_currencies() as $cur) {
 	if (in_array($cur, $currencies)) {
+
+		crypto_log("Calculating currency $cur:<ul>");
+
 		$total = 0;
-		require(__DIR__ . "/summary/total" . $cur . ".php");
+		$total_blockchain_balance = false;
+
+		// only non-fiat currencies have blockchains
+		if (!in_array($cur, get_all_fiat_currencies())) {
+			// get the most recent blockchain balances
+			$q = db()->prepare("SELECT * FROM address_balances
+				JOIN addresses ON address_balances.address_id=addresses.id
+				WHERE address_balances.user_id=? AND is_recent=1 AND currency=?
+				GROUP BY address_id");	// group by address_id to prevent race conditions
+			$q->execute(array($job['user_id'], $cur));
+			$total_blockchain_balance = 0;
+			while ($balance = $q->fetch()) {
+				$total += $balance['balance'];
+				$total_blockchain_balance += $balance['balance'];
+			}
+		}
+
+		// and the most recent offsets
+		$q = db()->prepare("SELECT * FROM offsets
+			WHERE user_id=? AND is_recent=1 AND currency=?");
+		$q->execute(array($job['user_id'], $cur));
+		$total_offsets_balance = 0;
+		while ($offset = $q->fetch()) { // we should only have one anyway
+			$total += $offset['balance'];
+			$total_offsets_balance += $offset['balance'];
+		}
+
+		// and the most recent exchange/API balances
+		$q = db()->prepare("SELECT * FROM balances
+			WHERE user_id=? AND is_recent=1 AND currency=?
+			GROUP BY exchange, account_id");	// group by exchange/account_id to prevent race conditions
+		$q->execute(array($job['user_id'], $cur));
+		while ($offset = $q->fetch()) { // we should only have one anyway
+			$total += $offset['balance'];
+		}
+
+		crypto_log("Total $cur balance for user " . $job['user_id'] . ": " . $total);
 		add_summary_instance($job, 'total' . $cur, $total);
-		add_summary_instance($job, 'blockchain' . $cur, $total_blockchain_balance);
+		// only non-fiat currencies have blockchains
+		if (!in_array($cur, get_all_fiat_currencies())) {
+			add_summary_instance($job, 'blockchain' . $cur, $total_blockchain_balance);
+		}
 		add_summary_instance($job, 'offsets' . $cur, $total_offsets_balance);
+
+		$totals[$cur] = $total;
+
+		// calculate hashrates?
+		if (in_array($cur, get_all_hashrate_currencies())) {
+
+			$total = 0;
+
+			// get the most recent exchange/API balances
+			$q = db()->prepare("SELECT * FROM hashrates
+				WHERE user_id=? AND is_recent=1 AND currency=?
+				GROUP BY exchange, account_id");	// group by exchange/account_id to prevent race conditions
+			$q->execute(array($job['user_id'], $cur));
+			while ($offset = $q->fetch()) { // we should only have one anyway
+				$total += $offset['mhash'];
+			}
+
+			crypto_log("Total $cur MHash/s for user " . $job['user_id'] . ": " . $total);
+
+			add_summary_instance($job, 'totalmh_' . $cur, $total);
+
+		}
+
+		crypto_log("</ul>");
+
 	}
 }
 
-if (in_array('usd', $currencies)) {
+// calculate the converted values for each currency
+// by doing it in a single job, we can guarantee that all 'total', 'blockchain', 'offset' and 'converted'
+// balances will always be up-to-date
+
+// first, convert all currencies to btc
+// (we might not store this value if btc is not an enabled currency, but it is the basis for all later conversions)
+crypto_log("Converting equivalent BTC value<ul>");
+$crypto2btc = 0;
+{
+	$currency = 'btc';
 	$total = 0;
-	require(__DIR__ . "/summary/totalusd.php");
-	add_summary_instance($job, 'totalusd', $total);
-	//add_summary_instance($job, 'blockchainusd', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsusd', $total_offsets_balance);
+
+	// BTC is kept as-is
+	if (isset($totals[$currency])) {
+		crypto_log("Initial $currency balance: " . $totals[$currency]);
+		$total += $balance['balance'];
+	}
+
+	// other cryptocurrencies are converted first to BTC, and then to the given currency
+	foreach (array_merge(get_all_cryptocurrencies(), get_all_commodity_currencies()) as $c) {
+		if ($c == $currency || $c == 'btc') continue;
+
+		// e.g. NMC to BTC
+		if (isset($totals[$c])) {
+			// TODO could cache this value
+			$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+			$q->execute(array(
+				"exchange" => get_default_currency_exchange($c),
+				"currency1" => "btc",
+				"currency2" => $c,
+			));
+			if ($ticker = $q->fetch()) {
+				$temp = $totals[$c] * $ticker['sell'];
+				crypto_log("+ from " . strtoupper($c) . " (BTC): " . ($temp));
+
+				$total += $temp;
+			}
+		}
+	}
+
+	crypto_log("Total converted " . strtoupper($currency) . " balance for user " . $job['user_id'] . ": " . $total);
+	$crypto2btc = $total;
+
+}
+crypto_log("</ul>");
+
+crypto_log("Executing " . number_format(count($summaries)) . " summaries");
+foreach ($summaries as $summary) {
+
+	$bits = explode("_", $summary['summary_type'], 3);
+	if (count($bits) < 2) {
+		throw new JobException("Invalid summary type '" . htmlspecialchars($summary['summary_type']) . "'");
+	}
+	$currency = $bits[1];
+	if (!in_array($currency, get_all_currencies())) {
+		throw new JobException("Currency '$currency' is not a valid currency");
+	}
+
+	crypto_log("Summary '" . htmlspecialchars($summary['summary_type']) . "'\n<ul>");
+
+	if (in_array($currency, get_all_fiat_currencies())) {
+		// fiat currencies only have all2 jobs
+		$exchange = $bits[2];
+		if (!$exchange) {
+			throw new JobException("Invalid summary exchange '$exchange'");
+		}
+
+		$total = 0;
+
+		// BTC is converted at the exchange's last sell rate
+		// fail if there is no current rate (otherwise there is no point of this job, we don't want erraneous zero balances)
+		$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+		$q->execute(array(
+			"exchange" => $exchange,
+			"currency1" => $currency,
+			"currency2" => "btc",
+		));
+		if ($ticker = $q->fetch()) {
+			$total += $crypto2btc * $ticker['sell'];
+		} else {
+			throw new JobException("There is no recent ticker balance for $currency/btc on $exchange - cannot convert");
+		}
+
+		// add total FIAT balances calculated earlier
+		if (isset($totals[$currency])) {
+			$total += $totals[$currency];
+		}
+
+		crypto_log("Total converted $currency $exchange balance for user " . $job['user_id'] . ": " . $total);
+
+		add_summary_instance($job, 'all2' . $currency . '_' . $exchange, $total);
+
+	} else if ($currency == 'btc') {
+
+		$total = $crypto2btc;
+		crypto_log("Previously calculated crypto2btc: $total");
+		add_summary_instance($job, 'crypto2' . $currency, $total);
+
+	} else {
+		// non-fiat currencies only have crypto2 jobs
+		// TODO enable non-fiat currencies to have all2 jobs
+
+		$total = 0;
+
+		// CUR is kept as-is
+		if (isset($totals[$currency])) {
+			crypto_log("Initial $currency balance: " . $totals[$currency]);
+			$total += $totals[$currency];
+		}
+
+		// BTC is converted at default ticker rate buy
+		if (isset($totals['btc'])) {
+			// TODO could cache this value
+			$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+			$q->execute(array(
+				"exchange" => get_default_currency_exchange($currency),
+				"currency1" => "btc",
+				"currency2" => $currency,
+			));
+			if ($ticker = $q->fetch()) {
+				crypto_log("+ from BTC: " . ($totals['btc'] / $ticker['buy']));
+				$total += $totals['btc'] / $ticker['buy'];
+			}
+		}
+
+		// other cryptocurrencies are converted first to BTC, and then to the given currency
+		foreach (array_merge(get_all_cryptocurrencies(), get_all_commodity_currencies()) as $c) {
+			if ($c == $currency || $c == 'btc') continue;
+
+			// e.g. NMC to BTC
+			if (isset($totals[$c])) {
+				// TODO could cache this value
+				$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+				$q->execute(array(
+					"exchange" => get_default_currency_exchange($c),
+					"currency1" => "btc",
+					"currency2" => $c,
+				));
+				if ($ticker = $q->fetch()) {
+					$temp = $totals[$c] * $ticker['sell'];
+					crypto_log("+ from " . strtoupper($c) . " (BTC): " . ($temp));
+
+					// and then BTC to CUR
+					// TODO could cache this value
+					$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+					$q->execute(array(
+						"exchange" => get_default_currency_exchange($currency),
+						"currency1" => "btc",
+						"currency2" => $currency,
+					));
+					if ($ticker = $q->fetch()) {
+						crypto_log("+ from " . strtoupper($c) . " (" . strtoupper($currency) . "): " . ($temp / $ticker['buy']));
+						$total += $temp / $ticker['buy'];
+					}
+				}
+
+			}
+		}
+
+		crypto_log("Total converted " . strtoupper($currency) . " balance for user " . $job['user_id'] . ": " . $total);
+
+		add_summary_instance($job, 'crypto2' . $currency, $total);
+
+	}
+
+	crypto_log("</ul>");
+
 }
 
-if (in_array('eur', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totaleur.php");
-	add_summary_instance($job, 'totaleur', $total);
-	//add_summary_instance($job, 'blockchaineur', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetseur', $total_offsets_balance);
-}
+// and now that we have added summary instances, check for first_report
+// (this is so that first_report jobs don't block up the job queue)
 
-if (in_array('aud', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalaud.php");
-	add_summary_instance($job, 'totalaud', $total);
-	//add_summary_instance($job, 'blockchainaud', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsaud', $total_offsets_balance);
-}
+/**
+ * Send an e-mail to new users once their first non-zero summary reports have been compiled.
+ */
 
-if (in_array('cad', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalcad.php");
-	add_summary_instance($job, 'totalcad', $total);
-	//add_summary_instance($job, 'blockchaincad', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetscad', $total_offsets_balance);
-}
+// reload user in case multiple summary jobs for the same user are all blocked at once
+$user = get_user($job['user_id']);
 
-if (in_array('nzd', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalnzd.php");
-	add_summary_instance($job, 'totalnzd', $total);
-	//add_summary_instance($job, 'blockchainnzd', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsnzd', $total_offsets_balance);
-}
+if (!$user['is_first_report_sent']) {
+	// is there a non-zero summary instance?
+	$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND is_recent=1 AND balance > 0 LIMIT 1");
+	$q->execute(array($user['id']));
+	if ($instance = $q->fetch()) {
+		crypto_log("User has a non-zero summary instance.");
 
-if (in_array('btc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalhashrate_btc.php");
-	add_summary_instance($job, 'totalmh_btc', $total);
-}
+		// update that we've reported now
+		$q = db()->prepare("UPDATE users SET is_first_report_sent=1,first_report_sent=NOW() WHERE id=?");
+		$q->execute(array($user['id']));
 
-if (in_array('ltc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalhashrate_ltc.php");
-	add_summary_instance($job, 'totalmh_ltc', $total);
-}
+		// send email
+		if ($user['email']) {
+			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "first_report", array(
+				"name" => ($user['name'] ? $user['name'] : $user['email']),
+				"url" => absolute_url(url_for("profile")),
+				"login" => absolute_url(url_for("login")),
+				// TODO in the future this will have reporting values (when automatic reports are implemented)
+			));
+			crypto_log("Sent first report e-mail to " . htmlspecialchars($user['email']) . ".");
+		}
 
-if (in_array('nmc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalhashrate_nmc.php");
-	add_summary_instance($job, 'totalmh_nmc', $total);
-}
-
-if (in_array('nvc', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalhashrate_nvc.php");
-	add_summary_instance($job, 'totalmh_nvc', $total);
-}
-
-if (in_array('ghs', $currencies)) {
-	$total = 0;
-	require(__DIR__ . "/summary/totalghs.php");
-	add_summary_instance($job, 'totalghs', $total);
-	// add_summary_instance($job, 'blockchainghs', $total_blockchain_balance);
-	add_summary_instance($job, 'offsetsghs', $total_offsets_balance);
+	}
 }

@@ -1859,3 +1859,8 @@ ALTER TABLE securities_havelock ADD INDEX(is_disabled);
 
 -- fix Eligius pool hashrates measuring in BTC not LTC
 UPDATE hashrates SET currency='btc' WHERE exchange='eligius' AND currency='ltc';
+
+-- 'sum' job now executes all summaries
+ALTER TABLE summaries DROP last_queue;
+DELETE FROM jobs WHERE job_type='summary' AND is_executed=0;
+

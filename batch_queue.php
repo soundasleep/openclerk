@@ -114,8 +114,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock'),
 	array('table' => 'accounts_individual_cryptotrade', 'type' => 'individual_crypto-trade'),
 	array('table' => 'accounts_individual_796', 'type' => 'individual_796'),
-	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* so that total BTC/LTC etc will be updated together before conversion summaries */
-	array('table' => 'summaries', 'type' => 'summary'),
+	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
 		AND is_reminder_sent=0
