@@ -20,6 +20,8 @@ foreach ($currencies as $c) {
 	}
 
 	if ($value !== false) {
+		// remove any commas
+		$value = str_replace(",", "", $value);
 		if (!is_numeric($value)) {
 			$errors[] = "'" . htmlspecialchars($value) . "' is not a valid numeric value for " . htmlspecialchars(strtoupper($c)) . ".";
 			continue;
