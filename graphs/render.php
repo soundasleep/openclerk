@@ -20,6 +20,10 @@ function calculate_technicals($graph, $data) {
 	$days = get_graph_days($graph);
 	$original_rows = count($data[0]);
 
+	if (count($data) <= 1) {
+		throw new GraphException("Cannot calculate technicals for a graph with no data");
+	}
+
 	// need to sort data by date
 	ksort($data);
 
@@ -79,17 +83,18 @@ function calculate_technicals($graph, $data) {
 		}
 	}
 
-	// move the first $original_rows to the end, so they are dislpayed on top
+	// move the first $original_rows to the end, so they are displayed on top
 	if (count($data[0]) != $original_rows) {
 		$data_new = array();
 		foreach ($data as $label => $row) {
 			$r = array();
-			$r[] = $row[0];	// keep date row
-			for ($j = $original_rows; $j < count($row); $j++) {
-				$r[] = $row[$j];
+			$row_values = array_values($row);		// get rid of any associative indexes
+			$r[] = $row_values[0];	// keep date row
+			for ($j = $original_rows; $j < count($row_values); $j++) {
+				$r[] = $row_values[$j];
 			}
 			for ($j = 1; $j < $original_rows; $j++) {
-				$r[] = $row[$j];
+				$r[] = $row_values[$j];
 			}
 			$data_new[$label] = $r;
 		}
@@ -271,18 +276,8 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 
 }
 
-// TODO refactor with render_balances_composition_graph
 function render_balances_graph($graph, $exchange, $currency, $user_id, $account_id) {
 
-	$data = array();
-	$data[0] = array("Date",
-		array(
-			'title' => strtoupper($currency),
-			'line_width' => 2,
-			'color' => default_chart_color(0),
-		),
-	);
-	$last_updated = false;
 	$days = get_graph_days($graph);
 	$extra_days = extra_days_necessary($graph);
 
@@ -295,56 +290,20 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 			user_id=:user_id ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
-	foreach ($sources as $source) {
-		$q = db()->prepare($source['query']);
-		$q->execute(array(
+	render_sources_graph($graph, $sources, array(
 			'exchange' => $exchange,
-			'user_id' => $user_id,
 			'account_id' => $account_id,
 			'currency' => $currency,
-		));
-		while ($ticker = $q->fetch()) {
-			$data[date('Y-m-d', strtotime($ticker[$source['key']]))] = array(
-				'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
-				graph_number_format(demo_scale($ticker[$source['balance_key']])),
-			);
-			$last_updated = max($last_updated, strtotime($ticker['created_at']));
-		}
-	}
-
-	// calculate technicals
-	$data = calculate_technicals($graph, $data);
-
-	// discard early data
-	$data = discard_early_data($data, $days);
-
-	// sort by key, but we only want values
-	uksort($data, 'cmp_time');
-	$graph['subheading'] = format_subheading_values($graph, $data);
-	$graph['last_updated'] = $last_updated;
-
-	if (count($data) > 1) {
-		render_linegraph_date($graph, array_values($data));
-	} else {
-		if ($user_id == get_site_config('system_user_id')) {
-			render_text($graph, "Invalid balance type.");	// or there is no data to display
-		} else {
-			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
-						<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
-		}
-	}
+		), $user_id, 'render_graph_return_currency');
 
 }
 
-// TODO refactor with render_balances_graph
+function render_graph_return_currency($exchange, $args) { return strtoupper($args['currency']); }
+
 function render_balances_composition_graph($graph, $currency, $user_id) {
 
-	$data = array();
-	$last_updated = false;
 	$days = get_graph_days($graph);
 	$extra_days = extra_days_necessary($graph);
-	$exchanges_found = array();
-	$maximum_balances = array();	// only used to check for non-zero accounts
 
 	$sources = array(
 		// we can't LIMIT by days here, because we may have many accounts for one exchange
@@ -370,15 +329,30 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 			user_id=:user_id ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
+	render_sources_graph($graph, $sources, array('currency' => $currency), $user_id, 'get_exchange_name', false /* $has_subheadings */);
+}
+
+/**
+ * Renders a collection of $sources with a given set of arguments $args, a user ID $user_id
+ * and a heading callback function $get_heading_title.
+ */
+function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_title /* callback */, $has_subheadings = true) {
+
+	$data = array();
+	$last_updated = false;
+	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
+	$exchanges_found = array();
+	$maximum_balances = array();	// only used to check for non-zero accounts
+
 	$data_temp = array();
 	$hide_missing_data = !require_get("debug_show_missing_data", false);
 	$latest = array();
 	foreach ($sources as $source) {
 		$q = db()->prepare($source['query']);
-		$q->execute(array(
-			'user_id' => $user_id,
-			'currency' => $currency,
-		));
+		$q_args = $args;
+		$q_args['user_id'] = $user_id;
+		$q->execute($q_args);
 		while ($ticker = $q->fetch()) {
 			$key = date('Y-m-d', strtotime($ticker[$source['key']]));
 			if (!isset($data_temp[$key])) {
@@ -423,7 +397,7 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 	ksort($exchanges_found);
 	foreach ($exchanges_found as $key => $ignored) {
 		$headings[] = array(
-			'title' => get_exchange_name($key),
+			'title' => $get_heading_title($key, $args),
 			'line_width' => 2,
 			'color' => default_chart_color($i++),
 		);
@@ -454,6 +428,17 @@ function render_balances_composition_graph($graph, $currency, $user_id) {
 		}
 	}
 
+	// calculate technicals
+	$data = calculate_technicals($graph, $data);
+
+	// discard early data
+	$data = discard_early_data($data, $days);
+
+	// sort by key, but we only want values
+	uksort($data, 'cmp_time');
+	if ($has_subheadings) {
+		$graph['subheading'] = format_subheading_values($graph, $data);
+	}
 	$graph['last_updated'] = $last_updated;
 
 	if (count($data) > 1) {
