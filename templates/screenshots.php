@@ -30,7 +30,7 @@
 			'url3' => 'img/screenshots/profile_securities.png',
 			'text3' => 'Premium users can also access an automatically-generated page listing all of their securities and their current market values.',
 			'url4' => 'img/screenshots/your_currencies.png',
-			'text4' => 'All users can also access a new "Your Currencies" page, displaying all of your current balances for each currency.',
+			'text4' => 'All users can also access a "Your Currencies" report page, displaying your most recent balances for each currency;<br> and a "Your Hashrates" report page, displaying all of your most recent hashrates.',
 		),
 		'profile_historical' => array(
 			'title' => 'Historical',

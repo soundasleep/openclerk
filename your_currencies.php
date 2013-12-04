@@ -116,7 +116,21 @@ $sum = 0;
 foreach ($data as $exchange => $balance) {
 	$sum += $balance; ?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
-		<td><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></td>
+		<td><?php
+			if ($exchange == 'blockchain') {
+				echo "<a href=\"" . htmlspecialchars(url_for('wizard_accounts_addresses#wizard_' . $currency)) . "\">";
+			}
+			if ($exchange == 'offsets') {
+				echo "<a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">";
+			}
+			echo htmlspecialchars(get_exchange_name($exchange));
+			if ($exchange == 'blockchain') {
+				echo "</a>";
+			}
+			if ($exchange == 'offsets') {
+				echo "</a>";
+			}
+		?></td>
 		<td><?php echo recent_format_html($last_updated[$exchange]); ?></td>
 		<td class="number"><?php echo currency_format($currency, $balance, 4); ?></td>
 	</tr>
