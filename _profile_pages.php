@@ -15,7 +15,10 @@
 		$args['demo'] = require_get("demo");
 	} ?>
 	<li class="page_tabcurrencies<?php if (isset($your_currencies) && $your_currencies) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('your_currencies', $args)); ?>">
-		Your Currencies <span class="new">new</span>
+		Your Currencies
+	</a></li>
+	<li class="page_tabcurrencies<?php if (isset($your_hashrates) && $your_hashrates) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('your_hashrates', $args)); ?>">
+		Your Hashrates <span class="new">new</span>
 	</a></li>
 	<?php
 	$args = array('securities' => 1);

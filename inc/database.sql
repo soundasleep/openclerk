@@ -1856,3 +1856,6 @@ ALTER TABLE securities_havelock ADD is_disabled tinyint not null default 0;
 ALTER TABLE securities_havelock ADD failures tinyint not null default 0;
 ALTER TABLE securities_havelock ADD first_failure timestamp null;
 ALTER TABLE securities_havelock ADD INDEX(is_disabled);
+
+-- fix Eligius pool hashrates measuring in BTC not LTC
+UPDATE hashrates SET currency='btc' WHERE exchange='eligius' AND currency='ltc';
