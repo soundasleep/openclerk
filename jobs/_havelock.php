@@ -18,7 +18,7 @@ function havelock_query($url, array $req = array()) {
 	}
 	$temp = json_decode($res, true);
 	if (is_array($temp) && !$temp) {
-		throw new ExternalAPIException("No ticket data received");
+		throw new ExternalAPIException("Havelock API returned an empty array");
 	}
 	$dec = crypto_json_decode($res);
 	if (isset($dec['message'])) {

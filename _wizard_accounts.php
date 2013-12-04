@@ -17,8 +17,10 @@ foreach (account_data_grouped() as $label => $data) {
 		if (isset($value['wizard']) && $value['wizard'] == $account_type['wizard']) {
 			// we've found a valid account type
 			$account_data = get_accounts_wizard_config($key);
-			$add_types[] = $key;
-			$add_type_names[$key] = get_exchange_name($key) . (isset($value['suffix']) ? $value['suffix'] : "");
+			if (!(isset($value['disabled']) && $value['disabled'])) {
+				$add_types[] = $key;
+				$add_type_names[$key] = get_exchange_name($key) . (isset($value['suffix']) ? $value['suffix'] : "");
+			}
 
 			$q = db()->prepare("SELECT * FROM " . $account_data['table'] . "
 				WHERE user_id=? ORDER BY title ASC");

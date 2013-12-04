@@ -19,6 +19,9 @@ foreach (account_data_grouped() as $label => $data) {
 		if ($key == require_post("type")) {
 			// we've found a valid account type
 			$account_data = get_accounts_wizard_config($key);
+			if (isset($value['disabled'])) {
+				$account_data['disabled'] = $value['disabled'];
+			}
 		}
 	}
 }
@@ -71,6 +74,9 @@ if (require_post("add", false)) {
 			$query .= ", $key=?";
 			$args[] = require_post($key);
 		}
+	}
+	if (isset($account_data['disabled']) && $account_data['disabled']) {
+		$errors[] = "Cannot add a new account; that account type is disabled.";
 	}
 	if (!is_valid_title(require_post("title", false))) {
 		$errors[] = "That is not a valid title.";
@@ -136,6 +142,8 @@ if (require_post('test', false) && require_post('id', false)) {
 
 	if ($job = $q->fetch()) {
 		$errors[] = "Cannot create a " . htmlspecialchars($account_data['title']) . " test, because you already have a " . get_exchange_name($job['job_type']) . " test pending.";
+	} else if (isset($account_data['disabled']) && $account_data['disabled']) {
+		$errors[] = "Cannot test that job; that account type is disabled.";
 	} else {
 		$q = db()->prepare("INSERT INTO jobs SET
 			job_type=:job_type,
@@ -156,14 +164,18 @@ if (require_post('test', false) && require_post('id', false)) {
 
 // process 'enable'
 if (require_post('enable', false) && require_post('id', false)) {
-	// reset all failure fields
-	$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=0,first_failure=NULL,failures=0 WHERE id=? AND user_id=?");
-	$q->execute(array(require_post("id"), user_id()));
+	if (isset($account_data['disabled']) && $account_data['disabled']) {
+		$errors[] = "Cannot enable that account; that account type is disabled.";
+	} else {
+		// reset all failure fields
+		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=0,first_failure=NULL,failures=0 WHERE id=? AND user_id=?");
+		$q->execute(array(require_post("id"), user_id()));
 
-	$messages[] = "Enabled " . htmlspecialchars($account_data['title']) . ".";
+		$messages[] = "Enabled " . htmlspecialchars($account_data['title']) . ".";
 
-	set_temporary_messages($messages);
-	redirect(url_for(require_post("callback")));
+		set_temporary_messages($messages);
+		redirect(url_for(require_post("callback")));
+	}
 
 }
 

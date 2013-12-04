@@ -325,10 +325,6 @@ try {
 			require(__DIR__ . "/jobs/individual_btct.php");
 			break;
 
-		case "individual_bitfunder":
-			require(__DIR__ . "/jobs/individual_bitfunder.php");
-			break;
-
 		case "individual_cryptostocks":
 			require(__DIR__ . "/jobs/individual_cryptostocks.php");
 			break;

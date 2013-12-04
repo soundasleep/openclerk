@@ -1864,3 +1864,48 @@ UPDATE hashrates SET currency='btc' WHERE exchange='eligius' AND currency='ltc';
 ALTER TABLE summaries DROP last_queue;
 DELETE FROM jobs WHERE job_type='summary' AND is_executed=0;
 
+----------------------------------------------------------------------------
+-- upgrade statements from 0.13.1 to 0.14
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+-- make individual securities support failures
+ALTER TABLE accounts_individual_796 ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_individual_796 ADD failures tinyint not null default 0;
+ALTER TABLE accounts_individual_796 ADD first_failure timestamp null;
+ALTER TABLE accounts_individual_796 ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_individual_bitfunder ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_individual_bitfunder ADD failures tinyint not null default 0;
+ALTER TABLE accounts_individual_bitfunder ADD first_failure timestamp null;
+ALTER TABLE accounts_individual_bitfunder ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_individual_btct ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_individual_btct ADD failures tinyint not null default 0;
+ALTER TABLE accounts_individual_btct ADD first_failure timestamp null;
+ALTER TABLE accounts_individual_btct ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_individual_cryptostocks ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_individual_cryptostocks ADD failures tinyint not null default 0;
+ALTER TABLE accounts_individual_cryptostocks ADD first_failure timestamp null;
+ALTER TABLE accounts_individual_cryptostocks ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_individual_cryptotrade ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_individual_cryptotrade ADD failures tinyint not null default 0;
+ALTER TABLE accounts_individual_cryptotrade ADD first_failure timestamp null;
+ALTER TABLE accounts_individual_cryptotrade ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_individual_havelock ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_individual_havelock ADD failures tinyint not null default 0;
+ALTER TABLE accounts_individual_havelock ADD first_failure timestamp null;
+ALTER TABLE accounts_individual_havelock ADD INDEX(is_disabled);
+
+ALTER TABLE accounts_individual_litecoinglobal ADD is_disabled tinyint not null default 0;
+ALTER TABLE accounts_individual_litecoinglobal ADD failures tinyint not null default 0;
+ALTER TABLE accounts_individual_litecoinglobal ADD first_failure timestamp null;
+ALTER TABLE accounts_individual_litecoinglobal ADD INDEX(is_disabled);
+
+-- removing bitfunder
+DELETE FROM securities_update WHERE exchange='bitfunder';
+UPDATE accounts_bitfunder SET is_disabled=1;
+UPDATE accounts_individual_bitfunder SET is_disabled=1;

@@ -29,10 +29,6 @@ switch ($exchange['exchange']) {
 		require(__DIR__ . "/securities_update/havelock.php");
 		break;
 
-	case "bitfunder":
-		require(__DIR__ . "/securities_update/bitfunder.php");
-		break;
-
 	case "eligius":
 		require(__DIR__ . "/securities_update/eligius.php");
 		break;

@@ -107,13 +107,12 @@ $standard_jobs = array(
 	array('table' => 'accounts_coinhuntr', 'type' => 'coinhuntr', 'failure' => true),
 	array('table' => 'accounts_eligius', 'type' => 'eligius', 'failure' => true),		// for hashrates; balance is handled by securities_update[eligius]
 	array('table' => 'accounts_lite_coinpool', 'type' => 'lite_coinpool', 'failure' => true),
-	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal'),
-	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct'),
-	array('table' => 'accounts_individual_bitfunder', 'type' => 'individual_bitfunder'),
-	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks'),
-	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock'),
-	array('table' => 'accounts_individual_cryptotrade', 'type' => 'individual_crypto-trade'),
-	array('table' => 'accounts_individual_796', 'type' => 'individual_796'),
+	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
+	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),
+	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),
+	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
+	array('table' => 'accounts_individual_cryptotrade', 'type' => 'individual_crypto-trade', 'failure' => true),
+	array('table' => 'accounts_individual_796', 'type' => 'individual_796', 'failure' => true),
 	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
