@@ -4,7 +4,7 @@ require(__DIR__ . "/inc/global.php");
 require(__DIR__ . "/inc/countries.php");
 
 // only permit POST for some variables
-$email = require_post("email", require_get("email", false));
+$email = trim(require_post("email", require_get("email", false)));
 $name = require_post("name", require_get("name", false));
 $agree = require_post("agree", require_get("agree", false));
 $openid = require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));

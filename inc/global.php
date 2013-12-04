@@ -526,10 +526,13 @@ function request_url() {
 }
 
 /**
- * Very basic verification function: It needs to have a dot, and an at sign.
+ * Uses PHP's filter_var() to validate e-mail addresses, and also ensures the e-mail address
+ * is shorter than 255 characters (limit in our database for e-mail addresses).
+ *
+ * TODO support UTF-8 email addresses.
  */
 function is_valid_email($e) {
-	return strpos($e, ".") !== false && strpos($e, "@") !== false;
+	return strlen($e) <= 255 && filter_var($e, FILTER_VALIDATE_EMAIL);
 }
 
 /**
