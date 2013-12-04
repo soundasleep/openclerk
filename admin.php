@@ -25,6 +25,7 @@ page_header("Status", "page_admin", array('common_js' => true, 'jquery' => true,
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_financial")); ?>">Financial report</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_users")); ?>">Users report</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_subscribe")); ?>">Pending subscription requests</a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for("admin_user_list")); ?>">Users administration</a></li>
 </ul>
 
 <table class="standard">

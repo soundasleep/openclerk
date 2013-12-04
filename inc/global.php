@@ -130,6 +130,11 @@ class DebugPDOWrapper {
 		return $result;
 	}
 
+	public function rowCount() {
+		// just pass it on, don't time it
+		return $this->wrap->rowCount();
+	}
+
 	/**
 	 * Return a string of current (relevant) stats, and reset these statistics count.
 	 */
