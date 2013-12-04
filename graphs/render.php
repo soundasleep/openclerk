@@ -21,7 +21,7 @@ function calculate_technicals($graph, $data) {
 	$original_rows = count($data[0]);
 
 	if (count($data) <= 1) {
-		throw new GraphException("Cannot calculate technicals for a graph with no data");
+		throw new GraphException("Cannot calculate technicals for graph '" . htmlspecialchars($graph['graph_type']) . "' with no data");
 	}
 
 	// need to sort data by date
