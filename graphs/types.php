@@ -309,6 +309,8 @@ function graph_types() {
 		'composition_ftc_table' => 'composition_ltc_table.png',
 		'composition_ppc_table' => 'composition_ltc_table.png',
 		'composition_nvc_table' => 'composition_ltc_table.png',
+		'composition_btc_proportional' => 'composition_btc_proportional.png',
+		'composition_ltc_proportional' => 'composition_ltc_proportional.png',
 		'ticker_matrix' => 'ticker_matrix.png',
 	);
 	$data = add_example_images($data, $images);
