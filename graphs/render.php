@@ -534,29 +534,30 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 	}
 	$data = $data_temp;
 
-	// calculate technicals
-	$data = calculate_technicals($graph, $data);
-
-	// discard early data
-	$data = discard_early_data($data, $days);
-
-	// sort by key, but we only want values
-	// we also need to sort by time *before* calculating subheadings
-	uksort($data, 'cmp_time');
-	if ($has_subheadings) {
-		if ($has_subheadings == 'last_total') {
-			$graph['subheading'] = format_subheading_values_subtotal($graph, $data);
-		} else {
-			$graph['subheading'] = format_subheading_values($graph, $data);
-		}
-	}
-	$graph['last_updated'] = $last_updated;
-
 	if (count($data) > 1) {
+		// calculate technicals
+		// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
+		$data = calculate_technicals($graph, $data);
+
+		// discard early data
+		$data = discard_early_data($data, $days);
+
+		// sort by key, but we only want values
+		// we also need to sort by time *before* calculating subheadings
+		uksort($data, 'cmp_time');
+		if ($has_subheadings) {
+			if ($has_subheadings == 'last_total') {
+				$graph['subheading'] = format_subheading_values_subtotal($graph, $data);
+			} else {
+				$graph['subheading'] = format_subheading_values($graph, $data);
+			}
+		}
+		$graph['last_updated'] = $last_updated;
+
 		render_linegraph_date($graph, array_values($data), $stacked);
 	} else {
 		if ($user_id == get_site_config('system_user_id')) {
-			render_text($graph, "Invalid balance type.");	// or there is no data to display
+			render_text($graph, "No data to display.");	// or Invalid balance type.
 		} else {
 			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
 						<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
