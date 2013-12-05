@@ -280,18 +280,19 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 		}
 	}
 
-	// calculate technicals
-	$data = calculate_technicals($graph, $data);
-
-	// discard early data
-	$data = discard_early_data($data, $days);
-
-	// sort by key, but we only want values
-	uksort($data, 'cmp_time');
-	$graph['subheading'] = format_subheading_values($graph, $data);
-	$graph['last_updated'] = $last_updated;
-
 	if (count($data) > 1) {
+		// calculate technicals
+		// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
+		$data = calculate_technicals($graph, $data);
+
+		// discard early data
+		$data = discard_early_data($data, $days);
+
+		// sort by key, but we only want values
+		uksort($data, 'cmp_time');
+		$graph['subheading'] = format_subheading_values($graph, $data);
+		$graph['last_updated'] = $last_updated;
+
 		render_linegraph_date($graph, array_values($data));
 	} else {
 		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated.
