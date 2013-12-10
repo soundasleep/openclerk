@@ -23,6 +23,9 @@ $divisor = 1e8;		// divide by 1e8 to get btc balance
 
 if (!is_numeric($balance)) {
 	crypto_log("Blockchain balance for " . htmlspecialchars($address['address']) . " is non-numeric: " . htmlspecialchars($balance));
+	if ($balance == "Checksum does not validate") {
+		throw new ExternalAPIException("Checksum does not validate");
+	}
 	throw new ExternalAPIException("Blockchain returned non-numeric balance");
 } else {
 	crypto_log("Blockchain balance for " . htmlspecialchars($address['address']) . ": " . ($balance / $divisor));
