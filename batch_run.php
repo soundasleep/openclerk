@@ -627,6 +627,11 @@ function crypto_json_decode($string, $message = false) {
 		if (strpos($string, 'DDoS protection by CloudFlare') !== false) {
 			throw new CloudFlareException('Throttled by CloudFlare' . ($message ? " $message" : ""));
 		}
+		if (strpos($string, 'CloudFlare') !== false) {
+			if (strpos($string, 'The origin web server timed out responding to this request.') !== false) {
+				throw new CloudFlareException('Cloudflare reported: The origin web server timed out responding to this request.');
+			}
+		}
 		if (substr($string, 0, 1) == "<") {
 			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON" . ($message ? " $message" : ""));
 		}

@@ -19,7 +19,7 @@ $balance = crypto_get_contents(crypto_wrap_url($account['api_url']));
 
 if (!is_numeric($balance)) {
 	crypto_log("$exchange balance for " . htmlspecialchars($account['api_url']) . " is non-numeric: " . htmlspecialchars($balance));
-	throw new ExternalAPIException("Generic API returned non-numeric balance");
+	throw new ExternalAPIException("Generic API returned non-numeric balance: " . htmlspecialchars(substr($balance, 0, 100)));
 } else {
 	crypto_log("$exchange balance for " . htmlspecialchars($account['api_url']) . ": " . $balance);
 }
