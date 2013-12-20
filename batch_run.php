@@ -635,6 +635,12 @@ function crypto_json_decode($string, $message = false) {
 		if (substr($string, 0, 1) == "<") {
 			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON" . ($message ? " $message" : ""));
 		}
+		if (strpos(strtolower($string), "invalid key") !== false) {
+			throw new ExternalAPIException("Invalid key" . ($message ? " $message" : ""));
+		}
+		if (!$string) {
+			throw new ExternalAPIException('Response was empty' . ($message ? " $message" : ""));
+		}
 		throw new ExternalAPIException('Invalid data received' . ($message ? " $message" : ""));
 	}
 	return $json;
