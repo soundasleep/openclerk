@@ -46,12 +46,7 @@ page_header("Status", "page_admin", array('common_js' => true, 'jquery' => true,
 		'jobs' => array('title' => 'Jobs', 'extra' => array('is_executed=0' => 'Pending')),
 		'outstanding_premiums' => array('title' => 'Premiums', 'extra' => array('is_paid=1' => 'Paid')),
 		'uncaught_exceptions' => array('title' => 'Uncaught exceptions'),
-		'summaries' => array('title' => 'Summaries'),
-		'graphs' => array('title' => 'Graphs'),
-		'graph_pages' => array('title' => 'Graph pages'),
 		'ticker' => array('title' => 'Ticker instances'),
-		'balances' => array('title' => 'Balance instances'),
-		'summary_instances' => array('title' => 'Summary instances'),
 	);
 	foreach ($summary as $key => $data) {
 		echo "<tr>";
