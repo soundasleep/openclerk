@@ -334,10 +334,10 @@ function render_balances_composition_graph($graph, $currency, $user_id, $stacked
 		// we can't LIMIT by days here, because we may have many accounts for one exchange
 		// first get summarised data
 		array('query' => "SELECT * FROM graph_data_balances WHERE user_id=:user_id AND currency=:currency
-			AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
+			AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date', 'balance_key' => 'balance_closing'),
 		// and then get more recent data
 		array('query' => "SELECT * FROM balances WHERE is_daily_data=1 AND currency=:currency
-			AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance'),
+			AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance'),
 		// also include blockchain balances
 		// first get summarised data
 		array('query' => "SELECT *, 'blockchain' AS exchange FROM graph_data_summary WHERE user_id=:user_id AND summary_type=CONCAT('blockchain', :currency) AND
@@ -370,18 +370,18 @@ function render_balances_btc_equivalent_graph($graph, $user_id, $stacked = false
 				// we can't LIMIT by days here, because we may have many accounts for one exchange
 				// first get summarised data
 				$sources[] = array('query' => "SELECT *, '$cur' AS exchange FROM graph_data_summary WHERE user_id=:user_id AND summary_type='totalbtc'
-					AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date', 'balance_key' => 'balance_closing');
+					AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date', 'balance_key' => 'balance_closing');
 				// and then get more recent data
 				$sources[] = array('query' => "SELECT *, '$cur' AS exchange FROM summary_instances WHERE is_daily_data=1 AND summary_type='totalbtc'
-					AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance');
+					AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance');
 			} else {
 				// we can't LIMIT by days here, because we may have many accounts for one exchange
 				// first get summarised data
 				$sources[] = array('query' => "SELECT *, '$cur' AS exchange FROM graph_data_summary WHERE user_id=:user_id AND summary_type='equivalent_btc_$cur'
-					AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date', 'balance_key' => 'balance_closing');
+					AND data_date > DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date', 'balance_key' => 'balance_closing');
 				// and then get more recent data
 				$sources[] = array('query' => "SELECT *, '$cur' AS exchange FROM summary_instances WHERE is_daily_data=1 AND summary_type='equivalent_btc_$cur'
-					AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance');
+					AND user_id=:user_id AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance');
 			}
 		}
 	}
@@ -606,7 +606,7 @@ function render_external_graph($graph) {
 			ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at', 'balance_key' => 'balance'),
 			*/
 		array('query' => "SELECT * FROM external_status WHERE job_type=:job_type
-			AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days + 1) . " DAY)
+			AND created_at >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY)
 			ORDER BY is_recent ASC, created_at DESC", 'key' => 'created_at', 'balance_key' => 'balance'),
 	);
 
