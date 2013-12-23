@@ -368,6 +368,10 @@ try {
 			require(__DIR__ . "/jobs/ozcoin_btc.php");
 			break;
 
+		case "scryptpools":
+			require(__DIR__ . "/jobs/scryptpools.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
