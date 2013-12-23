@@ -256,7 +256,7 @@ span.status_loading { font-style: italic; padding-left: 20px; background: url('i
 tr.odd span.status_loading { background: url('img/spinning_odd.gif') top left no-repeat; }
 
 .address code { font-family: Consolas, Courier New, Courier, monospace; }
-.btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect, .nvc_address .inspect, .xpm_address .inspect, .trc_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
+.btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect, .nvc_address .inspect, .xpm_address .inspect, .trc_address .inspect, .dog_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
 .btc_address .inspect { background: url('img/blockchain.png') top left no-repeat; }
 .ltc_address .inspect { background: url('img/explorer1.png') top left no-repeat; }
 .ftc_address .inspect { background: url('img/feathercoin.png') top left no-repeat; }
@@ -264,8 +264,9 @@ tr.odd span.status_loading { background: url('img/spinning_odd.gif') top left no
 .nvc_address .inspect { background: url('img/novacoin.png') top left no-repeat; }
 .xpm_address .inspect { background: url('img/explorer_xpm.png') top left no-repeat; }
 .trc_address .inspect { background: url('img/explorer_trc.png') top left no-repeat; }
-.currency_name_btc, .currency_name_ltc, .currency_name_nmc, .currency_name_ftc, .currency_name_ppc, .currency_name_nvc, .currency_name_xpm, .currency_name_trc, .currency_name_ghs { background-position: top left; background-repeat: no-repeat; padding-left: 20px; } 
-input.currency_name_btc, input.currency_name_ltc, input.currency_name_nmc, input.currency_name_ftc, input.currency_name_ppc, input.currency_name_nvc, input.currency_name_xpm, input.currency_name_trc, input.currency_name_ghs { background-position: 2px 2px; background-repeat: no-repeat; padding: 2px 2px 2px 22px; } 
+.dog_address .inspect { background: url('img/dogechain.png') top left no-repeat; }
+.currency_name_btc, .currency_name_ltc, .currency_name_nmc, .currency_name_ftc, .currency_name_ppc, .currency_name_nvc, .currency_name_xpm, .currency_name_trc, .currency_name_ghs, .currency_name_dog { background-position: top left; background-repeat: no-repeat; padding-left: 20px; } 
+input.currency_name_btc, input.currency_name_ltc, input.currency_name_nmc, input.currency_name_ftc, input.currency_name_ppc, input.currency_name_nvc, input.currency_name_xpm, input.currency_name_trc, input.currency_name_ghs, input.currency_name_dog { background-position: 2px 2px; background-repeat: no-repeat; padding: 2px 2px 2px 22px; } 
 .currency_name_btc { background-image: url('img/bitcoin.png'); } 
 .currency_name_ltc { background-image: url('img/litecoin.png'); } 
 .currency_name_nmc { background-image: url('img/namecoin.png'); } 
@@ -274,6 +275,7 @@ input.currency_name_btc, input.currency_name_ltc, input.currency_name_nmc, input
 .currency_name_nvc { background-image: url('img/novacoin.png'); } 
 .currency_name_xpm { background-image: url('img/primecoin.png'); } 
 .currency_name_trc { background-image: url('img/terracoin.png'); } 
+.currency_name_dog { background-image: url('img/dogecoin.png'); font-family: 'Comic Sans MS'; font-size: 90%; } 
 .currency_name_ghs { background-image: url('img/ghs.png'); } 
 .help_name_twitter { background: url('img/twitter.png') top left no-repeat; padding-left: 20px; } 
 .help_name_facebook { background: url('img/facebook.png') top left no-repeat; padding-left: 20px; } 

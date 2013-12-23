@@ -2014,3 +2014,44 @@ ALTER TABLE users ADD disable_graph_refresh tinyint not null default 0;
 
 INSERT INTO exchanges SET name='coins-e';
 
+-- adding support for dogecoin
+-- dogecoin supports up to 100 billion (100,000,000,000) with 8 dp, and volume 
+-- can be higher than this, therefore need higher precision (at least 12+8)
+ALTER TABLE balances MODIFY balance decimal(24,8) not null;
+ALTER TABLE address_balances MODIFY balance decimal(24,8) not null;
+ALTER TABLE offsets MODIFY balance decimal(24,8) not null;
+ALTER TABLE ticker MODIFY last_trade decimal(24,8);
+ALTER TABLE ticker MODIFY buy decimal(24,8);
+ALTER TABLE ticker MODIFY sell decimal(24,8);
+ALTER TABLE ticker MODIFY volume decimal(24,8);
+ALTER TABLE summary_instances MODIFY balance decimal(24,8);
+ALTER TABLE outstanding_premiums MODIFY balance decimal(24,8);
+ALTER TABLE graph_data_ticker MODIFY buy decimal(24,8);
+ALTER TABLE graph_data_ticker MODIFY sell decimal(24,8);
+ALTER TABLE graph_data_ticker MODIFY volume decimal(24,8);
+ALTER TABLE graph_data_ticker MODIFY last_trade_min decimal(24,8);
+ALTER TABLE graph_data_ticker MODIFY last_trade_opening decimal(24,8);
+ALTER TABLE graph_data_ticker MODIFY last_trade_closing decimal(24,8);
+ALTER TABLE graph_data_ticker MODIFY last_trade_max decimal(24,8);
+ALTER TABLE graph_data_summary MODIFY balance_min decimal(24,8);
+ALTER TABLE graph_data_summary MODIFY balance_opening decimal(24,8);
+ALTER TABLE graph_data_summary MODIFY balance_closing decimal(24,8);
+ALTER TABLE graph_data_summary MODIFY balance_max decimal(24,8);
+ALTER TABLE graph_data_balances MODIFY balance_min decimal(24,8);
+ALTER TABLE graph_data_balances MODIFY balance_opening decimal(24,8);
+ALTER TABLE graph_data_balances MODIFY balance_closing decimal(24,8);
+ALTER TABLE graph_data_balances MODIFY balance_max decimal(24,8);
+ALTER TABLE outstanding_premiums MODIFY paid_balance decimal(24,8) default 0;
+
+DROP TABLE IF EXISTS dogecoin_blocks;
+
+CREATE TABLE dogecoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

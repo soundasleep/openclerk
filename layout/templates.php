@@ -227,6 +227,10 @@ function trc_address($address) {
 	return "<span class=\"address trc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("trc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 }
 
+function dog_address($address) {
+	return "<span class=\"address dog_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("dog_address_url") . $address) . "\" title=\"Inspect with DogeChain\">?</a></span>";
+}
+
 function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {
 	$currency = get_currency_abbr($currency_code);
 

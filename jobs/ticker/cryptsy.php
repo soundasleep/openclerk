@@ -10,6 +10,7 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'dog'), // all flipped around
 	// currencies not yet exposed to users or public
 	array('cur1' => 'btc', 'cur2' => 'ixc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'mnc'), // all flipped around
@@ -28,11 +29,11 @@ $first = true;
 foreach ($rates_list as $rl) {
 	$cur1 = $rl['cur1'];
 	$cur2 = $rl['cur2'];
-	if (!isset($rates['return']['markets'][strtoupper($cur2) . "/" . strtoupper($cur1)])) {
+	if (!isset($rates['return']['markets'][get_currency_abbr($cur2) . "/" . get_currency_abbr($cur1)])) {
 		throw new ExternalAPIException("No $cur2/$cur1 rate for " . $exchange['name']);
 	}
 
-	$market = $rates['return']['markets'][strtoupper($cur2) . "/" . strtoupper($cur1)];
+	$market = $rates['return']['markets'][get_currency_abbr($cur2) . "/" . get_currency_abbr($cur1)];
 	$data = array(
 		'last_trade' => $market['lasttradeprice'],
 		'volume' => $market['volume'],

@@ -581,7 +581,7 @@ function number_format_precision($n, $precision) {
 	return number_format_autoprecision($n, $precision);
 }
 
-function number_format_autoprecision($n, $precision = 8) {
+function number_format_autoprecision($n, $precision = 8, $dec_point = ".", $thousands_sep = ",") {
 	// find the lowest precision that we need
 	for ($i = 0; $i < $precision - 1; $i++) {
 		if (number_format($n, (int) $i, ".", "") == $n) {
@@ -590,7 +590,7 @@ function number_format_autoprecision($n, $precision = 8) {
 		}
 	}
 
-	return number_format($n, $precision);
+	return number_format($n, $precision, $dec_point, $thousands_sep);
 }
 
 /**

@@ -156,6 +156,10 @@ try {
 			require(__DIR__ . "/jobs/terracoin.php");
 			break;
 
+		case "dogecoin":
+			require(__DIR__ . "/jobs/dogecoin.php");
+			break;
+
 		case "litecoin_block":
 			require(__DIR__ . "/jobs/litecoin_block.php");
 			break;
@@ -178,6 +182,10 @@ try {
 
 		case "terracoin_block":
 			require(__DIR__ . "/jobs/terracoin_block.php");
+			break;
+
+		case "dogecoin_block":
+			require(__DIR__ . "/jobs/dogecoin_block.php");
 			break;
 
 		case "generic":
