@@ -364,6 +364,10 @@ try {
 			require(__DIR__ . "/jobs/ozcoin_ltc.php");
 			break;
 
+		case "ozcoin_btc":
+			require(__DIR__ . "/jobs/ozcoin_btc.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

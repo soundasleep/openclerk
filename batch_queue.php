@@ -117,6 +117,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_hashfaster_ltc', 'type' => 'hashfaster_ltc', 'failure' => true),
 	array('table' => 'accounts_triplemining', 'type' => 'triplemining', 'failure' => true),
 	array('table' => 'accounts_ozcoin_ltc', 'type' => 'ozcoin_ltc', 'failure' => true),
+	array('table' => 'accounts_ozcoin_btc', 'type' => 'ozcoin_btc', 'failure' => true),
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),
 	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),
