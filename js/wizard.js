@@ -2,22 +2,6 @@
  * Wizard page 'currencies': initialise currency selections
  */
 $(document).ready(function() {
-	$("#page_wizard_currencies .wizard .exchanges").hide();
-
-	// hide/show possible exchanges
-	var callback = function(event) {
-		var parent = event.target;
-
-		$(parent.parentNode).find(".exchanges").toggle();
-
-		if ($(parent).hasClass("collapsed")) {
-			$(parent).removeClass("collapsed");
-		} else {
-			$(parent).addClass("collapsed");
-		}
-	};
-	$("#page_wizard_currencies a.set-exchange").click(callback);
-
 	// update exchange text
 	var callback2 = function(event) {
 		var parent = event.target;
@@ -156,24 +140,6 @@ $(document).ready(function() {
 	$("form.wizard-add-account select#type").keypress(callback);	// for keyboard navigation
 	// call callback to initialise first field
 	$("form.wizard-add-account select#type").change();
-});
-
-/**
- * Wizard page 'reports': initialise toggles
- */
-$(document).ready(function() {
-	var callback = function(event) {
-		var parent = $(event.target);
-		if ($(parent).hasClass("collapsed")) {
-			$(parent).removeClass("collapsed");
-			$(parent.parent(0)).find(".report-help-details").removeClass("collapsed");
-		} else {
-			$(parent).addClass("collapsed");
-			$(parent.parent(0)).find(".report-help-details").addClass("collapsed");
-		}
-	};
-
-	$("#page_wizard_reports .report-help").click(callback);
 });
 
 /**

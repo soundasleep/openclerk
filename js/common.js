@@ -54,3 +54,27 @@ function initialise_tabs(tab_query) {
 		$($(tab_query).find(".tab_groups > li")[0]).show();
 	}
 }
+
+/**
+ * A basic implementation of collapsing content.
+ */
+$(document).ready(function() {
+
+	// hide by default
+	$(".collapse-target").hide();
+
+	// enable toggle
+	var callback = function(event) {
+		var parent = event.target;
+
+		$(parent.parentNode).find(".collapse-target").toggle();
+
+		if ($(parent).hasClass("collapsed")) {
+			$(parent).removeClass("collapsed");
+		} else {
+			$(parent).addClass("collapsed");
+		}
+	};
+	$(".collapse-link").click(callback);
+
+});

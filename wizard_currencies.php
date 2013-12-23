@@ -10,7 +10,7 @@ require(__DIR__ . "/inc/global.php");
 require_login();
 
 require(__DIR__ . "/layout/templates.php");
-page_header("Currency Preferences", "page_wizard_currencies", array('jquery' => true, 'js' => 'wizard', 'class' => 'page_accounts'));
+page_header("Currency Preferences", "page_wizard_currencies", array('jquery' => true, 'js' => array('common', 'wizard'), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -73,9 +73,9 @@ while ($s = $q->fetch()) {
 		<label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
 
 		<div class="exchange"><span class="exchange-text">Exchange: <?php echo htmlspecialchars(get_exchange_name(get_default_currency_exchange($c))); ?></span>
-			<a class="set-exchange collapsed">+</a>
+			<a class="collapse-link collapsed">+</a>
 
-			<div class="exchanges">
+			<div class="collapse-target">
 			Instead of the default exchange, use the following exchanges:
 			<ul>
 			<?php foreach ($exchanges as $exchange => $key) {

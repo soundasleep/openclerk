@@ -18,7 +18,7 @@ require(__DIR__ . "/inc/global.php");
 require_login();
 
 require(__DIR__ . "/layout/templates.php");
-page_header("Report Preferences", "page_wizard_reports", array('jquery' => true, 'js' => 'wizard', 'class' => 'page_accounts'));
+page_header("Report Preferences", "page_wizard_reports", array('jquery' => true, 'js' => array('common', 'wizard'), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -88,9 +88,9 @@ function print_graph_types($managed, $is_auto = false) {
 	global $graphs, $user;
 
 ?>
-	<a class="report-help collapsed">?</a>
+	<a class="collapse-link collapsed report-help">?</a>
 
-	<div class="report-help-details collapsed">
+	<div class="collapse-target report-help-details">
 		This will display the following graphs, based on <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">your currencies</a> and <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts</a>:
 		<ul class="managed-graphs">
 		<?php foreach ($managed as $graph_key => $graph_data) { ?>
