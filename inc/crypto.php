@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "usd", "eur", "cad", "aud", "nzd", "cny", "ghs");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "ghs");
 }
 
 function get_all_hashrate_currencies() {
@@ -14,7 +14,7 @@ function get_all_hashrate_currencies() {
 }
 
 function get_new_supported_currencies() {
-	return array("trc", "xpm");
+	return array("gbp");
 }
 
 function get_all_cryptocurrencies() {
@@ -50,6 +50,7 @@ function get_currency_name($n) {
 		case "cad": return "Canadian dollar";
 		case "cny": return "Chinese yuan";
 		case "eur": return "Euro";
+		case "gbp":	return "Pound sterling";
 		case "ghs": return "CEX.io GHS";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
 	}
@@ -155,7 +156,7 @@ function get_exchange_pairs() {
 		"cexio" => array(array('btc', 'ghs')),
 		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'), array('btc', 'xpm'), array('btc', 'trc')),
-		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc')),
+		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad')),
 		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc')),
 		"virtex" => array(array('cad', 'btc')),
@@ -164,10 +165,7 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"btce_btctrc",
-		"cryptsy_btctrc",
-		"crypto-trade_btctrc",
-		"vircurex_btctrc",
+		"mtgox_gbpbtc",
 	);
 }
 
@@ -228,7 +226,7 @@ function get_supported_wallets() {
 		"litepooleu" => array('ltc', 'hash'),
 		"kattare" => array('ltc', 'hash'),
 		"ltcmineru" => array('ltc'),
-		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad', 'nzd', 'cny'),
+		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad', 'nzd', 'cny', 'gbp'),
 		"miningforeman" => array('ltc', 'ftc'),
 		"poolx" => array('ltc', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
@@ -275,6 +273,7 @@ function get_summary_types() {
 		'summary_eur_mtgox' => array('currency' => 'eur', 'key' => 'eur_mtgox', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_eur_vircurex' => array('currency' => 'eur', 'key' => 'eur_vircurex', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)', 'exchange' => 'vircurex'),
 		'summary_eur_crypto-trade' => array('currency' => 'eur', 'key' => 'eur_crypto-trade', 'title' => get_currency_name('eur') . " (converted through Crypto-Trade)", 'short_title' => 'EUR (Crypto-Trade)', 'exchange' => 'crypto-trade'),
+		'summary_gbp_mtgox' => array('currency' => 'gbp', 'key' => 'gbp_mtgox', 'title' => get_currency_name('gbp') . " (converted through Mt.Gox)", 'short_title' => 'GBP (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_aud_mtgox' => array('currency' => 'aud', 'key' => 'aud_mtgox', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_cad_mtgox' => array('currency' => 'usd', 'key' => 'cad_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_cad_virtex' => array('currency' => 'usd', 'key' => 'cad_virtex', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)', 'exchange' => 'virtex'),
@@ -301,6 +300,7 @@ function get_default_currency_exchange($c) {
 		case "usd": return "mtgox";
 		case "nzd": return "bitnz";
 		case "eur": return "btce";
+		case "gbp": return "mtgox";
 		case "aud": return "mtgox";
 		case "cad": return "virtex";
 		case "cny": return "btcchina";
@@ -326,6 +326,7 @@ function get_total_conversion_summary_types() {
 		'eur_mtgox' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)'),
 		'eur_vircurex' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)'),
 		'eur_crypto-trade' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Crypto-Trade)", 'short_title' => 'EUR (Crypto-Trade)'),
+		'gbp_mtgox' => array('currency' => 'gbp', 'title' => get_currency_name('gbp') . " (converted through Mt.Gox)", 'short_title' => 'GBP (Mt.Gox)'),
 		'aud_mtgox' => array('currency' => 'aud', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)'),
 		'cad_mtgox' => array('currency' => 'cad', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)'),
 		'cad_virtex' => array('currency' => 'cad', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)'),
