@@ -16,7 +16,9 @@ if (preg_match("#^[0-9]+{#", $contents)) {
 }
 $data = crypto_json_decode($contents, "on getuserbalance");
 if (!isset($data['getuserbalance']['data']['confirmed'])) {
+	// necessary check only for HashFaster LTC pool
 	if (!isset($data['getuserbalance']['confirmed'])) {
+
 		// this will also trigger if 'confirmed' is null (isset() also checks it is not null)
 		if (strpos($contents, '"confirmed":') !== false) {
 			// if 'confirmed' is actually in the response,
@@ -26,6 +28,7 @@ if (!isset($data['getuserbalance']['data']['confirmed'])) {
 		} else {
 			throw new ExternalAPIException("No confirmed balance found");
 		}
+
 	} else {
 		insert_new_balance($job, $account, $exchange, $currency, $data['getuserbalance']['confirmed']);
 	}
@@ -36,6 +39,7 @@ if (!isset($data['getuserbalance']['data']['confirmed'])) {
 // get hashrate
 $data = crypto_json_decode(crypto_get_contents(crypto_wrap_url($api_url . "action=getuserstatus&api_key=" . $account['api_key']), isset($curl_options) ? $curl_options : array()), "on getuserstatus");
 if (!isset($data['getuserstatus']['data']['hashrate'])) {
+	// necessary check only for HashFaster LTC pool
 	if (!isset($data['getuserstatus']['hashrate'])) {
 		throw new ExternalAPIException("No hashrate found");
 	} else {

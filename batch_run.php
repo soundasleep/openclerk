@@ -356,6 +356,10 @@ try {
 			require(__DIR__ . "/jobs/hashfaster_ltc.php");
 			break;
 
+		case "hashfaster_ftc":
+			require(__DIR__ . "/jobs/hashfaster_ftc.php");
+			break;
+
 		case "triplemining":
 			require(__DIR__ . "/jobs/triplemining.php");
 			break;

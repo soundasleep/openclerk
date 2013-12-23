@@ -141,6 +141,7 @@ function get_all_exchanges() {
 		"dogechainpool" =>	"Dogechain Pool",
 		"hashfaster" =>		"HashFaster",	// for labels, accounts actually use hashfaster_cur
 		"hashfaster_ltc" =>	"HashFaster",
+		"hashfaster_ftc" =>	"HashFaster",
 		"triplemining" =>	"TripleMining",
 		"ozcoin" =>			"Ozcoin",	// for labels, accounts actually use hashfaster_cur
 		"ozcoin_ltc" =>		"Ozcoin",
@@ -249,7 +250,7 @@ function get_supported_wallets() {
 		"elitistjerks" => array('ltc', 'hash'),
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
-		"hashfaster" => array('ltc', 'hash'),
+		"hashfaster" => array('ltc', 'ftc', 'hash'),
 		"hypernova" => array('ltc', 'hash'),
 		"khore" => array('nvc', 'hash'),
 		"lite_coinpool" => array('ltc', 'hash'),
@@ -273,7 +274,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("dogepoolpw", "elitistjerks", "dogechainpool", "hashfaster", "hashfaster_ltc", "triplemining", "ozcoin", "ozcoin_ltc", "ozcoin_btc", "scryptpools");
+	return array("dogepoolpw", "elitistjerks", "dogechainpool", "hashfaster", "hashfaster_ltc", "hashfaster_ftc", "triplemining", "ozcoin", "ozcoin_ltc", "ozcoin_btc", "scryptpools");
 }
 
 function crypto_address($currency, $address) {
@@ -427,6 +428,7 @@ function account_data_grouped() {
 			'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'hashfaster_ltc' => array('table' => 'accounts_hashfaster_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true),
+			'hashfaster_ftc' => array('table' => 'accounts_hashfaster_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true),
 			'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true),
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true),
@@ -533,6 +535,7 @@ function get_external_apis() {
 			'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
 			'dogechainpool' => '<a href="http://pool.dogechain.info/">Dogechain Pool</a>',
 			'hashfaster_ltc' => '<a href="http://ltc.hashfaster.com">HashFaster</a> (LTC)',
+			'hashfaster_ftc' => '<a href="http://ftc.hashfaster.com">HashFaster</a> (FTC)',
 			'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
 			'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">OzCoin</a> (LTC)',
 			'ozcoin_btc' => '<a href="http://ozco.in/">OzCoin</a> (BTC)',
@@ -982,6 +985,17 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_hashfaster_ltc',
 				'title' => 'HashFaster LTC account',
+				'khash' => true,
+				'title_key' => 'hashfaster',
+			);
+
+		case "hashfaster_ftc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_hashfaster_ftc_apikey'),
+				),
+				'table' => 'accounts_hashfaster_ftc',
+				'title' => 'HashFaster FTC account',
 				'khash' => true,
 				'title_key' => 'hashfaster',
 			);
@@ -1754,6 +1768,11 @@ function is_valid_dogechainpool_apikey($key) {
 }
 
 function is_valid_hashfaster_ltc_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_hashfaster_ftc_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
