@@ -176,6 +176,11 @@ $graph = array(
 				$status = "perfect";
 			}
 		}
+		if ($key == "pending_subscriptions") {
+			if ($value >= 90) {
+				$status = "bad";
+			}
+		}
 		?>
 	<tr>
 		<th><?php echo htmlspecialchars($key); ?></th>

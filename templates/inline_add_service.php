@@ -26,7 +26,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable public API yet at 
 	<li>Coinotron (on development list)</li>
 	<li>Cryptsy</li>
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
-	<li>Intersango</li>
+	<li>Intersango (registration is closed)</li>
 	<li>Safello</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
 </ul>
