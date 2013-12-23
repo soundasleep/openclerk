@@ -68,7 +68,7 @@ foreach ($accounts as $a) {
 <?php if (!isset($is_in_callback)) { ?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; echo $is_disabled ? " disabled": ""; ?>" id="<?php echo htmlspecialchars($row_element_id); ?>">
 <?php } ?>
-		<td><?php echo htmlspecialchars(get_exchange_name($a['exchange'])); ?></td>
+		<td><?php echo htmlspecialchars(get_exchange_name($a['exchange']) . (isset($account_type_data['suffix']) ? $account_type_data['suffix'] : "")); ?></td>
 		<td id="account<?php echo htmlspecialchars($a['id']); ?>" class="title">
 			<span><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></span>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
