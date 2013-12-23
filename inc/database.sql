@@ -2073,3 +2073,21 @@ CREATE TABLE accounts_dogepoolpw (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+DROP TABLE IF EXISTS accounts_elitistjerks;
+
+CREATE TABLE accounts_elitistjerks (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue datetime,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);
