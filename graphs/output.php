@@ -142,6 +142,8 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 	  ['<?php echo htmlspecialchars($key_label); ?>', '<?php echo htmlspecialchars($value_label); ?>'],
 	  <?php
 	  foreach ($data as $key => $value) {
+	    if ($key === 0)
+	      continue;
 		echo "[" . json_encode($key) . ", " . $callback($value) . "],";
 	  } ?>
 	]);
@@ -150,6 +152,18 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 //          title: '...'
 		legend: {position: 'none'},
 		backgroundColor: '#111',
+		<?php if (isset($data[0])) { ?>
+			colors: [
+				<?php
+				$i = 0;
+				foreach ($data[0] as $heading) {
+					if (isset($heading['color'])) {
+						echo json_encode($heading['color']);
+					}
+					echo ",";
+				} ?>
+			],
+		<?php } ?>
 		chartArea: { width: '75%', height: '75%' },
 	};
 

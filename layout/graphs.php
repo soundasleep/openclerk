@@ -254,6 +254,13 @@ function render_graph_actual($graph, $is_public) {
 			// sort data by balance
 			arsort($data);
 
+			// create headings with colours
+			$headings = array();
+			foreach ($data as $key => $value) {
+				$headings[strtolower($key)] = array('color' => default_chart_color(array_search(strtolower($key), get_all_currencies())));
+			}
+			$data[0] = $headings;
+
 			if ($data) {
 				render_pie_chart($graph, $data, 'Currency', 'BTC');
 			} else {

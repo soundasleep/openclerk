@@ -462,7 +462,8 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 		$headings[$key] = array(
 			'title' => $get_heading_title($key, $args),
 			'line_width' => 2,
-			'color' => default_chart_color($i++),
+			// if the key is a currency, use the same currency colour across all graphs
+			'color' => default_chart_color(in_array(strtolower($key), get_all_currencies()) ? array_search(strtolower($key), get_all_currencies()) : $i++),
 		);
 	}
 	$data[0] = $headings;
