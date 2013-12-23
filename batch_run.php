@@ -348,6 +348,10 @@ try {
 			require(__DIR__ . "/jobs/elitistjerks.php");
 			break;
 
+		case "dogechainpool":
+			require(__DIR__ . "/jobs/dogechainpool.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

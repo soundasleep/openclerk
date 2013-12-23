@@ -138,6 +138,7 @@ function get_all_exchanges() {
 		"coins-e" => 		"Coins-E",
 		"dogepoolpw" => 	"dogepool.pw",
 		"elitistjerks" =>	"Elitist Jerks",
+		"dogechainpool" =>	"Dogechain Pool",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -235,6 +236,7 @@ function get_supported_wallets() {
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc'),
 		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
+		"dogechainpool" => array('dog', 'hash'),
 		"dogepoolpw" => array('dog', 'hash'),
 		"eligius" => array('btc', 'hash'),		// BTC is paid directly to BTC address but also stored temporarily
 		"elitistjerks" => array('ltc', 'hash'),
@@ -260,7 +262,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("dogepoolpw", "elitistjerks");
+	return array("dogepoolpw", "elitistjerks", "dogechainpool");
 }
 
 function crypto_address($currency, $address) {
@@ -412,6 +414,7 @@ function account_data_grouped() {
 			'litecoinpool' => array('table' => 'accounts_litecoinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -512,6 +515,7 @@ function get_external_apis() {
 			'litecoinpool' => '<a href="https://www.litecoinpool.org/">litecoinpool.org</a>',
 			'dogepoolpw' => '<a href="http://dogepool.pw">dogepool.pw</a>',
 			'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
+			'dogechainpool' => '<a href="http://pool.dogechain.info/">Dogechain Pool</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -938,6 +942,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_elitistjerks_apikey'),
 				),
 				'table' => 'accounts_elitistjerks',
+				'khash' => true,
+			);
+
+		case "dogechainpool":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_dogechainpool_apikey'),
+				),
+				'table' => 'accounts_dogechainpool',
 				'khash' => true,
 			);
 
@@ -1661,6 +1674,11 @@ function is_valid_dogepoolpw_apikey($key) {
 }
 
 function is_valid_elitistjerks_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_dogechainpool_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
