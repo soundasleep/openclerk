@@ -160,8 +160,10 @@ $(document).ready(function() {
 			var targets = $(document).find(".graph_controls");
 			if (enabled) {
 				targets.show();
+				$("#page_content").addClass("editing_enabled");
 			} else {
 				targets.hide();
+				$("#page_content").removeClass("editing_enabled");
 			}
 			if (already_editing !== null) {
 				hideGraphProperty(event.target, already_editing);

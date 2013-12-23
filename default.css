@@ -241,6 +241,7 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .graph_collection ul.graph_controls li + li:before {
 	content: ' - ';
 }
+.editing_enabled .graph { min-height: 80px; min-width: 245px; } /* make it easier to edit small graphs; editing graphs should now cover at least the edit controls */
 
 #page_profile .add_graph { clear: both; }
 #page_profile .add_graph #graph_type option { padding-left: 10px; }
