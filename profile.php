@@ -201,7 +201,7 @@ if ($pages) {
 <?php foreach ($graphs as $graph) {
 
 if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { ?>
-	<?php if ($graph['graph_type'] == "heading") {
+	<?php if ($graph['graph_type'] == 'heading') {
 		echo "<h2 class=\"graph_heading\">" . htmlspecialchars($graph['string0']) . "</h2>\n";
 	} ?>
 <div style="clear:both;">

@@ -111,6 +111,11 @@ function render_graph($graph, $is_public = false) {
 	echo "<span class=\"subheading\" id=\"subheading_" . htmlspecialchars($graph['id']) . "\"></span>\n";
 	render_graph_controls($graph);
 
+	// stop rendering if we're rendering linebreak or heading - we don't need a callback here
+	if ($graph['graph_type'] == 'heading' || $graph['graph_type'] == 'linebreak') {
+		return;
+	}
+
 	// we'll use ajax to render the graph
 	$args = array();
 	if (require_get('demo', false)) {
