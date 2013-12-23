@@ -169,6 +169,20 @@ function render_graph($graph, $is_public = false) {
 		})
 	}
 	$(document).ready(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>);
+
+	<?php if ($timeout > 0) { /* get better analytics, since graphs now update themselves */ ?>
+	$(document).ready(function() {
+		if (typeof track_graphs == 'undefined') {
+			track_graphs = function() {
+				if (typeof _gaq != 'undefined') {
+					_gaq.push(['_trackEvent', 'Graphs', 'Idle', /* optional label */]);
+				}
+			}
+			setInterval(track_graphs, <?php echo $timeout * 1000 * 60; ?>);
+			track_graphs();
+		}
+	});
+	<?php } ?>
 	</script>
 	<div id="ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>"<?php echo get_dimensions($graph); ?>><span class="status_loading">Loading...</span></div>
 	<?php
