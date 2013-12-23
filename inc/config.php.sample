@@ -87,6 +87,9 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"default_user_graph_width" => 4,	// see _profile_add_graph.php
 		"default_user_graph_height" => 2,	// see _profile_add_graph.php
 		"default_user_graph_days" => 45,
+		"graph_refresh_public" => 30,		// in minutes
+		"graph_refresh_free" => 30,		// in minutes
+		"graph_refresh_premium" => 1,		// in minutes
 
 		// technical data
 		"technical_period_max" => 365,
@@ -181,6 +184,9 @@ function get_premium_config($key = null, $fail_if_missing = true) {
 
 		"graphs_per_page_free" => 10,
 		"graphs_per_page_premium" => 30,
+
+		"graph_refresh_free" => get_site_config('graph_refresh_free'),	// in minutes
+		"graph_refresh_premium" => get_site_config('graph_refresh_premium'),	// in minutes
 
 		"refresh_queue_hours_free" => get_site_config('refresh_queue_hours'), // in hours
 		"refresh_queue_hours_premium" => get_site_config('refresh_queue_hours_premium'), // in hours
