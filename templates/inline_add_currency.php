@@ -23,6 +23,17 @@ Cryptocurrencies that do <em>not</em> have a suitable explorer API yet at the ti
 </div>
 
 <p>
+	Currently <?php echo htmlspecialchars(get_site_config('site_name')); ?> supports the <?php
+	$result = array();
+	foreach (get_all_cryptocurrencies() as $c) {
+		$result[] = "<span class=\"currency_name_" . htmlspecialchars($c) . "\">" . htmlspecialchars(get_currency_name($c)) . "</span>" .
+			(in_array($c, get_new_supported_currencies()) ? " <span class=\"new\">new</span>" : "");
+	}
+	echo implode_english($result);
+	?> cryptocurrencies.
+</p>
+
+<p>
 	In the future, <?php echo htmlspecialchars(get_site_config('site_name')); ?> will host cryptocurrency
 	explorer instances locally, removing these requirements and making it possible to add almost any
 	cryptocurrency; please donate or purchase a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a> to

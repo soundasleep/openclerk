@@ -6,6 +6,17 @@
 	with priority on fiat currencies that are in highest demand.
 </p>
 
+<p>
+	Currently <?php echo htmlspecialchars(get_site_config('site_name')); ?> supports the <?php
+	$result = array();
+	foreach (get_all_fiat_currencies() as $c) {
+		$result[] = "<span class=\"currency_name_" . htmlspecialchars($c) . "\">" . htmlspecialchars(get_currency_name($c)) . "</span>" .
+			(in_array($c, get_new_supported_currencies()) ? " <span class=\"new\">new</span>" : "");
+	}
+	echo implode_english($result);
+	?> fiat currencies.
+</p>
+
 <h2>Requesting a new fiat currency</h2>
 
 <p>
