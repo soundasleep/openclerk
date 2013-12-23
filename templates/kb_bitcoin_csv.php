@@ -11,6 +11,12 @@ global $title;
 <div class="instructions_add">
 <h2>Uploading a Bitcoin-Qt CSV file</h2>
 
+<p>
+If you are using the default Bitcoin-Qt client, you can
+use the "export" feature of the client to automatically populate your list of BTC addresses using your existing address labels.
+Any invalid or duplicated addresses will be skipped.
+</p>
+
 <ol class="steps">
 	<li>Open your Bitcoin-Qt client, and
 		open the "Receive coins" tab.<br>

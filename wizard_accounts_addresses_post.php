@@ -85,15 +85,73 @@ if (require_post("delete", false) && require_post("id", false)) {
 	redirect(url_for("wizard_accounts_addresses#wizard_" . $currency));
 }
 
+/**
+ * @param $row may be array(address) or array(title, address)
+ */
+function process_csv_upload_row($row) {
+	global $messages;
+	global $errors;
+	global $addresses, $account_data, $user;
+
+	global $invalid_addresses, $updated_titles, $existing_addresses, $new_addresses, $limited_addresses;
+
+	if (count($row) >= 2) {
+		$title = trim($row[0]);
+		$address = trim($row[1]);
+	} else {
+		$title = false;
+		$address = trim($row[0]);
+	}
+	if ($address == 'Address') {
+		// skip the first header line of CSV file, if present
+		return;
+	}
+
+	// otherwise, row[0] should be a label, and row[1] should be an address
+	if (!$account_data['callback']($address)) {
+		$invalid_addresses++;
+	} else {
+		// do we already have this address?
+		if (isset($addresses[$address])) {
+			$existing_addresses++;
+			// do we need to update the title?
+			if ($title !== false && $addresses[$address]['title'] != $title) {
+				$q = db()->prepare("UPDATE " . $account_data['table'] . " SET title=? WHERE user_id=? AND id=?");
+				$q->execute(array($row[0], user_id(), $addresses[$address]['id']));
+				$addresses[$address]['title'] = $title;
+				$updated_titles++;
+			}
+		} else {
+			// we need to insert in a new address
+			if (!can_user_add($user, $account_data['premium_group'], $new_addresses + 1)) {
+				$limited_addresses++;
+
+			} else {
+				if ($title) {
+					$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?, title=?");
+					$q->execute(array(user_id(), $address, $account_data['currency'], $title));
+				} else {
+					$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?");
+					$q->execute(array(user_id(), $address, $account_data['currency']));
+				}
+				$addresses[$address] = array('id' => db()->lastInsertId(), 'title' => false);
+				$new_addresses++;
+			}
+		}
+	}
+}
+
 // process file upload
-if (isset($_FILES['csv'])) {
-	try {
-		// throws a BlockedException if this IP has requested this too many times recently
-		check_heavy_request();
-	} catch (BlockedException $e) {
-		$errors[] = $e->getMessage();
-		set_temporary_errors($errors);
-		redirect(url_for("wizard_accounts_addresses#wizard_" . $currency));
+if (isset($_FILES['csv']) || require_post('addresses', false)) {
+	if (isset($_FILES['csv'])) {
+		try {
+			// throws a BlockedException if this IP has requested this too many times recently
+			check_heavy_request();
+		} catch (BlockedException $e) {
+			$errors[] = $e->getMessage();
+			set_temporary_errors($errors);
+			redirect(url_for("wizard_accounts_addresses#wizard_" . $currency));
+		}
 	}
 
 	$invalid_addresses = 0;
@@ -112,39 +170,19 @@ if (isset($_FILES['csv'])) {
 
 	// lets read this file in as CSV
 	// we don't store this CSV file on the server
-	$fp = fopen($_FILES['csv']['tmp_name'], "r");
-	while ($fp && ($row = fgetcsv($fp, 1000, ",")) !== false) {
-		if (count($row) < 2)
-			continue;	// also happens for invalid .csv files
-		if ($row[1] == "Address")
-			continue;
-
-		// otherwise, row[0] should be a label, and row[1] should be an address
-		if (!$account_data['callback']($row[1])) {
-			$invalid_addresses++;
-		} else {
-			// do we already have this address?
-			if (isset($addresses[$row[1]])) {
-				$existing_addresses++;
-				// do we need to update the title?
-				if ($addresses[$row[1]]['title'] != $row[0]) {
-					$q = db()->prepare("UPDATE " . $account_data['table'] . " SET title=? WHERE user_id=? AND id=?");
-					$q->execute(array($row[0], user_id(), $addresses[$row[1]]['id']));
-					$addresses[$row[1]]['title'] = $row[0];
-					$updated_titles++;
-				}
-			} else {
-				// we need to insert in a new address
-				if (!can_user_add($user, $account_data['premium_group'], $new_addresses + 1)) {
-					$limited_addresses++;
-
-				} else {
-					$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?, title=?");
-					$q->execute(array(user_id(), $row[1], $account_data['currency'], $row[0]));
-					$addresses[$row[1]] = array('id' => db()->lastInsertId(), 'title' => $row[1]);
-					$new_addresses++;
-				}
+	if (isset($_FILES['csv'])) {
+		$fp = fopen($_FILES['csv']['tmp_name'], "r");
+		while ($fp && ($row = fgetcsv($fp, 1000, ",")) !== false) {
+			process_csv_upload_row($row);
+		}
+	} else {
+		// TODO using explode() here is not great; should use CSV functions instead (maybe fopen on a string?)
+		$input = explode("\n", require_post("addresses"));
+		foreach ($input as $row) {
+			if (require_post("title", false)) {
+				$row = require_post("title") . "," . $row;
 			}
+			process_csv_upload_row(explode(",", $row));
 		}
 	}
 

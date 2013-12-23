@@ -11,6 +11,12 @@ global $title;
 <div class="instructions_add">
 <h2>Uploading a Litecoin-Qt CSV file</h2>
 
+<p>
+If you are using the default Litecoin-Qt client, you can
+use the "export" feature of the client to automatically populate your list of LTC addresses using your existing address labels.
+Any invalid or duplicated addresses will be skipped.
+</p>
+
 <ol class="steps">
 	<li>Open your Litecoin-Qt client, and
 		open the "Receive coins" tab.<br>

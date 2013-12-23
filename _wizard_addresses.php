@@ -17,7 +17,7 @@ $q = db()->prepare("SELECT
 		address_balances.balance
 	FROM addresses
 	LEFT JOIN (SELECT * FROM address_balances WHERE user_id=? AND is_recent=1) AS address_balances ON addresses.id=address_balances.address_id
-	WHERE addresses.user_id=? AND addresses.currency=? ORDER BY address ASC");
+	WHERE addresses.user_id=? AND addresses.currency=? ORDER BY IF(ISNULL(title) OR title='', 'untitled', title) ASC");
 $q->execute(array(user_id(), user_id(), $account_data['currency']));
 $accounts = $q->fetchAll();
 
@@ -121,21 +121,38 @@ foreach ($accounts as $a) {
 </form>
 </p>
 
-<?php if (isset($account_data['client'])) { ?>
-
 </div>
 <div class="column">
 
-<h2>Upload <?php echo htmlspecialchars($account_data['client']); ?> CSV</h2>
+<h2>Add multiple <?php echo htmlspecialchars($account_data['titles']); ?></h1>
 
 <p>
-If you are using the default <?php echo htmlspecialchars($account_data['client']); ?> client, you can
-use the "export" feature of the client to automatically populate your list of <?php echo htmlspecialchars($account_data['titles']); ?> using your existing address labels.
-Any invalid or duplicated addresses will be skipped.
+<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
+<table class="standard">
+<tr>
+	<th><label for="address">Title:</label></th>
+	<td><input type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_post("title", "")); ?>"> (optional)</td>
+</tr>
+<tr>
+	<th><label for="address"><?php echo htmlspecialchars($account_data['titles']); ?>:</label></th>
+	<td><textarea name="addresses" rows="5" cols="36"><?php echo htmlspecialchars(require_post("addresses", "")); ?></textarea><br><small>(One per line.)</small></td>
+</tr>
+<tr>
+	<td colspan="2" class="buttons">
+	<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
+	<input type="submit" name="add" value="Add addresses" class="add">
+	</td>
+</tr>
+</table>
+</form>
 </p>
 
+<hr>
+
+<h2>Upload <?php echo htmlspecialchars($account_data['client']); ?> CSV</h2>
+
 <form action="<?php echo htmlspecialchars(url_for("wizard_accounts_addresses_post")); ?>" method="post" enctype="multipart/form-data">
-<table class="standard">
+<table class="standard csv-upload">
 <tr>
 	<th><label for="address">CSV File:</label></th>
 	<td>
@@ -147,18 +164,16 @@ Any invalid or duplicated addresses will be skipped.
 	<td colspan="2" class="buttons">
 	<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 	<input type="submit" name="add" value="Upload CSV" class="add">
+<?php if (isset($account_data['csv_kb'])) { ?>
+		<div class="help">
+		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $account_data['csv_kb']))); ?>">How do I upload a <?php echo htmlspecialchars($account_data['client']); ?> CSV file?</a>
+		</div>
+<?php } ?>
 	</td>
 </tr>
 </table>
 </form>
 
-<?php if (isset($account_data['csv_kb'])) { ?>
-<div class="help">
-<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $account_data['csv_kb']))); ?>">How do I upload a <?php echo htmlspecialchars($account_data['client']); ?> CSV file?</a>
-</div>
-<?php } ?>
-
-<?php } /* end if account_data[client] */ ?>
 
 </div>
 </div>
