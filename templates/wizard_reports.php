@@ -20,7 +20,7 @@ global $user;
 	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can automatically
 	manage these reports for you, or you may opt to define these manually.
 	(You can always change these accounts
-	later, by selecting the "Preferences" link above.)
+	later, by selecting the "Configure Accounts" link above.)
 </p>
 
 <!--<p class="tip tip_float your_account_limits">-->

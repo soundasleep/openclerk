@@ -19,7 +19,7 @@ global $user;
 	cryptocurrencies, investments and equities by regularly downloading account details
 	from accounts that you define. You can add five different types of accounts as
 	illustrated below. (You can always change these accounts
-	later, by selecting the "Preferences" link above.)
+	later, by selecting the "Configure Accounts" link above.)
 </p>
 
 <!--<p class="tip tip_float your_account_limits">-->
