@@ -23,9 +23,9 @@ function get_knowledge_base() {
 			'managed_graphs' => array('title' => "How are graphs automatically managed?", 'inline' => 'inline_managed_graphs'),
 		),
 		'Accounts' => array(
-			'add_currency' => array('title' => "Can you add support for another cryptocurrency?", 'inline' => 'inline_add_currency'),
-			'add_fiat' => array('title' => "Can you add support for another fiat currency?", 'inline' => 'inline_add_fiat'),
-			'add_service' => array('title' => "Can you add support for another exchange/mining pool?", 'inline' => 'inline_add_service'),
+			'add_currency' => array('title' => "Can you add support for another cryptocurrency?", 'inline' => 'inline_add_currency', 'new' => true),
+			'add_fiat' => array('title' => "Can you add support for another fiat currency?", 'inline' => 'inline_add_fiat', 'new' => true),
+			'add_service' => array('title' => "Can you add support for another exchange/mining pool?", 'inline' => 'inline_add_service', 'new' => true),
 		),
 	);
 
@@ -49,6 +49,7 @@ function get_knowledge_base() {
 				$kb['Accounts'][$key] = array(
 					'title' => $title,
 					'inline' => 'inline_accounts_' . $key,
+					'new' => in_array($key, get_new_supported_wallets()) || in_array($key, get_new_exchanges()) || in_array($key, get_new_security_exchanges()),
 				);
 			}
 		}
