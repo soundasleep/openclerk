@@ -19,14 +19,17 @@ $max_count = 30;
 $args = array();
 $search_query = "";
 if (require_post("search", false)) {
-	$search_query = " WHERE name LIKE :search OR email LIKE :search OR openid_identity LIKE :search";
+	$search_query = " WHERE name LIKE :search OR email LIKE :search OR url LIKE :search";
 	$args['search'] = '%' . require_post("search") . '%';
 } else if (require_post("just_premium", false)) {
 	$search_query = " WHERE is_premium=1";
 }
-$q = db()->prepare("SELECT u.*, s.c AS currencies FROM users AS u
-	LEFT JOIN (SELECT COUNT(*) AS c, user_id FROM summaries GROUP BY user_id) AS s ON s.user_id=u.id
+$q = db()->prepare("SELECT u.*, s.c AS currencies, openid_identities.url AS url, COUNT(openid_identities.url) AS identity_count
+	FROM users AS u
+		LEFT JOIN (SELECT COUNT(*) AS c, user_id FROM summaries GROUP BY user_id) AS s ON s.user_id=u.id
+		JOIN openid_identities ON openid_identities.user_id=u.id
 	$search_query
+	GROUP BY u.id
 	ORDER BY id DESC LIMIT " . ($max_count+1) . "");
 $q->execute($args);
 
@@ -82,7 +85,7 @@ $q->execute($args);
 		} else {
 			echo "<tr>\n";
 			echo "<td class=\"number\">" . number_format($user['id']) . "</td>\n";
-			echo "<td><a href=\"" . htmlspecialchars($user['openid_identity']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a></td>\n";
+			echo "<td><a href=\"" . htmlspecialchars($user['url']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> " . $user['identity_count'] . "</td>\n";
 			echo "<td>" . htmlspecialchars($user['name']) . "</td>\n";
 			echo "<td class=\"" . ($user['is_premium'] ? 'yes' : 'no') . "\">-</td>\n";
 			echo "<td>" . recent_format_html($user['premium_expires'], "", "") . "</td>\n";

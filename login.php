@@ -70,10 +70,15 @@ try {
 				// e.g. OpenID authenticating against http://foo.livejournal.com/?param=two#hash will return
 				// an identity of http://foo.livejournal.com/.
 
-				$query = db()->prepare("SELECT * FROM users WHERE openid_identity=? LIMIT 1");
-				$query->execute(array($light->identity));
-				if (!($user = $query->fetch())) {
+				$q = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
+				$q->execute(array($light->identity));
+				if (!($identity = $q->fetch())) {
 					throw new EscapedException("No account for the OpenID identity '" . htmlspecialchars($light->identity) . "' were found. You may need to <a href=\"" . url_for('signup', array('openid' => $openid)) . "\">signup first</a>.");
+				}
+
+				$user = get_user($identity['user_id']);
+				if (!$user) {
+					throw new EscapedException("No user ID " . htmlspecialchars($identity['user_id']) . " exists.");
 				}
 
 			} else {
@@ -161,7 +166,7 @@ page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
 			<?php }
 			?>
 
-			<br>
+			<hr>
 			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</a></button>
 
 			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Login" ? "" : "display:none;"; ?>">

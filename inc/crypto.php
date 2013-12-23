@@ -1204,6 +1204,29 @@ function get_default_openid_providers() {
 		'stackexchange' => array('StackExchange', 'https://openid.stackexchange.com'),
 		'yahoo' => array('Yahoo', 'https://me.yahoo.com'),
 		'blogspot' => array('Blogspot', 'https://www.blogspot.com/'),
+		'verisign' => array('Symantec PIP', 'https://pip.verisignlabs.com/'),
+		'launchpad' => array('Launchpad', 'https://login.launchpad.net/'),
+		'aol' => array('AOL', 'https://openid.aol.com/'),
+	);
+}
+
+/**
+ * A helper function to match (OpenID URLs) to default OpenID providers.
+ * Each URL is matched as a regexp.
+ */
+function get_openid_provider_formats() {
+	return array(
+		'#^https?://www.google.com/accounts/#im' => 'google',
+		// '#^https?://profiles.google.com/#im' => 'google-plus',
+		'#^https?://openid.stackexchange.com/#im' => 'stackexchange',
+		'#^https?://openid.aol.com/#im' => 'aol',
+		'#^https?://me.yahoo.com/#im' => 'yahoo',
+		// '#^https?://[^\\.]+.myopenid.com/#im' => 'myopenid',
+		'#^https?://[^\\.]+.verisignlabs.com/#im' => 'verisign',
+		// '#^https?://[^\\.]+.wordpress.com/#im' => 'wordpress',
+		'#^https?://[^\\.]+.blogspot.com/#im' => 'blogspot',
+		'#^https?://launchpad.net/~#im' => 'launchpad',
+		'#^https?://login.launchpad.net/\\+#im' => 'launchpad',
 	);
 }
 

@@ -1992,3 +1992,20 @@ UPDATE accounts_cryptotrade SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
 UPDATE accounts_cryptostocks SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
 UPDATE accounts_havelock SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
 UPDATE accounts_litecoinglobal SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
+
+-- users can now have multiple OpenID identities per account
+CREATE TABLE openid_identities (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	url varchar(255) not null,
+	
+	INDEX(user_id), INDEX(url)
+);
+
+-- merge existing user identities
+INSERT INTO openid_identities (user_id, url, created_at) (SELECT id AS user_id, openid_identity AS url, created_at FROM users);
+
+-- remove old identities
+ALTER TABLE users DROP openid_identity;
+

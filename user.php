@@ -122,7 +122,7 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_user_contact">Contact Details</li><li id="tab_user_premium">Premium</li><li id="tab_user_outstanding">Outstanding Payments</li><li id="tab_user_mailinglist">Mailing List</li>
+		<li id="tab_user_contact">Contact Details</li><li id="tab_user_openid">Identities</li><li id="tab_user_premium">Premium</li><li id="tab_user_outstanding">Outstanding Payments</li><li id="tab_user_mailinglist">Mailing List</li>
 	</ul>
 
 	<ul class="tab_groups">
@@ -176,6 +176,71 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 <!-- TODO remove: added to help users adapt to new wizard_currencies -->
 Looking for your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">currency preferences</a>?
 </div>
+
+	</li>
+	<li id="tab_user_openid_tab">
+
+<h2>Your OpenID Identites</h2>
+
+<?php
+$q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? ORDER BY url ASC");
+$q->execute(array(user_id()));
+$identities = $q->fetchAll();
+?>
+
+<table class="standard fancy openid_list">
+<thead>
+	<tr>
+		<th>Provider</th>
+		<th>Identity</th>
+		<th>Added</th>
+		<?php
+		/* only allow one identity to be removed */
+		if (count($identities) > 1) {
+		?>
+		<th></th>
+		<?php } ?>
+	</tr>
+</thead>
+<tbody>
+<?php
+$count = 0;
+foreach ($identities as $identity) {
+	// try and guess the provider
+	$provider = "openid_manual";
+	foreach (get_openid_provider_formats() as $format => $key) {
+		if (preg_match($format, $identity['url'])) {
+			$provider = $key;
+		}
+	}
+	$provider_titles = get_default_openid_providers();
+	?>
+	<tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
+		<td><span class="openid <?php echo htmlspecialchars($provider); ?>"><?php echo isset($provider_titles[$provider]) ? htmlspecialchars($provider_titles[$provider][0]) : 'OpenID'; ?></span></td>
+		<td><a href="<?php echo htmlspecialchars(url_for($identity['url'])); ?>"><?php echo htmlspecialchars(url_for($identity['url'])); ?></a></td>
+		<td><?php echo recent_format_html($identity['created_at']); ?></td>
+		<?php
+		/* only allow one identity to be removed */
+		if (count($identities) > 1) {
+		?>
+		<td>
+			<form action="<?php echo htmlspecialchars(url_for('openid_delete')); ?>" method="post">
+				<input type="hidden" name="id" value="<?php echo htmlspecialchars($identity['id']); ?>">
+				<input type="submit" value="Delete" class="delete" onclick="return confirm('Are you sure you want to remove this identity?');">
+			</form>
+		</td>
+		<?php } ?>
+	</tr>
+<?php } ?>
+</tbody>
+<tfoot>
+	<tr>
+		<td colspan="<?php echo count($identities) > 1 ? 4 : 3; ?>" class="buttons">
+			<a href="<?php echo htmlspecialchars(url_for('openid_add')); ?>">Add another OpenID Identity</a>
+		</td>
+	</tr>
+</tfoot>
+</table>
 
 	</li>
 	<li id="tab_user_premium_tab">

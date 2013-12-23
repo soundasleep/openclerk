@@ -12,6 +12,7 @@ if (!isset($_SESSION['referer']) && isset($_SERVER['HTTP_REFERER']) && $_SERVER[
 /**
  * Get the user with this particular ID.
  * Does not cache the results of this function.
+ * Does not throw an exception if no user exists.
  * @see user_id()
  */
 function get_user($id) {

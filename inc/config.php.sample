@@ -127,7 +127,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 
 		"premium_btc_discount" => 0, // in %, e.g. 1=100%
 		"premium_ltc_discount" => 0, // in %
-		"premium_welcome" => false,		// redirect to a welcome page
+		"premium_welcome" => false,		// redirect to the welcome page 'welcome' for premium users
 		"new_user_premium_update_hours" => 24,	// how many hours to give a new user premium-level updates, or false for none
 		"user_expiry_days" => 30,		// a free user must login every X days to prevent account being disabled
 

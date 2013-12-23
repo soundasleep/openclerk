@@ -249,9 +249,10 @@ function log_uncaught_exception($e, $extra_args = array(), $extra_query = "") {
 		raw=?,
 		created_at=NOW() $extra_query");
 	$q->execute(array_join(array(
-		$e->getMessage(),
-		$e->getPrevious() ? $e->getPrevious()->getMessage() : "",
-		$e->getFile(),
+		// clamp messages to 255 characters
+		substr($e->getMessage(), 0, 255),
+		substr($e->getPrevious() ? $e->getPrevious()->getMessage() : "", 0, 255),
+		substr($e->getFile(), 0, 255),
 		$e->getLine(),
 		serialize($e),
 	), $extra_args));

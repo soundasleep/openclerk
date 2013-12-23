@@ -76,10 +76,9 @@ if ($openid) {
 					// an identity of http://foo.livejournal.com/.
 					// print_r($light->getAttributes());
 
-					$query = db()->prepare("SELECT * FROM users WHERE openid_identity=? LIMIT 1");
-					$query->execute(array($light->identity));
-					if ($user = $query->fetch()) {
-						// a user already exists
+					$q = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
+					$q->execute(array($light->identity));
+					if (!($identity = $q->fetch())) {
 						throw new EscapedException("An account for the OpenID identity '" . htmlspecialchars($light->identity) . "' already exists. Did you mean to <a href=\"" . url_for('login', array('openid' => $openid)) . "\">login instead</a>?");
 					}
 
@@ -91,11 +90,10 @@ if ($openid) {
 
 			// we can now proceed with creating a new user account
 			$query = db()->prepare("INSERT INTO users SET
-				name=:name, email=:email, openid_identity=:identity, country=:country, user_ip=:ip, referer=:referer, subscribe_announcements=:subscribe, created_at=NOW(), updated_at=NOW()");
+				name=:name, email=:email, country=:country, user_ip=:ip, referer=:referer, subscribe_announcements=:subscribe, created_at=NOW(), updated_at=NOW()");
 			$user = array(
 				"name" => $name,
 				"email" => $email,
-				"identity" => $light->identity,
 				"country" => $country,
 				"ip" => user_ip(),
 				"referer" => isset($_SESSION['referer']) ? substr($_SESSION['referer'], 0, 250) : NULL,
@@ -103,6 +101,9 @@ if ($openid) {
 			);
 			$query->execute($user);
 			$user['id'] = db()->lastInsertId();
+
+			$q = db()->prepare("INSERT INTO openid_identities SET user_id=?, url=?");
+			$q->execute(array($user['id'], $light->identity));
 
 			if ($subscribe) {
 				$q = db()->prepare("INSERT INTO pending_subscriptions SET user_id=?,created_at=NOW(),is_subscribe=1");
@@ -194,7 +195,7 @@ page_header("Signup", "page_signup", array('jquery' => true, 'js' => 'auth'));
 			<?php }
 			?>
 
-			<br>
+			<hr>
 			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</a></button>
 
 			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Signup" ? "" : "display:none;"; ?>">
