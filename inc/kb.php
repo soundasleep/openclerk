@@ -21,6 +21,7 @@ function get_knowledge_base() {
 			'bitcoin_csv' => "How do I upload a Bitcoin-Qt CSV file?",
 			'litecoin_csv' => "How do I upload a Litecoin-Qt CSV file?",
 			'managed_graphs' => array('title' => "How are graphs automatically managed?", 'inline' => 'inline_managed_graphs'),
+			'graph_refresh' => array('title' => "Do graphs live update?", 'inline' => 'inline_graph_refresh', 'new' => true),
 		),
 		'Accounts' => array(
 			'add_currency' => array('title' => "Can you add support for another cryptocurrency?", 'inline' => 'inline_add_currency', 'new' => true),

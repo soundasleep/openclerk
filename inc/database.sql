@@ -2009,3 +2009,6 @@ INSERT INTO openid_identities (user_id, url, created_at) (SELECT id AS user_id, 
 -- remove old identities
 ALTER TABLE users DROP openid_identity;
 
+-- users can disable automatic graph refresh
+ALTER TABLE users ADD disable_graph_refresh tinyint not null default 0;
+

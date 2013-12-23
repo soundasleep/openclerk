@@ -25,10 +25,11 @@ if ($name !== false && $email !== false) {
 		$errors[] = "Invalid e-mail.";
 	} else {
 		$subscribe = $email ? (require_post("subscribe", false) ? 1 : 0) : 0;		// if we have no e-mail, we can't subscribe
+		$disable_graph_refresh = require_post("disable_graph_refresh", false) ? 1 : 0;
 
 		// we can have any name
-		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=?,subscribe_announcements=? WHERE id=? LIMIT 1");
-		$q->execute(array($name, $email, $subscribe, user_id()));
+		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=?,subscribe_announcements=?,disable_graph_refresh=? WHERE id=? LIMIT 1");
+		$q->execute(array($name, $email, $subscribe, $disable_graph_refresh, user_id()));
 		$messages[] = "Updated account details.";
 
 		// subscribe/unsubscribe
@@ -137,6 +138,10 @@ page_header("User Account", "page_user", array('jquery' => true, 'common_js' => 
 <tr>
 	<th><label for="user_email">E-mail:</label></th>
 	<td><input id="user_email" name="email" size="48" value="<?php echo htmlspecialchars(require_post("email", $user['email'] ? $user['email'] : false)); ?>" size="32" maxlength="64"></td>
+</tr>
+<tr>
+	<th></th>
+	<td><label><input type="checkbox" name="disable_graph_refresh" value="1"<?php echo $user['disable_graph_refresh'] ? " checked" : ""; ?>> Disable automatic graph refresh</label></td>
 </tr>
 <tr>
 	<th></th>

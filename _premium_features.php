@@ -72,6 +72,11 @@
 		<td class="number premium"><?php echo plural(get_site_config('refresh_queue_hours_premium'), 'hour'); ?></td>
 	</tr>
 	<tr>
+		<th><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>">Live graph updates</a></th>
+		<td class="number"><?php echo plural(get_site_config('graph_refresh_free'), 'minute'); ?></td>
+		<td class="number premium"><?php echo plural(get_site_config('graph_refresh_premium'), 'minute'); ?></td>
+	</tr>
+	<tr>
 		<th>Notification functionality</th>
 		<td class="no">-</td>
 		<td class="premium">Coming soon...</td>

@@ -138,19 +138,37 @@ function render_graph($graph, $is_public = false) {
 		$ajax_url = url_for('graph', $args);
 	}
 
+	$user = user_logged_in() ? get_user(user_id()) : false;
+	if ($user) {
+		if ($user['disable_graph_refresh']) {
+			$timeout = 0;	// disable refresh
+		} else {
+			$timeout = get_premium_value(get_user(user_id()), 'graph_refresh');
+		}
+	} else {
+		$timeout = get_site_config('graph_refresh_public');
+	}
+
 	?>
 	<script type="text/javascript">
 	google.load("visualization", "1", {packages:["corechart"]});
-	$(document).ready(function() {
+	function callbackGraph<?php echo htmlspecialchars($graph['id']); ?>() {
 		$.ajax(<?php echo json_encode($ajax_url); ?>, {
 			'success': function(data, text, xhr) {
 				$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(data);
+				<?php if ($timeout > 0) { ?>
+				setTimeout(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>, <?php echo $timeout * 1000 * 60; ?>);
+				<?php } ?>
 			},
 			'error': function(xhr, text, error) {
 				$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(xhr.responseText);
+				<?php if ($timeout > 0) { ?>
+				setTimeout(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>, <?php echo $timeout * 1000 * 60; ?>);
+				<?php } ?>
 			}
 		})
-	});
+	}
+	$(document).ready(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>);
 	</script>
 	<div id="ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>"<?php echo get_dimensions($graph); ?>><span class="status_loading">Loading...</span></div>
 	<?php
