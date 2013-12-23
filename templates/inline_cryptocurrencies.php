@@ -30,5 +30,5 @@
 </p>
 
 <p>
-	Support for additional cryptocurrencies will be <a href="<?php echo htmlspecialchars(url_for('help')); ?>">added in the future</a>.
+	Support for additional cryptocurrencies will be <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_currency'))); ?>">added in the future</a>.
 </p>
