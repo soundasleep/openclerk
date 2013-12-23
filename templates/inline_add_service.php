@@ -1,7 +1,7 @@
 <h2>Overview</h2>
 
 <p>
-	Absolutely - we want to add as many exchanges, pools and services as we can to
+	We want to add as many exchanges, pools and services as we can to
 	<a href="http://openclerk.org" target="_blank">Openclerk</a> (the underlying open source project). The requirements
 	for supporting a new service are:
 </p>
