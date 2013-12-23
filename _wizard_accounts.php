@@ -128,6 +128,12 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
 		<td colspan="2" class="buttons">
 			<input type="submit" name="add" value="Add account" class="add">
 			<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+
+			<?php if (isset($account_type['add_help'])) { ?>
+			<div class="help">
+				<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $account_type['add_help']))); ?>">Add <?php echo htmlspecialchars($account_type['a']); ?> <?php echo htmlspecialchars($account_type['title']); ?> not listed here</a>
+			</div>
+			<?php } ?>
 		</td>
 	</tr>
 	</table>

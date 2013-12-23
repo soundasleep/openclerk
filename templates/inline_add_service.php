@@ -15,8 +15,8 @@
 	</ul>
 </p>
 
-<div class="tip">
-Exchanges/pools/services that do <em>not</em> have a suitable public API yet at the time of writing:
+<div class="tip" style="margin-bottom: 15px;">
+Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet at the time of writing:
 <ul>
 	<li>Bitcoin.de</li>
 	<li>Bitfinex</li>
@@ -30,6 +30,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable public API yet at 
 	<li>Safello</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
 </ul>
+If you would like one of these services to add a safe read-only API, let them know!
 </div>
 
 <h2>Example: Existing mining pool software</h2>

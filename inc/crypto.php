@@ -1086,6 +1086,8 @@ function get_wizard_account_type($wizard) {
 				'wizard' => 'exchanges',
 				'hashrate' => false,
 				'url' => 'wizard_accounts_exchanges',
+				'add_help' => 'add_service',
+				'a' => 'an',
 			);
 			break;
 
@@ -1096,6 +1098,7 @@ function get_wizard_account_type($wizard) {
 				'wizard' => 'pools',
 				'hashrate' => true,
 				'url' => 'wizard_accounts_pools',
+				'add_help' => 'add_service',
 			);
 			break;
 
@@ -1106,6 +1109,7 @@ function get_wizard_account_type($wizard) {
 				'wizard' => 'securities',
 				'hashrate' => false,
 				'url' => 'wizard_accounts_securities',
+				'add_help' => 'add_service',
 			);
 			break;
 
@@ -1120,6 +1124,8 @@ function get_wizard_account_type($wizard) {
 				'first_heading' => 'Exchange',
 				'display_headings' => array('Security', 'Quantity'),
 				'display_callback' => 'get_individual_security_config',
+				'add_help' => 'add_service',
+				'a' => 'an',
 			);
 			break;
 
@@ -1130,6 +1136,8 @@ function get_wizard_account_type($wizard) {
 				'wizard' => 'other',
 				'hashrate' => false,
 				'url' => 'wizard_accounts_other',
+				'add_help' => 'add_service',
+				'a' => 'an',
 			);
 			break;
 
@@ -1148,6 +1156,9 @@ function get_wizard_account_type($wizard) {
 	}
 	if (!isset($account_type['accounts'])) {
 		$account_type['accounts'] = "accounts";
+	}
+	if (!isset($account_type['a'])) {
+		$account_type['a'] = "a";
 	}
 
 	return $account_type;
