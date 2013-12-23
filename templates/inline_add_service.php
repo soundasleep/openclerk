@@ -31,7 +31,6 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>Intersango (registration is closed)</li>
 	<li>NetcodeDogePool</li>
 	<li>Safello</li>
-	<li>TripleMining</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
 </ul>
 If you would like one of these services to add a safe read-only API, let them know!

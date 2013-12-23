@@ -356,6 +356,10 @@ try {
 			require(__DIR__ . "/jobs/hashfaster_ltc.php");
 			break;
 
+		case "triplemining":
+			require(__DIR__ . "/jobs/triplemining.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
