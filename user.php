@@ -297,6 +297,7 @@ foreach ($identities as $identity) {
 Support <?php echo htmlspecialchars(get_site_config('site_name')); ?> and get access to
 more features with a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>!
 <?php } else { ?>
+Thank you for supporting <?php echo htmlspecialchars(get_site_config('site_name')); ?>!
 Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a> here:
 <?php } ?>
 </p>
