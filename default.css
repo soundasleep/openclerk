@@ -144,7 +144,12 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	background: #246 url('img/nuvola/32x32/messagebox_info.png') 10px center no-repeat;
 	padding-left: 50px;
 }
-.tip_float {
+.success.success_float {
+	padding: 10px; 
+	margin: 5px 10px 5px 10px;
+	padding-left: 50px;
+}
+.tip_float, .success_float {
 	width: 40%;
 	float: right;
 }

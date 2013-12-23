@@ -1,6 +1,17 @@
 
 <h1>Support <?php echo htmlspecialchars(get_site_config('site_name')); ?> with Premium Accounts</h1>
 
+<?php if (user_logged_in() && $user = get_user(user_id())) {
+	if ($user['is_premium']) { ?>
+	<div class="success success_float">
+		Thank you for supporting <?php echo htmlspecialchars(get_site_config('site_name')); ?> with
+		<a href="<?php echo htmlspecialchars(url_for('user#user_premium')); ?>">your premium account</a>!
+		<br>
+		Your premium account expires in <?php echo recent_format_html($user['premium_expires'], " ago", "" /* no 'in the future' */); ?>.
+	</div>
+<?php }
+} ?>
+
 <p>
 	You can support <?php echo htmlspecialchars(get_site_config('site_name')); ?> by purchasing a
 	premium account with <?php
