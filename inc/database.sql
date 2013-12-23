@@ -2012,3 +2012,5 @@ ALTER TABLE users DROP openid_identity;
 -- users can disable automatic graph refresh
 ALTER TABLE users ADD disable_graph_refresh tinyint not null default 0;
 
+INSERT INTO exchanges SET name='coins-e';
+

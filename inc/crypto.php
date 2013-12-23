@@ -56,6 +56,11 @@ function get_currency_name($n) {
 	}
 }
 
+function get_currency_abbr($c) {
+	if ($c == "dog") return "DOGE";
+	return strtoupper($c);
+}
+
 function get_blockchain_currencies() {
 	return array(
 		"Blockchain" => array('btc'),
@@ -128,6 +133,7 @@ function get_all_exchanges() {
 		"lite_coinpool" =>	"lite.coin-pool.com",
 		"beeeeer" =>		"b(e^5)r.org",
 		"litecoinpool" =>	"litecoinpool.org",
+		"coins-e" => 		"Coins-E",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -143,7 +149,7 @@ function get_exchange_name($n) {
 }
 
 function get_new_exchanges() {
-	return array("btcchina", "cryptsy");
+	return array("coins-e");
 }
 
 function get_exchange_pairs() {
@@ -154,6 +160,7 @@ function get_exchange_pairs() {
 		"btcchina" => array(array('cny', 'btc')),
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc')),
 		"cexio" => array(array('btc', 'ghs')),
+		"coins-e" => array(array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'), array('ltc', 'xpm'), array('xpm', 'ppc')),
 		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'), array('btc', 'xpm'), array('btc', 'trc')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc')),
@@ -166,6 +173,13 @@ function get_exchange_pairs() {
 function get_new_exchange_pairs() {
 	return array(
 		"mtgox_gbpbtc",
+		"coins-e_btcxpm",
+		"coins-e_btctrc",
+		"coins-e_btcftc",
+		"coins-e_btcltc",
+		"coins-e_btcppc",
+		"coins-e_ltcxpm",
+		"coins-e_xpmppc",
 	);
 }
 
@@ -509,6 +523,7 @@ function get_external_apis() {
 			'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
 			'ticker_btcchina' => '<a href="https://btcchina.com">BTC China</a>',
+			'ticker_coins-e' => '<a href="https://www.coins-e.com">Coins-E</a>',
 		),
 
 		"Security exchanges" => array(
