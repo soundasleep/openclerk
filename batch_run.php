@@ -360,6 +360,10 @@ try {
 			require(__DIR__ . "/jobs/triplemining.php");
 			break;
 
+		case "ozcoin_ltc":
+			require(__DIR__ . "/jobs/ozcoin_ltc.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
