@@ -64,7 +64,7 @@ if (isset($argv[5]) && $argv[5] && $argv[5] != "-") {
 // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
 // if no 'user_id' is specified, then the user will also be checked for disable status
 $standard_jobs = array(
-	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id')),
+	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id'), 'hours' => get_site_config('refresh_queue_hours_ticker')),
 	array('table' => 'addresses', 'type' => 'blockchain', 'query' => ' AND currency=\'btc\''),
 	array('table' => 'addresses', 'type' => 'litecoin', 'query' => ' AND currency=\'ltc\''), // make sure to add litecoin_block job below too
 	array('table' => 'addresses', 'type' => 'feathercoin', 'query' => ' AND currency=\'ftc\''), // make sure to add feathercoin_block job below too

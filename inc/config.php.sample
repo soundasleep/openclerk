@@ -46,6 +46,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"refresh_queue_hours" => 2, // should be 24 for production, in hours
 		"refresh_queue_hours_premium" => 1, // can be whatever, in hours
 		"refresh_queue_hours_system" => 0.1, // should be frequent for litecoin payments, in hours
+		"refresh_queue_hours_ticker" => 0.1, // ticker jobs can have different queue times
 		"system_user_id" => 100,
 		"get_contents_timeout" => 5, // in seconds
 		"get_openid_timeout" => 10,	// in seconds, should be <= heavy_requests_seconds
