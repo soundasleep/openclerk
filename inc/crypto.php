@@ -621,6 +621,7 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_ftc_address',
 				'job_type' => 'feathercoin',
 				'address_callback' => 'ftc_address',
+				'client' => get_currency_name('ftc'),
 			);
 
 		case "ppc":
@@ -633,6 +634,7 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_ppc_address',
 				'job_type' => 'ppcoin',
 				'address_callback' => 'ppc_address',
+				'client' => get_currency_name('ppc'),
 			);
 
 		case "nvc":
@@ -645,6 +647,7 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_nvc_address',
 				'job_type' => 'novacoin',
 				'address_callback' => 'nvc_address',
+				'client' => get_currency_name('nvc'),
 			);
 
 		case "xpm":
@@ -657,6 +660,7 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_xpm_address',
 				'job_type' => 'primecoin',
 				'address_callback' => 'xpm_address',
+				'client' => get_currency_name('xpm'),
 			);
 
 		case "trc":
@@ -669,6 +673,7 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_trc_address',
 				'job_type' => 'terracoin',
 				'address_callback' => 'trc_address',
+				'client' => get_currency_name('trc'),
 			);
 
 		default:

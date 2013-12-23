@@ -152,9 +152,11 @@ Any invalid or duplicated addresses will be skipped.
 </table>
 </form>
 
+<?php if (isset($account_data['csv_kb'])) { ?>
 <div class="help">
 <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $account_data['csv_kb']))); ?>">How do I upload a <?php echo htmlspecialchars($account_data['client']); ?> CSV file?</a>
 </div>
+<?php } ?>
 
 <?php } /* end if account_data[client] */ ?>
 
