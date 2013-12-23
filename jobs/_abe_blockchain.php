@@ -23,11 +23,11 @@ if (!$address) {
 $html = crypto_get_contents(crypto_wrap_url($abe_data['explorer_url'] . urlencode($address['address'])));
 
 // assumes that the page format will not change
-if (!$address['is_received'] && preg_match('#(<p>|<tr><th>)Balance:( |</th><td>)([0-9\.]+) ' . strtoupper($abe_data['currency']) . '#i', $html, $matches)) {
+if (!$address['is_received'] && preg_match('#(<p>|<tr><th>)Balance:( |</th><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#i', $html, $matches)) {
 	$balance = $matches[3];
 	crypto_log("Address balance before removing unconfirmed: " . $balance);
 
-	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . strtoupper($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
+	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . get_currency_abbr($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
 		foreach ($matches as $match) {
 			if ($match[1] >= $block) {
 				// too recent
@@ -46,11 +46,11 @@ if (!$address['is_received'] && preg_match('#(<p>|<tr><th>)Balance:( |</th><td>)
 	} else {
 		throw new ExternalAPIException("Could not find any transactions on page");
 	}
-} else if ($address['is_received'] && preg_match('#\n(|<tr><th>)Received:( |</th><td>)([0-9\.]+) ' . strtoupper($abe_data['currency']) . '#i', $html, $matches)) {
+} else if ($address['is_received'] && preg_match('#\n(|<tr><th>)Received:( |</th><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#i', $html, $matches)) {
 	$balance = $matches[3];
 	crypto_log("Address received before removing unconfirmed: " . $balance);
 
-	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . strtoupper($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
+	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . get_currency_abbr($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
 		foreach ($matches as $match) {
 			if ($match[1] >= $block) {
 				// too recent
@@ -104,4 +104,4 @@ $q->execute(array(
 	"address_id" => $address['id'],
 	"balance" => $balance,
 ));
-crypto_log("Inserted new " . strtoupper($abe_data['currency']) . " address_balances id=" . db()->lastInsertId());
+crypto_log("Inserted new " . get_currency_abbr($abe_data['currency']) . " address_balances id=" . db()->lastInsertId());

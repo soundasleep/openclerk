@@ -237,10 +237,10 @@ function render_graph_actual($graph, $is_public) {
 			foreach (get_all_currencies() as $cur) {
 				if ($cur == 'btc') continue;
 				if (!in_array($cur, get_all_fiat_currencies()) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates['btc' . $cur])) {
-					$data[strtoupper($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] * $rates['btc' . $cur]['sell']));
+					$data[get_currency_abbr($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] * $rates['btc' . $cur]['sell']));
 				}
 				if (in_array($cur, get_all_fiat_currencies()) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates[$cur . 'btc']) && $rates[$cur . 'btc'] /* no div by 0 */) {
-					$data[strtoupper($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] / $rates[$cur . 'btc']['buy']));
+					$data[get_currency_abbr($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] / $rates[$cur . 'btc']['buy']));
 				}
 			}
 
@@ -257,7 +257,7 @@ function render_graph_actual($graph, $is_public) {
 			// create headings with colours
 			$headings = array();
 			foreach ($data as $key => $value) {
-				$headings[strtolower($key)] = array('color' => default_chart_color(array_search(strtolower($key), get_all_currencies())));
+				$headings[get_currency_abbr($key)] = array('color' => default_chart_color(array_search(strtolower(substr($key, 0, 3)), get_all_currencies())));
 			}
 			$data[0] = $headings;
 
@@ -310,7 +310,7 @@ function render_graph_actual($graph, $is_public) {
 			foreach ($currencies as $c) {
 				if (isset($summaries[$c])) {
 					$balance = isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0;
-					$data[] = array(strtoupper($c), currency_format($c, demo_scale($balance), 4));
+					$data[] = array(get_currency_abbr($c), currency_format($c, demo_scale($balance), 4));
 				}
 			}
 
@@ -376,7 +376,7 @@ function render_graph_actual($graph, $is_public) {
 					$balance = demo_scale(isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0);
 					$offset = demo_scale(isset($offsets[$c]) ? $offsets[$c]['balance'] : 0);
 					$data[] = array(
-						strtoupper($c),
+						get_currency_abbr($c),
 						currency_format($c, $balance - $offset, 4),
 						// HTML quirk: "When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form."
 						'<form action="' . htmlspecialchars(url_for('set_offset', array('page' => $graph['page_id']))) . '" method="post">' .
@@ -404,14 +404,14 @@ function render_graph_actual($graph, $is_public) {
 			$interested = array();
 			foreach ($currencies as $c) {
 				if (isset($summaries[$c])) {
-					$header[] = strtoupper($c);
+					$header[] = get_currency_abbr($c);
 					$interested[] = $c;
 				}
 			}
 			$data[] = $header;
 
 			foreach ($interested as $c1) {
-				$row = array(strtoupper($c1));
+				$row = array(get_currency_abbr($c1));
 				foreach ($interested as $c2) {
 					// go through each exchange pair
 					$cell = "";
@@ -617,7 +617,7 @@ function render_graph_actual($graph, $is_public) {
 
 							if ($data) {
 								if ($split[2] == "pie") {
-									render_pie_chart($graph, $data, 'Source', strtoupper($currency));
+									render_pie_chart($graph, $data, 'Source', get_currency_abbr($currency));
 								} else {
 									$table = array();
 									$sum = 0;
@@ -626,7 +626,7 @@ function render_graph_actual($graph, $is_public) {
 										$sum += $exchange_data;
 									}
 									$head = array(
-										array("Total " . strtoupper($currency), currency_format($currency, $sum, 4)),
+										array("Total " . get_currency_abbr($currency), currency_format($currency, $sum, 4)),
 									);
 									render_table_vertical($graph, $table, $head);
 								}

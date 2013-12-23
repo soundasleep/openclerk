@@ -109,12 +109,12 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 	$data = array();
 	$data[0] = array("Date",
 		array(
-			'title' => strtoupper($cur1) . "/" . strtoupper($cur2) . " Buy",
+			'title' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2) . " Buy",
 			'line_width' => 2,
 			'color' => default_chart_color(0),
 		),
 		array(
-			'title' => strtoupper($cur1) . "/" . strtoupper($cur2) . " Sell",
+			'title' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2) . " Sell",
 			'line_width' => 2,
 			'color' => default_chart_color(1),
 		),
@@ -122,7 +122,7 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 	if ($exchange == 'themoneyconverter') {
 		// hack fix because TheMoneyConverter only has last_trade
 		unset($data[0][2]);
-		$data[0][1]['title'] = strtoupper($cur1) . "/" . strtoupper($cur2);
+		$data[0][1]['title'] = get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2);
 	}
 	$last_updated = false;
 	$days = get_graph_days($graph);
@@ -247,7 +247,7 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 	$data = array();
 	$data[0] = array("Date",
 		array(
-			'title' => $row_title ? $row_title : strtoupper($currency),
+			'title' => $row_title ? $row_title : get_currency_abbr($currency),
 			'line_width' => 2,
 			'color' => default_chart_color(0),
 		),
@@ -323,7 +323,7 @@ function render_balances_graph($graph, $exchange, $currency, $user_id, $account_
 
 }
 
-function render_graph_return_currency($exchange, $args) { return strtoupper($args['currency']); }
+function render_graph_return_currency($exchange, $args) { return get_currency_abbr($args['currency']); }
 
 function render_balances_composition_graph($graph, $currency, $user_id, $stacked = false, $proportional = false) {
 
@@ -389,7 +389,7 @@ function render_balances_btc_equivalent_graph($graph, $user_id, $stacked = false
 	render_sources_graph($graph, $sources, array(/* args */), $user_id, 'render_graph_return_exchange_currency', 'last_total' /* $has_subheadings */, $stacked, $proportional);
 }
 
-function render_graph_return_exchange_currency($exchange, $args) { return strtoupper($exchange); }
+function render_graph_return_exchange_currency($exchange, $args) { return get_currency_abbr($exchange); }
 
 /**
  * Renders a collection of $sources with a given set of arguments $args, a user ID $user_id

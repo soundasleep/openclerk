@@ -147,7 +147,7 @@ $crypto2btc = 0;
 		if (isset($totals[$c])) {
 			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), "btc", $c)) {
 				$temp = $totals[$c] * $ticker['sell'];
-				crypto_log("+ from " . strtoupper($c) . " (BTC): " . ($temp));
+				crypto_log("+ from " . get_currency_abbr($c) . " (BTC): " . ($temp));
 
 				add_summary_instance($job, 'equivalent_btc_' . $c, $temp);
 
@@ -162,14 +162,14 @@ $crypto2btc = 0;
 		if (isset($totals[$c])) {
 			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), $c, "btc")) {
 				$temp = $totals[$c] / $ticker['sell'];
-				crypto_log("equivalent " . strtoupper($c) . " (BTC): " . ($temp));
+				crypto_log("equivalent " . get_currency_abbr($c) . " (BTC): " . ($temp));
 
 				add_summary_instance($job, 'equivalent_btc_' . $c, $temp);
 			}
 		}
 	}
 
-	crypto_log("Total converted " . strtoupper($currency) . " balance for user " . $job['user_id'] . ": " . $total);
+	crypto_log("Total converted " . get_currency_abbr($currency) . " balance for user " . $job['user_id'] . ": " . $total);
 	$crypto2btc = $total;
 
 }
@@ -249,11 +249,11 @@ foreach ($summaries as $summary) {
 			if (isset($totals[$c])) {
 				if ($ticker = get_latest_ticker(get_default_currency_exchange($c), "btc", $c)) {
 					$temp = $totals[$c] * $ticker['sell'];
-					crypto_log("+ from " . strtoupper($c) . " (BTC): " . ($temp));
+					crypto_log("+ from " . get_currency_abbr($c) . " (BTC): " . ($temp));
 
 					// and then BTC to CUR
 					if ($ticker = get_latest_ticker(get_default_currency_exchange($currency), "btc", $currency)) {
-						crypto_log("+ from " . strtoupper($c) . " (" . strtoupper($currency) . "): " . ($temp / $ticker['buy']));
+						crypto_log("+ from " . get_currency_abbr($c) . " (" . get_currency_abbr($currency) . "): " . ($temp / $ticker['buy']));
 						$total += $temp / $ticker['buy'];
 					}
 				}
@@ -261,7 +261,7 @@ foreach ($summaries as $summary) {
 			}
 		}
 
-		crypto_log("Total converted " . strtoupper($currency) . " balance for user " . $job['user_id'] . ": " . $total);
+		crypto_log("Total converted " . get_currency_abbr($currency) . " balance for user " . $job['user_id'] . ": " . $total);
 
 		add_summary_instance($job, 'crypto2' . $currency, $total);
 

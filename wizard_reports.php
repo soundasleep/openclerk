@@ -62,7 +62,7 @@ require_template("wizard_reports");
 		<?php foreach (get_all_cryptocurrencies() as $c) {
 			if (isset($summaries[$c])) {
 				echo "<option value=\"" . htmlspecialchars($c) . "\"
-					class=\"currency_name_" . htmlspecialchars($c) . "\"" . ($user['preferred_crypto'] == $c ? " selected" : "") . ">" . strtoupper($c) . "</option>\n";
+					class=\"currency_name_" . htmlspecialchars($c) . "\"" . ($user['preferred_crypto'] == $c ? " selected" : "") . ">" . get_currency_abbr($c) . "</option>\n";
 			}
 		} ?>
 		</select>
@@ -76,7 +76,7 @@ require_template("wizard_reports");
 
 			if (isset($summaries[$c])) {
 				echo "<option value=\"" . htmlspecialchars($c) . "\"
-					class=\"currency_name_" . htmlspecialchars($c) . "\"" . ($user['preferred_fiat'] == $c ? " selected" : "") . ">" . strtoupper($c) . "</option>\n";
+					class=\"currency_name_" . htmlspecialchars($c) . "\"" . ($user['preferred_fiat'] == $c ? " selected" : "") . ">" . get_currency_abbr($c) . "</option>\n";
 			}
 		} ?>
 		</select>

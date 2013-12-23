@@ -82,9 +82,9 @@ function get_premium_price($currency, $period) {
 function get_text_premium_prices() {
 	$prices = array();
 	foreach (get_site_config('premium_currencies') as $currency) {
-		$prices[] = "  " . strtoupper($currency) . ": " .
-				number_format_autoprecision(get_premium_price($currency, 'monthly')) . " " . strtoupper($currency) . "/month, or " .
-				number_format_autoprecision(get_premium_price($currency, 'yearly')) . " " . strtoupper($currency) . "/year" .
+		$prices[] = "  " . get_currency_abbr($currency) . ": " .
+				number_format_autoprecision(get_premium_price($currency, 'monthly')) . " " . get_currency_abbr($currency) . "/month, or " .
+				number_format_autoprecision(get_premium_price($currency, 'yearly')) . " " . get_currency_abbr($currency) . "/year" .
 				(get_site_config('premium_' . $currency . '_discount') ? " (" . (int) (get_site_config('premium_' . $currency . '_discount') * 100) . "% off)" : "");
 	}
 	return implode("\n", $prices);

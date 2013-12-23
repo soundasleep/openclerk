@@ -18,7 +18,7 @@ function graph_types_public($summaries = array()) {
 	// but we'll only want to display currency pairs that we're interested in
 	foreach (get_exchange_pairs() as $key => $pairs) {
 		foreach ($pairs as $pair) {
-			$pp = strtoupper($pair[0]) . "/" . strtoupper($pair[1]);
+			$pp = get_currency_abbr($pair[0]) . "/" . get_currency_abbr($pair[1]);
 			$data[$key . "_" . $pair[0] . $pair[1] . "_daily"] = array(
 				'title' => get_exchange_name($key) . " historical $pp (graph)",
 				'heading' => get_exchange_name($key) . " $pp",
@@ -44,7 +44,7 @@ function graph_types_public($summaries = array()) {
 	foreach (get_security_exchange_pairs() as $key => $currencies) {
 		foreach ($currencies as $c) {
 			$data['securities_' . $key . '_' . $c] = array(
-				'title' => get_exchange_name($key) . " " . strtoupper($c) . " security value (graph)",
+				'title' => get_exchange_name($key) . " " . get_currency_abbr($c) . " security value (graph)",
 				'heading' => get_exchange_name($key) . " security",
 				'description' => 'A line graph displaying the historical value of a particular ' . get_exchange_name($key) . ' security.',
 				'hide' => !isset($summaries[$c]),	// only show securities in currencies we're interested in
@@ -97,7 +97,7 @@ function get_default_exchange_text($currencies) {
 		if (!isset($result[$default])) {
 			$result[$default] = array();
 		}
-		$result[$default][] = strtoupper($c);
+		$result[$default][] = get_currency_abbr($c);
 	}
 	$result2 = array();
 	foreach ($result as $exchange => $currencies) {
@@ -152,7 +152,7 @@ function graph_types() {
 		$cur = $summary['currency'];
 		$data["total_" . $cur . "_daily"] = array(
 			'title' => "Total " . get_currency_name($cur) . " historical (graph)",
-			'heading' => "Total " . strtoupper($cur),
+			'heading' => "Total " . get_currency_abbr($cur),
 			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions).",
 			'hide' => !isset($summaries[$cur]),
 			'days' => true,
@@ -164,7 +164,7 @@ function graph_types() {
 	foreach (get_all_hashrate_currencies() as $cur) {
 		$data["hashrate_" . $cur . "_daily"] = array(
 			'title' => get_currency_name($cur) . " historical MHash/s (graph)",
-			'heading' => strtoupper($cur) . " MHash/s",
+			'heading' => get_currency_abbr($cur) . " MHash/s",
 			'description' => "A line graph displaying the historical hashrate sum of all workers mining " . get_currency_name($cur) . " across all pools (in MHash/s).",
 			'hide' => !isset($summaries[$cur]),
 			'days' => true,
@@ -211,7 +211,7 @@ function graph_types() {
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_pie"] = array(
 			'title' => "Total " . get_currency_name($currency) . " balance composition (pie)",
-			'heading' => "Total " . strtoupper($currency),
+			'heading' => "Total " . get_currency_abbr($currency),
 			'description' => "A pie chart representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
@@ -220,7 +220,7 @@ function graph_types() {
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_daily"] = array(
 			'title' => "All " . get_currency_name($currency) . " balances (graph)",
-			'heading' => "All " . strtoupper($currency) . " balances",
+			'heading' => "All " . get_currency_abbr($currency) . " balances",
 			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
@@ -230,7 +230,7 @@ function graph_types() {
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_table"] = array(
 			'title' => "Your " . get_currency_name($currency) . " balances (table)",
-			'heading' => "Your " . strtoupper($currency) . " balances",
+			'heading' => "Your " . get_currency_abbr($currency) . " balances",
 			'description' => "A table displaying all of your " . get_currency_name($currency) . " balances and the total balance (before any conversions).",
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
 		);
@@ -244,7 +244,7 @@ function graph_types() {
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_stacked"] = array(
 			'title' => "All " . get_currency_name($currency) . " balances (stacked)",
-			'heading' => "All " . strtoupper($currency) . " balances",
+			'heading' => "All " . get_currency_abbr($currency) . " balances",
 			'description' => "A stacked area graph displaying the historical value of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
@@ -254,7 +254,7 @@ function graph_types() {
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_proportional"] = array(
 			'title' => "All " . get_currency_name($currency) . " balances (proportional)",
-			'heading' => "All " . strtoupper($currency) . " balances",
+			'heading' => "All " . get_currency_abbr($currency) . " balances",
 			'description' => "A stacked area graph displaying the proportional historical value of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,

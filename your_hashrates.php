@@ -71,7 +71,7 @@ require(__DIR__ . "/_profile_pages.php");
 		<?php
 		/* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */
 		foreach ($balances as $currency => $data) {
-			echo '<li id="tab_currencies_' . htmlspecialchars($currency) . '"><span class="currency_name_' . htmlspecialchars($currency) . '">' . htmlspecialchars(strtoupper($currency)) . '</span></li>';
+			echo '<li id="tab_currencies_' . htmlspecialchars($currency) . '"><span class="currency_name_' . htmlspecialchars($currency) . '">' . htmlspecialchars(get_currency_abbr($currency)) . '</span></li>';
 		} ?>
 	</ul>
 

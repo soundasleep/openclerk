@@ -82,7 +82,7 @@ page_header("Status", "page_admin", array('common_js' => true, 'jquery' => true,
 	$q = db()->prepare("SELECT currency, COUNT(*) AS c FROM premium_addresses WHERE is_used=0 GROUP BY currency");
 	$q->execute();
 	while ($c = $q->fetch()) {
-		echo "<td class=\"number\">" . number_format($c['c']) . " (" . strtoupper($c['currency']) . ")</td>";
+		echo "<td class=\"number\">" . number_format($c['c']) . " (" . get_currency_abbr($c['currency']) . ")</td>";
 	}
 	echo "</tr>";
 	echo "<tr>";

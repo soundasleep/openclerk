@@ -1317,7 +1317,7 @@ function reset_user_graphs($user_id) {
 function dropdown_currency_list() {
 	$result = array();
 	foreach (get_all_currencies() as $c) {
-		$result[$c] = strtoupper($c);
+		$result[$c] = get_currency_abbr($c);
 	}
 	return $result;
 }

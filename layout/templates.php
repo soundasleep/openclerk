@@ -228,7 +228,7 @@ function trc_address($address) {
 }
 
 function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {
-	$currency = strtoupper($currency_code);
+	$currency = get_currency_abbr($currency_code);
 
 	if (!is_numeric($n)) {
 		return "<span class=\"error\">" . $n . " $currency</span>";

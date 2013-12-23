@@ -23,7 +23,7 @@ foreach ($currencies as $c) {
 		// remove any commas
 		$value = str_replace(",", "", $value);
 		if (!is_numeric($value)) {
-			$errors[] = "'" . htmlspecialchars($value) . "' is not a valid numeric value for " . htmlspecialchars(strtoupper($c)) . ".";
+			$errors[] = "'" . htmlspecialchars($value) . "' is not a valid numeric value for " . htmlspecialchars(get_currency_abbr($c)) . ".";
 			continue;
 		}
 
@@ -62,7 +62,7 @@ foreach ($currencies as $c) {
 		));
 
 		if (!require_post("wizard", false)) {
-			$messages[] = "Set " . htmlspecialchars(strtoupper($c)) . " offset to " . currency_format($c, $value, 8) . ".";
+			$messages[] = "Set " . htmlspecialchars(get_currency_abbr($c)) . " offset to " . currency_format($c, $value, 8) . ".";
 		}
 	}
 }

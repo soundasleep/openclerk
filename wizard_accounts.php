@@ -87,7 +87,7 @@ require_template("wizard_accounts");
 			$offset = demo_scale(isset($offsets[$c]) ? $offsets[$c]['balance'] : 0); ?>
 		<tr>
 			<th><span class="currency_name_<?php echo $c; ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></span></th>
-			<td><input type="text" name="<?php echo $c; ?>" value="<?php echo htmlspecialchars($offset == 0 ? '' : number_format_autoprecision($offset)) ?>"> <?php echo htmlspecialchars(strtoupper($c)); ?></td>
+			<td><input type="text" name="<?php echo $c; ?>" value="<?php echo htmlspecialchars($offset == 0 ? '' : number_format_autoprecision($offset)) ?>"> <?php echo htmlspecialchars(get_currency_abbr($c)); ?></td>
 		</tr>
 		<?php }
 	} ?>
