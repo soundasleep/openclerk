@@ -114,6 +114,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_dogepoolpw', 'type' => 'dogepoolpw', 'failure' => true),
 	array('table' => 'accounts_elitistjerks', 'type' => 'elitistjerks', 'failure' => true),
 	array('table' => 'accounts_dogechainpool', 'type' => 'dogechainpool', 'failure' => true),
+	array('table' => 'accounts_hashfaster_ltc', 'type' => 'hashfaster_ltc', 'failure' => true),
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),
 	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),

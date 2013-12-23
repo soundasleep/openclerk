@@ -139,6 +139,8 @@ function get_all_exchanges() {
 		"dogepoolpw" => 	"dogepool.pw",
 		"elitistjerks" =>	"Elitist Jerks",
 		"dogechainpool" =>	"Dogechain Pool",
+		"hashfaster" =>		"HashFaster",	// for labels, accounts actually use hashfaster_cur
+		"hashfaster_ltc" =>	"HashFaster",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -242,6 +244,7 @@ function get_supported_wallets() {
 		"elitistjerks" => array('ltc', 'hash'),
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
+		"hashfaster" => array('ltc', 'hash'),
 		"hypernova" => array('ltc', 'hash'),
 		"khore" => array('nvc', 'hash'),
 		"lite_coinpool" => array('ltc', 'hash'),
@@ -262,7 +265,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("dogepoolpw", "elitistjerks", "dogechainpool");
+	return array("dogepoolpw", "elitistjerks", "dogechainpool", "hashfaster");
 }
 
 function crypto_address($currency, $address) {
@@ -415,6 +418,7 @@ function account_data_grouped() {
 			'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			"hashfaster_ltc" => array('table' => 'accounts_hashfaster_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -516,6 +520,7 @@ function get_external_apis() {
 			'dogepoolpw' => '<a href="http://dogepool.pw">dogepool.pw</a>',
 			'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
 			'dogechainpool' => '<a href="http://pool.dogechain.info/">Dogechain Pool</a>',
+			'hashfaster_ltc' => '<a href="http://ltc.hashfaster.com">HashFaster</a> (LTC)',
 		),
 
 		"Exchange wallets" => array(
@@ -952,6 +957,17 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_dogechainpool',
 				'khash' => true,
+			);
+
+		case "hashfaster_ltc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_hashfaster_ltc_apikey'),
+				),
+				'table' => 'accounts_hashfaster_ltc',
+				'title' => 'HashFaster LTC account',
+				'khash' => true,
+				'title_key' => 'hashfaster',
 			);
 
 		// --- exchanges ---
@@ -1679,6 +1695,11 @@ function is_valid_elitistjerks_apikey($key) {
 }
 
 function is_valid_dogechainpool_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_hashfaster_ltc_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }

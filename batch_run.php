@@ -352,6 +352,10 @@ try {
 			require(__DIR__ . "/jobs/dogechainpool.php");
 			break;
 
+		case "hashfaster_ltc":
+			require(__DIR__ . "/jobs/hashfaster_ltc.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

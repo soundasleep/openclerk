@@ -9,7 +9,12 @@ if (!$account) {
 }
 
 // get balance
-$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url($api_url . "action=getuserbalance&api_key=" . $account['api_key']), isset($curl_options) ? $curl_options : array()), "on getuserbalance");
+$contents = crypto_get_contents(crypto_wrap_url($api_url . "action=getuserbalance&api_key=" . $account['api_key']), isset($curl_options) ? $curl_options : array());
+if (preg_match("#^[0-9]+{#", $contents)) {
+	// fix a bug with HashFaster LTC pool, which is writing the user ID at the start of the API response
+	$contents = substr($contents, strpos($contents, "{"));
+}
+$data = crypto_json_decode($contents, "on getuserbalance");
 if (!isset($data['getuserbalance']['data']['confirmed'])) {
 	throw new ExternalAPIException("No confirmed balance found");
 }
