@@ -1972,3 +1972,23 @@ CREATE TABLE accounts_litecoinpool (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+----------------------------------------------------------------------------
+-- upgrade statements from 0.14 to 0.15
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+-- when deleting BTCT/etc accounts, the securities still display
+ALTER TABLE securities ADD account_id int null default 0;
+ALTER TABLE securities ADD INDEX(account_id);
+
+-- this will mean up to 0.15, all securities will not have a parent - but as soon as
+-- accounts refresh, they will be readded with a parent
+-- (this will also hide old deleted securities from the Your Securities page)
+UPDATE securities SET is_recent=0 WHERE account_id=0;
+UPDATE accounts_796 SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
+UPDATE accounts_btct SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
+UPDATE accounts_cryptotrade SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
+UPDATE accounts_cryptostocks SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
+UPDATE accounts_havelock SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);
+UPDATE accounts_litecoinglobal SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DAY);

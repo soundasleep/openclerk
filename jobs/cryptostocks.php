@@ -62,8 +62,8 @@ sleep(get_site_config('sleep_cryptostocks_balance'));
 $get_share_balances = cryptostocks_api($account['api_key_share'], $account['api_email'], 'get_share_balances');
 
 // set is_recent=0 for all old security instances for this user
-$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
-$q->execute(array($job['user_id'], $exchange));
+$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=? AND account_id=?");
+$q->execute(array($job['user_id'], $exchange, $account['id']));
 
 foreach ($get_share_balances['tickers'] as $security) {
 	if (!isset($get_share_balances[$security]['balance'])) {
@@ -110,12 +110,13 @@ foreach ($get_share_balances['tickers'] as $security) {
 	}
 
 	// insert security instance
-	$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, is_recent=1");
+	$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, account_id=:account_id, is_recent=1");
 	$q->execute(array(
 		'user_id' => $job['user_id'],
 		'exchange' => $exchange,
 		'security_id' => $security_def['id'],
 		'quantity' => $security_value['balance'],
+		'account_id' => $account['id'],
 	));
 }
 

@@ -27,8 +27,8 @@ $balance = 0;
 crypto_log("$exchange wallet balance for " . $job['user_id'] . ": " . $wallet);
 
 // set is_recent=0 for all old security instances for this user
-$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
-$q->execute(array($job['user_id'], $exchange));
+$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=? AND account_id=?");
+$q->execute(array($job['user_id'], $exchange, $account['id']));
 
 // assume we don't need to delay
 $content = havelock_query("https://www.havelockinvestments.com/r/portfolio", array('key' => $account['api_key']));
@@ -44,12 +44,13 @@ if ($content['portfolio'] && is_array($content['portfolio'])) {
 		$security_def = $q->fetch();
 		if ($security_def) {
 			// insert security instance
-			$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, is_recent=1");
+			$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, account_id=:account_id, is_recent=1");
 			$q->execute(array(
 				'user_id' => $job['user_id'],
 				'exchange' => $exchange,
 				'security_id' => $security_def['id'],
 				'quantity' => $entry['quantity'],
+				'account_id' => $account['id'],
 			));
 		}
 	}

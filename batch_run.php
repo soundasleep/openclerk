@@ -638,6 +638,9 @@ function crypto_json_decode($string, $message = false) {
 		if (strpos(strtolower($string), "invalid key") !== false) {
 			throw new ExternalAPIException("Invalid key" . ($message ? " $message" : ""));
 		}
+		if (strpos(strtolower($string), "access denied") !== false) {
+			throw new ExternalAPIException("Access denied" . ($message ? " $message" : ""));
+		}
 		if (!$string) {
 			throw new ExternalAPIException('Response was empty' . ($message ? " $message" : ""));
 		}

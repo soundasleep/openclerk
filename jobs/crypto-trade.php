@@ -71,8 +71,8 @@ foreach ($currencies as $currency) {
 
 // ...and also securities
 // set is_recent=0 for all old security instances for this user
-$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=?");
-$q->execute(array($job['user_id'], $exchange));
+$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=? AND account_id=?");
+$q->execute(array($job['user_id'], $exchange, $account['id']));
 
 $q = db()->prepare("SELECT * FROM securities_cryptotrade");
 $q->execute();
@@ -100,12 +100,13 @@ foreach ($securities as $sec) {
 				$security_value[$sec['currency']] += $temp;
 
 				// insert security instance
-				$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, is_recent=1");
+				$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, account_id=:account_id, is_recent=1");
 				$q->execute(array(
 					'user_id' => $job['user_id'],
 					'exchange' => $exchange,
 					'security_id' => $sec['id'],
 					'quantity' => $info['data']['funds'][$currency],
+					'account_id' => $account['id'],
 				));
 			}
 		}

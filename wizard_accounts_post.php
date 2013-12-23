@@ -126,6 +126,11 @@ if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM balances WHERE account_id=? AND user_id=? AND exchange=?");
 	$q->execute(array(require_post("id"), user_id(), $account_data['exchange'] . '_wallet'));
 
+	// finally, mark old securities as no longer recent
+	// (this will hide them from the Your Securities page as well)
+	$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=? AND account_id=?");
+	$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+
 	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . ".";
 
 	// redirect to GET
