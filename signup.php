@@ -78,7 +78,7 @@ if ($openid) {
 
 					$q = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
 					$q->execute(array($light->identity));
-					if (!($identity = $q->fetch())) {
+					if ($identity = $q->fetch()) {
 						throw new EscapedException("An account for the OpenID identity '" . htmlspecialchars($light->identity) . "' already exists. Did you mean to <a href=\"" . url_for('login', array('openid' => $openid)) . "\">login instead</a>?");
 					}
 
