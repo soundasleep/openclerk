@@ -21,20 +21,27 @@ if (!$address) {
 
 // we can now request the HTML page
 $html = crypto_get_contents(crypto_wrap_url($abe_data['explorer_url'] . urlencode($address['address'])));
+$html = preg_replace("#[\n\t]+#", "", $html);
+$html = preg_replace("#</tr>#", "</tr>\n", $html);
 
 // assumes that the page format will not change
-if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |</th><td>|</td><td>)([0-9\.]+) ' . strtoupper($abe_data['currency']) /* DogeChain uses DOG not DOGE */ . '#i', $html, $matches)) {
+if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |</th><td>|</td><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#i', $html, $matches)) {
 	$balance = $matches[3];
 	crypto_log("Address balance before removing unconfirmed: " . $balance);
 
-	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . strtoupper($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
+	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>(- |\\+ |)([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . get_currency_abbr($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
 		foreach ($matches as $match) {
 			if ($match[1] >= $block) {
 				// too recent
-				$amount = $match[2];
+				$amount = $match[3];
 				if (substr($amount, 0, 1) == "(" && substr($amount, -1) == ")") {
 					// convert (1.23) into -1.23
 					$amount = - substr($amount, 1, strlen($amount) - 2);
+				}
+				if ($match[2] == "+") {
+					$amount = +$amount;
+				} else if ($match[2] == "-") {
+					$amount = -$amount;
 				}
 				crypto_log("Removing " . $amount . " from balance: unconfirmed (block " . $match[1] . " >= " . $block . ")");
 				$balance -= $amount;
