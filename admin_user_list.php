@@ -103,7 +103,7 @@ $q->execute($args);
 				echo "<form action=\"" . htmlspecialchars(url_for('admin_user_delete')) . "\" method=\"post\">";
 				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
 				echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
-				echo "<input type=\"submit\" value=\"Delete\" onclick=\"return confirm('Are you sure you want to delete this user?') && confirm('Are you really sure?');\">";
+				echo "<input type=\"submit\" value=\"Delete\" onclick=\"return confirm('Are you sure you want to delete this user?');\">";
 				echo "</form>";
 			}
 			echo "</td>\n";

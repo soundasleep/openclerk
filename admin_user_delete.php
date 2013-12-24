@@ -60,6 +60,8 @@ if (!$confirm) {
 
 	delete_from('offsets');
 
+	delete_from('openid_identities');
+
 	delete_from('summary_instances');
 	delete_from('summaries');
 
