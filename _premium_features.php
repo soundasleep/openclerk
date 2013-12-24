@@ -30,7 +30,12 @@
 		}
 	}
 
-	$currencies = array_map('strtoupper', $currencies);
+	$currencies = array_map('get_currency_abbr', $currencies);
+	if (count($currencies) > 5) {
+		$other_currencies = array_slice($currencies, 5);
+		$currencies = array_slice($currencies, 0, 5);
+		$currencies[] = '...<span><a class="collapse-link collapsed">+</a><span class="collapse-target">' . implode(", ", $other_currencies) . '</span></span>';
+	}
 	$predef = array(
 		'addresses' => 'Tracked addresses (' . implode(", ", $currencies) . ')',
 		'accounts' => 'Tracked accounts (BTC-e, Mt.Gox, ...)',
