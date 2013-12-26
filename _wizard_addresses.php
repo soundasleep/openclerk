@@ -51,20 +51,12 @@ foreach ($accounts as $a) {
 	$last_updated = $a['last_updated'];
 
 	// was the last request successful?
-	$q = db()->prepare("SELECT * FROM jobs
-		WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 AND is_error=1
-		ORDER BY id DESC LIMIT 1");
+	$q = db()->prepare("SELECT jobs.*, uncaught_exceptions.message FROM jobs
+		LEFT JOIN uncaught_exceptions ON uncaught_exceptions.job_id=jobs.id
+		WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 AND jobs.is_recent=1
+		ORDER BY jobs.id DESC LIMIT 1");
 	$q->execute(array(user_id(), $a['id'], $account_data['job_type']));
 	$job = $q->fetch();
-	if ($job) {
-		$q = db()->prepare("SELECT * FROM uncaught_exceptions WHERE job_id=?");
-		$q->execute(array($job['id']));
-		$exception = $q->fetch();
-		if ($exception) {
-			$job['message'] = $exception['message'];
-		}
-	}
-
 	if (!$last_updated && $job) {
 		$last_updated = $job['executed_at'];
 	}
