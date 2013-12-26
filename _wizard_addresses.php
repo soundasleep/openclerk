@@ -58,7 +58,7 @@ foreach ($accounts as $a) {
 	$job = $q->fetch();
 	if ($job) {
 		$q = db()->prepare("SELECT * FROM uncaught_exceptions WHERE job_id=?");
-		$q->execute(array($job['id']);
+		$q->execute(array($job['id']));
 		$exception = $q->fetch();
 		if ($exception) {
 			$job['message'] = $exception['message'];
