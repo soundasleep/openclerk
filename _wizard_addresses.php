@@ -51,14 +51,16 @@ foreach ($accounts as $a) {
 	$last_updated = $a['last_updated'];
 
 	// was the last request successful?
-	$q = db()->prepare("SELECT jobs.*, uncaught_exceptions.message FROM jobs
-		LEFT JOIN uncaught_exceptions ON uncaught_exceptions.job_id=jobs.id
-		WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 AND jobs.is_recent=1
-		ORDER BY jobs.id DESC LIMIT 1");
-	$q->execute(array(user_id(), $a['id'], $account_data['job_type']));
-	$job = $q->fetch();
-	if (!$last_updated && $job) {
-		$last_updated = $job['executed_at'];
+	if ($a['balance'] === null) {
+		$q = db()->prepare("SELECT jobs.*, uncaught_exceptions.message FROM jobs
+			LEFT JOIN uncaught_exceptions ON uncaught_exceptions.job_id=jobs.id
+			WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 AND jobs.is_recent=1
+			ORDER BY jobs.id DESC LIMIT 1");
+		$q->execute(array(user_id(), $a['id'], $account_data['job_type']));
+		$job = $q->fetch();
+		if (!$last_updated && $job) {
+			$last_updated = $job['executed_at'];
+		}
 	}
 ?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
@@ -75,7 +77,7 @@ foreach ($accounts as $a) {
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td class="job_status <?php if ($job) { echo $job['is_error'] ? "job_error" : "job_success"; } ?>">
 			<?php echo recent_format_html($last_updated); ?>
-			<?php if ($job['message']) { ?>
+			<?php if ($job && $job['message']) { ?>
 			: <?php echo htmlspecialchars($job['message']); ?>
 			<?php } ?>
 		</td>
