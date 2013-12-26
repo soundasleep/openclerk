@@ -51,9 +51,13 @@ if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |
 		crypto_log("Confirmed balance after " . $abe_data['confirmations'] . " confirmations: " . $balance);
 
 	} else {
-		throw new ExternalAPIException("Could not find any transactions on page");
+		if ($abe_data['currency'] == 'dog') {
+			crypto_log("DOGE currency had no transactions: this is OK");
+		} else {
+			throw new ExternalAPIException("Could not find any transactions on page");
+		}
 	}
-} else if ($address['is_received'] && preg_match('#\n(|<tr><th>)Received:?( |</th><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#i', $html, $matches)) {
+} else if ($address['is_received'] && preg_match('#(|<tr><th>)Received:?( |</th><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#i', $html, $matches)) {
 	$balance = $matches[3];
 	crypto_log("Address received before removing unconfirmed: " . $balance);
 
