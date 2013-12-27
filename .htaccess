@@ -13,7 +13,10 @@ RewriteEngine on
 RewriteBase /clerk
 ErrorDocument 404 /clerk/404.php
 
-# rewrite urls
+# Provide human-readable URLs for some common paths; otherwise
+# all scripts are accessible through the final rule below.
+# To disable these rules, edit url_for() and remove the switch($module) statement.
+# Also see: Issue #4.
 
 RewriteCond %{QUERY_STRING}     	^q=(.*)$    [NC]
 RewriteRule ^kb$         help/%1     [R=301,L]
@@ -25,5 +28,8 @@ RewriteRule ^help/$        $1         [R,QSA]
 RewriteRule ^signup/$        $1         [R,QSA]
 RewriteRule ^login/$        $1         [R,QSA]
 RewriteRule ^profile/$        $1         [R,QSA]
+
+# This rewrites /foo to /foo.php
+# To disable this rule, edit url_for() to return the normal .php extension for a given path.
 RewriteRule ^([0-9a-z_]+)$         $1.php     [L,QSA]
 
