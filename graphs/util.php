@@ -116,7 +116,7 @@ function get_all_recent_rates() {
 			$query .= "(currency1 = 'btc' AND currency2 = '$cur' AND exchange='$exchange') OR";
 			$query .= "(currency1 = '$cur' AND currency2 = 'btc' AND exchange='$exchange') OR";
 		}
-		$q = db()->prepare("SELECT * FROM ticker WHERE is_recent=1 AND ($query 0)");
+		$q = db()->prepare("SELECT * FROM ticker_recent WHERE 1 AND ($query 0)");
 		$q->execute(array(user_id()));
 		while ($ticker = $q->fetch()) {
 			$global_all_recent_rates[$ticker['currency1'] . $ticker['currency2']] = $ticker;

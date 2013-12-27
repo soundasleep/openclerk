@@ -718,17 +718,17 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 		throw new Exception("Invalid parameter: sell (should be ask)");
 	}
 	if (!isset($values['volume'])) {
-		$values['volume'] = 0;
+		$values['volume'] = null;
 	}
 	if (!isset($values['bid'])) {
-		$values['bid'] = 0;
+		$values['bid'] = null;
 	}
 	if (!isset($values['ask'])) {
-		$values['ask'] = 0;
+		$values['ask'] = null;
 	}
 
 	// insert in new ticker value
-	$q = db()->prepare("INSERT INTO ticker SET is_recent=1, exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, buy=:buy, sell=:sell, volume=:volume, job_id=:job_id, is_daily_data=1");
+	$q = db()->prepare("INSERT INTO ticker SET exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, buy=:buy, sell=:sell, volume=:volume, job_id=:job_id, is_daily_data=1");
 	$q->execute(array(
 		"exchange" => $exchange['name'],
 		"currency1" => $cur1,
@@ -743,13 +743,36 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 	$last_id = db()->lastInsertId();
 	crypto_log("Inserted new ticker id=" . $last_id);
 
-	// update old recent values
-	$q = db()->prepare("UPDATE ticker SET is_recent=0 WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND id <> :id");
+	// put into the most recent table
+	// TODO could also use a REPLACE statement
+	$q = db()->prepare("SELECT * FROM ticker_recent WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 LIMIT 1");
 	$q->execute(array(
 		"exchange" => $exchange['name'],
 		"currency1" => $cur1,
 		"currency2" => $cur2,
-		"id" => $last_id,
+	));
+	if (!$q->fetch()) {
+		// insert in a new blank value (this will not occur very often)
+		$q = db()->prepare("INSERT INTO ticker_recent SET exchange=:exchange, currency1=:currency1, currency2=:currency2");
+		$q->execute(array(
+			"exchange" => $exchange['name'],
+			"currency1" => $cur1,
+			"currency2" => $cur2,
+		));
+	}
+
+	// update the previously existing recent value
+	$q = db()->prepare("UPDATE ticker_recent SET created_at=NOW(), last_trade=:last_trade, buy=:buy, sell=:sell, volume=:volume, job_id=:job_id
+			WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2");
+	$q->execute(array(
+		"last_trade" => $values['last_trade'],
+		"buy" => $values['bid'],
+		"sell" => $values['ask'],
+		"volume" => $values['volume'],
+		"job_id" => $job['id'],
+		"exchange" => $exchange['name'],
+		"currency1" => $cur1,
+		"currency2" => $cur2,
 	));
 
 	// all other data from today is now old

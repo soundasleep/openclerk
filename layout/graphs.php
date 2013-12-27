@@ -418,7 +418,7 @@ function render_graph_actual($graph, $is_public) {
 					foreach (get_exchange_pairs() as $exchange => $pairs) {
 						foreach ($pairs as $pair) {
 							if ($c1 == $pair[0] && $c2 == $pair[1]) {
-								$q = db()->prepare("SELECT * FROM ticker WHERE exchange=? AND currency1=? AND currency2=? AND is_recent=1 LIMIT 1");
+								$q = db()->prepare("SELECT * FROM ticker_recent WHERE exchange=? AND currency1=? AND currency2=? LIMIT 1");
 								$q->execute(array($exchange, $c1, $c2));
 								if ($ticker = $q->fetch()) {
 									// TODO currency_format should be a graph option

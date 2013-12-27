@@ -2217,3 +2217,25 @@ CREATE TABLE accounts_scryptpools (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+-- we remove is_recent from ticker to hopefully increase performance
+CREATE TABLE ticker_recent (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	exchange varchar(32) not null,
+	currency1 varchar(3) not null,
+	currency2 varchar(3) not null,
+	
+	last_trade decimal(24,8) null,
+	buy decimal(24,8) null,
+	sell decimal(24,8) null,
+	volume decimal(24,8) null,
+	
+	job_id int null,
+	
+	UNIQUE(exchange, currency1, currency2), INDEX(job_id)
+);
+
+ALTER TABLE ticker DROP is_recent;
+
