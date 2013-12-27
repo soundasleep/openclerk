@@ -16,7 +16,7 @@ function get_latest_ticker($exchange, $cur1, $cur2) {
 	global $latest_tickers;
 	if (!isset($latest_tickers[$key])) {
 		$latest_tickers[$key] = false;
-		$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1");
+		$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND is_recent=1 LIMIT 1");
 		$q->execute(array(
 			"exchange" => $exchange,
 			"currency1" => $cur1,

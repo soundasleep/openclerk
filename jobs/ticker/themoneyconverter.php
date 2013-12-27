@@ -38,7 +38,7 @@ $feeds = array(
 	),
 );
 
-$exchange = "themoneyconverter";
+$exchange_name = "themoneyconverter";
 
 // now go through each relevant feed
 $errors = array();
@@ -68,7 +68,15 @@ foreach ($feeds as $url => $pairs) {
 			crypto_log($error);
 			$errors[] = $error;
 		} else {
-			insert_new_ticker_last_trade($exchange, $pair[0], $pair[1], 1.0 / $rate /* need to flip it over */, $job['id']);
+
+			$last_trade = 1.0 / $rate /* need to flip it over */;
+			crypto_log("$exchange_name value for $pair[0]/$pair[1]: $last_trade");
+
+			insert_new_ticker($job, $exchange, $pair[0], $pair[1], array(
+				"last_trade" => $last_trade,
+				// don't have buy, sell, or volume
+			));
+
 		}
 	}
 
@@ -91,41 +99,4 @@ function get_rate($xml, $cur1, $cur2) {
 	} else {
 		return false;
 	}
-}
-
-function insert_new_ticker_last_trade($exchange, $currency1, $currency2, $last_trade, $job_id) {
-	crypto_log("$exchange value for $currency1/$currency2: $last_trade");
-
-	// update old recent values
-	$q = db()->prepare("UPDATE ticker SET is_recent=0 WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2");
-	$q->execute(array(
-		"exchange" => $exchange,
-		"currency1" => $currency1,
-		"currency2" => $currency2,
-	));
-
-	// all other data from today is now old
-	// NOTE if the system time changes between the next two commands, then we may erraneously
-	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
-	// relying on MySQL
-	$q = db()->prepare("UPDATE ticker SET is_daily_data=0 WHERE is_daily_data=1 AND exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND
-		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y')");
-	$q->execute(array(
-		"exchange" => $exchange,
-		"currency1" => $currency1,
-		"currency2" => $currency2,
-	));
-
-	// insert in new ticker value
-	$q = db()->prepare("INSERT INTO ticker SET is_recent=1, exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, job_id=:job_id, is_daily_data=1");
-	$q->execute(array(
-		"exchange" => $exchange,
-		"currency1" => $currency1,
-		"currency2" => $currency2,
-		"last_trade" => $last_trade,
-		// don't have buy, sell, or volume
-		"job_id" => $job_id,
-	));
-
-	crypto_log("Inserted new ticker id=" . db()->lastInsertId());
 }
