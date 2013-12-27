@@ -4,17 +4,17 @@
  * Bitstamp ticker job.
  */
 
-$exchange = "bitstamp";
+$exchange_name = "bitstamp";
 $currency1 = "usd";
 $currency2 = "btc";
 
 $rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://www.bitstamp.net/api/ticker/")));
 
 if (!isset($rates['last'])) {
-	throw new ExternalAPIException("No $currency1/$currency2 last rate for Vircurex");
+	throw new ExternalAPIException("No $currency1/$currency2 last rate for $exchange_name");
 }
 
-crypto_log($exchange . " rate for $currency1/$currency2: " . $rates['last']);
+crypto_log("$exchange_name rate for $currency1/$currency2: " . $rates['last']);
 
 insert_new_ticker($job, $exchange, $currency1, $currency2, array(
 	"last_trade" => $rates['last'],

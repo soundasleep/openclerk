@@ -4,17 +4,17 @@
  * CEX.io ticker job.
  */
 
-$exchange = "cexio";
+$exchange_name = "cexio";
 $currency1 = "btc";
 $currency2 = "ghs";
 
 $rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://cex.io/api/ticker/" . strtoupper($currency2) . "/" . strtoupper($currency1))));
 
 if (!isset($rates['last'])) {
-	throw new ExternalAPIException("No $currency1/$currency2 last rate for $exchange");
+	throw new ExternalAPIException("No $currency1/$currency2 last rate for $exchange_name");
 }
 
-crypto_log("$exchange rate for $currency1/$currency2: " . $rates['last']);
+crypto_log("$exchange_name rate for $currency1/$currency2: " . $rates['last']);
 
 insert_new_ticker($job, $exchange, $currency1, $currency2, array(
 	"last_trade" => $rates['last'],
