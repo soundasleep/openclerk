@@ -10,7 +10,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <html<?php if (has_required_admin()) { echo " class=\"body_admin\""; } ?>>
 <head>
     <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
-    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('default.css' . '?' . get_site_config('openclerk_version'))); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for(get_site_config('default_css') . '?' . get_site_config('openclerk_version'))); ?>" />
     <?php if (get_site_config('custom_css')) { ?>
     <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for(get_site_config('custom_css') . '?' . get_site_config('openclerk_version'))); ?>" />
     <?php } ?>
