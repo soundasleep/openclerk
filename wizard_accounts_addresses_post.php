@@ -106,6 +106,10 @@ function process_csv_upload_row($row) {
 		// skip the first header line of CSV file, if present
 		return;
 	}
+	if (!trim($address)) {
+		// ignore empty addresses
+		return;
+	}
 
 	// otherwise, row[0] should be a label, and row[1] should be an address
 	if (!$account_data['callback']($address)) {

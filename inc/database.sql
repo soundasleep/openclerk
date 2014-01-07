@@ -2239,3 +2239,11 @@ CREATE TABLE ticker_recent (
 
 ALTER TABLE ticker DROP is_recent;
 
+ALTER TABLE ticker ADD INDEX(exchange, currency1, currency2);
+ALTER TABLE ticker DROP INDEX exchange;
+ALTER TABLE ticker DROP INDEX currency1;
+ALTER TABLE ticker DROP INDEX currency2;
+
+ALTER TABLE balances ADD INDEX(user_id, account_id, exchange);
+ALTER TABLE hashrates ADD INDEX(user_id, account_id, exchange);
+
