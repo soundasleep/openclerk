@@ -22,13 +22,13 @@ if (!$version) {
 
 // compare
 if (version_compare($version, get_site_config('openclerk_version')) > 0) {
-	// the remote version is newer
-	$q = db()->prepare("SELECT * FROM admin_messages WHERE message_type=? AND is_read=0 LIMIT 1");
+	// delete any unread messages
+	$q = db()->prepare("DELETE FROM admin_messages WHERE message_type=? AND is_read=0");
 	$q->execute(array('version_check'));
-	if (!$q->fetch()) {
-		$q = db()->prepare("INSERT INTO admin_messages SET message_type=?, message=?");
-		$q->execute(array('version_check', '<a href="http://openclerk.org">A new version</a> of Openclerk is available: ' . $version));
-		crypto_log("Inserted new admin_message.");
-	}
+
+	// and insert a new one
+	$q = db()->prepare("INSERT INTO admin_messages SET message_type=?, message=?");
+	$q->execute(array('version_check', '<a href="http://openclerk.org">A new version</a> of Openclerk is available: ' . $version));
+	crypto_log("Inserted new admin_message.");
 }
 
