@@ -40,6 +40,7 @@ if (get_site_config('timed_sql')) {
 		'fetch' => array('count' => 0, 'time' => 0),
 		'fetchAll' => array('count' => 0, 'time' => 0),
 		'lastInsertId' => array('count' => 0, 'time' => 0),
+		'queries' => array(),
 	);
 }
 
@@ -69,14 +70,19 @@ class DebugPDOWrapper {
 		return $result;
 	}
 
+	var $query = false;
+
 	public function prepare($a) {
 		global $global_timed_sql;
 		$start_time = microtime(true);
 		$result = new DebugPDOWrapper($this->wrap->prepare($a));
+		$result->query = $a;
 		$end_time = microtime(true);
 		$time_diff = ($end_time - $start_time) * 1000;
 		$global_timed_sql['prepare']['count']++;
 		$global_timed_sql['prepare']['time'] += $time_diff;
+		$global_timed_sql['queries'][$a]['count'] = 0;
+		$global_timed_sql['queries'][$a]['time'] = 0;
 		return $result;
 	}
 
@@ -88,6 +94,10 @@ class DebugPDOWrapper {
 		$time_diff = ($end_time - $start_time) * 1000;
 		$global_timed_sql['execute']['count']++;
 		$global_timed_sql['execute']['time'] += $time_diff;
+		if (isset($global_timed_sql['queries'][$this->query])) {
+			$global_timed_sql['queries'][$this->query]['count']++;
+			$global_timed_sql['queries'][$this->query]['time'] += $time_diff;
+		}
 		global $stats_queries;
 		$stats_queries++;
 		return $result;
