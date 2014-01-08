@@ -49,6 +49,7 @@ $count = 0;
 foreach ($accounts as $a) {
 	$count++;
 	$last_updated = $a['last_updated'];
+	$job = false;
 
 	// was the last request successful?
 	if ($a['balance'] === null) {
