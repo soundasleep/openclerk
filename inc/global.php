@@ -81,8 +81,12 @@ class DebugPDOWrapper {
 		$time_diff = ($end_time - $start_time) * 1000;
 		$global_timed_sql['prepare']['count']++;
 		$global_timed_sql['prepare']['time'] += $time_diff;
-		$global_timed_sql['queries'][$a]['count'] = 0;
-		$global_timed_sql['queries'][$a]['time'] = 0;
+		if (!isset($global_timed_sql['queries'][$a])) {
+			$global_timed_sql['queries'][$a] = array(
+				'count' => 0,
+				'time' => 0,
+			);
+		}
 		return $result;
 	}
 
