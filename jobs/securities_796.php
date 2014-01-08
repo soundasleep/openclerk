@@ -16,7 +16,7 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id']);
 }
 
-$content = crypto_get_contents(crypto_wrap_url('http://api.796.com/apiV2/ticker.html?op=' . urlencode($account['api_name'])));
+$content = crypto_get_contents(crypto_wrap_url('http://api.796.com/v3/stock/ticker.html?type=' . urlencode($account['api_name'])));
 if (!$content) {
 	throw new ExternalAPIException("API returned empty data");
 }
