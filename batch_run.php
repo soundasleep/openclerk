@@ -698,7 +698,7 @@ function crypto_json_decode($string, $message = false) {
 			throw new ExternalAPIException("Access denied" . ($message ? " $message" : ""));
 		}
 		if (!$string) {
-			throw new ExternalAPIException('Response was empty' . ($message ? " $message" : ""));
+			throw new EmptyResponseException('Response was empty' . ($message ? " $message" : ""));
 		}
 		throw new ExternalAPIException('Invalid data received' . ($message ? " $message" : ""));
 	}

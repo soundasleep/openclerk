@@ -37,6 +37,7 @@ function crypto_log($log) {
 	// flush();
 }
 class ExternalAPIException extends Exception { } // expected exceptions
+class EmptyResponseException extends ExternalAPIException { } // expected exception; allows us to handle e.g BitMinter
 class CloudFlareException extends ExternalAPIException { } // expected exception; TODO implement some code to handle CloudFlare blocking
 function crypto_wrap_url($url) {
 	// remove API keys etc

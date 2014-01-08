@@ -22,9 +22,13 @@ function bitminter_query($url, $headers = array()) {
 	if ($res === "Access denied") {
 		throw new ExternalAPIException("API response: Access denied");
 	}
-	$dec = crypto_json_decode($res);
-	if (isset($dec['message'])) {
-		throw new ExternalAPIException(htmlspecialchars($dec['message']));
+	try {
+		$dec = crypto_json_decode($res);
+		if (isset($dec['message'])) {
+			throw new ExternalAPIException(htmlspecialchars($dec['message']));
+		}
+	} catch (EmptyResponseException $e) {
+		throw new EmptyResponseException($e->getMessage() . ": Have you enabled the API perk?", $e->getCode(), $e);
 	}
 	return $dec;
 
