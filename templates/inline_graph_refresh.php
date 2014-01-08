@@ -10,6 +10,14 @@
 </p>
 
 <p>
+	Note that not all graphs have data that is updated this frequently. Your account data and reports are still only updated
+	according to <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">your data update rates</a>
+	(once every <?php echo plural(get_premium_config('refresh_queue_hours_free'), 'hour'); ?> for free users,
+	or every <?php echo plural(get_premium_config('refresh_queue_hours_premium'), 'hour'); ?> for premium users).
+	Other graphs, such as <a href="<?php echo htmlspecialchars(url_for('historical')); ?>">ticker and historical graphs</a>, are updated much more frequently for everyone.
+</p>
+
+<p>
 	You may disable live graph refreshes by logging into <a href="<?php echo htmlspecialchars(url_for('user')); ?>">your user account</a>
 	and disabling "automatic graph refresh".
 </p>
