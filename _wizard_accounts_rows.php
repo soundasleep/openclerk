@@ -10,23 +10,29 @@ foreach ($accounts as $a) {
 	$job = false;
 
 	// an account may have multiple currency balances
-	$q = db()->prepare("SELECT balances.* FROM balances WHERE user_id=? AND account_id=? AND (exchange=? OR exchange=? OR exchange=?) AND is_recent=1 ORDER BY currency ASC");
-	$q->execute(array(user_id(), $a['id'], $a['exchange'], $a['exchange'] . "_wallet", $a['exchange'] . "_securities"));
-	while ($balance = $q->fetch()) {
-		switch ($balance['exchange']) {
-			case $a['exchange']:
-				$balances[$balance['currency']] = $balance['balance'];
-				break;
-			case $a['exchange'] . "_wallet":
-				$balances_wallet[$balance['currency']] = $balance['balance'];
-				break;
-			case $a['exchange'] . "_securities":
-				$balances_securities[$balance['currency']] = $balance['balance'];
-				break;
-			default:
-				echo "Unknown exchange '" . htmlspecialchars($balance['exchange']) . "'";
+	$all_exchanges = get_all_exchanges();
+	foreach (array($a['exchange'], $a['exchange'] . '_wallet', $a['exchange'] . '_securities') as $exchange) {
+		// only make requests for exchange keys that will actually ever exist
+		if (isset($all_exchanges[$exchange])) {
+			$q = db()->prepare("SELECT balances.* FROM balances WHERE user_id=? AND account_id=? AND exchange=? AND is_recent=1 ORDER BY currency ASC");
+			$q->execute(array(user_id(), $a['id'], $exchange));
+			while ($balance = $q->fetch()) {
+				switch ($balance['exchange']) {
+					case $a['exchange']:
+						$balances[$balance['currency']] = $balance['balance'];
+						break;
+					case $a['exchange'] . "_wallet":
+						$balances_wallet[$balance['currency']] = $balance['balance'];
+						break;
+					case $a['exchange'] . "_securities":
+						$balances_securities[$balance['currency']] = $balance['balance'];
+						break;
+					default:
+						throw new Exception("Unknown exchange '" . htmlspecialchars($balance['exchange']) . "' while retrieving account balances");
+				}
+				$last_updated = $balance['created_at'];
+			}
 		}
-		$last_updated = $balance['created_at'];
 	}
 
 	// was the last request successful?
