@@ -693,6 +693,10 @@ function crypto_json_decode($string, $message = false) {
 		if (strpos(strtolower($string), "access denied") !== false) {
 			throw new ExternalAPIException("Access denied" . ($message ? " $message" : ""));
 		}
+		if (strpos(strtolower($string), "parameter error") !== false) {
+			// for 796 Exchange
+			throw new ExternalAPIException("Parameter error" . ($message ? " $message" : ""));
+		}
 		if (!$string) {
 			throw new EmptyResponseException('Response was empty' . ($message ? " $message" : ""));
 		}

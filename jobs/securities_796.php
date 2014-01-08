@@ -21,17 +21,13 @@ if (!$content) {
 	throw new ExternalAPIException("API returned empty data");
 }
 
-$data = json_decode($content, true);
-
-if (isset($data['result']) && $data['result'] == 'fail') {
-	throw new ExternalAPIException("External API returned failed");
-}
+$data = crypto_json_decode($content);
 
 // also available: last, high, low, vol, buy, sell
-if (!isset($data['return']['last'])) {
+if (!isset($data['ticker']['last'])) {
 	throw new ExternalAPIException("External API returned no last price");
 }
-$balance = $data['return']['last'];
+$balance = $data['ticker']['last'];
 crypto_log("Last price for " . htmlspecialchars($account['name']) . ": " . $balance);
 
 insert_new_balance($job, $account, $exchange, $currency, $balance);
