@@ -89,7 +89,6 @@ $standard_jobs = array(
 	array('table' => 'securities_cryptostocks', 'type' => 'securities_cryptostocks', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'accounts_bips', 'type' => 'bips', 'failure' => true),
 	array('table' => 'accounts_btcguild', 'type' => 'btcguild', 'failure' => true),
-	array('table' => 'accounts_50btc', 'type' => '50btc', 'failure' => true),
 	array('table' => 'accounts_hypernova', 'type' => 'hypernova', 'failure' => true),
 	array('table' => 'accounts_ltcmineru', 'type' => 'ltcmineru', 'failure' => true),
 	array('table' => 'accounts_miningforeman', 'type' => 'miningforeman', 'failure' => true),

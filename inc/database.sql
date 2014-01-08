@@ -2261,3 +2261,6 @@ ALTER TABLE balances ADD INDEX(user_id, account_id, exchange, is_recent);
 
 ALTER TABLE hashrates DROP INDEX user_id_2;	-- NOTE check that user_id_2 is a valid index name
 ALTER TABLE hashrates ADD INDEX(user_id, account_id, exchange, is_recent);
+
+-- removing 50btc
+UPDATE accounts_50btc SET is_disabled=1;

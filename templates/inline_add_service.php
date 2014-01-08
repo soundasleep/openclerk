@@ -21,6 +21,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 <div class="columns2">
 <div class="column">
 <ul>
+	<li>50BTC (API was removed in beta interface)</li>
 	<li>Bitcoin.de</li>
 	<li>Bitfinex</li>
 	<li>Bitcoin China</li>

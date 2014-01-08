@@ -252,10 +252,6 @@ try {
 			require(__DIR__ . "/jobs/btcguild.php");
 			break;
 
-		case "50btc":
-			require(__DIR__ . "/jobs/50btc.php");
-			break;
-
 		case "hypernova":
 			require(__DIR__ . "/jobs/hypernova.php");
 			break;

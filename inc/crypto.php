@@ -231,7 +231,6 @@ function get_new_security_exchanges() {
 function get_supported_wallets() {
 	return array(
 		// alphabetically sorted, except for generic
-		"50btc" => array('btc', 'hash'),
 		"796" => array('btc'),
 		"beeeeer" => array('xpm'),
 		"bips" => array('btc', 'usd'),
@@ -404,7 +403,7 @@ function account_data_grouped() {
 			'dogecoin' => array('title' => 'DOGE addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'dog\'', 'wizard' => 'addresses', 'currency' => 'dog'),
 		),
 		'Mining pools' => array(
-			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
 			'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -509,7 +508,6 @@ function get_external_apis() {
 		),
 
 		"Mining pool wallets" => array(
-			'50btc' => '<a href="https://www.50btc.com">50BTC</a>',
 			'beeeeer' => '<a href="http://beeeeer.org/">' . htmlspecialchars(get_exchange_name('beeeeer')) . '</a>',
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 			'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
