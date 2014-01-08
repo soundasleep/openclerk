@@ -42,6 +42,9 @@ function get_knowledge_base() {
 	foreach (account_data_grouped() as $label => $group) {
 		if (isset($wizards[$label])) {
 			foreach ($group as $key => $data) {
+				if (isset($data['disabled']) && $data['disabled']) {
+					continue;
+				}
 				if ($label == 'Individual Securities') {
 					$title = 'How do I add individual ' . get_exchange_name($data['exchange']) . (isset($data['suffix']) ? $data['suffix'] : '') . ($wizards[$label] ? ' ' . $wizards[$label] : '') . '?';
 				} else {
