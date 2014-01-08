@@ -8,6 +8,6 @@
 $exchange = "dogechainpool";
 $currency = 'dog';
 $table = "accounts_dogechainpool";
-$api_url = "http://pool.dogechain.info/index.php?page=api&";
+$api_url = "https://pool.dogechain.info/index.php?page=api&";
 
 require(__DIR__ . "/_mpos_pool.php");

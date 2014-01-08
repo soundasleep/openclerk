@@ -685,6 +685,9 @@ function crypto_json_decode($string, $message = false) {
 				throw new CloudFlareException('Cloudflare reported: The origin web server timed out responding to this request.');
 			}
 		}
+		if (strpos(strtolower($string), '301 moved permanently') !== false) {
+			throw new ExternalAPIException("API location has been moved permanently" . ($message ? " $message" : ""));
+		}
 		if (substr($string, 0, 1) == "<") {
 			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON" . ($message ? " $message" : ""));
 		}

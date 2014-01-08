@@ -138,7 +138,7 @@ page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' =>
 <tr>
 	<td colspan="2" class="buttons">
 		<input type="hidden" name="currency" value="<?php echo htmlspecialchars($currency); ?>">
-		<input type="submit" value="Purchase" class="currency_name_<?php echo htmlspecialchars($currency); ?>">
+		<button type="submit" class="purchase_button"><span class="currency_name_<?php echo htmlspecialchars($currency); ?>">Purchase</span></button>
 	</td>
 </tr>
 </table>
