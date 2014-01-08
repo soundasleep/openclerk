@@ -17,6 +17,9 @@
 
 <div class="tip" style="margin-bottom: 15px;">
 Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet at the time of writing:
+
+<div class="columns2">
+<div class="column">
 <ul>
 	<li>Bitcoin.de</li>
 	<li>Bitfinex</li>
@@ -26,6 +29,10 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>CoinJar (<a href="https://support.coinjar.com/discussions/suggestions/271-read-only-api-access">requested</a>)</li>
 	<li>Coinotron (on development list)</li>
 	<li>Coins-E</li>
+</ul>
+</div>
+<div class="column">
+<ul>
 	<li>Cryptsy</li>
 	<li>fast-pool.com</li>
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
@@ -35,7 +42,10 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>Safello</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
 </ul>
-If you would like one of these services to add a safe read-only API, let them know!
+</div>
+</div>
+
+<div style="clear:both;">If you would like one of these services to add a safe read-only API, let them know!</div>
 </div>
 
 <h2>Example: Existing mining pool software</h2>
