@@ -2247,3 +2247,17 @@ ALTER TABLE ticker DROP INDEX currency2;
 ALTER TABLE balances ADD INDEX(user_id, account_id, exchange);
 ALTER TABLE hashrates ADD INDEX(user_id, account_id, exchange);
 
+----------------------------------------------------------------------------
+-- upgrade statements from 0.15 to 0.16
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+----------------------------------------------------------------------------
+
+-- make the account wizard pages much faster
+ALTER TABLE jobs ADD INDEX(is_recent, user_id, job_type, arg_id);
+
+-- we don't need to use the entire index at once, adding is_recent onto the end should make this faster
+ALTER TABLE balances DROP INDEX user_id_2;	-- NOTE check that user_id_2 is a valid index name
+ALTER TABLE balances ADD INDEX(user_id, account_id, exchange, is_recent);
+
+ALTER TABLE hashrates DROP INDEX user_id_2;	-- NOTE check that user_id_2 is a valid index name
+ALTER TABLE hashrates ADD INDEX(user_id, account_id, exchange, is_recent);
