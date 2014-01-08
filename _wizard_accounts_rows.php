@@ -30,14 +30,21 @@ foreach ($accounts as $a) {
 	}
 
 	// was the last request successful?
-	$q = db()->prepare("SELECT jobs.*, uncaught_exceptions.message FROM jobs
-			LEFT JOIN uncaught_exceptions ON uncaught_exceptions.job_id=jobs.id
-			WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 AND jobs.is_recent=1
-		ORDER BY jobs.id DESC LIMIT 1");
+	$q = db()->prepare("SELECT * FROM jobs
+			WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 AND is_recent=1
+			ORDER BY jobs.id DESC LIMIT 1");
 	$q->execute(array(user_id(), $a['id'], $a['exchange']));
 	$job = $q->fetch();
 	if (!$last_updated && $job) {
 		$last_updated = $job['executed_at'];
+	}
+	if ($job && $job['is_error']) {
+		$q = db()->prepare("SELECT id,message FROM uncaught_exceptions WHERE job_id=? LIMIT 1");
+		$q->execute(array($job['id']));
+		$ue = $q->fetch();
+		if ($ue) {
+			$job['message'] = $ue['message'];
+		}
 	}
 
 	// are we currently awaiting for a test callback?
@@ -85,7 +92,7 @@ foreach ($accounts as $a) {
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
 			<?php echo recent_format_html($last_updated); ?>
-			<?php if ($job['message']) { ?>
+			<?php if (isset($job['message']) && $job['message']) { ?>
 			: <?php echo htmlspecialchars($job['message']); ?>
 			<?php } ?>
 		</td>
