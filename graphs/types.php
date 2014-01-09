@@ -207,13 +207,12 @@ function graph_types() {
 	);
 
 	// we can generate a list of composition graphs from all of the currencies that we support
-	$summary_balances = get_all_summary_instances();
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_pie"] = array(
 			'title' => "Total " . get_currency_name($currency) . " balance composition (pie)",
 			'heading' => "Total " . get_currency_abbr($currency),
 			'description' => "A pie chart representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
-			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+			'hide' => !isset($summaries[$currency]),
 			'default_width' => get_site_config('default_user_graph_height'),
 		);
 	}
@@ -224,7 +223,7 @@ function graph_types() {
 			'heading' => "All " . get_currency_abbr($currency) . " balances",
 			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
 			'days' => true,
-			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+			'hide' => !isset($summaries[$currency]),
 		);
 	}
 
@@ -233,7 +232,7 @@ function graph_types() {
 			'title' => "Your " . get_currency_name($currency) . " balances (table)",
 			'heading' => "Your " . get_currency_abbr($currency) . " balances",
 			'description' => "A table displaying all of your " . get_currency_name($currency) . " balances and the total balance (before any conversions).",
-			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+			'hide' => !isset($summaries[$currency]),
 		);
 	}
 
@@ -248,7 +247,7 @@ function graph_types() {
 			'heading' => "All " . get_currency_abbr($currency) . " balances",
 			'description' => "A stacked area graph displaying the historical value of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
 			'days' => true,
-			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+			'hide' => !isset($summaries[$currency]),
 		);
 	}
 
@@ -258,7 +257,7 @@ function graph_types() {
 			'heading' => "All " . get_currency_abbr($currency) . " balances",
 			'description' => "A stacked area graph displaying the proportional historical value of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
 			'days' => true,
-			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+			'hide' => !isset($summaries[$currency]),
 		);
 	}
 

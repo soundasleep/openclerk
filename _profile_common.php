@@ -11,6 +11,7 @@ $securities_count = $user['securities_count'];
 
 if (get_site_config('new_user_premium_update_hours') && strtotime($user['created_at']) >= strtotime("-" . get_site_config('new_user_premium_update_hours') . " hour")) {
 	// does a non-zero report exist yet for this user?
+	// this query shouldn't be too slow for new users, since the user_id index will be generally empty
 	$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND is_recent=1 AND balance > 0 LIMIT 1");
 	$q->execute(array(user_id()));
 	if (!($non_zero = $q->fetch())) {
