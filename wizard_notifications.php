@@ -20,7 +20,7 @@ $messages = array();
 $accounts = user_limits_summary(user_id());
 
 // get all of our notifications
-$q = db()->prepare("SELECT * FROM notifications WHERE user_id=? ORDER BY id ASC");
+$q = db()->prepare("SELECT * FROM notifications WHERE user_id=? ORDER BY notification_type DESC, id ASC");
 $q->execute(array(user_id()));
 $notifications = $q->fetchAll();
 
@@ -74,6 +74,7 @@ function get_supported_notifications() {
 		$supported_notifications = array(
 			'exchanges' => array(),
 			'total_currencies' => array(),
+			'total_hashrate_currencies' => array(),
 			'all2_summaries' => array(),
 		);
 		$supported_exchange_currencies = array();
@@ -99,6 +100,9 @@ function get_supported_notifications() {
 			$cur = $summary['currency'];
 			if (isset($summaries[$summary['currency']])) {
 				$supported_notifications['total_currencies'][$cur] = get_currency_abbr($cur);
+				if (in_array($summary['currency'], get_all_hashrate_currencies())) {
+					$supported_notifications['total_hashrate_currencies'][$cur] = get_currency_abbr($cur);
+				}
 			}
 		}
 
@@ -126,7 +130,8 @@ function get_supported_notifications() {
 	<span class="email_notification">Please send me an e-mail when</span>
 	<select id="notification_type" name="type">
 		<option value="ticker"<?php echo ($instance && $instance['notification_type'] == 'ticker') ? " selected" : ""; ?>>the exchange rate</option>
-		<option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('total')) == 'total') ? " selected" : ""; ?>>my total</option>
+		<option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('total')) == 'total' && substr($account['summary_type'], 0, strlen('totalmh_')) != 'totalmh_') ? " selected" : ""; ?>>my total</option>
+		<option value="summary_instance_total_hashrate"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') ? " selected" : ""; ?>>my total hashrate</option>
 		<option value="summary_instance_all2"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('all2')) == 'all2') ? " selected" : ""; ?>>my converted</option>
 	</select>
 
@@ -156,6 +161,16 @@ function get_supported_notifications() {
 				<?php } ?>
 			</select>
 			(before any conversions)
+		</li>
+
+		<li class="total_hashrate_currencies" style="display:none;">
+			for
+			<select id="notification_total_hashrate_currencies" name="total_hashrate_currency">
+				<?php foreach ($supported_notifications['total_hashrate_currencies'] as $cur => $title) {
+					$selected = $account && $account['summary_type'] == 'totalmh_' . $cur; ?>
+					<option value="<?php echo htmlspecialchars($cur); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
+				<?php } ?>
+			</select>
 		</li>
 
 		<li class="all2_summaries" style="display:none;">
@@ -256,7 +271,11 @@ foreach ($notifications as $notification) {
 				throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
 			}
 
-			if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
+			if (substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') {
+				$currency = substr($account['summary_type'], strlen('totalmh_'));
+				$account_text = "My total " . get_currency_abbr($currency) . " hashrate";
+				$value_label = "MH/s";
+			} else if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
 				$currency = substr($account['summary_type'], strlen('total'));
 				$account_text = "My total " . get_currency_abbr($currency);
 				$value_label = get_currency_abbr($currency);

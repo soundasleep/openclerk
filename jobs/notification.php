@@ -162,7 +162,12 @@ if ($should_notify) {
 
 			case "summary_instance":
 				$email_template = 'notification_summary_instance';
-				if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
+				if (substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') {
+					$currency = substr($account['summary_type'], strlen('totalmh_'));
+					$args += array(
+						"label" => "total " . get_currency_abbr($currency) . " hashrate",
+					);
+				} else if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
 					$currency = substr($account['summary_type'], strlen('total'));
 					$args += array(
 						"label" => "total " . get_currency_abbr($currency),

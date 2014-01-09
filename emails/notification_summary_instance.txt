@@ -1,7 +1,7 @@
 Notification: {$label_uc} {$change_text}
 Hello {$name},
 
-Your {$label} has {$change_text} by {$value_delta} {$value_label}, from {$last_value} {$value_label} to {$current_value} {$value_label} ({$percent}%), in the last {$period}.
+Your {$label} has {$change_text}, from {$last_value} {$value_label} to {$current_value} {$value_label} ({$percent}%), in the last {$period}.
 
 This is an automated notification. You may modify or disable this notification through your notifications wizard:
 

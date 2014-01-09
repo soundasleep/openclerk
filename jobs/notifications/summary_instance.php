@@ -48,7 +48,10 @@ if ($notification['last_value'] === null) {
 }
 
 // other parameters
-if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
+if (substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') {
+	$currency = substr($account['summary_type'], strlen('totalmh_'));
+	$value_label = "MH/s";
+} else if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
 	$currency = substr($account['summary_type'], strlen('total'));
 	$value_label = get_currency_abbr($currency);
 } else if (substr($account['summary_type'], 0, strlen('all2')) == 'all2') {

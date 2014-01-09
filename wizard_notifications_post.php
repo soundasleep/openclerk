@@ -67,6 +67,11 @@ switch (require_post("type")) {
 		$summary_type = 'total' . require_post("total_currency");
 		break;
 
+	case "summary_instance_total_hashrate":
+		$notification_type = 'summary_instance';
+		$summary_type = 'totalmh_' . require_post("total_hashrate_currency");
+		break;
+
 	case "summary_instance_all2":
 		$notification_type = 'summary_instance';
 		$summary_type = 'all2' . require_post("all2_summary");

@@ -6,6 +6,7 @@ $(document).ready(function() {
 	$("#notification_type").change(function(e) {
 		$(".notification_template .exchanges").hide();
 		$(".notification_template .total_currencies").hide();
+		$(".notification_template .total_hashrate_currencies").hide();
 		$(".notification_template .all2_summaries").hide();
 
 		switch (e.target.value) {
@@ -16,10 +17,17 @@ $(document).ready(function() {
 
 			case "summary_instance_total":
 				$(".notification_template .total_currencies").show();
+				$("#notification_total_currencies").change();	// trigger change
+				break;
+
+			case "summary_instance_total_hashrate":
+				$(".notification_template .total_hashrate_currencies").show();
+				$("#notification_total_hashrate_currencies").change();	// trigger change
 				break;
 
 			case "summary_instance_all2":
 				$(".notification_template .all2_summaries").show();
+				$("#notification_all2_summaries").change();	// trigger change
 				break;
 
 			default:
@@ -51,6 +59,10 @@ $(document).ready(function() {
 	});
 	$("#notification_total_currencies").change(function(e) {
 		$(".notification_template .value_label").html($(e.target).find(":selected").html());
+	});
+	$("#notification_total_hashrate_currencies").change(function(e) {
+		// the label isn't actually the currency
+		$(".notification_template .value_label").html("MH/s");
 	});
 	$("#notification_all2_summaries").change(function(e) {
 		$(".notification_template .value_label").html($(e.target).find(":selected").html());
@@ -84,9 +96,10 @@ $(document).ready(function() {
 	});
 
 	// and trigger the first changes, which also need to support editing an existing instance
-	$("#notification_type").change();
-	$("#notification_condition").change();
 	$("#notification_currencies").change();
+	$("#notification_total_hashrate_currencies").change();
 	$("#notification_total_currencies").change();
 	$("#notification_all2_summaries").change();
+	$("#notification_condition").change();
+	$("#notification_type").change();
 });
