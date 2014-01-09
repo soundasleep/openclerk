@@ -68,7 +68,7 @@ switch ($notification['trigger_condition']) {
 	case "increases_by":
 		// true if the value increases by a given amount
 		if ($notification['is_percent']) {
-			$delta = $percent;
+			$delta = $percent * 100;
 		} else {
 			$delta = $value_delta;
 		}
@@ -88,7 +88,7 @@ switch ($notification['trigger_condition']) {
 	case "decreases_by":
 		// true if the value decreases by a given amount
 		if ($notification['is_percent']) {
-			$delta = $percent;
+			$delta = $percent * 100;
 		} else {
 			$delta = $value_delta;
 		}
@@ -114,11 +114,11 @@ if ($should_notify) {
 			break;
 
 		case "increases_by":
-			$change_text = "increased by " . number_format_autoprecision($notification['trigger_value'], 4) . ($notification['is_percent'] ? '%' : (" " . $value_label));
+			$change_text = "increased by at least " . number_format_autoprecision($notification['trigger_value']) . ($notification['is_percent'] ? '%' : (" " . $value_label));
 			break;
 
 		case "above":
-			$change_text = "is above " . number_format_autoprecision($notification['trigger_value'], 4) . " " . $value_label;
+			$change_text = "is above " . number_format_autoprecision($notification['trigger_value']) . " " . $value_label;
 			break;
 
 		case "decreases":
@@ -126,11 +126,11 @@ if ($should_notify) {
 			break;
 
 		case "decreased_by":
-			$change_text = "decreased by " . number_format_autoprecision($notification['trigger_value'], 4) . ($notification['is_percent'] ? '%' : (" " . $value_label));
+			$change_text = "decreased by at least " . number_format_autoprecision($notification['trigger_value']) . ($notification['is_percent'] ? '%' : (" " . $value_label));
 			break;
 
 		case "below":
-			$change_text = "decreased below " . number_format_autoprecision($notification['trigger_value'], 4) . " " . $value_label;
+			$change_text = "decreased below " . number_format_autoprecision($notification['trigger_value']) . " " . $value_label;
 			break;
 
 		default:

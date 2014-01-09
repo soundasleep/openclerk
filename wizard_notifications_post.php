@@ -174,15 +174,17 @@ $permitted_notification_periods = get_permitted_notification_periods();
 if (!isset($permitted_notification_periods[require_post("period")])) {
 	throw new Exception("Invalid notification period '" . htmlspecialchars(require_post("period")) . "'");
 }
-if (!is_numeric(require_post("value"))) {
-	throw new Exception("'" . htmlspecialchars(require_post("value")) . "' is not numeric");
+// remove any commas
+$value = str_replace(",", "", require_post("value"));
+if (!is_numeric($value)) {
+	throw new Exception("'" . htmlspecialchars($value) . "' is not numeric");
 }
 
 $args = array(
 	"user_id" => user_id(),
 	"type_id" => $type_id,
 	"trigger_condition" => require_post("condition"),
-	"trigger_value" => require_post("value"),
+	"trigger_value" => $value,
 	"is_percent" => require_post("percent", 0) ? 1 : 0,
 	"period" => require_post("period"),
 	"notification_type" => $notification_type,

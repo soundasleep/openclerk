@@ -192,7 +192,7 @@ function get_supported_notifications() {
 			</select>
 
 			<span class="notification_value">
-				<input type="text" name="value" value="1">
+				<input type="text" name="value" value="<?php echo number_format_autoprecision($instance ? $instance['trigger_value'] : 1); ?>">
 
 				<span class="notification_percent_on">
 				<select id="notification_percent" name="percent">
