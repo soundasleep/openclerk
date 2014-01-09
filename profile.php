@@ -35,26 +35,9 @@ if (get_site_config('timed_sql')) {
 	echo "<!-- " . db()->stats() . " -->\n";
 }
 
-if (get_site_config('new_user_premium_update_hours') && strtotime($user['created_at']) >= strtotime("-" . get_site_config('new_user_premium_update_hours') . " hour")) {
-	// does a non-zero report exist yet for this user?
-	$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND is_recent=1 AND balance > 0 LIMIT 1");
-	$q->execute(array(user_id()));
-	if (!($non_zero = $q->fetch())) {
-		$q = db()->prepare("SELECT premium_delay_minutes FROM site_statistics WHERE is_recent=1 LIMIT 1");
-		$q->execute();
-		$stats = $q->fetch();
-		if ($stats) {
-			$messages[] = "As a new user, it will take " . expected_delay_html($stats['premium_delay_minutes']) . " for your first accounts to be updated and
-				your first reports to be generated.";
-		}
-	} else {
-		$messages[] = "As a new user, your addresses and accounts will be updated more frequently
-			(every " . plural(get_site_config('refresh_queue_hours_premium'), 'hour') . ")
-			for the next " . plural((int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60)), "hour") . ".";
-	}
-}
-
 // a user might not have any pages displayed
+$page_title_prefix = "Your Reports: ";
+$enable_editing_dialog = true;
 if ($pages) {
 	if (require_get("securities", false)) {
 		// displaying securities page?
@@ -62,6 +45,8 @@ if ($pages) {
 		$graphs = array();
 		$page_title = "Your Securities";
 		$page_id = "securities";
+		$page_title_prefix = "";
+		$enable_editing_dialog = false;
 
 		$id_counter = 0;		// $graph[id] needs to be set for unique graph HTML IDs
 
@@ -181,7 +166,7 @@ if ($pages) {
 
 	}
 
-	page_header(require_get("securities", false) ? $page_title : "Your Reports: " . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile', 'class' => 'report_page'));
+	page_header($page_title_prefix . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile', 'class' => 'report_page'));
 
 ?>
 
@@ -190,7 +175,7 @@ if ($pages) {
 <!-- page list -->
 <?php require(__DIR__ . "/_profile_pages.php"); ?>
 
-<?php if (!require_get("securities", false)) { ?>
+<?php if ($enable_editing_dialog) { ?>
 <div class="enable_editing">
 	<label><input type="checkbox" id="enable_editing"<?php if ($enable_editing) echo " checked"; ?>> Enable layout editing</label>
 </div>
@@ -241,12 +226,12 @@ if (!$graphs) { ?>
 
 <div style="clear:both;"></div><?php /* try and fix tab linebreak on Android web browser */ ?>
 
-<?php if (!require_get("securities", false)) { ?>
+<?php if ($enable_editing_dialog) { ?>
 
 <div class="tabs" id="tabs_profile">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_profile_addgraph">Add Graph</li><li id="tab_profile_addpage">Add Page</li><?php if (!$graph_page['is_managed']) { ?><li id="tab_profile_deletepage">Remove Page</li><?php } ?><li id="tab_profile_reset">Reset</li>
+		<li id="tab_profile_addgraph">Add Graph</li><li id="tab_profile_addpage">Add Page</li><?php if (!$graph_page['is_managed']) { ?><li id="tab_profile_deletepage">Remove Page</li><?php } ?><li id="tab_profile_reset">Reset</li><?php if (is_admin()) { ?><li id="tab_profile_addall">Add All Graphs</li><?php } ?>
 	</ul>
 
 	<ul class="tab_groups">
@@ -289,7 +274,7 @@ if (!$graphs) { ?>
 
 <?php } ?>
 
-<?php if (!require_get("securities", false)) { ?>
+<?php if ($enable_editing_dialog) { ?>
 
 <?php require(__DIR__ . "/_profile_add_page.php"); ?>
 
@@ -318,6 +303,20 @@ if (!$graphs) { ?>
 </table>
 </form>
 </li>
+<?php if (is_admin()) { ?>
+<li id="tab_profile_addall_tab">
+<h2>Add All Graphs</h2>
+
+<p>
+	Using the button below, you can reset this page and add a collection of example graphs.
+</p>
+
+<form action="<?php echo htmlspecialchars(url_for('add_all_graphs')); ?>" method="post">
+	<input type="hidden" name="page" value="<?php echo htmlspecialchars($page_id); ?>">
+	<input type="submit" value="Reset page with all graphs">
+</form>
+</li>
+<?php } /* is_admin */ ?>
 </ul>
 
 <?php } ?>

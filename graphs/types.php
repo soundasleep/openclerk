@@ -117,7 +117,7 @@ function graph_types() {
 	$total_fiat_currencies = implode_english($total_fiat_currencies);
 
 	$data = array(
-		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall proportional value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.'),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall proportional value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'default_width' => get_site_config('default_user_graph_height')),
 		'btc_equivalent_graph' => array('title' => 'Equivalent BTC balances (graph)', 'heading' => 'Equivalent BTC', 'description' => 'A line graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true),
 		'btc_equivalent_stacked' => array('title' => 'Equivalent BTC balances (stacked)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true),
 		'btc_equivalent_proportional' => array('title' => 'Equivalent BTC balances (proportional)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the proportional historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true),
@@ -214,6 +214,7 @@ function graph_types() {
 			'heading' => "Total " . get_currency_abbr($currency),
 			'description' => "A pie chart representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'hide' => !isset($summaries[$currency]) || !isset($summary_balances['total'.$currency]) || $summary_balances['total'.$currency]['balance'] == 0,
+			'default_width' => get_site_config('default_user_graph_height'),
 		);
 	}
 

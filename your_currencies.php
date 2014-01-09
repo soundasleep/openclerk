@@ -9,11 +9,12 @@ require(__DIR__ . "/inc/global.php");
 require_login();
 
 require(__DIR__ . "/layout/templates.php");
-page_header("Your Currencies", "page_your_currencies", array('jquery' => true, 'js' => array('common', 'accounts'), 'class' => 'report_page'));
 
 $user = get_user(user_id());
 
 require(__DIR__ . "/_profile_common.php");
+
+page_header("Your Currencies", "page_your_currencies", array('jquery' => true, 'js' => array('common', 'accounts'), 'class' => 'report_page'));
 
 // get all pages
 $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 ORDER BY page_order ASC, id ASC");
