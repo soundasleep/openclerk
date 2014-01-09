@@ -27,14 +27,15 @@ $current_value = $ticker['last_trade'];
 // since this may be a very heavy query
 if ($notification['last_value'] === null) {
 	crypto_log("No last value found: retrieving");
-	switch ($notification['period']) {
-		case "hour":
-			$period = "INTERVAL 1 HOUR";
-			break;
 
-		default:
-			throw new JobException("Unknown job period '" . $notification['period'] . "'");
+	// get the query string for this interval
+	$periods = get_permitted_notification_periods();
+	if (!isset($periods[$notification['period']]['interval'])) {
+		throw new JobException("Unknown job period '" . $notification['period'] . "'");
 	}
+	$period = $periods[$notification['period']]['interval'];
+
+
 	$q = db()->prepare("SELECT * FROM ticker WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND created_at <= DATE_SUB(NOW(), $period) ORDER BY id DESC LIMIT 1");
 	$q->execute(array(
 		"exchange" => $account['exchange'],

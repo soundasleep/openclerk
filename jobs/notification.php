@@ -142,13 +142,11 @@ if ($should_notify) {
 		$args = array(
 			"name" => ($user['name'] ? $user['name'] : $user['email']),
 			"url" => absolute_url(url_for('wizard_notifications')),
-			"last_value" => number_format_autoprecision($notification['last_value']),
-			"current_value" => number_format_autoprecision($current_value),
+			"last_value" => number_format_autoprecision($notification['last_value'], 3),
+			"current_value" => number_format_autoprecision($current_value, 3),
 			"value_label" => $value_label,
-			"value_delta" => $value_delta,
+			"value_delta" => number_format_autoprecision($value_delta, 3),
 			"percent" => $percent === null ? "infinite%" : number_format_autoprecision($percent * 100, 3),
-			"last_value_text" => number_format_autoprecision($notification['last_value']),
-			"current_value" => number_format_autoprecision($current_value),
 			"change_text" => $change_text,
 			"period" => $notification['period'],
 		);
@@ -165,8 +163,15 @@ if ($should_notify) {
 			case "summary_instance":
 				$email_template = 'notification_summary_instance';
 				if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
+					$currency = substr($account['summary_type'], strlen('total'));
 					$args += array(
-						"label" => "total " . get_currency_abbr(substr($account['summary_type'], strlen('total'))),
+						"label" => "total " . get_currency_abbr($currency),
+					);
+				} else if (substr($account['summary_type'], 0, strlen('all2')) == 'all2') {
+					$summary_type = substr($account['summary_type'], strlen('all2'));
+					$summary_types = get_total_conversion_summary_types();
+					$args += array(
+						"label" => "converted " . $summary_types[$summary_type]['short_title'],
 					);
 				} else {
 					throw new JobException("Unknown summary_instance summary_type '" . htmlspecialchars($account['summary_type']) . "'");

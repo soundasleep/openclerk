@@ -1411,10 +1411,10 @@ function get_permitted_days() {
 
 function get_permitted_notification_periods() {
 	return array(
-		'hour' => array('label' => 'the last hour', 'title' => 'hourly'),
-		'day' => array('label' => 'the last day', 'title' => 'daily'),
-		'week' => array('label' => 'the last week', 'title' => 'weekly'),
-		'month' => array('label' => 'the last month', 'title' => 'monthly'),
+		'hour' => array('label' => 'the last hour', 'title' => 'hourly', 'interval' => 'INTERVAL 1 HOUR'),
+		'day' => array('label' => 'the last day', 'title' => 'daily', 'interval' => 'INTERVAL 1 DAY'),
+		'week' => array('label' => 'the last week', 'title' => 'weekly', 'interval' => 'INTERVAL 1 WEEK'),
+		'month' => array('label' => 'the last month', 'title' => 'monthly', 'interval' => 'INTERVAL 1 MONTH'),
 	);
 }
 

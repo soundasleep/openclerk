@@ -74,12 +74,15 @@ function get_supported_notifications() {
 		$supported_notifications = array(
 			'exchanges' => array(),
 			'total_currencies' => array(),
+			'all2_summaries' => array(),
 		);
 		$supported_exchange_currencies = array();
 
 		// all the exchanges we may be interested in
 		require(__DIR__ . "/graphs/util.php");
 		$summaries = get_all_summary_currencies();
+		$conversions = get_all_conversion_currencies();
+
 		foreach (get_exchange_pairs() as $exchange => $pairs) {
 			foreach ($pairs as $pair) {
 				if (isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])) {
@@ -99,13 +102,16 @@ function get_supported_notifications() {
 			}
 		}
 
+		foreach (get_total_conversion_summary_types() as $key => $summary) {
+			if (isset($conversions['summary_' . $key])) {
+				$supported_notifications['all2_summaries'][$key] = $summary['short_title'];
+			}
+		}
+
 		echo json_encode($supported_notifications);
 		?>;
 }
 </script>
-
-TODO check that emails are configured correctly.
-TODO add clock/event/value icons for each row of notification icons
 
 <?php if ($instance) { ?>
 <h2>Edit Notification</h2>
@@ -121,6 +127,7 @@ TODO add clock/event/value icons for each row of notification icons
 	<select id="notification_type" name="type">
 		<option value="ticker"<?php echo ($instance && $instance['notification_type'] == 'ticker') ? " selected" : ""; ?>>the exchange rate</option>
 		<option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('total')) == 'total') ? " selected" : ""; ?>>my total</option>
+		<option value="summary_instance_all2"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('all2')) == 'all2') ? " selected" : ""; ?>>my converted</option>
 	</select>
 
 	<ul>
@@ -149,6 +156,15 @@ TODO add clock/event/value icons for each row of notification icons
 				<?php } ?>
 			</select>
 			(before any conversions)
+		</li>
+
+		<li class="all2_summaries" style="display:none;">
+			<select id="notification_all2_summaries" name="all2_summary">
+				<?php foreach ($supported_notifications['all2_summaries'] as $key => $title) {
+					$selected = $account && $account['summary_type'] == 'all2' . $key; ?>
+					<option value="<?php echo htmlspecialchars($key); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
+				<?php } ?>
+			</select>
 		</li>
 
 		<li class="condition">
@@ -244,6 +260,11 @@ foreach ($notifications as $notification) {
 				$currency = substr($account['summary_type'], strlen('total'));
 				$account_text = "My total " . get_currency_abbr($currency);
 				$value_label = get_currency_abbr($currency);
+			} else if (substr($account['summary_type'], 0, strlen('all2')) == 'all2') {
+				$summary_type = substr($account['summary_type'], strlen('all2'));
+				$summary_types = get_total_conversion_summary_types();
+				$account_text = "My converted " . $summary_types[$summary_type]['short_title'];
+				$value_label = get_currency_abbr($summary_types[$summary_type]['currency']);
 			} else {
 				$account_text = "unknown";
 				$value_label = "unknown";

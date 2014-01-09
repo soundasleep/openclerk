@@ -67,6 +67,11 @@ switch (require_post("type")) {
 		$summary_type = 'total' . require_post("total_currency");
 		break;
 
+	case "summary_instance_all2":
+		$notification_type = 'summary_instance';
+		$summary_type = 'all2' . require_post("all2_summary");
+		break;
+
 	default:
 		throw new Exception("Unknown type '" . htmlspecialchars(require_post("type")) . "'");
 }

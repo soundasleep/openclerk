@@ -16,13 +16,13 @@ global $user;
 <h1>Notification Preferences</h1>
 
 <p>
-	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can automatically notify you via
-	e-mail about changes to your accounts, your miners, your reports or other exchanges. Using this functionality is
-	completely optional. (You can always change these options
+	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can automatically notify you via e-mail. Using this functionality is
+	completely optional and recommended only for advanced users. (You can always change these options
 	later, by selecting the "Configure Accounts" link above.)
 </p>
 
-<p class="tip tip_float your_account_limits">
+<!--<p class="tip tip_float your_account_limits">-->
+<p>
 As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
 you may have up to <?php echo plural(get_premium_value($user, 'notifications'), 'configured notification'); ?>.
 <?php if (!$user['is_premium']) { ?>

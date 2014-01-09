@@ -27,14 +27,14 @@ $current_value = $summary_instance['balance'];
 // since this may be a very heavy query
 if ($notification['last_value'] === null) {
 	crypto_log("No last value found: retrieving");
-	switch ($notification['period']) {
-		case "hour":
-			$period = "INTERVAL 1 HOUR";
-			break;
 
-		default:
-			throw new JobException("Unknown job period '" . $notification['period'] . "'");
+	// get the query string for this interval
+	$periods = get_permitted_notification_periods();
+	if (!isset($periods[$notification['period']]['interval'])) {
+		throw new JobException("Unknown job period '" . $notification['period'] . "'");
 	}
+	$period = $periods[$notification['period']]['interval'];
+
 	$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=:user_id AND summary_type=:summary_type AND created_at <= DATE_SUB(NOW(), $period) ORDER BY id DESC LIMIT 1");
 	$q->execute(array(
 		"user_id" => $notification['user_id'],
@@ -49,7 +49,12 @@ if ($notification['last_value'] === null) {
 
 // other parameters
 if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
-	$value_label = get_currency_abbr(substr($account['summary_type'], strlen('total')));
+	$currency = substr($account['summary_type'], strlen('total'));
+	$value_label = get_currency_abbr($currency);
+} else if (substr($account['summary_type'], 0, strlen('all2')) == 'all2') {
+	$summary_type = substr($account['summary_type'], strlen('all2'));
+	$summary_types = get_total_conversion_summary_types();
+	$value_label = get_currency_abbr($summary_types[$summary_type]['currency']);
 } else {
 	throw new JobException("Unknown summary_instance summary_type '" . htmlspecialchars($account['summary_type']) . "'");
 }
