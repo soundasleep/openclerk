@@ -1418,6 +1418,17 @@ function get_permitted_notification_periods() {
 	);
 }
 
+function get_permitted_notification_conditions() {
+	return array(
+		'increases_by' => "increases by",
+		'increases' => "increases",
+		'above' => "is above",
+		'decreases_by' => "decreases by",
+		'decreases' => "decreases",
+		'below' => "is below",
+	);
+}
+
 /**
  * Reset currencies, graph data etc to their defaults.
  */

@@ -68,6 +68,26 @@ switch ($notification['trigger_condition']) {
 		$should_notify = ($current_value > $notification['trigger_value']) && !$notification['is_notified'];
 		break;
 
+	case "decreases":
+		// true if the value decreases at all
+		$should_notify = ($current_value < $notification['last_value']);
+		break;
+
+	case "decreases_by":
+		// true if the value decreases by a given amount
+		if ($notification['is_percent']) {
+			$delta = $percent;
+		} else {
+			$delta = $value_delta;
+		}
+		$should_notify == ($delta != null) && (-$delta >= $notification['trigger_value']);
+		break;
+
+	case "below":
+		// true if the value is below a given amount, AND we haven't already notified the user
+		$should_notify = ($current_value < $notification['trigger_value']) && !$notification['is_notified'];
+		break;
+
 	default:
 		throw new JobException("Unknown trigger condition '" . $notification['trigger_condition'] . "'");
 }
@@ -86,7 +106,19 @@ if ($should_notify) {
 			break;
 
 		case "above":
-			$change_text = "increased above " . number_format_autoprecision($notification['trigger_value'], 4) . " " . $value_label;
+			$change_text = "is above " . number_format_autoprecision($notification['trigger_value'], 4) . " " . $value_label;
+			break;
+
+		case "decreases":
+			$change_text = "decreased";
+			break;
+
+		case "decreased_by":
+			$change_text = "decreased by " . number_format_autoprecision($notification['trigger_value'], 4) . ($notification['is_percent'] ? '%' : (" " . $value_label));
+			break;
+
+		case "below":
+			$change_text = "decreased below " . number_format_autoprecision($notification['trigger_value'], 4) . " " . $value_label;
 			break;
 
 		default:

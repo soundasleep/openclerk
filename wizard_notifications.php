@@ -129,11 +129,7 @@ TODO add clock/event/value icons for each row of notification icons
 		<li class="condition">
 			<select id="notification_condition" name="condition">
 				<?php
-				$options = array(
-					'increases_by' => "increases by",
-					'increases' => "increases",
-					'above' => "above",
-				);
+				$options = get_permitted_notification_conditions();
 				foreach ($options as $key => $value) { ?>
 				<option value="<?php echo htmlspecialchars($key); ?>"<?php echo $instance && $instance['trigger_condition'] == $key ? " selected" : ""; ?>><?php echo htmlspecialchars($value); ?></option>
 				<?php } ?>
@@ -215,17 +211,21 @@ foreach ($notifications as $notification) {
 			throw new Exception("Unknown notification type '" . $notification['notification_type'] . "'");
 	}
 
+	$permitted = get_permitted_notification_conditions();
 	switch ($notification['trigger_condition']) {
 		case "increases":
-			$trigger_text = "increases";
+		case "decreases":
+			$trigger_text = $permitted[$notification['trigger_condition']];
 			break;
 
 		case "increases_by":
-			$trigger_text = "increases by " . number_format_autoprecision_html($notification['trigger_value'], $notification['is_percent'] ? '%' : (' ' . $value_label));
+		case "decreases_by":
+			$trigger_text = $permitted[$notification['trigger_condition']] . " " . number_format_autoprecision_html($notification['trigger_value'], $notification['is_percent'] ? '%' : (' ' . $value_label));
 			break;
 
 		case "above":
-			$trigger_text = "is above " . number_format_autoprecision_html($notification['trigger_value'], " " . $value_label);
+		case "below":
+			$trigger_text = $permitted[$notification['trigger_condition']] . " " . number_format_autoprecision_html($notification['trigger_value'], " " . $value_label);
 			break;
 
 		default:
