@@ -4,10 +4,17 @@
 
 $(document).ready(function() {
 	$("#notification_type").change(function(e) {
+		$(".notification_template .exchanges").hide();
+		$(".notification_template .total_currencies").hide();
+
 		switch (e.target.value) {
 			case "ticker":
 				$(".notification_template .exchanges").show();
 				$("#notification_exchanges").change();	// trigger change
+				break;
+
+			case "summary_instance_total":
+				$(".notification_template .total_currencies").show();
 				break;
 
 			default:
@@ -35,6 +42,9 @@ $(document).ready(function() {
 
 	// when changing the currency, change the label
 	$("#notification_currencies").change(function(e) {
+		$(".notification_template .value_label").html($(e.target).find(":selected").html());
+	});
+	$("#notification_total_currencies").change(function(e) {
 		$(".notification_template .value_label").html($(e.target).find(":selected").html());
 	});
 
@@ -68,4 +78,6 @@ $(document).ready(function() {
 	// and trigger the first changes, which also need to support editing an existing instance
 	$("#notification_type").change();
 	$("#notification_condition").change();
+	$("#notification_currencies").change();
+	$("#notification_total_currencies").change();
 });

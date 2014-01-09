@@ -31,8 +31,20 @@ switch ($notification['notification_type']) {
 		require(__DIR__ . "/notifications/ticker.php");
 		break;
 
+	case "summary_instance":
+		$q = db()->prepare("SELECT * FROM notifications_summary_instances WHERE id=?");
+		$q->execute(array($notification['type_id']));
+		$account = $q->fetch();
+		if (!$account) {
+			throw new JobException("Cannot find a notification type '" . htmlspecialchars($notification['notification_type']) . "' " . $notification['type_id']);
+		}
+
+		// do calculations
+		require(__DIR__ . "/notifications/summary_instance.php");
+		break;
+
 	default:
-		throw new JobException("Unknown notification type '" . htmlspecialchars($account['notification_type']) . "'");
+		throw new JobException("Unknown notification type '" . htmlspecialchars($notification['notification_type']) . "'");
 }
 
 crypto_log("Current value: " . $current_value);
@@ -60,7 +72,7 @@ switch ($notification['trigger_condition']) {
 		} else {
 			$delta = $value_delta;
 		}
-		$should_notify == ($delta != null) && ($delta >= $notification['trigger_value']);
+		$should_notify = ($delta != null) && ($delta >= $notification['trigger_value']);
 		break;
 
 	case "above":
@@ -80,7 +92,7 @@ switch ($notification['trigger_condition']) {
 		} else {
 			$delta = $value_delta;
 		}
-		$should_notify == ($delta != null) && (-$delta >= $notification['trigger_value']);
+		$should_notify = ($delta != null) && (-$delta >= $notification['trigger_value']);
 		break;
 
 	case "below":
@@ -134,7 +146,7 @@ if ($should_notify) {
 			"current_value" => number_format_autoprecision($current_value),
 			"value_label" => $value_label,
 			"value_delta" => $value_delta,
-			"percent" => number_format_autoprecision($percent * 100, 3),
+			"percent" => $percent === null ? "infinite%" : number_format_autoprecision($percent * 100, 3),
 			"last_value_text" => number_format_autoprecision($notification['last_value']),
 			"current_value" => number_format_autoprecision($current_value),
 			"change_text" => $change_text,
@@ -148,6 +160,18 @@ if ($should_notify) {
 					"currency1" => get_currency_abbr($account['currency1']),
 					"currency2" => get_currency_abbr($account['currency2']),
 				);
+				break;
+
+			case "summary_instance":
+				$email_template = 'notification_summary_instance';
+				if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
+					$args += array(
+						"label" => "total " . get_currency_abbr(substr($account['summary_type'], strlen('total'))),
+					);
+				} else {
+					throw new JobException("Unknown summary_instance summary_type '" . htmlspecialchars($account['summary_type']) . "'");
+				}
+				$args['label_uc'] = capitalize($args['label']);
 				break;
 
 			default:

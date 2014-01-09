@@ -43,8 +43,15 @@ if (require_get("edit", false)) {
 			// if false, we can still display default editing options
 			break;
 
+		case "summary_instance":
+			$q = db()->prepare("SELECT * FROM notifications_summary_instances WHERE id=?");
+			$q->execute(array($instance['type_id']));
+			$account = $q->fetch();
+			// if false, we can still display default editing options
+			break;
+
 		default:
-			throw new Exception("Unknown notification type to edit '" . $notification['notification_type'] . "'");
+			throw new Exception("Unknown notification type to edit '" . $instance['notification_type'] . "'");
 	}
 }
 
@@ -66,6 +73,7 @@ function get_supported_notifications() {
 		// get a list of all possible notifications
 		$supported_notifications = array(
 			'exchanges' => array(),
+			'total_currencies' => array(),
 		);
 		$supported_exchange_currencies = array();
 
@@ -81,6 +89,13 @@ function get_supported_notifications() {
 					$supported_notifications['exchanges'][$exchange][] = $pair;
 					$supported_exchange_currencies[$pair[0] . $pair[1]] = get_currency_abbr($pair[0]) . "/" . get_currency_abbr($pair[1]);
 				}
+			}
+		}
+
+		foreach (get_summary_types() as $key => $summary) {
+			$cur = $summary['currency'];
+			if (isset($summaries[$summary['currency']])) {
+				$supported_notifications['total_currencies'][$cur] = get_currency_abbr($cur);
 			}
 		}
 
@@ -105,7 +120,7 @@ TODO add clock/event/value icons for each row of notification icons
 	<span class="email_notification">Please send me an e-mail when</span>
 	<select id="notification_type" name="type">
 		<option value="ticker"<?php echo ($instance && $instance['notification_type'] == 'ticker') ? " selected" : ""; ?>>the exchange rate</option>
-		<option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance') ? " selected" : ""; ?>>my total</option>
+		<option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('total')) == 'total') ? " selected" : ""; ?>>my total</option>
 	</select>
 
 	<ul>
@@ -113,7 +128,7 @@ TODO add clock/event/value icons for each row of notification icons
 			on
 			<select id="notification_exchanges" name="exchange">
 				<?php foreach ($supported_notifications['exchanges'] as $exchange => $pairs) { ?>
-					<option value="<?php echo htmlspecialchars($exchange); ?>"<?php echo $account && $account['exchange'] == $exchange ? " selected" : ""; ?>><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></option>
+					<option value="<?php echo htmlspecialchars($exchange); ?>"<?php echo isset($account['exchange']) && $account['exchange'] == $exchange ? " selected" : ""; ?>><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></option>
 				<?php } ?>
 			</select>
 
@@ -124,6 +139,16 @@ TODO add clock/event/value icons for each row of notification icons
 					<option value="<?php echo htmlspecialchars($key); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($value); ?></option>
 				<?php } ?>
 			</select>
+		</li>
+
+		<li class="total_currencies" style="display:none;">
+			<select id="notification_total_currencies" name="total_currency">
+				<?php foreach ($supported_notifications['total_currencies'] as $cur => $title) {
+					$selected = $account && $account['summary_type'] == 'total' . $cur; ?>
+					<option value="<?php echo htmlspecialchars($cur); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
+				<?php } ?>
+			</select>
+			(before any conversions)
 		</li>
 
 		<li class="condition">
@@ -204,6 +229,25 @@ foreach ($notifications as $notification) {
 			$account_text = "Exchange rate on " . get_exchange_name($account['exchange']) . " for " .
 				get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']);
 			$value_label = get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']);
+
+			break;
+
+		case "summary_instance":
+			$q = db()->prepare("SELECT * FROM notifications_summary_instances WHERE id=? LIMIT 1");
+			$q->execute(array($notification['type_id']));
+			$account = $q->fetch();
+			if (!$account) {
+				throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
+			}
+
+			if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
+				$currency = substr($account['summary_type'], strlen('total'));
+				$account_text = "My total " . get_currency_abbr($currency);
+				$value_label = get_currency_abbr($currency);
+			} else {
+				$account_text = "unknown";
+				$value_label = "unknown";
+			}
 
 			break;
 

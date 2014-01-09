@@ -36,6 +36,11 @@ if (require_post("delete", false)) {
 			$q->execute(array($instance['type_id']));
 			break;
 
+		case "summary_instance":
+			$q = db()->prepare("DELETE FROM notifications_summary_instances WHERE id=?");
+			$q->execute(array($instance['type_id']));
+			break;
+
 		default:
 			throw new Exception("Unknown old notification type '" . htmlspecialchars($instance['notification_type']) . "'");
 	}
@@ -55,6 +60,11 @@ $type_id = false;
 switch (require_post("type")) {
 	case "ticker":
 		$notification_type = 'ticker';
+		break;
+
+	case "summary_instance_total":
+		$notification_type = 'summary_instance';
+		$summary_type = 'total' . require_post("total_currency");
 		break;
 
 	default:
@@ -77,6 +87,10 @@ if (require_post("id", false)) {
 		switch ($instance['notification_type']) {
 			case "ticker":
 				$q = db()->prepare("DELETE FROM notifications_ticker WHERE id=?");
+				$q->execute(array($instance['type_id']));
+
+			case "summary_instance":
+				$q = db()->prepare("DELETE FROM notifications_summary_instances WHERE id=?");
 				$q->execute(array($instance['type_id']));
 
 			default:
@@ -120,6 +134,28 @@ switch ($notification_type) {
 		}
 		break;
 
+	case "summary_instance":
+		// TODO we could check that the summary instance type is valid (e.g. totalbtc, crypto2usd, etc) but it would
+		// take a lot of infrastructure work, because we don't actually check that all summary instance types ARE valid
+		if (strlen($summary_type) > 32 || !$summary_type) {
+			throw new Exception("Invalid summary type '" . htmlspecialchars($summary_type) . "'");
+		}
+
+		if (!$type_id) {
+			$q = db()->prepare("INSERT INTO notifications_summary_instances SET summary_type=:summary_type");
+			$q->execute(array(
+				'summary_type' => $summary_type,
+			));
+			$type_id = db()->lastInsertId();
+		} else {
+			$q = db()->prepare("UPDATE notifications_summary_instances SET summary_type=:summary_type WHERE id=:id");
+			$q->execute(array(
+				'summary_type' => $summary_type,
+				'id' => $type_id,
+			));
+		}
+		break;
+
 	default:
 		throw new Exception("Unknown new notification type '" . htmlspecialchars($notification_type) . "'");
 }
@@ -144,7 +180,8 @@ $args = array(
 
 if (require_post("id", false)) {
 	// update existing
-	$q = db()->prepare("UPDATE notifications SET notification_type=:notification_type, trigger_condition=:trigger_condition, trigger_value=:trigger_value, is_percent=:is_percent, period=:period, type_id=:type_id, is_notified=0 WHERE id=:id AND user_id=:user_id");
+	// need to also reset last_value and is_notified so that we don't accidentally send notifications for an old currency
+	$q = db()->prepare("UPDATE notifications SET notification_type=:notification_type, trigger_condition=:trigger_condition, trigger_value=:trigger_value, is_percent=:is_percent, period=:period, type_id=:type_id, is_notified=0, last_value=NULL, last_notification=NULL WHERE id=:id AND user_id=:user_id");
 	$args += array('id' => $instance['id']);
 	$q->execute($args);
 
