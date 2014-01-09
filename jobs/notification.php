@@ -142,6 +142,7 @@ if ($should_notify) {
 		$args = array(
 			"name" => ($user['name'] ? $user['name'] : $user['email']),
 			"url" => absolute_url(url_for('wizard_notifications')),
+			"profile" => absolute_url(url_for('profile')),
 			"last_value" => number_format_autoprecision($notification['last_value'], 3),
 			"current_value" => number_format_autoprecision($current_value, 3),
 			"value_label" => $value_label,

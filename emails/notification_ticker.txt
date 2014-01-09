@@ -6,6 +6,10 @@ The exchange rate on {$exchange} for {$currency1}/{$currency2} has {$change_text
 This is an automated notification. You may modify or disable this notification through your notifications wizard:
 
   {$url}
+
+You may also want to view your full reports:
+
+  {$profile}
   
 Thanks for using {$site_name}!
 

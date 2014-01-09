@@ -16,8 +16,8 @@ global $user;
 <h1>Notification Preferences</h1>
 
 <p>
-	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can automatically notify you via e-mail. Using this functionality is
-	completely optional and recommended only for advanced users. (You can always change these options
+	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can also optionally notify you when
+	your accounts change. (You can always change these options
 	later, by selecting the "Configure Accounts" link above.)
 </p>
 

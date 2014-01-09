@@ -13,7 +13,7 @@ require_user($user);
 $errors = array();
 $messages = array();
 
-// get all of our accounts
+// get all of our limits
 $accounts = user_limits_summary(user_id());
 
 $currencies = require_post("currencies", array() /* in case no cryptocurrencies are selected (which wouldn't make much sense probably) */);

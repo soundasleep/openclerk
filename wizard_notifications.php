@@ -9,7 +9,7 @@ require(__DIR__ . "/inc/global.php");
 require_login();
 
 require(__DIR__ . "/layout/templates.php");
-page_header("Notification Preferences", "page_wizard_notifications", array('jquery' => true, 'js' => array('common', 'wizard', 'notifications'), 'class' => 'page_accounts'));
+page_header("Notification Preferences", "page_wizard_notifications", array('jquery' => true, 'js' => array('common', 'wizard', 'notifications', 'accounts' /* for sorting */), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -196,8 +196,8 @@ function get_supported_notifications() {
 
 				<span class="notification_percent_on">
 				<select id="notification_percent" name="percent">
-					<option value="0" class="value_label"<?php echo $instance && $instance['is_percent'] ? "" : " selected"; ?>>USD/BTC</option>
-					<option value="1"<?php echo $instance && $instance['is_percent'] ? " selected" : ""; ?>>%</option>
+					<option value="1"<?php echo $instance ? ($instance['is_percent'] ? " selected" : "") : " selected"; ?>>%</option>
+					<option value="0" class="value_label"<?php echo $instance ? ($instance['is_percent'] ? "" : " selected") : ""; ?>>USD/BTC</option>
 				</select>
 				</span>
 				<span class="notification_percent_off value_label">USD/BTC</span>
@@ -234,6 +234,11 @@ function get_supported_notifications() {
 <hr>
 
 <h2>Configured Notifications</h2>
+
+<span style="display:none;" id="sort_buttons_template">
+<!-- heading sort buttons -->
+<span class="sort_up" title="Sort ascending">Asc</span><span class="sort_down" title="Sort descending">Desc</span>
+</span>
 
 <table class="standard standard_account_list">
 <thead>

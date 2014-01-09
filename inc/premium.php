@@ -42,7 +42,7 @@ function user_limits_summary($user_id) {
 }
 
 /**
- * @param $keytype e.g. 'blockchain', 'mtgox', ...
+ * @param $keytype e.g. 'blockchain', 'mtgox', 'notification', ...
  */
 function can_user_add($user, $keytype, $amount = 1) {
 	$summary = user_limits_summary($user['id']);

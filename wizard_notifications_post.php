@@ -81,6 +81,9 @@ switch (require_post("type")) {
 		throw new Exception("Unknown type '" . htmlspecialchars(require_post("type")) . "'");
 }
 
+// get all of our limits
+$accounts = user_limits_summary(user_id());
+
 // editing?
 if (require_post("id", false)) {
 	// get the existing instance
@@ -110,6 +113,14 @@ if (require_post("id", false)) {
 	} else {
 		// update the existing instance
 		$type_id = $instance['type_id'];
+	}
+} else {
+	if (!can_user_add($user, 'notifications')) {
+		$errors[] = "Cannot add notification: too many existing notifications.<br>" .
+				($user['is_premium'] ? "" : " To add more notifications, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+
+		set_temporary_errors($errors);
+		redirect(url_for('wizard_notifications'));
 	}
 }
 
