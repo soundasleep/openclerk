@@ -2264,3 +2264,122 @@ ALTER TABLE hashrates ADD INDEX(user_id, account_id, exchange, is_recent);
 
 -- removing 50btc
 UPDATE accounts_50btc SET is_disabled=1;
+
+-- newly created accounts should be last_queue with timestamp, not datetime, for consistency with other tables
+ALTER TABLE accounts_scryptpools MODIFY last_queue timestamp null;
+ALTER TABLE accounts_ozcoin_btc MODIFY last_queue timestamp null;
+ALTER TABLE accounts_ozcoin_ltc MODIFY last_queue timestamp null;
+ALTER TABLE accounts_triplemining MODIFY last_queue timestamp null;
+ALTER TABLE accounts_hashfaster_ftc MODIFY last_queue timestamp null;
+ALTER TABLE accounts_hashfaster_ltc MODIFY last_queue timestamp null;
+ALTER TABLE accounts_dogechainpool MODIFY last_queue timestamp null;
+ALTER TABLE accounts_elitistjerks MODIFY last_queue timestamp null;
+ALTER TABLE accounts_dogepoolpw MODIFY last_queue timestamp null;
+ALTER TABLE accounts_litecoinpool MODIFY last_queue timestamp null;
+ALTER TABLE accounts_beeeeer MODIFY last_queue timestamp null;
+ALTER TABLE accounts_lite_coinpool MODIFY last_queue timestamp null;
+ALTER TABLE accounts_eligius MODIFY last_queue timestamp null;
+ALTER TABLE accounts_coinhuntr MODIFY last_queue timestamp null;
+ALTER TABLE accounts_litepooleu MODIFY last_queue timestamp null;
+
+-- email notifications!
+-- another architecture would be [notifications] table with references to [notification_type] and a notification_type table for storing parameters
+--
+-- option 1: execute notification checks after every balance/ticker/hashrate change.
+-- - could be very database intensive, particularly for hourly notifications or lots of them
+-- - but will not miss changes within a particular period
+-- - easy to implement 'minute' period notifications
+--
+-- option 2: execute notifications just like other jobs.
+-- - easy to control and manage and implement, can run notification jobs separately
+-- - will miss changes within a particular period
+-- - need to be executed AFTER an update job
+-- - will be interrupted by premium jobs
+-- - can store last_value when processing job
+-- - queue timing will NOT be accurate (e.g. [period]*0.8+delay)
+-- - fewer temporary errors, e.g. an API returns 0 briefly
+--
+-- suboption: run all 'notification' jobs hourly [or 12 hourly for free users], rather than using last_queue+period
+-- - will allow 'daily', 'weekly' etc jobs to catch recent changes
+-- - will not allow storage of last_value when processing job
+-- - could run more frequently than hourly if necessary
+-- - could be varied for premium users (e.g. every 10 minutes rather than hourly)
+--
+DROP TABLE IF EXISTS notifications;
+CREATE TABLE notifications (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+
+	last_queue timestamp null,
+	last_value decimal(24,8) null,
+	
+	notification_type varchar(16) not null,		-- 'summary_instances', 'balances', 'hashrates', 'ticker', 'address_balances'
+	type_id int not null,
+
+	trigger_condition varchar(16) not null,		-- 'below', 'above', 'equal', 'not', 'increases', 'decreases', 'increases_by', 'decreases_by'
+	trigger_value decimal(24,8) null,
+	is_percent tinyint not null default 0,
+	period varchar(8) not null,			-- 'hour', 'day', 'week', 'month'
+
+	-- note that 'below' etc notifications will NOT be sent again unless this is false (so we don't continually receive notifications)
+	-- or trigger_condition = increases_by, decreases_by, increases, decreases
+	is_notified tinyint not null default 0,
+	last_notification timestamp null,
+
+	INDEX(user_id),
+	INDEX(notification_type, type_id),
+	INDEX(last_queue)
+);
+
+DROP TABLE IF EXISTS notifications_summary_instances;
+CREATE TABLE notifications_summary_instances (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	summary_type varchar(32) not null
+);
+
+DROP TABLE IF EXISTS notifications_ticker;
+CREATE TABLE notifications_ticker (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	exchange varchar(32) not null,
+	currency1 varchar(3) not null,
+	currency2 varchar(3) not null
+);
+
+DROP TABLE IF EXISTS notifications_balances;
+CREATE TABLE notifications_balances (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	exchange varchar(32) null,	-- null = any exchange
+	account_id int not null,	-- null = any account
+	
+	INDEX(exchange, account_id)
+);
+
+DROP TABLE IF EXISTS notifications_hashrates;
+CREATE TABLE notifications_hashrates (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	exchange varchar(32) null,	-- null = any exchange
+	currency varchar(3) not null,
+	account_id int,	-- null = any account
+	
+	INDEX(exchange, currency, account_id)
+);
+
+DROP TABLE IF EXISTS notifications_address_balances;
+CREATE TABLE notifications_address_balances (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	currency varchar(3) not null,
+	address_id int not null,	-- don't support arbitrary 'any address' - will require a lot of querying!
+	
+	INDEX(currency, address_id)
+);

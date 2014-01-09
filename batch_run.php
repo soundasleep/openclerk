@@ -406,6 +406,11 @@ try {
 			require(__DIR__ . "/jobs/securities_count.php");
 			break;
 
+		// notification jobs
+		case "notification":
+			require(__DIR__ . "/jobs/notification.php");
+			break;
+
 		// system jobs
 		case "securities_update":
 			require(__DIR__ . "/jobs/securities_update.php");

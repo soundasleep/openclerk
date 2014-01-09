@@ -145,6 +145,12 @@ $standard_jobs = array(
 				created_at), INTERVAL ' . (get_site_config('user_expiry_days')) . '+1 DAY) < NOW()', 'user_id' => get_site_config('system_user_id'), 'always' => true),
 	array('table' => 'users', 'type' => 'securities_count', 'query' => ' AND is_disabled=0 AND is_system=0', 'queue_field' => 'securities_last_count_queue', 'user_id_field' => 'id'),
 	array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id')),
+
+	// notifications support
+	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='hour'", 'hours' => 1),
+	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='day'", 'hours' => 24),
+	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='week'", 'hours' => 24 * 7),
+	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='month'", 'hours' => 24 * 7 * 30),
 );
 
 crypto_log("Current time: " . date('r'));
