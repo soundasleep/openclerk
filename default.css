@@ -27,6 +27,8 @@ table.standard { background: #222; border-collapse: collapse; }
 table.standard th { text-align: left; background: #333; font-weight: bold; }
 table.standard th, table.standard td { line-height: 1.3em; padding: 2px 5px 2px 5px; border: 1px solid #333; }
 table.standard tr.odd { background: #292929; }
+table.standard tr.selected, .notification_template.selected { background: #111; }
+table.standard tr.odd.selected { background: #111; }
 table.standard th { min-width: 40px; }
 table.standard td { min-width: 60px; }
 table.standard td.date { white-space: nowrap; }
@@ -312,3 +314,4 @@ button .openid, .openid_list .openid { padding-left: 20px; line-height: 20px; }
 .openid.aol { background: url('img/aol.png') 0 0 no-repeat; }
 .openid.verisign { background: url('img/verisign.png') 0 0 no-repeat; }
 
+.email_notification { padding-left: 20px; background: url('img/nuvola/mail_forward.png') 0 0 no-repeat; }

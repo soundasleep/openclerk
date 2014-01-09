@@ -17,7 +17,8 @@ global $user;
 
 <p>
 	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can automatically notify you via
-	e-mail about changes to your accounts, your miners, your reports or other exchanges. (You can always change these options
+	e-mail about changes to your accounts, your miners, your reports or other exchanges. Using this functionality is
+	completely optional. (You can always change these options
 	later, by selecting the "Configure Accounts" link above.)
 </p>
 

@@ -1409,6 +1409,15 @@ function get_permitted_days() {
 	return $permitted_days;
 }
 
+function get_permitted_notification_periods() {
+	return array(
+		'hour' => array('label' => 'the last hour', 'title' => 'hourly'),
+		'day' => array('label' => 'the last day', 'title' => 'daily'),
+		'week' => array('label' => 'the last week', 'title' => 'weekly'),
+		'month' => array('label' => 'the last month', 'title' => 'monthly'),
+	);
+}
+
 /**
  * Reset currencies, graph data etc to their defaults.
  */

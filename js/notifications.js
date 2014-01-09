@@ -65,6 +65,7 @@ $(document).ready(function() {
 		}
 	});
 
-	// and trigger the first change
+	// and trigger the first changes, which also need to support editing an existing instance
 	$("#notification_type").change();
+	$("#notification_condition").change();
 });

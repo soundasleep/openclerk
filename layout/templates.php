@@ -245,8 +245,8 @@ function number_format_html($n, $precision, $suffix = false) {
 	return "<span title=\"" . number_format_autoprecision($n, 8) . ($suffix ? $suffix : "") . "\">" . number_format_precision($n, $precision) . ($suffix ? $suffix : "") ."</span>";
 }
 
-function number_format_autoprecision_html($n) {
-	return "<span title=\"" . number_format_autoprecision($n, 8) . "\">" . number_format_autoprecision($n) . "</span>";
+function number_format_autoprecision_html($n, $suffix = false) {
+	return "<span title=\"" . number_format_autoprecision($n, 8) . ($suffix ? $suffix : "") . "\">" . number_format_autoprecision($n) . ($suffix ? $suffix : "") . "</span>";
 }
 
 function capitalize($s) {
