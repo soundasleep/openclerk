@@ -397,7 +397,7 @@ function render_graph_return_exchange_currency($exchange, $args) { return get_cu
  *
  * @param $has_subheadings true (default), false (no subheading), 'last_total' (total the most recent data)
  * @param $stacked if true, renders the graph as a stacked graph rather than line graph. defaults to false.
- * @param $make_proportional if true, converts all values to proportional data w.r.t. each date point. defaults to false.
+ * @param $make_proportional if true, converts all values to proportional data w.r.t. each date point, up to 100%. defaults to false.
  */
 function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_title /* callback */, $has_subheadings = true, $stacked = false, $make_proportional = false) {
 
@@ -454,7 +454,12 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 	$data = array();
 
 	// add headings after we know how many exchanges we've found
-	$headings = array("Date");
+	$first_heading = array('title' => "Date");
+	if ($make_proportional) {
+		$first_heading['min'] = 0;
+		$first_heading['max'] = 100;
+	}
+	$headings = array($first_heading);
 	$i = 0;
 	// sort them so they're always in the same order
 	ksort($exchanges_found);

@@ -219,13 +219,14 @@ function render_linegraph_date($graph, $data, $stacked = false) {
 			<?php
 			$i = 0;
 			foreach ($data[0] as $heading) {
-				if ($i++ == 0) continue;
 				// primary axis
 				if (isset($heading['min']) && isset($heading['max'])) {
 				?>
 				vAxes: [ { minValue: <?php echo number_format($heading['min']); ?>, maxValue: <?php echo number_format($heading['max']); ?> } ],
 				<?php
 				}
+
+				if ($i++ == 0) continue;
 
 				// secondary axis
 				if (isset($heading['axis']) && isset($heading['axis_max']) && isset($heading['axis_min'])) {
