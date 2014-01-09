@@ -14,8 +14,11 @@
 		By selecting a pair of currencies, you will be able to track the value of all exchanges that support that currency.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/help/notifications_ticker1.png')); ?>"></li>
 
-	<li>Visit your <a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">notifications wizard</a>
-		and create a new notification of type "exchange rate".<br>
+
+	<li>Visit your <a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">notifications wizard</a>.<br>
+		<img src="<?php echo htmlspecialchars(url_for('img/help/notifications0.png')); ?>"></li>
+
+	<li>Create and configure a new notification of type "exchange rate", and click <i>Create Notification</i>.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/help/notifications_ticker2.png')); ?>"></li>
 </ol>
 </div>

@@ -13,8 +13,10 @@
 		and ensure that you have <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">selected a report currency</a>.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/help/notifications_reports1.png')); ?>"></li>
 
-	<li>Visit your <a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">notifications wizard</a>
-		and create a new notification of type "my total" or "my converted".<br>
+	<li>Visit your <a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">notifications wizard</a>.<br>
+		<img src="<?php echo htmlspecialchars(url_for('img/help/notifications0.png')); ?>"></li>
+
+	<li>Create and configure a new notification of type "my total" or "my converted", and click <i>Create Notification</i>.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/help/notifications_reports2.png')); ?>"></li>
 </ol>
 </div>

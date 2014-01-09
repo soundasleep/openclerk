@@ -287,6 +287,7 @@ tr.odd span.status_loading { background: url('img/spinning_odd.gif') top left no
 .help_name_litecoinforum { background: url('img/litecoin.png') top left no-repeat; padding-left: 20px; } 
 .help_name_groups { background: url('img/groups.png') top left no-repeat; padding-left: 20px; } 
 .kb_text img.help_inline { max-width: 40%; float: right; margin: 0 0 15px 15px; }
+.kb_text img { max-width: 60%; max-height: 240px; }
 .kb_text h2 { clear: both; }
 table.fancy.contact-table { margin-top: 10px; margin-bottom: 10px; }
 .discounted { color: #666; text-decoration: line-through; }

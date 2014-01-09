@@ -353,6 +353,8 @@ foreach ($notifications as $notification) {
 </tbody>
 </table>
 
+<div class="help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>">How do automated notifications work?</a></div>
+
 <div style="clear:both;"></div>
 
 <div class="wizard-buttons">
