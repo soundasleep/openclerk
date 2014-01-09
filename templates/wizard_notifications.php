@@ -6,9 +6,8 @@ global $user;
 	<h2>Preferences Wizard</h2>
 	<ul>
 		<li class="past"><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">Currencies</a></li>
-		<li class="past"><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Accounts</a></li>
-		<li class="past"><a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">Reports</a></li>
-		<li class="current"><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">Notifications</a></li>
+		<li class="current"><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Accounts</a></li>
+		<li class=""><a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">Reports</a></li>
 		<li class=""><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Your Reports</a></li>
 	</ul>
 </div>

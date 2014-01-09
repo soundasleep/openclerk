@@ -356,8 +356,7 @@ foreach ($notifications as $notification) {
 <div style="clear:both;"></div>
 
 <div class="wizard-buttons">
-<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">&lt; Previous</a>
-<a class="button submit" href="<?php echo htmlspecialchars(url_for('profile')); ?>">Finish &gt;</a>
+<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">&lt; Previous</a>
 </div>
 </div>
 

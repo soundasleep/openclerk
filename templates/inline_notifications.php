@@ -1,7 +1,7 @@
 <h2>Overview</h2>
 
 <p>
-	<img src="<?php echo htmlspecialchars(url_for('img/help/notifications.png')); ?>" class="help_inline">
+	<img src="<?php echo htmlspecialchars(url_for('img/help/notifications_full.png')); ?>" class="help_inline">
 
 	Automated notifications are a new feature added in Openclerk 0.16 that allow you to configure automated
 	alerts for particular reports.

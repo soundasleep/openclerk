@@ -71,7 +71,20 @@ require_template("wizard_accounts");
 
 </ul>
 
-<?php require_template("wizard_accounts_offsets"); ?>
+<div class="offset-text">
+	<ul class="account-type floating">
+
+		<li><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">Notifications
+			<?php if ($accounts['wizard_notifications']) { ?><span class="count">(<?php echo number_format($accounts['wizard_notifications']); ?>)<?php } ?></a>
+			<ul>
+				<li>e.g. Hashrates, exchange rates <span class="new">new</span></li>
+			</ul>
+		</li>
+
+	</ul>
+
+	<?php require_template("wizard_accounts_offsets"); ?>
+</div>
 
 <form action="<?php echo htmlspecialchars(url_for('set_offset')); ?>" method="post" class="wizard-offsets">
 	<table class="standard">
@@ -100,6 +113,8 @@ require_template("wizard_accounts");
 	</tbody>
 	</table>
 </form>
+
+<div style="clear:both;"></div>
 
 <div class="wizard-buttons">
 <a class="button" href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">&lt; Previous</a>

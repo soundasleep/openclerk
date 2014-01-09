@@ -2,7 +2,7 @@
 <h2>Adding an exchange rate notification</h2>
 
 <p>
-	<img src="<?php echo htmlspecialchars(url_for('img/help/notifications.png')); ?>" class="help_inline">
+	<img src="<?php echo htmlspecialchars(url_for('img/help/notifications_full.png')); ?>" class="help_inline">
 
 	As of Openclerk 0.16, you can track changes to the exchange rates for any currency pair supported by <?php echo htmlspecialchars(get_site_config('site_name')); ?>
 	by configuring <a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">automated notifications</a>.

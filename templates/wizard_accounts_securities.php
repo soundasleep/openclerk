@@ -9,7 +9,6 @@ global $accounts;
 		<li class="past"><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">Currencies</a></li>
 		<li class="current"><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Accounts</a></li>
 		<li class=""><a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">Reports</a></li>
-		<li class=""><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">Notifications</a></li>
 		<li class=""><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Your Reports</a></li>
 	</ul>
 </div>
@@ -17,7 +16,7 @@ global $accounts;
 <div class="wizard-content">
 <h1>Add <?php echo $account_type['titles']; ?></h1>
 
-<ul class="account-type">
+<ul class="account-type floating">
 
 	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_individual_securities')); ?>">Individual Securities
 		<?php if ($accounts['wizard_individual']) { ?><span class="count">(<?php echo number_format($accounts['wizard_individual']); ?>)<?php } ?></a>

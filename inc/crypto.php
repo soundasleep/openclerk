@@ -467,7 +467,7 @@ function account_data_grouped() {
 			'graph' => array('title' => 'Graphs', 'table' => 'graphs', 'query' => ' AND is_removed=0'),
 			'graph_pages' => array('title' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0'),
 			'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries'),
-			'notifications' => array('title' => 'Notifications', 'table' => 'notifications', 'group' => 'notifications'),
+			'notifications' => array('title' => 'Notifications', 'table' => 'notifications', 'group' => 'notifications', 'wizard' => 'notifications'),
 		),
 	);
 	foreach ($data as $key0 => $row0) {

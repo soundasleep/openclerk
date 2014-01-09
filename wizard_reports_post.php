@@ -224,6 +224,6 @@ set_temporary_errors($errors);
 if ($errors) {
 	redirect(url_for('wizard_reports', array('preference' => $preference)));	// go back
 } else {
-	redirect(url_for('wizard_notifications'));	// go forward
+	redirect(url_for('profile'));	// go forward
 }
 
