@@ -158,7 +158,7 @@ function render_graph($graph, $is_public = false) {
 	<script type="text/javascript">
 	google.load("visualization", "1", {packages:["corechart"]});
 	function callbackGraph<?php echo htmlspecialchars($graph['id']); ?>() {
-		$.ajax(<?php echo json_encode($ajax_url); ?>, {
+		queue_ajax_request(<?php echo json_encode($ajax_url); ?>, {
 			'success': function(data, text, xhr) {
 				$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(data);
 				<?php if ($timeout > 0) { ?>
