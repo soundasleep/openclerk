@@ -65,11 +65,11 @@ if ($preference != 'none') {
 		}
 	}
 
-	if (count($generated_graphs) >= get_premium_value($user, 'graphs_per_page')) {
+	if (count($generated_graphs) > get_premium_value($user, 'graphs_per_page')) {
 		$errors[] = "Cannot update report preferences: this would add too many graphs to the managed graph page." .
 				($user['is_premium'] ? "" : " To add more graphs on the managed graph page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 		if (is_admin()) {
-			$errors[] = "(admin) " . print_r(array_keys($generated_graphs), true);
+			$errors[] = "(admin) " . print_r(array_keys($generated_graphs), true) . " (" . count($generated_graphs) . " > " . get_premium_value($user, 'graphs_per_page') . ")";
 		}
 	}
 

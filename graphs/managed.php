@@ -48,6 +48,13 @@ function calculate_user_graphs($user, $strategy = false, $categories = array()) 
 		}
 	}
 
+	// limit to the maximum number of graphs that we can support, if necessary
+	// sort by priority
+	uasort($result, '_sort_by_priority_key');
+	if (count($result) > get_premium_value($user, 'graphs_per_page')) {
+		$result = array_slice($result, 0, get_premium_value($user, 'graphs_per_page'));
+	}
+
 	// sort by order
 	uasort($result, '_sort_by_order_key');
 
@@ -94,12 +101,14 @@ function calculate_all_managed_graphs($user) {
 		'order' => $default_order['balances_table'],
 		'width' => get_site_config('default_user_graph_height'),	// square
 		'free' => true,		// free user priority
+		'priority' => 1,
 	);
 	if (count($summaries) >= 2 && isset($summaries['btc'])) {
 		$result['summary']['btc_equivalent'] = array(
 			'order' => $default_order['btc_equivalent'],
 			'width' => get_site_config('default_user_graph_height'),	// square
 			'free' => true,		// free user priority
+			'priority' => 2,
 		);
 	}
 	foreach (get_all_cryptocurrencies() as $cur) {
@@ -108,15 +117,18 @@ function calculate_all_managed_graphs($user) {
 				'order' => $default_order['composition_pie'] + $order_currency[$cur],
 				'width' => get_site_config('default_user_graph_height'),	// square
 				'free' => $cur == $user['preferred_crypto'],		// free user priority
+				'priority' => ($cur == $user['preferred_crypto'] ? 100 : 300 + $order_currency[$cur]),
 			);
 			$result['summary']["composition_" . $cur . "_daily"] = array(
 				'order' => $default_order['composition_daily'] + $order_currency[$cur],
 				'free' => $cur == $user['preferred_crypto'],		// free user priority
+				'priority' => ($cur == $user['preferred_crypto'] ? 105 : 200 + $order_currency[$cur]),
 			);
 			$result['summary']['total_' . $cur . '_daily'] = array(
 				'order' => $default_order['total_daily'] + $order_currency[$cur],
 				'source' => $cur,
 				'free' => $cur == $user['preferred_crypto'],		// free user priority
+				'priority' => 100 + $order_currency[$cur],
 			);
 		}
 	}
@@ -126,6 +138,7 @@ function calculate_all_managed_graphs($user) {
 				'order' => $default_order['total_daily'] + $order_currency[$cur],
 				'source' => $cur,
 				'free' => $cur == $user['preferred_crypto'],		// free user priority
+				'priority' => 100 + $order_currency[$cur],
 			);
 		}
 	}
@@ -158,12 +171,14 @@ function calculate_all_managed_graphs($user) {
 							$result['all_currency'][$exchange . "_" . $pair[0] . $pair[1] . "_daily"] = array(
 								'order' => $default_order['exchange_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
 								'source' => $p,
+								'priority' => 150 + $order_currency[$pair[0]],
 							);
 							if ($is_default) {
 								$result['currency'][$exchange . "_" . $pair[0] . $pair[1] . "_daily"] = array(
 									'order' => $default_order['exchange_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
 									'source' => $p,
 									'free' => true,		// free user priority
+									'priority' => 150 + $order_currency[$pair[0]],
 								);
 							}
 
@@ -172,12 +187,14 @@ function calculate_all_managed_graphs($user) {
 								$result['all_summary']['all2' . substr($p, strlen("summary_")) . '_daily'] = array(
 									'order' => $default_order['all_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
 									'source' => $p,
+									'priority' => 50 + $order_currency[$pair[0]],
 								);
 								if ($is_default) {
 									$result['summary']['all2' . substr($p, strlen("summary_")) . '_daily'] = array(
 										'order' => $default_order['all_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],
 										'source' => $p,
 										'free' => ($pair[0] == $user['preferred_crypto'] || $pair[0] == $user['preferred_fiat']),		// free user priority
+										'priority' => 5 + $order_currency[$pair[0]],
 									);
 								}
 							}
@@ -217,6 +234,7 @@ function calculate_all_managed_graphs($user) {
 				'order' => $default_order['hashrate_daily'] + $order_currency[$cur],
 				'source' => $has_hashing_account,
 				'free' => $cur == $user['preferred_crypto'],		// free user priority
+				'priority' => 150 + $order_currency[$cur],
 			);
 		}
 	}
@@ -244,6 +262,13 @@ function _sort_by_order_key($a, $b) {
 		return 0;
 	}
 	return $a['order'] > $b['order'] ? 1 : -1;
+}
+
+function _sort_by_priority_key($a, $b) {
+	if ($a['priority'] == $b['priority']) {
+		return 0;
+	}
+	return $a['priority'] > $b['priority'] ? 1 : -1;
 }
 
 $global_get_all_user_account_instances = array();
@@ -314,6 +339,13 @@ function update_user_managed_graphs($user) {
 		$page = array('id' => db()->lastInsertId());
 		if (is_admin()) {
 			$messages[] = "(admin) Added new graph_page " . htmlspecialchars($page['id']) . ".";
+		}
+	} else if ($user['graph_managed_type'] == 'auto' && !$page['is_managed']) {
+		// re-enable the managed flag on this page
+		$q = db()->prepare("UPDATE graph_pages SET is_managed=1 WHERE id=? AND user_id=?");
+		$q->execute(array($page['id'], $user['id']));
+		if (is_admin()) {
+			$messages[] = "(admin) Re-enabled is_managed flag on graph_page " . htmlspecialchars($page['id']) . ".";
 		}
 	}
 
