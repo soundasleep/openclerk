@@ -1432,7 +1432,7 @@ function get_permitted_notification_conditions() {
 
 function get_permitted_deltas() {
 	$permitted_days = array(
-		'' => array('title' => 'value', 'description' => 'Default'),
+		'' => array('title' => 'value', 'description' => 'None'),
 		'absolute' => array('title' => 'change', 'description' => 'Change'),
 		'percent' => array('title' => 'percent', 'description' => '% change'),
 	);

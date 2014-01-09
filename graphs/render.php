@@ -165,8 +165,29 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 		}
 	}
 
+	// calculate deltas if necessary
+	$data = calculate_graph_deltas($graph, $data);
+
+	// calculate technicals
+	$data = calculate_technicals($graph, $data);
+
+	// discard early data
+	$data = discard_early_data($data, $days);
+
+	// sort by key, but we only want values
+	uksort($data, 'cmp_time');
+	$graph['subheading'] = format_subheading_values($graph, $data);
+	$graph['last_updated'] = $last_updated;
+	render_linegraph_date($graph, array_values($data));
+}
+
+/**
+ * Calculate deltas on this graph if the graph has defined a delta property.
+ * Returns the updated data array.
+ * $graph['delta'] = ('', 'percent', 'absolute')
+ */
+function calculate_graph_deltas($graph, $data) {
 	// calculate deltas
-	// delta = ('', 'percent', 'absolute')
 	if ($graph['delta']) {
 		// keep in mind that this data is in arbitrary order, i.e. (2013, 2012, 2011) not (2011, 2012, 2013)
 		// so we first need to sort it into ascending order
@@ -179,7 +200,7 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 				// go through and modify the headings
 				foreach ($row as $k => $v) {
 					if ($k !== 0) {
-						$row[$k]['title'] .= ($graph['delta'] == 'percent') ? '%' : " +";
+						$row[$k]['title'] .= ($graph['delta'] == 'percent') ? ' +%' : " +";
 					}
 				}
 
@@ -212,17 +233,7 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 		$data = $result;
 	}
 
-	// calculate technicals
-	$data = calculate_technicals($graph, $data);
-
-	// discard early data
-	$data = discard_early_data($data, $days);
-
-	// sort by key, but we only want values
-	uksort($data, 'cmp_time');
-	$graph['subheading'] = format_subheading_values($graph, $data);
-	$graph['last_updated'] = $last_updated;
-	render_linegraph_date($graph, array_values($data));
+	return $data;
 }
 
 /**
@@ -340,6 +351,9 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 	}
 
 	if (count($data) > 1) {
+		// calculate deltas if necessary
+		$data = calculate_graph_deltas($graph, $data);
+
 		// calculate technicals
 		// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
 		$data = calculate_technicals($graph, $data);
@@ -601,6 +615,9 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 	$data = $data_temp;
 
 	if (count($data) > 1) {
+		// calculate deltas if necessary
+		$data = calculate_graph_deltas($graph, $data);
+
 		// calculate technicals
 		// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
 		$data = calculate_technicals($graph, $data);

@@ -50,6 +50,7 @@ function graph_types_public($summaries = array()) {
 				'description' => 'A line graph displaying the historical value of a particular ' . get_exchange_name($key) . ' security.',
 				'hide' => !isset($summaries[$c]),	// only show securities in currencies we're interested in
 				'days' => true,
+				'delta' => true,	/* allow deltas */
 				'arg0' => 'get_security_instances_keys',
 				'arg0_title' => 'Security:',
 				'param0' => $key,
@@ -157,6 +158,7 @@ function graph_types() {
 			'description' => "A line graph displaying the historical sum of your " . get_currency_name($cur) . " (before any conversions).",
 			'hide' => !isset($summaries[$cur]),
 			'days' => true,
+			'delta' => true,	/* allow deltas */
 			'technical' => true,
 		);
 	}
@@ -169,6 +171,7 @@ function graph_types() {
 			'description' => "A line graph displaying the historical hashrate sum of all workers mining " . get_currency_name($cur) . " across all pools (in MHash/s).",
 			'hide' => !isset($summaries[$cur]),
 			'days' => true,
+			'delta' => true,	/* allow deltas */
 			'technical' => true,
 		);
 	}
@@ -186,6 +189,7 @@ function graph_types() {
 			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted to " . $summary['title'] . ".",
 			'hide' => !isset($conversions['summary_' . $key]),
 			'days' => true,
+			'delta' => true,	/* allow deltas */
 			'technical' => true,
 		);
 	}
@@ -198,6 +202,7 @@ function graph_types() {
 			'description' => "A line graph displaying the historical equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted to " . $summary['title'] . " (where possible).",
 			'hide' => !isset($conversions['summary_' . $key]),
 			'days' => true,
+			'delta' => true,	/* allow deltas */
 			'technical' => true,
 		);
 	}

@@ -41,7 +41,7 @@ foreach ($size_options as $size_key => $size_value) { ?>
 	</select></td>
 </tr>
 <tr id="add_graph_delta" style="display:none;">
-	<th>Show:</th>
+	<th>Delta:</th>
 	<td><select name="delta">
 <?php foreach (get_permitted_deltas() as $key => $days) { ?>
 		<option value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($days['description']); ?></option>
