@@ -283,6 +283,10 @@ foreach ($identities as $identity) {
 	<td><?php echo number_format($accounts['total_accounts']); ?> (out of <?php echo number_format(get_premium_value($user, 'accounts')); ?>)</td>
 </tr>
 <tr>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">Notifications</a>:</th>
+	<td><?php echo number_format($accounts['total_notifications']); ?> (out of <?php echo number_format(get_premium_value($user, 'notifications')); ?>)</td>
+</tr>
+<tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Summary pages</a>:</th>
 	<td><?php echo number_format($accounts['total_graph_pages']); ?> (out of <?php echo number_format(get_premium_value($user, 'graph_pages')); ?>)</td>
 </tr>
