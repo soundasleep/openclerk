@@ -209,7 +209,13 @@ function get_supported_notifications() {
 			<select id="notification_period" name="period">
 				<?php
 				foreach (get_permitted_notification_periods() as $key => $value) { ?>
-				<option value="<?php echo htmlspecialchars($key); ?>"<?php echo $instance && $instance['period'] == $key ? " selected" : ""; ?>><?php echo htmlspecialchars($value['label']); ?></option>
+				<option value="<?php echo htmlspecialchars($key); ?>"<?php
+					echo (($instance && $instance['period'] == $key) || ($key == 'hour' && $user['is_premium']) || ($key == 'day' && !$user['is_premium'])) ? " selected" : "";
+					if ($key == 'hour') {
+						echo " class=\"premium\"";
+						echo $user['is_premium'] ? "" : " disabled";
+					}
+					?>><?php echo htmlspecialchars($value['label']); ?></option>
 				<?php } ?>
 			</select>
 		</li>

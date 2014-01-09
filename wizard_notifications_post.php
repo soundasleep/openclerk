@@ -124,6 +124,13 @@ if (require_post("id", false)) {
 	}
 }
 
+if (require_post('period') == 'hour' && !$user['is_premium']) {
+	$errors[] = "Only <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium accounts</a> can add hourly notifications.";
+
+	set_temporary_errors($errors);
+	redirect(url_for('wizard_notifications'));
+}
+
 // create or edit a new instance (both edit and create)
 switch ($notification_type) {
 	case "ticker":

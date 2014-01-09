@@ -42,7 +42,6 @@
 		'graph_pages' => $welcome ? "Reports pages" : '<a href="' . htmlspecialchars(url_for('profile')) . '">Reports pages</a>',
 		'graphs_per_page' => 'Graphs per report page',
 		'summaries' => $welcome ? "Currencies" : '<a href="' . htmlspecialchars(url_for('wizard_currencies')) . '">Currencies</a>',
-		'notifications' => $welcome ? "Notifications" : '<a href="' . htmlspecialchars(url_for('wizard_notifications')) . '">Notifications</a>',
 	);
 	foreach ($predef as $key => $title) { ?>
 	<tr>
@@ -76,6 +75,11 @@
 		<th>Data updated at least every</th>
 		<td class="number"><?php echo plural(get_site_config('refresh_queue_hours'), 'hour'); ?></td>
 		<td class="number premium"><?php echo plural(get_site_config('refresh_queue_hours_premium'), 'hour'); ?></td>
+	</tr>
+	<tr>
+		<th><?php echo $welcome ? "Notifications" : '<a href="' . htmlspecialchars(url_for('wizard_notifications')) . '">Notifications</a>'?></th>
+		<td class="number"><?php echo number_format(get_premium_config("summaries_free")); ?> (daily)</td>
+		<td class="number premium"><?php echo number_format(get_premium_config("summaries_premium")); ?> (hourly)</td>
 	</tr>
 	<tr>
 		<th><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>">Live graph updates</a></th>
