@@ -339,14 +339,19 @@ foreach ($notifications as $notification) {
 		</td>
 	</tr>
 <?php } ?>
+<?php if (!$notifications) { ?>
+	<tr>
+		<td colspan="4"><i>(No notifications defined.)</i></td>
+	</tr>
+<?php } ?>
 </tbody>
 </table>
 
 <div style="clear:both;"></div>
 
 <div class="wizard-buttons">
-<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">&lt; Previous</a>
-<input type="submit" name="submit" value="Next &gt;">
+<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">&lt; Previous</a>
+<a class="button submit" href="<?php echo htmlspecialchars(url_for('profile')); ?>">Finish &gt;</a>
 </div>
 </div>
 

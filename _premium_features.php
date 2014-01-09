@@ -41,7 +41,8 @@
 		'accounts' => 'Tracked accounts (BTC-e, Mt.Gox, ...)',
 		'graph_pages' => $welcome ? "Reports pages" : '<a href="' . htmlspecialchars(url_for('profile')) . '">Reports pages</a>',
 		'graphs_per_page' => 'Graphs per report page',
-		'summaries' => $welcome ? "Currencies" :'<a href="' . htmlspecialchars(url_for('wizard_currencies')) . '">Currencies</a>',
+		'summaries' => $welcome ? "Currencies" : '<a href="' . htmlspecialchars(url_for('wizard_currencies')) . '">Currencies</a>',
+		'notifications' => $welcome ? "Notifications" : '<a href="' . htmlspecialchars(url_for('wizard_notifications')) . '">Notifications</a>',
 	);
 	foreach ($predef as $key => $title) { ?>
 	<tr>
@@ -80,11 +81,6 @@
 		<th><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>">Live graph updates</a></th>
 		<td class="number"><?php echo plural(get_site_config('graph_refresh_free'), 'minute'); ?></td>
 		<td class="number premium"><?php echo plural(get_site_config('graph_refresh_premium'), 'minute'); ?></td>
-	</tr>
-	<tr>
-		<th>Notification functionality</th>
-		<td class="no">-</td>
-		<td class="premium">Coming soon...</td>
 	</tr>
 	<?php if ($welcome) { ?>
 	<tr class="payment">
