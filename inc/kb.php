@@ -30,8 +30,8 @@ function get_knowledge_base() {
 			'add_service' => array('title' => "Can you add support for another exchange/mining pool?", 'inline' => 'inline_add_service', 'new' => true),
 		),
 		'Notifications' => array(
-			// 'notifications_ticker' => array('title' => "How do I get notified of exchange rate changes?", 'inline' => 'inline_notifications_ticker', 'new' => true),
-			// 'notifications_reports' => array('title' => "How do I get notified of changes in my reports?", 'inline' => 'inline_notifications_reports', 'new' => true),
+			'notifications_ticker' => array('title' => "How do I get notified of exchange rate changes?", 'inline' => 'inline_notifications_ticker', 'new' => true),
+			'notifications_reports' => array('title' => "How do I get notified of changes in my reports?", 'inline' => 'inline_notifications_reports', 'new' => true),
 			'notifications_hashrates' => array('title' => "How do I get notified of changes in my hashrates?", 'inline' => 'inline_notifications_hashrates', 'new' => true),
 		),
 	);
