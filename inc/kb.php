@@ -21,12 +21,18 @@ function get_knowledge_base() {
 			'bitcoin_csv' => "How do I upload a Bitcoin-Qt CSV file?",
 			'litecoin_csv' => "How do I upload a Litecoin-Qt CSV file?",
 			'managed_graphs' => array('title' => "How are graphs automatically managed?", 'inline' => 'inline_managed_graphs'),
-			'graph_refresh' => array('title' => "Do graphs live update?", 'inline' => 'inline_graph_refresh', 'new' => true),
+			'notifications' => array('title' => "How do automated notifications work?", 'inline' => 'inline_notifications', 'new' => true),
+			'graph_refresh' => array('title' => "Do graphs live update?", 'inline' => 'inline_graph_refresh'),
 		),
 		'Accounts' => array(
 			'add_currency' => array('title' => "Can you add support for another cryptocurrency?", 'inline' => 'inline_add_currency', 'new' => true),
 			'add_fiat' => array('title' => "Can you add support for another fiat currency?", 'inline' => 'inline_add_fiat', 'new' => true),
 			'add_service' => array('title' => "Can you add support for another exchange/mining pool?", 'inline' => 'inline_add_service', 'new' => true),
+		),
+		'Notifications' => array(
+			// 'notifications_ticker' => array('title' => "How do I get notified of exchange rate changes?", 'inline' => 'inline_notifications_ticker', 'new' => true),
+			// 'notifications_reports' => array('title' => "How do I get notified of changes in my reports?", 'inline' => 'inline_notifications_reports', 'new' => true),
+			'notifications_hashrates' => array('title' => "How do I get notified of changes in my hashrates?", 'inline' => 'inline_notifications_hashrates', 'new' => true),
 		),
 	);
 

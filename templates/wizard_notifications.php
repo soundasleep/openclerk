@@ -17,7 +17,7 @@ global $user;
 <h1>Notification Preferences</h1>
 
 <p>
-	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can also optionally notify you when
+	<?php echo htmlspecialchars(get_site_config('site_name')); ?> can also optionally <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>">notify you</a> when
 	your accounts change. (You can always change these options
 	later, by selecting the "Configure Accounts" link above.)
 </p>
@@ -27,7 +27,7 @@ global $user;
 As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
 you may have up to <?php echo plural(get_premium_value($user, 'notifications'), 'configured notification'); ?>.
 <?php if (!$user['is_premium']) { ?>
-<br>
+
 To increase this limit, please purchase a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>.
 <?php } ?>
 </p>
