@@ -40,6 +40,14 @@ foreach ($size_options as $size_key => $size_value) { ?>
 <?php } ?>
 	</select></td>
 </tr>
+<tr id="add_graph_delta" style="display:none;">
+	<th>Show:</th>
+	<td><select name="delta">
+<?php foreach (get_permitted_deltas() as $key => $days) { ?>
+		<option value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($days['description']); ?></option>
+<?php } ?>
+	</select></td>
+</tr>
 <tr id="add_graph_technical" style="display:none;">
 	<th>Technical:</th>
 	<td><select name="technical" id="graph_technical">
@@ -106,7 +114,7 @@ function graph_types() {
 					((isset($graph['arg0_title']) && $graph['arg0_title']) ? ", 'arg0_title': " . json_encode($graph['arg0_title']) : "") .
 					($arg0 ? ", 'arg0': " . json_encode($arg0_values) : "") .
 					", 'string0': " . ((isset($graph['string0']) && $graph['string0']) ? json_encode($graph['string0']) : "null") .
-					", 'days': " . json_encode(isset($graph['days'])) . "},\n";
+					", 'days': " . json_encode(isset($graph['days'])) . ", 'delta': " . json_encode(isset($graph['delta'])) . "},\n";
 			}
 		}
 	}

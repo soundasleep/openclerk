@@ -24,7 +24,12 @@ $graph = array(
 	'arg0' => require_get("arg0", false),
 	'arg0_resolved' => require_get("arg0_resolved", false),
 	'no_technicals' => require_get("no_technicals", false),
+	'delta' => require_get('delta', ''),
 	'public' => true,
 );
+$permitted = get_permitted_deltas();
+if (!isset($permitted[$graph['delta']])) {
+	throw new Exception("Unsupported delta '" . htmlspecialchars($graph['delta']) . "'");
+}
 
 render_graph_actual($graph, true);

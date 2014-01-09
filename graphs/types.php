@@ -28,6 +28,7 @@ function graph_types_public($summaries = array()) {
 				'public' => true, /* can be displayed publicly */
 				'days' => true,
 				'technical' => true, /* allow technical indicators */
+				'delta' => true,	/* allow deltas */
 				'historical' => 'get_exchange_historical',
 				'historical_arg0' => array('key' => $key, 'pair' => $pair),
 				'exchange' => $key,

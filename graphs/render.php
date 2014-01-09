@@ -165,6 +165,53 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 		}
 	}
 
+	// calculate deltas
+	// delta = ('', 'percent', 'absolute')
+	if ($graph['delta']) {
+		// keep in mind that this data is in arbitrary order, i.e. (2013, 2012, 2011) not (2011, 2012, 2013)
+		// so we first need to sort it into ascending order
+		uksort($data, 'cmp_time_reverse');
+
+		$result = array();
+		$previous = array();
+		foreach ($data as $key => $row) {
+			if ($key === 0) {
+				// go through and modify the headings
+				foreach ($row as $k => $v) {
+					if ($k !== 0) {
+						$row[$k]['title'] .= ($graph['delta'] == 'percent') ? '%' : " +";
+					}
+				}
+
+				$result[$key] = $row;
+			} else {
+				$this_row = array();
+				foreach ($row as $k => $v) {
+					if ($k === 0) {
+						// keep the date label
+						$this_row[$k] = $v;
+					} else if (isset($previous[$k])) {
+						// absolute or percent?
+						if ($graph['delta'] == 'percent') {
+							// percent
+							if ($previous[$k] != 0) {	// prevent div/0
+								$this_row[$k] = graph_number_format((($v - $previous[$k]) / $previous[$k]) * 100);
+							}
+						} else {
+							// absolute
+							$this_row[$k] = graph_number_format($v - $previous[$k]);
+						}
+					}
+					$previous[$k] = $v;
+				}
+				if (count($this_row) > 1 /* i.e. more than just the date label */) {
+					$result[$key] = $this_row;
+				}
+			}
+		}
+		$data = $result;
+	}
+
 	// calculate technicals
 	$data = calculate_technicals($graph, $data);
 
@@ -196,6 +243,9 @@ function format_subheading_values($graph, $input, $suffix = false) {
 	if (!$array) {
 		return "";
 	}
+	if ($graph['delta'] == 'percent') {
+		$suffix .= '%';
+	}
 	foreach ($array as $key => $value) {
 		$array[$key] = number_format_html($value, 4, $suffix);
 	}
@@ -223,6 +273,9 @@ function format_subheading_values_subtotal($graph, $input, $suffix = false) {
 	foreach ($array as $key => $value) {
 		$total += $value;
 	}
+	if ($graph['delta'] == 'percent') {
+		$suffix .= '%';
+	}
 	return number_format_html($total, 4, $suffix);
 }
 
@@ -240,6 +293,12 @@ function cmp_time($a, $b) {
 	if ($a === 0) return -1;
 	if ($b === 0) return 1;
 	return strtotime($a) < strtotime($b);
+}
+
+function cmp_time_reverse($a, $b) {
+	if ($a === 0) return 1;
+	if ($b === 0) return -1;
+	return strtotime($a) > strtotime($b);
 }
 
 function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_title = false) {

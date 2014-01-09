@@ -38,6 +38,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 
 .disabled a, a.disabled { color: gray; text-decoration: none; }
 .disabled { color: gray; }
+.selected a { color: white; font-weight: bold; text-decoration: none; }
 
 /* navigation */
 #navigation {
@@ -316,3 +317,9 @@ button .openid, .openid_list .openid { padding-left: 20px; line-height: 20px; }
 .openid.verisign { background: url('img/verisign.png') 0 0 no-repeat; }
 
 .email_notification { padding-left: 20px; background: url('img/nuvola/mail_forward.png') 0 0 no-repeat; }
+
+#page_historical .backlink { float: left; }
+.historical_selectors { float: right; margin: 12px; margin-right: 30px; }
+.historical_selectors td { padding-left: 15px; }
+.historical_selectors th { display: none; }
+#page_historical .graph_collection { clear: both; }

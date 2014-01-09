@@ -15,7 +15,9 @@ $errors = array();
 $historical_graphs = graph_types_public();
 
 $permitted_days = get_permitted_days();
+$permitted_deltas = get_permitted_deltas();
 $days = isset($permitted_days[require_get('days', false)]) ? $permitted_days[require_get('days')]['days'] : 45;
+$delta = isset($permitted_deltas[require_get('delta', false)]) ? require_get('delta') : '';
 $user = user_logged_in() ? get_user(user_id()) : false;
 
 $id = require_get("id", false);
@@ -39,10 +41,14 @@ if ($id && isset($historical_graphs[$id])) {
 		'days' => $days,
 		'id' => 0,
 		'arg0_resolved' => $name,
+		'delta' => $delta,
 		'public' => true,
 	);
 
 	$extra_args = $name ? array("name" => $name) : array();
+	$extra_args['id'] = $id;
+	$extra_args['days'] = $days;
+	$extra_args['delta'] = $delta;
 
 	?>
 	<?php if (!($user && $user['is_premium'])) { ?>
@@ -56,10 +62,32 @@ if ($id && isset($historical_graphs[$id])) {
 
 	<p class="backlink">
 	<a href="<?php echo htmlspecialchars(url_for('historical')); ?>">&lt; Back to Historical Data</a>
-	<?php foreach ($permitted_days as $key => $days) { ?>
-	| <a href="<?php echo htmlspecialchars(url_for('historical', $extra_args + array('id' => $id, 'days' => $key))); ?>"><?php echo htmlspecialchars($days['title']); ?></a>
-	<?php } ?>
 	</p>
+
+	<table class="historical_selectors">
+	<tr>
+		<th>Days:</th>
+		<td>
+	<?php
+	$day_print = array();
+	foreach ($permitted_days as $key => $days) {
+		$day_print[] = "<span class=\"" . ($key === $graph['days'] ? 'selected' : '') . "\"><a href=\"" . htmlspecialchars(url_for('historical', array('days' => $key) + $extra_args)) . "\">" . htmlspecialchars($days['title']) . "</a></span>";
+	}
+	echo implode(" | ", $day_print);
+	?>
+		</td>
+		<th>Show:</th>
+		<td>
+	<?php
+	$delta_print = array();
+	foreach ($permitted_deltas as $key => $delta) {
+		$delta_print[] = "<span class=\"" . ($key === $graph['delta'] ? 'selected' : '') . "\"><a href=\"" . htmlspecialchars(url_for('historical', array('delta' => $key) + $extra_args)) . "\">" . htmlspecialchars($delta['title']) . "</a></span>";
+	}
+	echo implode(" | ", $delta_print);
+	?>
+		</td>
+	</tr>
+	</table>
 
 	<div class="graph_collection">
 	<div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>" id="graph<?php echo htmlspecialchars($graph['id']); ?>">

@@ -12,6 +12,7 @@ $page_id = require_post("page");
 $graph_id = require_post("id", false);	// if set, then we're editing an existing graph
 $is_edit = $graph_id || false;
 $days = require_post("days", false);
+$delta = require_post("delta", '');
 $arg0 = (int) require_post("arg0", false);
 $string0 = substr(require_post("string0", false), 0, 128);	// trim to 128 chars
 
@@ -49,6 +50,7 @@ $permitted_days = array();
 foreach (get_permitted_days() as $key => $data) {
 	$permitted_days[] = $data['days'];
 }
+$permitted_deltas = get_permitted_deltas();
 if (!isset($graph_types[$graph_type])) {
 	throw new Exception("Invalid graph type '" . htmlspecialchars($graph_type) . "'");
 } else if (!is_numeric($width) || $width < 1 || $width > 16) {
@@ -57,6 +59,8 @@ if (!isset($graph_types[$graph_type])) {
 	throw new Exception("Invalid height '" . htmlspecialchars($height) . "'");
 } else if ($days && !in_array($days, $permitted_days)) {
 	throw new Exception("Invalid days '" . htmlspecialchars($day) . "'");
+} else if (!isset($permitted_deltas[$delta])) {
+	throw new Exception("Invalid delta '" . htmlspecialchars($delta) . "'");
 } else {
 	// it's OK - let's add a new one
 	// first get the highest page order graph so far on this page
@@ -80,7 +84,7 @@ if (!isset($graph_types[$graph_type])) {
 		}
 
 		// we own this graph; edit it
-		$q = db()->prepare("UPDATE graphs SET page_id=:page_id, graph_type=:graph_type, width=:width, height=:height, days=:days, arg0=:arg0, string0=:string0 WHERE id=:id");
+		$q = db()->prepare("UPDATE graphs SET page_id=:page_id, graph_type=:graph_type, width=:width, height=:height, days=:days, delta=:delta, arg0=:arg0, string0=:string0 WHERE id=:id");
 		$q->execute(array(
 			'page_id' => $page_id,
 			// we don't change page_order
@@ -88,12 +92,13 @@ if (!isset($graph_types[$graph_type])) {
 			'width' => $width,
 			'height' => $height,
 			'days' => $days,
+			'delta' => $delta,
 			'arg0' => $arg0,
 			'string0' => $string0,
 			'id' => $graph_id,
 		));
 	} else {
-		$q = db()->prepare("INSERT INTO graphs SET page_id=:page_id, page_order=:page_order, graph_type=:graph_type, width=:width, height=:height, days=:days, arg0=:arg0, string0=:string0");
+		$q = db()->prepare("INSERT INTO graphs SET page_id=:page_id, page_order=:page_order, graph_type=:graph_type, width=:width, height=:height, days=:days, delta=:delta, arg0=:arg0, string0=:string0");
 		$q->execute(array(
 			'page_id' => $page_id,
 			'page_order' => $new_order,
@@ -101,6 +106,7 @@ if (!isset($graph_types[$graph_type])) {
 			'width' => $width,
 			'height' => $height,
 			'days' => $days,
+			'delta' => $delta,
 			'arg0' => $arg0,
 			'string0' => $string0,
 		));

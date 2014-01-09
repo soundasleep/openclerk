@@ -2383,3 +2383,8 @@ CREATE TABLE notifications_address_balances (
 	
 	INDEX(currency, address_id)
 );
+
+-- delta graphs
+ALTER TABLE graphs ADD delta VARCHAR(8) NOT NULL DEFAULT '';		-- '', 'absolute', 'percent'
+
+

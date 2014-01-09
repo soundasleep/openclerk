@@ -1430,6 +1430,15 @@ function get_permitted_notification_conditions() {
 	);
 }
 
+function get_permitted_deltas() {
+	$permitted_days = array(
+		'' => array('title' => 'value', 'description' => 'Default'),
+		'absolute' => array('title' => 'change', 'description' => 'Change'),
+		'percent' => array('title' => 'percent', 'description' => '% change'),
+	);
+	return $permitted_days;
+}
+
 /**
  * Reset currencies, graph data etc to their defaults.
  */

@@ -130,6 +130,7 @@ function render_graph($graph, $is_public = false) {
 			'days' => isset($graph['days']) ? $graph['days'] : null,
 			'height' => $graph['height'],
 			'width' => $graph['width'],
+			'delta' => $graph['delta'],
 			'arg0' => isset($graph['arg0']) ? $graph['arg0'] : null,
 			'arg0_resolved' => isset($graph['arg0_resolved']) ? $graph['arg0_resolved'] : null,
 			'id' => isset($graph['id']) ? $graph['id'] : null,

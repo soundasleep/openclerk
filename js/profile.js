@@ -35,6 +35,11 @@ $(document).ready(function() {
 			} else {
 				$("#add_graph_days").hide();
 			}
+			if (typeof graph_types()[data]['delta'] != 'undefined' && graph_types()[data]['delta']) {
+				$("#add_graph_delta").show();
+			} else {
+				$("#add_graph_delta").hide();
+			}
 			if (typeof graph_types()[data]['technical'] != 'undefined' && graph_types()[data]['technical']) {
 				$("#add_graph_technical").show();
 				$("#graph_technical").keyup();

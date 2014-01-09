@@ -108,6 +108,7 @@ function get_graph_<?php echo htmlspecialchars($graph['id']); ?>() {
 		'width' : <?php echo json_encode($graph['width']); ?>,
 		'height' : <?php echo json_encode($graph['height']); ?>,
 		'days' : <?php echo json_encode($graph['days']); ?>,
+		'delta' : <?php echo json_encode($graph['delta']); ?>,
 		'technical' : <?php echo json_encode(isset($graph['technicals']) && $graph['technicals'] ? $graph['technicals'][0]['technical_type'] : ""); ?>,
 		'period' : <?php echo json_encode(isset($graph['technicals']) && $graph['technicals'] ? $graph['technicals'][0]['technical_period'] : ""); ?>,
 		'arg0' : <?php echo json_encode(isset($graph['arg0']) ? $graph['arg0'] : null); ?>,
