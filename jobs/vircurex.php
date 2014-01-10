@@ -19,7 +19,7 @@ $vircurex_balance_count = rand(0,0xffff);
 function vircurex_balance($username, $currency, $secret) {
 	global $vircurex_balance_count;
 
-	$currency = strtoupper($currency);
+	$currency = get_currency_abbr($currency);
 	$timestamp = gmdate('Y-m-d\\TH:i:s'); // UTC time
 	$id = md5(time() . "_" . rand(0,9999) . "_" . $vircurex_balance_count++);
 	$token = hash('sha256', $secret . ";" . $username . ";" . $timestamp . ";" . $id . ";" . "get_balance" . ";" . $currency);
@@ -29,10 +29,11 @@ function vircurex_balance($username, $currency, $secret) {
 }
 
 $get_supported_wallets = get_supported_wallets();
-$currencies = $get_supported_wallets['vircurex']; // also supports rur, eur, nvc, trc, ppc
+$currencies = $get_supported_wallets['vircurex']; // also supports rur, eur, nvc, trc, ppc, ...
 
 foreach ($currencies as $i => $currency) {
 	if ($i != 0) {
+		set_time_limit(30 + (get_site_config('sleep_vircurex_balance') * 2));
 		sleep(get_site_config('sleep_vircurex_balance'));
 	}
 
@@ -44,8 +45,8 @@ foreach ($currencies as $i => $currency) {
 	}
 
 	// sanity check
-	if ($balance["currency"] !== strtoupper($currency)) {
-		throw new ExternalAPIException("Unexpected currency response from Vircurex: Expected '" . strtoupper($currency) . "', was '" . htmlspecialchars($balance["currency"]) . "'");
+	if ($balance["currency"] !== get_currency_abbr($currency)) {
+		throw new ExternalAPIException("Unexpected currency response from Vircurex: Expected '" . get_currency_abbr($currency) . "', was '" . htmlspecialchars($balance["currency"]) . "'");
 	}
 
 	insert_new_balance($job, $account, $exchange, $currency, $balance['balance']);
