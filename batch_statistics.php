@@ -142,7 +142,7 @@ $data = array();
 	$data['jobs_timeout'] = $c['c'];
 }
 {
-	$q = db()->prepare("SELECT SUM(notifications_sent) AS c, MAX(notifications_sent) AS m FROM USERS");
+	$q = db()->prepare("SELECT SUM(notifications_sent) AS c, MAX(notifications_sent) AS m FROM users");
 	$q->execute();
 	$c = $q->fetch();
 	$data['notifications_sent'] = $c['c'];
