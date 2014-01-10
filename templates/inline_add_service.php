@@ -39,7 +39,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
 	<li>GHash.io (note that <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'cexio'))); ?>">CEX.io is supported</a>)</li>
 	<li>Intersango (registration is closed)</li>
-	<li>NetcodeDogePool</li>
+	<li>NetcodePool (all currencies)</li>
 	<li>Safello</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
 </ul>
@@ -52,7 +52,8 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 <h2>Example: Existing mining pool software</h2>
 
 <p>
-	<img src="<?php echo htmlspecialchars(url_for('img/accounts/poolx.png')); ?>" class="help_inline">
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/poolx.png')); ?>" class="help_inline help_inline_double">
+	<img src="<?php echo htmlspecialchars(url_for('img/accounts/hashfaster_doge2.png')); ?>" class="help_inline help_inline_double">
 
 	Mining pools that are run on existing mining pool software, such as
 	<a href="https://github.com/TheSerapher/php-mpos">MPOS</a> and <a href="https://github.com/Greedi/mmcFE">mmcFE</a>,
@@ -62,7 +63,8 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 
 <p>
 	There are many supported pools that follow this approach. For example, <a href="http://pool-x.eu">Pool-x.eu</a>
-	provides a read-only API key for each account (illustrated).
+	and <a href="http://hashfaster.com">HashFaster</a>
+	both provide a read-only API key for each account (illustrated).
 </p>
 
 <h2>Example: A read-only balance API key</h2>
