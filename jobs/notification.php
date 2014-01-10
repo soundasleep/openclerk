@@ -125,7 +125,7 @@ if ($should_notify) {
 			$change_text = "decreased";
 			break;
 
-		case "decreased_by":
+		case "decreases_by":
 			$change_text = "decreased by at least " . number_format_autoprecision($notification['trigger_value']) . ($notification['is_percent'] ? '%' : (" " . $value_label));
 			break;
 
