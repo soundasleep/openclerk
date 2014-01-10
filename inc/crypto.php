@@ -1960,8 +1960,8 @@ function is_valid_multipool_apikey($key) {
 }
 
 function is_valid_ypool_apikey($key) {
-	// looks like a 20 character alphanumeric string
-	return strlen($key) == 20 && preg_match("#^[a-zA-Z0-9]+$#", $key);
+	// looks like a 20 character string of almost any characters
+	return strlen(trim($key)) == 20;
 }
 
 function is_valid_currency($c) {
