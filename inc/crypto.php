@@ -264,7 +264,7 @@ function get_supported_wallets() {
 		"elitistjerks" => array('ltc', 'hash'),
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
-		"hashfaster" => array('ltc', 'ftc', 'doge', 'hash'),
+		"hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
 		"hypernova" => array('ltc', 'hash'),
 		"justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),	 // supports btc, usd, eur, nok, ltc
 		"khore" => array('nvc', 'hash'),
