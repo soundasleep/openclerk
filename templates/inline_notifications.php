@@ -4,7 +4,17 @@
 	<img src="<?php echo htmlspecialchars(url_for('img/help/notifications_full.png')); ?>" class="help_inline">
 
 	Automated notifications are a new feature added in Openclerk 0.16 that allow you to configure automated
-	alerts for particular reports.
+	alerts for particular reports. For example:
+</p>
+
+<p>
+	<ul>
+		<li>Exchange rate on Bitstamp for USD/BTC decreases by 10% within the last day</li>
+		<li>Exchange rate on Bitstamp for USD/BTC increases by 10% within the last day</li>
+		<li>My converted USD decreases by 10% within the last day</li>
+		<li>My converted USD increases by 10% within the last day</li>
+		<li>My total LTC hashrate is below 0.1 MH/s within the last hour</li>
+	</ul>
 </p>
 
 <p>
