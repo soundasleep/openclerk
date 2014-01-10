@@ -19,6 +19,8 @@
  *   batch_queue?key=...&user=100&priority=-20&job_type=blockchain,litecoin,outstanding,expiring,expire
  */
 
+define('BATCH_JOB_START', microtime(true));
+
 require(__DIR__ . "/inc/global.php");
 require(__DIR__ . "/_batch.php");
 
@@ -230,7 +232,7 @@ foreach ($standard_jobs as $standard) {
 			continue;
 		}
 
-		insert_new_job($job, $address, $queue_field);
+		insert_new_job($job, $address, $queue_field, $address);
 
 		// update the address
 		try {
@@ -275,7 +277,7 @@ if (!$premium_only) {
  * @param $old the previous database row that was used to generae this job (may have last_queue), or {@code false}
  * 		if this job has no parent database row (e.g. litecoin_block jobs)
  */
-function insert_new_job($job, $old, $queue_field = 'last_queue') {
+function insert_new_job($job, $old, $queue_field = 'last_queue', $debug = false) {
 	// make sure the new job doesn't already exist
 	$q2 = db()->prepare("SELECT * FROM jobs WHERE job_type=:type AND arg_id=:arg_id AND priority <= :priority AND is_executed=0 LIMIT 1");
 	$q2->execute(array(
@@ -284,13 +286,14 @@ function insert_new_job($job, $old, $queue_field = 'last_queue') {
 		'priority' => $job['priority'], // so we can override priorities as necessary
 	));
 	$existing = $q2->fetch();
+	$title = isset($debug['name']) ? " (name: " . htmlspecialchars($debug['name']) . ")" : "";
 	if (!$existing) {
 		$q2 = db()->prepare("INSERT INTO jobs SET priority=:priority, job_type=:type, user_id=:user_id, arg_id=:arg_id");
 		$q2->execute($job);
 		$job['id'] = db()->lastInsertId();
-		added_job($job, ($old && isset($old[$queue_field])) ? " - last queue " . recent_format_html($old[$queue_field]) : " - no last queue" );
+		added_job($job, $title . ($old && isset($old[$queue_field])) ? " - last queue " . recent_format_html($old[$queue_field]) : " - no last queue" );
 	} else {
-		crypto_log("Job " . htmlspecialchars(print_r($job, true)) . " already exists (<a href=\"" . htmlspecialchars(url_for('batch_run',
+		crypto_log("Job " . htmlspecialchars(print_r($job, true)) . $title . " already exists (<a href=\"" . htmlspecialchars(url_for('batch_run',
 			array('key' => require_get("key", false), 'job_id' => $existing['id']))) . "\">run job now</a>)");
 	}
 
@@ -299,6 +302,12 @@ function insert_new_job($job, $old, $queue_field = 'last_queue') {
 function added_job($job, $suffix) {
 	echo crypto_log("Added job " . htmlspecialchars(print_r($job, true)) . " $suffix (<a href=\"" . htmlspecialchars(url_for('batch_run',
 			array('key' => require_get("key", false), 'job_id' => $job['id']))) . "\">run job now</a>)");
+}
+
+if (defined('BATCH_JOB_START')) {
+	$end_time = microtime(true);
+	$time_diff = ($end_time - BATCH_JOB_START) * 1000;
+	crypto_log("Executed in " . number_format($time_diff, 2) . " ms.");
 }
 
 crypto_log("Complete.");
