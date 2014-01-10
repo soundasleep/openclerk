@@ -122,6 +122,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_scryptpools', 'type' => 'scryptpools', 'failure' => true),
 	array('table' => 'accounts_bitcurex_pln', 'type' => 'bitcurex_pln', 'failure' => true),
 	array('table' => 'accounts_bitcurex_eur', 'type' => 'bitcurex_eur', 'failure' => true),
+	array('table' => 'accounts_justcoin', 'type' => 'justcoin', 'failure' => true),
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),
 	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),

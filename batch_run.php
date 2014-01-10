@@ -384,6 +384,10 @@ try {
 			require(__DIR__ . "/jobs/bitcurex_eur.php");
 			break;
 
+		case "justcoin":
+			require(__DIR__ . "/jobs/justcoin.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

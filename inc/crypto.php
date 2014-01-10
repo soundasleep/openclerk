@@ -152,6 +152,7 @@ function get_all_exchanges() {
 		"bitcurex" =>		"Bitcurex",	// both exchanges for tickers
 		"bitcurex_pln" =>	"Bitcurex PLN",	// the exchange wallet
 		"bitcurex_eur" =>	"Bitcurex EUR",	// the exchange wallet
+		"justcoin" =>		"Justcoin",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -250,6 +251,7 @@ function get_supported_wallets() {
 		"havelock" => array('btc'),
 		"hashfaster" => array('ltc', 'ftc', 'doge', 'hash'),
 		"hypernova" => array('ltc', 'hash'),
+		"justcoin" => array('btc', 'ltc', 'usd', 'eur'),	 // supports btc, usd, eur, nok, ltc, xrp
 		"khore" => array('nvc', 'hash'),
 		"lite_coinpool" => array('ltc', 'hash'),
 		"litecoinpool" => array('ltc', 'hash'),
@@ -272,7 +274,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitcurex_pln", "bitcurex_eur", "hashfaster" /* for doge */);
+	return array("bitcurex_pln", "bitcurex_eur", "hashfaster");
 }
 
 function crypto_address($currency, $address) {
@@ -448,6 +450,7 @@ function account_data_grouped() {
 			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 		),
@@ -560,6 +563,7 @@ function get_external_apis() {
 			'cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
 			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+			'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
@@ -1136,6 +1140,14 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitstamp_apisecret', 'length' => 32),
 				),
 				'table' => 'accounts_bitstamp',
+			);
+
+		case "justcoin":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_justcoin_apikey'),
+				),
+				'table' => 'accounts_justcoin',
 			);
 
 		// --- securities ---
@@ -1881,6 +1893,11 @@ function is_valid_bitcurex_eur_apikey($key) {
 
 function is_valid_bitcurex_eur_apisecret($key) {
 	return is_valid_bitcurex_pln_apisecret($key);
+}
+
+function is_valid_justcoin_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
