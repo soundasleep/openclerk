@@ -8,6 +8,6 @@
 $exchange = "hashfaster_ltc";
 $currency = 'ltc';
 $table = "accounts_hashfaster_ltc";
-$api_url = "http://ltc.hashfaster.com/index.php?page=api&";
+$api_url = "https://ltc.hashfaster.com/index.php?page=api&";
 
 require(__DIR__ . "/_mpos_pool.php");
