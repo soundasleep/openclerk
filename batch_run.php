@@ -372,6 +372,10 @@ try {
 			require(__DIR__ . "/jobs/scryptpools.php");
 			break;
 
+		case "bitcurex_pln":
+			require(__DIR__ . "/jobs/bitcurex_pln.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

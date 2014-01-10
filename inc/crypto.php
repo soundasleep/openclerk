@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "ghs");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ghs");
 }
 
 function get_all_hashrate_currencies() {
@@ -14,7 +14,7 @@ function get_all_hashrate_currencies() {
 }
 
 function get_new_supported_currencies() {
-	return array("gbp", "dog");
+	return array("pln");
 }
 
 function get_all_cryptocurrencies() {
@@ -50,6 +50,7 @@ function get_currency_name($n) {
 		case "aud": return "Australian dollar";
 		case "cad": return "Canadian dollar";
 		case "cny": return "Chinese yuan";
+		case "pln": return "Polish zloty";	// not unicode! should be -l
 		case "eur": return "Euro";
 		case "gbp":	return "Pound sterling";
 		case "ghs": return "CEX.io GHS";
@@ -147,6 +148,7 @@ function get_all_exchanges() {
 		"ozcoin_ltc" =>		"Ozcoin",
 		"ozcoin_btc" =>		"Ozcoin",
 		"scryptpools" =>	"scryptpools.com",
+		"bitcurex_pln" =>	"Bitcurex PLN",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -185,17 +187,7 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"mtgox_gbpbtc",
-		"coins-e_btcxpm",
-		"coins-e_btctrc",
-		"coins-e_btcftc",
-		"coins-e_btcltc",
-		"coins-e_btcppc",
-		"coins-e_ltcxpm",
-		"coins-e_xpmppc",
-		"coins-e_btcdog",
-		"cryptsy_btcdog",
-		"vircurex_btcdog",
+		// "bitcurex_plnbtc",
 	);
 }
 
@@ -234,6 +226,7 @@ function get_supported_wallets() {
 		"796" => array('btc'),
 		"beeeeer" => array('xpm'),
 		"bips" => array('btc', 'usd'),
+		"bitcurex_pln" => array('btc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
@@ -273,7 +266,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("dogepoolpw", "elitistjerks", "dogechainpool", "hashfaster", "hashfaster_ltc", "hashfaster_ftc", "triplemining", "ozcoin", "ozcoin_ltc", "ozcoin_btc", "scryptpools");
+	return array("bitcurex_pln");
 }
 
 function crypto_address($currency, $address) {
@@ -435,6 +428,7 @@ function account_data_grouped() {
 		),
 		'Exchanges' => array(
 			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -542,6 +536,7 @@ function get_external_apis() {
 
 		"Exchange wallets" => array(
 			'bips' => '<a href="https://bips.me">BIPS</a>',
+			'bitcurex_pln' => '<a href="https://pln.bitcurex.com/">Bitcurex PLN</a>',
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
@@ -1047,6 +1042,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bips_apikey'),
 				),
 				'table' => 'accounts_bips',
+			);
+
+		case "bitcurex_pln":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitcurex_pln_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitcurex_pln_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_bitcurex_pln',
 			);
 
 		case "btce":
@@ -1816,6 +1820,16 @@ function is_valid_ozcoin_btc_apikey($key) {
 function is_valid_scryptpools_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_bitcurex_pln_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_bitcurex_pln_apisecret($key) {
+	// looks like a long base64 encoded string
+	return strlen($key) > 60 && strlen($key) < 100 && preg_match("#^[a-zA-Z0-9/\\+=]+$#", $key);
 }
 
 function is_valid_currency($c) {

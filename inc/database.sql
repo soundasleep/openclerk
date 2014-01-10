@@ -2387,4 +2387,22 @@ CREATE TABLE notifications_address_balances (
 -- delta graphs
 ALTER TABLE graphs ADD delta VARCHAR(8) NOT NULL DEFAULT '';		-- '', 'absolute', 'percent'
 
+DROP TABLE IF EXISTS accounts_bitcurex_pln;
+
+CREATE TABLE accounts_bitcurex_pln (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	api_secret varchar(255) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);
 
