@@ -18,7 +18,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"site_email" => "support@example.com",
 		"openid_host" => "localhost",
 		"absolute_url" => "http://localhost/clerk/",
-		"openclerk_version" => "0.11",		// this is just a label displayed at the bottom of each page
+		"openclerk_version" => "0.16",		// this is just a label displayed at the bottom of each page
 
 		"database_url" => "mysql:host=localhost;dbname=clerk",
 		"database_username" => "clerk",
@@ -36,8 +36,6 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"admin_email" => "example@gmail.com",
 		"password_salt" => "abc123",
 		"unsubscribe_salt" => "123abc",
-		"recaptcha_public_key" => "6L...1", // you got this from the signup page
-		"recaptcha_private_key" => "6L...1", // you got this from the signup page
 		"google_analytics_account" => "UA-12345678-1",	// _setAccount
 		"google_analytics_domain" => "example.com",	// _setDomainName
 
