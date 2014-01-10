@@ -174,7 +174,7 @@ function get_security_instances($exchange, $currency) {
 			break;
 
 		case "crypto-trade":
-			$q = db()->prepare("SELECT id, name, name as title FROM securities_cryptotrade WHERE currency=? ORDER BY name ASC");
+			$q = db()->prepare("SELECT id, name, title FROM securities_cryptotrade WHERE currency=? ORDER BY name ASC");
 			$args = array($currency);
 			break;
 

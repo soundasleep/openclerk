@@ -2464,3 +2464,18 @@ CREATE TABLE accounts_justcoin (
 );
 
 INSERT INTO exchanges SET name='justcoin';
+
+-- we insert these securities manually for now
+INSERT INTO securities_cryptotrade SET name='AMC', currency='btc';	-- ACTIVEMININGCORP
+INSERT INTO securities_cryptotrade SET name='GGB', currency='btc';	-- GALTS-GULCH-ORGANIC
+
+-- give crypto-trade securities names
+-- it sure would be nice if crypto-trade provided an API to list securities and their names, rather than inserting them in manually
+ALTER TABLE securities_cryptotrade ADD title VARCHAR(64) NOT NULL;
+
+UPDATE securities_cryptotrade SET title='CRYPTO-TRADE-BTC' WHERE name='CTB';
+UPDATE securities_cryptotrade SET title='CRYPTO-TRADE-LTC' WHERE name='CTL';
+UPDATE securities_cryptotrade SET title='ESECURITYSA-BTC' WHERE name='ESB';
+UPDATE securities_cryptotrade SET title='ESECURITYSA-LTC' WHERE name='ESL';
+UPDATE securities_cryptotrade SET title='ACTIVEMININGCORP' WHERE name='AMC';
+UPDATE securities_cryptotrade SET title='GALTS-GULCH-ORGANIC' WHERE name='GGB';
