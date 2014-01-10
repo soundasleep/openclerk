@@ -221,7 +221,7 @@ function render_linegraph_date($graph, $data, $stacked = false) {
 			$i = 0;
 			foreach ($data[0] as $heading) {
 				// primary axis
-				if (isset($heading['min']) && isset($heading['max'])) {
+				if (isset($heading['min']) && isset($heading['max']) && $heading['min'] && $heading['max']) {
 				?>
 				vAxes: [ { minValue: <?php echo number_format($heading['min']); ?>, maxValue: <?php echo number_format($heading['max']); ?> } ],
 				<?php

@@ -2385,7 +2385,8 @@ CREATE TABLE notifications_address_balances (
 );
 
 -- delta graphs
-ALTER TABLE graphs ADD delta VARCHAR(8) NOT NULL DEFAULT '';		-- '', 'absolute', 'percent'
+-- empty, absolute, percent
+ALTER TABLE graphs ADD delta VARCHAR(8) NOT NULL DEFAULT ""; 
 
 DROP TABLE IF EXISTS accounts_bitcurex_pln;
 
