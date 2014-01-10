@@ -161,6 +161,7 @@ function get_all_exchanges() {
 		"bitcurex_eur" =>	"Bitcurex EUR",	// the exchange wallet
 		"justcoin" =>		"Justcoin",
 		"multipool" =>		"Multipool",
+		"ypool" =>			"ypool.net",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -176,7 +177,7 @@ function get_exchange_name($n) {
 }
 
 function get_new_exchanges() {
-	return array("coins-e");
+	return array("bitcurex", "justcoin");
 }
 
 function get_exchange_pairs() {
@@ -285,12 +286,13 @@ function get_supported_wallets() {
 		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog'),		// used in jobs/vircurex.php
 		"wemineftc" => array('ftc', 'hash'),
 		"wemineltc" => array('ltc', 'hash'),
+		"ypool" => array('ftc', 'xpm', 'dog'),	// also pts
 		"generic" => get_all_currencies(),
 	);
 }
 
 function get_new_supported_wallets() {
-	return array("bitcurex_pln", "bitcurex_eur", "hashfaster", "justcoin", "multipool", "wemineftc");
+	return array("bitcurex_pln", "bitcurex_eur", "hashfaster", "justcoin", "multipool", "wemineftc", "ypool");
 }
 
 function crypto_address($currency, $address) {
@@ -461,6 +463,7 @@ function account_data_grouped() {
 			'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'wemineftc' => array('table' => 'accounts_wemineftc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'wemineltc' => array('table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
 			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -573,6 +576,7 @@ function get_external_apis() {
 			'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
 			'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
 			'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
+			'ypool' => '<a href="http://ypool.net">ypool.net</a>',
 		),
 
 		"Exchange wallets" => array(
@@ -1097,6 +1101,15 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_multipool',
 				'khash' => true,		// it's actually both MH/s (BTC) and KH/s (LTC) but we will assume KH/s is more common
+			);
+
+		case "ypool":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ypool_apikey'),
+				),
+				'table' => 'accounts_ypool',
+				'khash' => true,
 			);
 
 		// --- exchanges ---
@@ -1944,6 +1957,11 @@ function is_valid_justcoin_apikey($key) {
 function is_valid_multipool_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_ypool_apikey($key) {
+	// looks like a 20 character alphanumeric string
+	return strlen($key) == 20 && preg_match("#^[a-zA-Z0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

@@ -396,6 +396,10 @@ try {
 			require(__DIR__ . "/jobs/multipool.php");
 			break;
 
+		case "ypool":
+			require(__DIR__ . "/jobs/ypool.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
