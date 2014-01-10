@@ -117,6 +117,7 @@ $graph = array(
 	'height' => 4,
 	'page_order' => 0,
 	// 'days' => 30,
+	'delta' => '',
 	'id' => 0,
 	'public' => true,
 );

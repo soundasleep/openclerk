@@ -201,6 +201,9 @@ function get_premium_config($key = null, $fail_if_missing = true) {
 		"your_securities_free" => false,
 		"your_securities_premium" => true,
 
+		"notifications_free" => 2,
+		"notifications_premium" => 100,
+
 		"max_failures_free" => 3,
 		"max_failures_premium" => 30,		// increase this value (e.g. 10x) because premium users are exposed to more errors
 	);
