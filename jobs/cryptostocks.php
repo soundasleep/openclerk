@@ -110,14 +110,17 @@ foreach ($get_share_balances['tickers'] as $security) {
 	}
 
 	// insert security instance
-	$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, account_id=:account_id, is_recent=1");
-	$q->execute(array(
-		'user_id' => $job['user_id'],
-		'exchange' => $exchange,
-		'security_id' => $security_def['id'],
-		'quantity' => $security_value['balance'],
-		'account_id' => $account['id'],
-	));
+	// but only if we actually have a quantity
+	if ($shares != 0) {
+		$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, account_id=:account_id, is_recent=1");
+		$q->execute(array(
+			'user_id' => $job['user_id'],
+			'exchange' => $exchange,
+			'security_id' => $security_def['id'],
+			'quantity' => $shares,
+			'account_id' => $account['id'],
+		));
+	}
 }
 
 // we've now calculated both the wallet balance + the value of all securities

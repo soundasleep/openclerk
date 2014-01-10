@@ -142,14 +142,17 @@ foreach ($securities as $security_def) {
 		}
 
 		// insert security instance
-		$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, account_id=:account_id, is_recent=1");
-		$q->execute(array(
-			'user_id' => $job['user_id'],
-			'exchange' => $exchange,
-			'security_id' => $security_def['id'],
-			'quantity' => $detail['quantity'],
-			'account_id' => $account['id'],
-		));
+		// but only if we actually have a quantity
+		if ($balance[$security_def['name']] != 0) {
+			$q = db()->prepare("INSERT INTO securities SET user_id=:user_id, exchange=:exchange, security_id=:security_id, quantity=:quantity, account_id=:account_id, is_recent=1");
+			$q->execute(array(
+				'user_id' => $job['user_id'],
+				'exchange' => $exchange,
+				'security_id' => $security_def['id'],
+				'quantity' => $balance[$security_def['name']],
+				'account_id' => $account['id'],
+			));
+		}
 
 	}
 }
