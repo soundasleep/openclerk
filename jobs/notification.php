@@ -191,10 +191,14 @@ if ($should_notify) {
 
 		send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), $email_template, $args);
 		crypto_log("Sent notification e-mail to " . htmlspecialchars($user['email']) . ".");
+
+		// update user stats
+		$q = db()->prepare("UPDATE users SET notifications_sent=notifications_sent+1 WHERE id=?");
+		$q->execute(array($user['id']));
 	}
 
 	// update the notification
-	$q = db()->prepare("UPDATE notifications SET is_notified=1,last_notification=NOW(),last_value=? WHERE id=?");
+	$q = db()->prepare("UPDATE notifications SET is_notified=1,last_notification=NOW(),last_value=?,notifications_sent=notifications_sent+1 WHERE id=?");
 	$q->execute(array($current_value, $notification['id']));
 
 } else {

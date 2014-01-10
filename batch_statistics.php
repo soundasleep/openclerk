@@ -141,6 +141,13 @@ $data = array();
 	$c = $q->fetch();
 	$data['jobs_timeout'] = $c['c'];
 }
+{
+	$q = db()->prepare("SELECT SUM(notifications_sent) AS c, MAX(notifications_sent) AS m FROM USERS");
+	$q->execute();
+	$c = $q->fetch();
+	$data['notifications_sent'] = $c['c'];
+	$data['max_notifications_sent'] = $c['m'];
+}
 
 // calculate MySQL statistics
 $q = db()->prepare("SHOW GLOBAL STATUS");
@@ -212,6 +219,9 @@ $q = db()->prepare("INSERT INTO site_statistics SET
 	users_login_after_warned = :users_login_after_warned,
 	user_logins_after_disabled = :user_logins_after_disabled,
 	users_login_after_disabled = :users_login_after_disabled,
+
+	notifications_sent = :notifications_sent,
+	max_notifications_sent = :max_notifications_sent,
 
 	jobs_tests = :jobs_tests,
 	jobs_timeout = :jobs_timeout,

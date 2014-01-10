@@ -2515,3 +2515,9 @@ CREATE TABLE accounts_wemineftc (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+ALTER TABLE users ADD notifications_sent int not null default 0;
+ALTER TABLE notifications ADD notifications_sent int not null default 0;
+
+ALTER TABLE site_statistics ADD notifications_sent int;
+ALTER TABLE site_statistics ADD max_notifications_sent int;
