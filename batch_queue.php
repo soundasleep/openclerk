@@ -113,6 +113,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_dogepoolpw', 'type' => 'dogepoolpw', 'failure' => true),
 	array('table' => 'accounts_elitistjerks', 'type' => 'elitistjerks', 'failure' => true),
 	array('table' => 'accounts_dogechainpool', 'type' => 'dogechainpool', 'failure' => true),
+	array('table' => 'accounts_hashfaster_doge', 'type' => 'hashfaster_doge', 'failure' => true),
 	array('table' => 'accounts_hashfaster_ltc', 'type' => 'hashfaster_ltc', 'failure' => true),
 	array('table' => 'accounts_hashfaster_ftc', 'type' => 'hashfaster_ftc', 'failure' => true),
 	array('table' => 'accounts_triplemining', 'type' => 'triplemining', 'failure' => true),

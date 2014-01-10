@@ -143,6 +143,7 @@ function get_all_exchanges() {
 		"hashfaster" =>		"HashFaster",	// for labels, accounts actually use hashfaster_cur
 		"hashfaster_ltc" =>	"HashFaster",
 		"hashfaster_ftc" =>	"HashFaster",
+		"hashfaster_doge" => "HashFaster",
 		"triplemining" =>	"TripleMining",
 		"ozcoin" =>			"Ozcoin",	// for labels, accounts actually use hashfaster_cur
 		"ozcoin_ltc" =>		"Ozcoin",
@@ -247,7 +248,7 @@ function get_supported_wallets() {
 		"elitistjerks" => array('ltc', 'hash'),
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
-		"hashfaster" => array('ltc', 'ftc', 'hash'),
+		"hashfaster" => array('ltc', 'ftc', 'doge', 'hash'),
 		"hypernova" => array('ltc', 'hash'),
 		"khore" => array('nvc', 'hash'),
 		"lite_coinpool" => array('ltc', 'hash'),
@@ -271,7 +272,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitcurex_pln", "bitcurex_eur");
+	return array("bitcurex_pln", "bitcurex_eur", "hashfaster" /* for doge */);
 }
 
 function crypto_address($currency, $address) {
@@ -418,6 +419,7 @@ function account_data_grouped() {
 			'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true),
 			'hashfaster_ftc' => array('table' => 'accounts_hashfaster_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true),
 			'hashfaster_ltc' => array('table' => 'accounts_hashfaster_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true),
 			'hypernova' => array('table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -525,6 +527,7 @@ function get_external_apis() {
 			'eligius' => '<a href="http://eligius.st/">Eligius</a>',
 			'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
 			'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
+			'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
 			'hashfaster_ftc' => '<a href="http://ftc.hashfaster.com">HashFaster</a> (FTC)',
 			'hashfaster_ltc' => '<a href="http://ltc.hashfaster.com">HashFaster</a> (LTC)',
 			'hypernova' => '<a href="https://hypernova.pw/">Hypernova</a>',
@@ -998,6 +1001,17 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_hashfaster_ftc',
 				'title' => 'HashFaster FTC account',
+				'khash' => true,
+				'title_key' => 'hashfaster',
+			);
+
+		case "hashfaster_doge":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_hashfaster_doge_apikey'),
+				),
+				'table' => 'accounts_hashfaster_doge',
+				'title' => 'HashFaster DOGE account',
 				'khash' => true,
 				'title_key' => 'hashfaster',
 			);
@@ -1822,6 +1836,11 @@ function is_valid_hashfaster_ltc_apikey($key) {
 }
 
 function is_valid_hashfaster_ftc_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_hashfaster_doge_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
