@@ -89,6 +89,7 @@ if ($pages) {
 						'width' => 1,
 						'height' => 1,
 						'days' => 0,
+						'delta' => '',
 						'arg0' => 0,
 						'no_technicals' => true,
 					);
@@ -114,6 +115,7 @@ if ($pages) {
 									'public' => true,
 									'page_order' => 0,
 									'days' => 45,
+									'delta' => '',
 									'no_technicals' => true,
 								);
 							}
