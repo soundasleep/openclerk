@@ -388,6 +388,10 @@ try {
 			require(__DIR__ . "/jobs/justcoin.php");
 			break;
 
+		case "multipool":
+			require(__DIR__ . "/jobs/multipool.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
@@ -500,6 +504,8 @@ if ($account_data && isset($account_data['failure']) && $account_data['failure']
 		// don't count CloudFlare as a failure
 		if ($runtime_exception instanceof CloudFlareException) {
 			crypto_log("Not increasing failure count: was a CloudFlareException");
+		} else if ($runtime_exception instanceof IncapsulaException) {
+			crypto_log("Not increasing failure count: was a IncapsulaException");
 		} else {
 			$q = db()->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");
 			$q->execute(array($job['arg_id']));
@@ -701,6 +707,12 @@ function crypto_json_decode($string, $message = false) {
 			if (strpos($string, 'The origin web server timed out responding to this request.') !== false) {
 				throw new CloudFlareException('Cloudflare reported: The origin web server timed out responding to this request.');
 			}
+		}
+		if (strpos($string, 'Incapsula incident') !== false) {
+			throw new IncapsulaException('Blocked by Incapsula' . ($message ? " $message" : ""));
+		}
+		if (strpos($string, '_Incapsula_Resource') !== false) {
+			throw new IncapsulaException('Throttled by Incapsula' . ($message ? " $message" : ""));
 		}
 		if (strpos(strtolower($string), '301 moved permanently') !== false) {
 			throw new ExternalAPIException("API location has been moved permanently" . ($message ? " $message" : ""));

@@ -13,6 +13,11 @@ function get_all_hashrate_currencies() {
 	return array("btc", "ltc", "nmc", "nvc", "dog");
 }
 
+// return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
+function is_hashrate_mhash($cur) {
+	return $cur == 'btc' || $cur == 'nmc' || $cur == 'ppc' || $cur == 'trc';
+}
+
 function get_new_supported_currencies() {
 	return array("pln", "xrp");
 }
@@ -154,6 +159,7 @@ function get_all_exchanges() {
 		"bitcurex_pln" =>	"Bitcurex PLN",	// the exchange wallet
 		"bitcurex_eur" =>	"Bitcurex EUR",	// the exchange wallet
 		"justcoin" =>		"Justcoin",
+		"multipool" =>		"Multipool",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -239,6 +245,7 @@ function get_supported_wallets() {
 		"796" => array('btc'),
 		"beeeeer" => array('xpm'),
 		"bips" => array('btc', 'usd'),
+		"bitcurex_eur" => array('btc', 'eur'),
 		"bitcurex_pln" => array('btc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
@@ -268,6 +275,7 @@ function get_supported_wallets() {
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad', 'nzd', 'cny', 'gbp'),
 		"miningforeman" => array('ltc', 'ftc'),
+		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'hash'),		// and LOTS more; used in jobs/multipool.php
 		"ozcoin" => array('ltc', 'btc', 'hash'),
 		"poolx" => array('ltc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
@@ -280,7 +288,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitcurex_pln", "bitcurex_eur", "hashfaster", "justcoin");
+	return array("bitcurex_pln", "bitcurex_eur", "hashfaster", "justcoin", "multipool");
 }
 
 function crypto_address($currency, $address) {
@@ -442,6 +450,7 @@ function account_data_grouped() {
 			'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'miningforeman' => array('table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true),
 			'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true),
+			'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true),
 			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -549,6 +558,7 @@ function get_external_apis() {
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
 			'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
 			'ltcmineru' => '<a href="http://ltcmine.ru/">LTCMine.ru</a>',
+			'multipool' => '<a href="https://multipool.us/">Multipool</a>',
 			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a> (LTC)',
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 			'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
@@ -1065,6 +1075,15 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_scryptpools',
 				'khash' => true,
+			);
+
+		case "multipool":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_multipool_apikey'),
+				),
+				'table' => 'accounts_multipool',
+				'khash' => true,		// it's actually both MH/s (BTC) and KH/s (LTC) but we will assume KH/s is more common
 			);
 
 		// --- exchanges ---
@@ -1905,6 +1924,11 @@ function is_valid_bitcurex_eur_apisecret($key) {
 }
 
 function is_valid_justcoin_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_multipool_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
