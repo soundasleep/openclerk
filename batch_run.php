@@ -732,6 +732,7 @@ function crypto_json_decode($string, $message = false) {
  */
 function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 
+	// sanity and quality checks
 	if (!isset($values['last_trade'])) {
 		throw new Exception("No last_trade specified");	// need at least this
 	}
@@ -749,6 +750,15 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 	}
 	if (!isset($values['ask'])) {
 		$values['ask'] = null;
+	}
+	if (strlen($exchange['name']) <= 1) {
+		throw new Exception("Invalid parameter: exchange '" . htmlspecialchars($exchange['name']) . "'");
+	}
+	if (strlen($cur1) <= 1) {
+		throw new Exception("Invalid parameter: currency1 '" . htmlspecialchars($cur1) . "'");
+	}
+	if (strlen($cur2) <= 1) {
+		throw new Exception("Invalid parameter: currency2 '" . htmlspecialchars($cur2) . "'");
 	}
 
 	// insert in new ticker value

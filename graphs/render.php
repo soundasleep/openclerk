@@ -165,20 +165,29 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 		}
 	}
 
-	// calculate deltas if necessary
-	$data = calculate_graph_deltas($graph, $data);
 
-	// calculate technicals
-	$data = calculate_technicals($graph, $data);
+	if (count($data) > 1) {
+		// calculate deltas if necessary
+		$data = calculate_graph_deltas($graph, $data);
 
-	// discard early data
-	$data = discard_early_data($data, $days);
+		// calculate technicals
+		// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
+		$data = calculate_technicals($graph, $data);
 
-	// sort by key, but we only want values
-	uksort($data, 'cmp_time');
-	$graph['subheading'] = format_subheading_values($graph, $data);
-	$graph['last_updated'] = $last_updated;
-	render_linegraph_date($graph, array_values($data));
+
+		// discard early data
+		$data = discard_early_data($data, $days);
+
+		// sort by key, but we only want values
+		uksort($data, 'cmp_time');
+		$graph['subheading'] = format_subheading_values($graph, $data);
+		$graph['last_updated'] = $last_updated;
+		render_linegraph_date($graph, array_values($data));
+
+	} else {
+		render_text($graph, "There is no data available for this exchange pair yet.");
+	}
+
 }
 
 /**

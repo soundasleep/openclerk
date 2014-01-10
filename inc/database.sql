@@ -2462,3 +2462,5 @@ CREATE TABLE accounts_justcoin (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+INSERT INTO exchanges SET name='justcoin';

@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ghs");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "xrp", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ghs");
 }
 
 function get_all_hashrate_currencies() {
@@ -14,11 +14,11 @@ function get_all_hashrate_currencies() {
 }
 
 function get_new_supported_currencies() {
-	return array("pln");
+	return array("pln", "xrp");
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "xrp" /* I guess xrp is a cryptocurrency */);
 }
 
 function get_all_commodity_currencies() {
@@ -31,7 +31,7 @@ function get_all_fiat_currencies() {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "ppc", "ftc", "nvc", "xpm", "trc", "dog");	// no NMC yet
+	return array("btc", "ltc", "ppc", "ftc", "nvc", "xpm", "trc", "dog");	// no NMC or XRP yet
 }
 
 function get_currency_name($n) {
@@ -45,6 +45,7 @@ function get_currency_name($n) {
 		case "xpm":	return "Primecoin";
 		case "trc":	return "Terracoin";
 		case "dog":	return "Dogecoin";
+		case "xrp": return "Ripple";
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
 		case "aud": return "Australian dollar";
@@ -183,6 +184,7 @@ function get_exchange_pairs() {
 		"coins-e" => array(array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'), array('ltc', 'xpm'), array('xpm', 'ppc'), array('btc', 'dog')),
 		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'), array('btc', 'xpm'), array('btc', 'trc')),
+		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad')),
 		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog')),
@@ -195,6 +197,10 @@ function get_new_exchange_pairs() {
 		"bitcurex_plnbtc",
 		"bitcurex_eurbtc",
 		"mtgox_plnbtc",
+		"justcoin_eurbtc",
+		"justcoin_btcltc",
+		"justcoin_usdbtc",
+		"justcoin_btcxrp",
 	);
 }
 
@@ -251,7 +257,7 @@ function get_supported_wallets() {
 		"havelock" => array('btc'),
 		"hashfaster" => array('ltc', 'ftc', 'doge', 'hash'),
 		"hypernova" => array('ltc', 'hash'),
-		"justcoin" => array('btc', 'ltc', 'usd', 'eur'),	 // supports btc, usd, eur, nok, ltc, xrp
+		"justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),	 // supports btc, usd, eur, nok, ltc
 		"khore" => array('nvc', 'hash'),
 		"lite_coinpool" => array('ltc', 'hash'),
 		"litecoinpool" => array('ltc', 'hash'),
@@ -267,14 +273,14 @@ function get_supported_wallets() {
 		"scryptpools" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
 		"triplemining" => array('btc', 'hash'),
-		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/vircurex.php
+		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog'),		// used in jobs/vircurex.php
 		"wemineltc" => array('ltc', 'hash'),
 		"generic" => get_all_currencies(),
 	);
 }
 
 function get_new_supported_wallets() {
-	return array("bitcurex_pln", "bitcurex_eur", "hashfaster");
+	return array("bitcurex_pln", "bitcurex_eur", "hashfaster", "justcoin");
 }
 
 function crypto_address($currency, $address) {
@@ -302,6 +308,7 @@ function get_summary_types() {
 		'summary_xpm' => array('currency' => 'xpm', 'key' => 'xpm', 'title' => get_currency_name('xpm'), 'short_title' => get_currency_abbr('xpm')),
 		'summary_trc' => array('currency' => 'trc', 'key' => 'trc', 'title' => get_currency_name('trc'), 'short_title' => get_currency_abbr('trc')),
 		'summary_dog' => array('currency' => 'dog', 'key' => 'dog', 'title' => get_currency_name('dog'), 'short_title' => get_currency_abbr('dog')),
+		'summary_xrp' => array('currency' => 'xrp', 'key' => 'xrp', 'title' => get_currency_name('xrp'), 'short_title' => get_currency_abbr('xrp')),
 		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)', 'exchange' => 'btce'),
 		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)', 'exchange' => 'virtex'),
@@ -339,6 +346,7 @@ function get_default_currency_exchange($c) {
 		case "xpm": return "btce";
 		case "trc": return "btce";
 		case "dog": return "coins-e";
+		case "xrp": return "justcoin";
 		// fiats
 		case "usd": return "mtgox";
 		case "nzd": return "bitnz";
@@ -386,7 +394,7 @@ function get_total_conversion_summary_types() {
  * Crypto conversions: all cryptocurrencies to a single currency.
  */
 function get_crypto_conversion_summary_types() {
-	$currencies = array('btc', 'ltc', 'nmc', 'ftc', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ghs');
+	$currencies = get_all_cryptocurrencies() + get_all_commodity_currencies();
 	$result = array();
 	foreach ($currencies as $c) {
 		$result[$c] = array(
@@ -578,6 +586,7 @@ function get_external_apis() {
 			'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'ticker_coins-e' => '<a href="https://www.coins-e.com">Coins-E</a>',
+			'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
 			'ticker_vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
