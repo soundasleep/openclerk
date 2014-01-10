@@ -45,7 +45,7 @@ foreach ($accounts as $a) {
 		$last_updated = $job['executed_at'];
 	}
 	if ($job && $job['is_error']) {
-		$q = db()->prepare("SELECT id,message FROM uncaught_exceptions WHERE job_id=? LIMIT 1");
+		$q = db()->prepare("SELECT id,message FROM uncaught_exceptions WHERE job_id=? ORDER BY id DESC LIMIT 1");		// select the most recent exception too
 		$q->execute(array($job['id']));
 		$ue = $q->fetch();
 		if ($ue) {

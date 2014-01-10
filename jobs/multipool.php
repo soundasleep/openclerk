@@ -15,7 +15,7 @@ if (!$account) {
 }
 
 crypto_log($account['api_key']);
-$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://www.multipool.us/api.php?api_key=" . urlencode($account['api_key']))));
+$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url("http://api.multipool.us/api.php?api_key=" . urlencode($account['api_key']))));
 
 if (!isset($data['currency']) || !$data['currency']) {
 	throw new ExternalAPIException("No valid response received: check API key");
