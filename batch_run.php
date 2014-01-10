@@ -212,6 +212,10 @@ try {
 			require(__DIR__ . "/jobs/wemineltc.php");
 			break;
 
+		case "wemineftc":
+			require(__DIR__ . "/jobs/wemineftc.php");
+			break;
+
 		case "givemecoins":
 			require(__DIR__ . "/jobs/givemecoins.php");
 			break;

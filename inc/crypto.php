@@ -10,7 +10,7 @@ function get_all_currencies() {
 }
 
 function get_all_hashrate_currencies() {
-	return array("btc", "ltc", "nmc", "nvc", "dog");
+	return array("btc", "ltc", "nmc", "nvc", "dog", "ftc");
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -109,6 +109,7 @@ function get_all_exchanges() {
 		"blockchain" =>  	"Blockchain",	// generic
 		"poolx" => 			"Pool-x.eu",
 		"wemineltc" =>  	"WeMineLTC",
+		"wemineftc" =>  	"WeMineFTC",
 		"givemecoins" => 	"Give Me Coins",
 		"vircurex" =>  		"Vircurex",
 		"slush" => 			"Slush's pool",
@@ -282,13 +283,14 @@ function get_supported_wallets() {
 		"slush" => array('btc', 'nmc', 'hash'),
 		"triplemining" => array('btc', 'hash'),
 		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog'),		// used in jobs/vircurex.php
+		"wemineftc" => array('ftc', 'hash'),
 		"wemineltc" => array('ltc', 'hash'),
 		"generic" => get_all_currencies(),
 	);
 }
 
 function get_new_supported_wallets() {
-	return array("bitcurex_pln", "bitcurex_eur", "hashfaster", "justcoin", "multipool");
+	return array("bitcurex_pln", "bitcurex_eur", "hashfaster", "justcoin", "multipool", "wemineftc");
 }
 
 function crypto_address($currency, $address) {
@@ -457,6 +459,7 @@ function account_data_grouped() {
 			'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'wemineftc' => array('table' => 'accounts_wemineftc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'wemineltc' => array('table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
@@ -568,6 +571,7 @@ function get_external_apis() {
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
 			'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
 			'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
+			'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
 			'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
 		),
 
@@ -825,6 +829,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
 				),
 				'table' => 'accounts_wemineltc',
+				'khash' => true,
+			);
+
+		case "wemineftc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
+				),
+				'table' => 'accounts_wemineftc',
 				'khash' => true,
 			);
 

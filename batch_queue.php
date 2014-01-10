@@ -81,6 +81,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'failure' => true),
 	array('table' => 'accounts_poolx', 'type' => 'poolx', 'failure' => true),
 	array('table' => 'accounts_wemineltc', 'type' => 'wemineltc', 'failure' => true),
+	array('table' => 'accounts_wemineftc', 'type' => 'wemineftc', 'failure' => true),
 	array('table' => 'accounts_givemecoins', 'type' => 'givemecoins', 'failure' => true),
 	array('table' => 'accounts_slush', 'type' => 'slush', 'failure' => true),
 	array('table' => 'accounts_litecoinglobal', 'type' => 'litecoinglobal', 'failure' => true),
