@@ -150,6 +150,7 @@ function get_all_exchanges() {
 		"scryptpools" =>	"scryptpools.com",
 		"bitcurex" =>		"Bitcurex",	// both exchanges for tickers
 		"bitcurex_pln" =>	"Bitcurex PLN",	// the exchange wallet
+		"bitcurex_eur" =>	"Bitcurex EUR",	// the exchange wallet
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -270,7 +271,7 @@ function get_supported_wallets() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitcurex_pln");
+	return array("bitcurex_pln", "bitcurex_eur");
 }
 
 function crypto_address($currency, $address) {
@@ -439,6 +440,7 @@ function account_data_grouped() {
 		),
 		'Exchanges' => array(
 			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -547,6 +549,7 @@ function get_external_apis() {
 
 		"Exchange wallets" => array(
 			'bips' => '<a href="https://bips.me">BIPS</a>',
+			'bitcurex_eur' => '<a href="https://eur.bitcurex.com/">Bitcurex EUR</a>',
 			'bitcurex_pln' => '<a href="https://pln.bitcurex.com/">Bitcurex PLN</a>',
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
@@ -1063,6 +1066,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitcurex_pln_apisecret', 'length' => 128),
 				),
 				'table' => 'accounts_bitcurex_pln',
+			);
+
+		case "bitcurex_eur":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitcurex_eur_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitcurex_eur_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_bitcurex_eur',
 			);
 
 		case "btce":
@@ -1842,6 +1854,14 @@ function is_valid_bitcurex_pln_apikey($key) {
 function is_valid_bitcurex_pln_apisecret($key) {
 	// looks like a long base64 encoded string
 	return strlen($key) > 60 && strlen($key) < 100 && preg_match("#^[a-zA-Z0-9/\\+=]+$#", $key);
+}
+
+function is_valid_bitcurex_eur_apikey($key) {
+	return is_valid_bitcurex_pln_apikey($key);
+}
+
+function is_valid_bitcurex_eur_apisecret($key) {
+	return is_valid_bitcurex_pln_apisecret($key);
 }
 
 function is_valid_currency($c) {
