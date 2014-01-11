@@ -87,7 +87,7 @@ $(document).ready(function() {
  */
 var queued_ajax_requests = new Array();
 var pending_ajax_requests = 0;
-var max_ajax_requests = 5;
+var max_ajax_requests = 10;
 
 /**
  * Instead of $.ajax(url, obj), use queue_ajax_request(url, obj).
