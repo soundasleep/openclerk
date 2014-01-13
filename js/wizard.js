@@ -86,7 +86,7 @@ $(document).ready(function() {
 						tempOption.remove();
 					} else {
 						tempInput.attr('maxlength', inputs[j]['length']);
-						tempInput.attr('size', 20 + (inputs[j]['length'] * 1/5));
+						tempInput.attr('size', 20 + (Math.min(64, inputs[j]['length']) * 1/5));
 					}
 					// set value if it's been provided
 					var previous = previous_data();

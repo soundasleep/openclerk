@@ -1325,7 +1325,7 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "generic":
 			return array(
 				'inputs' => array(
-					'api_url' => array('title' => 'URL', 'callback' => 'is_valid_generic_url'),
+					'api_url' => array('title' => 'URL', 'callback' => 'is_valid_generic_url', 'length' => 255),
 					'currency' => array('title' => 'Currency', 'dropdown' => 'dropdown_currency_list', 'callback' => 'is_valid_currency', 'style_prefix' => 'currency_name_'),
 				),
 				'table' => 'accounts_generic',
@@ -1969,7 +1969,7 @@ function is_valid_currency($c) {
 }
 
 function is_valid_generic_url($url) {
-	return preg_match("#^https?://.+$#im", $url) && strlen($url) < 255;
+	return preg_match("#^https?://.+$#im", $url) && strlen($url) <= 255;
 }
 
 function is_valid_name($s) {
