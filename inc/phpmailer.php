@@ -19,7 +19,7 @@ function phpmailer($to, $to_name, $subject, $message) {
   	$mail->AddReplyTo(get_site_config('phpmailer_reply_to'));
   }
 
-  if (get_site_config('phpmailer_bcc')) {
+  if (get_site_config('phpmailer_bcc', false)) {
   	$mail->AddBCC(get_site_config('phpmailer_bcc'));
   }
 
