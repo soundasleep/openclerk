@@ -548,9 +548,9 @@ UPDATE summary_instances SET summary_type='crypto2btc' WHERE summary_type='all2b
 
 UPDATE graphs SET graph_type='total_converted_table' WHERE graph_type='fiat_converted_table';
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.1 to 0.2
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 DROP TABLE IF EXISTS feathercoin_blocks;
 
 CREATE TABLE feathercoin_blocks (
@@ -637,9 +637,9 @@ CREATE TABLE accounts_givemeltc (
 	INDEX(user_id), INDEX(last_queue)
 );
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.2 to 0.3
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 DROP TABLE IF EXISTS accounts_bips;
 
 CREATE TABLE accounts_bips (
@@ -700,9 +700,9 @@ CREATE TABLE heavy_requests (
 	INDEX(user_ip)
 );
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.3 to 0.4
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 CREATE TABLE graph_technicals (
 	id int not null auto_increment primary key,
 	created_at timestamp not null default current_timestamp,
@@ -725,10 +725,10 @@ ALTER TABLE addresses ADD title varchar(255);
 ALTER TABLE jobs ADD is_executing tinyint not null default 0;
 ALTER TABLE jobs ADD INDEX(is_executing);
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.4 to 0.5
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 DROP TABLE IF EXISTS accounts_hypernova;
 
 CREATE TABLE accounts_hypernova (
@@ -841,10 +841,10 @@ ALTER TABLE graph_data_balances ADD balance_stdev float;
 ALTER TABLE graph_data_summary ADD balance_stdev float;
 ALTER TABLE graph_data_ticker ADD last_trade_stdev float;
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.5 to 0.6
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 ALTER TABLE users ADD referer VARCHAR(255);
 
 -- system-specific job queues that still need to be queued as appropriate
@@ -963,10 +963,10 @@ CREATE TABLE site_statistics (
 	INDEX(is_recent)
 );
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.6 to 0.7
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 -- rather than using 'current balance' for payments, we should be using 'total received'
 ALTER TABLE addresses ADD is_received tinyint not null default 0;
@@ -1023,10 +1023,10 @@ CREATE TABLE securities (
 -- for 'heading' graph type
 ALTER TABLE graphs ADD string0 varchar(128);
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.7 to 0.8
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 ALTER TABLE site_statistics ADD system_load_1min int;
 ALTER TABLE site_statistics ADD system_load_5min int;
@@ -1089,10 +1089,10 @@ INSERT INTO exchanges SET name='virtex';
 -- USD/BTC
 INSERT INTO exchanges SET name='bitstamp';
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.8 to 0.9
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 -- LTC, FTC, BTC all use the same API key
 DROP TABLE IF EXISTS accounts_givemecoins;
@@ -1232,10 +1232,10 @@ ALTER TABLE site_statistics MODIFY system_load_1min float;
 ALTER TABLE site_statistics MODIFY system_load_5min float;
 ALTER TABLE site_statistics MODIFY system_load_15min float;
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.9 to 0.10
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 DROP TABLE IF EXISTS novacoin_blocks;
 
 CREATE TABLE novacoin_blocks (
@@ -1333,10 +1333,10 @@ CREATE TABLE accounts_individual_havelock (
 	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.10 to 0.11
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 DROP TABLE IF EXISTS accounts_cexio;
 
 CREATE TABLE accounts_cexio (
@@ -1433,10 +1433,10 @@ ALTER TABLE jobs ADD INDEX(is_timeout);
 ALTER TABLE site_statistics ADD jobs_tests int not null default 0;
 ALTER TABLE site_statistics ADD jobs_timeout int not null default 0;
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.11 to 0.12
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 -- all date columns should be timestamp not datetime, so that all values are stored local to UTC
 ALTER TABLE accounts_50btc MODIFY last_queue timestamp null;
@@ -1606,10 +1606,10 @@ CREATE TABLE accounts_kattare (
 	INDEX(user_id), INDEX(last_queue)
 );
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.12 to 0.13
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 -- accounts can now be disabled if they fail repeatedly
 -- failing account tables need to have the following fields: is_disabled, failures, first_failure, title
@@ -1846,10 +1846,10 @@ CREATE TABLE primecoin_blocks (
 	INDEX(is_recent)
 );
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.13 to 0.13.1
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 -- allow securities_havelock accounts to be disabled automatically
 ALTER TABLE securities_havelock ADD is_disabled tinyint not null default 0;
@@ -1864,10 +1864,10 @@ UPDATE hashrates SET currency='btc' WHERE exchange='eligius' AND currency='ltc';
 ALTER TABLE summaries DROP last_queue;
 DELETE FROM jobs WHERE job_type='summary' AND is_executed=0;
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.13.1 to 0.14
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 -- make individual securities support failures
 ALTER TABLE accounts_individual_796 ADD is_disabled tinyint not null default 0;
@@ -1973,10 +1973,10 @@ CREATE TABLE accounts_litecoinpool (
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.14 to 0.15
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 -- when deleting BTCT/etc accounts, the securities still display
 ALTER TABLE securities ADD account_id int null default 0;
@@ -2247,10 +2247,10 @@ ALTER TABLE ticker DROP INDEX currency2;
 ALTER TABLE balances ADD INDEX(user_id, account_id, exchange);
 ALTER TABLE hashrates ADD INDEX(user_id, account_id, exchange);
 
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 -- upgrade statements from 0.15 to 0.16
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
-----------------------------------------------------------------------------
+-- --------------------------------------------------------------------------
 
 -- make the account wizard pages much faster
 ALTER TABLE jobs ADD INDEX(is_recent, user_id, job_type, arg_id);
