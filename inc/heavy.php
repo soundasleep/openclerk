@@ -6,6 +6,9 @@ class BlockedException extends Exception { }
  * We're about to perform a computationally intense task that is visible
  * or accessible to the public - this method will check the current user
  * IP and make sure this IP isn't requesting too many things at once.
+ *
+ * If login does not work, make sure that you have set database_timezone
+ * correctly.
  */
 function check_heavy_request() {
 
