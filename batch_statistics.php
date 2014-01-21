@@ -149,6 +149,13 @@ $data = array();
 	$data['max_notifications_sent'] = $c['m'];
 }
 
+// change all NULL values to 0
+foreach ($data as $key => $value) {
+	if ($value === null) {
+		$data[$key] = 0;
+	}
+}
+
 // calculate MySQL statistics
 $q = db()->prepare("SHOW GLOBAL STATUS");
 $q->execute();
