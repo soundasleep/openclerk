@@ -47,7 +47,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"refresh_queue_hours_ticker" => 0.1, // ticker jobs can have different queue times
 		"system_user_id" => 100,
 		"get_contents_timeout" => 5, // in seconds
-		"get_openid_timeout" => 10,	// in seconds, should be <= heavy_requests_seconds
+		"get_openid_timeout" => 5,	// in seconds, should be <= heavy_requests_seconds
 		"default_login" => 'user',		// default login destination
 		"signup_login" => 'wizard_currencies',		// login destination when signing up; overridden by premium_welcome -> 'welcome'
 		"autologin_expire_days" => 30,
@@ -77,7 +77,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"job_test_priority" => 5,	// when an account is 'test'ed manually by a user, what priority will it have?
 
 		// DDoS/abuse control
-		"heavy_requests_seconds" => 5,
+		"heavy_requests_seconds" => 10,
 
 		// layout properties
 		"default_graph_width" => 110, // in px, default *2
