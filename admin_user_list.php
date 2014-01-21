@@ -30,7 +30,7 @@ $q = db()->prepare("SELECT u.*, s.c AS currencies, openid_identities.url AS url,
 		JOIN openid_identities ON openid_identities.user_id=u.id
 	$search_query
 	GROUP BY u.id
-	ORDER BY id DESC LIMIT " . ($max_count+1) . "");
+	ORDER BY u.id DESC LIMIT " . ($max_count+1) . "");
 $q->execute($args);
 
 ?>
