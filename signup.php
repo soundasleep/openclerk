@@ -196,7 +196,7 @@ page_header("Signup", "page_signup", array('jquery' => true, 'js' => 'auth'));
 			?>
 
 			<hr>
-			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</a></button>
+			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</span></button>
 
 			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Signup" ? "" : "display:none;"; ?>">
 			<table>
