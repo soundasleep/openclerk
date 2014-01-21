@@ -2540,3 +2540,6 @@ CREATE TABLE accounts_ypool (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+-- multipool balances were all incorrect
+DELETE FROM hashrates WHERE exchange='multipool';
