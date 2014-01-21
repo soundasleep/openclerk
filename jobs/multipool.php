@@ -34,7 +34,7 @@ foreach ($wallets['multipool'] as $currency) {
 		// also: "btc":{"confirmed_rewards":"0","hashrate":"0","estimated_rewards":0,"payout_history":"0","pool_hashrate":13173361,"round_shares":false,"block_shares":"207893650"}
 
 		insert_new_balance($job, $account, $exchange, $currency, $data['currency'][strtolower(get_currency_abbr($currency))]['confirmed_rewards']);
-		insert_new_hashrate($job, $account, $exchange, $currency, $data['currency'][strtolower(get_currency_abbr($currency))]['confirmed_rewards'] / (is_hashrate_mhash($currency) ? 1 : 1000));
+		insert_new_hashrate($job, $account, $exchange, $currency, $data['currency'][strtolower(get_currency_abbr($currency))]['hashrate'] / (is_hashrate_mhash($currency) ? 1 : 1000));
 
 	} else {
 		crypto_log("Found no $currency balance");
