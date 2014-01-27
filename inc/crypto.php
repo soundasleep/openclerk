@@ -593,7 +593,7 @@ function get_external_apis() {
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
-			'vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
+			'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
 		),
 
 		"Exchange tickers" => array(
@@ -607,7 +607,7 @@ function get_external_apis() {
 			'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
-			'ticker_vircurex' => '<a href="http://vircurex.com">Vircurex</a>',
+			'ticker_vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
 			'ticker_virtex' => '<a href="https://www.cavirtex.com/">VirtEx</a>',
 		),
 
