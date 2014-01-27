@@ -249,14 +249,6 @@ function number_format_autoprecision_html($n, $suffix = false) {
 	return "<span title=\"" . number_format_autoprecision($n, 8) . ($suffix ? $suffix : "") . "\">" . number_format_autoprecision($n) . ($suffix ? $suffix : "") . "</span>";
 }
 
-function capitalize($s) {
-	$split = explode(" ", $s);
-	foreach ($split as $i => $value) {
-		$split[$i] = strtoupper(substr($value, 0, 1)) . substr($value, 1);
-	}
-	return implode(" ", $split);
-}
-
 /**
  * The default colours used in Google charts. Obtained by taking screenshots.
  */

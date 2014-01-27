@@ -8,6 +8,8 @@
  * Arguments (in command line, use "-" for no argument):
  *   $key/1 required the automated key
  *   $job_type/2 optional restrict job execution to only this type of job, comma-separated list
+ *   $job_id/3 optional run the given job ID
+ *   $force/4 optional if true, force the job to run even if it has failed before
  */
 
 define('BATCH_JOB_START', microtime(true));
@@ -27,10 +29,15 @@ if (isset($argv[2]) && $argv[2] && $argv[2] != "-") {
 	$job_types = explode(",", require_get("job_type"));
 }
 
-if (require_get("job_id", false)) {
+if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
+        // run a particular job, even if it's already been executed
+        $q = db()->prepare("SELECT * FROM jobs WHERE id=?");
+        $q->execute(array((int) $argv[3]));
+        $job = $q->fetch();
+} else if (require_get("job_id", false)) {
 	// run a particular job, even if it's already been executed
 	$q = db()->prepare("SELECT * FROM jobs WHERE id=?");
-	$q->execute(array(require_get("job_id")));
+	$q->execute(array((int) require_get("job_id")));
 	$job = $q->fetch();
 } else {
 	// select a particular type of job (allows more fine-grained control over regularly important jobs, such as ticker)
@@ -72,6 +79,8 @@ if (require_get("job_id", false)) {
 	}
 }
 
+$force = require_get('force', false) || (isset($argv[4]) && $argv[4] != "-" && $argv[4]);
+
 if (!$job) {
 	// nothing to do!
 	crypto_log("No job to execute.");
@@ -94,14 +103,14 @@ $runtime_exception = null;
 try {
 	// have we executed this job too many times already?
 	// (we check this here so our exception handling code below can capture it)
-	if ($job['is_test_job'] && $job['is_error'] && !require_get('force', false)) {
+	if ($job['is_test_job'] && $job['is_error'] && !$force) {
 		crypto_log("Job is a test job and threw an error straight away; marking as failed");
 		if ($job['is_timeout']) {
 			throw new ExternalAPIException("Local timeout");
 		} else {
 			throw new ExternalAPIException("Job failed for an unknown reason");
 		}
-	} else if ($job['execution_count'] >= get_site_config("max_job_executions") && !require_get('force', false)) {
+	} else if ($job['execution_count'] >= get_site_config("max_job_executions") && !$force) {
 		// TODO this job should be debugged in dev and fixed so that an execption can be thrown instead
 		crypto_log("Job has been executed too many times (" . number_format($job['execution_count']) . "): marking as failed");
 		throw new ExternalAPIException("An uncaught error occured multiple times");

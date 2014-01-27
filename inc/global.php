@@ -427,6 +427,14 @@ function implode_english($result, $or = false) {
 	return $s;
 }
 
+function capitalize($s) {
+        $split = explode(" ", $s);
+        foreach ($split as $i => $value) {
+                $split[$i] = strtoupper(substr($value, 0, 1)) . substr($value, 1);
+        }
+        return implode(" ", $split);
+}
+
 /**
  * Wrap the given number to the given number of decimal places.
  * Probably returns 0 if this is not a number.
