@@ -472,7 +472,12 @@ function calculate_relative_path() {
 			// if we're in this path, remove it
 			// now generate ../s as necessary
 			if (strtolower(substr($uri, 0, strlen($intended))) == strtolower($intended)) {
-				$uri = substr($uri, strlen($intended) + 1);
+				$uri = substr($uri, strlen($intended));
+			}
+			// but strip out any parameters, which might have /s in them, which will completely mess this up
+			// (see issue #13)
+			if (strpos($uri, "?") !== false) {
+				$uri = substr($uri, 0, strpos($uri, "?"));
 			}
 			$global_calculate_relative_path = str_repeat('../', substr_count($uri, '/'));
 		} else {
