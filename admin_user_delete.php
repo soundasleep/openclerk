@@ -24,7 +24,7 @@ if (!$confirm) {
 
 <h1>Delete User</h1>
 
-<p class="backlink"><a href="<?php echo htmlspecialchars(url_for('admin_user_list')); ?>">&lt; Back to Site Status</a></p>
+<p class="backlink"><a href="<?php echo htmlspecialchars(url_for('admin_user_list')); ?>">&lt; Back to User List</a></p>
 
 <ul>
 <?php

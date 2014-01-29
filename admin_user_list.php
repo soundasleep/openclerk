@@ -100,6 +100,12 @@ $q->execute($args);
 				echo "</form>";
 			}
 			{
+				echo "<form action=\"" . htmlspecialchars(url_for('admin_user_export')) . "\" method=\"post\">";
+				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
+				echo "<input type=\"submit\" value=\"Export\">";
+				echo "</form>";
+			}
+			{
 				echo "<form action=\"" . htmlspecialchars(url_for('admin_user_delete')) . "\" method=\"post\">";
 				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
 				echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
