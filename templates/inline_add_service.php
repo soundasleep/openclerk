@@ -35,7 +35,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 <div class="column">
 <ul>
 	<li>Coins-E</li>
-	<li>Cryptsy</li>
+	<li>Cryptsy (only available through an <a href="http://code.google.com/p/openclerk/wiki/Unsafe">unsafe instance</a>)</li>
 	<li>fast-pool.com</li>
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
 	<li>GHash.io (note that <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'cexio'))); ?>">CEX.io is supported</a>)</li>
