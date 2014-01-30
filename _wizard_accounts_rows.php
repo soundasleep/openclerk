@@ -100,7 +100,7 @@ foreach ($accounts as $a) {
 			<span><?php echo $callback($a[$key]); ?></span>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
 			<input type="text" name="value" value="<?php echo htmlspecialchars($callback($a[$key])); ?>">
-			<input type="submit" value="Update Title">
+			<input type="submit" value="Update">
 			<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
 			<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 			<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">

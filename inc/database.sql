@@ -2545,7 +2545,7 @@ CREATE TABLE accounts_ypool (
 DELETE FROM hashrates WHERE exchange='multipool';
 
 -- --------------------------------------------------------------------------
--- upgrade statements from 0.16 to 0.17
+-- upgrade statements from 0.16 to 0.16.2
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
 -- --------------------------------------------------------------------------
 
