@@ -803,6 +803,16 @@ function get_accounts_wizard_config($exchange) {
 	if (!isset($result['khash'])) {
 		$result['khash'] = false;
 	}
+	foreach ($result['inputs'] as $key => $data) {
+		$result['inputs'][$key]['key'] = $key;
+	}
+	foreach (account_data_grouped() as $group => $data) {
+		foreach ($data as $key => $values) {
+			if ($key == $exchange && isset($values['wizard'])) {
+				$result['wizard'] = $values['wizard'];
+			}
+		}
+	}
 	$result['exchange'] = $exchange;
 	return $result;
 }
@@ -1327,6 +1337,7 @@ function get_accounts_wizard_config_basic($exchange) {
 				'inputs' => array(
 					'api_url' => array('title' => 'URL', 'callback' => 'is_valid_generic_url', 'length' => 255),
 					'currency' => array('title' => 'Currency', 'dropdown' => 'dropdown_currency_list', 'callback' => 'is_valid_currency', 'style_prefix' => 'currency_name_'),
+					'multiplier' => array('title' => 'Multiplier', 'callback' => 'is_numeric', 'length' => 6, 'default' => 1, 'number' => true),
 				),
 				'table' => 'accounts_generic',
 				'title' => 'Generic API',
@@ -1399,6 +1410,8 @@ function get_wizard_account_type($wizard) {
 				'url' => 'wizard_accounts_other',
 				'add_help' => 'add_service',
 				'a' => 'an',
+				'display_headings' => array('Multiplier'),
+				'display_editable' => array('multiplier' => 'number_format_autoprecision'),
 			);
 			break;
 
@@ -1411,6 +1424,9 @@ function get_wizard_account_type($wizard) {
 	}
 	if (!isset($account_type['display_callback'])) {
 		$account_type['display_callback'] = false;
+	}
+	if (!isset($account_type['display_editable'])) {
+		$account_type['display_editable'] = array();
 	}
 	if (!isset($account_type['first_heading'])) {
 		$account_type['first_heading'] = $account_type['title'];

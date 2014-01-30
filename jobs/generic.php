@@ -14,8 +14,11 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-// TODO maybe add support for custom divisors in API calls
 $balance = crypto_get_contents(crypto_wrap_url($account['api_url']));
+
+// issue #11: add editable multiplier
+crypto_log("$exchange balance: $balance * " . $account['multiplier']);
+$balance = $balance * $account['multiplier'];
 
 if (!is_numeric($balance)) {
 	crypto_log("$exchange balance for " . htmlspecialchars($account['api_url']) . " is non-numeric: " . htmlspecialchars($balance));

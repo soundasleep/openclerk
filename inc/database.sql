@@ -2543,3 +2543,11 @@ CREATE TABLE accounts_ypool (
 
 -- multipool balances were all incorrect
 DELETE FROM hashrates WHERE exchange='multipool';
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.16 to 0.17
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+
+ALTER TABLE accounts_generic ADD multiplier decimal(24,8) not null default 1;
+

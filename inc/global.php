@@ -620,6 +620,11 @@ function number_format_autoprecision($n, $precision = 8, $dec_point = ".", $thou
 	return number_format($n, $precision, $dec_point, $thousands_sep);
 }
 
+// remove any commas; intended to be reverse of number_format()
+function number_unformat($value) {
+	return str_replace(",", "", $value);
+}
+
 /**
  * @return the error message back
  */

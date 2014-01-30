@@ -95,6 +95,19 @@ foreach ($accounts as $a) {
 		<?php foreach ($extra_display as $value) { ?>
 			<td><?php echo $value; ?></td>
 		<?php } ?>
+		<?php foreach ($account_type['display_editable'] as $key => $callback) { ?>
+		<td id="account<?php echo htmlspecialchars($a['id'] . "_" . $key); ?>" class="title">
+			<span><?php echo $callback($a[$key]); ?></span>
+			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
+			<input type="text" name="value" value="<?php echo htmlspecialchars($callback($a[$key])); ?>">
+			<input type="submit" value="Update Title">
+			<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+			<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+			<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+			<input type="hidden" name="key" value="<?php echo htmlspecialchars($key); ?>">
+			</form>
+		</td>
+		<?php } ?>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
 			<?php echo recent_format_html($last_updated); ?>

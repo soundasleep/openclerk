@@ -155,6 +155,9 @@ function available_exchanges() {
 		if (isset($input['style_prefix']) && $input['style_prefix']) {
 			echo ", 'style_prefix' : " . json_encode($input['style_prefix']);
 		}
+		if (isset($input['default']) && $input['default']) {
+			echo ", 'default' : " . json_encode($input['default']);
+		}
 		echo ", 'length' : " . json_encode(isset($input['length']) ? $input['length'] : 64) . "},";
 	}
 	echo "],";

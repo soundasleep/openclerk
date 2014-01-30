@@ -193,7 +193,7 @@ if (!isset($permitted_notification_periods[require_post("period")])) {
 	throw new Exception("Invalid notification period '" . htmlspecialchars(require_post("period")) . "'");
 }
 // remove any commas
-$value = str_replace(",", "", require_post("value"));
+$value = number_unformat(require_post("value"));
 if (!is_numeric($value)) {
 	throw new Exception("'" . htmlspecialchars($value) . "' is not numeric");
 }

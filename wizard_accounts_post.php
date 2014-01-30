@@ -61,6 +61,48 @@ if (require_post("title", false) !== false && require_post("id", false)) {
 
 }
 
+// process extra field inline edit
+if (require_post("key", false) !== false && require_post("id", false)) {
+	$id = require_post("id");
+	$key = require_post("key");
+	$value = require_post("value");
+	$exchange = require_post("type");
+
+	// check that this is a valid property to change for this wizard
+	if (!isset($account_data['wizard'])) {
+		throw new Exception("No wizard data found");
+	}
+	$wizard_type = get_wizard_account_type($account_data['wizard']);
+	if (!isset($wizard_type['display_editable'][$key])) {
+		throw new Exception("Key '" . htmlspecialchars($key) . "' is not a valid editable key");
+	}
+
+	// check that this is a valid input for this key
+	$config = get_accounts_wizard_config($exchange);
+	if (!isset($config['inputs'][$key])) {
+		throw new Exception("A '" . htmlspecialchars($exchange) . "' does not have an input '" . htmlspecialchars($key) . "'");
+	}
+
+	if (isset($config['inputs'][$key]['number']) && $config['inputs'][$key]['number']) {
+		// remove any commas
+		$value = number_unformat($value);
+	}
+	$callback = $config['inputs'][$key]['callback'];
+
+	if (!$callback($value)) {
+		$errors[] = "'" . htmlspecialchars($value) . "' is not a valid " . htmlspecialchars($account_data['title']) . " " . htmlspecialchars($config['inputs'][$key]['title']) . ".";
+	} else {
+		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET " . $config['inputs'][$key]['key'] . "=? WHERE user_id=? AND id=?");
+		$q->execute(array($value, user_id(), $id));
+		$messages[] = "Updated " . htmlspecialchars($account_data['title']) . " " . htmlspecialchars($config['inputs'][$key]['title']) . ".";
+
+		// redirect to GET
+		set_temporary_messages($messages);
+		redirect(url_for(require_post("callback")));
+	}
+
+}
+
 // process add/delete
 if (require_post("add", false)) {
 	$query = "";
