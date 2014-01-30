@@ -18,8 +18,13 @@ foreach (account_data_grouped() as $label => $data) {
 			// we've found a valid account type
 			$account_data = get_accounts_wizard_config($key);
 			if (!(isset($value['disabled']) && $value['disabled'])) {
-				$add_types[] = $key;
-				$add_type_names[$key] = get_exchange_name($key) . (isset($value['suffix']) ? $value['suffix'] : "");
+
+				// don't display unsafe exchanges
+				if (!(isset($value['unsafe']) && $value['unsafe'] && !get_site_config('allow_unsafe'))) {
+					$add_types[] = $key;
+					$add_type_names[$key] = get_exchange_name($key) . (isset($value['suffix']) ? $value['suffix'] : "");
+				}
+
 			}
 
 			$q = db()->prepare("SELECT * FROM " . $account_data['table'] . "

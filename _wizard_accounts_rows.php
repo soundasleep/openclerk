@@ -65,15 +65,7 @@ foreach ($accounts as $a) {
 	}
 
 	// get the account type data
-	$account_type_data = false;
-	foreach (account_data_grouped() as $label => $data) {
-		foreach ($data as $key => $value) {
-			if ($key == $a['exchange']) {
-				$account_type_data = $value;
-				break;
-			}
-		}
-	}
+	$account_type_data = get_account_data($a['exchange']);
 
 	$row_element_id = "row_" . $a['exchange'] . "_" . $a['id'];
 	$is_disabled = isset($a['is_disabled']) && $a['is_disabled'];

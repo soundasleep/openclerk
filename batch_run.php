@@ -483,6 +483,16 @@ try {
 			break;
 
 		default:
+			// issue #12: unsafe accounts
+			if (get_site_config('allow_unsafe')) {
+				switch ($job['job_type']) {
+					case "cryptsy":
+						require(__DIR__ . "/jobs/cryptsy.php");
+						break 2;
+
+				}
+			}
+
 			throw new JobException("Unknown job type '" . htmlspecialchars($job['job_type']) . "'");
 
 	}

@@ -162,6 +162,7 @@ function get_all_exchanges() {
 		"justcoin" =>		"Justcoin",
 		"multipool" =>		"Multipool",
 		"ypool" =>			"ypool.net",
+		"cryptsy" => 		"Cryptsy",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -176,6 +177,7 @@ function get_exchange_name($n) {
 	return "Unknown (" . htmlspecialchars($n) . "]";
 }
 
+// these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
 	return array("bitcurex", "justcoin");
 }
@@ -257,6 +259,7 @@ function get_supported_wallets() {
 		"coinhuntr" => array('ltc', 'hash'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc'),
+		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog'),
 		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
 		"dogechainpool" => array('dog', 'hash'),
 		"dogepoolpw" => array('dog', 'hash'),
@@ -291,8 +294,23 @@ function get_supported_wallets() {
 	);
 }
 
+// get all supported wallets that are safe w.r.t. allow_unsafe
+function get_supported_wallets_safe() {
+	$wallets = get_supported_wallets();
+	if (!get_site_config('allow_unsafe')) {
+		foreach (account_data_grouped() as $label => $group) {
+			foreach ($group as $exchange => $value) {
+				if (isset($wallets[$exchange]) && isset($value['unsafe']) && $value['unsafe']) {
+					unset($wallets[$exchange]);
+				}
+			}
+		}
+	}
+	return $wallets;
+}
+
 function get_new_supported_wallets() {
-	return array("bitcurex_pln", "bitcurex_eur", "hashfaster", "justcoin", "multipool", "wemineftc", "ypool");
+	return array("cryptsy");
 }
 
 function crypto_address($currency, $address) {
@@ -473,6 +491,7 @@ function account_data_grouped() {
 			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'unsafe' => true),
 			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -519,6 +538,17 @@ function account_data_grouped() {
 		}
 	}
 	return $data;
+}
+
+function get_account_data($exchange) {
+	foreach (account_data_grouped() as $group => $data) {
+		foreach ($data as $key => $values) {
+			if ($key == $exchange) {
+				return $values;
+			}
+		}
+	}
+	throw new Exception("Could not find any exchange '$exchange'");
 }
 
 // we can't get this from account_data_grouped() because this also includes ticker information
@@ -589,6 +619,7 @@ function get_external_apis() {
 			'cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
 			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+			'cryptsy' => '<a href="https://www.cryptsy.com/">Crypsty</a>',
 			'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
@@ -1212,6 +1243,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_justcoin_apikey'),
 				),
 				'table' => 'accounts_justcoin',
+			);
+
+		case "cryptsy":
+			return array(
+				'inputs' => array(
+					'api_public_key' => array('title' => 'Public key', 'callback' => 'is_valid_cryptsy_public_key', 'length' => 40),
+					'api_private_key' => array('title' => 'Private key', 'callback' => 'is_valid_cryptsy_private_key', 'length' => 80),
+				),
+				'table' => 'accounts_cryptsy',
 			);
 
 		// --- securities ---
@@ -1978,6 +2018,16 @@ function is_valid_multipool_apikey($key) {
 function is_valid_ypool_apikey($key) {
 	// looks like a 20 character string of almost any characters
 	return strlen(trim($key)) == 20;
+}
+
+function is_valid_cryptsy_public_key($key) {
+	// looks like a 40 character hex string
+	return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_cryptsy_private_key($key) {
+	// looks like a 80 character hex string
+	return strlen($key) == 80 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

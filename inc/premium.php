@@ -47,15 +47,10 @@ function user_limits_summary($user_id) {
 function can_user_add($user, $keytype, $amount = 1) {
 	$summary = user_limits_summary($user['id']);
 
-	foreach (account_data_grouped() as $group) {
-		foreach ($group as $key => $data) {
-			if ($keytype == $key) {
-				 $current_total = $summary['total_' . $data['group']];
-				 $limit = get_premium_value($user, $data['group']);
-				 return ($current_total + $amount) <= $limit;
-			}
-		}
-	}
+	$data = get_account_data($keytype);
+	$current_total = $summary['total_' . $data['group']];
+	$limit = get_premium_value($user, $data['group']);
+	return ($current_total + $amount) <= $limit;
 
 	throw new Exception("Could not find user limit type '$keytype'");
 

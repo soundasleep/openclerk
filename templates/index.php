@@ -73,7 +73,7 @@ foreach ($security_exchange_data as $exchange => $pairs) {
 <h2>Supported balances</h2>
 
 <?php
-$balances_data = get_supported_wallets();
+$balances_data = get_supported_wallets_safe();
 
 // summarise
 $all_currencies = array();

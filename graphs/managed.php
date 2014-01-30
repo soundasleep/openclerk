@@ -73,7 +73,7 @@ function calculate_all_managed_graphs($user) {
 	$all_summaries = get_all_summaries();
 	$currencies = get_all_currencies();
 	$accounts = account_data_grouped();
-	$wallets = get_supported_wallets();
+	$wallets = get_supported_wallets_safe();
 
 	$order_currency = array();
 	foreach (get_all_currencies() as $c) {

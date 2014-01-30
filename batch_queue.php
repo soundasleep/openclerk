@@ -134,6 +134,15 @@ $standard_jobs = array(
 	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
 	array('table' => 'accounts_individual_cryptotrade', 'type' => 'individual_crypto-trade', 'failure' => true),
 	array('table' => 'accounts_individual_796', 'type' => 'individual_796', 'failure' => true),
+);
+
+if (get_site_config('allow_unsafe')) {
+	// run unsafe jobs only if the flag has been set
+	crypto_log("Running unsafe jobs.");
+	array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
+}
+
+$standard_jobs += array(
 	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
