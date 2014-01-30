@@ -141,6 +141,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 	border: 1px solid #469; 
 	margin: 5px 10px 5px 10px;
 	background: #246 url('img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
+	x-background-sprite: false;
 	padding-left: 50px;
 }
 .success.success_float {
