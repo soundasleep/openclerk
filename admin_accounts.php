@@ -56,6 +56,11 @@ function get_error_class($n) {
 		<tr><th colspan="6"><?php echo htmlspecialchars($label); ?></th></tr>
 	<?php
 		foreach ($group as $exchange => $data) {
+			// don't display unsafe tables
+			if ($data['unsafe'] && !get_site_config('allow_unsafe')) {
+				continue;
+			}
+
 			echo "<tr><td>" . htmlspecialchars(get_exchange_name($exchange)) . "</td>\n";
 			if ($data['failure']) {
 				$q = db()->prepare("SELECT COUNT(*) AS s, SUM(t.is_disabled) AS disabled, MAX(t.last_queue) AS lq FROM " . $data['table'] . " AS t
