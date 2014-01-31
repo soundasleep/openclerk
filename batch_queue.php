@@ -139,7 +139,9 @@ $standard_jobs = array(
 if (get_site_config('allow_unsafe')) {
 	// run unsafe jobs only if the flag has been set
 	crypto_log("Running unsafe jobs.");
-	array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
+	$standard_jobs += array(
+		array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
+	);
 }
 
 $standard_jobs += array(
