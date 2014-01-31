@@ -15,6 +15,11 @@ function user_limits_summary($user_id) {
 				if (!isset($data['group']))
 					continue;
 
+				// don't consider unsafe exchanges since their tables won't be in here
+				if ($data['unsafe'] && !get_site_config('allow_unsafe')) {
+					continue;
+				}
+
 				$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?" . (isset($data['query']) ? $data['query'] : ""));
 				$q->execute(array($user_id));
 				$accounts[$key] = $q->fetch();
