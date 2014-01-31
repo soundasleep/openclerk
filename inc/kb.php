@@ -48,10 +48,10 @@ function get_knowledge_base() {
 	foreach (account_data_grouped() as $label => $group) {
 		if (isset($wizards[$label])) {
 			foreach ($group as $key => $data) {
-				if (isset($data['disabled']) && $data['disabled']) {
+				if ($data['disabled']) {
 					continue;
 				}
-				if (isset($data['unsafe']) && $data['unsafe'] && !get_site_config('allow_unsafe')) {
+				if ($data['unsafe'] && !get_site_config('allow_unsafe')) {
 					// don't display help pages for unsafe accounts
 					continue;
 				}

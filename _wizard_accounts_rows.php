@@ -150,7 +150,7 @@ foreach ($accounts as $a) {
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
-			<?php if (!(isset($account_type_data['disabled']) && $account_type_data['disabled'])) {
+			<?php if (!isset($account_type_data['disabled'])) {
 				if ($is_test_job) { ?>
 				<span class="status_loading">Testing...</span>
 					<?php if (!isset($is_in_callback)) { ?>
@@ -169,7 +169,7 @@ foreach ($accounts as $a) {
 				</form>
 				<?php } ?>
 			<?php } ?>
-			<?php if ($is_disabled && !(isset($account_type_data['disabled']) && $account_type_data['disabled'])) { ?>
+			<?php if ($is_disabled && !$account_type_data['disabled']) { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
 				<input type="submit" name="enable" value="Enable" class="enable">

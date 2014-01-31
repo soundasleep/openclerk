@@ -300,7 +300,7 @@ function get_supported_wallets_safe() {
 	if (!get_site_config('allow_unsafe')) {
 		foreach (account_data_grouped() as $label => $group) {
 			foreach ($group as $exchange => $value) {
-				if (isset($wallets[$exchange]) && isset($value['unsafe']) && $value['unsafe']) {
+				if (isset($wallets[$exchange]) && $value['unsafe']) {
 					unset($wallets[$exchange]);
 				}
 			}
@@ -518,8 +518,8 @@ function account_data_grouped() {
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other', 'failure' => true),
 		),
 		'Hidden' => array(
-			'graph' => array('title' => 'Graphs', 'table' => 'graphs', 'query' => ' AND is_removed=0'),
-			'graph_pages' => array('title' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0'),
+			'graph' => array('title' => 'Graphs', 'table' => 'graphs', 'query' => ' AND is_removed=0', 'job' => false),
+			'graph_pages' => array('title' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0', 'job' => false),
 			'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries'),
 			'notifications' => array('title' => 'Notifications', 'table' => 'notifications', 'group' => 'notifications', 'wizard' => 'notifications'),
 		),
@@ -534,6 +534,18 @@ function account_data_grouped() {
 			}
 			if (!isset($data[$key0][$key]['title'])) {
 				$data[$key0][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $data[$key0][$key]['labels'];
+			}
+			if (!isset($data[$key0][$key]['failure'])) {
+				$data[$key0][$key]['failure'] = false;
+			}
+			if (!isset($data[$key0][$key]['job'])) {
+				$data[$key0][$key]['job'] = false;
+			}
+			if (!isset($data[$key0][$key]['disabled'])) {
+				$data[$key0][$key]['disabled'] = false;
+			}
+			if (!isset($data[$key0][$key]['unsafe'])) {
+				$data[$key0][$key]['unsafe'] = false;
 			}
 		}
 	}

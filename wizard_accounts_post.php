@@ -19,7 +19,7 @@ foreach (account_data_grouped() as $label => $data) {
 		if ($key == require_post("type")) {
 			// we've found a valid account type
 			$account_data = get_accounts_wizard_config($key);
-			if (isset($value['disabled'])) {
+			if ($value['disabled']) {
 				$account_data['disabled'] = $value['disabled'];
 			}
 		}
@@ -117,7 +117,7 @@ if (require_post("add", false)) {
 			$args[] = require_post($key);
 		}
 	}
-	if (isset($account_data['disabled']) && $account_data['disabled']) {
+	if ($account_data['disabled']) {
 		$errors[] = "Cannot add a new account; that account type is disabled.";
 	}
 	if (!is_valid_title(require_post("title", false))) {
@@ -189,7 +189,7 @@ if (require_post('test', false) && require_post('id', false)) {
 
 	if ($job = $q->fetch()) {
 		$errors[] = "Cannot create a " . htmlspecialchars($account_data['title']) . " test, because you already have a " . get_exchange_name($job['job_type']) . " test pending.";
-	} else if (isset($account_data['disabled']) && $account_data['disabled']) {
+	} else if ($account_data['disabled']) {
 		$errors[] = "Cannot test that job; that account type is disabled.";
 	} else {
 		$q = db()->prepare("INSERT INTO jobs SET
@@ -211,7 +211,7 @@ if (require_post('test', false) && require_post('id', false)) {
 
 // process 'enable'
 if (require_post('enable', false) && require_post('id', false)) {
-	if (isset($account_data['disabled']) && $account_data['disabled']) {
+	if ($account_data['disabled']) {
 		$errors[] = "Cannot enable that account; that account type is disabled.";
 	} else {
 		// reset all failure fields
