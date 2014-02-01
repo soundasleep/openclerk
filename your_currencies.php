@@ -118,19 +118,19 @@ foreach ($data as $exchange => $balance) {
 	$sum += $balance; ?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
 		<td><?php
+			$link = false;
 			if ($exchange == 'blockchain') {
-				echo "<a href=\"" . htmlspecialchars(url_for('wizard_accounts_addresses#wizard_' . $currency)) . "\">";
+				$link = url_for('wizard_accounts_addresses#wizard_' . $currency);
 			}
 			if ($exchange == 'offsets') {
-				echo "<a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">";
+				$link = url_for('wizard_accounts');
 			}
+			if (substr($exchange, 0, strlen('individual_')) === 'individual_') {
+				$link = url_for('wizard_accounts_individual_securities');
+			}
+			if ($link) echo "<a href=\"" . htmlspecialchars($link) . "\">";
 			echo htmlspecialchars(get_exchange_name($exchange));
-			if ($exchange == 'blockchain') {
-				echo "</a>";
-			}
-			if ($exchange == 'offsets') {
-				echo "</a>";
-			}
+			if ($link) echo "</a>";
 		?></td>
 		<td><?php echo recent_format_html($last_updated[$exchange]); ?></td>
 		<td class="number"><?php echo currency_format($currency, $balance, 4); ?></td>
