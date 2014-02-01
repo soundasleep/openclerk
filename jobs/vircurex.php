@@ -23,7 +23,7 @@ function vircurex_balance($username, $currency, $secret) {
 	$timestamp = gmdate('Y-m-d\\TH:i:s'); // UTC time
 	$id = md5(time() . "_" . rand(0,9999) . "_" . $vircurex_balance_count++);
 	$token = hash('sha256', $secret . ";" . $username . ";" . $timestamp . ";" . $id . ";" . "get_balance" . ";" . $currency);
-	$url = "https://vircurex.com/api/get_balance.json?account=" . urlencode($username) . "&id=" . urlencode($id) . "&token=" . urlencode($token) . "&timestamp=" . urlencode($timestamp) . "&currency=" . urlencode($currency);
+	$url = "https://api.vircurex.com/api/get_balance.json?account=" . urlencode($username) . "&id=" . urlencode($id) . "&token=" . urlencode($token) . "&timestamp=" . urlencode($timestamp) . "&currency=" . urlencode($currency);
 
 	return crypto_json_decode(crypto_get_contents(crypto_wrap_url($url)));
 }
