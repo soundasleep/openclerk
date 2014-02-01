@@ -64,6 +64,11 @@ function graph_types_public($summaries = array()) {
 		}
 	}
 
+	$data['category_tools'] = array(
+		'title' => 'Tools',
+		'category' => true,
+	);
+
 	$data['external_historical'] = array(
 		'title' => 'External API status (graph)',
 		'heading' => 'External API status',
@@ -73,6 +78,14 @@ function graph_types_public($summaries = array()) {
 		'arg0_title' => 'External API:',
 		'technical' => false,
 		'historical' => 'get_external_status_historical',
+	);
+
+	$data['calculator'] = array(
+		'title' => 'Currency converter (calculator)',
+		'heading' => 'Currency converter',
+		'description' => 'A <a href="' . htmlspecialchars(url_for('calculator')) . '">simple calculator</a> to convert any currency into any other currency, using the most recent exchange rates.',
+		'technical' => false,
+		'no_refresh' => true,		// do not refresh the calculator graph, or we will lose entered values
 	);
 
 	$data['statistics_queue'] = array(

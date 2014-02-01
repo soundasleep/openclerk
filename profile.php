@@ -168,7 +168,7 @@ if ($pages) {
 
 	}
 
-	page_header($page_title_prefix . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile', 'class' => 'report_page'));
+	page_header($page_title_prefix . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => array('profile', 'calculator'), 'class' => 'report_page'));
 
 ?>
 

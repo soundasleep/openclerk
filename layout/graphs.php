@@ -146,7 +146,7 @@ function render_graph($graph, $is_public = false) {
 
 	$user = user_logged_in() ? get_user(user_id()) : false;
 	if ($user) {
-		if ($user['disable_graph_refresh']) {
+		if ($user['disable_graph_refresh'] || (isset($graph_type['no_refresh']) && $graph_type['no_refresh'])) {
 			$timeout = 0;	// disable refresh
 		} else {
 			$timeout = get_premium_value(get_user(user_id()), 'graph_refresh');
@@ -489,6 +489,17 @@ function render_graph_actual($graph, $is_public) {
 
 		case "statistics_queue":
 			render_site_statistics_queue($graph);
+			break;
+
+		case "calculator":
+			require(__DIR__ . "/../_calculator.php");
+			?>
+			<script type="text/javascript">
+			$(document).ready(function() {
+				initialise_calculator($("#graph<?php echo htmlspecialchars($graph['id']); ?>"))
+			});
+			</script>
+			<?php
 			break;
 
 		case "linebreak":
