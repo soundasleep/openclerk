@@ -269,10 +269,6 @@ try {
 			require(__DIR__ . "/jobs/securities_cryptostocks.php");
 			break;
 
-		case "bips":
-			require(__DIR__ . "/jobs/bips.php");
-			break;
-
 		case "btcguild":
 			require(__DIR__ . "/jobs/btcguild.php");
 			break;

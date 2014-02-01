@@ -2653,3 +2653,6 @@ CREATE TABLE accounts_coinbase (
 );
 
 INSERT INTO exchanges SET name='coinbase';
+
+-- removing bips
+UPDATE accounts_bips SET is_disabled=1;

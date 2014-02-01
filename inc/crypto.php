@@ -86,7 +86,7 @@ function get_all_exchanges() {
 		"bitnz" =>  		"BitNZ",
 		"btce" =>  			"BTC-e",
 		"mtgox" =>  		"Mt.Gox",
-		"bips" => 			"BIPS",
+		"bips" => 			"BIPS",		// this is now disabled
 		"litecoinglobal" =>  "Litecoin Global",
 		"litecoinglobal_wallet" => "Litecoin Global (Wallet)",
 		"litecoinglobal_securities" => "Litecoin Global (Securities)",
@@ -522,7 +522,7 @@ function account_data_grouped() {
 			'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
-			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
 			'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
