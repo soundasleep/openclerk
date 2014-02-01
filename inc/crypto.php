@@ -431,7 +431,7 @@ function get_total_conversion_summary_types() {
 		foreach ($pairs as $pair) {
 			if ($pair[1] == 'btc') {
 				// fiat currency
-				$summary_types['summary_' . $pair[0] . '_' . $exchange] = array(
+				$summary_types[$pair[0] . '_' . $exchange] = array(
 					'currency' => $pair[0],
 					'title' => get_currency_name($pair[0]) . ' (converted through ' . get_exchange_name($exchange) . ')',
 					'short_title' => get_currency_abbr($pair[0]) . ' (' . get_exchange_name($exchange) . ')',
