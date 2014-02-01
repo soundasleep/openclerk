@@ -167,6 +167,10 @@ function get_all_exchanges() {
 		"ypool" =>			"ypool.net",
 		"cryptsy" => 		"Cryptsy",
 		"coinbase" =>		"Coinbase",
+		"litecoininvest" => "Litecoininvest",
+		"litecoininvest_wallet" => "Litecoininvest (Wallet)",
+		"litecoininvest_securities" => "Litecoininvest (Securities)",
+		"individual_litecoininvest" => "Litecoininvest (Individual Securities)",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -231,6 +235,7 @@ function get_security_exchange_pairs() {
 		"crypto-trade" => array('btc', 'ltc'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"litecoinglobal" => array('ltc'),
+		"litecoininvest" => array('ltc'),
 		"havelock" => array('btc'),
 	);
 }
@@ -243,12 +248,13 @@ function get_security_exchange_tables() {
 		"havelock" => "securities_havelock",
 		"bitfunder" => "securities_bitfunder",				// this is now disabled
 		"crypto-trade" => "securities_cryptotrade",
+		"litecoininvest" => "securities_litecoininvest",
 		"796" => "securities_796",
 	);
 }
 
 function get_new_security_exchanges() {
-	return array("796");
+	return array("796", "litecoininvest");
 }
 
 function get_supported_wallets() {
@@ -283,6 +289,7 @@ function get_supported_wallets() {
 		"khore" => array('nvc', 'hash'),
 		"lite_coinpool" => array('ltc', 'hash'),
 		"litecoinpool" => array('ltc', 'hash'),
+		"litecoininvest" => array('ltc'),
 		"litecoinglobal" => array('ltc'),
 		"liteguardian" => array('ltc'),
 		"litepooleu" => array('ltc', 'hash'),
@@ -320,7 +327,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("ghashio", "coinbase");
+	return array("ghashio", "coinbase", "litecoininvest");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -410,27 +417,24 @@ function get_default_currency_exchange($c) {
  * (e.g. there's no exchange defined yet that converts NZD -> USD)
  */
 function get_total_conversion_summary_types() {
-	return array(
-		'nzd_bitnz' => array('currency' => 'nzd', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD'),
-		'usd_btce' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)'),
-		'usd_mtgox' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)'),
-		'usd_vircurex' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)'),
-		'usd_bitstamp' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Bitstamp)", 'short_title' => 'USD (Bitstamp)'),
-		'usd_crypto-trade' => array('currency' => 'usd', 'title' => get_currency_name('usd') . " (converted through Crypto-Trade)", 'short_title' => 'USD (Crypto-Trade)'),
-		'eur_btce' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through BTC-e)", 'short_title' => 'EUR (BTC-E)'),
-		'eur_mtgox' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)'),
-		'eur_vircurex' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)'),
-		'eur_bitcurex' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Bitcurex)", 'short_title' => 'EUR (Bitcurex)'),
-		'eur_crypto-trade' => array('currency' => 'eur', 'title' => get_currency_name('eur') . " (converted through Crypto-Trade)", 'short_title' => 'EUR (Crypto-Trade)'),
-		'gbp_mtgox' => array('currency' => 'gbp', 'title' => get_currency_name('gbp') . " (converted through Mt.Gox)", 'short_title' => 'GBP (Mt.Gox)'),
-		'aud_mtgox' => array('currency' => 'aud', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)'),
-		'cad_mtgox' => array('currency' => 'cad', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)'),
-		'cad_virtex' => array('currency' => 'cad', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)'),
-		'cny_mtgox' => array('currency' => 'cny', 'title' => get_currency_name('cny') . " (converted through Mt.Gox)", 'short_title' => 'CNY (Mt.Gox)'),
-		'cny_btcchina' => array('currency' => 'cny', 'title' => get_currency_name('cny') . " (converted through BTC China)", 'short_title' => 'CNY (BTC China)'),
-		'pln_mtgox' => array('currency' => 'pln', 'title' => get_currency_name('pln') . " (converted through Mt.Gox)", 'short_title' => 'PLN (Mt.Gox)'),
-		'pln_bitcurex' => array('currency' => 'pln', 'title' => get_currency_name('pln') . " (converted through Bitcurex)", 'short_title' => 'PLN (Bitcurex)'),
-	);
+	$summary_types = array();
+
+	// add fiat pairs automatically
+	foreach (get_exchange_pairs() as $exchange => $pairs) {
+		foreach ($pairs as $pair) {
+			if ($pair[1] == 'btc') {
+				// fiat currency
+				$summary_types['summary_' . $pair[0] . '_' . $exchange] = array(
+					'currency' => $pair[0],
+					'title' => get_currency_name($pair[0]) . ' (converted through ' . get_exchange_name($exchange) . ')',
+					'short_title' => get_currency_abbr($pair[0]) . ' (' . get_exchange_name($exchange) . ')',
+					'exchange' => $exchange,
+				);
+			}
+		}
+	}
+
+	return $summary_types;
 }
 
 /**
@@ -520,6 +524,7 @@ function account_data_grouped() {
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'cryptostocks' => array('table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'havelock' => array('table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
+			'litecoininvest' => array('table' => 'accounts_litecoininvest', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'litecoinglobal' => array('table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 		),
 		'Individual Securities' => array(
@@ -529,6 +534,7 @@ function account_data_grouped() {
 			'individual_crypto-trade' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptotrade', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'crypto-trade', 'securities_table' => 'securities_cryptotrade', 'failure' => true),
 			'individual_cryptostocks' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'cryptostocks', 'securities_table' => 'securities_cryptostocks', 'failure' => true),
 			'individual_havelock' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'havelock', 'securities_table' => 'securities_havelock', 'failure' => true),
+			'individual_litecoininvest' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoininvest', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoininvest', 'securities_table' => 'securities_litecoininvest', 'failure' => true),
 			'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal', 'securities_table' => 'securities_litecoinglobal', 'failure' => true),
 		),
 		'Other' => array(
@@ -659,6 +665,7 @@ function get_external_apis() {
 			'cryptsy' => '<a href="https://www.cryptsy.com/">Crypsty</a>',
 			'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
+			'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
 			'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
@@ -689,6 +696,7 @@ function get_external_apis() {
 			'securities_update_btct' => '<a href="http://btct.co">BTC Trading Co.</a> Securities list',
 			'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
 			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
+			'securities_update_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a> Securities list',
 			'securities_update_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a> Securities list',
 		),
 
@@ -697,6 +705,7 @@ function get_external_apis() {
 			'individual_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
 			'individual_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'individual_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
+			'individual_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
 			'individual_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 		),
 
@@ -1388,6 +1397,14 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_796',
 			);
 
+		case "litecoininvest":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litecoininvest_apikey'),
+				),
+				'table' => 'accounts_litecoininvest',
+			);
+
 		// --- securities ---
 		case "individual_litecoinglobal":
 			return array(
@@ -1450,6 +1467,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_796_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_796',
+			);
+
+		case "individual_litecoininvest":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_litecoininvest_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_litecoininvest',
 			);
 
 		// --- other ---
@@ -1565,7 +1591,7 @@ function get_wizard_account_type($wizard) {
 function get_individual_security_config($account) {
 	$security = "(unknown exchange)";
 	$securities = false;
-	$historical_key = false;
+	$historical_key = false;		// used to link from wizard_accounts_individual_securities to historical
 	switch ($account['exchange']) {
 		case "individual_litecoinglobal":
 			$securities = dropdown_get_litecoinglobal_securities();
@@ -1592,6 +1618,10 @@ function get_individual_security_config($account) {
 		case "individual_796":
 			$securities = dropdown_get_796_securities();
 			$historical_key = 'securities_796_btc';
+			break;
+		case "individual_litecoininvest":
+			$securities = dropdown_get_litecoininvest_securities();
+			$historical_key = 'securities_litecoininvest_ltc';
 			break;
 	}
 
@@ -1784,6 +1814,10 @@ function dropdown_get_cryptotrade_securities() {
 
 function dropdown_get_796_securities() {
 	return dropdown_get_all_securities('securities_796', 'title');
+}
+
+function dropdown_get_litecoininvest_securities() {
+	return dropdown_get_all_securities('securities_litecoininvest');
 }
 
 /**
@@ -2151,6 +2185,11 @@ function is_valid_cryptsy_public_key($key) {
 function is_valid_cryptsy_private_key($key) {
 	// looks like a 80 character hex string
 	return strlen($key) == 80 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_litecoininvest_apikey($key) {
+	// looks to be lowercase hex
+	return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
 }
 
 function is_valid_currency($c) {

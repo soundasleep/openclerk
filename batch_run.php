@@ -425,6 +425,10 @@ try {
 			require(__DIR__ . "/jobs/coinbase.php");
 			break;
 
+		case "litecoininvest":
+			require(__DIR__ . "/jobs/litecoininvest.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
@@ -448,6 +452,10 @@ try {
 
 		case "individual_796":
 			require(__DIR__ . "/jobs/individual_796.php");
+			break;
+
+		case "individual_litecoininvest":
+			require(__DIR__ . "/jobs/individual_litecoininvest.php");
 			break;
 
 		// summary jobs

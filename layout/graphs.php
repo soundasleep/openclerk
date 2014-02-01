@@ -664,6 +664,10 @@ function render_graph_actual($graph, $is_public) {
 				if (in_array($split[2], get_all_currencies()) && isset($securities[$split[1]])) {
 					render_balances_graph($graph, 'securities_' . $split[1], $split[2], get_site_config('system_user_id'), $graph['arg0']);
 					break;
+				} else {
+					render_text($graph, "Couldn't render securities graph " . htmlspecialchars($graph['graph_type']));
+					log_uncaught_exception(new GraphException("Couldn't render securities graph " . htmlspecialchars($graph['graph_type'])));
+					break;
 				}
 			}
 

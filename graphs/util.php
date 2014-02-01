@@ -182,6 +182,10 @@ function get_security_instances($exchange, $currency) {
 			$q = db()->prepare("SELECT id, name, title FROM securities_796 ORDER BY title ASC");
 			break;
 
+		case "litecoininvest":
+			$q = db()->prepare("SELECT id, name, name as title FROM securities_litecoininvest ORDER BY title ASC");
+			break;
+
 		default:
 			throw new GraphException("Unknown security exchange '" . htmlspecialchars($exchange) . "' for currency '" . htmlspecialchars($currency) . "'");
 	}

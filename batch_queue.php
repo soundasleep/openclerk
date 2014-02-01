@@ -131,12 +131,15 @@ $standard_jobs = array(
 	array('table' => 'accounts_multipool', 'type' => 'multipool', 'failure' => true),
 	array('table' => 'accounts_ypool', 'type' => 'ypool', 'failure' => true),
 	array('table' => 'accounts_coinbase', 'type' => 'coinbase', 'failure' => true),
+	array('table' => 'accounts_litecoininvest', 'type' => 'litecoininvest', 'failure' => true),
+	// securities_litecoininvest - we let securities_update handle this
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),
 	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),
 	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
 	array('table' => 'accounts_individual_cryptotrade', 'type' => 'individual_crypto-trade', 'failure' => true),
 	array('table' => 'accounts_individual_796', 'type' => 'individual_796', 'failure' => true),
+	array('table' => 'accounts_individual_litecoininvest', 'type' => 'individual_litecoininvest', 'failure' => true),
 );
 
 if (get_site_config('allow_unsafe')) {

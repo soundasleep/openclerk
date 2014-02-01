@@ -33,6 +33,10 @@ switch ($exchange['exchange']) {
 		require(__DIR__ . "/securities_update/eligius.php");
 		break;
 
+	case "litecoininvest":
+		require(__DIR__ . "/securities_update/litecoininvest.php");
+		break;
+
 	default:
 		throw new JobException("Unknown securities update exchange " . $exchange['exchange']);
 		break;

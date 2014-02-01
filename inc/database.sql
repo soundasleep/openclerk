@@ -2656,3 +2656,50 @@ INSERT INTO exchanges SET name='coinbase';
 
 -- removing bips
 UPDATE accounts_bips SET is_disabled=1;
+
+DROP TABLE IF EXISTS accounts_litecoininvest;
+
+CREATE TABLE accounts_litecoininvest (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);
+
+CREATE TABLE securities_litecoininvest (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp null,
+	
+	name varchar(64) not null,
+	
+	INDEX(last_queue)
+);
+
+CREATE TABLE accounts_individual_litecoininvest (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+	
+	title varchar(255),
+	quantity int not null,
+	security_id int not null,	-- to securities_litecoininvest
+
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(security_id), INDEX(is_disabled)
+);
+
+INSERT INTO securities_update SET exchange='litecoininvest';
