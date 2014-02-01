@@ -15,6 +15,7 @@
 	</ul>
 </p>
 
+<!--
 <div class="tip">
 Cryptocurrencies that do <em>not</em> have a suitable explorer API yet at the time of writing:
 <ul>
@@ -22,6 +23,7 @@ Cryptocurrencies that do <em>not</em> have a suitable explorer API yet at the ti
 	<li><span class="currency_name_xrp">Ripple</span> (<a href="http://rippledb.com/">Ripple DB</a> does not provide balances for an address)</li>
 </ul>
 </div>
+-->
 
 <p>
 	Currently <?php echo htmlspecialchars(get_site_config('site_name')); ?> supports the <?php
