@@ -354,28 +354,6 @@ function get_summary_types() {
 		'summary_xrp' => array('currency' => 'xrp', 'key' => 'xrp', 'title' => get_currency_name('xrp'), 'short_title' => get_currency_abbr('xrp')),
 		'summary_ghs' => array('currency' => 'ghs', 'key' => 'ghs', 'title' => get_currency_name('ghs'), 'short_title' => 'GHS'),
 	);
-	/*
-		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)', 'exchange' => 'btce'),
-		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)', 'exchange' => 'mtgox'),
-		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)', 'exchange' => 'virtex'),
-		'summary_usd_bitstamp' => array('currency' => 'usd', 'key' => 'usd_bitstamp', 'title' => get_currency_name('usd') . " (converted through Bitstamp)", 'short_title' => 'USD (Bitstamp)', 'exchange' => 'bitstamp'),
-		'summary_usd_crypto-trade' => array('currency' => 'usd', 'key' => 'usd_crypto-trade', 'title' => get_currency_name('usd') . " (converted through Crypto-Trade)", 'short_title' => 'USD (Crypto-Trade)', 'exchange' => 'crypto-trade'),
-		'summary_nzd_bitnz' => array('currency' => 'nzd', 'key' => 'nzd_bitnz', 'title' => get_currency_name('nzd'), 'short_title' => 'NZD', 'exchange' => 'bitnz'),
-		'summary_eur_btce' => array('currency' => 'eur', 'key' => 'eur_btce', 'title' => get_currency_name('eur') . " (converted through BTC-e)", 'short_title' => 'EUR (BTC-E)', 'exchange' => 'btce'),
-		'summary_eur_mtgox' => array('currency' => 'eur', 'key' => 'eur_mtgox', 'title' => get_currency_name('eur') . " (converted through Mt.Gox)", 'short_title' => 'EUR (Mt.Gox)', 'exchange' => 'mtgox'),
-		'summary_eur_vircurex' => array('currency' => 'eur', 'key' => 'eur_vircurex', 'title' => get_currency_name('eur') . " (converted through Vircurex)", 'short_title' => 'EUR (Vircurex)', 'exchange' => 'vircurex'),
-		'summary_eur_bitcurex' => array('currency' => 'eur', 'key' => 'eur_bitcurex', 'title' => get_currency_name('eur') . " (converted through Bitcurex)", 'short_title' => 'EUR (Bitcurex)', 'exchange' => 'bitcurex'),
-		'summary_eur_crypto-trade' => array('currency' => 'eur', 'key' => 'eur_crypto-trade', 'title' => get_currency_name('eur') . " (converted through Crypto-Trade)", 'short_title' => 'EUR (Crypto-Trade)', 'exchange' => 'crypto-trade'),
-		'summary_gbp_mtgox' => array('currency' => 'gbp', 'key' => 'gbp_mtgox', 'title' => get_currency_name('gbp') . " (converted through Mt.Gox)", 'short_title' => 'GBP (Mt.Gox)', 'exchange' => 'mtgox'),
-		'summary_aud_mtgox' => array('currency' => 'aud', 'key' => 'aud_mtgox', 'title' => get_currency_name('aud') . " (converted through Mt.Gox)", 'short_title' => 'AUD (Mt.Gox)', 'exchange' => 'mtgox'),
-		'summary_cad_mtgox' => array('currency' => 'usd', 'key' => 'cad_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CAD (Mt.Gox)', 'exchange' => 'mtgox'),
-		'summary_cad_virtex' => array('currency' => 'usd', 'key' => 'cad_virtex', 'title' => get_currency_name('cad') . " (converted through VirtEx)", 'short_title' => 'CAD (VirtEx)', 'exchange' => 'virtex'),
-		'summary_cny_mtgox' => array('currency' => 'cny', 'key' => 'cny_mtgox', 'title' => get_currency_name('cad') . " (converted through Mt.Gox)", 'short_title' => 'CNY (Mt.Gox)', 'exchange' => 'mtgox'),
-		'summary_cny_btcchina' => array('currency' => 'cny', 'key' => 'cny_btcchina', 'title' => get_currency_name('cad') . " (converted through BTC China)", 'short_title' => 'CNY (BTC China)', 'exchange' => 'btcchina'),
-		'summary_pln_mtgox' => array('currency' => 'cny', 'key' => 'pln_mtgox', 'title' => get_currency_name('pln') . " (converted through Mt.Gox)", 'short_title' => 'PLN (Mt.Gox)', 'exchange' => 'mtgox'),
-		'summary_pln_bitcurex' => array('currency' => 'cny', 'key' => 'pln_bitcurex', 'title' => get_currency_name('pln') . " (converted through Bitcurex)", 'short_title' => 'PLN (Bitcurex)', 'exchange' => 'bitcurex'),
-	);
-	*/
 
 	// add fiat pairs automatically
 	foreach (get_exchange_pairs() as $exchange => $pairs) {
@@ -413,7 +391,7 @@ function get_default_currency_exchange($c) {
 		case "dog": return "coins-e";
 		case "xrp": return "justcoin";
 		// fiats
-		case "usd": return "mtgox";
+		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
 		case "eur": return "btce";
 		case "gbp": return "mtgox";
@@ -1704,6 +1682,30 @@ function get_permitted_deltas() {
 		'percent' => array('title' => 'percent', 'description' => '% change'),
 	);
 	return $permitted_days;
+}
+
+$_latest_tickers = array();
+/**
+ * Get the latest ticker value for the given exchange and currency pairs.
+ * Allows for caching these values.
+ * @returns false if no ticker value could be found.
+ */
+function get_latest_ticker($exchange, $cur1, $cur2) {
+	$key = $exchange . '_' . $cur1 . '_' . $cur2;
+	global $_latest_tickers;
+	if (!isset($latest_tickers[$key])) {
+		$latest_tickers[$key] = false;
+		$q = db()->prepare("SELECT * FROM ticker_recent WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 LIMIT 1");
+		$q->execute(array(
+			"exchange" => $exchange,
+			"currency1" => $cur1,
+			"currency2" => $cur2,
+		));
+		if ($ticker = $q->fetch()) {
+			$_latest_tickers[$key] = $ticker;
+		}
+	}
+	return $_latest_tickers[$key];
 }
 
 /**

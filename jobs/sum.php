@@ -5,30 +5,6 @@
  * Also see summary.php, which handles conversions
  */
 
-$latest_tickers = array();
-/**
- * Get the latest ticker value for the given exchange and currency pairs.
- * Allows for caching these values.
- * @returns false if no ticker value could be found.
- */
-function get_latest_ticker($exchange, $cur1, $cur2) {
-	$key = $exchange . '_' . $cur1 . '_' . $cur2;
-	global $latest_tickers;
-	if (!isset($latest_tickers[$key])) {
-		$latest_tickers[$key] = false;
-		$q = db()->prepare("SELECT * FROM ticker_recent WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 LIMIT 1");
-		$q->execute(array(
-			"exchange" => $exchange,
-			"currency1" => $cur1,
-			"currency2" => $cur2,
-		));
-		if ($ticker = $q->fetch()) {
-			$latest_tickers[$key] = $ticker;
-		}
-	}
-	return $latest_tickers[$key];
-}
-
 // get all of the relevant summaries for this user; we don't want to generate empty
 // summary values for summary currencies that this user does not use
 $q = db()->prepare("SELECT summary_type FROM summaries WHERE user_id=?");

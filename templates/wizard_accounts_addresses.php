@@ -16,7 +16,7 @@ global $user;
 
 <p>
 As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
-you may have up to <?php echo number_format(get_premium_value($user, 'addresses')); ?> addresses defined.
+you may have up to <?php echo number_format(get_premium_value($user, 'addresses')); ?> addresses of <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">your currencies</a> defined.
 <?php if (!$user['is_premium']) { ?>
 To increase this limit, please purchase a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>.
 <?php } ?>
