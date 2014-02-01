@@ -429,6 +429,10 @@ try {
 			require(__DIR__ . "/jobs/litecoininvest.php");
 			break;
 
+		case "btcinve":
+			require(__DIR__ . "/jobs/btcinve.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
@@ -456,6 +460,10 @@ try {
 
 		case "individual_litecoininvest":
 			require(__DIR__ . "/jobs/individual_litecoininvest.php");
+			break;
+
+		case "individual_btcinve":
+			require(__DIR__ . "/jobs/individual_btcinve.php");
 			break;
 
 		// summary jobs
@@ -746,10 +754,16 @@ function add_summary_instance($job, $summary_type, $total) {
 /**
  * Try to decode a JSON string, or try and work out why it failed to decode but throw an exception
  * if it was not a valid JSON string.
+ *
+ * @param empty_is_ok if true, then don't bail if the returned JSON is an empty array
  */
-function crypto_json_decode($string, $message = false) {
+function crypto_json_decode($string, $message = false, $empty_array_is_ok = false) {
 	$json = json_decode($string, true);
 	if (!$json) {
+		if ($empty_array_is_ok && is_array($json)) {
+			// the result is an empty array
+			return $json;
+		}
 		crypto_log(htmlspecialchars($string));
 		if (strpos($string, 'DDoS protection by CloudFlare') !== false) {
 			throw new CloudFlareException('Throttled by CloudFlare' . ($message ? " $message" : ""));

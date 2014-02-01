@@ -37,6 +37,10 @@ switch ($exchange['exchange']) {
 		require(__DIR__ . "/securities_update/litecoininvest.php");
 		break;
 
+	case "btcinve":
+		require(__DIR__ . "/securities_update/btcinve.php");
+		break;
+
 	default:
 		throw new JobException("Unknown securities update exchange " . $exchange['exchange']);
 		break;

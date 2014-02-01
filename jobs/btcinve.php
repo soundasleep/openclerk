@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Litecoininvest balance job.
+ * BTCInve balance job.
  * Combines the current wallet balance with the value of all securities from this account
- * (security values are done by securities_litecoininvest).
+ * (security values are done by securities_btcinve).
  */
 
-$exchange = "litecoininvest";
-$currency = 'ltc';
+$exchange = "btcinve";
+$currency = 'btc';
 
 // get the relevant address
-$q = db()->prepare("SELECT * FROM accounts_litecoininvest WHERE user_id=? AND id=?");
+$q = db()->prepare("SELECT * FROM accounts_btcinve WHERE user_id=? AND id=?");
 $q->execute(array($job['user_id'], $job['arg_id']));
 $account = $q->fetch();
 if (!$account) {
@@ -18,7 +18,7 @@ if (!$account) {
 }
 
 // first, get balances
-$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url('https://www.litecoininvest.com/api/act?key=' . urlencode($account['api_key']))), false /* message */, true /* empty array is ok */ );
+$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url('https://www.btcinve.com/api/act?key=' . urlencode($account['api_key']))));
 if (!isset($data['balance'][get_currency_abbr($currency)])) {
 	throw new ExternalAPIException("No " . get_currency_abbr($currency) . " balance found");
 }
@@ -31,20 +31,20 @@ $q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchan
 $q->execute(array($job['user_id'], $exchange, $account['id']));
 
 $balance = 0;
-$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url('https://www.litecoininvest.com/api/private/portfolio?key=' . urlencode($account['api_key']))), false /* message */, true /* empty array is ok */);
+$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url('https://www.btcinve.com/api/private/portfolio?key=' . urlencode($account['api_key']))), false /* message */, true /* empty array is ok */);
 foreach ($data as $row) {
 	$security = $row['ticker'];
 	$bid = $row['bid'];		// also available: avg_buy_price
 
 	// make sure that a security definition exists
-	$q = db()->prepare("SELECT * FROM securities_litecoininvest WHERE name=?");
+	$q = db()->prepare("SELECT * FROM securities_btcinve WHERE name=?");
 	$q->execute(array($security));
 	$security_def = $q->fetch();
 	if (!$security_def) {
 		// need to insert a new security definition, so we can later get its value
 		// we can't calculate the value of this security yet
-		crypto_log("No securities_litecoininvest definition existed for '" . htmlspecialchars($security) . "': adding in new definition");
-		$q = db()->prepare("INSERT INTO securities_litecoininvest SET name=?");
+		crypto_log("No securities_btcinve definition existed for '" . htmlspecialchars($security) . "': adding in new definition");
+		$q = db()->prepare("INSERT INTO securities_btcinve SET name=?");
 		$q->execute(array($security));
 		$security_def = array('id' => db()->lastInsertId());
 

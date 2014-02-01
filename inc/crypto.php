@@ -171,6 +171,10 @@ function get_all_exchanges() {
 		"litecoininvest_wallet" => "Litecoininvest (Wallet)",
 		"litecoininvest_securities" => "Litecoininvest (Securities)",
 		"individual_litecoininvest" => "Litecoininvest (Individual Securities)",
+		"btcinve" => "BTCInve",
+		"btcinve_wallet" => "BTCInve (Wallet)",
+		"btcinve_securities" => "BTCInve (Securities)",
+		"individual_btcinve" => "BTCInve (Individual Securities)",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -231,6 +235,7 @@ function get_security_exchange_pairs() {
 		// should be in alphabetical order
 		"796" => array('btc'),
 		"bitfunder" => array('btc'),		// this is now disabled
+		"btcinve" => array('btc'),
 		"btct" => array('btc'),
 		"crypto-trade" => array('btc', 'ltc'),
 		"cryptostocks" => array('btc', 'ltc'),
@@ -250,11 +255,12 @@ function get_security_exchange_tables() {
 		"crypto-trade" => "securities_cryptotrade",
 		"796" => "securities_796",
 		"litecoininvest" => "securities_litecoininvest",
+		"btcinve" => "securities_btcinve",
 	);
 }
 
 function get_new_security_exchanges() {
-	return array("litecoininvest");
+	return array("litecoininvest", "btcinve");
 }
 
 function get_supported_wallets() {
@@ -269,6 +275,7 @@ function get_supported_wallets() {
 		"bitstamp" => array('btc', 'usd'),
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
+		"btcinve" => array('btc'),
 		"btct" => array('btc'),
 		"coinbase" => array('btc'),
 		"coinhuntr" => array('ltc', 'hash'),
@@ -327,7 +334,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("ghashio", "coinbase", "litecoininvest");
+	return array("ghashio", "coinbase", "litecoininvest", "btcinve");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -520,6 +527,7 @@ function account_data_grouped() {
 		'Securities' => array(
 			'796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
+			'btcinve' => array('table' => 'accounts_btcinve', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'btct' => array('table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'cryptostocks' => array('table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
@@ -530,6 +538,7 @@ function account_data_grouped() {
 		'Individual Securities' => array(
 			'individual_796' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_796', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => '796', 'securities_table' => 'securities_796', 'failure' => true),
 			'individual_bitfunder' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'bitfunder', 'securities_table' => 'securities_bitfunder', 'failure' => true, 'disabled' => true),
+			'individual_btcinve' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_btcinve', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btcinve', 'securities_table' => 'securities_btcinve', 'failure' => true),
 			'individual_btct' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_btct', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btct', 'securities_table' => 'securities_btct', 'failure' => true),
 			'individual_crypto-trade' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptotrade', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'crypto-trade', 'securities_table' => 'securities_cryptotrade', 'failure' => true),
 			'individual_cryptostocks' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'cryptostocks', 'securities_table' => 'securities_cryptostocks', 'failure' => true),
@@ -657,6 +666,7 @@ function get_external_apis() {
 			'bitcurex_pln' => '<a href="https://pln.bitcurex.com/">Bitcurex PLN</a>',
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
+			'btcinve' => '<a href="https://btcinve.com">BTCInve</a>',
 			'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
@@ -693,6 +703,7 @@ function get_external_apis() {
 			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'securities_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
+			'securities_update_btcinve' => '<a href="https://btcinve.com">BTCInve</a> Securities list',
 			'securities_update_btct' => '<a href="http://btct.co">BTC Trading Co.</a> Securities list',
 			'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
 			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
@@ -1405,6 +1416,14 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_litecoininvest',
 			);
 
+		case "btcinve":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litecoininvest_apikey'),
+				),
+				'table' => 'accounts_btcinve',
+			);
+
 		// --- securities ---
 		case "individual_litecoinglobal":
 			return array(
@@ -1476,6 +1495,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_litecoininvest_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_litecoininvest',
+			);
+
+		case "individual_btcinve":
+			return array(
+				'inputs' => array(
+					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_btcinve_securities', 'callback' => 'is_valid_id'),
+				),
+				'table' => 'accounts_individual_btcinve',
 			);
 
 		// --- other ---
@@ -1622,6 +1650,10 @@ function get_individual_security_config($account) {
 		case "individual_litecoininvest":
 			$securities = dropdown_get_litecoininvest_securities();
 			$historical_key = 'securities_litecoininvest_ltc';
+			break;
+		case "individual_btcinve":
+			$securities = dropdown_get_btcinve_securities();
+			$historical_key = 'securities_btcinve_btc';
 			break;
 	}
 
@@ -1818,6 +1850,10 @@ function dropdown_get_796_securities() {
 
 function dropdown_get_litecoininvest_securities() {
 	return dropdown_get_all_securities('securities_litecoininvest');
+}
+
+function dropdown_get_btcinve_securities() {
+	return dropdown_get_all_securities('securities_btcinve');
 }
 
 /**
