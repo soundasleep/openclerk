@@ -248,13 +248,13 @@ function get_security_exchange_tables() {
 		"havelock" => "securities_havelock",
 		"bitfunder" => "securities_bitfunder",				// this is now disabled
 		"crypto-trade" => "securities_cryptotrade",
-		"litecoininvest" => "securities_litecoininvest",
 		"796" => "securities_796",
+		"litecoininvest" => "securities_litecoininvest",
 	);
 }
 
 function get_new_security_exchanges() {
-	return array("796", "litecoininvest");
+	return array("litecoininvest");
 }
 
 function get_supported_wallets() {

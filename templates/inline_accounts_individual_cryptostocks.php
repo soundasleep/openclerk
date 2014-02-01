@@ -7,7 +7,7 @@ $example = "ABT";
 <h2>Adding individual <?php echo htmlspecialchars($exchange); ?> securities</h2>
 
 <ol class="steps">
-	<li>As of version 0.10, you can manually add quantities of privately-owned securities
+	<li>As of Openclerk 0.10, you can manually add quantities of privately-owned securities
 		to your portfolio, and estimate their value against those traded on <?php echo htmlspecialchars($exchange); ?>,
 		by visiting your <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_individual_securities')); ?>">"Individual Securities" wizard page</a>
 		through your <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_securities')); ?>">"Securities" wizard page</a>.<br>

@@ -63,7 +63,8 @@ function get_knowledge_base() {
 				$kb['Accounts'][$key] = array(
 					'title' => $title,
 					'inline' => 'inline_accounts_' . $key,
-					'new' => in_array($key, get_new_supported_wallets()) || in_array($key, get_new_exchanges()) || in_array($key, get_new_security_exchanges()),
+					'new' => in_array($key, get_new_supported_wallets()) || in_array($key, get_new_exchanges()) || in_array($key, get_new_security_exchanges()) ||
+						(isset($data['exchange']) && in_array($data['exchange'], get_new_security_exchanges())),
 				);
 			}
 		}

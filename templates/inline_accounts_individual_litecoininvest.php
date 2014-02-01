@@ -1,6 +1,7 @@
 <?php
 $exchange = get_exchange_name("litecoinglobal");
-$example = "S-DICE.PT";
+$example = "ASICMINER1K-PT";
+$url = url_for('historical', array('id' => 'securities_litecoininvest_ltc', 'days' => 180, 'name' => $example));
 ?>
 
 <div class="instructions_add">
@@ -14,7 +15,7 @@ $example = "S-DICE.PT";
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/individual_securities.png')); ?>"></li>
 	</li>
 
-	<li>For example, if you own 10 shares of <?php echo htmlspecialchars($example); ?> privately, then you can track these shares
+	<li>For example, if you own 10 shares of <a href="<?php echo htmlspecialchars($url); ?>"><?php echo htmlspecialchars($example); ?></a> privately, then you can track these shares
 		using the <?php echo htmlspecialchars($example); ?> value on the public <?php echo htmlspecialchars($exchange); ?> securities exchange.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/individual_securities2.png')); ?>"></li>
 </ol>
