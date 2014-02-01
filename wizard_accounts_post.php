@@ -19,9 +19,7 @@ foreach (account_data_grouped() as $label => $data) {
 		if ($key == require_post("type")) {
 			// we've found a valid account type
 			$account_data = get_accounts_wizard_config($key);
-			if ($value['disabled']) {
-				$account_data['disabled'] = $value['disabled'];
-			}
+			$account_data['disabled'] = $value['disabled'];
 		}
 	}
 }

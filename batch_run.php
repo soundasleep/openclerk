@@ -317,6 +317,10 @@ try {
 			require(__DIR__ . "/jobs/cexio.php");
 			break;
 
+		case "ghashio":
+			require(__DIR__ . "/jobs/ghashio.php");
+			break;
+
 		case "crypto-trade":
 			require(__DIR__ . "/jobs/crypto-trade.php");
 			break;

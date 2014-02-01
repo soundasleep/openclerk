@@ -123,6 +123,7 @@ function get_all_exchanges() {
 		"miningforeman_ftc" => "Mining Foreman",
 		"khore" =>			"nvc.khore.org",
 		"cexio" =>			"CEX.io",
+		"ghashio" =>		"GHash.io",
 		"crypto-trade" =>	"Crypto-Trade",
 		"crypto-trade_securities" => "Crypto-Trade (Securities)",
 		"havelock" => 		"Havelock Investments",
@@ -262,6 +263,7 @@ function get_supported_wallets() {
 		"dogepoolpw" => array('dog', 'hash'),
 		"eligius" => array('btc', 'hash'),		// BTC is paid directly to BTC address but also stored temporarily
 		"elitistjerks" => array('ltc', 'hash'),
+		"ghashio" => array('hash'),		// we only use ghash.io for hashrates
 		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
 		"hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
@@ -307,7 +309,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("cryptsy");
+	return array("ghashio");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -460,6 +462,7 @@ function account_data_grouped() {
 			'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'ghashio' => array('table' => 'accounts_ghashio', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true),
 			'hashfaster_ftc' => array('table' => 'accounts_hashfaster_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true),
@@ -602,6 +605,7 @@ function get_external_apis() {
 			'dogepoolpw' => '<a href="http://dogepool.pw">dogepool.pw</a>',
 			'eligius' => '<a href="http://eligius.st/">Eligius</a>',
 			'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
+			'ghashio' => '<a href="https://ghash.io">GHash.io</a>',
 			'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
 			'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
 			'hashfaster_ftc' => '<a href="http://ftc.hashfaster.com">HashFaster</a> (FTC)',
@@ -1262,6 +1266,16 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
 				),
 				'table' => 'accounts_cexio',
+			);
+
+		case "ghashio":
+			return array(
+				'inputs' => array(
+					'api_username' => array('title' => 'Username', 'callback' => 'is_valid_cexio_apiusername'),
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cexio_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
+				),
+				'table' => 'accounts_ghashio',
 			);
 
 		case "crypto-trade":

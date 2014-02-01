@@ -104,6 +104,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_liteguardian', 'type' => 'liteguardian', 'failure' => true),
 	array('table' => 'accounts_khore', 'type' => 'khore', 'failure' => true),
 	array('table' => 'accounts_cexio', 'type' => 'cexio', 'failure' => true),
+	array('table' => 'accounts_ghashio', 'type' => 'ghashio', 'failure' => true),
 	array('table' => 'accounts_cryptotrade', 'type' => 'crypto-trade', 'failure' => true),
 	array('table' => 'accounts_bitstamp', 'type' => 'bitstamp', 'failure' => true),
 	array('table' => 'accounts_796', 'type' => '796', 'failure' => true),
