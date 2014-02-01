@@ -166,7 +166,7 @@ h3 { font-size: 90%; }
 
 #footer_nav, #copyright { clear: both; }
 #footer_nav .footer_nav_list { max-width: 860px; padding: 0; margin: 0; margin: 30px auto 10px auto; padding: 10px; border-top: 1px solid #333; border-bottom: 1px solid #333; }
-#footer_nav .footer_nav_list li { display: inline-block; width: 32%; padding: 0; margin: 0; line-height: 1.5em; vertical-align: top; }
+#footer_nav .footer_nav_list li { display: inline-block; width: 24%; padding: 0; margin: 0; line-height: 1.5em; vertical-align: top; }
 #footer_nav .footer_nav_list .title { font-weight: bold; display: inline-block; margin-bottom: 5px; }
 #footer_nav .footer_nav_list ul { display: block; margin: 0; padding: 0; }
 #footer_nav .footer_nav_list ul li { display: block; margin: 0; padding: 0; width: auto; }
