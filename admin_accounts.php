@@ -101,7 +101,7 @@ function get_error_class($n) {
 				continue;
 			}
 
-			echo "<tr><td>" . htmlspecialchars(get_exchange_name($exchange)) . "</td>\n";
+			echo "<tr><td>" . htmlspecialchars(get_exchange_name($exchange) . $data['suffix']) . "</td>\n";
 			if ($data['failure']) {
 				$q = db()->prepare("SELECT COUNT(*) AS s, SUM(t.is_disabled) AS disabled, MAX(t.last_queue) AS lq FROM " . $data['table'] . " AS t
 					LEFT JOIN users ON t.user_id=users.id

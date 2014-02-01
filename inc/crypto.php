@@ -547,6 +547,9 @@ function account_data_grouped() {
 			if (!isset($data[$key0][$key]['unsafe'])) {
 				$data[$key0][$key]['unsafe'] = false;
 			}
+			if (!isset($data[$key0][$key]['suffix'])) {
+				$data[$key0][$key]['suffix'] = false;
+			}
 		}
 	}
 	return $data;
