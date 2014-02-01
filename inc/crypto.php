@@ -166,6 +166,7 @@ function get_all_exchanges() {
 		"multipool" =>		"Multipool",
 		"ypool" =>			"ypool.net",
 		"cryptsy" => 		"Cryptsy",
+		"coinbase" =>		"Coinbase",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -254,6 +255,7 @@ function get_supported_wallets() {
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btct" => array('btc'),
+		"coinbase" => array('btc'),
 		"coinhuntr" => array('ltc', 'hash'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc'),
@@ -309,7 +311,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("ghashio");
+	return array("ghashio", "coinbase");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -495,6 +497,7 @@ function account_data_grouped() {
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'unsafe' => true),
 			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -641,6 +644,7 @@ function get_external_apis() {
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'cexio' => '<a href="https://cex.io">CEX.io</a>',
+			'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
 			'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
 			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'cryptsy' => '<a href="https://www.cryptsy.com/">Crypsty</a>',
@@ -1312,6 +1316,14 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_private_key' => array('title' => 'Private key', 'callback' => 'is_valid_cryptsy_private_key', 'length' => 80),
 				),
 				'table' => 'accounts_cryptsy',
+			);
+
+		case "coinbase":
+			return array(
+				'inputs' => array(
+					// we don't expose api_code here; this is obtained through the OAuth2 callback
+				),
+				'table' => 'accounts_coinbase',
 			);
 
 		// --- securities ---

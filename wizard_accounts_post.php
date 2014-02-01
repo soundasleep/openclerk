@@ -126,12 +126,31 @@ if (require_post("add", false)) {
 				($user['is_premium'] ? "" : " To add more " . $account_data['titles'] . ", upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 	}
 	if (!$errors) {
+		$title = htmlspecialchars(require_post("title", ""));
+
+		// do we need to handle coinbase OAuth2?
+		if ($account_data['exchange'] == "coinbase") {
+			if (require_get("code", false)) {
+				$query .= ", api_code=?";
+				$args[] = require_get("code");
+				$title = $_SESSION["coinbase_title"];
+			} else {
+				// need to get a code
+				$_SESSION["coinbase_title"] = $title;		// we can't pass title to the redirect_uri, or we'll have to use this uri forever
+				redirect(url_add("https://coinbase.com/oauth/authorize", array(
+					"response_type" => "code",
+					"client_id" => get_site_config('coinbase_client_id'),
+					"redirect_uri" => absolute_url(url_for('coinbase')),
+					"scope" => "balance",
+				)));
+			}
+		}
+
 		// we don't care if the address already exists
 		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, title=? $query");
 		$full_args = array_join(array(user_id(), require_post("title", false)), $args);
 		$q->execute($full_args);
 		$id = db()->lastInsertId();
-		$title = htmlspecialchars(require_post("title", ""));
 		if (!$title) $title = "<i>(untitled)</i>";
 		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . $title . "</i>. Balances from this account will be retrieved shortly.";
 

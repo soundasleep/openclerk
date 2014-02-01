@@ -2629,3 +2629,26 @@ CREATE TABLE accounts_ghashio (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+DROP TABLE IF EXISTS accounts_coinbase;
+
+CREATE TABLE accounts_coinbase (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+	
+	title varchar(255),
+	
+	-- fields managed through OAuth2
+	api_code varchar(255) not null,
+	refresh_token varchar(255) null,
+	access_token varchar(255) null,
+	access_token_expires datetime null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);
