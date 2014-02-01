@@ -19,7 +19,7 @@ function render_table_vertical($graph, $data, $head = array()) {
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <div class="overflow_wrapper">
-<table class="standard">
+<table class="standard graph_table <?php echo htmlspecialchars($graph['graph_type']); ?>">
 <?php
 	if ($head) echo "<thead>";
 	foreach ($head as $row) {
@@ -56,7 +56,7 @@ function render_table_horizontal_vertical($graph, $data) {
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <div class="overflow_wrapper">
-<table class="standard">
+<table class="standard graph_table <?php echo htmlspecialchars($graph['graph_type']); ?>">
 <?php foreach ($data as $rowid => $row) {
 	echo "<tr>";
 	foreach ($row as $i => $item) {
