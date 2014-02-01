@@ -251,6 +251,7 @@ function get_supported_notifications() {
 	<tr>
 		<th>Notification</th>
 		<th>Period</th>
+		<th>Last check</th>
 		<th>Last notification</th>
 		<th></th>
 	</tr>
@@ -332,6 +333,7 @@ foreach ($notifications as $notification) {
 		<td><span class="email_notification"><?php echo $account_text . " " . $trigger_text; ?></span></td>
 		<td><?php $notification_periods = get_permitted_notification_periods();
 			echo $notification_periods[$notification['period']]['title']; ?></td>
+		<td><?php echo recent_format_html($notification['last_queue']); ?></td>
 		<td><?php echo recent_format_html($notification['last_notification']); ?></td>
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="get">
