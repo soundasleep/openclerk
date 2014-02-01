@@ -173,6 +173,10 @@ try {
 			require(__DIR__ . "/jobs/ripple.php");
 			break;
 
+		case "namecoin":
+			require(__DIR__ . "/jobs/namecoin.php");
+			break;
+
 		case "litecoin_block":
 			require(__DIR__ . "/jobs/litecoin_block.php");
 			break;
@@ -199,6 +203,10 @@ try {
 
 		case "dogecoin_block":
 			require(__DIR__ . "/jobs/dogecoin_block.php");
+			break;
+
+		case "namecoin_block":
+			require(__DIR__ . "/jobs/namecoin_block.php");
 			break;
 
 		case "generic":

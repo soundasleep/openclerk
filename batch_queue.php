@@ -68,14 +68,15 @@ if (isset($argv[5]) && $argv[5] && $argv[5] != "-") {
 $standard_jobs = array(
 	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id'), 'hours' => get_site_config('refresh_queue_hours_ticker')),
 	array('table' => 'addresses', 'type' => 'blockchain', 'query' => ' AND currency=\'btc\''),
-	array('table' => 'addresses', 'type' => 'litecoin', 'query' => ' AND currency=\'ltc\''), // make sure to add litecoin_block job below too
-	array('table' => 'addresses', 'type' => 'feathercoin', 'query' => ' AND currency=\'ftc\''), // make sure to add feathercoin_block job below too
-	array('table' => 'addresses', 'type' => 'ppcoin', 'query' => ' AND currency=\'ppc\''), // make sure to add feathercoin_block job below too
-	array('table' => 'addresses', 'type' => 'novacoin', 'query' => ' AND currency=\'nvc\''), // make sure to add feathercoin_block job below too
-	array('table' => 'addresses', 'type' => 'primecoin', 'query' => ' AND currency=\'xpm\''), // make sure to add feathercoin_block job below too
-	array('table' => 'addresses', 'type' => 'terracoin', 'query' => ' AND currency=\'trc\''), // make sure to add feathercoin_block job below too
-	array('table' => 'addresses', 'type' => 'dogecoin', 'query' => ' AND currency=\'dog\''), // make sure to add feathercoin_block job below too
+	array('table' => 'addresses', 'type' => 'litecoin', 'query' => ' AND currency=\'ltc\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'feathercoin', 'query' => ' AND currency=\'ftc\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'ppcoin', 'query' => ' AND currency=\'ppc\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'novacoin', 'query' => ' AND currency=\'nvc\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'primecoin', 'query' => ' AND currency=\'xpm\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'terracoin', 'query' => ' AND currency=\'trc\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'dogecoin', 'query' => ' AND currency=\'dog\''), // make sure to add _block job below too
 	array('table' => 'addresses', 'type' => 'ripple', 'query' => ' AND currency=\'xrp\''),
+	array('table' => 'addresses', 'type' => 'namecoin', 'query' => ' AND currency=\'nmc\''), // make sure to add _block job below too
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox', 'failure' => true),
@@ -267,7 +268,7 @@ foreach ($standard_jobs as $standard) {
 }
 
 if (!$premium_only) {
-	$block_jobs = array('version_check', 'litecoin_block', 'feathercoin_block', 'ppcoin_block', 'novacoin_block', 'primecoin_block', 'terracoin_block', 'dogecoin_block');
+	$block_jobs = array('version_check', 'litecoin_block', 'feathercoin_block', 'ppcoin_block', 'novacoin_block', 'primecoin_block', 'terracoin_block', 'dogecoin_block', 'namecoin_block');
 	foreach ($block_jobs as $name) {
 		// as often as we can (or on request), run litecoin_block jobs
 		if (!$job_type || in_array($name, $job_type)) {

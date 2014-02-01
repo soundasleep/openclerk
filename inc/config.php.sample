@@ -114,6 +114,8 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"dog_address_url" => "http://dogechain.info//address/",
 		"dog_block_url" => "http://dogechain.info//chain/Dogecoin/q/getblockcount",
 		"xrp_address_url" => "https://ripple.com/graph/#",
+		"nmc_address_url" => "http://192.241.222.65/address/",
+		"nmc_block_url" => "http://192.241.222.65/chain/Namecoin/q/getblockcount",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
@@ -122,6 +124,8 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		// "xpm_confirmations" => 6, -- not implemented yet!
 		"trc_confirmations" => 6,
 		"dog_confirmations" => 6,
+		// "xrp_confirmations" => 6, -- not supported!
+		"nmc_confirmations" => 6,
 
 		// premium properties
 		"premium_currencies" => array('btc', 'ltc'),

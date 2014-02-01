@@ -261,9 +261,10 @@ span.status_loading { font-style: italic; padding-left: 20px; background: url('i
 tr.odd span.status_loading { background: url('img/spinning_odd.gif') top left no-repeat; }
 
 .address code { font-family: Consolas, Courier New, Courier, monospace; }
-.btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect, .nvc_address .inspect, .xpm_address .inspect, .trc_address .inspect, .dog_address .inspect, .xrp_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
+.btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect, .nvc_address .inspect, 
+	.xpm_address .inspect, .trc_address .inspect, .dog_address .inspect, .xrp_address .inspect, .nmc_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
 .btc_address .inspect { background: url('img/blockchain.png') top left no-repeat; }
-.ltc_address .inspect { background: url('img/explorer1.png') top left no-repeat; }
+.ltc_address .inspect, .nmc_address .inspect { background: url('img/explorer1.png') top left no-repeat; }
 .ftc_address .inspect { background: url('img/feathercoin.png') top left no-repeat; }
 .ppc_address .inspect { background: url('img/ppcoin.png') top left no-repeat; }
 .nvc_address .inspect { background: url('img/novacoin.png') top left no-repeat; }

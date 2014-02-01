@@ -2597,3 +2597,15 @@ update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange
 update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='virtex';
 update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='virtex';
 
+DROP TABLE IF EXISTS namecoin_blocks;
+
+CREATE TABLE namecoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);
