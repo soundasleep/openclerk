@@ -1,7 +1,7 @@
 Your Failing {$exchange} {$label} has been Re-enabled
 Hello {$name},
 
-One of your {$exchange} {$labels} ({$title}) configured in {$site_name}, that had been disabled temporarily due to repeated failures, has been automatically re-enabled by {$site_name}.
+One of your {$exchange} {$labels} ({$title}) configured in {$site_name}, that had been disabled temporarily due to repeated failures, has been automatically re-enabled.
 
 This may be because {$site_name} has updated how it queries {$exchange} {$labels}, or {$exchange} is no longer down.
 

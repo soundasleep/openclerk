@@ -203,7 +203,7 @@ foreach ($standard_jobs as $standard) {
 		$args_extra[] = $user_id;
 	}
 
-	if ($standard['failure']) {
+	if (isset($standard['failure']) && $standard['failure']) {
 		$query_extra .= " AND is_disabled=0";
 	}
 

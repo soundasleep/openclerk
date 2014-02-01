@@ -238,10 +238,10 @@ function render_graph_actual($graph, $is_public) {
 			foreach (get_all_currencies() as $cur) {
 				if ($cur == 'btc') continue;
 				if (!in_array($cur, get_all_fiat_currencies()) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates['btc' . $cur])) {
-					$data[get_currency_abbr($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] * $rates['btc' . $cur]['sell']));
+					$data[get_currency_abbr($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] * $rates['btc' . $cur]['bid']));
 				}
 				if (in_array($cur, get_all_fiat_currencies()) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates[$cur . 'btc']) && $rates[$cur . 'btc'] /* no div by 0 */) {
-					$data[get_currency_abbr($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] / $rates[$cur . 'btc']['buy']));
+					$data[get_currency_abbr($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] / $rates[$cur . 'btc']['ask']));
 				}
 			}
 
@@ -291,8 +291,8 @@ function render_graph_actual($graph, $is_public) {
 			$graph['last_updated'] = find_latest_created_at($rates['usdbtc']);
 
 			$data = array(
-				array('Buy', currency_format('usd', $rates['usdbtc']['buy'], 4)),
-				array('Sell', currency_format('usd', $rates['usdbtc']['sell'], 4)),
+				array('Bid', currency_format('usd', $rates['usdbtc']['bid'], 4)),
+				array('Ask', currency_format('usd', $rates['usdbtc']['ask'], 4)),
 			);
 
 			render_table_vertical($graph, $data);
@@ -676,7 +676,7 @@ function render_graph_actual($graph, $is_public) {
 	if (is_admin() && !require_get("demo", false)) {
 		$end_time = microtime(true);
 		$time_diff = ($end_time - $start_time) * 1000;
-		echo "<div style=\"position: relative; width: 100%; height: 0;\"><span style=\"position: absolute; text-align: right; width: 100%; height: 1em; overflow: hidden;\" class=\"render_time\">" . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . ", order " . number_format($graph['page_order']) . "</span></div>";
+		echo "<div style=\"position: relative; width: 100%; height: 0;\"><span style=\"position: absolute; text-align: right; width: 100%; height: 1em; overflow: hidden;\" class=\"render_time\">" . htmlspecialchars($graph['graph_type']) . " " . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . ", order " . number_format($graph['page_order']) . "</span></div>";
 	}
 
 }

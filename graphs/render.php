@@ -52,7 +52,7 @@ function calculate_technicals($graph, $data) {
 						for ($j = 0; $j < $t['technical_period']; $j++) {
 							$key = date('Y-m-d', strtotime($label . " -$j days"));
 							$last = isset($data[$key]) ?
-								(isset($data[$key][2]) ? ($data[$key][1] + $data[$key][2]) / 2 : $data[$key][1]) : $last;	// 1 is 'buy', 2 is 'sell': take average if defined
+								(isset($data[$key][2]) ? ($data[$key][1] + $data[$key][2]) / 2 : $data[$key][1]) : $last;	// take average if both bid and ask are defined
 							$sum += $last;
 						}
 
@@ -109,12 +109,13 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 	$data = array();
 	$data[0] = array("Date",
 		array(
-			'title' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2) . " Buy",
+			'title' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2) . " Bid",
 			'line_width' => 2,
 			'color' => default_chart_color(0),
 		),
+		// put Ask second so that it is drawn over Bid (but using colour 0)
 		array(
-			'title' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2) . " Sell",
+			'title' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2) . " Ask",
 			'line_width' => 2,
 			'color' => default_chart_color(1),
 		),
@@ -123,6 +124,7 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 		// hack fix because TheMoneyConverter only has last_trade
 		unset($data[0][2]);
 		$data[0][1]['title'] = get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2);
+		$data[0][1]['color'] = default_chart_color(1);
 	}
 	$last_updated = false;
 	$days = get_graph_days($graph);
@@ -157,8 +159,8 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 			} else {
 				$data[$data_key] = array(
 					'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
-					graph_number_format($ticker['buy']),
-					graph_number_format($ticker['sell']),
+					graph_number_format($ticker['bid']),
+					graph_number_format($ticker['ask']),
 				);
 			}
 			$last_updated = max($last_updated, strtotime($ticker['created_at']));
@@ -498,8 +500,10 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 		$q_args = $args;
 		$q_args['user_id'] = $user_id;
 		$q->execute($q_args);
+		$first_date = false;
 		while ($ticker = $q->fetch()) {
 			$key = date('Y-m-d', strtotime($ticker[$source['key']]));
+			if (!$first_date) $first_date = $key;
 			if (!isset($data_temp[$key])) {
 				$data_temp[$key] = array();
 			}

@@ -38,7 +38,6 @@ foreach ($rates_list as $rl) {
 	}
 
 	$obj = $rates[get_currency_abbr($rl['cur2'])][get_currency_abbr($rl['cur1'])];
-	crypto_log($exchange['name'] . " rate for " . $rl['cur1'] . "/" . $rl['cur2'] . ": " . $obj['last_trade']);
 
 	insert_new_ticker($job, $exchange, strtolower($rl['cur1']), strtolower($rl['cur2']), array(
 		"last_trade" => $obj['last_trade'],

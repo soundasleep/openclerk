@@ -68,10 +68,9 @@ $buy = $buy_row[2];
 $sell = $sell_row[2];
 $volume = preg_replace("#[^0-9\.]#", "", $volume_row[4]);
 
-crypto_log("$exchange_name rate for CAD/BTC: last_trade=$last_trade, buy=$buy, sell=$sell, volume=$volume");
-
 insert_new_ticker($job, $exchange, $currency1, $currency2, array(
 	"last_trade" => $last_trade,
+	// Virtex returns buy/sell in the incorrect order
 	"bid" => $buy,
 	"ask" => $sell,
 	"volume" => $volume,

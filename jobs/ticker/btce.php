@@ -44,12 +44,10 @@ foreach ($rates_list as $rl) {
 		throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for $exchange");
 	}
 
-	crypto_log($exchange['name'] . " rate for " . $rl['cur1'] . "/" . $rl['cur2'] . ": " . $rates['ticker']['last']);
-
 	insert_new_ticker($job, $exchange, strtolower($rl['cur1']), strtolower($rl['cur2']), array(
 		"last_trade" => $rates['ticker']['last'],
-		"bid" => $rates['ticker']['buy'],
-		"ask" => $rates['ticker']['sell'],
+		"bid" => $rates['ticker']['sell'],
+		"ask" => $rates['ticker']['buy'],
 		"volume" => $rates['ticker']['vol_cur'],
 	));
 

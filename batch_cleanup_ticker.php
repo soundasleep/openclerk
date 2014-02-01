@@ -73,8 +73,8 @@ while ($ticker = $q->fetch()) {
 	$stored[$date][$exchange][$cur1][$cur2]['volume'] = max($ticker['volume'], $stored[$date][$exchange][$cur1][$cur2]['volume']);
 	$stored[$date][$exchange][$cur1][$cur2]['close'] = $ticker['last_trade'];
 	$stored[$date][$exchange][$cur1][$cur2]['samples']++;
-	$stored[$date][$exchange][$cur1][$cur2]['buy'] = $ticker['buy']; // buy, sell are the last values for the day
-	$stored[$date][$exchange][$cur1][$cur2]['sell'] = $ticker['sell'];
+	$stored[$date][$exchange][$cur1][$cur2]['bid'] = $ticker['bid']; // bid, ask are the last values for the day
+	$stored[$date][$exchange][$cur1][$cur2]['ask'] = $ticker['ask'];
 	$stored[$date][$exchange][$cur1][$cur2]['values'][] = $ticker['last_trade'];
 
 }
@@ -89,7 +89,7 @@ foreach ($stored as $date => $a) {
 			foreach ($c as $cur2 => $summary) {
 				$q = db()->prepare("INSERT INTO graph_data_ticker SET
 						exchange=:exchange, currency1=:currency1, currency2=:currency2, data_date=:data_date, samples=:samples,
-						volume=:volume, last_trade_min=:min, last_trade_opening=:open, last_trade_closing=:close, last_trade_max=:max, buy=:buy, sell=:sell, last_trade_stdev=:stdev");
+						volume=:volume, last_trade_min=:min, last_trade_opening=:open, last_trade_closing=:close, last_trade_max=:max, bid=:bid, ask=:ask, last_trade_stdev=:stdev");
 				$q->execute(array(
 					'exchange' => $exchange,
 					'currency1' => $cur1,
@@ -101,8 +101,8 @@ foreach ($stored as $date => $a) {
 					'open' => $summary['open'],
 					'close' => $summary['close'],
 					'max' => $summary['max'],
-					'buy' => $summary['buy'],
-					'sell' => $summary['sell'],
+					'bid' => $summary['bid'],
+					'ask' => $summary['ask'],
 					'stdev' => stdev($summary['values']),
 				));
 				$insert_count++;

@@ -2551,3 +2551,47 @@ DELETE FROM hashrates WHERE exchange='multipool';
 
 ALTER TABLE accounts_generic ADD multiplier decimal(24,8) not null default 1;
 
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.16.2 to 0.17
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- particularly critical for resolving #22
+-- --------------------------------------------------------------------------
+
+-- issue #22: some buy/sell values are the wrong way around
+-- The 'bid' price is the highest price that a buyer is willing to pay (i.e. the 'sell');
+-- the 'ask' price is the lowest price that a seller is willing to sell (i.e. the 'buy').
+-- Therefore bid <= ask, sell <= buy.
+ALTER TABLE ticker CHANGE buy ask decimal(24,8);
+ALTER TABLE ticker CHANGE sell bid decimal(24,8);
+ALTER TABLE graph_data_ticker CHANGE buy ask decimal(24,8);
+ALTER TABLE graph_data_ticker CHANGE sell bid decimal(24,8);
+ALTER TABLE ticker_recent CHANGE buy ask decimal(24,8);
+ALTER TABLE ticker_recent CHANGE sell bid decimal(24,8);
+
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitcurex';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitcurex';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitnz';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitnz';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitstamp';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitstamp';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='btcchina';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='btcchina';
+-- btce is fine
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='cexio';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='cexio';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='coins-e';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='coins-e';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='crypto-trade';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='crypto-trade';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='cryptsy';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='cryptsy';
+-- justcoin is half fine
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='justcoin' AND currency2='btc';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='justcoin' AND currency2='btc';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='mtgox';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='mtgox';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='vircurex';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='vircurex';
+update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='virtex';
+update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='virtex';
+

@@ -42,8 +42,6 @@ foreach ($rates_list as $rl) {
 		throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for " . $exchange['name']);
 	}
 
-	crypto_log($exchange['name'] . " rate for " . $rl['cur1'] . "/" . $rl['cur2'] . ": " . ($rates['return']['avg']['value_int'] / $rl['divisor']));
-
 	insert_new_ticker($job, $exchange, strtolower($rl['cur1']), strtolower($rl['cur2']), array(
 		"last_trade" => $rates['return']['last']['value_int'] / $rl['divisor'],
 		"bid" => $rates['return']['buy']['value_int'] / $rl['divisor'],

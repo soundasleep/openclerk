@@ -37,17 +37,16 @@ foreach ($rates_list as $rl) {
 	$data = array(
 		'last_trade' => $market['lasttradeprice'],
 		'volume' => $market['volume'],
-		'buy' => $market['buyorders'][0]['price'],
-		'sell' => $market['sellorders'][0]['price'],
+		// Cryptsy returns buy/sell incorrectly
+		'bid' => $market['buyorders'][0]['price'],
+		'ask' => $market['sellorders'][0]['price'],
 		// other market data available: lasttradetime, [primary/secondary][name/code], recenttrades (array)
 	);
 
-	crypto_log($exchange['name'] . " rate for $cur1/$cur2: " . $data['last_trade']);
-
 	insert_new_ticker($job, $exchange, strtolower($cur1), strtolower($cur2), array(
 		"last_trade" => $data['last_trade'],
-		"bid" => $data['buy'],
-		"ask" => $data['sell'],
+		"bid" => $data['bid'],
+		"ask" => $data['ask'],
 		"volume" => $data['volume'],
 	));
 

@@ -14,8 +14,6 @@ if (!isset($rates['last'])) {
 	throw new ExternalAPIException("No $currency1/$currency2 last rate for $exchange_name");
 }
 
-crypto_log("$exchange_name rate for $currency1/$currency2: " . $rates['last']);
-
 insert_new_ticker($job, $exchange, $currency1, $currency2, array(
 	"last_trade" => $rates['last'],
 	"bid" => $rates['bid'],

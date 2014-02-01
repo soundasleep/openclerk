@@ -37,8 +37,6 @@ foreach ($rates_list as $rl) {
 	$ask = $rates['markets'][$key]['marketstat']['ask'];
 	$volume = $rates['markets'][$key]['marketstat']['24h']['volume'];
 
-	crypto_log("$exchange_name rate for $cur1/$cur2: $last ($bid/$ask)");
-
 	insert_new_ticker($job, $exchange, strtolower($cur1), strtolower($cur2), array(
 		"last_trade" => $last,
 		"bid" => $bid,

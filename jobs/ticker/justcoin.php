@@ -19,12 +19,11 @@ foreach ($exchange_pairs['justcoin'] as $pair) {
 			// BTC/LTC: crypto/crypto
 			// we need to flip these values over
 			// I don't know what the 'scale' parameter means
-			crypto_log("$exchange_name rate for " . $pair[0] . "/" . $pair[1] . ": " . (1 / $rate['last']));
 			insert_new_ticker($job, $exchange, $pair[0], $pair[1], array(
 				// also scale, high, low
 				"last_trade" => ($rate['last'] == 0) ? 0 : (1 / $rate['last']),
-				"bid" => ($rate['bid'] == 0) ? 0 : (1 / $rate['bid']),
-				"ask" => ($rate['ask'] == 0) ? 0 : (1 / $rate['ask']),
+				"ask" => ($rate['bid'] == 0) ? 0 : (1 / $rate['bid']),
+				"bid" => ($rate['ask'] == 0) ? 0 : (1 / $rate['ask']),
 				"volume" => $rate['volume'],
 			));
 			$found = true;
@@ -32,7 +31,6 @@ foreach ($exchange_pairs['justcoin'] as $pair) {
 		} else if ($rate['id'] == get_currency_abbr($pair[1]) . get_currency_abbr($pair[0])) {
 			// USD/BTC: fiat/crypto
 			// I don't know what the 'scale' parameter means
-			crypto_log("$exchange_name rate for " . $pair[0] . "/" . $pair[1] . ": " . $rate['last']);
 			insert_new_ticker($job, $exchange, $pair[0], $pair[1], array(
 				// also scale, high, low
 				"last_trade" => $rate['last'],

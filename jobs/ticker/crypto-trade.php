@@ -49,8 +49,6 @@ foreach ($rates_list as $rl) {
 		throw new ExternalAPIException("No $cur1/$cur2 rate for $exchange_name");
 	}
 
-	crypto_log("$exchange_name rate for $cur1/$cur2: " . $rates['data']['last'] . " (" . $rates['data']['max_bid'] . " / " . $rates['data']['min_ask'] . ")");
-
 	insert_new_ticker($job, $exchange, strtolower($cur1), strtolower($cur2), array(
 		"last_trade" => $rates['data']['last'],
 		"bid" => $rates['data']['max_bid'],

@@ -37,11 +37,10 @@ if ($bitnz['price'] == 0) {
 	throw new ExternalAPIException("Cannot insert in a zero value for BitNZ");
 }
 
-crypto_log("Bitnz rate for " . $rl['cur1'] . "/" . $rl['cur2'] . ": " . $bitnz['price']);
-
 // insert in new ticker value
 insert_new_ticker($job, $exchange, strtolower($rl['cur1']), strtolower($rl['cur2']), array(
 	"last_trade" => $bitnz['price'],
+	// BitNZ reports Buy/Sell incorrectly
 	"bid" => $bitnz['buy'][0]['price'],
 	"ask" => $bitnz['sell'][0]['price'],
 	// "volume" => $obj['volume'], - BitNZ does not provide volume data, but there must be an API somewhere?

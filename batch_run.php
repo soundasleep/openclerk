@@ -781,11 +781,11 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 	if (!isset($values['last_trade'])) {
 		throw new Exception("No last_trade specified");	// need at least this
 	}
-	if (isset($values['buy'])) {
-		throw new Exception("Invalid parameter: buy (should be bid)");
-	}
 	if (isset($values['sell'])) {
-		throw new Exception("Invalid parameter: sell (should be ask)");
+		throw new Exception("Invalid parameter: sell (should be bid)");
+	}
+	if (isset($values['buy'])) {
+		throw new Exception("Invalid parameter: buy (should be ask)");
 	}
 	if (!isset($values['volume'])) {
 		$values['volume'] = null;
@@ -806,15 +806,25 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 		throw new Exception("Invalid parameter: currency2 '" . htmlspecialchars($cur2) . "'");
 	}
 
+	crypto_log($exchange['name'] . " rate for $cur1/$cur2: " . $values['last_trade'] . " (" . $values['bid'] . "/" . $values['ask'] . ")");
+	if ($values['bid'] > $values['ask']) {
+		crypto_log("<strong>WARNING:</strong> bid > ask");
+	}
+
 	// insert in new ticker value
-	$q = db()->prepare("INSERT INTO ticker SET exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, buy=:buy, sell=:sell, volume=:volume, job_id=:job_id, is_daily_data=1");
+	$q = db()->prepare("INSERT INTO ticker SET exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, bid=:bid, ask=:ask, volume=:volume, job_id=:job_id, is_daily_data=1");
 	$q->execute(array(
 		"exchange" => $exchange['name'],
 		"currency1" => $cur1,
 		"currency2" => $cur2,
 		"last_trade" => $values['last_trade'],
-		"buy" => $values['bid'],
-		"sell" => $values['ask'],
+		/*
+		 * The 'bid' price is the highest price that a buyer is willing to pay (i.e. the 'sell');
+		 * the 'ask' price is the lowest price that a seller is willing to sell (i.e. the 'buy').
+		 * Therefore bid <= ask, buy <= sell.
+		 */
+		"bid" => $values['bid'],
+		"ask" => $values['ask'],
 		"volume" => $values['volume'],
 		"job_id" => $job['id'],
 	));
@@ -841,12 +851,12 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 	}
 
 	// update the previously existing recent value
-	$q = db()->prepare("UPDATE ticker_recent SET created_at=NOW(), last_trade=:last_trade, buy=:buy, sell=:sell, volume=:volume, job_id=:job_id
+	$q = db()->prepare("UPDATE ticker_recent SET created_at=NOW(), last_trade=:last_trade, bid=:bid, ask=:ask, volume=:volume, job_id=:job_id
 			WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2");
 	$q->execute(array(
 		"last_trade" => $values['last_trade'],
-		"buy" => $values['bid'],
-		"sell" => $values['ask'],
+		"bid" => $values['bid'],
+		"ask" => $values['ask'],
 		"volume" => $values['volume'],
 		"job_id" => $job['id'],
 		"exchange" => $exchange['name'],
