@@ -150,7 +150,7 @@ foreach ($accounts as $a) {
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
-			<?php if (!isset($account_type_data['disabled'])) {
+			<?php if (!$account_type_data['disabled']) {
 				if ($is_test_job) { ?>
 				<span class="status_loading">Testing...</span>
 					<?php if (!isset($is_in_callback)) { ?>
