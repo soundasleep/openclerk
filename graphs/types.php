@@ -372,6 +372,7 @@ function graph_types() {
 		'composition_nvc_stacked' => 'composition_ltc_stacked.png',
 		'composition_ghs_stacked' => 'composition_ghs_stacked.png',
 		'ticker_matrix' => 'ticker_matrix.png',
+		'calculator' => 'calculator.png',
 	);
 	$data = add_example_images($data, $images);
 
