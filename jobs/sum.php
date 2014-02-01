@@ -145,7 +145,7 @@ $crypto2btc = 0;
 
 		// e.g. NMC to BTC
 		if (isset($totals[$c])) {
-			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), "btc", $c) && $ticker['ask'] != 0) {
+			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), "btc", $c)) {
 				$temp = $totals[$c] * $ticker['ask'];
 				crypto_log("+ from " . get_currency_abbr($c) . " (BTC): " . ($temp));
 
@@ -160,7 +160,7 @@ $crypto2btc = 0;
 	foreach (get_all_fiat_currencies() as $c) {
 		// e.g. NMC to BTC
 		if (isset($totals[$c])) {
-			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), $c, "btc") && $ticker['ask'] != 0) {
+			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), $c, "btc")) {
 				$temp = $totals[$c] / $ticker['ask'];
 				crypto_log("equivalent " . get_currency_abbr($c) . " (BTC): " . ($temp));
 
