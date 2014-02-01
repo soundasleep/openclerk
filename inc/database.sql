@@ -2568,6 +2568,8 @@ ALTER TABLE graph_data_ticker CHANGE sell bid decimal(24,8);
 ALTER TABLE ticker_recent CHANGE buy ask decimal(24,8);
 ALTER TABLE ticker_recent CHANGE sell bid decimal(24,8);
 
+update ticker_recent set ask=(@temp:=ask), ask=bid, bid=@temp;
+
 update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitcurex';
 update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitcurex';
 update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='bitnz';

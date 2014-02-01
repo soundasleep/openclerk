@@ -500,10 +500,8 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 		$q_args = $args;
 		$q_args['user_id'] = $user_id;
 		$q->execute($q_args);
-		$first_date = false;
 		while ($ticker = $q->fetch()) {
 			$key = date('Y-m-d', strtotime($ticker[$source['key']]));
-			if (!$first_date) $first_date = $key;
 			if (!isset($data_temp[$key])) {
 				$data_temp[$key] = array();
 			}
