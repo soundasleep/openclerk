@@ -36,7 +36,7 @@ function get_all_fiat_currencies() {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "ppc", "ftc", "nvc", "xpm", "trc", "dog");	// no NMC or XRP yet
+	return array("btc", "ltc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "xrp");	// no NMC (#4) yet
 }
 
 function get_currency_name($n) {
@@ -76,6 +76,7 @@ function get_blockchain_currencies() {
 		"CryptoCoin Explorer" => array('ppc', 'nvc', 'xpm', 'trc'),
 		"Feathercoin Search" => array('ftc'),
 		"DogeChain" => array('dog'),
+		"Ripple" => array('xrp'),
 	);
 }
 
@@ -308,6 +309,7 @@ function get_new_supported_wallets() {
 	return array("cryptsy");
 }
 
+// TODO remove xxx_address() and use this function instead
 function crypto_address($currency, $address) {
 	switch ($currency) {
 		case 'btc': return btc_address($address);
@@ -318,6 +320,7 @@ function crypto_address($currency, $address) {
 		case 'xpm': return xpm_address($address);
 		case 'trc': return trc_address($address);
 		case 'dog': return dog_address($address);
+		case 'xrp': return xrp_address($address);
 		default: return htmlspecialchars($address);
 	}
 }
@@ -442,6 +445,7 @@ function account_data_grouped() {
 			'primecoin' => array('title' => 'XPM addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'xpm\'', 'wizard' => 'addresses', 'currency' => 'xpm'),
 			'terracoin' => array('title' => 'TRC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'trc\'', 'wizard' => 'addresses', 'currency' => 'trc'),
 			'dogecoin' => array('title' => 'DOGE addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'dog\'', 'wizard' => 'addresses', 'currency' => 'dog'),
+			'ripple' => array('title' => 'XRP addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'xrp\'', 'wizard' => 'addresses', 'currency' => 'xrp'),
 		),
 		'Mining pools' => array(
 			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
@@ -581,6 +585,7 @@ function get_external_apis() {
 			'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC block count)',
 			'dogecoin' => '<a href="http://dogechain.info/">DogeChain</a> (DOGE)',
 			'dogecoin_block' => '<a href="http://dogechain.info/">DogeChain</a> (DOGE block count)',
+			'ripple' => '<a href="http://ripple.com">Ripple</a>',
 		),
 
 		"Mining pool wallets" => array(
@@ -826,6 +831,19 @@ function get_blockchain_wizard_config($currency) {
 				'job_type' => 'dogecoin',
 				'address_callback' => 'dog_address',
 				'client' => get_currency_name('dog'),
+			);
+
+		case "xrp":
+			return array(
+				'premium_group' => 'ripple',
+				'title' => 'XRP address',
+				'titles' => 'XRP addresses',
+				'table' => 'addresses',
+				'currency' => 'xrp',
+				'callback' => 'is_valid_xrp_address',
+				'job_type' => 'ripple',
+				'address_callback' => 'xrp_address',
+				'client' => get_currency_name('xrp'),
 			);
 
 		default:
@@ -1766,6 +1784,15 @@ function is_valid_xpm_address($address) {
 function is_valid_dog_address($address) {
 	// based on is_valid_btc_address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "D")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_xrp_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "r")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}

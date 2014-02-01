@@ -75,6 +75,7 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'primecoin', 'query' => ' AND currency=\'xpm\''), // make sure to add feathercoin_block job below too
 	array('table' => 'addresses', 'type' => 'terracoin', 'query' => ' AND currency=\'trc\''), // make sure to add feathercoin_block job below too
 	array('table' => 'addresses', 'type' => 'dogecoin', 'query' => ' AND currency=\'dog\''), // make sure to add feathercoin_block job below too
+	array('table' => 'addresses', 'type' => 'ripple', 'query' => ' AND currency=\'xrp\''),
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox', 'failure' => true),

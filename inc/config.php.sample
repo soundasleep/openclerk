@@ -113,6 +113,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"trc_block_url" => "http://trc.cryptocoinexplorer.com/chain/Terracoin/q/getblockcount",
 		"dog_address_url" => "http://dogechain.info//address/",
 		"dog_block_url" => "http://dogechain.info//chain/Dogecoin/q/getblockcount",
+		"xrp_address_url" => "https://ripple.com/graph/#",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,

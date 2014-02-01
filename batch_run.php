@@ -169,6 +169,10 @@ try {
 			require(__DIR__ . "/jobs/dogecoin.php");
 			break;
 
+		case "ripple":
+			require(__DIR__ . "/jobs/ripple.php");
+			break;
+
 		case "litecoin_block":
 			require(__DIR__ . "/jobs/litecoin_block.php");
 			break;

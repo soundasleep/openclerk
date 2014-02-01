@@ -231,6 +231,10 @@ function dog_address($address) {
 	return "<span class=\"address dog_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("dog_address_url") . $address) . "\" title=\"Inspect with DogeChain\">?</a></span>";
 }
 
+function xrp_address($address) {
+	return "<span class=\"address xrp_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("xrp_address_url") . $address) . "\" title=\"Inspect with Ripple Graph\">?</a></span>";
+}
+
 function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {
 	$currency = get_currency_abbr($currency_code);
 
