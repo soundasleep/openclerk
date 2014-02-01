@@ -744,6 +744,9 @@ function crypto_json_decode($string, $message = false) {
 		if (strpos(strtolower($string), '301 moved permanently') !== false) {
 			throw new ExternalAPIException("API location has been moved permanently" . ($message ? " $message" : ""));
 		}
+		if (strpos($string, "Access denied for user '") !== false) {
+			throw new ExternalAPIException("Remote database host returned 'Access denied'" . ($message ? " $message" : ""));
+		}
 		if (substr($string, 0, 1) == "<") {
 			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON" . ($message ? " $message" : ""));
 		}
