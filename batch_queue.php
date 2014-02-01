@@ -139,12 +139,12 @@ $standard_jobs = array(
 if (get_site_config('allow_unsafe')) {
 	// run unsafe jobs only if the flag has been set
 	crypto_log("Running unsafe jobs.");
-	$standard_jobs += array(
+	$standard_jobs = array_merge($standard_jobs, array(
 		array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
-	);
+	));
 }
 
-$standard_jobs += array(
+$standard_jobs = array_merge($standard_jobs, array(
 	array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */
 	array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
@@ -171,7 +171,7 @@ $standard_jobs += array(
 	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='day'", 'hours' => 24),
 	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='week'", 'hours' => 24 * 7),
 	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='month'", 'hours' => 24 * 7 * 30),
-);
+));
 
 crypto_log("Current time: " . date('r'));
 
