@@ -2585,8 +2585,7 @@ update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='coins-e';
 update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='coins-e';
 update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='crypto-trade';
 update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='crypto-trade';
-update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='cryptsy';
-update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='cryptsy';
+-- cryptsy is fine
 -- justcoin is half fine
 update ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='justcoin' AND currency2='btc';
 update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange='justcoin' AND currency2='btc';
