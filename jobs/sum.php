@@ -146,7 +146,7 @@ $crypto2btc = 0;
 		// e.g. NMC to BTC
 		if (isset($totals[$c])) {
 			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), "btc", $c)) {
-				$temp = $totals[$c] * $ticker['ask'];
+				$temp = $totals[$c] * ($ticker['ask'] ? $ticker['ask'] : $ticker['last_trade']);
 				crypto_log("+ from " . get_currency_abbr($c) . " (BTC): " . ($temp));
 
 				add_summary_instance($job, 'equivalent_btc_' . $c, $temp);
@@ -161,7 +161,7 @@ $crypto2btc = 0;
 		// e.g. NMC to BTC
 		if (isset($totals[$c])) {
 			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), $c, "btc")) {
-				$temp = $totals[$c] / $ticker['ask'];
+				$temp = $totals[$c] / ($ticker['ask'] ? $ticker['ask'] : $ticker['last_trade']);
 				crypto_log("equivalent " . get_currency_abbr($c) . " (BTC): " . ($temp));
 
 				add_summary_instance($job, 'equivalent_btc_' . $c, $temp);
@@ -201,7 +201,7 @@ foreach ($summaries as $summary) {
 		// BTC is converted at the exchange's last sell rate
 		// fail if there is no current rate (otherwise there is no point of this job, we don't want erraneous zero balances)
 		if ($ticker = get_latest_ticker($exchange, $currency, "btc")) {
-			$total += $crypto2btc * $ticker['ask'];
+			$total += $crypto2btc * ($ticker['ask'] ? $ticker['ask'] : $ticker['last_trade']);
 		} else {
 			throw new JobException("There is no recent ticker balance for $currency/btc on $exchange - cannot convert");
 		}
@@ -236,8 +236,9 @@ foreach ($summaries as $summary) {
 		// BTC is converted at default ticker rate bid
 		if (isset($totals['btc'])) {
 			if ($ticker = get_latest_ticker(get_default_currency_exchange($currency), "btc", $currency)) {
-				crypto_log("+ from BTC: " . ($totals['btc'] / $ticker['bid']));
-				$total += $totals['btc'] / $ticker['bid'];
+				$temp = $totals['btc'] / ($ticker['bid'] ? $ticker['bid'] : $ticker['last_trade']);
+				crypto_log("+ from BTC: " . $temp);
+				$total += $temp;
 			}
 		}
 
@@ -248,13 +249,14 @@ foreach ($summaries as $summary) {
 			// e.g. NMC to BTC
 			if (isset($totals[$c])) {
 				if ($ticker = get_latest_ticker(get_default_currency_exchange($c), "btc", $c)) {
-					$temp = $totals[$c] * $ticker['ask'];
+					$temp = $totals[$c] * ($ticker['ask'] ? $ticker['ask'] : $ticker['last_trade']);
 					crypto_log("+ from " . get_currency_abbr($c) . " (BTC): " . ($temp));
 
 					// and then BTC to CUR
 					if ($ticker = get_latest_ticker(get_default_currency_exchange($currency), "btc", $currency)) {
-						crypto_log("+ from " . get_currency_abbr($c) . " (" . get_currency_abbr($currency) . "): " . ($temp / $ticker['bid']));
-						$total += $temp / $ticker['bid'];
+						$temp2 = $temp / ($ticker['bid'] ? $ticker['bid'] : $ticker['last_trade']);
+						crypto_log("+ from " . get_currency_abbr($c) . " (" . get_currency_abbr($currency) . "): " . $temp2);
+						$total += $temp2;
 					}
 				}
 

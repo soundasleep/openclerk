@@ -72,6 +72,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/justcoin.php");
 		break;
 
+	case "coinbase":
+		require(__DIR__ . "/ticker/coinbase.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;

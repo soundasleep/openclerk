@@ -19,7 +19,7 @@ if (!$json) {
 }
 
 foreach ($json as $security => $data) {
-	// $data only has last price, so we'll let securities_havelock job deal with the buy/sell
+	// $data only has last price, so we'll let securities_havelock job deal with the bid/ask
 	$q = db()->prepare("SELECT * FROM securities_havelock WHERE name=?");
 	$q->execute(array($security));
 	$security_def = $q->fetch();

@@ -19,7 +19,7 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("pln", "xrp");
+	return array("pln", "xrp", "nmc");
 }
 
 function get_all_cryptocurrencies() {
@@ -183,7 +183,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("bitcurex", "justcoin");
+	return array("coinbase");
 }
 
 function get_exchange_pairs() {
@@ -195,6 +195,7 @@ function get_exchange_pairs() {
 		"btcchina" => array(array('cny', 'btc')),
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc')),
 		"cexio" => array(array('btc', 'ghs')),
+		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'), array('cny', 'btc'), array('pln', 'btc'), array('nzd', 'btc')),
 		"coins-e" => array(array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'), array('ltc', 'xpm'), array('xpm', 'ppc'), array('btc', 'dog')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'), array('btc', 'xpm'), array('btc', 'trc')),
 		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog')),
@@ -210,6 +211,14 @@ function get_new_exchange_pairs() {
 	return array(
 		"themoneyconverter_usdcny",
 		"themoneyconverter_usdpln",
+		"coinbase_usdbtc",
+		"coinbase_eurbtc",
+		"coinbase_gbpbtc",
+		"coinbase_cadbtc",
+		"coinbase_audbtc",
+		"coinbase_cnybtc",
+		"coinbase_plnbtc",
+		"coinbase_nzdbtc",
 	);
 }
 
@@ -332,7 +341,7 @@ function crypto_address($currency, $address) {
 }
 
 function get_summary_types() {
-	return array(
+	$summary_types = array(
 		'summary_btc' => array('currency' => 'btc', 'key' => 'btc', 'title' => get_currency_name('btc'), 'short_title' => get_currency_abbr('btc')),
 		'summary_ltc' => array('currency' => 'ltc', 'key' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => get_currency_abbr('ltc')),
 		'summary_nmc' => array('currency' => 'nmc', 'key' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => get_currency_abbr('nmc')),
@@ -343,6 +352,9 @@ function get_summary_types() {
 		'summary_trc' => array('currency' => 'trc', 'key' => 'trc', 'title' => get_currency_name('trc'), 'short_title' => get_currency_abbr('trc')),
 		'summary_dog' => array('currency' => 'dog', 'key' => 'dog', 'title' => get_currency_name('dog'), 'short_title' => get_currency_abbr('dog')),
 		'summary_xrp' => array('currency' => 'xrp', 'key' => 'xrp', 'title' => get_currency_name('xrp'), 'short_title' => get_currency_abbr('xrp')),
+		'summary_ghs' => array('currency' => 'ghs', 'key' => 'ghs', 'title' => get_currency_name('ghs'), 'short_title' => 'GHS'),
+	);
+	/*
 		'summary_usd_btce' => array('currency' => 'usd', 'key' => 'usd_btce', 'title' => get_currency_name('usd') . " (converted through BTC-e)", 'short_title' => 'USD (BTC-E)', 'exchange' => 'btce'),
 		'summary_usd_mtgox' => array('currency' => 'usd', 'key' => 'usd_mtgox', 'title' => get_currency_name('usd') . " (converted through Mt.Gox)", 'short_title' => 'USD (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_usd_vircurex' => array('currency' => 'usd', 'key' => 'usd_vircurex', 'title' => get_currency_name('usd') . " (converted through Vircurex)", 'short_title' => 'USD (Vircurex)', 'exchange' => 'virtex'),
@@ -362,8 +374,27 @@ function get_summary_types() {
 		'summary_cny_btcchina' => array('currency' => 'cny', 'key' => 'cny_btcchina', 'title' => get_currency_name('cad') . " (converted through BTC China)", 'short_title' => 'CNY (BTC China)', 'exchange' => 'btcchina'),
 		'summary_pln_mtgox' => array('currency' => 'cny', 'key' => 'pln_mtgox', 'title' => get_currency_name('pln') . " (converted through Mt.Gox)", 'short_title' => 'PLN (Mt.Gox)', 'exchange' => 'mtgox'),
 		'summary_pln_bitcurex' => array('currency' => 'cny', 'key' => 'pln_bitcurex', 'title' => get_currency_name('pln') . " (converted through Bitcurex)", 'short_title' => 'PLN (Bitcurex)', 'exchange' => 'bitcurex'),
-		'summary_ghs' => array('currency' => 'ghs', 'key' => 'ghs', 'title' => get_currency_name('ghs'), 'short_title' => 'GHS'),
 	);
+	*/
+
+	// add fiat pairs automatically
+	foreach (get_exchange_pairs() as $exchange => $pairs) {
+		foreach ($pairs as $pair) {
+			if ($pair[1] == 'btc') {
+				// fiat currency
+				$summary_types['summary_' . $pair[0] . '_' . $exchange] = array(
+					'currency' => $pair[0],
+					'key' => $pair[0] . '_' . $exchange,
+					'title' => get_currency_name($pair[0]) . ' (converted through ' . get_exchange_name($exchange) . ')',
+					'short_title' => get_currency_abbr($pair[0]) . ' (' . get_exchange_name($exchange) . ')',
+					'exchange' => $exchange,
+				);
+			}
+		}
+	}
+
+	return $summary_types;
+
 }
 
 // used in graphs/util.php for defining BTC equivalent defaults

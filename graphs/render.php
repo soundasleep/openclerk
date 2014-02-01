@@ -120,8 +120,8 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 			'color' => default_chart_color(1),
 		),
 	);
-	if ($exchange == 'themoneyconverter') {
-		// hack fix because TheMoneyConverter only has last_trade
+	if ($exchange == 'themoneyconverter' || $exchange == "coinbase") {
+		// hack fix because TheMoneyConverter and Coinbase only have last_trade
 		unset($data[0][2]);
 		$data[0][1]['title'] = get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2);
 		$data[0][1]['color'] = default_chart_color(1);
@@ -150,8 +150,8 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 		));
 		while ($ticker = $q->fetch()) {
 			$data_key = date('Y-m-d', strtotime($ticker[$source['key']]));
-			if ($exchange == 'themoneyconverter') {
-				// hack fix because TheMoneyConverter only has last_trade
+			if ($exchange == 'themoneyconverter' || $exchange == "coinbase") {
+				// hack fix because TheMoneyConverter and Coinbase only has last_trade
 				$data[$data_key] = array(
 					'new Date(' . date('Y, n-1, j', strtotime($ticker[$source['key']])) . ')',
 					graph_number_format(/* last_trade is in ticker; last_trade_closing is in graph_data_ticker */ isset($ticker['last_trade']) ? $ticker['last_trade'] : $ticker['last_trade_closing']),
