@@ -18,8 +18,8 @@ require(__DIR__ . "/graphs/managed.php");
 // get all of our limits
 $accounts = user_limits_summary(user_id());
 
-$preferred_crypto = require_post("preferred_crypto");
-$preferred_fiat = require_post("preferred_fiat");
+$preferred_crypto = require_post("preferred_crypto", false);
+$preferred_fiat = require_post("preferred_fiat", false);
 $preference = require_post("preference");
 $managed = require_post("managed", array());
 
@@ -37,6 +37,12 @@ if (!in_array($preferred_fiat, get_all_fiat_currencies())) {
 }
 if (!in_array($preference, array('auto', 'managed', 'none'))) {
 	$errors[] = "Invalid graph management preference.";
+}
+if ($preference != "none" && !$preferred_fiat) {
+	$errors[] = "You need to select at least <a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">one fiat currency</a> in order to use managed graphs.";
+}
+if ($preference != "none" && !$preferred_crypto) {
+	$errors[] = "You need to select at least <a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">one fiat currency</a> in order to use managed graphs.";
 }
 foreach ($managed as $m) {
 	if (!isset($categories[$m])) {
