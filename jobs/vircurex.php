@@ -43,6 +43,9 @@ foreach ($currencies as $i => $currency) {
 	if (!isset($balance["currency"]) && isset($balance["statustxt"])) {
 		throw new ExternalAPIException(htmlspecialchars($balance["statustxt"]));
 	}
+	if (!isset($balance["currency"]) && isset($balance["statustext"])) {
+		throw new ExternalAPIException(htmlspecialchars($balance["statustext"]));
+	}
 
 	// sanity check
 	if ($balance["currency"] !== get_currency_abbr($currency)) {
