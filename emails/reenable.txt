@@ -1,0 +1,15 @@
+Your Failing {$exchange} {$label} has been Re-enabled
+Hello {$name},
+
+One of your {$exchange} {$labels} ({$title}) configured in {$site_name}, that had been disabled temporarily due to repeated failures, has been automatically re-enabled by {$site_name}.
+
+This may be because {$site_name} has updated how it queries {$exchange} {$labels}, or {$exchange} is no longer down.
+
+You can remove this {$label} by visiting your {$site_name} accounts wizard:
+
+  {$url}
+
+Thanks for using {$site_name}!
+
+{$site_name}
+{$site_url}

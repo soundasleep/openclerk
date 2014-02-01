@@ -14,6 +14,45 @@ require(__DIR__ . "/layout/graphs.php");
 $messages = array();
 $errors = array();
 
+// enabling accounts?
+if (require_post("enable", false)) {
+	$exchange = require_post("enable");
+	$account_data = get_account_data($exchange);
+
+	// we re-enable ALL accounts, not just accounts belonging to active users, so that when a disabled user
+	// logs back in, they automatically get their disabled accounts disabled as well
+	$q = db()->prepare("SELECT t.*, users.email, users.name AS users_name, users.is_disabled AS user_is_disabled FROM " . $account_data['table'] . " t
+		JOIN users ON t.user_id=users.id
+		WHERE t.is_disabled=1");
+	$q->execute();
+	$count = 0;
+	$accounts = $q->fetchAll();
+	foreach ($accounts as $account) {
+		// re-enable it
+		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=0 WHERE id=?");
+		$q->execute(array($account['id']));
+
+		// email the user if their account is not disabled
+		if (!$account['user_is_disabled']) {
+			if ($account['email']) {
+				send_email($account['email'], ($account['users_name'] ? $account['users_name'] : $account['email']), "reenable", array(
+					"name" => ($account['users_name'] ? $account['users_name'] : $account['email']),
+					"exchange" => get_exchange_name($exchange),
+					"label" => $account_data['label'],
+					"labels" => $account_data['labels'],
+					"title" => (isset($account['title']) && $account['title']) ? "\"" . $account['title'] . "\"" : "untitled",
+					"url" => absolute_url(url_for("wizard_accounts")),
+				));
+				$messages[] = "Sent enabled message to " . htmlspecialchars($account['email']);
+
+			}
+		}
+		$count++;
+	}
+
+	$messages[] = "Re-enabled " . plural($count, "account") . ".";
+}
+
 page_header("Admin: Accounts", "page_admin_accounts", array('jquery' => true, 'js' => array('common', 'accounts')));
 
 // where 0% = bad; 100% = perfect; etc
@@ -47,13 +86,14 @@ function get_error_class($n) {
 		<th>Last success</th>
 		<th>Run job</th>
 		<th>API status</th>
+		<th></th>
 	</tr>
 </thead>
 <tbody>
 <?php
 	foreach (account_data_grouped() as $label => $group) {
 	?>
-		<tr><th colspan="6"><?php echo htmlspecialchars($label); ?></th></tr>
+		<tr><th colspan="7"><?php echo htmlspecialchars($label); ?></th></tr>
 	<?php
 		foreach ($group as $exchange => $data) {
 			// don't display unsafe tables
@@ -102,6 +142,14 @@ function get_error_class($n) {
 			</td>
 			<?php
 			echo "<td><a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $exchange))) . "\">Graph</a></td>";
+			echo "<td class=\"buttons\">";
+			if ($data['failure'] && $summary['disabled'] > 0) {
+				echo "<form action=\"" . htmlspecialchars(url_for('admin_accounts')) . "\" method=\"post\">";
+				echo "<input type=\"hidden\" name=\"enable\" value=\"" . htmlspecialchars($exchange) . "\">";
+				echo "<input type=\"submit\" value=\"Enable all\" onclick=\"return confirm('Are you sure you want to re-enable all failed accounts?');\">";
+				echo "</form>";
+			}
+			echo "</td>\n";
 			echo "</tr>";
 		}
 	}

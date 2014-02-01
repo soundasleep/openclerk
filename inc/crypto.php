@@ -520,7 +520,7 @@ function account_data_grouped() {
 		'Hidden' => array(
 			'graph' => array('title' => 'Graphs', 'table' => 'graphs', 'query' => ' AND is_removed=0', 'job' => false),
 			'graph_pages' => array('title' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0', 'job' => false),
-			'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries'),
+			'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries', 'job' => false),
 			'notifications' => array('title' => 'Notifications', 'table' => 'notifications', 'group' => 'notifications', 'wizard' => 'notifications'),
 		),
 	);
@@ -539,7 +539,7 @@ function account_data_grouped() {
 				$data[$key0][$key]['failure'] = false;
 			}
 			if (!isset($data[$key0][$key]['job'])) {
-				$data[$key0][$key]['job'] = false;
+				$data[$key0][$key]['job'] = true;
 			}
 			if (!isset($data[$key0][$key]['disabled'])) {
 				$data[$key0][$key]['disabled'] = false;
