@@ -16,7 +16,7 @@ foreach (account_data_grouped() as $label => $data) {
 	foreach ($data as $key => $value) {
 		if (isset($value['wizard']) && $value['wizard'] == $account_type['wizard']) {
 			// don't display unsafe exchanges
-			if (!($value['unsafe'] && !get_site_config('allow_unsafe'))) {
+			if ($value['unsafe'] && !get_site_config('allow_unsafe')) {
 				continue;
 			}
 
