@@ -26,11 +26,13 @@ function map_currency($c) {
 }
 $feeds = array(
 	"http://themoneyconverter.com/rss-feed/USD/rss.xml" => array(
-		array('usd', 'eur'),
-		array('usd', 'nzd'),
 		array('usd', 'gbp'),
-		array('usd', 'aud'),
+		array('usd', 'eur'),
 		array('usd', 'cad'),
+		array('usd', 'aud'),
+		array('usd', 'nzd'),
+		array('usd', 'cny'),
+		array('usd', 'pln'),
 	),
 	// TODO maybe remove this and switch existing tickers over in database
 	"http://themoneyconverter.com/rss-feed/RUB/rss.xml" => array(
