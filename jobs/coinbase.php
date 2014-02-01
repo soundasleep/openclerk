@@ -23,7 +23,6 @@ function coinbase_query($method, $account) {
 
 		// first we want to get the access token, either through code or refresh_token
 		$req = array(
-			"grant_type" => "authorization_code",
 			"redirect_uri" => absolute_url(url_for('coinbase')),
 			"client_id" => get_site_config('coinbase_client_id'),
 			"client_secret" => get_site_config('coinbase_client_secret'),
@@ -31,10 +30,12 @@ function coinbase_query($method, $account) {
 
 		if ($account['refresh_token']) {
 			crypto_log("Using refresh token to get access token");
-			$req['refresh_token'] = $account['refresh_token'];
+			$req['refresh_token'] = $account['refresh_token'];		// the refresh token is one-time use
+			$req['grant_type'] = "refresh_token";
 		} else {
 			crypto_log("Using code to get access token");
 			$req['code'] = $account['api_code'];
+			$req['grant_type'] = "authorization_code";
 		}
 
 		// generate the POST data string
