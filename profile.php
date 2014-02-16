@@ -194,10 +194,7 @@ if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { 
 <div style="clear:both;">
 <div class="graph_controls">
 <?php } ?>
-<div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>"
-	id="graph<?php echo htmlspecialchars($graph['id']); ?>">
 	<?php render_graph($graph, isset($graph['public']) && $graph['public']); ?>
-</div>
 <?php if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { ?>
 </div>
 </div>

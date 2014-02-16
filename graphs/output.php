@@ -2,7 +2,6 @@
 
 function render_text($graph, $text) {
 	$graph_id = htmlspecialchars($graph['id']);
-	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <div class="overflow_wrapper">
@@ -10,12 +9,15 @@ function render_text($graph, $text) {
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 </div>
 </div>
+
+<script type="text/javascript">
+  <?php render_graph_headings($graph); ?>
+</script>
 <?php
 }
 
 function render_table_vertical($graph, $data, $head = array()) {
 	$graph_id = htmlspecialchars($graph['id']);
-	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <div class="overflow_wrapper">
@@ -47,12 +49,15 @@ function render_table_vertical($graph, $data, $head = array()) {
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 </div>
 </div>
+
+<script type="text/javascript">
+  <?php render_graph_headings($graph); ?>
+</script>
 <?php
 }
 
 function render_table_horizontal_vertical($graph, $data) {
 	$graph_id = htmlspecialchars($graph['id']);
-	render_graph_last_updated($graph);
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <div class="overflow_wrapper">
@@ -124,18 +129,11 @@ function get_graph_<?php echo htmlspecialchars($graph['id']); ?>() {
 <?php
 }
 
-function render_graph_last_updated($graph) {
-	if (isset($graph['last_updated']) && $graph['last_updated'] && $graph['width'] > 1) { ?>
-		<div class="last_updated"><?php echo recent_format_html($graph['last_updated']); ?></div>
-	<?php }
-}
-
 /**
  * @param $data an associative array of (label => numeric value)
  */
 function render_pie_chart($graph, $data, $key_label, $value_label, $callback = 'graph_number_format') {
 	$graph_id = htmlspecialchars($graph['id']);
-	render_graph_last_updated($graph);
 ?>
 <script type="text/javascript">
   function drawChart<?php echo $graph_id; ?>() {
@@ -172,9 +170,7 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 	chart.draw(data, options);
   }
   drawChart<?php echo $graph_id; ?>();	// for ajax call
-  <?php if (isset($graph['subheading'])) { ?>
-  	$("#subheading_<?php echo $graph_id; ?>").html(<?php echo json_encode($graph['subheading']); ?>);
-  <?php } ?>
+  <?php render_graph_headings($graph); ?>
 </script>
 
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
@@ -184,7 +180,6 @@ function render_pie_chart($graph, $data, $key_label, $value_label, $callback = '
 
 function render_linegraph_date($graph, $data, $stacked = false) {
 	$graph_id = htmlspecialchars($graph['id']);
-	render_graph_last_updated($graph);
 ?>
 <script type="text/javascript">
   function drawChart<?php echo $graph_id; ?>() {
@@ -269,13 +264,25 @@ function render_linegraph_date($graph, $data, $stacked = false) {
 	chart.draw(data, options);
   }
   drawChart<?php echo $graph_id; ?>();	// for ajax call
-  <?php if (isset($graph['subheading'])) { ?>
-  	$("#subheading_<?php echo $graph_id; ?>").html(<?php echo json_encode($graph['subheading']); ?>);
-  <?php } ?>
+  <?php render_graph_headings($graph); ?>
 </script>
 
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>></div>
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
+<?php
+}
+
+function render_graph_headings($graph) {
+	if (!isset($graph['id'])) {
+		throw new GraphException("Cannot render headings for a graph with no ID");
+	}
+?>
+	<?php if (isset($graph['subheading'])) { ?>
+		$("#subheading_<?php echo $graph['id']; ?>").html(<?php echo json_encode($graph['subheading']); ?>);
+	<?php } ?>
+	<?php if (isset($graph['last_updated']) && $graph['last_updated'] && $graph['width'] > 1) { ?>
+		$("#last_updated_<?php echo $graph['id']; ?>").html(<?php echo json_encode(recent_format_html($graph['last_updated'])); ?>);
+	<?php } ?>
 <?php
 }
 

@@ -31,6 +31,11 @@ function load_technicals($graph, $is_public) {
  */
 function render_graph($graph, $is_public = false) {
 
+	echo "<div class=\"graph graph_" . htmlspecialchars($graph['graph_type']) . "\"";
+	echo " id=\"graph" . htmlspecialchars($graph['id']) . "\"";
+	// unfortunately necessary to fix Chrome rendering bugs (issue #46)
+	echo " style=\"overflow: hidden; width: " . ((get_site_config('default_graph_width') * $graph['width'])) . "px; height: " . ((get_site_config('default_graph_height') * $graph['height']) + 30) . "px;\">";
+
 	$graph_types = $is_public ? graph_types_public() : graph_types();
 	if (!isset($graph_types[$graph['graph_type']])) {
 		// let's not crash with an exception, let's just display an error
@@ -103,97 +108,102 @@ function render_graph($graph, $is_public = false) {
 		}
 	}
 
-	echo "<h2 class=\"graph_title\">";
+	echo "<div class=\"graph_headings\">\n";
+	echo "<h2 class=\"graph_title\">\n";
 	if ($historical) echo "<a href=\"" . htmlspecialchars($historical) . "\" title=\"View historical data\">";
 	echo htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']);
 	if ($historical) echo "</a>";
 	echo "</h2>\n";
 	echo "<span class=\"subheading\" id=\"subheading_" . htmlspecialchars($graph['id']) . "\"></span>\n";
+	echo "<span class=\"last_updated\" id=\"last_updated_" . htmlspecialchars($graph['id']) . "\"></span>\n";		// issue #46: Chrome rendering bugs mean we need to render last_updated as per subheadings
 	render_graph_controls($graph);
+	echo "</div>\n";
 
-	// stop rendering if we're rendering linebreak or heading - we don't need a callback here
-	if ($graph['graph_type'] == 'heading' || $graph['graph_type'] == 'linebreak') {
-		return;
-	}
+	// don't render anything if we're rendering linebreak or heading - we don't need a callback here
+	if (!($graph['graph_type'] == 'heading' || $graph['graph_type'] == 'linebreak')) {
 
-	// we'll use ajax to render the graph
-	$args = array();
-	if (require_get('demo', false)) {
-		$args['demo'] = require_get('demo');
-	}
-	if (require_get('debug_show_missing_data', false)) {
-		$args['debug_show_missing_data'] = require_get('debug_show_missing_data');
-	}
-	if ($is_public) {
-		$args += array(
-			'graph_type' => $graph['graph_type'],
-			'days' => isset($graph['days']) ? $graph['days'] : null,
-			'height' => $graph['height'],
-			'width' => $graph['width'],
-			'delta' => $graph['delta'],
-			'arg0' => isset($graph['arg0']) ? $graph['arg0'] : null,
-			'arg0_resolved' => isset($graph['arg0_resolved']) ? $graph['arg0_resolved'] : null,
-			'id' => isset($graph['id']) ? $graph['id'] : null,
-			'no_technicals' => isset($graph['no_technicals']) ? $graph['no_technicals'] : null,
-		);
-		$ajax_url = url_for('graph_public', $args);
-	} else {
-		$args += array(
-			'id' => $graph['id'],
-		);
-		$ajax_url = url_for('graph', $args);
-	}
-
-	$user = user_logged_in() ? get_user(user_id()) : false;
-	if ($user) {
-		if ($user['disable_graph_refresh'] || (isset($graph_type['no_refresh']) && $graph_type['no_refresh'])) {
-			$timeout = 0;	// disable refresh
+		// we'll use ajax to render the graph
+		$args = array();
+		if (require_get('demo', false)) {
+			$args['demo'] = require_get('demo');
+		}
+		if (require_get('debug_show_missing_data', false)) {
+			$args['debug_show_missing_data'] = require_get('debug_show_missing_data');
+		}
+		if ($is_public) {
+			$args += array(
+				'graph_type' => $graph['graph_type'],
+				'days' => isset($graph['days']) ? $graph['days'] : null,
+				'height' => $graph['height'],
+				'width' => $graph['width'],
+				'delta' => $graph['delta'],
+				'arg0' => isset($graph['arg0']) ? $graph['arg0'] : null,
+				'arg0_resolved' => isset($graph['arg0_resolved']) ? $graph['arg0_resolved'] : null,
+				'id' => isset($graph['id']) ? $graph['id'] : null,
+				'no_technicals' => isset($graph['no_technicals']) ? $graph['no_technicals'] : null,
+			);
+			$ajax_url = url_for('graph_public', $args);
 		} else {
-			$timeout = get_premium_value(get_user(user_id()), 'graph_refresh');
+			$args += array(
+				'id' => $graph['id'],
+			);
+			$ajax_url = url_for('graph', $args);
 		}
-	} else {
-		$timeout = get_site_config('graph_refresh_public');
-	}
 
-	?>
-	<script type="text/javascript">
-	google.load("visualization", "1", {packages:["corechart"]});
-	function callbackGraph<?php echo htmlspecialchars($graph['id']); ?>() {
-		queue_ajax_request(<?php echo json_encode($ajax_url); ?>, {
-			'success': function(data, text, xhr) {
-				$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(data);
-				<?php if ($timeout > 0) { ?>
-				setTimeout(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>, <?php echo $timeout * 1000 * 60; ?>);
-				<?php } ?>
-			},
-			'error': function(xhr, text, error) {
-				$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(xhr.responseText);
-				<?php if ($timeout > 0) { ?>
-				setTimeout(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>, <?php echo $timeout * 1000 * 60; ?>);
-				<?php } ?>
+		$user = user_logged_in() ? get_user(user_id()) : false;
+		if ($user) {
+			if ($user['disable_graph_refresh'] || (isset($graph_type['no_refresh']) && $graph_type['no_refresh'])) {
+				$timeout = 0;	// disable refresh
+			} else {
+				$timeout = get_premium_value(get_user(user_id()), 'graph_refresh');
 			}
-		})
-	}
-	$(document).ready(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>);
+		} else {
+			$timeout = get_site_config('graph_refresh_public');
+		}
 
-	<?php if ($timeout > 0) { /* get better analytics, since graphs now update themselves */ ?>
-	$(document).ready(function() {
-		if (typeof track_graphs == 'undefined') {
-			track_graphs = function() {
-				if (typeof _gaq != 'undefined') {
-					_gaq.push(['_trackEvent', 'Graphs', 'Idle', /* optional label */]);
+		?>
+		<script type="text/javascript">
+		google.load("visualization", "1", {packages:["corechart"]});
+		function callbackGraph<?php echo htmlspecialchars($graph['id']); ?>() {
+			queue_ajax_request(<?php echo json_encode($ajax_url); ?>, {
+				'success': function(data, text, xhr) {
+					$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(data);
+					<?php if ($timeout > 0) { ?>
+					setTimeout(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>, <?php echo $timeout * 1000 * 60; ?>);
+					<?php } ?>
+				},
+				'error': function(xhr, text, error) {
+					$("#ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>").html(xhr.responseText);
+					<?php if ($timeout > 0) { ?>
+					setTimeout(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>, <?php echo $timeout * 1000 * 60; ?>);
+					<?php } ?>
 				}
-			}
-			setInterval(track_graphs, <?php echo $timeout * 1000 * 60; ?>);
-			track_graphs();
+			})
 		}
-	});
-	<?php } ?>
-	</script>
-	<div id="ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>"<?php echo get_dimensions($graph); ?>><span class="status_loading">Loading...</span></div>
-	<?php
+		$(document).ready(callbackGraph<?php echo htmlspecialchars($graph['id']); ?>);
+
+		<?php if ($timeout > 0) { /* get better analytics, since graphs now update themselves */ ?>
+		$(document).ready(function() {
+			if (typeof track_graphs == 'undefined') {
+				track_graphs = function() {
+					if (typeof _gaq != 'undefined') {
+						_gaq.push(['_trackEvent', 'Graphs', 'Idle', /* optional label */]);
+					}
+				}
+				setInterval(track_graphs, <?php echo $timeout * 1000 * 60; ?>);
+				track_graphs();
+			}
+		});
+		<?php } ?>
+		</script>
+		<div id="ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>"<?php echo get_dimensions($graph); ?>><span class="status_loading">Loading...</span></div>
+		<?php
 
 	}
+
+	echo "</div>\n";	// end graph div
+
+}
 
 function render_graph_actual($graph, $is_public) {
 

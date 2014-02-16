@@ -90,9 +90,7 @@ if ($id && isset($historical_graphs[$id])) {
 	</table>
 
 	<div class="graph_collection">
-	<div class="graph graph_<?php echo htmlspecialchars($graph['graph_type']); ?>" id="graph<?php echo htmlspecialchars($graph['id']); ?>">
 		<?php render_graph($graph, true /* is public */); ?>
-	</div>
 	</div>
 
 	<?php
