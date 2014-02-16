@@ -30,6 +30,8 @@ if (!isset($balance['last5m'])) {
 	throw new ExternalAPIException("No last5m balance found");
 }
 
+$hashrate = $balance['last5m'];
+
 insert_new_hashrate($job, $account, $exchange, 'btc', $hashrate /* mhash */);
 insert_new_hashrate($job, $account, $exchange, 'nmc', $hashrate /* mhash */);
 // TODO support IXC, DVC hashrates
