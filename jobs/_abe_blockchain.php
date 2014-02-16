@@ -38,9 +38,9 @@ if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |
 					// convert (1.23) into -1.23
 					$amount = - substr($amount, 1, strlen($amount) - 2);
 				}
-				if ($match[2] == "+") {
+				if ($match[2] == "+ ") {
 					$amount = +$amount;
-				} else if ($match[2] == "-") {
+				} else if ($match[2] == "- ") {
 					$amount = -$amount;
 				}
 				crypto_log("Removing " . $amount . " from balance: unconfirmed (block " . $match[1] . " >= " . $block . ")");
