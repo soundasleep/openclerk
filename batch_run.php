@@ -461,6 +461,10 @@ try {
 			require(__DIR__ . "/jobs/teamdoge.php");
 			break;
 
+		case "dedicatedpool_doge":
+			require(__DIR__ . "/jobs/dedicatedpool_doge.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

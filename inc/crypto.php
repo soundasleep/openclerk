@@ -184,6 +184,8 @@ function get_all_exchanges() {
 		"ecoining" => "Ecoining",
 		"ecoining_ppc" => "Ecoining",
 		"teamdoge" => "TeamDoge",
+		"dedicatedpool" => "dedicatedpool.com",
+		"dedicatedpool_doge" => "dedicatedpool.com",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -303,6 +305,7 @@ function get_supported_wallets() {
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc'),
 		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog'),
 		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
+		"dedicatedpool" => array('dog', 'hash'),		// other coins available
 		"dogechainpool" => array('dog', 'hash'),
 		"dogepoolpw" => array('dog', 'hash'),
 		"ecoining" => array('ppc', 'hash'),
@@ -358,7 +361,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningpoolco", "vaultofsatoshi", "50btc", "smalltimeminer", "ecoining", "teamdoge");
+	return array("miningpoolco", "vaultofsatoshi", "50btc", "smalltimeminer", "ecoining", "teamdoge", "dedicatedpool");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -529,6 +532,7 @@ function account_data_grouped() {
 			'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
 			'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'ecoining_ppc' => array('table' => 'accounts_ecoining_ppc', 'group' => 'accounts', 'suffix' => ' Peercoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ecoining'),
@@ -685,6 +689,7 @@ function get_external_apis() {
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 			'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
 			'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
+			'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
 			'dogechainpool' => '<a href="http://pool.dogechain.info/">Dogechain Pool</a>',
 			'dogepoolpw' => '<a href="http://dogepool.pw">Ecoining Peercoin</a>',
 			'ecoining_ppc' => '<a href="https://peercoin.ecoining.com/">Eligius</a>',
@@ -1347,6 +1352,16 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_teamdoge',
 				'khash' => true,
+			);
+
+		case "dedicatedpool_doge":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
+				),
+				'table' => 'accounts_dedicatedpool_doge',
+				'title' => 'dedicatedpool.com DOGE account',
+				'title_key' => 'dedicatedpool',
 			);
 
 		// --- exchanges ---
