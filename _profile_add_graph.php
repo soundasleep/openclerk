@@ -2,6 +2,12 @@
 <form action="<?php echo htmlspecialchars(url_for('profile_add_graph')); ?>" method="post">
 <table class="form">
 <tr>
+	<th>Category:</th>
+	<td><select name="category" id="graph_category">
+		<option id="graph_category_template">Loading...</option>
+	</select></td>
+</tr>
+<tr>
 	<th>Graph type:</th>
 	<td><select name="type" id="graph_type">
 		<option id="graph_type_template">Loading...</option>

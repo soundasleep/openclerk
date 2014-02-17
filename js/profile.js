@@ -8,64 +8,117 @@ $(document).ready(function() {
 	}
 
 	var i;
-	var e = $(document).find("#graph_type"), template = $(document).find("#graph_type_template");
+	var e = $(document).find("#graph_category"), template = $(document).find("#graph_category_template");
+	var first_element = -1;
 	template.hide();
+	// first we load all categories and subcategories
 	for (i = 0; i < graph_types().length; i++) {
-		var temp = template.clone();
-		temp.attr('value', graph_types()[i]['id']);
-		if (typeof graph_types()[i]['category'] != 'undefined') {
-			temp.text(graph_types()[i]['category']);
-			temp.attr('disabled', true);
-			temp.addClass('category');
-			temp.addClass('category_' + graph_types()[i]['id']);
-		} else {
-			temp.text(graph_types()[i]['title']);
+		var graph_type = graph_types()[i];
+		if (typeof graph_type['category'] != 'undefined' || typeof graph_type['subcategory'] != 'undefined') {
+			var temp = template.clone();
+			if (typeof graph_type['category'] != 'undefined') {
+				temp.text(graph_type['category']);
+				temp.attr('disabled', true);
+				temp.addClass('category');
+				temp.addClass('category_' + graph_type['id']);
+			} else if (typeof graph_type['subcategory'] != 'undefined') {
+				// don't add this subcategory if this subcategory has no visible items in it
+				var has_visible = false;
+				for (var j = i + 1; j < graph_types().length; j++) {
+					if (typeof graph_types()[j]['category'] != 'undefined' || typeof graph_types()[j]['subcategory'] != 'undefined') {
+						break;
+					}
+					if (typeof graph_types()[j]['hide'] == 'undefined' || !graph_types()[j]['hide']) {
+						has_visible = true;
+						break;
+					}
+				}
+				if (!has_visible) continue;
+
+				var temp = template.clone();
+				temp.attr('value', i);
+				temp.text(graph_type['subcategory']);
+				if (first_element < 0) {
+					first_element = i;
+				}
+			}
+			temp.data('index', i);
+			temp.attr('id', '');
+			e.append(temp);
+			temp.show();
 		}
-		temp.data('index', i);
-		temp.attr('id', '');
-		e.append(temp);
-		temp.show();
 	}
-	template.remove();	// so we can't select it while hidden
 	var callback = function(event) {
+		var e = $(document).find("#graph_type"), template = $(document).find("#graph_category_template");
+		$(e).find("option").not("#graph_category_template").remove();
+
+		// and then we load graph types, depending on the subcategory
 		var data = $(event.target).find("option:selected").data('index');
-		if (typeof data != 'undefined') {
-			if (typeof graph_types()[data]['days'] != 'undefined' && graph_types()[data]['days']) {
-				$("#add_graph_days").show();
-			} else {
-				$("#add_graph_days").hide();
+		for (i = data + 1; i < graph_types().length; i++) {
+			var graph_type = graph_types()[i];
+			if (typeof graph_type['category'] != 'undefined' || typeof graph_type['subcategory'] != 'undefined') {
+				// we've added enough for this (sub)category
+				break;
 			}
-			if (typeof graph_types()[data]['delta'] != 'undefined' && graph_types()[data]['delta']) {
-				$("#add_graph_delta").show();
-			} else {
-				$("#add_graph_delta").hide();
-			}
-			if (typeof graph_types()[data]['technical'] != 'undefined' && graph_types()[data]['technical']) {
-				$("#add_graph_technical").show();
-				$("#graph_technical").keyup();
-			} else {
-				$("#add_graph_technical").hide();
-				$("#add_graph_period").hide();
-			}
-			if (typeof graph_types()[data]['arg0'] != 'undefined' && graph_types()[data]['arg0']) {
-				$("#add_graph_arg0").show();
-				$("#add_graph_arg0 th").html(graph_types()[data]['arg0_title']);
-				populate_arg0(document, graph_types()[data]['arg0']);
-			} else {
-				$("#add_graph_arg0").hide();
-			}
-			if (typeof graph_types()[data]['string0'] != 'undefined' && graph_types()[data]['string0'] != null) {
-				$("#add_graph_string0").show();
-				$("#add_graph_string0 input").val(graph_types()[data]['string0']);
-			} else {
-				$("#add_graph_string0").hide();
-			}
-			// update description after updating technical data, so that changing graph types highlights graph description, not technical description
-			$("#graph_description").html(graph_types()[data]['description']);
+			var temp = template.clone();
+			temp.attr('value', graph_types()[i]['id']);
+			temp.text(graph_type['title']);
+			temp.data('index', i);
+			temp.attr('id', '');
+			e.append(temp);
+			temp.show();
 		}
+
+		template.hide();	// we can't remove it, we have to hide it so we can reuse it again later
+
+		var callback = function(event) {
+			var data = $(event.target).find("option:selected").data('index');
+			if (typeof data != 'undefined') {
+				if (typeof graph_types()[data] == 'undefined') {
+					throw ("Could not find graph type data for key " + data);
+				}
+				if (typeof graph_types()[data]['days'] != 'undefined' && graph_types()[data]['days']) {
+					$("#add_graph_days").show();
+				} else {
+					$("#add_graph_days").hide();
+				}
+				if (typeof graph_types()[data]['delta'] != 'undefined' && graph_types()[data]['delta']) {
+					$("#add_graph_delta").show();
+				} else {
+					$("#add_graph_delta").hide();
+				}
+				if (typeof graph_types()[data]['technical'] != 'undefined' && graph_types()[data]['technical']) {
+					$("#add_graph_technical").show();
+					$("#graph_technical").keyup();
+				} else {
+					$("#add_graph_technical").hide();
+					$("#add_graph_period").hide();
+				}
+				if (typeof graph_types()[data]['arg0'] != 'undefined' && graph_types()[data]['arg0']) {
+					$("#add_graph_arg0").show();
+					$("#add_graph_arg0 th").html(graph_types()[data]['arg0_title']);
+					populate_arg0(document, graph_types()[data]['arg0']);
+				} else {
+					$("#add_graph_arg0").hide();
+				}
+				if (typeof graph_types()[data]['string0'] != 'undefined' && graph_types()[data]['string0'] != null) {
+					$("#add_graph_string0").show();
+					$("#add_graph_string0 input").val(graph_types()[data]['string0']);
+				} else {
+					$("#add_graph_string0").hide();
+				}
+				// update description after updating technical data, so that changing graph types highlights graph description, not technical description
+				$("#graph_description").html(graph_types()[data]['description']);
+			}
+		};
+
+		e.keyup(callback);
+		e.change(callback);
+		e.keyup();
 	};
 	e.keyup(callback);
 	e.change(callback);
+	e.val(first_element);
 	e.keyup();
 });
 
@@ -155,7 +208,7 @@ $(document).ready(function() {
 });
 
 /**
- * Enable graph layout editing.
+ * Enable graph layout editing through the "Enable layout editing" top right link.
  */
 $(document).ready(function() {
 	var e = $(document).find("#enable_editing");
@@ -205,6 +258,22 @@ function editGraphProperty(target, id, graph_data) {
 		temp.attr('id', '');
 		temp.addClass('open_property_page');
 
+		// add the element to the DOM, so we can trigger event handlers (see below)
+		e.append(temp);
+
+		// find the subcategory that this graph type belongs to
+		var category_id = -1;
+		for (var i = 0; i < graph_types().length; i++) {
+			if (typeof graph_types()[i]['subcategory'] != 'undefined') {
+				category_id = i;
+			}
+			if (graph_types()[i]['id'] == graph_data['type']) {
+				$(temp).find("select[name='category']").val(category_id);
+				$(temp).find("select[name='category']").keyup();		// trigger the event handler (AFTER it's been added to the DOM, otherwise the original form will get it)
+				break;
+			}
+		}
+
 		// update form elements
 		$(temp).find("select[name='type']").val(graph_data['type']);
 		$(temp).find("select[name='width']").val(graph_data['width']);
@@ -216,7 +285,6 @@ function editGraphProperty(target, id, graph_data) {
 		$(temp).find("input[name='id']").val(graph_data['id']);
 		$(temp).find("input:submit").val("Update graph");
 
-		e.append(temp);
 		temp.show();
 		e.show();
 		already_editing = id;
@@ -242,6 +310,8 @@ function hideGraphProperty(target, id) {
 
 /**
  * Enable add graph/pages tabs.
+ * We call this _before_ constructing the add graph dialog, so that there is less of a sudden
+ * page relayout.
  */
 $(document).ready(function() {
 	initialise_tabs('#tabs_profile');

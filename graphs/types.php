@@ -17,6 +17,11 @@ function graph_types_public($summaries = array()) {
 	// we can generate a list of daily graphs from all of the exchanges that we support
 	// but we'll only want to display currency pairs that we're interested in
 	foreach (get_exchange_pairs() as $key => $pairs) {
+		$data['subcategory_exchanges_' . $key] = array(
+			'title' => get_exchange_name($key),
+			'subcategory' => true,
+		);
+
 		foreach ($pairs as $pair) {
 			$pp = get_currency_abbr($pair[0]) . "/" . get_currency_abbr($pair[1]);
 			$data[$key . "_" . $pair[0] . $pair[1] . "_daily"] = array(
@@ -40,9 +45,14 @@ function graph_types_public($summaries = array()) {
 		'title' => 'Securities',
 		'category' => true,
 	);
+	$data['subcategory_securities'] = array(
+		'title' => 'Security values',
+		'subcategory' => true,
+	);
 
 	// get all securities
 	foreach (get_security_exchange_pairs() as $key => $currencies) {
+
 		foreach ($currencies as $c) {
 			$data['securities_' . $key . '_' . $c] = array(
 				'title' => get_exchange_name($key) . " " . get_currency_abbr($c) . " security value (graph)",
@@ -68,6 +78,18 @@ function graph_types_public($summaries = array()) {
 		'title' => 'Tools',
 		'category' => true,
 	);
+	$data['subcategory_tools'] = array(
+		'title' => 'Tools',
+		'subcategory' => true,
+	);
+
+	$data['calculator'] = array(
+		'title' => 'Currency converter (calculator)',
+		'heading' => 'Currency converter',
+		'description' => 'A <a href="' . htmlspecialchars(url_for('calculator')) . '">simple calculator</a> to convert any currency into any other currency, using the most recent exchange rates.',
+		'technical' => false,
+		'no_refresh' => true,		// do not refresh the calculator graph, or we will lose entered values
+	);
 
 	$data['external_historical'] = array(
 		'title' => 'External API status (graph)',
@@ -78,14 +100,6 @@ function graph_types_public($summaries = array()) {
 		'arg0_title' => 'External API:',
 		'technical' => false,
 		'historical' => 'get_external_status_historical',
-	);
-
-	$data['calculator'] = array(
-		'title' => 'Currency converter (calculator)',
-		'heading' => 'Currency converter',
-		'description' => 'A <a href="' . htmlspecialchars(url_for('calculator')) . '">simple calculator</a> to convert any currency into any other currency, using the most recent exchange rates.',
-		'technical' => false,
-		'no_refresh' => true,		// do not refresh the calculator graph, or we will lose entered values
 	);
 
 	$data['statistics_queue'] = array(
@@ -132,6 +146,8 @@ function graph_types() {
 	$total_fiat_currencies = implode_english($total_fiat_currencies);
 
 	$data = array(
+		'category_general' => array('title' => 'General', 'category' => true),
+		'subcategory_general' => array('title' => 'General graphs', 'subcategory' => true),
 		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall proportional value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'default_width' => get_site_config('default_user_graph_height')),
 		'btc_equivalent_graph' => array('title' => 'Equivalent BTC balances (graph)', 'heading' => 'Equivalent BTC', 'description' => 'A line graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true),
 		'btc_equivalent_stacked' => array('title' => 'Equivalent BTC balances (stacked)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true),
@@ -147,19 +163,14 @@ function graph_types() {
 	$summaries = get_all_summary_currencies();
 	$conversions = get_all_conversion_currencies();
 
-	// merge in graph_types_public()
-	foreach (graph_types_public($summaries) as $key => $public_data) {
-		// but add 'hide' parameter to hide irrelevant currencies
-		if (isset($public_data['pairs'])) {
-			$pairs = $public_data['pairs'];
-			$public_data['hide'] = !(isset($summaries[$pairs[0]]) && isset($summaries[$pairs[1]]));
-		}
-		$data[$key] = $public_data;
-	}
-
 	$data['category_summaries'] = array(
-		'title' => 'Summaries',
+		'title' => 'Your summaries',
 		'category' => true,
+	);
+
+	$data['subcategory_summaries_total'] = array(
+		'title' => 'Historical currency value',
+		'subcategory' => true,
 	);
 
 	// we can generate a list of summary daily graphs from all the currencies that we support
@@ -176,22 +187,9 @@ function graph_types() {
 		);
 	}
 
-	// and for each cryptocurrency that can be hashed
-	foreach (get_all_hashrate_currencies() as $cur) {
-		$data["hashrate_" . $cur . "_daily"] = array(
-			'title' => get_currency_name($cur) . " historical MHash/s (graph)",
-			'heading' => get_currency_abbr($cur) . " MHash/s",
-			'description' => "A line graph displaying the historical hashrate sum of all workers mining " . get_currency_name($cur) . " across all pools (in MHash/s).",
-			'hide' => !isset($summaries[$cur]),
-			'days' => true,
-			'delta' => true,	/* allow deltas */
-			'technical' => true,
-		);
-	}
-
-	$data['category_conversions'] = array(
-		'title' => 'Conversion Summaries',
-		'category' => true,
+	$data['subcategory_summaries_crypto2'] = array(
+		'title' => 'Historical converted value',
+		'subcategory' => true,
 	);
 
 	foreach (get_crypto_conversion_summary_types() as $key => $summary) {
@@ -220,9 +218,9 @@ function graph_types() {
 		);
 	}
 
-	$data['category_composition'] = array(
-		'title' => 'Composition',
-		'category' => true,
+	$data['subcategory_summaries_composition'] = array(
+		'title' => 'Total balance composition',
+		'subcategory' => true,
 	);
 
 	// we can generate a list of composition graphs from all of the currencies that we support
@@ -236,15 +234,25 @@ function graph_types() {
 		);
 	}
 
+	$data['subcategory_summaries_graph'] = array(
+		'title' => 'All balances (graph)',
+		'subcategory' => true,
+	);
+
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_daily"] = array(
 			'title' => "All " . get_currency_name($currency) . " balances (graph)",
 			'heading' => "All " . get_currency_abbr($currency) . " balances",
-			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
+			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]),
 		);
 	}
+
+	$data['subcategory_summaries_table'] = array(
+		'title' => 'All balances (table)',
+		'subcategory' => true,
+	);
 
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_table"] = array(
@@ -255,34 +263,72 @@ function graph_types() {
 		);
 	}
 
-	$data['category_composition_advanced'] = array(
-		'title' => 'Composition (Advanced)',
-		'category' => true,
+	$data['subcategory_summaries_stacked'] = array(
+		'title' => 'All balances (stacked)',
+		'subcategory' => true,
 	);
 
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_stacked"] = array(
 			'title' => "All " . get_currency_name($currency) . " balances (stacked)",
 			'heading' => "All " . get_currency_abbr($currency) . " balances",
-			'description' => "A stacked area graph displaying the historical value of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
+			'description' => "A stacked area graph displaying the historical value of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]),
 		);
 	}
+
+	$data['subcategory_summaries_proportional'] = array(
+		'title' => 'All balances (proportional)',
+		'subcategory' => true,
+	);
 
 	foreach (get_all_currencies() as $currency) {
 		$data["composition_" . $currency . "_proportional"] = array(
 			'title' => "All " . get_currency_name($currency) . " balances (proportional)",
 			'heading' => "All " . get_currency_abbr($currency) . " balances",
-			'description' => "A stacked area graph displaying the proportional historical value of your total " . get_currency_name($currency) . " balance (before any conversions), excluding offsets.",
+			'description' => "A stacked area graph displaying the proportional historical value of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]),
 		);
 	}
 
-	$data['category_layout'] = array(
-		'title' => 'Layout',
+	$data['category_hashrate'] = array(
+		'title' => 'Your mining',
 		'category' => true,
+	);
+
+	$data['category_hashrate_hashrate'] = array(
+		'title' => 'Historical hashrates',
+		'subcategory' => true,
+	);
+
+	// and for each cryptocurrency that can be hashed
+	foreach (get_all_hashrate_currencies() as $cur) {
+		$data["hashrate_" . $cur . "_daily"] = array(
+			'title' => get_currency_name($cur) . " historical MHash/s (graph)",
+			'heading' => get_currency_abbr($cur) . " MHash/s",
+			'description' => "A line graph displaying the historical hashrate sum of all workers mining " . get_currency_name($cur) . " across all pools (in MHash/s).",
+			'hide' => !isset($summaries[$cur]),
+			'days' => true,
+			'delta' => true,	/* allow deltas */
+			'technical' => true,
+		);
+	}
+
+	// merge in graph_types_public() here
+	foreach (graph_types_public($summaries) as $key => $public_data) {
+		// but add 'hide' parameter to hide irrelevant currencies
+		if (isset($public_data['pairs'])) {
+			$pairs = $public_data['pairs'];
+			$public_data['hide'] = !(isset($summaries[$pairs[0]]) && isset($summaries[$pairs[1]]));
+		}
+		$data[$key] = $public_data;
+	}
+
+	$data['subcategory_layout'] = array(
+		'title' => 'Layout tools',
+		'subcategory' => true,
 	);
 
 	$data['linebreak'] = array(

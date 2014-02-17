@@ -5,6 +5,8 @@
  * appropriately.
  */
 
+define('FORCE_NO_RELATIVE', true);		// url_for() references need to be relative to the base path, not the js/ directory that this script is within
+
 require(__DIR__ . "/../inc/content_type/js.php");		// to allow for appropriate headers etc
 require(__DIR__ . "/../inc/global.php");
 require(__DIR__ . "/../layout/graphs.php");
@@ -20,7 +22,8 @@ allow_cache();
 
 function graph_types() {
 	return [
-<?php foreach (graph_types() as $id => $graph) {
+<?php
+	foreach (graph_types() as $id => $graph) {
 	if (!(isset($graph['hide']) && $graph['hide'])) {
 		// we don't want to display graph types that we aren't interested in
 		$arg0 = (isset($graph['arg0']) && $graph['arg0']) ? $graph['arg0'] : false;
@@ -38,6 +41,8 @@ function graph_types() {
 			// we also don't want to display graph types that need arguments, but there aren't any
 			if (isset($graph['category']) && $graph['category']) {
 				echo "{ 'category' : " . json_encode($graph['title']) . " },\n";
+			} else if (isset($graph['subcategory']) && $graph['subcategory']) {
+				echo "{ 'subcategory' : " . json_encode($graph['title']) . " },\n";
 			} else {
 				echo "{ 'id' : " . json_encode($id) . ", 'title' : " . json_encode($graph['title']) . ", 'description' : " .  json_encode($graph['description']) .
 					((isset($graph['technical']) && $graph['technical']) ? ", 'technical': true" : "") .

@@ -476,7 +476,7 @@ function calculate_relative_path() {
 	global $global_calculate_relative_path;
 	if ($global_calculate_relative_path === null) {
 		// construct a relative path for this request based on the request URI, but only if it is set
-		if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI']) {
+		if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] && !defined('FORCE_NO_RELATIVE')) {
 			$uri = $_SERVER['REQUEST_URI'];
 			// strip out the hostname from the absolute_url
 			$intended = substr(get_site_config('absolute_url'), strpos(get_site_config('absolute_url'), '://') + 4);

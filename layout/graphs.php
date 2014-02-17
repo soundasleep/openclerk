@@ -189,7 +189,7 @@ function render_graph($graph, $is_public = false) {
 					if (typeof _gaq != 'undefined') {
 						_gaq.push(['_trackEvent', 'Graphs', 'Idle', /* optional label */]);
 					}
-				}
+				};
 				setInterval(track_graphs, <?php echo $timeout * 1000 * 60; ?>);
 				track_graphs();
 			}
