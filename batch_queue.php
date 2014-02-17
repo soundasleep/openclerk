@@ -212,7 +212,8 @@ foreach ($standard_jobs as $standard) {
 	$query_extra = isset($standard['query']) ? $standard['query'] : "";
 	$args_extra = isset($standard['args']) ? $standard['args'] : array();
 	if ($user_id && !isset($standard['user_id'])) {
-		$query_extra .= " AND user_id=?";
+		$user_id_field = isset($standard['user_id_field']) ? $standard['user_id_field'] : 'user_id';
+		$query_extra .= " AND " . $user_id_field . "=?";
 		$args_extra[] = $user_id;
 	}
 
