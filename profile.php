@@ -32,7 +32,7 @@ require(__DIR__ . "/_profile_common.php");
 
 // reset stats
 if (get_site_config('timed_sql')) {
-	echo "<!-- " . db()->stats() . " -->\n";
+	echo "<!-- before profile render: " . db()->stats() . " -->\n";
 }
 
 // a user might not have any pages displayed
@@ -168,7 +168,11 @@ if ($pages) {
 
 	}
 
-	page_header($page_title_prefix . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => array('profile', 'calculator'), 'class' => 'report_page'));
+	// issue #58: we need to generate a hash of (user_id, selected currencies) so that the add_graph js is
+	// correctly refreshed when necessary
+	$hash = md5($user['id'] . ":" . $user['last_summaries_update']);
+
+	page_header($page_title_prefix . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => array('profile', 'calculator', 'add_graph?hash=' . $hash), 'class' => 'report_page'));
 
 ?>
 

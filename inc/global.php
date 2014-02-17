@@ -238,11 +238,15 @@ function my_exception_handler($e) {
 	}
 
 	header('HTTP/1.0 500 Internal Server Error');
-	echo "Error: " . htmlspecialchars($e->getMessage());
-	if ($_SERVER['SERVER_NAME'] === 'localhost') {
-		// only display trace locally
-		echo "<br>Trace:";
-		print_exception_trace($e);
+	if (function_exists('my_content_type_exception_handler')) {
+		my_content_type_exception_handler($e);
+	} else {
+		echo "Error: " . htmlspecialchars($e->getMessage());
+		if ($_SERVER['SERVER_NAME'] === 'localhost') {
+			// only display trace locally
+			echo "<br>Trace:";
+			print_exception_trace($e);
+		}
 	}
 	// logging
 	log_uncaught_exception($e, $extra_args, $extra_query);
@@ -623,6 +627,26 @@ function number_format_autoprecision($n, $precision = 8, $dec_point = ".", $thou
 // remove any commas; intended to be reverse of number_format()
 function number_unformat($value) {
 	return str_replace(",", "", $value);
+}
+
+/**
+ * Tag the current page as one that can be cached by the client;
+ * sets Expires, Cache-Control etc headers.
+ *
+ * <p>Doesn't do anything with 304 Not Modified.
+ *
+ * <p>Uses {@code default_cache_seconds} seconds as a default cache period.
+ */
+function allow_cache($seconds = false) {
+	if ($seconds === false) {
+		$seconds = get_site_config('default_cache_seconds');
+	}
+
+	$gmdate = 'D, d M Y H:i:s';
+	header('Cache-Control: private');		// may only be cached in private cache.
+	header('Pragma: private');
+	header('Last-Modified: ' . gmdate($gmdate, time()) . ' GMT');
+	header('Expires: ' . gmdate($gmdate, time() + $seconds) . ' GMT');
 }
 
 /**

@@ -112,6 +112,10 @@ if (!array_equals($existing, $exchanges) && ($user['graph_managed_type'] == 'aut
 	$q->execute(array(user_id()));
 }
 
+// issue #58: keep track of when summary currencies are updated so we can refresh add_graph.js
+$q = db()->prepare("UPDATE users SET last_summaries_update=NOW() WHERE id=?");
+$q->execute(array(user_id()));
+
 // $messages[] =
 set_temporary_errors($errors);
 redirect(url_for('wizard_accounts'));	// go forward

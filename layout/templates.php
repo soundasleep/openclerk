@@ -31,8 +31,14 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <?php } ?>
     <?php if (isset($options["js"]) && $options["js"]) {
     	if (!is_array($options['js'])) $options['js'] = array($options['js']);
-    	foreach ($options['js'] as $js) { ?>
-    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/' . $js . '.js' . '?' . get_site_config('openclerk_version'))); ?>"></script>
+    	foreach ($options['js'] as $js) {
+    		$js_hash = "";
+    		if (strpos($js, "?") !== false) {
+    			$js_hash = "&" . substr($js, strpos($js, "?") + 1);
+    			$js = substr($js, 0, strpos($js, "?"));
+    		}
+    		?>
+    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/' . $js . '.js' . '?' . get_site_config('openclerk_version') . $js_hash)); ?>"></script>
     <?php }
     } ?>
 	<?php require_template("templates_head"); ?>

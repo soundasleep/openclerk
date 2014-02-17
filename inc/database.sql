@@ -2807,3 +2807,6 @@ CREATE TABLE accounts_vaultofsatoshi (
 );
 
 INSERT INTO exchanges SET name='vaultofsatoshi';
+
+-- issue #58: allow tracking of when summary currencies change
+ALTER TABLE users ADD last_summaries_update datetime null;
