@@ -206,9 +206,9 @@ function get_exchange_pairs() {
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc')),
 		"cexio" => array(array('btc', 'ghs')),
 		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'), array('cny', 'btc'), array('pln', 'btc'), array('nzd', 'btc')),
-		"coins-e" => array(array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'), array('ltc', 'xpm'), array('xpm', 'ppc'), array('btc', 'dog')),
+		"coins-e" => array(array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'), array('ltc', 'xpm'), array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'), array('btc', 'xpm'), array('btc', 'trc')),
-		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog')),
+		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog'), array('btc', 'mec'), array('ltc', 'mec')),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'), array('usd', 'cny'), array('usd', 'pln')),
@@ -219,16 +219,9 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"themoneyconverter_usdcny",
-		"themoneyconverter_usdpln",
-		"coinbase_usdbtc",
-		"coinbase_eurbtc",
-		"coinbase_gbpbtc",
-		"coinbase_cadbtc",
-		"coinbase_audbtc",
-		"coinbase_cnybtc",
-		"coinbase_plnbtc",
-		"coinbase_nzdbtc",
+		"coins-e_btcmec",
+		"cryptsy_btcmec",
+		"cryptsy_ltcmec",
 	);
 }
 

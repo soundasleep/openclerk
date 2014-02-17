@@ -793,6 +793,9 @@ function crypto_json_decode($string, $message = false, $empty_array_is_ok = fals
 		if (strpos($string, "Access denied for user '") !== false) {
 			throw new ExternalAPIException("Remote database host returned 'Access denied'" . ($message ? " $message" : ""));
 		}
+		if (strpos(strtolower($string), "502 bad gateway") !== false) {
+			throw new ExternalAPIException("Bad gateway" . ($message ? " $message" : ""));
+		}
 		if (substr($string, 0, 1) == "<") {
 			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON" . ($message ? " $message" : ""));
 		}
@@ -801,9 +804,6 @@ function crypto_json_decode($string, $message = false, $empty_array_is_ok = fals
 		}
 		if (strpos(strtolower($string), "access denied") !== false) {
 			throw new ExternalAPIException("Access denied" . ($message ? " $message" : ""));
-		}
-		if (strpos(strtolower($string), "502 bad gateway") !== false) {
-			throw new ExternalAPIException("Bad gateway" . ($message ? " $message" : ""));
 		}
 		if (strpos(strtolower($string), "parameter error") !== false) {
 			// for 796 Exchange
