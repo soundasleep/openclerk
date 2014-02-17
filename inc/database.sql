@@ -2750,3 +2750,21 @@ CREATE TABLE accounts_individual_btcinve (
 );
 
 INSERT INTO securities_update SET exchange='btcinve';
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.17 to 0.18
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS megacoin_blocks;
+
+CREATE TABLE megacoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

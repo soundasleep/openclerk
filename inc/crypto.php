@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "xrp", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ghs");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ghs");
 }
 
 function get_all_hashrate_currencies() {
@@ -19,11 +19,11 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("pln", "xrp", "nmc");
+	return array("mec");
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "xrp" /* I guess xrp is a cryptocurrency */);
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */);
 }
 
 function get_all_commodity_currencies() {
@@ -36,7 +36,7 @@ function get_all_fiat_currencies() {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "xrp");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp");
 }
 
 function get_currency_name($n) {
@@ -50,6 +50,7 @@ function get_currency_name($n) {
 		case "xpm":	return "Primecoin";
 		case "trc":	return "Terracoin";
 		case "dog":	return "Dogecoin";
+		case "mec":	return "Megacoin";
 		case "xrp": return "Ripple";
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
@@ -78,6 +79,7 @@ function get_blockchain_currencies() {
 		"DogeChain" => array('dog'),
 		"192.241.222.65" => array('nmc'),
 		"Ripple" => array('xrp'),
+		"Megacoin Block Explorer" => array('mec'),
 	);
 }
 
@@ -348,6 +350,7 @@ function crypto_address($currency, $address) {
 		case 'xpm': return xpm_address($address);
 		case 'trc': return trc_address($address);
 		case 'dog': return dog_address($address);
+		case 'mec': return mec_address($address);
 		case 'xrp': return xrp_address($address);
 		case 'nmc': return nmc_address($address);
 		default: return htmlspecialchars($address);
@@ -355,19 +358,24 @@ function crypto_address($currency, $address) {
 }
 
 function get_summary_types() {
-	$summary_types = array(
-		'summary_btc' => array('currency' => 'btc', 'key' => 'btc', 'title' => get_currency_name('btc'), 'short_title' => get_currency_abbr('btc')),
-		'summary_ltc' => array('currency' => 'ltc', 'key' => 'ltc', 'title' => get_currency_name('ltc'), 'short_title' => get_currency_abbr('ltc')),
-		'summary_nmc' => array('currency' => 'nmc', 'key' => 'nmc', 'title' => get_currency_name('nmc'), 'short_title' => get_currency_abbr('nmc')),
-		'summary_ftc' => array('currency' => 'ftc', 'key' => 'ftc', 'title' => get_currency_name('ftc'), 'short_title' => get_currency_abbr('ftc')),
-		'summary_ppc' => array('currency' => 'ppc', 'key' => 'ppc', 'title' => get_currency_name('ppc'), 'short_title' => get_currency_abbr('ppc')),
-		'summary_nvc' => array('currency' => 'nvc', 'key' => 'nvc', 'title' => get_currency_name('nvc'), 'short_title' => get_currency_abbr('nvc')),
-		'summary_xpm' => array('currency' => 'xpm', 'key' => 'xpm', 'title' => get_currency_name('xpm'), 'short_title' => get_currency_abbr('xpm')),
-		'summary_trc' => array('currency' => 'trc', 'key' => 'trc', 'title' => get_currency_name('trc'), 'short_title' => get_currency_abbr('trc')),
-		'summary_dog' => array('currency' => 'dog', 'key' => 'dog', 'title' => get_currency_name('dog'), 'short_title' => get_currency_abbr('dog')),
-		'summary_xrp' => array('currency' => 'xrp', 'key' => 'xrp', 'title' => get_currency_name('xrp'), 'short_title' => get_currency_abbr('xrp')),
-		'summary_ghs' => array('currency' => 'ghs', 'key' => 'ghs', 'title' => get_currency_name('ghs'), 'short_title' => 'GHS'),
-	);
+	// add cryptocurrencies and commodity currencies automatically
+	$summary_types = array();
+	foreach (get_all_cryptocurrencies() as $cur) {
+		$summary_types['summary_' . $cur] = array(
+			'currency' => $cur,
+			'key' => $cur,
+			'title' => get_currency_name($cur),
+			'short_title' => get_currency_abbr($cur),
+		);
+	}
+	foreach (get_all_commodity_currencies() as $cur) {
+		$summary_types['summary_' . $cur] = array(
+			'currency' => $cur,
+			'key' => $cur,
+			'title' => get_currency_name($cur),
+			'short_title' => get_currency_abbr($cur),
+		);
+	}
 
 	// add fiat pairs automatically
 	foreach (get_exchange_pairs() as $exchange => $pairs) {
@@ -403,6 +411,7 @@ function get_default_currency_exchange($c) {
 		case "xpm": return "btce";
 		case "trc": return "btce";
 		case "dog": return "coins-e";
+		case "mec": return "cryptsy";
 		case "xrp": return "justcoin";
 		// fiats
 		case "usd": return "bitstamp";
@@ -471,6 +480,7 @@ function account_data_grouped() {
 			'primecoin' => array('title' => 'XPM addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'xpm\'', 'wizard' => 'addresses', 'currency' => 'xpm'),
 			'terracoin' => array('title' => 'TRC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'trc\'', 'wizard' => 'addresses', 'currency' => 'trc'),
 			'dogecoin' => array('title' => 'DOGE addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'dog\'', 'wizard' => 'addresses', 'currency' => 'dog'),
+			'megacoin' => array('title' => 'MEC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'mec\'', 'wizard' => 'addresses', 'currency' => 'mec'),
 			'ripple' => array('title' => 'XRP addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'xrp\'', 'wizard' => 'addresses', 'currency' => 'xrp'),
 			'namecoin' => array('title' => 'NMC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nmc\'', 'wizard' => 'addresses', 'currency' => 'nmc'),
 		),
@@ -616,8 +626,10 @@ function get_external_apis() {
 			'primecoin_block' => '<a href="http://xpm.cryptocoinexplorer.com/">CryptoCoin explorer</a> (XPM block count)',
 			'terracoin' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
 			'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC block count)',
-			'dogecoin' => '<a href="http://dogechain.info/">DogeChain</a> (DOGE)',
-			'dogecoin_block' => '<a href="http://dogechain.info/">DogeChain</a> (DOGE block count)',
+			'dogecoin' => '<a href="http://dogechain.info/">DogeChain</a>',
+			'dogecoin_block' => '<a href="http://dogechain.info/">DogeChain</a>',
+			'megacoin' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
+			'megacoin_block' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a> (block count)',
 			'ripple' => '<a href="http://ripple.com">Ripple</a>',
 			'namecoin' => '<a href="http://192.241.222.65/chain/Namecoin">Namecoin</a>',
 			'namecoin_block' => '<a href="http://192.241.222.65/chain/Namecoin">Namecoin</a> (block count)',
@@ -873,6 +885,19 @@ function get_blockchain_wizard_config($currency) {
 				'job_type' => 'dogecoin',
 				'address_callback' => 'dog_address',
 				'client' => get_currency_name('dog'),
+			);
+
+		case "mec":
+			return array(
+				'premium_group' => 'megacoin',
+				'title' => 'MEC address',
+				'titles' => 'MEC addresses',
+				'table' => 'addresses',
+				'currency' => 'mec',
+				'callback' => 'is_valid_mec_address',
+				'job_type' => 'megacoin',
+				'address_callback' => 'mec_address',
+				'client' => get_currency_name('mec'),
 			);
 
 		case "xrp":
@@ -1931,6 +1956,15 @@ function is_valid_xpm_address($address) {
 function is_valid_dog_address($address) {
 	// based on is_valid_btc_address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "D")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_mec_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "M")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}

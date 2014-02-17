@@ -236,6 +236,10 @@ function dog_address($address) {
 	return "<span class=\"address dog_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("dog_address_url") . $address) . "\" title=\"Inspect with DogeChain\">?</a></span>";
 }
 
+function mec_address($address) {
+	return "<span class=\"address mec_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("mec_address_url") . $address) . "\" title=\"Inspect with Megacoin Block Explorer\">?</a></span>";
+}
+
 function xrp_address($address) {
 	return "<span class=\"address xrp_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("xrp_address_url") . $address) . "\" title=\"Inspect with Ripple Graph\">?</a></span>";
 }

@@ -113,6 +113,8 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"trc_block_url" => "http://trc.cryptocoinexplorer.com/chain/Terracoin/q/getblockcount",
 		"dog_address_url" => "http://dogechain.info//address/",
 		"dog_block_url" => "http://dogechain.info//chain/Dogecoin/q/getblockcount",
+		"mec_address_url" => "http://mega.rapta.net:2750/address/",
+		"mec_block_url" => "http://mega.rapta.net:2750/chain/Megacoin/q/getblockcount",
 		"xrp_address_url" => "https://ripple.com/graph/#",
 		"nmc_address_url" => "http://192.241.222.65/address/",
 		"nmc_block_url" => "http://192.241.222.65/chain/Namecoin/q/getblockcount",
@@ -124,6 +126,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		// "xpm_confirmations" => 6, -- not implemented yet!
 		"trc_confirmations" => 6,
 		"dog_confirmations" => 6,
+		"mec_confirmations" => 6,
 		// "xrp_confirmations" => 6, -- not supported!
 		"nmc_confirmations" => 6,
 		
