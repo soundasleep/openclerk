@@ -4,6 +4,7 @@ require(__DIR__ . "/inc/global.php");
 require(__DIR__ . "/inc/countries.php");
 
 // only permit POST for some variables
+$autologin = require_post("autologin", require_get("autologin", true));
 $email = trim(require_post("email", require_get("email", false)));
 $name = require_post("name", require_get("name", false));
 $agree = require_post("agree", require_get("agree", false));
@@ -125,12 +126,14 @@ if ($openid) {
 			reset_user_settings($user['id']);
 
 			// success!
-			$messages[] = "New account creation successful; you may now login.";
+			// issue #62: rather than requiring another step to login, just log the user in now.
+			complete_login($user, $autologin);
+
+			$messages[] = "New account creation successful.";
 
 			// redirect
 			set_temporary_messages($messages);
-			// 'pause' parameter is set to prevent trying to login straight away, which will fail because of heavy requests
-			redirect(url_for('login', array('pause' => true, 'openid' => $openid, 'destination' => url_for(get_site_config('premium_welcome') ? "welcome" : get_site_config('signup_login')))));
+			redirect(url_for(get_site_config('premium_welcome') ? "welcome" : get_site_config('signup_login'), array("pause" => true)));
 
 		} catch (Exception $e) {
 			if (!($e instanceof EscapedException)) {
@@ -175,6 +178,10 @@ page_header("Signup", "page_signup", array('jquery' => true, 'js' => 'auth'));
 	<tr>
 		<th></th>
 		<td><label><input type="checkbox" name="subscribe" value="1"<?php echo $subscribe ? " checked" : ""; ?>> Subscribe to site announcements</label></td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><label><input type="checkbox" name="autologin" value="1"<?php echo $autologin ? " checked" : ""; ?>> Log in automatically</label></td>
 	</tr>
 	<tr>
 		<th></th>

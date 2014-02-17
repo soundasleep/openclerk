@@ -151,6 +151,42 @@ function try_autologin() {
 
 }
 
+/**
+ * Complete login, setting login keys to session or cookies as necessary.
+ */
+function complete_login($user, $autologin) {
+
+	// delete old web keys
+	$query = db()->prepare("DELETE FROM valid_user_keys WHERE user_id=? AND DATEDIFF(NOW(), created_at) > ?");
+	$query->execute(array($user["id"], get_site_config("autologin_expire_days") /* maximum length of autologin key or web key */ ));
+
+	// create new login key
+	$user_key = sprintf("%04x%04x%04x%04x", rand(0,0xffff), rand(0,0xffff), rand(0,0xffff), rand(0,0xffff));
+	$query = db()->prepare("INSERT INTO valid_user_keys SET user_id=?, user_key=?, created_at=NOW()");
+	$query->execute(array($user["id"], $user_key));
+
+	// update session data
+	$_SESSION["user_id"] = $user["id"];
+	$_SESSION["user_key"] = $user_key;
+	$_SESSION["user_name"] = $user["name"];
+	$_SESSION["autologin_disable"] = 0;
+	unset($_SESSION["autologin_disable"]);
+
+	// update autologin
+	if ($autologin) {
+		setcookie('autologin_id', $user["id"], time() + get_site_config("autologin_cookie_seconds"));
+		setcookie('autologin_key', $user_key, time() + get_site_config("autologin_cookie_seconds"));
+	} else {
+		// remove any autologin
+		setcookie('autologin_id', "", time() - 3600);
+		setcookie('autologin_key', "", time() - 3600);
+	}
+
+	// handle post-login
+	handle_post_login();
+
+}
+
 function did_autologin() {
 	global $global_did_autologin;
 	return $global_did_autologin;
