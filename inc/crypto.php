@@ -280,6 +280,7 @@ function get_new_security_exchanges() {
 function get_supported_wallets() {
 	return array(
 		// alphabetically sorted, except for generic
+		"50btc" => array('btc', 'hash'),
 		"796" => array('btc'),
 		"beeeeer" => array('xpm'),
 		"bips" => array('btc', 'usd'),
@@ -349,7 +350,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningpoolco", "vaultofsatoshi");
+	return array("miningpoolco", "vaultofsatoshi", "50btc");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -515,7 +516,7 @@ function account_data_grouped() {
 			'namecoin' => array('title' => 'NMC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nmc\'', 'wizard' => 'addresses', 'currency' => 'nmc'),
 		),
 		'Mining pools' => array(
-			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
+			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -668,6 +669,7 @@ function get_external_apis() {
 		),
 
 		"Mining pool wallets" => array(
+			'50btc' => '<a href="https://50btc.com/">50BTC</a>',
 			'beeeeer' => '<a href="http://beeeeer.org/">' . htmlspecialchars(get_exchange_name('beeeeer')) . '</a>',
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 			'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
@@ -2111,8 +2113,8 @@ function is_valid_btcguild_apikey($key) {
 }
 
 function is_valid_50btc_apikey($key) {
-	// looks like a 32 character hex string
-	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+	// looks like a number followed by a 32 character hex string
+	return strlen($key) >= 33 && preg_match("#^[0-9]+\-[a-f0-9]+$#", $key);
 }
 
 function is_valid_hypernova_apikey($key) {

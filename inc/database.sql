@@ -2813,3 +2813,8 @@ ALTER TABLE users ADD last_summaries_update datetime null;
 
 -- removing lite_coinpool
 UPDATE accounts_lite_coinpool SET is_disabled=1;
+
+-- issue #49: while we are re-adding 50BTC we can't re-enable existing accounts
+-- because the API key format has changed
+UPDATE accounts_50btc SET is_disabled=1;
+
