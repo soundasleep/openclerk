@@ -449,6 +449,10 @@ try {
 			require(__DIR__ . "/jobs/50btc.php");
 			break;
 
+		case "smalltimeminer_mec":
+			require(__DIR__ . "/jobs/smalltimeminer_mec.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

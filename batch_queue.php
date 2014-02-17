@@ -138,6 +138,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_miningpoolco', 'type' => 'miningpoolco', 'failure' => true),
 	array('table' => 'accounts_vaultofsatoshi', 'type' => 'vaultofsatoshi', 'failure' => true),
 	array('table' => 'accounts_50btc', 'type' => '50btc', 'failure' => true),
+	array('table' => 'accounts_smalltimeminer_mec', 'type' => 'smalltimeminer_mec', 'failure' => true),
 
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),

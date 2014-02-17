@@ -179,6 +179,8 @@ function get_all_exchanges() {
 		"individual_btcinve" => "BTCInve (Individual Securities)",
 		"miningpoolco" =>	"MiningPool.co",
 		"vaultofsatoshi" => "Vault of Satoshi",
+		"smalltimeminer" => "Small Time Miner",
+		"smalltimeminer_mec" => "Small Time Miner",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -324,6 +326,7 @@ function get_supported_wallets() {
 		"poolx" => array('ltc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
+		"smalltimeminer" => array('mec', 'hash'),	// other pools can go in here later
 		"triplemining" => array('btc', 'hash'),
 		"vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm'),		// used in jobs/vaultofsatoshi.php (also supports qrk)
 		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog'),		// used in jobs/vircurex.php
@@ -350,7 +353,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningpoolco", "vaultofsatoshi", "50btc");
+	return array("miningpoolco", "vaultofsatoshi", "50btc", "smalltimeminer");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -547,6 +550,7 @@ function account_data_grouped() {
 			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' MEC', 'wizard' => 'pools', 'failure' => true),
 			'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'wemineftc' => array('table' => 'accounts_wemineftc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'wemineltc' => array('table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -700,6 +704,7 @@ function get_external_apis() {
 			'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
 			'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
+			'smalltimeminer_mec' => '<a href="http://meg.smalltimeminer.com/">Small Time Miner</a> (MEC)',
 			'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
 			'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
 			'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
@@ -1303,6 +1308,17 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_miningpoolco',
 				'khash' => true,
+			);
+
+		case "smalltimeminer_mec":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_smalltimeminer_mec_apikey'),
+				),
+				'table' => 'accounts_smalltimeminer_mec',
+				'title' => 'Small Time Miner Megacoin account',
+				'khash' => true,
+				'title_key' => 'smalltimeminer',
 			);
 
 		// --- exchanges ---
@@ -2327,6 +2343,11 @@ function is_valid_vaultofsatoshi_apikey($key) {
 
 function is_valid_vaultofsatoshi_apisecret($key) {
 	// looks like a 64 character alphanumeric string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_smalltimeminer_mec_apikey($key) {
+	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
