@@ -50,7 +50,7 @@ if (preg_match("/Address not found/im", $html) || preg_match("/Address is either
 	}
 }
 
-crypto_log("Address balance: " . number_format($balance));
+crypto_log("Address balance: " . $balance);
 
 // this API does not report blocks with transactions, so we can't process
 // min_confirmations at all
