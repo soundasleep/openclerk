@@ -23,10 +23,10 @@ if (!$raw) {
 $key = "current balance:";
 $balance_string = substr($raw, strpos($raw, $key) + strlen($key), 30);
 // check balance is numeric to prevent issue #67 from occuring again
-if (!preg_match("#^[0-9\.]+#i", $balance_string)) {
+if (!preg_match("#^[ 0-9\.]+#i", $balance_string)) {
 	throw new ExternalAPIException("Current balance was not numeric");
 }
-$balance = (float) $balance_string;		// will ignore any following characters
+$balance = (float) $balance_string;		// will ignore any following characters and trailing spaces
 $currency = "xpm";
 
 insert_new_balance($job, $account, $exchange, $currency, $balance);
