@@ -27,6 +27,8 @@ class GraphTestsTest extends UnitTestCase {
 		foreach ($graphs as $key => $type) {
 			if (isset($type['category']) && $type['category']) {
 				$this->assertFalse(isset($type['heading']), "Graph $key is a category and should not have a heading");
+			} else if (isset($type['subcategory']) && $type['subcategory']) {
+				$this->assertFalse(isset($type['heading']), "Graph $key is a subcategory and should not have a heading");
 			} else {
 				$this->assertTrue(isset($type['heading']), "Graph $key has no heading");
 				$this->assertTrue($type['heading'], "Graph $key has an empty heading");
