@@ -186,6 +186,8 @@ function get_all_exchanges() {
 		"teamdoge" => "TeamDoge",
 		"dedicatedpool" => "dedicatedpool.com",
 		"dedicatedpool_doge" => "dedicatedpool.com",
+		"nut2pools" => "Nut2Pools",
+		"nut2pools_ftc" => "Nut2Pools",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -329,6 +331,7 @@ function get_supported_wallets() {
 		"miningforeman" => array('ltc', 'ftc', 'hash'),
 		"miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),		// and LOTS more; used in jobs/miningpoolco.php
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),		// and LOTS more; used in jobs/multipool.php
+		"nut2pools" => array('ftc', 'hash'),
 		"ozcoin" => array('ltc', 'btc', 'hash'),
 		"poolx" => array('ltc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
@@ -361,7 +364,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningpoolco", "vaultofsatoshi", "50btc", "smalltimeminer", "ecoining", "teamdoge", "dedicatedpool");
+	return array("miningpoolco", "vaultofsatoshi", "50btc", "smalltimeminer", "smalltimeminer_mec", "ecoining", "ecoining_ppc", "teamdoge", "dedicatedpool", "dedicatedpool_doge", "nut2pools", "nut2pools_ftc");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -555,6 +558,7 @@ function account_data_grouped() {
 			'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman'),
 			'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'nut2pools_ftc' => array('table' => 'accounts_nut2pools_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'nut2pools'),
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -711,6 +715,7 @@ function get_external_apis() {
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 			'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
 			'multipool' => '<a href="https://multipool.us/">Multipool</a>',
+			'nut2pools_ftc' => '<a href="https://ftc.nut2pools.com/">Nut2Pools</a> (FTC)',
 			'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
 			'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
 			'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
@@ -1362,6 +1367,16 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_dedicatedpool_doge',
 				'title' => 'dedicatedpool.com DOGE account',
 				'title_key' => 'dedicatedpool',
+			);
+
+		case "nut2pools_ftc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
+				),
+				'table' => 'accounts_nut2pools_ftc',
+				'title' => 'Nut2Pools FTC account',
+				'title_key' => 'nut2pools',
 			);
 
 		// --- exchanges ---
