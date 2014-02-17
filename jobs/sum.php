@@ -178,6 +178,7 @@ foreach ($summaries as $summary) {
 		// fail if there is no current rate (otherwise there is no point of this job, we don't want erraneous zero balances)
 		if ($ticker = get_latest_ticker($exchange, $currency, "btc")) {
 			$total += $crypto2btc * ($ticker['ask'] ? $ticker['ask'] : $ticker['last_trade']);
+			crypto_log("From converted BTC: " . $total);
 		} else {
 			throw new JobException("There is no recent ticker balance for $currency/btc on $exchange - cannot convert");
 		}
@@ -185,6 +186,7 @@ foreach ($summaries as $summary) {
 		// add total FIAT balances calculated earlier
 		if (isset($totals[$currency])) {
 			$total += $totals[$currency];
+			crypto_log("From fiat currency: " . $totals[$currency]);
 		}
 
 		crypto_log("Total converted $currency $exchange balance for user " . $job['user_id'] . ": " . $total);

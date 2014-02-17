@@ -2805,3 +2805,5 @@ CREATE TABLE accounts_vaultofsatoshi (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+INSERT INTO exchanges SET name='vaultofsatoshi';
