@@ -77,8 +77,9 @@ require(__DIR__ . "/_profile_pages.php");
 	</ul>
 
 	<ul class="tab_groups">
-		<?php foreach ($balances as $currency => $data) { ?>
-		<li id="tab_currencies_<?php echo htmlspecialchars($currency); ?>_tab">
+		<?php $first_tab = true;
+		foreach ($balances as $currency => $data) { ?>
+		<li id="tab_currencies_<?php echo htmlspecialchars($currency); ?>_tab"<?php echo $first_tab ? "" : " style=\"display:none;\""; ?>>
 
 <table class="standard standard_account_list">
 <thead>
@@ -99,7 +100,8 @@ foreach ($data as $exchange => $balance) {
 		<td><?php echo recent_format_html($last_updated[$exchange]); ?></td>
 		<td class="number"><?php echo number_format_html($balance, 4); ?> MH/s</td>
 	</tr>
-<?php } ?>
+<?php 	$first_tab = false;
+	} ?>
 </tbody>
 <tfoot>
 	<tr>

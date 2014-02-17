@@ -56,8 +56,9 @@
 	</ul>
 
 	<ul class="tab_groups">
-	<?php foreach ($screens as $key => $data) { ?>
-		<li id="tab_screenshots_<?php echo $key; ?>_tab">
+	<?php $first_tab = true;
+		foreach ($screens as $key => $data) { ?>
+		<li id="tab_screenshots_<?php echo $key; ?>_tab"<?php echo $first_tab ? "" : " style=\"display:none;\""; ?>>
 			<img src="<?php echo htmlspecialchars(url_for($data['url'])); ?>">
 			<p><?php echo $data['text']; ?></p>
 			<?php if (isset($data['url2'])) { ?>
@@ -73,7 +74,8 @@
 				<p><?php echo $data['text4']; ?></p>
 			<?php } ?>
 		</li>
-	<?php } ?>
+	<?php 	$first_tab = false;
+		} ?>
 	</ul>
 </div>
 

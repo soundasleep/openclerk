@@ -1,4 +1,4 @@
-<li id="tab_profile_addpage_tab">
+<li id="tab_profile_addpage_tab" style="display:none;">
 <div class="add_page">
 <h2>Add new page</h2>
 
@@ -20,7 +20,7 @@
 </li>
 
 <?php if ($pages && !$graph_page['is_managed']) { ?>
-<li id="tab_profile_deletepage_tab">
+<li id="tab_profile_deletepage_tab" style="display:none;">
 <div class="delete_page">
 <h2>Remove this page</h2>
 

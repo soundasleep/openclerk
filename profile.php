@@ -281,7 +281,7 @@ if (!$graphs) { ?>
 
 <?php require(__DIR__ . "/_profile_add_page.php"); ?>
 
-<li id="tab_profile_reset_tab">
+<li id="tab_profile_reset_tab" style="display:none;">
 <h2>Reset User Graphs</h2>
 
 <p>
@@ -307,7 +307,7 @@ if (!$graphs) { ?>
 </form>
 </li>
 <?php if (is_admin()) { ?>
-<li id="tab_profile_addall_tab">
+<li id="tab_profile_addall_tab" style="display:none;">
 <h2>Add All Graphs</h2>
 
 <p>

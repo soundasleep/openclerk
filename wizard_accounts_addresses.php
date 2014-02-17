@@ -46,14 +46,16 @@ require_template("wizard_accounts_addresses");
 	</ul>
 
 	<ul class="tab_groups">
-	<?php foreach ($currencies as $c) { ?>
-	<li id="tab_wizard_<?php echo $c; ?>_tab">
+	<?php $first_tab = true;
+	foreach ($currencies as $c) { ?>
+	<li id="tab_wizard_<?php echo $c; ?>_tab"<?php echo $first_tab ? "" : " style=\"display:none;\""; ?>>
 		<?php
 			$account_data = get_blockchain_wizard_config($c);
 			require(__DIR__ . "/_wizard_addresses.php");
 		?>
 	</li>
-	<?php } ?>
+	<?php $first_tab = false;
+	} ?>
 	</ul>
 </div>
 

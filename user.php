@@ -183,7 +183,7 @@ Looking for your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies
 </div>
 
 	</li>
-	<li id="tab_user_openid_tab">
+	<li id="tab_user_openid_tab" style="display:none;">
 
 <h2>Your OpenID Identites</h2>
 
@@ -248,7 +248,7 @@ foreach ($identities as $identity) {
 </table>
 
 	</li>
-	<li id="tab_user_premium_tab">
+	<li id="tab_user_premium_tab" style="display:none;">
 
 <div class="account_status">
 <h2>Account Status</h2>
@@ -314,7 +314,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 </div>
 
 	</li>
-	<li id="tab_user_outstanding_tab">
+	<li id="tab_user_outstanding_tab" style="display:none;">
 
 <?php if ($outstanding) { ?>
 <h2>Outstanding Payments</h2>
@@ -387,7 +387,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <?php } ?>
 
 	</li>
-	<li id="tab_user_mailinglist_tab">
+	<li id="tab_user_mailinglist_tab" style="display:none;">
 
 <h2>Subscribe to <?php echo htmlspecialchars(get_site_config('site_name')); ?> Announcements</h2>
 
