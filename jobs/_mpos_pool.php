@@ -8,6 +8,11 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
+$account_data = get_accounts_wizard_config($exchange);
+if (!$account_data) {
+	throw new JobException("Could not find any accounts wizard configuration for '$exchange'");
+}
+
 // get balance
 $contents = crypto_get_contents(crypto_wrap_url($api_url . "action=getuserbalance&api_key=" . $account['api_key']), isset($curl_options) ? $curl_options : array());
 if (preg_match("#^[0-9]+{#", $contents)) {
@@ -43,9 +48,9 @@ if (!isset($data['getuserstatus']['data']['hashrate'])) {
 	if (!isset($data['getuserstatus']['hashrate'])) {
 		throw new ExternalAPIException("No hashrate found");
 	} else {
-		insert_new_hashrate($job, $account, $exchange, $currency, $data['getuserstatus']['hashrate'] / 1000 /* assume response is in KH/s */);
+		insert_new_hashrate($job, $account, $exchange, $currency, $data['getuserstatus']['hashrate'] / ($account_data['khash'] ? 1000 : 1));
 	}
 } else {
-	insert_new_hashrate($job, $account, $exchange, $currency, $data['getuserstatus']['data']['hashrate'] / 1000 /* assume response is in KH/s */);
+	insert_new_hashrate($job, $account, $exchange, $currency, $data['getuserstatus']['data']['hashrate'] / ($account_data['khash'] ? 1000 : 1));
 }
 

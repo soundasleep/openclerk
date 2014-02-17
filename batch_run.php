@@ -453,6 +453,10 @@ try {
 			require(__DIR__ . "/jobs/smalltimeminer_mec.php");
 			break;
 
+		case "ecoining_ppc":
+			require(__DIR__ . "/jobs/ecoining_ppc.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
