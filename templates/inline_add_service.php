@@ -30,11 +30,12 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>CampBX (read-only API <a href="https://bitcointalk.org/index.php?topic=192423.msg2868088#msg2868088">"coming in September"</a>)</li>
 	<li>CoinJar (<a href="https://support.coinjar.com/discussions/suggestions/271-read-only-api-access">requested</a>)</li>
 	<li>Coinotron (on development list)</li>
-	<li>Coin.Mx</li>
+	<li>CoinEx.pw</li>
 </ul>
 </div>
 <div class="column">
 <ul>
+	<li>Coin.Mx</li>
 	<li>Coins-E</li>
 	<li>Cryptsy (only available through an <a href="http://code.google.com/p/openclerk/wiki/Unsafe">unsafe instance</a>)</li>
 	<li>fast-pool.com</li>
