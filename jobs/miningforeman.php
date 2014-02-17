@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Mining Foreman balance job.
+ * Mining Foreman LTC balance job.
  */
 
 $exchange = "miningforeman";
