@@ -58,6 +58,9 @@ function get_error_class($n) {
 foreach ($external_apis as $group_name => $group) {
 	echo "<li><b>" . htmlspecialchars($group_name) . "</b><ul>\n";
 	foreach ($group as $key => $title) {
+		if (!isset($external[$key]) && !is_admin()) {
+			continue;
+		}
 		echo "<li><span class=\"title\">" . $title . "</span> ";
 		if (isset($external[$key])) {
 			echo "<span class=\"status_percent " . get_error_class(($external[$key]['job_errors'] / $external[$key]['job_count']) * 100) . "\">";
