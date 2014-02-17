@@ -2810,3 +2810,6 @@ INSERT INTO exchanges SET name='vaultofsatoshi';
 
 -- issue #58: allow tracking of when summary currencies change
 ALTER TABLE users ADD last_summaries_update datetime null;
+
+-- removing lite_coinpool
+UPDATE accounts_lite_coinpool SET is_disabled=1;

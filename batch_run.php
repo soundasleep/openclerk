@@ -357,10 +357,6 @@ try {
 			require(__DIR__ . "/jobs/eligius.php");
 			break;
 
-		case "lite_coinpool":
-			require(__DIR__ . "/jobs/lite_coinpool.php");
-			break;
-
 		case "beeeeer":
 			require(__DIR__ . "/jobs/beeeeer.php");
 			break;
