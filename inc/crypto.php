@@ -446,25 +446,42 @@ function get_default_currency_exchange($c) {
  * Total conversions: all currencies to a single currency, where possible.
  * (e.g. there's no exchange defined yet that converts NZD -> USD)
  */
+$global_get_total_conversion_summary_types = null;
 function get_total_conversion_summary_types() {
-	$summary_types = array();
+	global $global_get_total_conversion_summary_types;
+	if ($global_get_total_conversion_summary_types == null) {
+		$summary_types = array();
 
-	// add fiat pairs automatically
-	foreach (get_exchange_pairs() as $exchange => $pairs) {
-		foreach ($pairs as $pair) {
-			if ($pair[1] == 'btc') {
-				// fiat currency
-				$summary_types[$pair[0] . '_' . $exchange] = array(
-					'currency' => $pair[0],
-					'title' => get_currency_name($pair[0]) . ' (converted through ' . get_exchange_name($exchange) . ')',
-					'short_title' => get_currency_abbr($pair[0]) . ' (' . get_exchange_name($exchange) . ')',
-					'exchange' => $exchange,
-				);
+		// add fiat pairs automatically
+		foreach (get_exchange_pairs() as $exchange => $pairs) {
+			foreach ($pairs as $pair) {
+				if ($pair[1] == 'btc') {
+					// fiat currency
+					$summary_types[$pair[0] . '_' . $exchange] = array(
+						'currency' => $pair[0],
+						'title' => get_currency_name($pair[0]) . ' (converted through ' . get_exchange_name($exchange) . ')',
+						'short_title' => get_currency_abbr($pair[0]) . ' (' . get_exchange_name($exchange) . ')',
+						'exchange' => $exchange,
+					);
+				}
 			}
 		}
-	}
 
-	return $summary_types;
+		// sort by currency order, then title
+		uasort($summary_types, 'sort_get_total_conversion_summary_types');
+
+		$global_get_total_conversion_summary_types = $summary_types;
+	}
+	return $global_get_total_conversion_summary_types;
+}
+
+function sort_get_total_conversion_summary_types($a, $b) {
+	$order_a = array_search($a['currency'], get_all_currencies());
+	$order_b = array_search($b['currency'], get_all_currencies());
+	if ($order_a == $order_b) {
+		return strcmp($a['short_title'], $b['short_title']);
+	}
+	return $order_a - $order_b;
 }
 
 /**
