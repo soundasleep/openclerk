@@ -90,6 +90,7 @@ if (!$balance) {
 				"address" => $address['address'],
 				"explorer" => get_site_config($address['currency'] . '_address_url'),
 				"url" => absolute_url(url_for("user#user_outstanding")),
+				"profile_url" => absolute_url(url_for("user#user_premium")),
 				"reminder" => $reminder,
 				"cancelled" => $cancelled,
 			));
@@ -150,6 +151,7 @@ if (!$balance) {
 							"address" => $address['address'],
 							"explorer" => get_site_config($address['currency'] . '_address_url'),
 							"url" => absolute_url(url_for("user#user_premium")),
+							"profile_url" => absolute_url(url_for("user#user_premium")),
 							"reminder" => $reminder,
 							"cancelled" => $cancelled,
 						));

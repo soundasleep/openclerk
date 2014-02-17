@@ -3,7 +3,7 @@ Hello {$name},
 
 Your {$received} {$currency} {$currency_name} payment for a {$site_name} premium account has been successfully verified by the {$currency_name} network.
 
-Your premium account now expires at {$expires}.
+Your premium account now expires at {$expires}: {$profile_url}.
 
 Thanks again for purchasing a premium account!
 

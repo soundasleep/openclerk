@@ -5,7 +5,7 @@ Your outstanding {$site_name} premium account payment, of {$amount} {$currency} 
 
 You have already paid {$received} {$currency} - so you have been credited with an equivalent amount of premium account status.
 
-Your premium account now expires at {$expires}.
+Your premium account now expires at {$expires}: {$profile_url}.
 
 Thanks again for purchasing a premium account!
 
