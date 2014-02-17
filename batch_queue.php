@@ -140,6 +140,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_50btc', 'type' => '50btc', 'failure' => true),
 	array('table' => 'accounts_smalltimeminer_mec', 'type' => 'smalltimeminer_mec', 'failure' => true),
 	array('table' => 'accounts_ecoining_ppc', 'type' => 'ecoining_ppc', 'failure' => true),
+	array('table' => 'accounts_teamdoge', 'type' => 'teamdoge', 'failure' => true),
 
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),

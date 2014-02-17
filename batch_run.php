@@ -457,6 +457,10 @@ try {
 			require(__DIR__ . "/jobs/ecoining_ppc.php");
 			break;
 
+		case "teamdoge":
+			require(__DIR__ . "/jobs/teamdoge.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
