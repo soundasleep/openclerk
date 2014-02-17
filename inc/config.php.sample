@@ -18,7 +18,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"site_email" => "support@example.com",
 		"openid_host" => "localhost",
 		"absolute_url" => "http://localhost/clerk/",
-		"openclerk_version" => "0.17",		// this is just a label displayed at the bottom of each page
+		"openclerk_version" => "0.18",		// this is just a label displayed at the bottom of each page
 
 		"database_url" => "mysql:host=localhost;dbname=clerk",
 		"database_username" => "clerk",
