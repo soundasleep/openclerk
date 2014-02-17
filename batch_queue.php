@@ -137,6 +137,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_btcinve', 'type' => 'btcinve', 'failure' => true),
 	// securities_btcinve - we let securities_update handle this
 	array('table' => 'accounts_miningpoolco', 'type' => 'miningpoolco', 'failure' => true),
+	array('table' => 'accounts_vaultofsatoshi', 'type' => 'vaultofsatoshi', 'failure' => true),
 
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),

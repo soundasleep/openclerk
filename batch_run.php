@@ -445,6 +445,10 @@ try {
 			require(__DIR__ . "/jobs/miningpoolco.php");
 			break;
 
+		case "vaultofsatoshi":
+			require(__DIR__ . "/jobs/vaultofsatoshi.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

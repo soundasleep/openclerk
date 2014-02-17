@@ -178,6 +178,7 @@ function get_all_exchanges() {
 		"btcinve_securities" => "BTCInve (Securities)",
 		"individual_btcinve" => "BTCInve (Individual Securities)",
 		"miningpoolco" =>	"MiningPool.co",
+		"vaultofsatoshi" => "Vault of Satoshi",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -307,6 +308,7 @@ function get_supported_wallets() {
 		"scryptpools" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
 		"triplemining" => array('btc', 'hash'),
+		"vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm'),		// used in jobs/vaultofsatoshi.php (also supports qrk)
 		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog'),		// used in jobs/vircurex.php
 		"wemineftc" => array('ftc', 'hash'),
 		"wemineltc" => array('ltc', 'hash'),
@@ -331,7 +333,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningpoolco");
+	return array("miningpoolco", "vaultofsatoshi");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -528,6 +530,7 @@ function account_data_grouped() {
 			'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'unsafe' => true),
 			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 		),
 		'Securities' => array(
@@ -687,6 +690,7 @@ function get_external_apis() {
 			'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
 			'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
+			'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
 			'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
 		),
 
@@ -1384,6 +1388,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					// we don't expose api_code here; this is obtained through the OAuth2 callback
 				),
 				'table' => 'accounts_coinbase',
+			);
+
+		case "vaultofsatoshi":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_vaultofsatoshi_apikey'),
+					'api_secret' => array('title' => 'API secret key', 'callback' => 'is_valid_vaultofsatoshi_apisecret'),
+				),
+				'table' => 'accounts_vaultofsatoshi',
 			);
 
 		// --- securities ---
@@ -2271,6 +2284,16 @@ function is_valid_litecoininvest_apikey($key) {
 function is_valid_miningpoolco_apikey($key) {
 	// looks like a 40 character hex string
 	return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_vaultofsatoshi_apikey($key) {
+	// looks like a 64 character alphanumeric string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_vaultofsatoshi_apisecret($key) {
+	// looks like a 64 character alphanumeric string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
