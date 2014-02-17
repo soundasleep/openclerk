@@ -71,19 +71,15 @@ $queries = array(
 		'query' => "SELECT COUNT(*) AS c FROM outstanding_premiums WHERE is_paid=1 AND (created_at >= :start AND created_at <= :end)",
 		'callback' => 'number_format',
 	),
-	"Income (BTC)" => array(
-		'query' => "SELECT IFNULL(SUM(paid_balance), 0) AS c FROM outstanding_premiums
-			JOIN premium_addresses ON outstanding_premiums.premium_address_id=premium_addresses.id
-			WHERE is_paid=1 AND (outstanding_premiums.created_at >= :start AND outstanding_premiums.created_at <= :end) AND currency='btc'",
-		'callback' => 'number_format_autoprecision',
-	),
-	"Income (LTC)" => array(
-		'query' => "SELECT IFNULL(SUM(paid_balance), 0) AS c FROM outstanding_premiums
-			JOIN premium_addresses ON outstanding_premiums.premium_address_id=premium_addresses.id
-			WHERE is_paid=1 AND (outstanding_premiums.created_at >= :start AND outstanding_premiums.created_at <= :end) AND currency='ltc'",
-		'callback' => 'number_format_autoprecision',
-	),
 );
+foreach (get_site_config('premium_currencies') as $cur) {
+	$queries["Income (" . get_currency_abbr($cur) . ")"] = array(
+		'query' => "SELECT IFNULL(SUM(paid_balance), 0) AS c FROM outstanding_premiums
+			JOIN premium_addresses ON outstanding_premiums.premium_address_id=premium_addresses.id
+			WHERE is_paid=1 AND (outstanding_premiums.created_at >= :start AND outstanding_premiums.created_at <= :end) AND currency='" . $cur . "'",
+		'callback' => 'number_format_autoprecision',
+	);
+}
 foreach ($queries as $query_title => $query) {
 	echo "<tr>\n";
 	echo "<th>" . htmlspecialchars($query_title) . "</th>\n";
@@ -124,7 +120,7 @@ foreach ($account_data_grouped as $label => $group) {
 	echo "<tr><td class=\"hr\" colspan=\"" . ($total_months+1) . "\">" . htmlspecialchars($label) . "</td></tr>\n";
 	foreach ($group as $key => $data) {
 		// don't try to report unsafe exchanges
-		if ($data['unsafe'] && !get_site_config('allow_unsafe')) {
+		if ((isset($data['unsafe']) && $data['unsafe']) && !get_site_config('allow_unsafe')) {
 			continue;
 		}
 
