@@ -441,6 +441,10 @@ try {
 			require(__DIR__ . "/jobs/btcinve.php");
 			break;
 
+		case "miningpoolco":
+			require(__DIR__ . "/jobs/miningpoolco.php");
+			break;
+
 		// individual securities jobs
 		case "individual_litecoinglobal":
 			require(__DIR__ . "/jobs/individual_litecoinglobal.php");

@@ -10,7 +10,7 @@ function get_all_currencies() {
 }
 
 function get_all_hashrate_currencies() {
-	return array("btc", "ltc", "nmc", "nvc", "dog", "ftc");
+	return array("btc", "ltc", "nmc", "nvc", "dog", "ftc", "mec");
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -177,6 +177,7 @@ function get_all_exchanges() {
 		"btcinve_wallet" => "BTCInve (Wallet)",
 		"btcinve_securities" => "BTCInve (Securities)",
 		"individual_btcinve" => "BTCInve (Individual Securities)",
+		"miningpoolco" =>	"MiningPool.co",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -299,6 +300,7 @@ function get_supported_wallets() {
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad', 'nzd', 'cny', 'gbp'),
 		"miningforeman" => array('ltc', 'ftc'),
+		"miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),		// and LOTS more; used in jobs/miningpoolco.php
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'hash'),		// and LOTS more; used in jobs/multipool.php
 		"ozcoin" => array('ltc', 'btc', 'hash'),
 		"poolx" => array('ltc', 'hash'),
@@ -329,7 +331,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("ghashio", "coinbase", "litecoininvest", "btcinve");
+	return array("miningpoolco");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -502,6 +504,7 @@ function account_data_grouped() {
 			'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'miningforeman' => array('table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true),
 			'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true),
+			'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true),
@@ -650,9 +653,10 @@ function get_external_apis() {
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
 			'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
 			'ltcmineru' => '<a href="http://ltcmine.ru/">LTCMine.ru</a>',
-			'multipool' => '<a href="https://multipool.us/">Multipool</a>',
 			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a> (LTC)',
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
+			'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
+			'multipool' => '<a href="https://multipool.us/">Multipool</a>',
 			'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
 			'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
 			'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
@@ -1251,6 +1255,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ypool_apikey'),
 				),
 				'table' => 'accounts_ypool',
+				'khash' => true,
+			);
+
+		case "miningpoolco":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_miningpoolco_apikey'),
+				),
+				'table' => 'accounts_miningpoolco',
 				'khash' => true,
 			);
 
@@ -2253,6 +2266,11 @@ function is_valid_cryptsy_private_key($key) {
 function is_valid_litecoininvest_apikey($key) {
 	// looks to be lowercase hex
 	return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
+}
+
+function is_valid_miningpoolco_apikey($key) {
+	// looks like a 40 character hex string
+	return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
