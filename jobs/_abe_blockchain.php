@@ -24,8 +24,12 @@ $html = crypto_get_contents(crypto_wrap_url($abe_data['explorer_url'] . urlencod
 $html = preg_replace("#[\n\t]+#", "", $html);
 $html = preg_replace("#</tr>#", "</tr>\n", $html);
 
+if ($address['is_received']) {
+	crypto_log("We are looking for received balance.");
+}
+
 // assumes that the page format will not change
-if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |</th><td>|</td><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#i', $html, $matches)) {
+if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |</th><td>|</td><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#im', $html, $matches)) {
 	$balance = $matches[3];
 	crypto_log("Address balance before removing unconfirmed: " . $balance);
 
@@ -57,18 +61,23 @@ if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |
 			throw new ExternalAPIException("Could not find any transactions on page");
 		}
 	}
-} else if ($address['is_received'] && preg_match('#(|<tr><th>)Received:?( |</th><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#i', $html, $matches)) {
+} else if ($address['is_received'] && preg_match('#(|<tr><th>|<tr><td>)Received:?( |</th><td>|</td><td>)([0-9\.]+) ' . get_currency_abbr($abe_data['currency']) . '#i', $html, $matches)) {
 	$balance = $matches[3];
 	crypto_log("Address received before removing unconfirmed: " . $balance);
 
-	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . get_currency_abbr($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
+	if (preg_match_all('#<tr><td>.+</td><td><a href=[^>]+>([0-9]+)</a></td><td>.+</td><td>(- |\\+ |)([0-9\\.\\(\\)]+)</td><td>([0-9\\.]+)</td><td>' . get_currency_abbr($abe_data['currency']) . '</td></tr>#im', $html, $matches, PREG_SET_ORDER)) {
 		foreach ($matches as $match) {
 			if ($match[1] >= $block) {
 				// too recent
-				$amount = $match[2];
+				$amount = $match[3];
 				if (substr($amount, 0, 1) == "(" && substr($amount, -1) == ")") {
 					// convert (1.23) into -1.23
 					$amount = - substr($amount, 1, strlen($amount) - 2);
+				}
+				if ($match[2] == "+ ") {
+					$amount = +$amount;
+				} else if ($match[2] == "- ") {
+					$amount = -$amount;
 				}
 				// only consider received
 				if ($amount > 0) {

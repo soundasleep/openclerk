@@ -49,7 +49,7 @@ if (require_post("months", false) || require_post("years", false)) {
 		$q->execute(array($currency));
 		$address = $q->fetch();
 		if (!$address) {
-			throw new Exception("Could not generate " . get_currency_abbr($currency) . " address for purchase; please try again later.");
+			throw new PurchaseException("Could not generate " . get_currency_abbr($currency) . " address for purchase; please try again later.");
 		}
 
 		// register it to the system as a normal blockchain address, but we need to get received rather than balance
@@ -94,6 +94,7 @@ if (require_post("months", false) || require_post("years", false)) {
 		redirect(url_for('user#user_outstanding', array('new_purchase' => $purchase_id)));
 
 	} catch (PurchaseException $e) {
+		log_uncaught_exception($e);
 		$errors[] = $e->getMessage();
 	}
 }
