@@ -97,13 +97,18 @@ $get_supported_wallets = get_supported_wallets();
 $currencies = $get_supported_wallets['796']; // btc, usd
 
 foreach ($currencies as $currency) {
-	if (!isset($balance[$currency])) {
-		crypto_log("No $exchange balance for $currency");
+	if (!isset($balance['main_wallet'][$currency])) {
+		crypto_log("No main_wallet $exchange balance for $currency");
 		continue;
 	}
+        if (!isset($balance['futures_wallet'][$currency])) {
+                crypto_log("No futures_wallet $exchange balance for $currency");
+                // continue;
+		$balance['futures_wallet'][$currency] = 0;
+        }
 
 	// also $currency_reserved and $currency_available; we use $currency_balance
-	$b = $balance[$currency];
+	$b = $balance['main_wallet'][$currency] + $balance['futures_wallet'][$currency];
 	crypto_log($exchange . " balance for " . $currency . ": " . $b);
 
 	insert_new_balance($job, $account, $exchange . "_wallet", $currency, $b);

@@ -290,7 +290,7 @@ function get_supported_wallets() {
 	return array(
 		// alphabetically sorted, except for generic
 		"50btc" => array('btc', 'hash'),
-		"796" => array('btc'),
+		"796" => array('btc', 'ltc', 'usd'),
 		"beeeeer" => array('xpm'),
 		"bips" => array('btc', 'usd'),
 		"bitcurex_eur" => array('btc', 'eur'),
