@@ -2908,3 +2908,7 @@ CREATE TABLE accounts_nut2pools_ftc (
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
+-- 796 xchange; always changing their APIs silently with no BC
+
+UPDATE securities_796 SET api_name='mri' where name='mri';
+
