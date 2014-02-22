@@ -2912,3 +2912,4 @@ CREATE TABLE accounts_nut2pools_ftc (
 
 UPDATE securities_796 SET api_name='mri' where name='mri';
 
+INSERT INTO exchanges SET name='bit2c';

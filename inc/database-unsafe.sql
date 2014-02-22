@@ -22,3 +22,22 @@ CREATE TABLE accounts_cryptsy (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+DROP TABLE IF EXISTS accounts_bit2c;
+
+CREATE TABLE accounts_bit2c (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	api_secret varchar(255) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);

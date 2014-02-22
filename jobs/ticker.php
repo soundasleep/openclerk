@@ -16,6 +16,10 @@ if (!$exchange) {
 // each exchange will insert in many different currency pairs, depending on how many
 // currencies are supported
 switch ($exchange['name']) {
+	case "bit2c":
+		require(__DIR__ . "/ticker/bit2c.php");
+		break;
+
 	case "btce":
 		require(__DIR__ . "/ticker/btce.php");
 		break;

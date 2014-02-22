@@ -64,6 +64,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 
 		// job control
 		"jobs_enabled" => true,		// disable when performing upgrades
+		"sleep_bit2c_ticker" => 5,
 		"sleep_btce_ticker" => 5,	// how many seconds to wait between repeated btc-e ticker queries
 		"sleep_mtgox_ticker" => 5,
 		"sleep_vircurex_balance" => 5,
