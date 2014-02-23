@@ -1,7 +1,7 @@
 <?php
-header("Content-Type: application/javascript");
+header("Content-Type: application/json");
 
-// TODO refactor with json.php
+// TODO refactor with js.php
 
 function my_content_type_exception_handler($e) {
 	$message = "Error: " . htmlspecialchars($e->getMessage());

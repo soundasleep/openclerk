@@ -31,6 +31,8 @@ RewriteRule ^profile/$        $1         [R,QSA]
 
 RewriteRule ^js/add_graph.js$ js/add_graph.js.php [L,QSA]
 
+RewriteRule ^api/([0-9a-z_]+)/([0-9a-z_]+).json$	api/$1/$2.php		[L,QSA]
+
 # This rewrites /foo to /foo.php
 # To disable this rule, edit url_for() to return the normal .php extension for a given path.
 RewriteRule ^([0-9a-z_]+)$         $1.php     [L,QSA]
