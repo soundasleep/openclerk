@@ -3,7 +3,7 @@
 /**
  * /api/v1/rates.json
  */
-function api_get_all_rates() {
+function api_get_all_rates($with_extra = true) {
 	$rates = array();
 	foreach (get_all_currencies() as $cur1) {
 		foreach (get_all_currencies() as $cur2) {
@@ -80,14 +80,18 @@ function api_get_all_rates() {
 			if (is_array($exchange)) {
 				$rates[$cur1 . '_' . $cur2]['exchange1'] = get_exchange_name($exchange[0]);
 				$rates[$cur1 . '_' . $cur2]['exchange2'] = get_exchange_name($exchange[1]);
-				$rates[$cur1 . '_' . $cur2]['pair1'] = $pair[0];
-				$rates[$cur1 . '_' . $cur2]['pair2'] = $pair[1];
-				$rates[$cur1 . '_' . $cur2]['url1'] = absolute_url(url_for('historical', array('id' => $exchange[0] . '_' . $pair[0] . '_daily')));		// TODO add analytics
-				$rates[$cur1 . '_' . $cur2]['url2'] = absolute_url(url_for('historical', array('id' => $exchange[0] . '_' . $pair[1] . '_daily')));
+				if ($with_extra) {
+					$rates[$cur1 . '_' . $cur2]['pair1'] = $pair[0];
+					$rates[$cur1 . '_' . $cur2]['pair2'] = $pair[1];
+					$rates[$cur1 . '_' . $cur2]['url1'] = absolute_url(url_for('historical', array('id' => $exchange[0] . '_' . $pair[0] . '_daily')));		// TODO add analytics
+					$rates[$cur1 . '_' . $cur2]['url2'] = absolute_url(url_for('historical', array('id' => $exchange[0] . '_' . $pair[1] . '_daily')));
+				}
 			} else {
 				$rates[$cur1 . '_' . $cur2]['exchange1'] = get_exchange_name($exchange);
-				$rates[$cur1 . '_' . $cur2]['pair1'] = $pair;
-				$rates[$cur1 . '_' . $cur2]['url1'] = absolute_url(url_for('historical', array('id' => $exchange . '_' . $pair . '_daily')));		// TODO add analytics
+				if ($with_extra) {
+					$rates[$cur1 . '_' . $cur2]['pair1'] = $pair;
+					$rates[$cur1 . '_' . $cur2]['url1'] = absolute_url(url_for('historical', array('id' => $exchange . '_' . $pair . '_daily')));		// TODO add analytics
+				}
 			}
 
 		}

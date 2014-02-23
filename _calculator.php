@@ -42,7 +42,7 @@ function get_all_rates() {
 	return <?php
 
 	require(__DIR__ . "/inc/api.php");
-	$rates = api_get_all_rates();
+	$rates = api_get_all_rates(false /* with_extra */);
 
 	echo json_encode($rates);
 	?>;
