@@ -11,7 +11,8 @@ foreach (get_all_currencies() as $cur) {
 	$result['currencies'][] = array(
 		'code' => $cur,
 		'abbr' => get_currency_abbr($cur),
-		'name' => get_currency_name($cur)
+		'name' => get_currency_name($cur),
+		'fiat' => in_array($cur, get_all_fiat_currencies()),
 	);
 }
 
