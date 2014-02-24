@@ -2912,3 +2912,21 @@ CREATE TABLE accounts_nut2pools_ftc (
 
 UPDATE securities_796 SET api_name='mri' where name='mri';
 
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.18 to 0.18.1
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS cached_strings;
+
+CREATE TABLE cached_strings (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	cache_key varchar(255) not null,
+	cache_hash varchar(32) not null,
+	
+	content mediumblob not null, /* up to 16 MB */
+	
+	UNIQUE(cache_key, cache_hash)
+);
