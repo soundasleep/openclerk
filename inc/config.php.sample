@@ -219,8 +219,8 @@ function get_premium_config($key = null, $fail_if_missing = true) {
 		"notifications_free" => 2,
 		"notifications_premium" => 100,
 
-		"max_failures_free" => 3,
-		"max_failures_premium" => 30,		// increase this value (e.g. 10x) because premium users are exposed to more errors
+		"max_failures_free" => 5,
+		"max_failures_premium" => 50,		// increase this value (e.g. 10x) because premium users are exposed to more errors
 	);
 
 }
