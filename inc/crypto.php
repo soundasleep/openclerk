@@ -445,8 +445,8 @@ function get_default_currency_exchange($c) {
 		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
 		case "eur": return "btce";
-		case "gbp": return "mtgox";
-		case "aud": return "mtgox";
+		case "gbp": return "coinbase";
+		case "aud": return "coinbase";
 		case "cad": return "virtex";
 		case "cny": return "btcchina";
 		case "pln": return "bitcurex";
