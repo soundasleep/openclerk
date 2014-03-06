@@ -60,18 +60,16 @@ crypto_log("Found buy " . print_r($buy_row, true));
 $sell_row = virtex_table_first_row($xml, 'orderbook_sell');
 crypto_log("Found sell " . print_r($sell_row, true));
 
-$volume_row = virtex_table_first_row($xml, 'ticker', 5);
-crypto_log("Found volume " . print_r($volume_row, true));
+// virtex HTML no longer includes 24h volume or anything like that
 
 $last_trade = $last_trade_row[3];
 $buy = $buy_row[2];
 $sell = $sell_row[2];
-$volume = preg_replace("#[^0-9\.]#", "", $volume_row[4]);
 
 insert_new_ticker($job, $exchange, $currency1, $currency2, array(
 	"last_trade" => $last_trade,
 	// Virtex returns buy/sell in the incorrect order
 	"bid" => $buy,
 	"ask" => $sell,
-	"volume" => $volume,
+	// "volume" => $volume,
 ));
