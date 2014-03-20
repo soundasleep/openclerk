@@ -14,10 +14,10 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-function cryptotrade_query($key, $secret, $url) {
+function cryptotrade_query($key, $secret, $url, $nonce_multiplier = 1000) {
 
 	$req = array(
-		'nonce' => round(microtime(true) * 1000),
+		'nonce' => round(microtime(true) * $nonce_multiplier),
 	);
 
 	// generate the POST data string
@@ -49,6 +49,11 @@ function cryptotrade_query($key, $secret, $url) {
 }
 
 $info = cryptotrade_query($account['api_key'], $account['api_secret'], 'https://crypto-trade.com/api/1/private/getinfo');
+if (isset($info['error']) && preg_match("/nonce value is too big/", $info['error'])) {
+	// sometimes crypto-trade randomly switches from "nonce is too big" to "nonce is too small"
+	crypto_log("Nonce value was too big; trying with a smaller nonce");
+	$info = cryptotrade_query($account['api_key'], $account['api_secret'], 'https://crypto-trade.com/api/1/private/getinfo', 1 /* nonce_multiplier */);
+}
 if (isset($info['error'])) {
 	throw new ExternalAPIException(htmlspecialchars($info['error']));
 }
@@ -96,7 +101,7 @@ foreach ($securities as $sec) {
 			// calculate the security value
 			if ($info['data']['funds'][$currency] >= 0) {
 				$temp = $info['data']['funds'][$currency] * $balance['balance'];
-				crypto_log($info['data']['funds'][$currency] . " x " . $balance['balance'] . " = " . $balance . " " . $sec['currency']);
+				crypto_log($info['data']['funds'][$currency] . " x " . $balance['balance'] . " = " . $temp . " " . $sec['currency']);
 				$security_value[$sec['currency']] += $temp;
 
 				// insert security instance
