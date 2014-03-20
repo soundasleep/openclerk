@@ -26,7 +26,11 @@ initialise_calculator = function(parent) {
 		if (typeof rates[key] == 'undefined') {
 			return;
 		}
-		$(parent).find("#exchange_text").html(rates[key]['exchanges']);
+		var html = "<a href=\"" + rates[key]['url1'] + "\">" + rates[key]['exchange1'] + "</a>";
+		if (typeof rates[key]['exchange2'] != 'undefined') {
+			html += " and <a href=\"" + rates[key]['url2'] + "\">" + rates[key]['exchange2'] + "</a>";
+		}
+		$(parent).find("#exchange_text").html(html);
 		var value2 = value1 * rates[key]['rate'];
 		// convert number to string
 		return number_format(value2);
