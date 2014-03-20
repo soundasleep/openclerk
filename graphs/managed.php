@@ -165,8 +165,8 @@ function calculate_all_managed_graphs($user) {
 					}
 					foreach ($possible_summaries as $p) {
 						if (isset($all_summaries[$p])) {
-							$is_default = (in_array($pair[0], get_all_fiat_currencies()) && get_default_currency_exchange($pair[0]) == $exchange) ||
-									(in_array($pair[1], get_all_fiat_currencies()) && get_default_currency_exchange($pair[1]) == $exchange);
+							$is_default = (is_fiat_currency($pair[0]) && get_default_currency_exchange($pair[0]) == $exchange) ||
+									(is_fiat_currency($pair[1]) && get_default_currency_exchange($pair[1]) == $exchange);
 
 							$result['all_currency'][$exchange . "_" . $pair[0] . $pair[1] . "_daily"] = array(
 								'order' => $default_order['exchange_daily'] + $order_exchange[$exchange] + $order_currency[$pair[0]],

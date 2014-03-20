@@ -32,7 +32,7 @@ if ($preference == "managed" && !$managed) {
 if (!in_array($preferred_crypto, get_all_cryptocurrencies())) {
 	$errors[] = "Invalid preferred cryptocurrency.";
 }
-if (!in_array($preferred_fiat, get_all_fiat_currencies())) {
+if (!is_fiat_currency($preferred_fiat)) {
 	$errors[] = "Invalid preferred fiat currency.";
 }
 if (!in_array($preference, array('auto', 'managed', 'none'))) {

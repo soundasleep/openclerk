@@ -33,6 +33,9 @@ function get_all_commodity_currencies() {
 function get_all_fiat_currencies() {
 	return array_diff(array_diff(get_all_currencies(), get_all_cryptocurrencies()), get_all_commodity_currencies());
 }
+function is_fiat_currency($cur) {
+	return in_array($cur, get_all_fiat_currencies());
+}
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
@@ -1914,10 +1917,19 @@ function get_latest_ticker($exchange, $cur1, $cur2) {
 			"currency2" => $cur2,
 		));
 		if ($ticker = $q->fetch()) {
-			$_latest_tickers[$key] = $ticker;
+			set_latest_ticker($ticker);
 		}
 	}
 	return $_latest_tickers[$key];
+}
+// used for testing
+function set_latest_ticker($ticker) {
+	$exchange = $ticker['exchange'];
+	$cur1 = $ticker['currency1'];
+	$cur2 = $ticker['currency2'];
+	$key = $exchange . '_' . $cur1 . '_' . $cur2;
+	global $_latest_tickers;
+	$_latest_tickers[$key] = $ticker;
 }
 
 /**

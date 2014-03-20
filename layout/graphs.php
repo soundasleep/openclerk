@@ -247,10 +247,10 @@ function render_graph_actual($graph, $is_public) {
 			}
 			foreach (get_all_currencies() as $cur) {
 				if ($cur == 'btc') continue;
-				if (!in_array($cur, get_all_fiat_currencies()) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates['btc' . $cur])) {
+				if (!is_fiat_currency($cur) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates['btc' . $cur])) {
 					$data[get_currency_abbr($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] * $rates['btc' . $cur]['bid']));
 				}
-				if (in_array($cur, get_all_fiat_currencies()) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates[$cur . 'btc']) && $rates[$cur . 'btc'] /* no div by 0 */) {
+				if (is_fiat_currency($cur) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates[$cur . 'btc']) && $rates[$cur . 'btc'] /* no div by 0 */) {
 					$data[get_currency_abbr($cur)] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] / $rates[$cur . 'btc']['ask']));
 				}
 			}

@@ -14,7 +14,7 @@ function api_v1_rates() {
 			'code' => $cur,
 			'abbr' => get_currency_abbr($cur),
 			'name' => get_currency_name($cur),
-			'fiat' => in_array($cur, get_all_fiat_currencies()),
+			'fiat' => is_fiat_currency($cur),
 		);
 	}
 

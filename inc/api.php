@@ -14,7 +14,7 @@ function api_get_all_rates($with_extra = true) {
 			$pair = array();
 
 			if ($cur1 == "btc") {
-				if (!in_array($cur2, get_all_fiat_currencies())) {
+				if (!is_fiat_currency($cur2)) {
 					// btc/ltc and btc/ghs
 					$exchange = get_default_currency_exchange($cur2);
 					$ticker = get_latest_ticker($exchange, $cur1, $cur2);
@@ -28,7 +28,7 @@ function api_get_all_rates($with_extra = true) {
 					$pair = $cur2 . $cur1;
 				}
 			} else if ($cur2 == "btc") {
-				if (!in_array($cur1, get_all_fiat_currencies())) {
+				if (!is_fiat_currency($cur1)) {
 					// btc/ltc and btc/ghs
 					$exchange = get_default_currency_exchange($cur1);
 					$ticker = get_latest_ticker($exchange, $cur2, $cur1);
@@ -43,7 +43,7 @@ function api_get_all_rates($with_extra = true) {
 				}
 			} else {
 				// first have to convert to btc and then to the target currency
-				if (!in_array($cur1, get_all_fiat_currencies())) {
+				if (!is_fiat_currency($cur1)) {
 					// ltc/? and ghs/?
 					$exchange = array(get_default_currency_exchange($cur1));
 					$ticker = get_latest_ticker($exchange[0], 'btc', $cur1);
@@ -58,7 +58,7 @@ function api_get_all_rates($with_extra = true) {
 				}
 
 				// and then to the second currency
-				if (!in_array($cur2, get_all_fiat_currencies())) {
+				if (!is_fiat_currency($cur2)) {
 					// ?/ltc and ?/ghs
 					$exchange[] = get_default_currency_exchange($cur2);
 					$ticker = get_latest_ticker($exchange[1], 'btc', $cur2);

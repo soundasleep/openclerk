@@ -29,7 +29,7 @@ foreach (get_all_currencies() as $cur) {
 		$total_blockchain_balance = false;
 
 		// only non-fiat currencies have blockchains
-		if (!in_array($cur, get_all_fiat_currencies())) {
+		if (!is_fiat_currency($cur)) {
 			// get the most recent blockchain balances
 			$q = db()->prepare("SELECT * FROM address_balances
 				JOIN addresses ON address_balances.address_id=addresses.id
@@ -65,7 +65,7 @@ foreach (get_all_currencies() as $cur) {
 		crypto_log("Total $cur balance for user " . $job['user_id'] . ": " . $total);
 		add_summary_instance($job, 'total' . $cur, $total);
 		// only non-fiat currencies have blockchains
-		if (!in_array($cur, get_all_fiat_currencies())) {
+		if (!is_fiat_currency($cur)) {
 			add_summary_instance($job, 'blockchain' . $cur, $total_blockchain_balance);
 		}
 		add_summary_instance($job, 'offsets' . $cur, $total_offsets_balance);
@@ -165,7 +165,7 @@ foreach ($summaries as $summary) {
 
 	crypto_log("Summary '" . htmlspecialchars($summary['summary_type']) . "'\n<ul>");
 
-	if (in_array($currency, get_all_fiat_currencies())) {
+	if (is_fiat_currency($currency)) {
 		// fiat currencies only have all2 jobs
 		$exchange = $bits[2];
 		if (!$exchange) {
