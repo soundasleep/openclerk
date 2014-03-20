@@ -2930,3 +2930,12 @@ CREATE TABLE cached_strings (
 	
 	UNIQUE(cache_key, cache_hash)
 );
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.18.1 to 0.19
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+
+-- issue #98: removing smalltimeminer_mec
+UPDATE accounts_smalltimeminer_mec SET is_disabled=1;
+

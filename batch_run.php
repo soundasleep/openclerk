@@ -449,10 +449,6 @@ try {
 			require(__DIR__ . "/jobs/50btc.php");
 			break;
 
-		case "smalltimeminer_mec":
-			require(__DIR__ . "/jobs/smalltimeminer_mec.php");
-			break;
-
 		case "ecoining_ppc":
 			require(__DIR__ . "/jobs/ecoining_ppc.php");
 			break;

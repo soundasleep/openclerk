@@ -336,7 +336,6 @@ function get_supported_wallets() {
 		"poolx" => array('ltc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
-		"smalltimeminer" => array('mec', 'hash'),	// other pools can go in here later
 		"teamdoge" => array('dog', 'hash'),
 		"triplemining" => array('btc', 'hash'),
 		"vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm'),		// used in jobs/vaultofsatoshi.php (also supports qrk)
@@ -364,7 +363,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningpoolco", "vaultofsatoshi", "50btc", "smalltimeminer", "smalltimeminer_mec", "ecoining", "ecoining_ppc", "teamdoge", "dedicatedpool", "dedicatedpool_doge", "nut2pools", "nut2pools_ftc");
+	return array("miningpoolco", "vaultofsatoshi", "50btc", "ecoining", "ecoining_ppc", "teamdoge", "dedicatedpool", "dedicatedpool_doge", "nut2pools", "nut2pools_ftc");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -564,7 +563,7 @@ function account_data_grouped() {
 			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-			'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer'),
+			'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
 			'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'wemineftc' => array('table' => 'accounts_wemineftc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -722,7 +721,6 @@ function get_external_apis() {
 			'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
 			'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
-			'smalltimeminer_mec' => '<a href="http://meg.smalltimeminer.com/">Small Time Miner Megacoin</a>',
 			'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
 			'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
 			'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
