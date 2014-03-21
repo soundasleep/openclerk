@@ -22,3 +22,8 @@ if (!$graph) {
 }
 
 render_graph_actual($graph, false);
+
+if (get_site_config('timed_sql')) {
+	global $global_timed_sql;
+	echo "\n<!-- SQL debug: \n " . print_r($global_timed_sql, true) . "\n-->";
+}
