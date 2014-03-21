@@ -210,48 +210,44 @@ function display_messages() {
 
 }
 
-function ltc_address($address) {
-	return "<span class=\"address ltc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ltc_address_url") . $address) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
-}
+function crypto_address($currency, $address) {
+	switch ($currency) {
+		case 'btc':
+			return "<span class=\"address btc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("btc_address_url") . $address) . "\" title=\"Inspect with Blockchain\">?</a></span>";
 
-function btc_address($address) {
-	return "<span class=\"address btc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("btc_address_url") . $address) . "\" title=\"Inspect with Blockchain\">?</a></span>";
-}
+		case 'ltc':
+			return "<span class=\"address ltc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ltc_address_url") . $address) . "\" title=\"Inspect with Litecoin Explorer\">?</a></span>";
 
-function ftc_address($address) {
-	return "<span class=\"address ftc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ftc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
-}
+		case 'ftc':
+			return "<span class=\"address ftc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ftc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 
-function ppc_address($address) {
-	return "<span class=\"address ppc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ppc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
-}
+		case 'ppc':
+			return "<span class=\"address ppc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ppc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 
-function nvc_address($address) {
-	return "<span class=\"address nvc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("nvc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
-}
+		case 'nvc':
+			return "<span class=\"address nvc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("nvc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 
-function xpm_address($address) {
-	return "<span class=\"address xpm_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("xpm_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
-}
+		case 'xpm':
+			return "<span class=\"address xpm_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("xpm_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 
-function trc_address($address) {
-	return "<span class=\"address trc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("trc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
-}
+		case 'trc':
+			return "<span class=\"address trc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("trc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 
-function dog_address($address) {
-	return "<span class=\"address dog_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("dog_address_url") . $address) . "\" title=\"Inspect with DogeChain\">?</a></span>";
-}
+		case 'dog':
+			return "<span class=\"address dog_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("dog_address_url") . $address) . "\" title=\"Inspect with DogeChain\">?</a></span>";
 
-function mec_address($address) {
-	return "<span class=\"address mec_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("mec_address_url") . $address) . "\" title=\"Inspect with Megacoin Block Explorer\">?</a></span>";
-}
+		case 'mec':
+			return "<span class=\"address mec_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("mec_address_url") . $address) . "\" title=\"Inspect with Megacoin Block Explorer\">?</a></span>";
 
-function xrp_address($address) {
-	return "<span class=\"address xrp_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("xrp_address_url") . $address) . "\" title=\"Inspect with Ripple Graph\">?</a></span>";
-}
+		case 'xrp':
+			return "<span class=\"address xrp_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("xrp_address_url") . $address) . "\" title=\"Inspect with Ripple Graph\">?</a></span>";
 
-function nmc_address($address) {
-	return "<span class=\"address nmc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("nmc_address_url") . $address) . "\" title=\"Inspect with 192.241.222.65\">?</a></span>";
+		case 'nmc':
+			return "<span class=\"address nmc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("nmc_address_url") . $address) . "\" title=\"Inspect with 192.241.222.65\">?</a></span>";
+
+		default:
+			return htmlspecialchars($address);
+	}
 }
 
 function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {

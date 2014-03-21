@@ -74,7 +74,7 @@ foreach ($accounts as $a) {
 			<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 			</form>
 		</td>
-		<td><?php $address_callback = $account_data['address_callback']; echo $address_callback($a['address']); ?></td>
+		<td><?php echo crypto_address($account_data['currency'], $a['address']); ?></td>
 		<td><?php echo recent_format_html($a['created_at']); ?></td>
 		<td class="job_status <?php if ($job) { echo $job['is_error'] ? "job_error" : "job_success"; } ?>">
 			<?php echo recent_format_html($last_updated); ?>

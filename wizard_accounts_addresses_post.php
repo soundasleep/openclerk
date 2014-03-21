@@ -3,7 +3,7 @@
 require(__DIR__ . "/inc/global.php");
 require_login();
 
-require(__DIR__ . "/layout/templates.php");	// for btc_address() etc
+require(__DIR__ . "/layout/templates.php");	// for crypto_address() etc
 
 $user = get_user(user_id());
 require_user($user);
@@ -54,8 +54,7 @@ if (require_post("add", false) && require_post("address", false)) {
 		// we don't care if the address already exists
 		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?, title=?");
 		$q->execute(array(user_id(), $address, $account_data['currency'], $title));
-		$address_callback = $account_data['address_callback'];
-		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " " . $address_callback($address) . ". Balances from this address will be retrieved shortly.";
+		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " " . crypto_address($account_data['currency'], $address) . ". Balances from this address will be retrieved shortly.";
 
 		// redirect to GET
 		set_temporary_messages($messages);
@@ -77,8 +76,7 @@ if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM address_balances WHERE address_id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));
 
-	$address_callback = $account_data['address_callback'];
-	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . " " . ($address ? $address_callback($address['address']) : " (removed)") . ".";
+	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . " " . ($address ? crypto_address($account_data['currency'], $address['address']) : " (removed)") . ".";
 
 	// redirect to GET
 	set_temporary_messages($messages);
