@@ -193,6 +193,8 @@ function get_all_exchanges() {
 		"nut2pools" => "Nut2Pools",
 		"nut2pools_ftc" => "Nut2Pools",
 		"shibepool" => "Shibe Pool",
+		"cryptopools" => "CryptoPools",
+		"cryptopools_dgc" => "CryptoPools",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -297,6 +299,7 @@ function get_supported_wallets() {
 		"btct" => array('btc'),
 		"coinbase" => array('btc'),
 		"coinhuntr" => array('ltc', 'hash'),
+		"cryptopools" => array('dgc', 'hash'),		// other coins available
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc'),
 		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec'),
@@ -512,6 +515,7 @@ function account_data_grouped() {
 			'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'cryptopools_dgc' => array('table' => 'accounts_cryptopools_dgc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptopools', 'suffix' => ' DGC'),
 			'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
 			'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -673,6 +677,7 @@ function get_external_apis() {
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 			'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
 			'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
+			'cryptopools_dgc' => '<a href="http://dgc.cryptopools.com/">CryptoPools</a> (DGC)',
 			'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
 			'dogechainpool' => '<a href="http://pool.dogechain.info/">Dogechain Pool</a>',
 			'dogepoolpw' => '<a href="http://dogepool.pw">dogepool.pw</a>',
@@ -1361,6 +1366,16 @@ function get_accounts_wizard_config_basic($exchange) {
 				'khash' => true,
 			);
 
+		case "cryptopools_dgc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
+				),
+				'table' => 'accounts_cryptopools_dgc',
+				'title' => 'CryptoPools DGC account',
+				'khash' => true,
+			);
+
 		// --- exchanges ---
 		case "mtgox":
 			return array(
@@ -1703,7 +1718,7 @@ function get_wizard_account_type($wizard) {
 				'hashrate' => false,
 				'url' => 'wizard_accounts_individual_securities',
 				'first_heading' => 'Exchange',
-				'display_headings' => array('Security', 'Quantity'),
+				'display_headings' => array('security' => 'Security', 'quantity' => 'Quantity'),
 				'display_callback' => 'get_individual_security_config',
 				'add_help' => 'add_service',
 				'a' => 'an',
@@ -1719,7 +1734,7 @@ function get_wizard_account_type($wizard) {
 				'url' => 'wizard_accounts_other',
 				'add_help' => 'add_service',
 				'a' => 'an',
-				'display_headings' => array('Multiplier'),
+				'display_headings' => array('multiplier' => 'Multiplier'),
 				'display_editable' => array('multiplier' => 'number_format_autoprecision'),
 			);
 			break;

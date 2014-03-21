@@ -466,6 +466,10 @@ try {
 			require(__DIR__ . "/jobs/shibepool.php");
 			break;
 
+		case "cryptopools_dgc":
+			require(__DIR__ . "/jobs/cryptopools_dgc.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/jobs/individual_cryptostocks.php");
