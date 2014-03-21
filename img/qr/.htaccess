@@ -1,0 +1,9 @@
+<Files "*">
+	Order deny,allow
+	Deny from all
+</Files>
+
+<Files "qr.php">
+	Order allow,deny
+	Allow from all
+</Files>

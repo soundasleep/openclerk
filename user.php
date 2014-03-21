@@ -85,10 +85,13 @@ if (require_get("new_purchase", false)) {
 	// find the new purchase
 	foreach ($outstanding as $p) {
 		if ($p['id'] == require_get("new_purchase")) {
-			$messages[] = "Your premium purchase is now pending on payment - please deposit " .
+			$qr_code = url_for('qr/' . $p['address']);
+			$messages[] = "<div class=\"inline_qr\"><img class=\"qr\" src=\"" . htmlspecialchars($qr_code) . "\">" .
+				"Your premium purchase is now pending on payment - please deposit " .
 				currency_format($p['currency'], $p['balance']) . " into the address " .
 				crypto_address($p['currency'], $p['address']) . ". Once the " .
-				get_currency_name($p['currency']) . " network has confirmed the transaction (after " . get_site_config($p['currency'] . '_confirmations') . " blocks), your account will be credited with premium status. Thank you!";
+				get_currency_name($p['currency']) . " network has confirmed the transaction (after " . get_site_config($p['currency'] . '_confirmations') . " blocks), your account will be credited with premium status. Thank you!" .
+				"</div>";
 		}
 	}
 }
