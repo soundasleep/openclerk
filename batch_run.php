@@ -450,6 +450,10 @@ try {
 			require(__DIR__ . "/jobs/nut2pools_ftc.php");
 			break;
 
+		case "cryptsy":
+			require(__DIR__ . "/jobs/cryptsy.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/jobs/individual_cryptostocks.php");
@@ -527,10 +531,7 @@ try {
 			// issue #12: unsafe accounts
 			if (get_site_config('allow_unsafe')) {
 				switch ($job['job_type']) {
-					case "cryptsy":
-						require(__DIR__ . "/jobs/cryptsy.php");
-						break 2;
-
+					// empty for now
 				}
 			}
 

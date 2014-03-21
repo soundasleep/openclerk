@@ -308,7 +308,7 @@ function get_supported_wallets() {
 		"coinhuntr" => array('ltc', 'hash'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc'),
-		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog'),
+		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec'),
 		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
 		"dedicatedpool" => array('dog', 'hash'),		// other coins available
 		"dogechainpool" => array('dog', 'hash'),
@@ -365,7 +365,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("miningpoolco", "vaultofsatoshi", "50btc", "ecoining", "ecoining_ppc", "teamdoge", "dedicatedpool", "dedicatedpool_doge", "nut2pools", "nut2pools_ftc");
+	return array("cryptsy");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -581,7 +581,7 @@ function account_data_grouped() {
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-			'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'unsafe' => true),
+			'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -1476,8 +1476,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "cryptsy":
 			return array(
 				'inputs' => array(
-					'api_public_key' => array('title' => 'Public key', 'callback' => 'is_valid_cryptsy_public_key', 'length' => 40),
-					'api_private_key' => array('title' => 'Private key', 'callback' => 'is_valid_cryptsy_private_key', 'length' => 80),
+					'api_public_key' => array('title' => 'Application key', 'callback' => 'is_valid_cryptsy_public_key', 'length' => 40),
+					'api_private_key' => array('title' => 'App ID', 'callback' => 'is_valid_cryptsy_private_key', 'length' => 80),
 				),
 				'table' => 'accounts_cryptsy',
 			);
@@ -2356,13 +2356,13 @@ function is_valid_ypool_apikey($key) {
 }
 
 function is_valid_cryptsy_public_key($key) {
-	// looks like a 40 character hex string
-	return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
+	// looks like a 40 character hex string (full trade) or 18-19 characters (application keys)
+	return (strlen($key) >= 16 || strlen($key) <= 40) && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_cryptsy_private_key($key) {
-	// looks like a 80 character hex string
-	return strlen($key) == 80 && preg_match("#^[a-f0-9]+$#", $key);
+	// can be anything
+	return strlen($key) > 0;
 }
 
 function is_valid_litecoininvest_apikey($key) {

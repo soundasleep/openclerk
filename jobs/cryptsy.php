@@ -2,7 +2,6 @@
 
 /**
  * Cryptsy balance job.
- * Unsafe.
  */
 
 $exchange = "cryptsy";

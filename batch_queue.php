@@ -138,6 +138,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_teamdoge', 'type' => 'teamdoge', 'failure' => true),
 	array('table' => 'accounts_dedicatedpool_doge', 'type' => 'dedicatedpool_doge', 'failure' => true),
 	array('table' => 'accounts_nut2pools_ftc', 'type' => 'nut2pools_ftc', 'failure' => true),
+	array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
 
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
@@ -151,7 +152,7 @@ if (get_site_config('allow_unsafe')) {
 	// run unsafe jobs only if the flag has been set
 	crypto_log("Running unsafe jobs.");
 	$standard_jobs = array_merge($standard_jobs, array(
-		array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
+		// empty for now
 	));
 }
 
