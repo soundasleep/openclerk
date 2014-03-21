@@ -20,8 +20,26 @@ class SumJobTest extends UnitTestCase {
 				'last_trade' => 100,
 				'ask' => 105,
 				'bid' => 95,
-			)
+			),
+			array(
+				'exchange' => get_default_currency_exchange('eur'),
+				'currency1' => 'eur',
+				'currency2' => 'btc',
+				'last_trade' => 200,
+				'ask' => 205,
+				'bid' => 195,
+			),
 		);
+	}
+
+	function before($method) {
+		// first create a new user
+		$this->user = $this->createNewUser();
+	}
+
+	function after($method) {
+		// finally, delete everything related to this user
+		$this->deleteUser($this->user);
 	}
 
 	/**
@@ -29,27 +47,62 @@ class SumJobTest extends UnitTestCase {
 	 */
 	function testJustBTC() {
 
-		// first create a new user
-		$user = $this->createNewUser();
-
 		// create some account balances
-		$this->createAccountBalance($user, "btce", "btc", 100);
+		$this->createAccountBalance($this->user, "btce", "btc", 100);
 
 		// do conversions
-		$values = $this->executeSum($user, array('btc', 'usd'));
+		$values = $this->executeSum($this->user, array('btc', 'usd'));
 
 		// checks
 		$this->assertEqualRate($values, 100, "totalbtc");
+		$this->assertEqualRate($values, 0, "totalusd");
 		$this->assertEqualRate($values, 100 * 105, "all2usd_" . get_default_currency_exchange('usd'));
 
-		// finally, delete everything related to this user
-		$this->deleteUser($user);
+	}
+
+	/**
+	 * The user only has USD and is interested in USD/BTC.
+	 */
+	function testJustUSD() {
+
+		// create some account balances
+		$this->createAccountBalance($this->user, "btce", "usd", 100);
+
+		// do conversions
+		$values = $this->executeSum($this->user, array('btc', 'usd'));
+
+		// checks
+		$this->assertEqualRate($values, 0, "totalbtc");
+		$this->assertEqualRate($values, 100, "totalusd");
+		$this->assertEqualRate($values, 100, "all2usd_" . get_default_currency_exchange('usd'));
+		$this->assertEqualRate($values, 100 / 105, "equivalent_btc_usd");
+
+	}
+
+	/**
+	 * The user only has EUR and is interested in USD/BTC/EUR.
+	 */
+	function testJustEUR() {
+
+		// create some account balances
+		$this->createAccountBalance($this->user, "btce", "eur", 100);
+
+		// do conversions
+		$values = $this->executeSum($this->user, array('btc', 'usd', 'eur'));
+
+		// checks
+		$this->assertEqualRate($values, 0, "totalbtc");
+		$this->assertEqualRate($values, 0, "totalusd");
+		$this->assertEqualRate($values, 100, "totaleur");
+		$this->assertEqualRate($values, 100 / 205, "equivalent_btc_eur");
+		$this->assertEqualRate($values, 100 / 205 * 95, "all2usd_" . get_default_currency_exchange('usd'));		// issue #112: if not implemented, this will = 0
 
 	}
 
 	function assertEqualRate($values, $expected, $currency) {
 		$this->assertTrue(isset($values[$currency]), "No converted [$currency] rate found in [" . print_r($values, true) . "]");
-		$this->assertEqual($expected, $values[$currency], "Expected [$currency] conversion to be [$expected], was [" . $values[$currency] . "]");
+		$delta = $values[$currency] - $expected;
+		$this->assertTrue(abs($delta) <= $expected / 1e6, "Expected [$currency] conversion to be [$expected], was [" . $values[$currency] . "]");
 	}
 
 	function createNewUser() {
@@ -101,7 +154,7 @@ class SumJobTest extends UnitTestCase {
 		$q->execute(array($job_id));
 		$job = $q->fetch();
 
-		require(__DIR__ . "/../_batch_insert.php");
+		require_once(__DIR__ . "/../_batch_insert.php");
 		require(__DIR__ . "/../jobs/sum.php");
 
 		// now, find all summary_instances

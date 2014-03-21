@@ -205,6 +205,13 @@ function graph_types() {
 		);
 	}
 
+	/*
+	 * Issue #112 reported that 'all2CUR' was not correctly converting fiat currencies other than CUR.
+	 * Rather than renaming 'all2CUR' as 'all cryptocurrencies and CUR', which doesn't seem to be particularly useful
+	 * - and it will mean we'll have to track two new summaries for every currency -
+	 * as of 0.19 this will now correctly be calculated as 'all cryptocurrencies and fiat currencies'. This means that there
+	 * will be a jump in the value of data when deployed.
+	 */
 	foreach (get_total_conversion_summary_types() as $key => $summary) {
 		$cur = $summary['currency'];
 		$data["all2" . $key . "_daily"] = array(

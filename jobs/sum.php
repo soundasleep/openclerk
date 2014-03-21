@@ -104,6 +104,7 @@ foreach (get_all_currencies() as $cur) {
 // first, convert all currencies to btc
 // (we might not store this value if btc is not an enabled currency, but it is the basis for all later conversions)
 crypto_log("Converting equivalent BTC value<ul>");
+$equivalent_btc = array();
 $crypto2btc = 0;
 {
 	$currency = 'btc';
@@ -138,9 +139,10 @@ $crypto2btc = 0;
 		if (isset($totals[$c])) {
 			if ($ticker = get_latest_ticker(get_default_currency_exchange($c), $c, "btc")) {
 				$temp = $totals[$c] / ($ticker['ask'] ? $ticker['ask'] : $ticker['last_trade']);
-				crypto_log("equivalent " . get_currency_abbr($c) . " (BTC): " . ($temp));
+				crypto_log("Equivalent BTC from " . get_currency_abbr($c) . ": " . ($temp));
 
 				add_summary_instance($job, 'equivalent_btc_' . $c, $temp);
+				$equivalent_btc[$c] = $temp;
 			}
 		}
 	}
@@ -183,10 +185,28 @@ foreach ($summaries as $summary) {
 			throw new JobException("There is no recent ticker balance for $currency/btc on $exchange - cannot convert");
 		}
 
-		// add total FIAT balances calculated earlier
-		if (isset($totals[$currency])) {
-			$total += $totals[$currency];
-			crypto_log("From fiat currency: " . $totals[$currency]);
+		// issue #112: also add all other fiat balances that are not this current currency
+		foreach ($totals as $cur => $fiat_total) {
+			if (is_fiat_currency($cur)) {
+				if ($cur == $currency) {
+
+					// add total FIAT balances calculated earlier
+					$total += $totals[$currency];
+					crypto_log("From fiat currency: " . $totals[$currency]);
+
+				} elseif (isset($equivalent_btc[$cur])) {
+
+					// we need to calculate the equivalent exchange rate
+					if ($ticker = get_latest_ticker($exchange, $currency, "btc")) {
+						$temp = $equivalent_btc[$cur] * ($ticker['bid'] ? $ticker['bid'] : $ticker['last_trade']);
+						crypto_log("From equivalent " . get_currency_abbr($cur) . " in BTC: " . $temp);
+						$total += $temp;
+					} else {
+						throw new JobException("There is no recent ticker balance for $cur/btc on $exchange - cannot convert");
+					}
+
+				}
+			}
 		}
 
 		crypto_log("Total converted $currency $exchange balance for user " . $job['user_id'] . ": " . $total);
