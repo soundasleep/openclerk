@@ -12,15 +12,26 @@ class AllTests extends TestSuite {
 
 	function __construct() {
 		parent::__construct();
+
+		$only = require_get("only", false);
+
 		// we just load all PHP files within this directory
 		if ($handle = opendir('.')) {
+			echo "<ul style=\"padding: 10px; list-style: none;\">";
 			while (false !== ($entry = readdir($handle))) {
 				if ($entry != "." && $entry != ".." && substr(strtolower($entry), -4) == ".php" && strtolower($entry) != 'index.php') {
+					if ($only && $entry !== $only) {
+						continue;
+					}
 					$this->addFile($entry);
+
+					echo "<li style=\"display: inline-block; margin-right: 5px;\"><a href=\"" . url_for('tests/', array('only' => $entry)) . "\">" . htmlspecialchars($entry) . "</a></li>\n";
 				}
 			}
+			echo "</ul>";
 			closedir($handle);
 		}
 	}
 
 }
+
