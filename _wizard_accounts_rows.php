@@ -75,7 +75,7 @@ foreach ($accounts as $a) {
 <?php } ?>
 		<td><?php echo htmlspecialchars(get_exchange_name($a['exchange']) . (isset($account_type_data['suffix']) ? $account_type_data['suffix'] : "")); ?></td>
 		<td id="account<?php echo htmlspecialchars($a['id']); ?>" class="title">
-			<span><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></span>
+			<span title="Title"><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>untitled</i>"; ?></span>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
 			<input type="text" name="title" value="<?php echo htmlspecialchars($a['title']); ?>">
 			<input type="submit" value="Update Title">
@@ -89,7 +89,7 @@ foreach ($accounts as $a) {
 		<?php } ?>
 		<?php foreach ($account_type['display_editable'] as $key => $callback) { ?>
 		<td id="account<?php echo htmlspecialchars($a['id'] . "_" . $key); ?>" class="title">
-			<span><?php echo $callback($a[$key]); ?></span>
+			<span title="<?php echo htmlspecialchars($account_type['display_headings'][$key]); ?>"><?php echo $callback($a[$key]); ?></span>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
 			<input type="text" name="value" value="<?php echo htmlspecialchars($callback($a[$key])); ?>">
 			<input type="submit" value="Update">
