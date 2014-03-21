@@ -2935,6 +2935,8 @@ CREATE TABLE cached_strings (
 -- upgrade statements from 0.18.1 to 0.19
 -- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
 -- --------------------------------------------------------------------------
+-- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
+DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 
 -- issue #98: removing smalltimeminer_mec
 UPDATE accounts_smalltimeminer_mec SET is_disabled=1;
