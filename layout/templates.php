@@ -245,6 +245,9 @@ function crypto_address($currency, $address) {
 		case 'nmc':
 			return "<span class=\"address nmc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("nmc_address_url") . $address) . "\" title=\"Inspect with 192.241.222.65\">?</a></span>";
 
+		case 'dgc':
+			return "<span class=\"address dgc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("dgc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
+
 		default:
 			return htmlspecialchars($address);
 	}

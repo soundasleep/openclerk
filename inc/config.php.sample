@@ -120,6 +120,8 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"xrp_address_url" => "https://ripple.com/graph/#",
 		"nmc_address_url" => "http://192.241.222.65/address/",
 		"nmc_block_url" => "http://192.241.222.65/chain/Namecoin/q/getblockcount",
+		"dgc_address_url" => "http://dgc.cryptocoinexplorer.com/address/",
+		"dgc_block_url" => "http://dgc.cryptocoinexplorer.com/chain/Digitalcoin/q/getblockcount",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
@@ -131,6 +133,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"mec_confirmations" => 6,
 		// "xrp_confirmations" => 6, -- not supported!
 		"nmc_confirmations" => 6,
+		"dgc_confirmations" => 6,
 		
 		// register Coinbase Applications through https://coinbase.com/oauth/applications
 		"coinbase_client_id" => 'xxx',

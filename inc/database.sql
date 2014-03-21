@@ -2995,3 +2995,17 @@ CREATE TABLE accounts_shibepool (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+-- issue #86: add Digitalcoin DGC cryptocurrency
+DROP TABLE IF EXISTS digitalcoin_blocks;
+
+CREATE TABLE digitalcoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);
