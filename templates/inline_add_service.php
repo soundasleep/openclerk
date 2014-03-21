@@ -86,7 +86,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 </p>
 
 <p>
-	For example, <a href="http://litecoinglobal.com">Litecoin Global</a> provides a read-only API key for each account (illustrated).
+	For example, <a href="http://litecoinglobal.com">Litecoin Global</a> provided a read-only API key for each account (illustrated).
 </p>
 
 <h2>Example: Permissions-based API keys</h2>

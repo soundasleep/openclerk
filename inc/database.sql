@@ -2941,3 +2941,11 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 -- issue #98: removing smalltimeminer_mec
 UPDATE accounts_smalltimeminer_mec SET is_disabled=1;
 
+-- issue #93: removing litecoinglobal
+DELETE FROM securities_update WHERE exchange='litecoinglobal';
+UPDATE accounts_litecoinglobal SET is_disabled=1;
+UPDATE accounts_individual_litecoinglobal SET is_disabled=1;
+
+-- remove invalid data
+DELETE FROM balances WHERE exchange='securities_litecoinglobal' AND balance=0 AND created_at >= '2013-09-24';
+DELETE FROM graph_data_balances WHERE exchange='securities_litecoinglobal' AND balance_max=0 AND created_at >= '2013-09-24';

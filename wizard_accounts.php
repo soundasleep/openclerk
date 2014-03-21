@@ -58,7 +58,7 @@ require_template("wizard_accounts");
 	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_securities')); ?>">Securities
 		<?php if ($accounts['wizard_securities']) { ?><span class="count">(<?php echo number_format($accounts['wizard_securities']); ?>)<?php } ?></a>
 		<ul>
-			<li>e.g. BTC-TC, Litecoin Global, Cryptostocks</li>
+			<li>e.g. Havelock Investments, Cryptostocks</li>
 		</ul>
 	</li>
 

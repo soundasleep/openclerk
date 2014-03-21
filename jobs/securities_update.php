@@ -21,10 +21,6 @@ switch ($exchange['exchange']) {
 		require(__DIR__ . "/securities_update/btct.php");
 		break;
 
-	case "litecoinglobal":
-		require(__DIR__ . "/securities_update/litecoinglobal.php");
-		break;
-
 	case "havelock":
 		require(__DIR__ . "/securities_update/havelock.php");
 		break;

@@ -265,7 +265,7 @@ function get_security_exchange_pairs() {
 		"btct" => array('btc'),
 		"crypto-trade" => array('btc', 'ltc'),
 		"cryptostocks" => array('btc', 'ltc'),
-		"litecoinglobal" => array('ltc'),
+		"litecoinglobal" => array('ltc'),		// issue #93: this is now disabled
 		"litecoininvest" => array('ltc'),
 		"havelock" => array('btc'),
 	);
@@ -273,7 +273,7 @@ function get_security_exchange_pairs() {
 
 function get_security_exchange_tables() {
 	return array(
-		"litecoinglobal" => "securities_litecoinglobal",
+		"litecoinglobal" => "securities_litecoinglobal",	// issue #93: this is now disabled
 		"btct" => "securities_btct",
 		"cryptostocks" => "securities_cryptostocks",
 		"havelock" => "securities_havelock",
@@ -325,7 +325,6 @@ function get_supported_wallets() {
 		"khore" => array('nvc', 'hash'),
 		"litecoinpool" => array('ltc', 'hash'),
 		"litecoininvest" => array('ltc'),
-		"litecoinglobal" => array('ltc'),
 		"liteguardian" => array('ltc'),
 		"litepooleu" => array('ltc', 'hash'),
 		"kattare" => array('ltc', 'hash'),
@@ -597,7 +596,7 @@ function account_data_grouped() {
 			'cryptostocks' => array('table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'havelock' => array('table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'litecoininvest' => array('table' => 'accounts_litecoininvest', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
-			'litecoinglobal' => array('table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
+			'litecoinglobal' => array('table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
 		),
 		'Individual Securities' => array(
 			'individual_796' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_796', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => '796', 'securities_table' => 'securities_796', 'failure' => true),
@@ -608,7 +607,7 @@ function account_data_grouped() {
 			'individual_cryptostocks' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'cryptostocks', 'securities_table' => 'securities_cryptostocks', 'failure' => true),
 			'individual_havelock' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'havelock', 'securities_table' => 'securities_havelock', 'failure' => true),
 			'individual_litecoininvest' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoininvest', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoininvest', 'securities_table' => 'securities_litecoininvest', 'failure' => true),
-			'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal', 'securities_table' => 'securities_litecoinglobal', 'failure' => true),
+			'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal', 'securities_table' => 'securities_litecoinglobal', 'failure' => true, 'disabled' => true),
 		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other', 'failure' => true),
@@ -747,7 +746,6 @@ function get_external_apis() {
 			'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
-			'litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
 			'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
@@ -774,13 +772,11 @@ function get_external_apis() {
 			'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',		// securities for crypto-trade are handled by the ticker_crypto-trade
 			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'securities_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
-			'securities_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 			'securities_update_btcinve' => '<a href="https://btcinve.com">BTCInve</a> Securities list',
 			'securities_update_btct' => '<a href="http://btct.co">BTC Trading Co.</a> Securities list',
 			'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
 			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
 			'securities_update_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a> Securities list',
-			'securities_update_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a> Securities list',
 		),
 
 		"Individual securities" => array(
@@ -789,7 +785,6 @@ function get_external_apis() {
 			'individual_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'individual_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'individual_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
-			'individual_litecoinglobal' => '<a href="http://litecoinglobal.com">Litecoin Global</a>',
 		),
 
 		"Other" => array(

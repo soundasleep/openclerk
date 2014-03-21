@@ -87,8 +87,6 @@ $standard_jobs = array(
 	array('table' => 'accounts_wemineftc', 'type' => 'wemineftc', 'failure' => true),
 	array('table' => 'accounts_givemecoins', 'type' => 'givemecoins', 'failure' => true),
 	array('table' => 'accounts_slush', 'type' => 'slush', 'failure' => true),
-	array('table' => 'accounts_litecoinglobal', 'type' => 'litecoinglobal', 'failure' => true),
-	array('table' => 'securities_litecoinglobal', 'type' => 'securities_litecoinglobal', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'accounts_btct', 'type' => 'btct', 'failure' => true),
 	array('table' => 'securities_btct', 'type' => 'securities_btct', 'user_id' => get_site_config('system_user_id')),
 	array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks', 'failure' => true),
@@ -145,7 +143,6 @@ $standard_jobs = array(
 
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_btct', 'type' => 'individual_btct', 'failure' => true),
-	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),
 	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
 	array('table' => 'accounts_individual_cryptotrade', 'type' => 'individual_crypto-trade', 'failure' => true),
 	array('table' => 'accounts_individual_796', 'type' => 'individual_796', 'failure' => true),

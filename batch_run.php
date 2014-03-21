@@ -254,14 +254,6 @@ try {
 			require(__DIR__ . "/jobs/slush.php");
 			break;
 
-		case "litecoinglobal":
-			require(__DIR__ . "/jobs/litecoinglobal.php");
-			break;
-
-		case "securities_litecoinglobal":
-			require(__DIR__ . "/jobs/securities_litecoinglobal.php");
-			break;
-
 		case "btct":
 			require(__DIR__ . "/jobs/btct.php");
 			break;
@@ -467,10 +459,6 @@ try {
 			break;
 
 		// individual securities jobs
-		case "individual_litecoinglobal":
-			require(__DIR__ . "/jobs/individual_litecoinglobal.php");
-			break;
-
 		case "individual_btct":
 			require(__DIR__ . "/jobs/individual_btct.php");
 			break;
