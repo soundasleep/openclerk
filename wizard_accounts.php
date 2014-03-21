@@ -51,7 +51,7 @@ require_template("wizard_accounts");
 	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">Exchange
 		<?php if ($accounts['wizard_exchanges']) { ?><span class="count">(<?php echo number_format($accounts['wizard_exchanges']); ?>)<?php } ?></a>
 		<ul>
-			<li>e.g. Mt.Gox, BTC-e, Bitstamp, Vircurex</li>
+			<li>e.g. Coinbase, BTC-e, Bitstamp, Vircurex</li>
 		</ul>
 	</li>
 
