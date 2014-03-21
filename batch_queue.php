@@ -79,6 +79,7 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'ripple', 'query' => ' AND currency=\'xrp\''),
 	array('table' => 'addresses', 'type' => 'namecoin', 'query' => ' AND currency=\'nmc\''), // make sure to add _block job below too
 	array('table' => 'addresses', 'type' => 'digitalcoin', 'query' => ' AND currency=\'dgc\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'worldcoin', 'query' => ' AND currency=\'wdc\''), // make sure to add _block job below too
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox', 'failure' => true),
@@ -285,7 +286,7 @@ if (!$premium_only) {
 	$block_jobs = array('version_check', 'litecoin_block',
 		'feathercoin_block', 'ppcoin_block', 'novacoin_block', 'primecoin_block',
 		'terracoin_block', 'dogecoin_block', 'megacoin_block', 'namecoin_block',
-		'digitalcoin_block');
+		'digitalcoin_block', 'worldcoin_block');
 	foreach ($block_jobs as $name) {
 		// as often as we can (or on request), run litecoin_block jobs
 		if (!$job_type || in_array($name, $job_type)) {

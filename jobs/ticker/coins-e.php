@@ -14,6 +14,7 @@ $rates_list = array(
 	array('btc', 'ftc'),
 	array('btc', 'ltc'),
 	array('btc', 'ppc'),
+	array('btc', 'qrk'),
 
 	array('ltc', 'xpm'),
 

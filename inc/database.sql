@@ -3028,3 +3028,17 @@ CREATE TABLE accounts_cryptopools_dgc (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+-- issue #107: add Worldcoin WDC cryptocurrency
+DROP TABLE IF EXISTS worldcoin_blocks;
+
+CREATE TABLE worldcoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

@@ -186,6 +186,10 @@ try {
 			require(__DIR__ . "/jobs/digitalcoin.php");
 			break;
 
+		case "worldcoin":
+			require(__DIR__ . "/jobs/worldcoin.php");
+			break;
+
 		case "litecoin_block":
 			require(__DIR__ . "/jobs/litecoin_block.php");
 			break;
@@ -224,6 +228,10 @@ try {
 
 		case "digitalcoin_block":
 			require(__DIR__ . "/jobs/digitalcoin_block.php");
+			break;
+
+		case "worldcoin_block":
+			require(__DIR__ . "/jobs/worldcoin_block.php");
 			break;
 
 		case "generic":

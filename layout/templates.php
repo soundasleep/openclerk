@@ -248,6 +248,9 @@ function crypto_address($currency, $address) {
 		case 'dgc':
 			return "<span class=\"address dgc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("dgc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 
+		case 'wdc':
+			return "<span class=\"address wdc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("wdc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
+
 		default:
 			return htmlspecialchars($address);
 	}
