@@ -13,10 +13,12 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'dog'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'mec'), // all flipped around
 	array('cur1' => 'ltc', 'cur2' => 'mec'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'dgc'), // all flipped around
+	array('cur1' => 'ltc', 'cur2' => 'dgc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'wdc'), // all flipped around
 	// currencies not yet exposed to users or public
 	array('cur1' => 'btc', 'cur2' => 'ixc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'mnc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'wdc'), // all flipped around
 	array('cur1' => 'btc', 'cur2' => 'xpm'), // all flipped around
 	// lots of others
 );
