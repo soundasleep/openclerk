@@ -254,14 +254,6 @@ try {
 			require(__DIR__ . "/jobs/slush.php");
 			break;
 
-		case "btct":
-			require(__DIR__ . "/jobs/btct.php");
-			break;
-
-		case "securities_btct":
-			require(__DIR__ . "/jobs/securities_btct.php");
-			break;
-
 		case "cryptostocks":
 			require(__DIR__ . "/jobs/cryptostocks.php");
 			break;
@@ -459,10 +451,6 @@ try {
 			break;
 
 		// individual securities jobs
-		case "individual_btct":
-			require(__DIR__ . "/jobs/individual_btct.php");
-			break;
-
 		case "individual_cryptostocks":
 			require(__DIR__ . "/jobs/individual_cryptostocks.php");
 			break;

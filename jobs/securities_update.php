@@ -17,10 +17,6 @@ if (!$exchange) {
 // each exchange will insert in many different currency pairs, depending on how many
 // currencies are supported
 switch ($exchange['exchange']) {
-	case "btct":
-		require(__DIR__ . "/securities_update/btct.php");
-		break;
-
 	case "havelock":
 		require(__DIR__ . "/securities_update/havelock.php");
 		break;

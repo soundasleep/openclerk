@@ -2949,3 +2949,12 @@ UPDATE accounts_individual_litecoinglobal SET is_disabled=1;
 -- remove invalid data
 DELETE FROM balances WHERE exchange='securities_litecoinglobal' AND balance=0 AND created_at >= '2013-09-24';
 DELETE FROM graph_data_balances WHERE exchange='securities_litecoinglobal' AND balance_max=0 AND created_at >= '2013-09-24';
+
+-- issue #93: removing btct
+DELETE FROM securities_update WHERE exchange='btct';
+UPDATE accounts_btct SET is_disabled=1;
+UPDATE accounts_individual_btct SET is_disabled=1;
+
+-- remove invalid data
+DELETE FROM balances WHERE exchange='securities_btct' AND balance=0 AND created_at >= '2013-09-24';
+DELETE FROM graph_data_balances WHERE exchange='securities_btct' AND balance_max=0 AND created_at >= '2013-09-24';

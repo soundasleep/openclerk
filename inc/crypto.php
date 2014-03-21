@@ -262,7 +262,7 @@ function get_security_exchange_pairs() {
 		"796" => array('btc'),
 		"bitfunder" => array('btc'),		// this is now disabled
 		"btcinve" => array('btc'),
-		"btct" => array('btc'),
+		"btct" => array('btc'),				// issue #93: this is now disabled
 		"crypto-trade" => array('btc', 'ltc'),
 		"cryptostocks" => array('btc', 'ltc'),
 		"litecoinglobal" => array('ltc'),		// issue #93: this is now disabled
@@ -274,7 +274,7 @@ function get_security_exchange_pairs() {
 function get_security_exchange_tables() {
 	return array(
 		"litecoinglobal" => "securities_litecoinglobal",	// issue #93: this is now disabled
-		"btct" => "securities_btct",
+		"btct" => "securities_btct",						// issue #93: this is now disabled
 		"cryptostocks" => "securities_cryptostocks",
 		"havelock" => "securities_havelock",
 		"bitfunder" => "securities_bitfunder",				// this is now disabled
@@ -591,7 +591,7 @@ function account_data_grouped() {
 			'796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
 			'btcinve' => array('table' => 'accounts_btcinve', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
-			'btct' => array('table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
+			'btct' => array('table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'cryptostocks' => array('table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
 			'havelock' => array('table' => 'accounts_havelock', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
@@ -602,7 +602,7 @@ function account_data_grouped() {
 			'individual_796' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_796', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => '796', 'securities_table' => 'securities_796', 'failure' => true),
 			'individual_bitfunder' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'bitfunder', 'securities_table' => 'securities_bitfunder', 'failure' => true, 'disabled' => true),
 			'individual_btcinve' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_btcinve', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btcinve', 'securities_table' => 'securities_btcinve', 'failure' => true),
-			'individual_btct' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_btct', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btct', 'securities_table' => 'securities_btct', 'failure' => true),
+			'individual_btct' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_btct', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btct', 'securities_table' => 'securities_btct', 'failure' => true, 'disabled' => true),
 			'individual_crypto-trade' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptotrade', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'crypto-trade', 'securities_table' => 'securities_cryptotrade', 'failure' => true),
 			'individual_cryptostocks' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_cryptostocks', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'cryptostocks', 'securities_table' => 'securities_cryptostocks', 'failure' => true),
 			'individual_havelock' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_havelock', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'havelock', 'securities_table' => 'securities_havelock', 'failure' => true),
@@ -737,7 +737,6 @@ function get_external_apis() {
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'btcinve' => '<a href="https://btcinve.com">BTCInve</a>',
-			'btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
 			'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
@@ -768,19 +767,16 @@ function get_external_apis() {
 
 		"Security exchanges" => array(
 			'securities_796' => '<a href="https://796.com">796 Xchange</a>',
-			'securities_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',		// securities for crypto-trade are handled by the ticker_crypto-trade
 			'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'securities_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'securities_update_btcinve' => '<a href="https://btcinve.com">BTCInve</a> Securities list',
-			'securities_update_btct' => '<a href="http://btct.co">BTC Trading Co.</a> Securities list',
 			'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
 			'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
 			'securities_update_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a> Securities list',
 		),
 
 		"Individual securities" => array(
-			'individual_btct' => '<a href="http://btct.co">BTC Trading Co.</a>',
 			'individual_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
 			'individual_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'individual_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
