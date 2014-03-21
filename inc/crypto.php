@@ -191,6 +191,7 @@ function get_all_exchanges() {
 		"dedicatedpool_doge" => "dedicatedpool.com",
 		"nut2pools" => "Nut2Pools",
 		"nut2pools_ftc" => "Nut2Pools",
+		"shibepool" => "Shibe Pool",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -337,6 +338,7 @@ function get_supported_wallets() {
 		"ozcoin" => array('ltc', 'btc', 'hash'),
 		"poolx" => array('ltc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
+		"shibepool" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
 		"teamdoge" => array('dog', 'hash'),
 		"triplemining" => array('btc', 'hash'),
@@ -365,7 +367,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("cryptsy");
+	return array("cryptsy", "shibepool");
 }
 
 // TODO remove xxx_address() and use this function instead
@@ -564,6 +566,7 @@ function account_data_grouped() {
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
 			'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -722,6 +725,7 @@ function get_external_apis() {
 			'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
 			'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
+			'shibepool' => '<a href="http://shibepool.com/">Shibe Pool</a>',
 			'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
 			'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
 			'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
@@ -1369,6 +1373,15 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_nut2pools_ftc',
 				'title' => 'Nut2Pools FTC account',
 				'title_key' => 'nut2pools',
+			);
+
+		case "shibepool":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
+				),
+				'table' => 'accounts_shibepool',
+				'khash' => true,
 			);
 
 		// --- exchanges ---

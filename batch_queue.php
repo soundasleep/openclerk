@@ -139,6 +139,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_dedicatedpool_doge', 'type' => 'dedicatedpool_doge', 'failure' => true),
 	array('table' => 'accounts_nut2pools_ftc', 'type' => 'nut2pools_ftc', 'failure' => true),
 	array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
+	array('table' => 'accounts_shibepool', 'type' => 'shibepool', 'failure' => true),
 
 	array('table' => 'accounts_individual_litecoinglobal', 'type' => 'individual_litecoinglobal', 'failure' => true),
 	array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
