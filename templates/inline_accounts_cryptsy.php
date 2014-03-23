@@ -10,7 +10,6 @@ $account_data = array('exchange_name' => get_exchange_name('cryptsy'));
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cryptsy1.png')); ?>"></li>
 
 	<li>Under <i>API Keys</i>, make sure that your API is <i>enabled</i>.<br>
-		<h1>TODO is this necessary?</h1>
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/cryptsy2.png')); ?>"></li>
 
 	<li>Under <i>Application Keys</i>, click on "Add New Application Key".<br>
