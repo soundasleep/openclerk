@@ -45,7 +45,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>Safello</li>
 	<li>Shibepool</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
-	<li>Bit2c</li>
+	<li>Bit2c (only available through an <a href="http://code.google.com/p/openclerk/wiki/Unsafe">unsafe instance</a>)</li>
 </ul>
 </div>
 </div>

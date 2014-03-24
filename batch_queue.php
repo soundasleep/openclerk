@@ -79,7 +79,6 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'ripple', 'query' => ' AND currency=\'xrp\''),
 	array('table' => 'addresses', 'type' => 'namecoin', 'query' => ' AND currency=\'nmc\''), // make sure to add _block job below too
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
-	array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox', 'failure' => true),
 	array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'failure' => true),
@@ -159,6 +158,7 @@ if (get_site_config('allow_unsafe')) {
 	// run unsafe jobs only if the flag has been set
 	crypto_log("Running unsafe jobs.");
 	$standard_jobs = array_merge($standard_jobs, array(
+		array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
 		array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
 	));
 }
