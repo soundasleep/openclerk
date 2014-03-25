@@ -221,6 +221,10 @@ try {
 			require(__DIR__ . "/jobs/generic.php");
 			break;
 
+		case "bit2c":
+			require(__DIR__ . "/jobs/bit2c.php");
+			break;
+
 		case "btce":
 			require(__DIR__ . "/jobs/btce.php");
 			break;
@@ -554,10 +558,6 @@ try {
 			// issue #12: unsafe accounts
 			if (get_site_config('allow_unsafe')) {
 				switch ($job['job_type']) {
-					case "bit2c":
-						require(__DIR__ . "/jobs/bit2c.php");
-						break 2;
-
 					case "cryptsy":
 						require(__DIR__ . "/jobs/cryptsy.php");
 						break 2;

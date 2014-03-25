@@ -31,11 +31,11 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>CoinJar (<a href="https://support.coinjar.com/discussions/suggestions/271-read-only-api-access">requested</a>)</li>
 	<li>Coinotron (on development list)</li>
 	<li>CoinEX</li>
-	<li>Coin.Mx</li>
 </ul>
 </div>
 <div class="column">
 <ul>
+	<li>Coin.Mx</li>
 	<li>Coins-E</li>
 	<li>Cryptsy (only available through an <a href="http://code.google.com/p/openclerk/wiki/Unsafe">unsafe instance</a>)</li>
 	<li>fast-pool.com</li>
@@ -45,7 +45,6 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>Safello</li>
 	<li>Shibepool</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
-	<li>Bit2c (only available through an <a href="http://code.google.com/p/openclerk/wiki/Unsafe">unsafe instance</a>)</li>
 </ul>
 </div>
 </div>
