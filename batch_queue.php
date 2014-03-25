@@ -79,6 +79,7 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'ripple', 'query' => ' AND currency=\'xrp\''),
 	array('table' => 'addresses', 'type' => 'namecoin', 'query' => ' AND currency=\'nmc\''), // make sure to add _block job below too
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
+	array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox', 'failure' => true),
 	array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'failure' => true),
