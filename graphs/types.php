@@ -110,6 +110,14 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
+	$data['metrics_db_slow_queries'] = array(
+		'title' => "Slowest DB queries",
+		'heading' => "Slowest DB queries",
+		'description' => 'The slowest database queries.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);
+
 	return $data;
 }
 

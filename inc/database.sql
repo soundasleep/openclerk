@@ -3130,7 +3130,7 @@ CREATE TABLE performance_metrics_graphs (
 
 	graph_type varchar(255) null,
 	is_logged_in tinyint not null,
-	days int not null default 0,
+	days int null,			-- could be null, e.g. admin graphs
 	has_technicals tinyint not null default 0,
 
 	-- timed_sql
@@ -3237,4 +3237,27 @@ CREATE TABLE performance_metrics_repeated_urls (
 	page_id int not null,		-- reference to performance_metrics_pages
 
 	INDEX(url_id)
+);
+
+-- and once data is collected, we compile them into reports that admins can look at
+DROP TABLE IF EXISTS performance_reports;
+CREATE TABLE performance_reports (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	report_type varchar(32) not null,
+
+	INDEX(report_type)
+);
+
+DROP TABLE IF EXISTS performance_report_slow_queries;
+CREATE TABLE performance_report_slow_queries (
+	id int not null auto_increment primary key,
+	report_id int not null,		-- reference to performance_reports
+
+	query_id int not null,		-- reference to performance_metrics_queries
+	query_count int not null,
+	query_time int not null,
+	page_id int not null,		-- reference to performance_metrics_pages
+
+	INDEX(report_id)
 );

@@ -501,6 +501,10 @@ function render_graph_actual($graph, $is_public) {
 			render_site_statistics_queue($graph);
 			break;
 
+		case "metrics_db_slow_queries":
+			render_metrics_db_slow_queries($graph);
+			break;
+
 		case "calculator":
 			require(__DIR__ . "/../_calculator.php");
 			?>

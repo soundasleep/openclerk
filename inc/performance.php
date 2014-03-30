@@ -71,11 +71,11 @@ function performance_metrics_page_end() {
 
 				if ($slow_query) {
 					$q = db()->prepare("INSERT INTO performance_metrics_slow_queries SET query_id=?, query_count=?, query_time=?, page_id=?");
-					$q->execute(array($pq['id'], $data['count'], $data['time'] * 1000, $page_id));
+					$q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
 				}
 				if ($repeated_query) {
 					$q = db()->prepare("INSERT INTO performance_metrics_repeated_queries SET query_id=?, query_count=?, query_time=?, page_id=?");
-					$q->execute(array($pq['id'], $data['count'], $data['time'] * 1000, $page_id));
+					$q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
 				}
 
 			}
@@ -101,14 +101,13 @@ function performance_metrics_page_end() {
 						$pq = array('id' => db()->lastInsertId());
 					}
 
-
 					if ($slow_url) {
 						$q = db()->prepare("INSERT INTO performance_metrics_slow_urls SET query_id=?, query_count=?, query_time=?, page_id=?");
-						$q->execute(array($pq['id'], $data['count'], $data['time'] * 1000, $page_id));
+						$q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
 					}
 					if ($repeated_url) {
 						$q = db()->prepare("INSERT INTO performance_metrics_repeated_urls SET query_id=?, query_count=?, query_time=?, page_id=?");
-						$q->execute(array($pq['id'], $data['count'], $data['time'] * 1000, $page_id));
+						$q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
 					}
 
 				}
@@ -206,7 +205,7 @@ function performance_metrics_graph_complete($graph) {
 			'graph_type' => $graph['graph_type'],
 			'time_taken' => $graph_time * 1000, /* save in ms */
 			'is_logged_in' => user_logged_in() ? 1 : 0,
-			'days' => $graph['days'],
+			'days' => $graph['days'] ? $graph['days'] : null,
 			'has_technicals' => isset($graph['technicals']) && $graph['technicals'] ? 1 : 0,
 		);
 

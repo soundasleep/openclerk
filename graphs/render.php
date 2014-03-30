@@ -784,3 +784,43 @@ function render_site_statistics_queue($graph) {
 	}
 
 }
+
+function render_metrics_db_slow_queries($graph) {
+
+	if (!is_admin()) {
+		render_text("This graph is for administrators only.");
+		return;
+	}
+
+	$q = db()->prepare("SELECT * FROM performance_reports ORDER BY id DESC LIMIT 1");
+	$q->execute();
+	$report = $q->fetch();
+	if (!$report) {
+		render_text($graph, "No report found.");
+	}
+
+	// get all queires
+	$q = db()->prepare("SELECT * FROM performance_report_slow_queries AS r 
+			JOIN performance_metrics_queries AS q ON r.query_id=q.id
+			JOIN performance_metrics_pages AS p ON r.page_id=p.id 
+			WHERE report_id=?");
+	$q->execute(array($report['id']));
+	while ($query = $q->fetch()) {
+		$data[] = array(
+			htmlspecialchars($query['query']), 
+			number_format($query['query_count']), 
+			graph_number_format($query['query_time'] / $query['query_count']),
+			"<a href=\"" . url_for($query['script_name']) . "\">" . $query['script_name'] . "</a>",
+		);
+	}
+
+	$head = array(array(
+		"Query",
+		"Count",
+		"Time (ms)",
+		"Sample script",
+	));
+	$graph['last_updated'] = $report['created_at'];
+	render_table_vertical($graph, $data, $head);
+
+}

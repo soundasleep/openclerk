@@ -27,6 +27,7 @@ page_header("Status", "page_admin", array('common_js' => true, 'jquery' => true,
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_subscribe")); ?>">Pending subscription requests</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_user_list")); ?>">Users administration</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_accounts")); ?>">Accounts Status</a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for("admin_metrics")); ?>">Site Performance Metrics</a></li>
 </ul>
 
 <table class="standard">
