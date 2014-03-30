@@ -37,9 +37,10 @@ function performance_metrics_page_end() {
 	// "What pages are taking the longest to load?"
 	// "What pages have the most database queries?"
 	// "What pages spend the most time in PHP as opposed to the database?"
-	$query = "INSERT INTO performance_metrics_pages SET script_name=:script_name, is_logged_in=:is_logged_in";
+	$query = "INSERT INTO performance_metrics_pages SET script_name=:script_name, time_taken=:time_taken, is_logged_in=:is_logged_in";
 	$args = array(
 		'script_name' => isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null,
+		'time_taken' => $page_time * 1000,
 		'is_logged_in' => user_logged_in() ? 1 : 0,
 	);
 
@@ -83,32 +84,34 @@ function performance_metrics_page_end() {
 
 	if (get_site_config('timed_curl')) {
 		global $global_timed_curl;
-		foreach ($global_timed_curl['urls'] as $url => $data) {
-			// only if it's over a specified limit, so we don't spam the database with super fast URLs
-			$slow_url = ($data['time'] / $data['count']) > get_site_config('performance_metrics_slow_curl');
-			$repeated_url = $data['count'] > get_site_config('performance_metrics_repeated_curl');
-			if ($slow_url || $repeated_url) {
+		if (isset($global_timed_curl)) {
+			foreach ($global_timed_curl['urls'] as $url => $data) {
+				// only if it's over a specified limit, so we don't spam the database with super fast URLs
+				$slow_url = ($data['time'] / $data['count']) > get_site_config('performance_metrics_slow_curl');
+				$repeated_url = $data['count'] > get_site_config('performance_metrics_repeated_curl');
+				if ($slow_url || $repeated_url) {
 
-				$url_substr = substr($url, 0, 255);
-				$q = db()->prepare("SELECT id FROM performance_metrics_urls WHERE query=? LIMIT 1");
-				$q->execute(array($url_substr));
-				$pq = $q->fetch();
-				if (!$pq) {
-					$q = db()->prepare("INSERT INTO performance_metrics_urls SET query=?");
+					$url_substr = substr($url, 0, 255);
+					$q = db()->prepare("SELECT id FROM performance_metrics_urls WHERE query=? LIMIT 1");
 					$q->execute(array($url_substr));
-					$pq = array('id' => db()->lastInsertId());
-				}
+					$pq = $q->fetch();
+					if (!$pq) {
+						$q = db()->prepare("INSERT INTO performance_metrics_urls SET query=?");
+						$q->execute(array($url_substr));
+						$pq = array('id' => db()->lastInsertId());
+					}
 
 
-				if ($slow_url) {
-					$q = db()->prepare("INSERT INTO performance_metrics_slow_urls SET query_id=?, query_count=?, query_time=?, page_id=?");
-					$q->execute(array($pq['id'], $data['count'], $data['time'] * 1000, $page_id));
-				}
-				if ($repeated_url) {
-					$q = db()->prepare("INSERT INTO performance_metrics_repeated_urls SET query_id=?, query_count=?, query_time=?, page_id=?");
-					$q->execute(array($pq['id'], $data['count'], $data['time'] * 1000, $page_id));
-				}
+					if ($slow_url) {
+						$q = db()->prepare("INSERT INTO performance_metrics_slow_urls SET query_id=?, query_count=?, query_time=?, page_id=?");
+						$q->execute(array($pq['id'], $data['count'], $data['time'] * 1000, $page_id));
+					}
+					if ($repeated_url) {
+						$q = db()->prepare("INSERT INTO performance_metrics_repeated_urls SET query_id=?, query_count=?, query_time=?, page_id=?");
+						$q->execute(array($pq['id'], $data['count'], $data['time'] * 1000, $page_id));
+					}
 
+				}
 			}
 		}
 	}
@@ -174,11 +177,28 @@ function performance_metrics_graph_complete($graph) {
 	if (!performance_metrics_enabled()) {
 		return;
 	}
+	global $_performance_metrics;
+	$graph_time = microtime(true) - $_performance_metrics['page_start'];
 
 	// "What graph types take the longest to render?"
 	// "What are the most common graph types?"
 	// "How many ticker graphs are being requested?"
-	// 
+	if ($graph) {
+		$query = "INSERT INTO performance_metrics_graphs SET graph_type=:graph_type, time_taken=:time_taken, is_logged_in=:is_logged_in, 
+			days=:days, has_technicals=:has_technicals";
+		$args = array(
+			'graph_type' => $graph['graph_type'],
+			'time_taken' => $graph_time * 1000, /* save in ms */
+			'is_logged_in' => user_logged_in() ? 1 : 0,
+			'days' => $graph['days'],
+			'has_technicals' => isset($graph['technicals']) && $graph['technicals'] ? 1 : 0,
+		);
+
+		list($query, $args) = prepare_timed_data($query, $args);
+
+		$q = db()->prepare($query);
+		$q->execute($args);
+	}
 }
 
 /**

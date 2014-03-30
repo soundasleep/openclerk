@@ -27,3 +27,5 @@ if (get_site_config('timed_sql')) {
 	global $global_timed_sql;
 	echo "\n<!-- SQL debug: \n " . print_r($global_timed_sql, true) . "\n-->";
 }
+
+performance_metrics_page_end();

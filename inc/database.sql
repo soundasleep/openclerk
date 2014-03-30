@@ -3074,9 +3074,10 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 DROP TABLE IF EXISTS performance_metrics_jobs;
 CREATE TABLE performance_metrics_jobs (
 	id int not null auto_increment primary key,
+	time_taken int not null,
+
 	job_type varchar(255) not null,
 	arg0 varchar(255) null,		-- e.g. 'btce' for ticker
-	time_taken int not null,
 	job_failure tinyint not null default 0,
 	runtime_exception varchar(255) null,
 
@@ -3100,6 +3101,8 @@ CREATE TABLE performance_metrics_jobs (
 DROP TABLE IF EXISTS performance_metrics_pages;
 CREATE TABLE performance_metrics_pages (
 	id int not null auto_increment primary key,
+	time_taken int not null,
+
 	script_name varchar(255) null,		-- might be null if running from CLI; probably not though
 	is_logged_in tinyint not null,
 
@@ -3118,6 +3121,33 @@ CREATE TABLE performance_metrics_pages (
 	curl_request_time int null,
 
 	INDEX(script_name)
+);
+
+DROP TABLE IF EXISTS performance_metrics_graphs;
+CREATE TABLE performance_metrics_graphs (
+	id int not null auto_increment primary key,
+	time_taken int not null,
+
+	graph_type varchar(255) null,
+	is_logged_in tinyint not null,
+	days int not null default 0,
+	has_technicals tinyint not null default 0,
+
+	-- timed_sql
+	db_prepares int null,
+	db_executes int null,
+	db_fetches int null,
+	db_fetch_alls int null,
+	db_prepare_time int null,
+	db_execute_time int null,
+	db_fetch_time int null,
+	db_fetch_all_time int null,
+
+	-- timed_curl
+	curl_requests int null,
+	curl_request_time int null,
+
+	INDEX(graph_type)
 );
 
 DROP TABLE IF EXISTS performance_metrics_queries;

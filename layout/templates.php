@@ -170,6 +170,7 @@ function page_footer() {
 			echo "\n<!-- CURL debug: \n " . print_r($global_timed_curl, true) . "\n-->";
 		}
 	}
+	performance_metrics_page_end();
 
 }
 

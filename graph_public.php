@@ -33,3 +33,4 @@ if (!isset($permitted[$graph['delta']])) {
 }
 
 render_graph_actual($graph, true);
+performance_metrics_page_end();

@@ -704,4 +704,6 @@ function render_graph_actual($graph, $is_public) {
 		echo "<div style=\"position: relative; width: 100%; height: 0;\"><span style=\"position: absolute; text-align: right; width: 100%; height: 1em; overflow: hidden;\" class=\"render_time\">" . htmlspecialchars($graph['graph_type']) . " " . number_format($time_diff, 2) . " ms" . (get_site_config('timed_sql') ? ": " . db()->stats() : "") . ", order " . number_format($graph['page_order']) . "</span></div>";
 	}
 
+	performance_metrics_graph_complete($graph);
+
 }

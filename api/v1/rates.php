@@ -26,3 +26,5 @@ function api_v1_rates() {
 
 allow_cache(60);		// allow local cache for up to 60 seconds
 echo compile_cached('api/rates', 'v1' /* hash */, 60 /* cached up to seconds */, 'api_v1_rates');
+
+performance_metrics_page_end();
