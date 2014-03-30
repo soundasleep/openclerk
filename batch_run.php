@@ -574,7 +574,8 @@ try {
 
 // delete job
 $q = db()->prepare("UPDATE jobs SET is_executed=1,is_executing=0,is_error=?,executed_at=NOW() WHERE id=? LIMIT 1");
-$q->execute(array(($runtime_exception === null ? 0 : 1), $job['id']));
+$job['is_error'] = ($runtime_exception === null ? 0 : 1);
+$q->execute(array($job['is_error'], $job['id']));
 
 // if this is a standard failure-enabled account, then disable the job if it has failed repeatedly,
 // or reset the failure count if it's not failed this time
@@ -658,6 +659,9 @@ if (defined('BATCH_JOB_START')) {
 	$end_time = microtime(true);
 	$time_diff = ($end_time - BATCH_JOB_START) * 1000;
 	crypto_log("Executed in " . number_format($time_diff, 2) . " ms.");
+
+	// issue #135: capture job performance metrics
+	performance_metrics_job_complete($job, $runtime_exception);
 }
 
 // rethrow exception if necessary

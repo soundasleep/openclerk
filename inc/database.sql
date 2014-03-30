@@ -3061,3 +3061,123 @@ CREATE TABLE accounts_d2_wdc (
 	
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.19 to 0.19.1
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+-- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
+DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
+
+-- issue #135: track performance metrics
+-- all times are in ms
+DROP TABLE IF EXISTS performance_metrics_jobs;
+CREATE TABLE performance_metrics_jobs (
+	id int not null auto_increment primary key,
+	job_type varchar(255) not null,
+	arg0 varchar(255) null,		-- e.g. 'btce' for ticker
+	time_taken int not null,
+	job_failure tinyint not null default 0,
+	runtime_exception varchar(255) null,
+
+	-- timed_sql
+	db_prepares int null,
+	db_executes int null,
+	db_fetches int null,
+	db_fetch_alls int null,
+	db_prepare_time int null,
+	db_execute_time int null,
+	db_fetch_time int null,
+	db_fetch_all_time int null,
+
+	-- timed_curl
+	curl_requests int null,
+	curl_request_time int null,
+
+	INDEX(job_type)
+);
+
+DROP TABLE IF EXISTS performance_metrics_pages;
+CREATE TABLE performance_metrics_pages (
+	id int not null auto_increment primary key,
+	script_name varchar(255) null,		-- might be null if running from CLI; probably not though
+	is_logged_in tinyint not null,
+
+	-- timed_sql
+	db_prepares int null,
+	db_executes int null,
+	db_fetches int null,
+	db_fetch_alls int null,
+	db_prepare_time int null,
+	db_execute_time int null,
+	db_fetch_time int null,
+	db_fetch_all_time int null,
+
+	-- timed_curl
+	curl_requests int null,
+	curl_request_time int null,
+
+	INDEX(script_name)
+);
+
+DROP TABLE IF EXISTS performance_metrics_queries;
+CREATE TABLE performance_metrics_queries (
+	id int not null auto_increment primary key,
+	query varchar(255) not null,
+	created_at timestamp not null default current_timestamp,
+
+	INDEX(query)
+);
+
+DROP TABLE IF EXISTS performance_metrics_slow_queries;
+CREATE TABLE performance_metrics_slow_queries (
+	id int not null auto_increment primary key,
+	query_id int not null,		-- reference to performance_metrics_queries
+	query_count int not null,
+	query_time int not null,
+	page_id int not null,		-- reference to performance_metrics_pages
+
+	INDEX(query_id)
+);
+
+DROP TABLE IF EXISTS performance_metrics_repeated_queries;
+CREATE TABLE performance_metrics_repeated_queries (
+	id int not null auto_increment primary key,
+	query_id int not null,		-- reference to performance_metrics_queries
+	query_count int not null,
+	query_time int not null,
+	page_id int not null,		-- reference to performance_metrics_pages
+
+	INDEX(query_id)
+);
+
+DROP TABLE IF EXISTS performance_metrics_urls;
+CREATE TABLE performance_metrics_urls (
+	id int not null auto_increment primary key,
+	url varchar(255) not null,
+	created_at timestamp not null default current_timestamp,
+
+	INDEX(url)
+);
+
+DROP TABLE IF EXISTS performance_metrics_slow_urls;
+CREATE TABLE performance_metrics_slow_urls (
+	id int not null auto_increment primary key,
+	url_id int not null,		-- reference to performance_metrics_urls
+	url_count int not null,
+	url_time int not null,
+	page_id int not null,		-- reference to performance_metrics_pages
+
+	INDEX(url_id)
+);
+
+DROP TABLE IF EXISTS performance_metrics_repeated_urls;
+CREATE TABLE performance_metrics_repeated_urls (
+	id int not null auto_increment primary key,
+	url_id int not null,		-- reference to performance_metrics_urls
+	url_count int not null,
+	url_time int not null,
+	page_id int not null,		-- reference to performance_metrics_pages
+
+	INDEX(url_id)
+);

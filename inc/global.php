@@ -5,6 +5,11 @@ require(__DIR__ . (disabled) "/locale.php");
 require(__DIR__ . (disabled) "/standard.php");
 */
 require(__DIR__ . "/config.php");
+
+// before loading sessions
+require(__DIR__ . "/performance.php");
+performance_metrics_page_start();
+
 require(__DIR__ . "/security.php");
 require(__DIR__ . "/email.php");
 require(__DIR__ . "/recaptcha.php");
@@ -33,6 +38,9 @@ function db() {
 }
 
 if (get_site_config('timed_sql')) {
+	/**
+	 * All times are measured in ms.
+	 */
 	$global_timed_sql = array(
 		'setAttribute' => array('count' => 0, 'time' => 0),
 		'prepare' => array('count' => 0, 'time' => 0),

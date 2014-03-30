@@ -11,6 +11,7 @@ $exchange = $q->fetch();
 if (!$exchange) {
 	throw new JobException("Cannot find an exchange " . $job['arg_id']);
 }
+$job['arg0'] = $exchange['name'];		// issue #135: for performance metrics later
 
 // what kind of exchange is it?
 // each exchange will insert in many different currency pairs, depending on how many

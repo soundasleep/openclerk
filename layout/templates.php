@@ -164,6 +164,11 @@ function page_footer() {
 			global $global_timed_sql;
 			echo "\n<!-- SQL debug: \n " . print_r($global_timed_sql, true) . "\n-->";
 		}
+
+		if (get_site_config('timed_curl')) {
+			global $global_timed_curl;
+			echo "\n<!-- CURL debug: \n " . print_r($global_timed_curl, true) . "\n-->";
+		}
 	}
 
 }
