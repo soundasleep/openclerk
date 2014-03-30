@@ -159,13 +159,29 @@ function performance_metrics_job_complete($job = null, $runtime_exception = null
  * Called when the job queue has been executed by the job framework.
  * {@link #performance_metrics_page_end()} can still be called for database metrics etc.
  */
-function performance_metrics_queue_complete() {
+function performance_metrics_queue_complete($user_id, $priority, $job_types, $premium_only) {
 	if (!performance_metrics_enabled()) {
 		return;
 	}
+	global $_performance_metrics;
+	$queue_time = microtime(true) - $_performance_metrics['page_start'];
 
 	// "How many jobs are being queued at once?"
 	// "Which queue types take the longest?"
+	$query = "INSERT INTO performance_metrics_queues SET time_taken=:time_taken, user_id=:user_id, priority=:priority, job_types=:job_types, 
+		premium_only=:premium_only";
+	$args = array(
+		'time_taken' => $queue_time * 1000, /* save in ms */
+		'user_id' => $user_id ? $user_id : null,
+		'priority' => $priority ? $priority : null,
+		'job_types' => $job_types ? substr($job_types, 0, 255) : null,
+		'premium_only' => $premium_only ? 1 : 0,
+	);
+
+	list($query, $args) = prepare_timed_data($query, $args);
+
+	$q = db()->prepare($query);
+	$q->execute($args);
 
 }
 

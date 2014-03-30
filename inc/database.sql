@@ -3150,6 +3150,33 @@ CREATE TABLE performance_metrics_graphs (
 	INDEX(graph_type)
 );
 
+DROP TABLE IF EXISTS performance_metrics_queues;
+CREATE TABLE performance_metrics_queues (
+	id int not null auto_increment primary key,
+	time_taken int not null,
+
+	user_id int null,
+	priority int null,
+	job_types varchar(255) null,
+	premium_only tinyint null,
+
+	-- timed_sql
+	db_prepares int null,
+	db_executes int null,
+	db_fetches int null,
+	db_fetch_alls int null,
+	db_prepare_time int null,
+	db_execute_time int null,
+	db_fetch_time int null,
+	db_fetch_all_time int null,
+
+	-- timed_curl
+	curl_requests int null,
+	curl_request_time int null,
+
+	INDEX(user_id), INDEX(premium_only)
+);
+
 DROP TABLE IF EXISTS performance_metrics_queries;
 CREATE TABLE performance_metrics_queries (
 	id int not null auto_increment primary key,

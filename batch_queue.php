@@ -345,6 +345,9 @@ if (defined('BATCH_JOB_START')) {
 	crypto_log("Executed in " . number_format($time_diff, 2) . " ms.");
 }
 
+// issue #135: capture job performance metrics
+performance_metrics_queue_complete($user_id, $priority, implode(",", $job_type), $premium_only);
+
 crypto_log("Complete.");
 
 batch_footer();
