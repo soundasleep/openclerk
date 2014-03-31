@@ -167,6 +167,10 @@ foreach ($accounts as $a) {
 					<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 					<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 				</form>
+				<?php if (isset($is_in_callback)) {
+					// used to identify when a test has been successfully completed
+					echo "<!-- successful test -->";
+				} ?>
 				<?php } ?>
 			<?php } ?>
 			<?php if ($is_disabled && !$account_type_data['disabled']) { ?>

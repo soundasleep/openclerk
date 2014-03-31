@@ -169,15 +169,21 @@ $(document).ready(function() {
 	$("#page_wizard_reports .reset-warning").hide();
 });
 
+var callback_intervals = {};
+
 /**
  * Callback function to initialise a "waiting..." icon on something that's being tested, and
  * polls the site to find out the result
  */
 function initialise_wizard_test_callback(element, url) {
-	window.setInterval(function() {
+	callback_intervals[url] = window.setInterval(function() {
 		$.ajax(url, {
 			'success': function(data, status, xhr) {
 				$(element).html(data);
+				// once the test has succeeded, stop requesting the same content over and over
+				if (data.indexOf('successful test') >= 0) {
+					window.clearInterval(callback_intervals[url]);
+				}
 			},
 		});
 	}, 10000 /* ms */);
