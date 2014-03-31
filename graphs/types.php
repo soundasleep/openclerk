@@ -105,7 +105,23 @@ function graph_types_public($summaries = array()) {
 	$data['statistics_queue'] = array(
 		'title' => "Job queue delay (graph)",
 		'heading' => "Job queue delay (hours)",
-		'description' => 'The job queue delay for free and premium users.',
+		'description' => 'The job queue delay for free and premium users, represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);
+
+	$data['statistics_system_load'] = array(
+		'title' => "System load (graph)",
+		'heading' => "System load (hours)",
+		'description' => 'The system load, represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);
+
+	$data['statistics_db_system_load'] = array(
+		'title' => "Database system load (graph)",
+		'heading' => "Database system load (hours)",
+		'description' => 'The database system load, represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
 	);

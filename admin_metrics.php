@@ -142,6 +142,36 @@ $graph_count = 0;
 
 	render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); 
 	?>	
+
+	<?php
+	$graph = array(
+		'graph_type' => 'statistics_system_load',
+		'width' => 4,
+		'height' => 2,
+		'page_order' => 0,
+		// 'days' => 30,
+		'delta' => '',
+		'id' => $graph_count++,
+		'public' => true,
+	);
+
+	render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); 
+	?>	
+
+	<?php
+	$graph = array(
+		'graph_type' => 'statistics_db_system_load',
+		'width' => 4,
+		'height' => 2,
+		'page_order' => 0,
+		// 'days' => 30,
+		'delta' => '',
+		'id' => $graph_count++,
+		'public' => true,
+	);
+
+	render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); 
+	?>	
 </div>
 
 <?php

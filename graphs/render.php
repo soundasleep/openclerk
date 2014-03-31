@@ -785,6 +785,64 @@ function render_site_statistics_queue($graph) {
 
 }
 
+function render_site_statistics_system_load($graph, $type = "") {
+
+	if (!is_admin()) {
+		render_text("This graph is for administrators only.");
+		return;
+	}
+
+	$data = array();
+	$data[0] = array("Date",
+		array(
+			'title' => " 1min",
+			'line_width' => 2,
+			'color' => default_chart_color(0),
+		),
+		array(
+			'title' => " 5min",
+			'line_width' => 2,
+			'color' => default_chart_color(1),
+		),
+		array(
+			'title' => " 15min",
+			'line_width' => 2,
+			'color' => default_chart_color(2),
+		),
+	);
+	$last_updated = false;
+	$days = get_graph_days($graph);
+	$extra_days = extra_days_necessary($graph);
+
+	$sources = array(
+		array('query' => "SELECT * FROM site_statistics
+			ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at'),
+	);
+
+	foreach ($sources as $source) {
+		$q = db()->prepare($source['query']);
+		$q->execute();
+		while ($ticker = $q->fetch()) {
+			$data[date('Y-m-d H-i-s', strtotime($ticker[$source['key']]))] = array(
+				'new Date(' . date('Y, n-1, j, H, i, s', strtotime($ticker[$source['key']])) . ')',
+				graph_number_format($ticker[$type . 'system_load_1min']),
+				graph_number_format($ticker[$type . 'system_load_5min']),
+				graph_number_format($ticker[$type . 'system_load_15min']),
+			);
+			$last_updated = max($last_updated, strtotime($ticker['created_at']));
+		}
+	}
+
+	$graph['last_updated'] = $last_updated;
+
+	if (count($data) > 1) {
+		render_linegraph_date($graph, array_values($data));
+	} else {
+		render_text($graph, "There is not yet any historical data for these statistics.");
+	}
+
+}
+
 function render_metrics_table($graph, $report_type, $report_table, $report_ref_table, $report_reference, $key, $key_title, $key_formatter = 'htmlspecialchars') {
 
 	if (!is_admin()) {
