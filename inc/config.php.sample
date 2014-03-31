@@ -72,6 +72,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"performance_metrics_repeated_curl" => 2,	// keep track of curl URLs that occur more than this many times in a page/request
 		// job control
 		"jobs_enabled" => true,		// disable when performing upgrades
+		"maximum_jobs_running" => 20,		// issue #128: don't run more than this many jobs at once (except for forced jobs)
 		"sleep_btce_ticker" => 5,	// how many seconds to wait between repeated btc-e ticker queries
 		"sleep_mtgox_ticker" => 5,
 		"sleep_vircurex_balance" => 5,

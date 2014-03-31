@@ -31,10 +31,10 @@ if (isset($argv[2]) && $argv[2] && $argv[2] != "-") {
 }
 
 if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
-        // run a particular job, even if it's already been executed
-        $q = db()->prepare("SELECT * FROM jobs WHERE id=?");
-        $q->execute(array((int) $argv[3]));
-        $job = $q->fetch();
+    // run a particular job, even if it's already been executed
+    $q = db()->prepare("SELECT * FROM jobs WHERE id=?");
+    $q->execute(array((int) $argv[3]));
+    $job = $q->fetch();
 } else if (require_get("job_id", false)) {
 	// run a particular job, even if it's already been executed
 	$q = db()->prepare("SELECT * FROM jobs WHERE id=?");
@@ -55,6 +55,15 @@ if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
 		((is_test_job=0 AND execution_started < DATE_SUB(NOW(), INTERVAL 5 MINUTE)) OR
 		(is_test_job=1 AND execution_started < DATE_SUB(NOW(), INTERVAL 1 MINUTE)))");
 	$q->execute();
+
+	// don't execute another job if we're running too many jobs already
+	$q = db()->prepare("SELECT COUNT(*) AS c FROM jobs WHERE is_executing=1");
+	$q->execute();
+	$job_count = $q->fetch();
+	if ($job_count['c'] >= get_site_config('maximum_jobs_running')) {
+		crypto_log("Not running any more jobs: too many jobs are running already (" . get_site_config('maximum_jobs_running') . ")")
+		return;
+	}
 
 	// select the most important job to execute next
 	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 $job_type_where ORDER BY priority ASC, id ASC LIMIT 20");
