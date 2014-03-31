@@ -22,7 +22,7 @@ crypto_log("Current time: " . date('r'));
 
 	// select the worst ten queries
 	$q = db()->prepare("SELECT query_id, SUM(query_count) AS qc, SUM(query_time) AS qt, MIN(page_id) AS pid FROM performance_metrics_slow_queries
-			GROUP BY query_id ORDER BY SUM(query_count) / SUM(query_time) LIMIT 10");
+			GROUP BY query_id ORDER BY SUM(query_time) / SUM(query_count) LIMIT 10");
 	$q->execute();
 	$data = $q->fetchAll();
 
@@ -38,15 +38,13 @@ crypto_log("Current time: " . date('r'));
 	crypto_log("Created report '$report_type'");
 }
 
-	// "What tables take the longest to query?"
-
 {
 	// "What URLs take the longest to request?"
 
 	$report_type = "curl_slow_urls";
 	// select the worst ten urls
 	$q = db()->prepare("SELECT url_id, SUM(url_count) AS qc, SUM(url_time) AS qt, MIN(page_id) AS pid FROM performance_metrics_slow_urls
-			GROUP BY url_id ORDER BY SUM(url_count) / SUM(url_time) LIMIT 10");
+			GROUP BY url_id ORDER BY SUM(url_time) / SUM(url_count) LIMIT 10");
 	$q->execute();
 	$data = $q->fetchAll();
 
@@ -62,12 +60,35 @@ crypto_log("Current time: " . date('r'));
 	crypto_log("Created report '$report_type'");
 }
 
+{
+	// "What job types take the longest to execute?"
+
+	$report_type = "jobs_slow";
+	// select the worst ten urls
+	$q = db()->prepare("SELECT job_type, SUM(time_taken) AS time_taken, SUM(id) AS job_count FROM performance_metrics_jobs
+			GROUP BY job_type ORDER BY SUM(time_taken) / SUM(id) LIMIT 20");
+	$q->execute();
+	$data = $q->fetchAll();
+
+	$q = db()->prepare("INSERT INTO performance_reports SET report_type=?");
+	$q->execute(array($report_type));
+	$report_id = db()->lastInsertId();
+
+	foreach ($data as $row) {
+		$q = db()->prepare("INSERT INTO performance_report_slow_jobs SET report_id=?, job_type=?, job_time=?, job_count=?");
+		$q->execute(array($report_id, $row['job_type'], $row['time_taken'], $row['job_count']));
+	}
+
+	crypto_log("Created report '$report_type'");
+}
+
+// not implemented yet:
+	// "What tables take the longest to query?"
 	// "How long does it take for a page to be generated?"
 	// "What pages are taking the longest to load?"
 	// "What pages have the most database queries?"
 	// "What pages spend the most time in PHP as opposed to the database?"
 
-	// "What jobs take the longest?"
 	// "How many jobs are running per hour?"
 	// "How many ticker jobs are running per hour?"
 	// "What jobs have the most database queries?"

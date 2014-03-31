@@ -517,6 +517,10 @@ function render_graph_actual($graph, $is_public) {
 			render_metrics_curl_slow_urls_graph($graph);
 			break;
 
+		case "metrics_curl_slow_jobs_graph":
+			render_metrics_curl_slow_jobs_graph($graph);
+			break;
+
 		case "calculator":
 			require(__DIR__ . "/../_calculator.php");
 			?>

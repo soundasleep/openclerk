@@ -142,6 +142,14 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
+	$data['metrics_curl_slow_jobs_graph'] = array(
+		'title' => "Slowest jobs (graph)",
+		'heading' => "Slowest jobs (ms)",
+		'description' => 'The slowest jobs represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);
+
 	return $data;
 }
 

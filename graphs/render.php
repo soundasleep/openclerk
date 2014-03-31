@@ -833,7 +833,14 @@ function render_metrics_curl_slow_urls($graph) {
 	return render_metrics_table($graph, 'curl_slow_urls', 'performance_report_slow_urls', 'performance_metrics_urls', 'url_id', 'url', 'URL', 'link_to');
 }
 
-function render_metrics_graph($graph, $report_type, $report_table, $report_ref_table, $report_reference, $key) {
+/**
+ * @param $report_ref_table can be null
+ * @param $report_reference can be null
+ */
+function render_metrics_graph($graph, $report_type, $report_table, $report_ref_table, $report_reference, $key_prefix, $key = null) {
+	if ($key == null) {
+		$key = $key_prefix;
+	}
 
 	if (!is_admin()) {
 		return render_text("This graph is for administrators only.");
@@ -854,9 +861,9 @@ function render_metrics_graph($graph, $report_type, $report_table, $report_ref_t
 
 	foreach ($reports as $report) {
 		// get all queries
-		$q = db()->prepare("SELECT * FROM $report_table AS r 
-				JOIN $report_ref_table AS q ON r.$report_reference=q.id
-				WHERE report_id=?");
+		$q = db()->prepare("SELECT * FROM $report_table AS r " .
+				($report_ref_table ? "JOIN $report_ref_table AS q ON r.$report_reference=q.id " : "") .
+				"WHERE report_id=?");
 		$q->execute(array($report['id']));
 		$date = date('Y-m-d H:i:s', strtotime($report['created_at']));
 		$row = array('new Date(' . date('Y, n-1, j, H, i, s', strtotime($report['created_at'])) . ')');
@@ -867,7 +874,7 @@ function render_metrics_graph($graph, $report_type, $report_table, $report_ref_t
 					"title" => $query[$key],
 				);
 			}
-			$row[$keys[$query[$key]]] = graph_number_format($query[$key . '_time'] / $query[$key . '_count']);
+			$row[$keys[$query[$key]]] = graph_number_format($query[$key_prefix . '_time'] / $query[$key_prefix . '_count']);
 		}
 		$data[$date] = $row;
 		$graph['last_updated'] = max($graph['last_updated'], strtotime($report['created_at']));
@@ -896,5 +903,9 @@ function render_metrics_db_slow_queries_graph($graph) {
 
 function render_metrics_curl_slow_urls_graph($graph) {
 	return render_metrics_graph($graph, 'curl_slow_urls', 'performance_report_slow_urls', 'performance_metrics_urls', 'url_id', 'url');
+}
+
+function render_metrics_curl_slow_jobs_graph($graph) {
+	return render_metrics_graph($graph, 'jobs_slow', 'performance_report_slow_jobs', null, null, 'job', 'job_type');
 }
 
