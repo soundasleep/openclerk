@@ -60,8 +60,16 @@ function get_site_config($key = null, $fail_if_missing = true) {
 
 		// debug control
 		"timed_sql" => false,
+		"timed_curl" => false,
 		"allow_fake_login" => false,		// see admin_login.php
 
+		// performance metrics control
+		// performance metrics also rely on timed_sql if available
+		"performance_metrics_enabled" => false,
+		"performance_metrics_slow_query" => 250,	// keep track of queries that take on average longer than this many ms
+		"performance_metrics_repeated_query" => 5,	// keep track of queries that occur more than this many times in a page/request
+		"performance_metrics_slow_curl" => 2000,	// keep track of curl URLs that take on average longer than this many ms
+		"performance_metrics_repeated_curl" => 2,	// keep track of curl URLs that occur more than this many times in a page/request
 		// job control
 		"jobs_enabled" => true,		// disable when performing upgrades
 		"sleep_btce_ticker" => 5,	// how many seconds to wait between repeated btc-e ticker queries
