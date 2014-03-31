@@ -3310,3 +3310,17 @@ CREATE TABLE performance_report_slow_graphs (
 
 	INDEX(report_id)
 );
+
+ALTER TABLE performance_metrics_jobs ADD created_at timestamp not null default current_timestamp;
+
+DROP TABLE IF EXISTS performance_report_job_frequency;
+CREATE TABLE performance_report_job_frequency (
+	id int not null auto_increment primary key,
+	report_id int not null,		-- reference to performance_reports
+
+	job_type varchar(32) not null,
+	job_count int not null,
+	jobs_per_hour int not null,
+
+	INDEX(report_id)
+);

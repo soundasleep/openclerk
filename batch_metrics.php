@@ -65,8 +65,8 @@ crypto_log("Current time: " . date('r'));
 
 	$report_type = "jobs_slow";
 	// select the worst ten urls
-	$q = db()->prepare("SELECT job_type, SUM(time_taken) AS time_taken, SUM(id) AS job_count FROM performance_metrics_jobs
-			GROUP BY job_type ORDER BY SUM(time_taken) / SUM(id) LIMIT 20");
+	$q = db()->prepare("SELECT job_type, SUM(time_taken) AS time_taken, COUNT(id) AS job_count FROM performance_metrics_jobs
+			GROUP BY job_type ORDER BY SUM(time_taken) / COUNT(id) LIMIT 20");
 	$q->execute();
 	$data = $q->fetchAll();
 
@@ -87,8 +87,8 @@ crypto_log("Current time: " . date('r'));
 
 	$report_type = "pages_slow";
 	// select the worst ten urls
-	$q = db()->prepare("SELECT script_name, SUM(time_taken) AS time_taken, SUM(id) AS page_count FROM performance_metrics_pages
-			GROUP BY script_name ORDER BY SUM(time_taken) / SUM(id) LIMIT 20");
+	$q = db()->prepare("SELECT script_name, SUM(time_taken) AS time_taken, COUNT(id) AS page_count FROM performance_metrics_pages
+			GROUP BY script_name ORDER BY SUM(time_taken) / COUNT(id) LIMIT 20");
 	$q->execute();
 	$data = $q->fetchAll();
 
@@ -109,8 +109,8 @@ crypto_log("Current time: " . date('r'));
 
 	$report_type = "graphs_slow";
 	// select the worst ten urls
-	$q = db()->prepare("SELECT graph_type, SUM(time_taken) AS time_taken, SUM(id) AS graph_count FROM performance_metrics_graphs
-			GROUP BY graph_type ORDER BY SUM(time_taken) / SUM(id) LIMIT 20");
+	$q = db()->prepare("SELECT graph_type, SUM(time_taken) AS time_taken, COUNT(id) AS graph_count FROM performance_metrics_graphs
+			GROUP BY graph_type ORDER BY SUM(time_taken) / COUNT(id) LIMIT 20");
 	$q->execute();
 	$data = $q->fetchAll();
 
@@ -126,6 +126,31 @@ crypto_log("Current time: " . date('r'));
 	crypto_log("Created report '$report_type'");
 }
 
+{
+	// "How many ticker jobs are running per hour?"
+
+	$report_type = "jobs_frequency";
+	$q = db()->prepare("SELECT job_type, COUNT(id) AS job_count, MIN(created_at) AS start_time, MAX(created_at) AS end_time FROM performance_metrics_jobs
+			WHERE job_type IN ('sum', 'ticker')
+			GROUP BY job_type");
+	$q->execute();
+	$data = $q->fetchAll();
+
+	$q = db()->prepare("INSERT INTO performance_reports SET report_type=?");
+	$q->execute(array($report_type));
+	$report_id = db()->lastInsertId();
+
+	foreach ($data as $row) {
+		if ($row['job_count'] && strtotime($row['end_time']) != strtotime($row['start_time'])) {
+			$q = db()->prepare("INSERT INTO performance_report_job_frequency SET report_id=?, job_type=?, job_count=?, jobs_per_hour=?");
+			$q->execute(array($report_id, $row['job_type'], $row['job_count'], 
+					($row['job_count'] * 60 * 60) / (strtotime($row['end_time']) - strtotime($row['start_time']))));
+		}
+	}
+
+	crypto_log("Created report '$report_type'");
+}
+
 // not implemented yet:
 	// "What tables take the longest to query?"
 	// "How long does it take for a page to be generated?"
@@ -133,7 +158,6 @@ crypto_log("Current time: " . date('r'));
 	// "What pages spend the most time in PHP as opposed to the database?"
 
 	// "How many jobs are running per hour?"
-	// "How many ticker jobs are running per hour?"
 	// "What jobs have the most database queries?"
 	// "What jobs spend the most time in PHP as opposed to the database?"
 	// "Which jobs time out the most?"

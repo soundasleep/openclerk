@@ -836,8 +836,9 @@ function render_metrics_curl_slow_urls($graph) {
 /**
  * @param $report_ref_table can be null
  * @param $report_reference can be null
+ * @param $actual_value_key if null, use {$key_prefix}_time/{$key_prefix}_count; otherwise, use this key
  */
-function render_metrics_graph($graph, $report_type, $report_table, $report_ref_table, $report_reference, $key_prefix, $key = null) {
+function render_metrics_graph($graph, $report_type, $report_table, $report_ref_table, $report_reference, $key_prefix, $key = null, $actual_value_key = null) {
 	if ($key == null) {
 		$key = $key_prefix;
 	}
@@ -874,7 +875,11 @@ function render_metrics_graph($graph, $report_type, $report_table, $report_ref_t
 					"title" => $query[$key],
 				);
 			}
-			$row[$keys[$query[$key]]] = graph_number_format($query[$key_prefix . '_time'] / $query[$key_prefix . '_count']);
+			if ($actual_value_key === null) {
+				$row[$keys[$query[$key]]] = graph_number_format($query[$key_prefix . '_time'] / $query[$key_prefix . '_count']);
+			} else {
+				$row[$keys[$query[$key]]] = graph_number_format($query[$actual_value_key]);
+			}
 		}
 		$data[$date] = $row;
 		$graph['last_updated'] = max($graph['last_updated'], strtotime($report['created_at']));
@@ -915,5 +920,9 @@ function render_metrics_curl_slow_pages_graph($graph) {
 
 function render_metrics_curl_slow_graphs_graph($graph) {
 	return render_metrics_graph($graph, 'graphs_slow', 'performance_report_slow_graphs', null, null, 'graph', 'graph_type');
+}
+
+function render_metrics_jobs_frequency_graph($graph) {
+	return render_metrics_graph($graph, 'jobs_frequency', 'performance_report_job_frequency', null, null, null, 'job_type', 'jobs_per_hour');
 }
 

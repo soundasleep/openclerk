@@ -164,6 +164,14 @@ function graph_types_public($summaries = array()) {
 		'description' => 'The slowest graphs represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
+	);	
+
+	$data['metrics_jobs_frequency_graph'] = array(
+		'title' => "Job frequency (graph)",
+		'heading' => "Job frequency (jobs/hour)",
+		'description' => 'The frequency of particular jobs per hour, represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
 	);
 
 	return $data;
