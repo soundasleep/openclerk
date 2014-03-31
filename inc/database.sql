@@ -3328,3 +3328,6 @@ CREATE TABLE performance_report_job_frequency (
 ALTER TABLE performance_report_slow_jobs ADD job_database int null;
 ALTER TABLE performance_report_slow_pages ADD page_database int null;
 ALTER TABLE performance_report_slow_graphs ADD graph_database int null;
+
+ALTER TABLE site_statistics ADD mysql_locks_immediate int;
+ALTER TABLE site_statistics ADD mysql_locks_blocked int;

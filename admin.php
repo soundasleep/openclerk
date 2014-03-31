@@ -193,6 +193,44 @@ $graph = array(
 		<td class="number"><?php echo number_format($stats['mysql_questions'] / $stats['mysql_uptime'], 2); ?></td>
 	</tr>
 	<?php
+		$value = $stats['mysql_locks_blocked'] / ($stats['mysql_locks_immediate'] + $stats['mysql_locks_blocked'] + 1 /* hack to prevent div/0 */);
+		$status = "";
+		if ($value > 0.1) {
+			$status = "bad";
+		} else if ($value > 0.05) {
+			$status = "poor";
+		} else if ($value > 0.025) {
+			$status = "ok";
+		} else if ($value > 0.01) {
+			$status = "good";
+		} else {
+			$status = "perfect";
+		}
+	?>
+	<tr>
+		<th>locked out queries</th>
+		<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>"><?php echo number_format($value, 2); ?> %</span></td>
+	</tr>
+	<?php
+		$value = $stats['mysql_slow_queries'] / ($stats['mysql_questions'] + + 1 /* hack to prevent div/0 */);
+		$status = "";
+		if ($value > 0.05) {
+			$status = "bad";
+		} else if ($value > 0.01) {
+			$status = "poor";
+		} else if ($value > 0.005) {
+			$status = "ok";
+		} else if ($value > 0.001) {
+			$status = "good";
+		} else {
+			$status = "perfect";
+		}
+	?>
+	<tr>
+		<th>slow queries</th>
+		<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>"><?php echo number_format($value, 3); ?> %</span></td>
+	</tr>
+	<?php
 ?>
 </tbody>
 </table>

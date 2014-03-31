@@ -167,6 +167,8 @@ $mysql_mapping = array(
 	'mysql_opens' => 'Opened_tables',
 	'mysql_flush_tables' => 'Flush_commands',
 	'mysql_open_tables' => 'Open_tables',
+	'mysql_locks_immediate' => 'Table_locks_immediate',
+	'mysql_locks_blocked' => 'Table_locks_waited',
 );
 while ($s = $q->fetch()) {
 	if (($pos = array_search($s['Variable_name'], $mysql_mapping)) !== false) {
@@ -213,7 +215,9 @@ $q = db()->prepare("INSERT INTO site_statistics SET
 	mysql_opens = :mysql_opens,
 	mysql_flush_tables = :mysql_flush_tables,
 	mysql_open_tables = :mysql_open_tables,
-
+	mysql_locks_immediate = :mysql_locks_immediate,
+	mysql_locks_blocked = :mysql_locks_blocked,
+	
 	users_graphs_managed_none = :users_graphs_managed_none,
 	users_graphs_managed_managed = :users_graphs_managed_managed,
 	users_graphs_managed_auto = :users_graphs_managed_auto,
