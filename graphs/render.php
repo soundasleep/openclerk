@@ -788,18 +788,17 @@ function render_site_statistics_queue($graph) {
 function render_metrics_db_slow_queries($graph) {
 
 	if (!is_admin()) {
-		render_text("This graph is for administrators only.");
-		return;
+		return render_text("This graph is for administrators only.");
 	}
 
 	$q = db()->prepare("SELECT * FROM performance_reports WHERE report_type=? ORDER BY id DESC LIMIT 1");
 	$q->execute(array('db_slow_queries'));
 	$report = $q->fetch();
 	if (!$report) {
-		render_text($graph, "No report found.");
+		return render_text($graph, "No report found.");
 	}
 
-	// get all queires
+	// get all queries
 	$q = db()->prepare("SELECT * FROM performance_report_slow_queries AS r 
 			JOIN performance_metrics_queries AS q ON r.query_id=q.id
 			JOIN performance_metrics_pages AS p ON r.page_id=p.id 
@@ -829,18 +828,17 @@ function render_metrics_db_slow_queries($graph) {
 function render_metrics_curl_slow_urls($graph) {
 
 	if (!is_admin()) {
-		render_text("This graph is for administrators only.");
-		return;
+		return render_text("This graph is for administrators only.");
 	}
 
 	$q = db()->prepare("SELECT * FROM performance_reports WHERE report_type=? ORDER BY id DESC LIMIT 1");
 	$q->execute(array('curl_slow_urls'));
 	$report = $q->fetch();
 	if (!$report) {
-		render_text($graph, "No report found.");
+		return render_text($graph, "No report found.");
 	}
 
-	// get all queires
+	// get all queries
 	$q = db()->prepare("SELECT * FROM performance_report_slow_urls AS r 
 			JOIN performance_metrics_urls AS q ON r.url_id=q.id
 			JOIN performance_metrics_pages AS p ON r.page_id=p.id 
@@ -866,3 +864,62 @@ function render_metrics_curl_slow_urls($graph) {
 	render_table_vertical($graph, $data, $head);
 
 }
+
+function render_metrics_db_slow_queries_graph($graph) {
+
+	if (!is_admin()) {
+		return render_text("This graph is for administrators only.");
+	}
+
+	$q = db()->prepare("SELECT * FROM performance_reports WHERE report_type=? ORDER BY id DESC LIMIT 30");
+	$q->execute(array('db_slow_queries'));
+	$reports = $q->fetchAll();
+	if (!$reports) {
+		return render_text($graph, "No report found.");
+	}
+
+	// construct an array of (date => )
+	$data = array();
+	$data[0] = array("Date");
+	$keys = array();
+	$graph['last_updated'] = 0;
+
+	foreach ($reports as $report) {
+		// get all queries
+		$q = db()->prepare("SELECT * FROM performance_report_slow_queries AS r 
+				JOIN performance_metrics_queries AS q ON r.query_id=q.id
+				JOIN performance_metrics_pages AS p ON r.page_id=p.id 
+				WHERE report_id=?");
+		$q->execute(array($report['id']));
+		$date = date('Y-m-d H:i:s', strtotime($report['created_at']));
+		$row = array('new Date(' . date('Y, n-1, j, H, i, s', strtotime($report['created_at'])) . ')');
+		while ($query = $q->fetch()) {
+			if (!isset($keys[$query['query']])) {
+				$keys[$query['query']] = count($keys) + 1;
+				$data[0][] = array(
+					"title" => $query['query'],
+				);
+			}
+			$row[$keys[$query['query']]] = graph_number_format($query['query_time'] / $query['query_count']);
+		}
+		$data[$date] = $row;
+		$graph['last_updated'] = max($graph['last_updated'], strtotime($report['created_at']));
+	}
+
+	// fill in any missing rows, e.g. queries that may not have featured in certain reports
+	foreach ($data as $date => $row) {
+		if ($date === 0) continue;
+
+		foreach ($keys as $id) {
+			if (!isset($row[$id])) $data[$date][$id] = 0;
+		}
+	}
+	
+	if (count($data) > 1) {
+		render_linegraph_date($graph, array_values($data));
+	} else {
+		render_text($graph, "There is not yet any historical data for these statistics.");
+	}
+
+}
+

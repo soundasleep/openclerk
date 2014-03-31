@@ -61,6 +61,7 @@ crypto_log("Current time: " . date('r'));
 
 	crypto_log("Created report '$report_type'");
 }
+
 	// "How long does it take for a page to be generated?"
 	// "What pages are taking the longest to load?"
 	// "What pages have the most database queries?"
