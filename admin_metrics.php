@@ -41,8 +41,8 @@ $graph_count = 0;
 	<?php
 	$graph = array(
 		'graph_type' => 'metrics_db_slow_queries_graph',
-		'width' => 8,
-		'height' => 4,
+		'width' => 4,
+		'height' => 2,
 		'page_order' => 0,
 		// 'days' => 30,
 		'delta' => '',
@@ -71,8 +71,25 @@ $graph_count = 0;
 	<?php
 	$graph = array(
 		'graph_type' => 'metrics_curl_slow_urls_graph',
-		'width' => 8,
-		'height' => 4,
+		'width' => 4,
+		'height' => 2,
+		'page_order' => 0,
+		// 'days' => 30,
+		'delta' => '',
+		'id' => $graph_count++,
+		'public' => true,
+	);
+
+	render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); 
+	?>	
+
+	<h1 style="clear:both;">Tasks</h1>
+
+	<?php
+	$graph = array(
+		'graph_type' => 'metrics_slow_jobs_graph',
+		'width' => 4,
+		'height' => 2,
 		'page_order' => 0,
 		// 'days' => 30,
 		'delta' => '',
@@ -85,7 +102,7 @@ $graph_count = 0;
 
 	<?php
 	$graph = array(
-		'graph_type' => 'metrics_slow_jobs_graph',
+		'graph_type' => 'metrics_slow_jobs_database_graph',
 		'width' => 4,
 		'height' => 2,
 		'page_order' => 0,
@@ -115,7 +132,37 @@ $graph_count = 0;
 
 	<?php
 	$graph = array(
+		'graph_type' => 'metrics_slow_pages_database_graph',
+		'width' => 4,
+		'height' => 2,
+		'page_order' => 0,
+		// 'days' => 30,
+		'delta' => '',
+		'id' => $graph_count++,
+		'public' => true,
+	);
+
+	render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); 
+	?>	
+
+	<?php
+	$graph = array(
 		'graph_type' => 'metrics_slow_graphs_graph',
+		'width' => 4,
+		'height' => 2,
+		'page_order' => 0,
+		// 'days' => 30,
+		'delta' => '',
+		'id' => $graph_count++,
+		'public' => true,
+	);
+
+	render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); 
+	?>	
+
+	<?php
+	$graph = array(
+		'graph_type' => 'metrics_slow_graphs_database_graph',
 		'width' => 4,
 		'height' => 2,
 		'page_order' => 0,
@@ -156,7 +203,9 @@ $graph_count = 0;
 	);
 
 	render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); 
-	?>	
+	?>
+
+	<h1 style="clear:both;">System Load</h1>
 
 	<?php
 	$graph = array(

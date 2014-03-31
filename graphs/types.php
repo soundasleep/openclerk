@@ -166,6 +166,14 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
+	$data['metrics_slow_jobs_database_graph'] = array(
+		'title' => "Slowest jobs database time (graph)",
+		'heading' => "Slowest jobs database time (ms)",
+		'description' => 'The time spent in the database on the slowest jobs represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);	
+
 	$data['metrics_slow_pages_graph'] = array(
 		'title' => "Slowest pages (graph)",
 		'heading' => "Slowest pages (ms)",
@@ -174,10 +182,26 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
+	$data['metrics_slow_pages_database_graph'] = array(
+		'title' => "Slowest pages database time (graph)",
+		'heading' => "Slowest pages database time (ms)",
+		'description' => 'The time spent in the database on the slowest pages represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);	
+
 	$data['metrics_slow_graphs_graph'] = array(
 		'title' => "Slowest graphs (graph)",
 		'heading' => "Slowest graphs (ms)",
 		'description' => 'The slowest graphs represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);	
+
+	$data['metrics_slow_graphs_database_graph'] = array(
+		'title' => "Slowest graphs database time (graph)",
+		'heading' => "Slowest graphs database time (ms)",
+		'description' => 'The time spent in the database on the slowest graphs represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
 	);	

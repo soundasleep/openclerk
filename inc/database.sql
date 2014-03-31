@@ -3128,7 +3128,7 @@ CREATE TABLE performance_metrics_graphs (
 	id int not null auto_increment primary key,
 	time_taken int not null,
 
-	graph_type varchar(255) null,
+	graph_type varchar(32) null,
 	is_logged_in tinyint not null,
 	days int null,			-- could be null, e.g. admin graphs
 	has_technicals tinyint not null default 0,
@@ -3324,3 +3324,7 @@ CREATE TABLE performance_report_job_frequency (
 
 	INDEX(report_id)
 );
+
+ALTER TABLE performance_report_slow_jobs ADD job_database int null;
+ALTER TABLE performance_report_slow_pages ADD page_database int null;
+ALTER TABLE performance_report_slow_graphs ADD graph_database int null;

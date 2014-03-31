@@ -62,10 +62,12 @@ crypto_log("Current time: " . date('r'));
 
 {
 	// "What job types take the longest to execute?"
+	// "What jobs spend the most time in PHP as opposed to the database?"
 
 	$report_type = "jobs_slow";
 	// select the worst ten urls
-	$q = db()->prepare("SELECT job_type, SUM(time_taken) AS time_taken, COUNT(id) AS job_count FROM performance_metrics_jobs
+	$q = db()->prepare("SELECT job_type, SUM(time_taken) AS time_taken, COUNT(id) AS job_count,
+			SUM(db_execute_time) + SUM(db_fetch_time) + SUM(db_fetch_all_time) AS database_time FROM performance_metrics_jobs
 			GROUP BY job_type ORDER BY SUM(time_taken) / COUNT(id) LIMIT 20");
 	$q->execute();
 	$data = $q->fetchAll();
@@ -75,8 +77,8 @@ crypto_log("Current time: " . date('r'));
 	$report_id = db()->lastInsertId();
 
 	foreach ($data as $row) {
-		$q = db()->prepare("INSERT INTO performance_report_slow_jobs SET report_id=?, job_type=?, job_time=?, job_count=?");
-		$q->execute(array($report_id, $row['job_type'], $row['time_taken'], $row['job_count']));
+		$q = db()->prepare("INSERT INTO performance_report_slow_jobs SET report_id=?, job_type=?, job_time=?, job_count=?, job_database=?");
+		$q->execute(array($report_id, $row['job_type'], $row['time_taken'], $row['job_count'], $row['database_time']));
 	}
 
 	crypto_log("Created report '$report_type'");
@@ -84,10 +86,12 @@ crypto_log("Current time: " . date('r'));
 
 {
 	// "What pages are taking the longest to load?"
+	// "What pages spend the most time in PHP as opposed to the database?"
 
 	$report_type = "pages_slow";
 	// select the worst ten urls
-	$q = db()->prepare("SELECT script_name, SUM(time_taken) AS time_taken, COUNT(id) AS page_count FROM performance_metrics_pages
+	$q = db()->prepare("SELECT script_name, SUM(time_taken) AS time_taken, COUNT(id) AS page_count,
+			SUM(db_execute_time) + SUM(db_fetch_time) + SUM(db_fetch_all_time) AS database_time FROM performance_metrics_pages
 			GROUP BY script_name ORDER BY SUM(time_taken) / COUNT(id) LIMIT 20");
 	$q->execute();
 	$data = $q->fetchAll();
@@ -97,8 +101,8 @@ crypto_log("Current time: " . date('r'));
 	$report_id = db()->lastInsertId();
 
 	foreach ($data as $row) {
-		$q = db()->prepare("INSERT INTO performance_report_slow_pages SET report_id=?, script_name=?, page_time=?, page_count=?");
-		$q->execute(array($report_id, $row['script_name'], $row['time_taken'], $row['page_count']));
+		$q = db()->prepare("INSERT INTO performance_report_slow_pages SET report_id=?, script_name=?, page_time=?, page_count=?, page_database=?");
+		$q->execute(array($report_id, $row['script_name'], $row['time_taken'], $row['page_count'], $row['database_time']));
 	}
 
 	crypto_log("Created report '$report_type'");
@@ -106,10 +110,12 @@ crypto_log("Current time: " . date('r'));
 
 {
 	// "What graph types take the longest to render?"
+	// "What graphs spend the most time in PHP as opposed to the database?"
 
 	$report_type = "graphs_slow";
 	// select the worst ten urls
-	$q = db()->prepare("SELECT graph_type, SUM(time_taken) AS time_taken, COUNT(id) AS graph_count FROM performance_metrics_graphs
+	$q = db()->prepare("SELECT graph_type, SUM(time_taken) AS time_taken, COUNT(id) AS graph_count,
+			SUM(db_execute_time) + SUM(db_fetch_time) + SUM(db_fetch_all_time) AS database_time FROM performance_metrics_graphs
 			GROUP BY graph_type ORDER BY SUM(time_taken) / COUNT(id) LIMIT 20");
 	$q->execute();
 	$data = $q->fetchAll();
@@ -119,8 +125,8 @@ crypto_log("Current time: " . date('r'));
 	$report_id = db()->lastInsertId();
 
 	foreach ($data as $row) {
-		$q = db()->prepare("INSERT INTO performance_report_slow_graphs SET report_id=?, graph_type=?, graph_time=?, graph_count=?");
-		$q->execute(array($report_id, $row['graph_type'], $row['time_taken'], $row['graph_count']));
+		$q = db()->prepare("INSERT INTO performance_report_slow_graphs SET report_id=?, graph_type=?, graph_time=?, graph_count=?, graph_database=?");
+		$q->execute(array($report_id, $row['graph_type'], $row['time_taken'], $row['graph_count'], $row['database_time']));
 	}
 
 	crypto_log("Created report '$report_type'");
@@ -159,7 +165,6 @@ crypto_log("Current time: " . date('r'));
 
 	// "How many jobs are running per hour?"
 	// "What jobs have the most database queries?"
-	// "What jobs spend the most time in PHP as opposed to the database?"
 	// "Which jobs time out the most?"
 	// "How many blockchain requests fail?"
 	// "What jobs take the longest requesting URLs?"
