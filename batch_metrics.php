@@ -131,7 +131,7 @@ crypto_log("Current time: " . date('r'));
 
 	$report_type = "jobs_frequency";
 	$q = db()->prepare("SELECT job_type, COUNT(id) AS job_count, MIN(created_at) AS start_time, MAX(created_at) AS end_time FROM performance_metrics_jobs
-			WHERE job_type IN ('sum', 'ticker')
+			WHERE job_type IN ('sum', 'ticker', 'blockchain', 'litecoin', 'namecoin', 'dogecoin', 'feathercoin')
 			GROUP BY job_type");
 	$q->execute();
 	$data = $q->fetchAll();
@@ -172,11 +172,23 @@ crypto_log("Current time: " . date('r'));
 
 
 // we've processed all the data we want; delete old metrics data
-if (false) {
-	$q = db()->prepare("DELETE FROM performance_metrics_slow_queries");
-	$q->execute();
+$q = db()->prepare("DELETE FROM performance_metrics_slow_queries");
+$q->execute();
+$q = db()->prepare("DELETE FROM performance_metrics_slow_urls");
+$q->execute();
+$q = db()->prepare("DELETE FROM performance_metrics_repeated_queries");
+$q->execute();
+$q = db()->prepare("DELETE FROM performance_metrics_repeated_urls");
+$q->execute();
+$q = db()->prepare("DELETE FROM performance_metrics_pages");
+$q->execute();
+$q = db()->prepare("DELETE FROM performance_metrics_graphs");
+$q->execute();
+$q = db()->prepare("DELETE FROM performance_metrics_jobs");
+$q->execute();
+$q = db()->prepare("DELETE FROM performance_metrics_queues");
+$q->execute();
 
-	crypto_log("Deleted old metric data.");
-}
+crypto_log("Deleted old metric data.");
 
 batch_footer();
