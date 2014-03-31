@@ -82,10 +82,31 @@ crypto_log("Current time: " . date('r'));
 	crypto_log("Created report '$report_type'");
 }
 
+{
+	// "What pages are taking the longest to load?"
+
+	$report_type = "pages_slow";
+	// select the worst ten urls
+	$q = db()->prepare("SELECT script_name, SUM(time_taken) AS time_taken, SUM(id) AS page_count FROM performance_metrics_pages
+			GROUP BY script_name ORDER BY SUM(time_taken) / SUM(id) LIMIT 20");
+	$q->execute();
+	$data = $q->fetchAll();
+
+	$q = db()->prepare("INSERT INTO performance_reports SET report_type=?");
+	$q->execute(array($report_type));
+	$report_id = db()->lastInsertId();
+
+	foreach ($data as $row) {
+		$q = db()->prepare("INSERT INTO performance_report_slow_pages SET report_id=?, script_name=?, page_time=?, page_count=?");
+		$q->execute(array($report_id, $row['script_name'], $row['time_taken'], $row['page_count']));
+	}
+
+	crypto_log("Created report '$report_type'");
+}
+
 // not implemented yet:
 	// "What tables take the longest to query?"
 	// "How long does it take for a page to be generated?"
-	// "What pages are taking the longest to load?"
 	// "What pages have the most database queries?"
 	// "What pages spend the most time in PHP as opposed to the database?"
 

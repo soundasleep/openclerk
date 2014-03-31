@@ -3280,9 +3280,21 @@ CREATE TABLE performance_report_slow_jobs (
 	id int not null auto_increment primary key,
 	report_id int not null,		-- reference to performance_reports
 
-	job_type varchar(32) not null,		-- reference to performance_metrics_urls
+	job_type varchar(32) not null,
 	job_count int not null,
 	job_time int not null,
+
+	INDEX(report_id)
+);
+
+DROP TABLE IF EXISTS performance_report_slow_pages;
+CREATE TABLE performance_report_slow_pages (
+	id int not null auto_increment primary key,
+	report_id int not null,		-- reference to performance_reports
+
+	script_name varchar(32) not null,
+	page_count int not null,
+	page_time int not null,
 
 	INDEX(report_id)
 );

@@ -150,6 +150,14 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
+	$data['metrics_curl_slow_pages_graph'] = array(
+		'title' => "Slowest pages (graph)",
+		'heading' => "Slowest pages (ms)",
+		'description' => 'The slowest pages represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);
+
 	return $data;
 }
 

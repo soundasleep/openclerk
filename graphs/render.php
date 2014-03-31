@@ -909,3 +909,7 @@ function render_metrics_curl_slow_jobs_graph($graph) {
 	return render_metrics_graph($graph, 'jobs_slow', 'performance_report_slow_jobs', null, null, 'job', 'job_type');
 }
 
+function render_metrics_curl_slow_pages_graph($graph) {
+	return render_metrics_graph($graph, 'pages_slow', 'performance_report_slow_pages', null, null, 'page', 'script_name');
+}
+
