@@ -61,7 +61,7 @@ if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
 	$q->execute();
 	$job_count = $q->fetch();
 	if ($job_count['c'] >= get_site_config('maximum_jobs_running')) {
-		crypto_log("Not running any more jobs: too many jobs are running already (" . get_site_config('maximum_jobs_running') . ")")
+		crypto_log("Not running any more jobs: too many jobs are running already (" . get_site_config('maximum_jobs_running') . ")");
 		return;
 	}
 
