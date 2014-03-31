@@ -913,3 +913,7 @@ function render_metrics_curl_slow_pages_graph($graph) {
 	return render_metrics_graph($graph, 'pages_slow', 'performance_report_slow_pages', null, null, 'page', 'script_name');
 }
 
+function render_metrics_curl_slow_graphs_graph($graph) {
+	return render_metrics_graph($graph, 'graphs_slow', 'performance_report_slow_graphs', null, null, 'graph', 'graph_type');
+}
+

@@ -3298,3 +3298,15 @@ CREATE TABLE performance_report_slow_pages (
 
 	INDEX(report_id)
 );
+
+DROP TABLE IF EXISTS performance_report_slow_graphs;
+CREATE TABLE performance_report_slow_graphs (
+	id int not null auto_increment primary key,
+	report_id int not null,		-- reference to performance_reports
+
+	graph_type varchar(32) not null,
+	graph_count int not null,
+	graph_time int not null,
+
+	INDEX(report_id)
+);

@@ -104,6 +104,28 @@ crypto_log("Current time: " . date('r'));
 	crypto_log("Created report '$report_type'");
 }
 
+{
+	// "What graph types take the longest to render?"
+
+	$report_type = "graphs_slow";
+	// select the worst ten urls
+	$q = db()->prepare("SELECT graph_type, SUM(time_taken) AS time_taken, SUM(id) AS graph_count FROM performance_metrics_graphs
+			GROUP BY graph_type ORDER BY SUM(time_taken) / SUM(id) LIMIT 20");
+	$q->execute();
+	$data = $q->fetchAll();
+
+	$q = db()->prepare("INSERT INTO performance_reports SET report_type=?");
+	$q->execute(array($report_type));
+	$report_id = db()->lastInsertId();
+
+	foreach ($data as $row) {
+		$q = db()->prepare("INSERT INTO performance_report_slow_graphs SET report_id=?, graph_type=?, graph_time=?, graph_count=?");
+		$q->execute(array($report_id, $row['graph_type'], $row['time_taken'], $row['graph_count']));
+	}
+
+	crypto_log("Created report '$report_type'");
+}
+
 // not implemented yet:
 	// "What tables take the longest to query?"
 	// "How long does it take for a page to be generated?"
@@ -121,7 +143,6 @@ crypto_log("Current time: " . date('r'));
 	// "How many jobs are being queued at once?"
 	// "Which queue types take the longest?"
 
-	// "What graph types take the longest to render?"
 	// "What are the most common graph types?"
 	// "How many ticker graphs are being requested?"
 
