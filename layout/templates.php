@@ -160,12 +160,12 @@ function page_footer() {
 		$time_diff = ($end_time - PAGE_RENDER_START) * 1000;
 		echo "<!-- rendered in " . number_format($time_diff, 2) . " ms -->";
 
-		if (get_site_config('timed_sql')) {
+		if (get_site_config('timed_sql') && is_admin()) {
 			global $global_timed_sql;
 			echo "\n<!-- SQL debug: \n " . print_r($global_timed_sql, true) . "\n-->";
 		}
 
-		if (get_site_config('timed_curl')) {
+		if (get_site_config('timed_curl') && is_admin()) {
 			global $global_timed_curl;
 			echo "\n<!-- CURL debug: \n " . print_r($global_timed_curl, true) . "\n-->";
 		}
