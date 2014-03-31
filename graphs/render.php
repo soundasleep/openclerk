@@ -792,8 +792,8 @@ function render_metrics_db_slow_queries($graph) {
 		return;
 	}
 
-	$q = db()->prepare("SELECT * FROM performance_reports ORDER BY id DESC LIMIT 1");
-	$q->execute();
+	$q = db()->prepare("SELECT * FROM performance_reports WHERE report_type=? ORDER BY id DESC LIMIT 1");
+	$q->execute(array('db_slow_queries'));
 	$report = $q->fetch();
 	if (!$report) {
 		render_text($graph, "No report found.");
@@ -805,11 +805,12 @@ function render_metrics_db_slow_queries($graph) {
 			JOIN performance_metrics_pages AS p ON r.page_id=p.id 
 			WHERE report_id=?");
 	$q->execute(array($report['id']));
+	$data = array();
 	while ($query = $q->fetch()) {
 		$data[] = array(
 			htmlspecialchars($query['query']), 
 			number_format($query['query_count']), 
-			graph_number_format($query['query_time'] / $query['query_count']),
+			number_format($query['query_time'] / $query['query_count']),
 			"<a href=\"" . url_for($query['script_name']) . "\">" . $query['script_name'] . "</a>",
 		);
 	}
@@ -817,7 +818,48 @@ function render_metrics_db_slow_queries($graph) {
 	$head = array(array(
 		"Query",
 		"Count",
-		"Time (ms)",
+		"Average (ms)",
+		"Sample script",
+	));
+	$graph['last_updated'] = $report['created_at'];
+	render_table_vertical($graph, $data, $head);
+
+}
+
+function render_metrics_curl_slow_urls($graph) {
+
+	if (!is_admin()) {
+		render_text("This graph is for administrators only.");
+		return;
+	}
+
+	$q = db()->prepare("SELECT * FROM performance_reports WHERE report_type=? ORDER BY id DESC LIMIT 1");
+	$q->execute(array('curl_slow_urls'));
+	$report = $q->fetch();
+	if (!$report) {
+		render_text($graph, "No report found.");
+	}
+
+	// get all queires
+	$q = db()->prepare("SELECT * FROM performance_report_slow_urls AS r 
+			JOIN performance_metrics_urls AS q ON r.url_id=q.id
+			JOIN performance_metrics_pages AS p ON r.page_id=p.id 
+			WHERE report_id=?");
+	$q->execute(array($report['id']));
+	$data = array();
+	while ($url = $q->fetch()) {
+		$data[] = array(
+			"<a href=\"" . url_for($url['url']) . "\">" . htmlspecialchars($url['url']) . "</a>", 
+			number_format($url['url_count']), 
+			number_format($url['url_time'] / $url['url_count']),
+			"<a href=\"" . url_for($url['script_name']) . "\">" . $url['script_name'] . "</a>",
+		);
+	}
+
+	$head = array(array(
+		"URL",
+		"Count",
+		"Average (ms)",
 		"Sample script",
 	));
 	$graph['last_updated'] = $report['created_at'];

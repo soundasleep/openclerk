@@ -28,8 +28,11 @@ function batch_footer() {
 		// we're running from a web browser
 		// include page gen times etc
 		page_footer();
+	} else {
+		// we are running from the CLI
+		// we still need to calculate performance metrics
+		performance_metrics_page_end();
 	}
-	performance_metrics_page_end();
 }
 
 class JobException extends Exception { }

@@ -9,6 +9,8 @@ function performance_metrics_enabled() {
 
 $_performance_metrics = array();
 
+class PerformanceMetricsException extends Exception { }
+
 /**
  * Called when the page starts.
  */
@@ -29,6 +31,10 @@ function performance_metrics_page_end() {
 	}
 	global $_performance_metrics;
 	$page_time = microtime(true) - $_performance_metrics['page_start'];
+	if (isset($_performance_metrics['page_end'])) {
+		throw new PerformanceMetricsException("page_end called twice");
+	}
+	$_performance_metrics['page_end'] = true;
 
 	// "What database queries take the longest?"
 	// "What tables take the longest to query?"
@@ -92,21 +98,21 @@ function performance_metrics_page_end() {
 				if ($slow_url || $repeated_url) {
 
 					$url_substr = substr($url, 0, 255);
-					$q = db()->prepare("SELECT id FROM performance_metrics_urls WHERE query=? LIMIT 1");
+					$q = db()->prepare("SELECT id FROM performance_metrics_urls WHERE url=? LIMIT 1");
 					$q->execute(array($url_substr));
 					$pq = $q->fetch();
 					if (!$pq) {
-						$q = db()->prepare("INSERT INTO performance_metrics_urls SET query=?");
+						$q = db()->prepare("INSERT INTO performance_metrics_urls SET url=?");
 						$q->execute(array($url_substr));
 						$pq = array('id' => db()->lastInsertId());
 					}
 
 					if ($slow_url) {
-						$q = db()->prepare("INSERT INTO performance_metrics_slow_urls SET query_id=?, query_count=?, query_time=?, page_id=?");
+						$q = db()->prepare("INSERT INTO performance_metrics_slow_urls SET url_id=?, url_count=?, url_time=?, page_id=?");
 						$q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
 					}
 					if ($repeated_url) {
-						$q = db()->prepare("INSERT INTO performance_metrics_repeated_urls SET query_id=?, query_count=?, query_time=?, page_id=?");
+						$q = db()->prepare("INSERT INTO performance_metrics_repeated_urls SET url_id=?, url_count=?, url_time=?, page_id=?");
 						$q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
 					}
 
@@ -127,6 +133,10 @@ function performance_metrics_job_complete($job = null, $runtime_exception = null
 	}
 	global $_performance_metrics;
 	$job_time = microtime(true) - $_performance_metrics['page_start'];
+	if (isset($_performance_metrics['job_complete'])) {
+		throw new PerformanceMetricsException("job_complete called twice");
+	}
+	$_performance_metrics['job_complete'] = true;
 
 	// "What jobs take the longest?"
 	// "How many jobs are running per hour?"
@@ -164,6 +174,10 @@ function performance_metrics_queue_complete($user_id, $priority, $job_types, $pr
 	}
 	global $_performance_metrics;
 	$queue_time = microtime(true) - $_performance_metrics['page_start'];
+	if (isset($_performance_metrics['queue_complete'])) {
+		throw new PerformanceMetricsException("queue_complete called twice");
+	}
+	$_performance_metrics['queue_complete'] = true;
 
 	// "How many jobs are being queued at once?"
 	// "Which queue types take the longest?"
@@ -194,6 +208,10 @@ function performance_metrics_graph_complete($graph) {
 	}
 	global $_performance_metrics;
 	$graph_time = microtime(true) - $_performance_metrics['page_start'];
+	if (isset($_performance_metrics['graph_complete'])) {
+		throw new PerformanceMetricsException("graph_complete called twice");
+	}
+	$_performance_metrics['graph_complete'] = true;
 
 	// "What graph types take the longest to render?"
 	// "What are the most common graph types?"

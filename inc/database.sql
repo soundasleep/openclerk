@@ -3261,3 +3261,16 @@ CREATE TABLE performance_report_slow_queries (
 
 	INDEX(report_id)
 );
+
+DROP TABLE IF EXISTS performance_report_slow_urls;
+CREATE TABLE performance_report_slow_urls (
+	id int not null auto_increment primary key,
+	report_id int not null,		-- reference to performance_reports
+
+	url_id int not null,		-- reference to performance_metrics_urls
+	url_count int not null,
+	url_time int not null,
+	page_id int not null,		-- reference to performance_metrics_pages
+
+	INDEX(report_id)
+);

@@ -38,16 +38,29 @@ crypto_log("Current time: " . date('r'));
 	crypto_log("Created report '$report_type'");
 }
 
-// we've processed all the data we want; delete old metrics data
-if (false) {
-	$q = db()->prepare("DELETE FROM performance_metrics_slow_queries");
-	$q->execute();
-
-	crypto_log("Deleted old metric data.");
-}
-
 	// "What tables take the longest to query?"
+
+{
 	// "What URLs take the longest to request?"
+
+	$report_type = "curl_slow_urls";
+	// select the worst ten urls
+	$q = db()->prepare("SELECT url_id, SUM(url_count) AS qc, SUM(url_time) AS qt, MIN(page_id) AS pid FROM performance_metrics_slow_urls
+			GROUP BY url_id ORDER BY SUM(url_count) / SUM(url_time) LIMIT 10");
+	$q->execute();
+	$data = $q->fetchAll();
+
+	$q = db()->prepare("INSERT INTO performance_reports SET report_type=?");
+	$q->execute(array($report_type));
+	$report_id = db()->lastInsertId();
+
+	foreach ($data as $row) {
+		$q = db()->prepare("INSERT INTO performance_report_slow_urls SET report_id=?, url_id=?, url_count=?, url_time=?, page_id=?");
+		$q->execute(array($report_id, $row['url_id'], $row['qc'], $row['qt'], $row['pid']));
+	}
+
+	crypto_log("Created report '$report_type'");
+}
 	// "How long does it take for a page to be generated?"
 	// "What pages are taking the longest to load?"
 	// "What pages have the most database queries?"
@@ -69,5 +82,13 @@ if (false) {
 	// "What are the most common graph types?"
 	// "How many ticker graphs are being requested?"
 
+
+// we've processed all the data we want; delete old metrics data
+if (false) {
+	$q = db()->prepare("DELETE FROM performance_metrics_slow_queries");
+	$q->execute();
+
+	crypto_log("Deleted old metric data.");
+}
 
 batch_footer();

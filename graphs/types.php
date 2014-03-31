@@ -118,6 +118,14 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
+	$data['metrics_curl_slow_urls'] = array(
+		'title' => "Slowest CURL URLs",
+		'heading' => "Slowest CURL URLs",
+		'description' => 'The slowest CURL requests.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);
+
 	return $data;
 }
 
