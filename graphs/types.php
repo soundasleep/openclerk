@@ -158,7 +158,7 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
-	$data['metrics_curl_slow_jobs_graph'] = array(
+	$data['metrics_slow_jobs_graph'] = array(
 		'title' => "Slowest jobs (graph)",
 		'heading' => "Slowest jobs (ms)",
 		'description' => 'The slowest jobs represented as a graph over time.',
@@ -166,7 +166,7 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
-	$data['metrics_curl_slow_pages_graph'] = array(
+	$data['metrics_slow_pages_graph'] = array(
 		'title' => "Slowest pages (graph)",
 		'heading' => "Slowest pages (ms)",
 		'description' => 'The slowest pages represented as a graph over time.',
@@ -174,10 +174,18 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
-	$data['metrics_curl_slow_graphs_graph'] = array(
+	$data['metrics_slow_graphs_graph'] = array(
 		'title' => "Slowest graphs (graph)",
 		'heading' => "Slowest graphs (ms)",
 		'description' => 'The slowest graphs represented as a graph over time.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);	
+
+	$data['metrics_slow_graphs_count_graph'] = array(
+		'title' => "Slowest graphs frequency (graph)",
+		'heading' => "Slowest graphs frequency",
+		'description' => 'The frequency that the slowest graphs are requested, represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
 	);	

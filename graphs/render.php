@@ -968,16 +968,20 @@ function render_metrics_curl_slow_urls_graph($graph) {
 	return render_metrics_graph($graph, 'curl_slow_urls', 'performance_report_slow_urls', 'performance_metrics_urls', 'url_id', 'url');
 }
 
-function render_metrics_curl_slow_jobs_graph($graph) {
+function render_metrics_slow_jobs_graph($graph) {
 	return render_metrics_graph($graph, 'jobs_slow', 'performance_report_slow_jobs', null, null, 'job', 'job_type');
 }
 
-function render_metrics_curl_slow_pages_graph($graph) {
+function render_metrics_slow_pages_graph($graph) {
 	return render_metrics_graph($graph, 'pages_slow', 'performance_report_slow_pages', null, null, 'page', 'script_name');
 }
 
-function render_metrics_curl_slow_graphs_graph($graph) {
+function render_metrics_slow_graphs_graph($graph) {
 	return render_metrics_graph($graph, 'graphs_slow', 'performance_report_slow_graphs', null, null, 'graph', 'graph_type');
+}
+
+function render_metrics_slow_graphs_count_graph($graph) {
+	return render_metrics_graph($graph, 'graphs_slow', 'performance_report_slow_graphs', null, null, null, 'graph_type', 'graph_count');
 }
 
 function render_metrics_jobs_frequency_graph($graph) {
