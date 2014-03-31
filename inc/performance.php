@@ -220,7 +220,7 @@ function performance_metrics_graph_complete($graph) {
 		$query = "INSERT INTO performance_metrics_graphs SET graph_type=:graph_type, time_taken=:time_taken, is_logged_in=:is_logged_in, 
 			days=:days, has_technicals=:has_technicals";
 		$args = array(
-			'graph_type' => $graph['graph_type'],
+			'graph_type' => substr($graph['graph_type'], 0, 33),
 			'time_taken' => $graph_time * 1000, /* save in ms */
 			'is_logged_in' => user_logged_in() ? 1 : 0,
 			'days' => $graph['days'] ? $graph['days'] : null,
