@@ -110,6 +110,10 @@ if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |
 	crypto_log("Address is valid, but has too many records to display");
 	throw new ExternalAPIException("Address has too many transactions");
 
+} else if (strpos(strtolower($html), "500 internal server error") !== false) {
+	crypto_log("Server returned 500 Internal Server Error");
+	throw new ExternalAPIException("Server returned 500 Internal Server Error");
+
 } else {
 	throw new ExternalAPIException("Could not find balance on page");
 }
