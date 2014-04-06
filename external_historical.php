@@ -31,6 +31,7 @@ $graph = array(
 	'id' => 0,
 	'arg0_resolved' => $type,
 	'public' => true,
+	'no_technicals' => true,
 );
 
 page_header('External API Status: ' . htmlspecialchars($api_title), "page_external_historical", array('common_js' => true, 'jquery' => true, 'jsapi' => true));

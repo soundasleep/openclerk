@@ -43,6 +43,7 @@ if ($id && isset($historical_graphs[$id])) {
 		'arg0_resolved' => $name,
 		'delta' => $delta,
 		'public' => true,
+		'no_technicals' => true,
 	);
 
 	$extra_args = $name ? array("name" => $name) : array();
