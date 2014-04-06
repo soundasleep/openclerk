@@ -12,6 +12,7 @@ class CacheException extends Exception { }
  *
  * @param $hash must be <32 chars
  * @param $age the maximum age for the cache in seconds
+ * @param $callback the function which will generate the content if the cache is invalidated or missing
  */
 function compile_cached($key, $hash, $age, $callback) {
 	if (strlen($hash) > 255) {
