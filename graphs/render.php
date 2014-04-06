@@ -785,6 +785,77 @@ function render_site_statistics_queue($graph) {
 
 }
 
+function render_site_admin_statistics($graph) {
+
+	if (!is_admin()) {
+		render_text("This graph is for administrators only.");
+		return;
+	}
+
+	$summary = array(
+		'users' => array('title' => 'Users', 'extra' => array('is_disabled=1' => 'Disabled')),
+		'addresses' => array('title' => 'Addresses'),
+		'jobs' => array('title' => 'Jobs', 'extra' => array('is_executed=0' => 'Pending')),
+		'outstanding_premiums' => array('title' => 'Premiums', 'extra' => array('is_paid=1' => 'Paid')),
+		'uncaught_exceptions' => array('title' => 'Uncaught exceptions'),
+		'ticker' => array('title' => 'Ticker instances'),
+	);
+	$result = array();
+	foreach ($summary as $key => $data) {
+		$row = array();
+		$row[0] = $data['title'];
+		if (isset($data['extra'])) {
+			foreach ($data['extra'] as $extra_key => $extra_title) {
+				$row[0] .= " ($extra_title)";
+			}
+		}
+		$parts = array(
+			'1', 
+			'created_at >= date_sub(now(), interval 7 day)', 
+			'created_at >= date_sub(now(), interval 1 day)', 
+			'created_at >= date_sub(now(), interval 1 hour)',
+		);
+		foreach ($parts as $query) {
+			$q = db()->prepare("SELECT COUNT(*) AS c FROM $key WHERE $query");
+			$q->execute();
+			$c = $q->fetch();
+			$row[] = number_format($c['c']);
+
+			if (isset($data['extra'])) {
+				foreach ($data['extra'] as $extra_key => $extra_title) {
+					$q = db()->prepare("SELECT COUNT(*) AS c FROM $key WHERE $query AND $extra_key");
+					$q->execute();
+					$c = $q->fetch();
+					$row[count($row)-1] .= " (" . number_format($c['c']) . ")";
+				}
+			}
+
+		}
+		$result[] = $row;
+	}
+
+	$row = array("Unused premium addresses");
+	$q = db()->prepare("SELECT currency, COUNT(*) AS c FROM premium_addresses WHERE is_used=0 GROUP BY currency");
+	$q->execute();
+	while ($c = $q->fetch()) {
+		$row[] = number_format($c['c']) . " (" . get_currency_abbr($c['currency']) . ")";
+	}
+	$result[] = $row;
+
+	// issue #133: Job Queue Delay is calculated through site_statistics
+
+	$head = array(array(
+		"",
+		"Total",
+		"Last week",
+		"Last day",
+		"Last hour",
+	));
+	$graph['last_updated'] = time();
+	return render_table_vertical($graph, $result, $head);
+
+}
+
 function render_site_statistics_system_load($graph, $type = "") {
 
 	if (!is_admin()) {

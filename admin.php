@@ -19,6 +19,25 @@ page_header("Status", "page_admin", array('common_js' => true, 'jquery' => true,
 
 <h1>Site Status</h1>
 
+<?php
+
+$graph = array(
+	'graph_type' => 'admin_statistics',
+	'width' => 5,
+	'height' => 2,
+	'page_order' => 0,
+	// 'days' => 30,
+	'delta' => '',
+	'id' => 0,
+	'public' => true,
+);
+
+?>
+
+	<div class="graph_collection" style="float: right; width: 50%;">
+		<?php render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); ?>
+	</div>
+
 <ul>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_jobs")); ?>">Job status</a> - <a href="<?php echo htmlspecialchars(url_for("admin_jobs", array('oldest' => true))); ?>">oldest jobs</a> - <a href="<?php echo htmlspecialchars(url_for("admin_jobs_distribution")); ?>">jobs distribution</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_email")); ?>">Send test e-mail</a></li>
@@ -30,74 +49,7 @@ page_header("Status", "page_admin", array('common_js' => true, 'jquery' => true,
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_metrics")); ?>">Site Performance Metrics</a></li>
 </ul>
 
-<table class="standard">
-<thead>
-	<tr>
-		<th></th>
-		<th>Total</th>
-		<th>Last week</th>
-		<th>Last day</th>
-		<th>Last hour</th>
-	</tr>
-</thead>
-<tbody>
-<?php
-	$summary = array(
-		'users' => array('title' => 'Users', 'extra' => array('is_disabled=1' => 'Disabled')),
-		'addresses' => array('title' => 'Addresses'),
-		'jobs' => array('title' => 'Jobs', 'extra' => array('is_executed=0' => 'Pending')),
-		'outstanding_premiums' => array('title' => 'Premiums', 'extra' => array('is_paid=1' => 'Paid')),
-		'uncaught_exceptions' => array('title' => 'Uncaught exceptions'),
-		'ticker' => array('title' => 'Ticker instances'),
-	);
-	foreach ($summary as $key => $data) {
-		echo "<tr>";
-		echo "<th>" . $data['title'];
-		if (isset($data['extra'])) {
-			foreach ($data['extra'] as $extra_key => $extra_title) {
-				echo " ($extra_title)";
-			}
-		}
-		echo "</th>\n";
-		$parts = array(
-			'1', 
-			'created_at >= date_sub(now(), interval 7 day)', 
-			'created_at >= date_sub(now(), interval 1 day)', 
-			'created_at >= date_sub(now(), interval 1 hour)',
-		);
-		foreach ($parts as $query) {
-			$q = db()->prepare("SELECT COUNT(*) AS c FROM $key WHERE $query");
-			$q->execute();
-			$c = $q->fetch();
-			echo "<td class=\"number\">" . number_format($c['c']);
-
-			if (isset($data['extra'])) {
-				foreach ($data['extra'] as $extra_key => $extra_title) {
-					$q = db()->prepare("SELECT COUNT(*) AS c FROM $key WHERE $query AND $extra_key");
-					$q->execute();
-					$c = $q->fetch();
-					echo " (" . number_format($c['c']) . ")";
-				}
-			}
-
-			echo "</td>\n";
-		}
-		echo "</tr>";
-	}
-	echo "<tr>";
-	echo "<th>Unused Premium Addresses</th>";
-	$q = db()->prepare("SELECT currency, COUNT(*) AS c FROM premium_addresses WHERE is_used=0 GROUP BY currency");
-	$q->execute();
-	while ($c = $q->fetch()) {
-		echo "<td class=\"number\">" . number_format($c['c']) . " (" . get_currency_abbr($c['currency']) . ")</td>";
-	}
-	echo "</tr>";
-	// Job Queue Delay is calculated through site_statistics
-?>
-</tbody>
-</table>
-
-<h2><a href="<?php echo htmlspecialchars(url_for('admin_exceptions')); ?>">Recent Exceptions</a></h2>
+<h2 style="clear: both;"><a href="<?php echo htmlspecialchars(url_for('admin_exceptions')); ?>">Recent Exceptions</a></h2>
 
 <?php
 $limit = 20;
@@ -115,7 +67,7 @@ $graph = array(
 	'page_order' => 0,
 	// 'days' => 30,
 	'delta' => '',
-	'id' => 0,
+	'id' => 1,
 	'public' => true,
 );
 

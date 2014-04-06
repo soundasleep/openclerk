@@ -110,6 +110,14 @@ function graph_types_public($summaries = array()) {
 		'admin' => true,	// should only be accessible by admins
 	);
 
+	$data['admin_statistics'] = array(
+		'title' => "Site status (table)",
+		'heading' => "Site status",
+		'description' => 'Key performance metics of the site.',
+		'hide' => true,		// should only be accessible by admins
+		'admin' => true,	// should only be accessible by admins
+	);
+
 	$data['statistics_system_load'] = array(
 		'title' => "System load (graph)",
 		'heading' => "System load (hours)",

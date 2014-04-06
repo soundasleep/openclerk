@@ -41,6 +41,8 @@ function render_graph($graph, $is_public = false) {
 		// let's not crash with an exception, let's just display an error
 		render_graph_controls($graph);
 		render_text($graph, "Unknown graph type " . htmlspecialchars($graph['graph_type']));
+		echo "</div>";
+		// TODO this doesn't render the performance metrics etc below
 		log_uncaught_exception(new GraphException("Unknown graph type " . htmlspecialchars($graph['graph_type'])));
 		return;
 	}
@@ -499,6 +501,10 @@ function render_graph_actual($graph, $is_public) {
 
 		case "statistics_queue":
 			render_site_statistics_queue($graph);
+			break;
+
+		case "admin_statistics":
+			render_site_admin_statistics($graph);
 			break;
 
 		case "statistics_system_load":
