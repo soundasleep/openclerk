@@ -846,10 +846,10 @@ function render_site_admin_statistics($graph) {
 
 	$head = array(array(
 		"",
-		"Total",
-		"Last week",
-		"Last day",
-		"Last hour",
+		array('title' => "Total", 'class' => 'number'),
+		array('title' => "Last week", 'class' => 'number'),
+		array('title' => "Last day", 'class' => 'number'),
+		array('title' => "Last hour", 'class' => 'number'),
 	));
 	$graph['last_updated'] = time();
 	return render_table_vertical($graph, $result, $head);

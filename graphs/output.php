@@ -27,7 +27,8 @@ function render_table_vertical($graph, $data, $head = array()) {
 	foreach ($head as $row) {
 		echo "<tr>";
 		foreach ($row as $i => $item) {
-			echo "<th>" . $item . "</th>";	// assumed to be html escaped
+			$title = isset($item['title']) ? $item['title'] : $item;
+			echo "<th>" . $title . "</th>";	// assumed to be html escaped
 		}
 		echo "</tr>\n";
 	}
@@ -37,7 +38,8 @@ function render_table_vertical($graph, $data, $head = array()) {
 <?php foreach ($data as $row) {
 	echo "<tr>";
 	foreach ($row as $i => $item) {
-		echo ($i == 0 ? "<th>" : "<td>");
+		$class = isset($head[0][$i]['class']) ? $head[0][$i]['class'] : "";
+		echo ($i == 0 ? "<th class=\"" . $class . "\">" : "<td class=\"" . $class . "\">");
 		echo $item;	// assumed to be html escaped
 		echo ($i == 0 ? "</th>" : "</td>");
 	}
