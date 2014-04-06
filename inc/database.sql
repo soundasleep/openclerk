@@ -3331,3 +3331,15 @@ ALTER TABLE performance_report_slow_graphs ADD graph_database int null;
 
 ALTER TABLE site_statistics ADD mysql_locks_immediate int;
 ALTER TABLE site_statistics ADD mysql_locks_blocked int;
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.19.1 to 0.20
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+-- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
+DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
+
+-- issue #133: improve performance of admin page
+ALTER TABLE jobs ADD INDEX(created_at);
+ALTER TABLE uncaught_exceptions ADD INDEX(created_at);
+ALTER TABLE ticker ADD INDEX(created_at);

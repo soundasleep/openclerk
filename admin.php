@@ -59,7 +59,12 @@ page_header("Status", "page_admin", array('common_js' => true, 'jquery' => true,
 			}
 		}
 		echo "</th>\n";
-		$parts = array('1', 'date_add(created_at, interval 7 day) >= now()', 'date_add(created_at, interval 1 day) >= now()', 'date_add(created_at, interval 1 hour) >= now()');
+		$parts = array(
+			'1', 
+			'created_at >= date_sub(now(), interval 7 day)', 
+			'created_at >= date_sub(now(), interval 1 day)', 
+			'created_at >= date_sub(now(), interval 1 hour)',
+		);
 		foreach ($parts as $query) {
 			$q = db()->prepare("SELECT COUNT(*) AS c FROM $key WHERE $query");
 			$q->execute();
