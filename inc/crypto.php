@@ -259,7 +259,7 @@ function get_exchange_pairs() {
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'), 
-				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp')),
+				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils')),
 		"vaultofsatoshi" => array(
 				array('usd', 'btc'), array('usd', 'ltc'), array('usd', 'ppc'), array('usd', 'dog'), array('usd', 'ftc'), array('usd', 'xpm'),
 				array('cad', 'btc'), array('cad', 'ltc'), array('cad', 'ppc'), array('cad', 'dog'), array('cad', 'ftc'), array('cad', 'xpm'),
@@ -352,8 +352,8 @@ function get_supported_wallets() {
 		"coinhuntr" => array('ltc', 'hash'),
 		"cryptopools" => array('dgc', 'hash'),		// other coins available
 		"cryptostocks" => array('btc', 'ltc'),
-		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc'),
-		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc'),
+		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc'),
+		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc'),
 		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
 		"d2" => array('wdc', 'hash'),				// other coins available
 		"dedicatedpool" => array('dog', 'hash'),		// other coins available
