@@ -208,7 +208,6 @@ function get_all_exchanges() {
 		"cryptopools_dgc" => "CryptoPools",
 		"d2" => "d2",
 		"d2_wdc" => "d2",
-		"kraken" => "Kraken",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -357,7 +356,6 @@ function get_supported_wallets() {
 		"hypernova" => array('ltc', 'hash'),
 		"justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),	 // supports btc, usd, eur, nok, ltc
 		"khore" => array('nvc', 'hash'),
-		"kraken" => array('btc', 'eur'), // TODO complete
 		"litecoinpool" => array('ltc', 'hash'),
 		"litecoininvest" => array('ltc'),
 		"liteguardian" => array('ltc'),
@@ -401,7 +399,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("kraken", "ils");
+	return array("bit2c");
 }
 
 function get_summary_types() {
@@ -610,7 +608,6 @@ function account_data_grouped() {
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-			'kraken' => array('table' => 'accounts_kraken', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -779,7 +776,6 @@ function get_external_apis() {
 			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'cryptsy' => '<a href="https://www.cryptsy.com/">Crypsty</a>',
 			'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
-			'kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
@@ -1587,15 +1583,6 @@ function get_accounts_wizard_config_basic($exchange) {
 				'title' => 'd2 DOGE account',
 				'khash' => true,
 				'title_key' => 'd2',
-			);
-
-		case "kraken":
-			return array(
-				'inputs' => array(
-					'api_key' => array('title' => 'API Key', 'callback' => 'is_valid_kraken_apikey'),
-					'api_secret' => array('title' => 'Secret', 'callback' => 'is_valid_kraken_apisecret', 'length' => 128),
-				),
-				'table' => 'accounts_kraken',
 			);
 
 		// --- securities ---
@@ -2510,16 +2497,6 @@ function is_valid_vaultofsatoshi_apikey($key) {
 function is_valid_vaultofsatoshi_apisecret($key) {
 	// looks like a 64 character alphanumeric string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_kraken_apikey($key) {
-	// looks like a 56 character alphanumeric string
-	return strlen($key) == 56 && preg_match("#^[A-Za-z0-9]+$#", $key);
-}
-
-function is_valid_kraken_apisecret($key) {
-	// looks like a long base64 string
-	return strlen($key) > 32 && preg_match("#^[A-Za-z0-9/+=]+$#", $key);
 }
 
 function is_valid_mpos_apikey($key) {

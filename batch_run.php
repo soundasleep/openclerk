@@ -499,10 +499,6 @@ try {
 			require(__DIR__ . "/jobs/d2_wdc.php");
 			break;
 
-		case "kraken":
-			require(__DIR__ . "/jobs/kraken.php");
-			break;
-
 		case "bit2c":
 			require(__DIR__ . "/jobs/bit2c.php");
 			break;
