@@ -34,6 +34,7 @@
 		<li><span class="currency_name_ixc"><a href="http://www.ixcoin.co/" target="_blank">Ixcoin</a> - <a href="http://www.ixcoin.co/?page_id=18" target="_blank">Ixcoin Frequently Asked Questions</a></span></li>
 		<li><span class="currency_name_vtc"><a href="http://www.vertcoin.org/" target="_blank">Vertcoin</a> - <a href="http://vertcoinforum.com/" target="_blank">Vertcoin Forum</a></span></li>
 		<li><span class="currency_name_net"><a href="http://netcoinfoundation.org/" target="_blank">Netcoin</a> - <a href="http://forum.netcoinfoundation.org/" target="_blank">Netcoin Forum</a></span></li>
+		<li><span class="currency_name_hbn"><a href="http://hobonickels.info/" target="_blank">Hobonickels</a> - <a href="http://www.reddit.com/r/hobonickel" target="_blank">/r/hobonickel</a></span></li>
 	</ul>
 </p>
 

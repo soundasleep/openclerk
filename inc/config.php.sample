@@ -142,6 +142,8 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"vtc_balance_url" => "http://vertexplorer.com/api/addr/",
 		"net_address_url" => "http://explorer.netcoinfoundation.org/address/",
 		"net_block_url" => "http://explorer.netcoinfoundation.org/chain/Netcoin/q/getblockcount",
+		"hbn_address_url" => "http://162.217.249.198:1080/address/",
+		"hbn_block_url" => "http://162.217.249.198:1080/chain/Hobonickels/q/getblockcount",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
@@ -158,6 +160,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"ixc_confirmations" => 6,
 		// "vtc_confirmations" => 6, -- not supported
 		"net_confirmations" => 6,
+		"hbn_confirmations" => 6,
 		
 		// register Coinbase Applications through https://coinbase.com/oauth/applications
 		"coinbase_client_id" => 'xxx',

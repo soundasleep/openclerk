@@ -3420,3 +3420,17 @@ CREATE TABLE netcoin_blocks (
 	
 	INDEX(is_recent)
 );
+
+-- issue #44: add Hobonickels HBN cryptocurrency
+DROP TABLE IF EXISTS hobonickels_blocks;
+
+CREATE TABLE hobonickels_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);
