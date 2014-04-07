@@ -3,3 +3,4 @@
 --
 -- You should only run these queries if you have enabled the unsafe flag:
 -- see http://code.google.com/p/openclerk/wiki/Unsafe
+

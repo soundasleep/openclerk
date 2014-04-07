@@ -6,7 +6,7 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ghs");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "ghs");
 }
 
 function get_all_hashrate_currencies() {
@@ -19,7 +19,7 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("dgc", "wdc");
+	return array("ils");
 }
 
 function get_all_cryptocurrencies() {
@@ -65,6 +65,7 @@ function get_currency_name($n) {
 		case "pln": return "Polish zloty";	// not unicode! should be -l
 		case "eur": return "Euro";
 		case "gbp":	return "Pound sterling";
+		case "ils":	return "Israeli new shekel";
 		case "ghs": return "CEX.io GHS";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
 	}
@@ -98,6 +99,7 @@ function get_blockchain_currencies() {
 
 function get_all_exchanges() {
 	return array(
+		"bit2c" => 			"Bit2c",
 		"bitnz" =>  		"BitNZ",
 		"btce" =>  			"BTC-e",
 		"mtgox" =>  		"Mt.Gox",
@@ -229,6 +231,7 @@ function get_new_exchanges() {
 function get_exchange_pairs() {
 	return array(
 		// should be in alphabetical order
+		"bit2c" => array(array('ils', 'btc'), array('ils', 'ltc'), array('btc', 'ltc')),
 		"bitcurex" => array(array('pln', 'btc'), array('eur', 'btc')),
 		"bitnz" => array(array('nzd', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
@@ -278,6 +281,9 @@ function get_new_exchange_pairs() {
 		"themoneyconverter_usdgbp",
 		"virtex_cadltc",
 		"virtex_btcltc",
+		"bit2c_ilsbtc",
+		"bit2c_ilsltc",
+		"bit2c_btcltc",
 	);
 }
 
@@ -321,6 +327,7 @@ function get_supported_wallets() {
 		"796" => array('btc', 'ltc', 'usd'),
 		"beeeeer" => array('xpm'),
 		"bips" => array('btc', 'usd'),
+		"bit2c" => array('btc', 'ltc', 'ils'),
 		"bitcurex_eur" => array('btc', 'eur'),
 		"bitcurex_pln" => array('btc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
@@ -394,7 +401,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("kraken");
+	return array("kraken", "ils");
 }
 
 function get_summary_types() {
@@ -464,6 +471,7 @@ function get_default_currency_exchange($c) {
 		case "cad": return "virtex";
 		case "cny": return "btcchina";
 		case "pln": return "bitcurex";
+		case "ils": return "bit2c";
 		// commodities
 		case "ghs": return "cexio";
 		default: throw new Exception("Unknown currency to exchange into: $c");
@@ -592,6 +600,7 @@ function account_data_grouped() {
 		),
 		'Exchanges' => array(
 			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
+			'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'unsafe' => true),
 			'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -758,6 +767,7 @@ function get_external_apis() {
 
 		"Exchange wallets" => array(
 			'bips' => '<a href="https://bips.me">BIPS</a>',
+			'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
 			'bitcurex_eur' => '<a href="https://eur.bitcurex.com/">Bitcurex EUR</a>',
 			'bitcurex_pln' => '<a href="https://pln.bitcurex.com/">Bitcurex PLN</a>',
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
@@ -1447,6 +1457,16 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bips_apikey'),
 				),
 				'table' => 'accounts_bips',
+			);
+
+		case "bit2c":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bit2c_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bit2c_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_bit2c',
+				'title' => 'Bit2c account',
 			);
 
 		case "bitcurex_pln":
@@ -2221,6 +2241,16 @@ function is_valid_trc_address($address) {
 
 function is_valid_mmcfe_apikey($key) {
 	// not sure what the format should be, seems to be 64 character hexadecmial
+	return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
+}
+
+function is_valid_bit2c_apikey($key) {
+	// not sure what the format should be
+	return preg_match("#^[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+$#", $key);
+}
+
+function is_valid_bit2c_apisecret($key) {
+	// not sure what the format should be
 	return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
 }
 

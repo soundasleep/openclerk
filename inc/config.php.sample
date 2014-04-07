@@ -74,7 +74,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"jobs_enabled" => true,		// disable when performing upgrades
 		"maximum_jobs_running" => 20,		// issue #128: don't run more than this many jobs at once (except for forced jobs)
 		"sleep_btce_ticker" => 5,	// how many seconds to wait between repeated btc-e ticker queries
-		"sleep_cexio_ticker" => 5,
+		"sleep_bit2c_ticker" => 5,		"sleep_cexio_ticker" => 5,
 		"sleep_virtex_ticker" => 5,
 		"sleep_mtgox_ticker" => 5,
 		"sleep_vircurex_balance" => 5,

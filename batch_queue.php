@@ -81,6 +81,7 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'digitalcoin', 'query' => ' AND currency=\'dgc\''), // make sure to add _block job below too
 	array('table' => 'addresses', 'type' => 'worldcoin', 'query' => ' AND currency=\'wdc\''), // make sure to add _block job below too
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
+	array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
 	array('table' => 'accounts_mtgox', 'type' => 'mtgox', 'failure' => true),
 	array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'failure' => true),
