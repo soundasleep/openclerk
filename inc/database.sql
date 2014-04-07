@@ -3369,3 +3369,4 @@ UPDATE exchanges SET track_reported_currencies=1 WHERE name='crypto-trade';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='cryptsy';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='justcoin';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='themoneyconverter';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='vircurex';
