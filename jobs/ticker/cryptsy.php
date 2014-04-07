@@ -5,21 +5,27 @@
  */
 
 $rates_list = array(
-	array('cur1' => 'btc', 'cur2' => 'ltc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ftc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'dog'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'mec'), // all flipped around
-	array('cur1' => 'ltc', 'cur2' => 'mec'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'dgc'), // all flipped around
-	array('cur1' => 'ltc', 'cur2' => 'dgc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'wdc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'ltc'),
+	array('cur1' => 'btc', 'cur2' => 'ftc'),
+	array('cur1' => 'btc', 'cur2' => 'nvc'),
+	array('cur1' => 'btc', 'cur2' => 'ppc'),
+	array('cur1' => 'btc', 'cur2' => 'trc'),
+	array('cur1' => 'btc', 'cur2' => 'dog'),
+	array('cur1' => 'btc', 'cur2' => 'mec'),
+	array('cur1' => 'ltc', 'cur2' => 'mec'),
+	array('cur1' => 'btc', 'cur2' => 'dgc'),
+	array('cur1' => 'ltc', 'cur2' => 'dgc'),
+	array('cur1' => 'btc', 'cur2' => 'wdc'),
+	// 0.20
+	array('cur1' => 'btc', 'cur2' => 'nmc'),
 	// currencies not yet exposed to users or public
-	array('cur1' => 'btc', 'cur2' => 'ixc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'mnc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'xpm'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'ixc'),
+	array('cur1' => 'btc', 'cur2' => 'mnc'),
+	array('cur1' => 'btc', 'cur2' => 'xpm'),
+	array('cur1' => 'usd', 'cur2' => 'btc'),
+	array('cur1' => 'usd', 'cur2' => 'ftc'),
+	array('cur1' => 'usd', 'cur2' => 'ltc'),
+	array('cur1' => 'usd', 'cur2' => 'dog'),
 	// lots of others
 );
 
