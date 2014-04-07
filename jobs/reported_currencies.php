@@ -29,6 +29,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/cexio.php");
 		break;
 
+	case "coinbase":
+		require(__DIR__ . "/reported_currencies/coinbase.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange to report currencies " . $exchange['name']);
 		break;
