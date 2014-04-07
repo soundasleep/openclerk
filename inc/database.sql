@@ -3343,3 +3343,20 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 ALTER TABLE jobs ADD INDEX(created_at);
 ALTER TABLE uncaught_exceptions ADD INDEX(created_at);
 ALTER TABLE ticker ADD INDEX(created_at);
+
+-- issue #121: track supported currencies from API responses
+DROP TABLE IF EXISTS reported_currencies;
+CREATE TABLE reported_currencies (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+
+	exchange varchar(32) not null,
+	currency varchar(16) not null,	-- we could be getting currencies in any format or length
+
+	INDEX(exchange, currency)
+);
+
+ALTER TABLE exchanges ADD track_reported_currencies tinyint not null default 0;
+ALTER TABLE exchanges ADD INDEX(track_reported_currencies);
+
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='vaultofsatoshi';

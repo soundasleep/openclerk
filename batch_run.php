@@ -146,6 +146,10 @@ try {
 			require(__DIR__ . "/jobs/ticker.php");
 			break;
 
+		case "reported_currencies":
+			require(__DIR__ . "/jobs/reported_currencies.php");
+			break;
+
 		// address jobs
 		case "blockchain":
 			require(__DIR__ . "/jobs/blockchain.php");
