@@ -49,6 +49,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/justcoin.php");
 		break;
 
+	case "themoneyconverter":
+		require(__DIR__ . "/reported_currencies/themoneyconverter.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange to report currencies " . $exchange['name']);
 		break;
