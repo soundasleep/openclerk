@@ -3412,4 +3412,3 @@ CREATE TABLE accounts_bit2c (
 );
 
 INSERT INTO exchanges SET name='bit2c';
-
