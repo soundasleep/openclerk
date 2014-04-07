@@ -3406,3 +3406,17 @@ CREATE TABLE ixcoin_blocks (
 	
 	INDEX(is_recent)
 );
+
+-- issue #108: add Netcoin NET cryptocurrency
+DROP TABLE IF EXISTS netcoin_blocks;
+
+CREATE TABLE netcoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

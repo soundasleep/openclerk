@@ -19,6 +19,8 @@ $rates_list = array(
 	// 0.20
 	array('cur1' => 'btc', 'cur2' => 'nmc'),
 	array('cur1' => 'btc', 'cur2' => 'vtc'),
+	array('cur1' => 'btc', 'cur2' => 'net'),
+	array('cur1' => 'ltc', 'cur2' => 'net'),
 	// currencies not yet exposed to users or public
 	array('cur1' => 'btc', 'cur2' => 'ixc'),
 	array('cur1' => 'btc', 'cur2' => 'mnc'),

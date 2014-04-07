@@ -140,6 +140,8 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"ixc_block_url" => "http://block.al.tcoin.info/chain/Ixcoin/q/getblockcount",
 		"vtc_address_url" => "http://vertexplorer.com/address/",
 		"vtc_balance_url" => "http://vertexplorer.com/api/addr/",
+		"net_address_url" => "http://explorer.netcoinfoundation.org/address/",
+		"net_block_url" => "http://explorer.netcoinfoundation.org/chain/Netcoin/q/getblockcount",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
@@ -155,6 +157,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"wdc_confirmations" => 6,
 		"ixc_confirmations" => 6,
 		// "vtc_confirmations" => 6, -- not supported
+		"net_confirmations" => 6,
 		
 		// register Coinbase Applications through https://coinbase.com/oauth/applications
 		"coinbase_client_id" => 'xxx',
