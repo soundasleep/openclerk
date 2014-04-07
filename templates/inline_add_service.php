@@ -29,7 +29,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>CampBX (read-only API <a href="https://bitcointalk.org/index.php?topic=192423.msg2868088#msg2868088">"coming in September"</a>)</li>
 	<li>CoinJar (<a href="https://support.coinjar.com/discussions/suggestions/271-read-only-api-access">requested</a>)</li>
 	<li>Coinotron (on development list)</li>
-	<li>CoinEX</li>
+	<li>CoinEX (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/37">#37</a>)</li>
 </ul>
 </div>
 <div class="column">
@@ -39,6 +39,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>fast-pool.com</li>
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
 	<li>Intersango (registration is closed)</li>
+	<li>mcxNOW (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/91">#91</a>)</li>
 	<li>NetcodePool (all currencies)</li>
 	<li>Safello</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
