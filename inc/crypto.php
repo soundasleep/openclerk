@@ -255,7 +255,7 @@ function get_exchange_pairs() {
 			// also qrk
 		),
 		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog'), array('btc', 'dgc'), array('btc', 'wdc')),
-		"virtex" => array(array('cad', 'btc')),
+		"virtex" => array(array('cad', 'btc'), array('cad', 'ltc'), array('btc', 'ltc')),
 	);
 }
 
@@ -275,6 +275,8 @@ function get_new_exchange_pairs() {
 		"coins-e_btcdgc",
 		"cryptsy_btcnmc",
 		"themoneyconverter_usdgbp",
+		"virtex_cadltc",
+		"virtex_btcltc",
 	);
 }
 
