@@ -503,6 +503,10 @@ try {
 			require(__DIR__ . "/jobs/kraken.php");
 			break;
 
+		case "bit2c":
+			require(__DIR__ . "/jobs/bit2c.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/jobs/individual_cryptostocks.php");
