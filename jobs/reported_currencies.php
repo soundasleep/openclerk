@@ -37,6 +37,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/coins-e.php");
 		break;
 
+	case "crypto-trade":
+		require(__DIR__ . "/reported_currencies/crypto-trade.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange to report currencies " . $exchange['name']);
 		break;

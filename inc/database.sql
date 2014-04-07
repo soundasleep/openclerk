@@ -3365,3 +3365,4 @@ UPDATE exchanges SET track_reported_currencies=1 WHERE name='btce';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='cexio';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='coinbase';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='coins-e';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='crypto-trade';
