@@ -75,6 +75,14 @@ function get_currency_abbr($c) {
 	return strtoupper($c);
 }
 
+/**
+ * Reverse of {@link get_currency_abbr()}.
+ */
+function get_currency_key($c) {
+	if (strtolower($c) == "doge") return "dog";
+	return strtolower($c);
+}
+
 function get_blockchain_currencies() {
 	return array(
 		"Blockchain" => array('btc'),

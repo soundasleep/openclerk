@@ -36,11 +36,16 @@ foreach ($exchanges as $i => $exchange) {
 	$q = db()->prepare("SELECT * FROM reported_currencies WHERE exchange=?");
 	$q->execute(array($exchange['name']));
 	while ($cur = $q->fetch()) {
-		$matrix[$exchange['name']][$cur['currency']] = 1;
-		$all_currencies[$cur['currency']] = 1;
+		$c = get_currency_key($cur['currency']);
+		$matrix[$exchange['name']][$c] = 1;
+		$all_currencies[$c] = 1;
 		$exchanges[$i]['reported_currencies_created_at'] = $cur['created_at'];
 	}
 
+}
+// add all currencies we natively support
+foreach (get_all_currencies() as $cur) {
+	$all_currencies[$cur] = $cur;
 }
 ksort($all_currencies);
 
