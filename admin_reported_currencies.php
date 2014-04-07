@@ -68,6 +68,7 @@ foreach ($all_currencies as $cur => $ignored) {
 echo "</tr>\n";
 
 $exchange_pairs = get_exchange_pairs();
+$get_supported_wallets = get_supported_wallets();
 
 foreach ($exchanges as $exchange) {
 	echo "<tr>";
@@ -85,6 +86,10 @@ foreach ($exchanges as $exchange) {
 			if ($pair[0] == $cur || $pair[1] == $cur) {
 				$pair_supported = true;
 			}
+		}
+
+		if (isset($get_supported_wallets[$exchange['name']]) && in_array($cur, $get_supported_wallets[$exchange['name']])) {
+			$class .= " wallet";
 		}
 
 		$class .= $pair_supported ? " supported" : "";
