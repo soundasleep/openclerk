@@ -19,7 +19,10 @@ page_header("Reported Currencies", "page_reported_currencies");
 
 <h1>Reported Currencies</h1>
 
-<p class="backlink"><a href="<?php echo htmlspecialchars(url_for('admin')); ?>">&lt; Back to Site Status</a></p>
+<p class="backlink"><a href="<?php echo htmlspecialchars(url_for('admin')); ?>">&lt; Back to Site Status</a>
+| <a href="<?php echo htmlspecialchars(url_for('admin_reported_currencies', array('only_supported' => 0))); ?>">All currencies</a>
+| <a href="<?php echo htmlspecialchars(url_for('admin_reported_currencies', array('only_supported' => 1))); ?>">Only supported currencies</a>
+</p>
 
 <?php
 $matrix = array();
@@ -56,6 +59,10 @@ echo "<th>Exchange</th>";
 echo "<th>Reported</th>";
 foreach ($all_currencies as $cur => $ignored) {
 	$class = in_array($cur, get_all_currencies()) ? "supported" : "";
+
+	if (require_get("only_supported", false) && !in_array($cur, get_all_currencies()))
+		continue;
+
 	echo "<th class=\"$class\">" . htmlspecialchars($cur) . "</th>";
 }
 echo "</tr>\n";
@@ -67,6 +74,9 @@ foreach ($exchanges as $exchange) {
 	echo "<th>" . get_exchange_name($exchange['name']) . "</th>";
 	echo $exchange['track_reported_currencies'] ? "<td>" . recent_format_html($exchange['reported_currencies_created_at']) . "</td>" : "<td>-</td>";
 	foreach ($all_currencies as $cur => $ignored) {
+		if (require_get("only_supported", false) && !in_array($cur, get_all_currencies()))
+			continue;
+
 		$class = isset($matrix[$exchange['name']][$cur]) ? "reported" : "";
 
 		// do we have at least one exchange pair for this defined?
