@@ -6,7 +6,8 @@ $account_data = array('exchange_name' => get_exchange_name('bit2c'));
 <h2>Adding a <?php echo $account_data['exchange_name']; ?> account</h2>
 
 <ol class="steps">
-	<li>Log into your <?php echo $account_data['exchange_name']; ?> account and visit the <a href="https://www.bit2c.co.il/FixAPI/index">API</a> page.<br>
+	<li>Log into <a href="https://www.bit2c.co.il/account/edit">your <?php echo $account_data['exchange_name']; ?> account</a> and visit the API tab.<br>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bit2c0.png')); ?>"></li>
 
 	<li>Click on "Create new".<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bit2c1.png')); ?>"></li>
@@ -32,9 +33,10 @@ $account_data = array('exchange_name' => get_exchange_name('bit2c'));
 		site, even if you have logged in.</li>
 
 	<li>Through the <?php echo $account_data['exchange_name']; ?> interface you can revoke a set of API keys&apos; access at any time by
-		going to <a href="https://www.bit2c.co.il/FixAPI/index">API</a> page and clicking the <i>delete</i> button after below the API key.<br>
-		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bit2c_delete1.png')); ?>"><br>
-		Alternatively, you can disable access by clicking the <i>edit</i> button, unselecting the "<i>Is Active</i>" checkbox and clicking <i>Save</i>.<br>
+		going to your <a href="https://www.bit2c.co.il/FixAPI/index">API</a> page and clicking the <i>delete</i> button after below the API key.<br>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bit2c_delete1.png')); ?>"></li>
+
+	<li>Alternatively, you can disable access by clicking the <i>edit</i> button, unselecting the "<i>Is Active</i>" checkbox and clicking <i>Save</i>.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/bit2c_delete2.png')); ?>"></li>
 </ul>
 </div>
