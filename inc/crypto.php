@@ -247,7 +247,8 @@ function get_exchange_pairs() {
 				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc')),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
-		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'), array('usd', 'cny'), array('usd', 'pln')),
+		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'), 
+				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp')),
 		"vaultofsatoshi" => array(
 			array('usd', 'btc'), array('usd', 'ltc'), array('usd', 'ppc'), array('usd', 'dog'), array('usd', 'ftc'), array('usd', 'xpm'),
 			array('cad', 'btc'), array('cad', 'ltc'), array('cad', 'ppc'), array('cad', 'dog'), array('cad', 'ftc'), array('cad', 'xpm'),
@@ -273,6 +274,7 @@ function get_new_exchange_pairs() {
 		"coins-e_btcnvc",
 		"coins-e_btcdgc",
 		"cryptsy_btcnmc",
+		"themoneyconverter_usdgbp",
 	);
 }
 
