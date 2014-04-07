@@ -3370,3 +3370,23 @@ UPDATE exchanges SET track_reported_currencies=1 WHERE name='cryptsy';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='justcoin';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='themoneyconverter';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='vircurex';
+
+-- issue #105: add Kraken exchange
+DROP TABLE IF EXISTS accounts_kraken;
+
+CREATE TABLE accounts_kraken (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+	
+	title varchar(255),
+	api_key varchar(255) not null,
+	api_secret varchar(255) not null,
+	
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+	
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);

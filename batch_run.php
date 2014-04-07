@@ -495,6 +495,10 @@ try {
 			require(__DIR__ . "/jobs/d2_wdc.php");
 			break;
 
+		case "kraken":
+			require(__DIR__ . "/jobs/kraken.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/jobs/individual_cryptostocks.php");

@@ -160,6 +160,9 @@ function crypto_json_decode($string, $message = false, $empty_array_is_ok = fals
 		if (strpos(strtolower($string), "502 bad gateway") !== false) {
 			throw new ExternalAPIException("Bad gateway" . ($message ? " $message" : ""));
 		}
+		if (strpos(strtolower($string), "connection timed out") !== false) {
+			throw new ExternalAPIException("Connection timed out" . ($message ? " $message" : ""));
+		}
 		if (substr($string, 0, 1) == "<") {
 			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON" . ($message ? " $message" : ""));
 		}
