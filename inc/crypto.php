@@ -232,7 +232,10 @@ function get_exchange_pairs() {
 		"bitnz" => array(array('nzd', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
 		"btcchina" => array(array('cny', 'btc')),
-		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc')),
+		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), 
+				array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'), 
+				array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),
+				array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
 		"cexio" => array(array('btc', 'ghs')),
 		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'), array('cny', 'btc'), array('pln', 'btc'), array('nzd', 'btc')),
 		"coins-e" => array(array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'), array('ltc', 'xpm'), array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'), array('btc', 'wdc')),
@@ -253,14 +256,13 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"crypto-trade_btcdgc",
-		"cryptsy_btcdgc",
-		"cryptsy_ltcdgc",
-		"vircurex_btcdgc",
-		"coins-e_btcwdc",
-		"crypto-trade_btcwdc",
-		"cryptsy_btcwdc",
-		"vircurex_btcwdc",
+		"btce_gbpbtc",
+		"btce_gbpltc",
+		"btce_cnybtc",
+		"btce_cnyltc",
+		"btce_usdcny",
+		"btce_usdgbp",
+		"btce_usdnvc",
 	);
 }
 

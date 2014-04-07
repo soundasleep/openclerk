@@ -5,24 +5,31 @@
  */
 
 $rates_list = array(
-	array('cur1' => 'usd', 'cur2' => 'btc'), // all flipped around
-	array('cur1' => 'eur', 'cur2' => 'btc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ltc'), // all flipped around
-	array('cur1' => 'usd', 'cur2' => 'ltc'), // all flipped around
-	array('cur1' => 'eur', 'cur2' => 'ltc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'nmc'), // all flipped around
-	array('cur1' => 'usd', 'cur2' => 'nmc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ftc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
-	array('cur1' => 'usd', 'cur2' => 'eur'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
+	array('cur1' => 'btc', 'cur2' => 'ftc'),
+	array('cur1' => 'btc', 'cur2' => 'ltc'),
+	array('cur1' => 'btc', 'cur2' => 'nmc'),
+	array('cur1' => 'btc', 'cur2' => 'nvc'),
+	array('cur1' => 'btc', 'cur2' => 'ppc'),
+	array('cur1' => 'btc', 'cur2' => 'trc'),
+	array('cur1' => 'eur', 'cur2' => 'btc'),
+	array('cur1' => 'eur', 'cur2' => 'ltc'),
+	array('cur1' => 'usd', 'cur2' => 'btc'),
+	array('cur1' => 'usd', 'cur2' => 'eur'),
+	array('cur1' => 'usd', 'cur2' => 'ltc'),
+	array('cur1' => 'usd', 'cur2' => 'nmc'),
+	// 0.20	
+	array('cur1' => 'gbp', 'cur2' => 'btc'),
+	array('cur1' => 'gbp', 'cur2' => 'ltc'),
+	array('cur1' => 'cnh', 'cur2' => 'btc'),
+	array('cur1' => 'cnh', 'cur2' => 'ltc'),
+	array('cur1' => 'cnh', 'cur2' => 'usd'),		// this is swapped around before going into DB
+	array('cur1' => 'usd', 'cur2' => 'gbp'),
+	array('cur1' => 'usd', 'cur2' => 'nvc'),
 	// currencies not yet exposed to users or public
-	array('cur1' => 'rur', 'cur2' => 'btc'), // all flipped around
-	array('cur1' => 'rur', 'cur2' => 'ltc'), // all flipped around
-	array('cur1' => 'rur', 'cur2' => 'usd'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'xpm'), // all flipped around
-	array('cur1' => 'usd', 'cur2' => 'nvc'), // all flipped around
+	array('cur1' => 'rur', 'cur2' => 'btc'),
+	array('cur1' => 'rur', 'cur2' => 'ltc'),
+	array('cur1' => 'rur', 'cur2' => 'usd'),
+	array('cur1' => 'btc', 'cur2' => 'xpm'),
 );
 
 $first = true;
@@ -42,6 +49,23 @@ foreach ($rates_list as $rl) {
 		}
 
 		throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for $exchange");
+	}
+
+	// switch 'cnh' to 'cny'
+	if ($rl['cur1'] == 'cnh') $rl['cur1'] = 'cny';
+	if ($rl['cur2'] == 'cnh') $rl['cur2'] = 'cny';
+
+	// switch 'cny/usd' to 'usd/cny';
+	if ($rl['cur1'] == 'cny' && $rl['cur2'] == 'usd') {
+		$rl['cur1'] = 'usd';
+		$rl['cur2'] = 'cny';
+		$rates['ticker']['last'] = 1 / $rates['ticker']['last'];
+		$rates['ticker']['sell'] = 1 / $rates['ticker']['sell'];
+		$rates['ticker']['buy'] = 1 / $rates['ticker']['buy'];
+		// swap around
+		$tmp = $rates['ticker']['sell'];
+		$rates['ticker']['sell'] = $rates['ticker']['buy'];
+		$rates['ticker']['buy'] = $tmp;
 	}
 
 	insert_new_ticker($job, $exchange, strtolower($rl['cur1']), strtolower($rl['cur2']), array(
