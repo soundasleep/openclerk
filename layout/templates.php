@@ -257,6 +257,9 @@ function crypto_address($currency, $address) {
 		case 'wdc':
 			return "<span class=\"address wdc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("wdc_address_url") . $address) . "\" title=\"Inspect with CryptoCoin Explorer\">?</a></span>";
 
+		case 'ixc':
+			return "<span class=\"address ixc_address\"><code>" . htmlspecialchars($address) . "</code> <a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config("ixc_address_url") . $address) . "\" title=\"Inspect with Altcoin Explorer\">?</a></span>";
+
 		default:
 			return htmlspecialchars($address);
 	}

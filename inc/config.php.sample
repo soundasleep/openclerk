@@ -136,6 +136,8 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"dgc_block_url" => "http://dgc.cryptocoinexplorer.com/chain/Digitalcoin/q/getblockcount",
 		"wdc_address_url" => "http://wdc.cryptocoinexplorer.com/address/",
 		"wdc_block_url" => "http://wdc.cryptocoinexplorer.com/chain/Worldcoin/q/getblockcount",
+		"ixc_address_url" => "http://block.al.tcoin.info/address/",
+		"ixc_block_url" => "http://block.al.tcoin.info/chain/Ixcoin/q/getblockcount",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
@@ -149,6 +151,7 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"nmc_confirmations" => 6,
 		"dgc_confirmations" => 6,
 		"wdc_confirmations" => 6,
+		"ixc_confirmations" => 6,
 		
 		// register Coinbase Applications through https://coinbase.com/oauth/applications
 		"coinbase_client_id" => 'xxx',

@@ -3392,3 +3392,17 @@ CREATE TABLE accounts_bit2c (
 );
 
 INSERT INTO exchanges SET name='bit2c';
+
+-- issue #109: add Ixcoin IXC cryptocurrency
+DROP TABLE IF EXISTS ixcoin_blocks;
+
+CREATE TABLE ixcoin_blocks (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+	
+	blockcount int not null,
+	
+	is_recent tinyint not null default 0,
+	
+	INDEX(is_recent)
+);

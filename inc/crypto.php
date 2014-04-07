@@ -6,11 +6,15 @@
  */
 
 function get_all_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "ghs");
+	return array(
+		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc",
+		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils",
+		"ghs",
+	);
 }
 
 function get_all_hashrate_currencies() {
-	return array("btc", "ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc");
+	return array("btc", "ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc");
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -19,11 +23,11 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("ils");
+	return array("ils", "ixc");
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc");
 }
 
 function get_all_commodity_currencies() {
@@ -39,7 +43,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc");
 }
 
 function get_currency_name($n) {
@@ -57,6 +61,8 @@ function get_currency_name($n) {
 		case "xrp": return "Ripple";
 		case "dgc": return "Digitalcoin";
 		case "wdc": return "Worldcoin";
+		case "ixc": return "Ixcoin";
+
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
 		case "aud": return "Australian dollar";
@@ -66,6 +72,7 @@ function get_currency_name($n) {
 		case "eur": return "Euro";
 		case "gbp":	return "Pound sterling";
 		case "ils":	return "Israeli new shekel";
+
 		case "ghs": return "CEX.io GHS";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
 	}
@@ -94,6 +101,7 @@ function get_blockchain_currencies() {
 		"192.241.222.65" => array('nmc'),
 		"Ripple" => array('xrp'),
 		"Megacoin Block Explorer" => array('mec'),
+		"Altcoin Explorer" => array('ixc'),
 	);
 }
 
@@ -247,17 +255,20 @@ function get_exchange_pairs() {
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'), array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'), array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dgc'), array('btc', 'wdc')),
 		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'),
 				array('btc', 'trc'), array('btc', 'dog'), array('btc', 'mec'), array('ltc', 'mec'), array('btc', 'dgc'), 
-				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc')),
+				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc'), array('btc', 'ixc')),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'), 
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp')),
 		"vaultofsatoshi" => array(
-			array('usd', 'btc'), array('usd', 'ltc'), array('usd', 'ppc'), array('usd', 'dog'), array('usd', 'ftc'), array('usd', 'xpm'),
-			array('cad', 'btc'), array('cad', 'ltc'), array('cad', 'ppc'), array('cad', 'dog'), array('cad', 'ftc'), array('cad', 'xpm'),
-			// also qrk
+				array('usd', 'btc'), array('usd', 'ltc'), array('usd', 'ppc'), array('usd', 'dog'), array('usd', 'ftc'), array('usd', 'xpm'),
+				array('cad', 'btc'), array('cad', 'ltc'), array('cad', 'ppc'), array('cad', 'dog'), array('cad', 'ftc'), array('cad', 'xpm'),
+				// also qrk
 		),
-		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc'), array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog'), array('btc', 'dgc'), array('btc', 'wdc')),
+		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'), 
+				array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc'), 
+				array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog'), array('btc', 'dgc'), array('btc', 'wdc'),
+				array('btc', 'ixc')),
 		"virtex" => array(array('cad', 'btc'), array('cad', 'ltc'), array('btc', 'ltc')),
 	);
 }
@@ -283,6 +294,8 @@ function get_new_exchange_pairs() {
 		"bit2c_ilsbtc",
 		"bit2c_ilsltc",
 		"bit2c_btcltc",
+		"cryptsy_btcixc",
+		"vircurex_btcixc",
 	);
 }
 
@@ -340,7 +353,7 @@ function get_supported_wallets() {
 		"cryptopools" => array('dgc', 'hash'),		// other coins available
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc'),
-		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec'),
+		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc'),
 		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
 		"d2" => array('wdc', 'hash'),				// other coins available
 		"dedicatedpool" => array('dog', 'hash'),		// other coins available
@@ -375,7 +388,7 @@ function get_supported_wallets() {
 		"teamdoge" => array('dog', 'hash'),
 		"triplemining" => array('btc', 'hash'),
 		"vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm'),		// used in jobs/vaultofsatoshi.php (also supports qrk)
-		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog'),		// used in jobs/vircurex.php
+		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc'),		// used in jobs/vircurex.php
 		"wemineftc" => array('ftc', 'hash'),
 		"wemineltc" => array('ltc', 'hash'),
 		"ypool" => array('ftc', 'xpm', 'dog'),	// also pts
@@ -460,6 +473,7 @@ function get_default_currency_exchange($c) {
 		case "xrp": return "justcoin";
 		case "dgc": return "cryptsy";
 		case "wdc": return "cryptsy";
+		case "ixc": return "cryptsy";
 		// fiats
 		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
@@ -550,6 +564,7 @@ function account_data_grouped() {
 			'namecoin' => array('title' => 'NMC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nmc\'', 'wizard' => 'addresses', 'currency' => 'nmc'),
 			'digitalcoin' => array('title' => 'DGC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'dgc\'', 'wizard' => 'addresses', 'currency' => 'dgc'),
 			'worldcoin' => array('title' => 'WDC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'wdc\'', 'wizard' => 'addresses', 'currency' => 'wdc'),
+			'ixcoin' => array('title' => 'IXC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ixc\'', 'wizard' => 'addresses', 'currency' => 'ixc'),
 		),
 		'Mining pools' => array(
 			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -715,6 +730,8 @@ function get_external_apis() {
 			'digitalcoin_block' => '<a href="http://dgc,cryptocoinexplorer.com/">CryptoCoin explorer</a> (DGC block count)',
 			'worldcoin' => '<a href="http://wdc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (WDC)',
 			'worldcoin_block' => '<a href="http://wdc,cryptocoinexplorer.com/">CryptoCoin explorer</a> (WDC block count)',
+			'ixcoin' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
+			'ixcoin_block' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC block count)',
 		),
 
 		"Mining pool wallets" => array(
@@ -1021,6 +1038,18 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_wdc_address',
 				'job_type' => 'worldcoin',
 				'client' => get_currency_name('wdc'),
+			);
+
+		case "ixc":
+			return array(
+				'premium_group' => 'ixcoin',
+				'title' => 'IXC address',
+				'titles' => 'IXC addresses',
+				'table' => 'addresses',
+				'currency' => 'ixc',
+				'callback' => 'is_valid_ixc_address',
+				'job_type' => 'ixcoin',
+				'client' => get_currency_name('ixc'),
 			);
 
 		default:
@@ -2215,6 +2244,15 @@ function is_valid_dgc_address($address) {
 function is_valid_wdc_address($address) {
 	// based on is_valid_btc_address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "W")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_ixc_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "x")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}

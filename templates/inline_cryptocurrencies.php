@@ -31,6 +31,7 @@
 		<li><span class="currency_name_xrp"><a href="https://ripple.com/" target="_blank">Ripple</a> - <a href="https://ripple.com/about-ripple/" target="_blank">What is Ripple?</a></span></li>
 		<li><span class="currency_name_dgc"><a href="http://digitalcoin.co/en/" target="_blank">Digitalcoin</a> - <a href="http://digitalcoin.co/quick-start/" target="_blank">Digitalcoin Quick Start</a></span></li>
 		<li><span class="currency_name_wdc"><a href="http://www.worldcoinalliance.net/" target="_blank">Worldcoin</a> - <a href="http://www.worldcoinalliance.net/worldcoin-features-specifications-advantages/" target="_blank">Why Worldcoin?</a></span></li>
+		<li><span class="currency_name_ixc"><a href="http://www.ixcoin.co/" target="_blank">Ixcoin</a> - <a href="http://www.ixcoin.co/?page_id=18" target="_blank">Ixcoin Frequently Asked Questions</a></span></li>
 	</ul>
 </p>
 
