@@ -531,6 +531,10 @@ try {
 			require(__DIR__ . "/jobs/bit2c.php");
 			break;
 
+		case "scryptguild":
+			require(__DIR__ . "/jobs/scryptguild.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/jobs/individual_cryptostocks.php");

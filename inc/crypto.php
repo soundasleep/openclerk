@@ -222,6 +222,7 @@ function get_all_exchanges() {
 		"cryptopools_dgc" => "CryptoPools",
 		"d2" => "d2",
 		"d2_wdc" => "d2",
+		"scryptguild" => "ScryptGuild",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -238,7 +239,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("vaultofsatoshi", "bit2c");
+	return array("bit2c");
 }
 
 function get_exchange_pairs() {
@@ -397,6 +398,7 @@ function get_supported_wallets() {
 		"ozcoin" => array('ltc', 'btc', 'hash'),
 		"poolx" => array('ltc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
+		"scryptguild" => array('btc', 'dog', 'ltc', 'wdc', 'dgc', 'hash'),	// others available: lot, leaf, sbc, smc, meow, glc, eac, csc, anc
 		"shibepool" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
 		"teamdoge" => array('dog', 'hash'),
@@ -426,7 +428,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("bit2c");
+	return array("bit2c", "scryptguild");
 }
 
 function get_summary_types() {
@@ -621,6 +623,7 @@ function account_data_grouped() {
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -793,6 +796,7 @@ function get_external_apis() {
 			'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
 			'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
 			'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
+			'scryptguild' => '<a href="https://www.scryptguild.com/">ScryptGuild</a>',
 			'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
 			'shibepool' => '<a href="http://shibepool.com/">Shibe Pool</a>',
@@ -1526,6 +1530,26 @@ function get_accounts_wizard_config_basic($exchange) {
 				'khash' => true,
 			);
 
+		case "d2_wdc":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
+				),
+				'table' => 'accounts_d2_wdc',
+				'title' => 'd2 DOGE account',
+				'khash' => true,
+				'title_key' => 'd2',
+			);
+
+		case "scryptguild":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_scryptguild_apikey'),
+				),
+				'table' => 'accounts_scryptguild',
+				'khash' => true,
+			);
+
 		// --- exchanges ---
 		case "mtgox":
 			return array(
@@ -1662,17 +1686,6 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret key', 'callback' => 'is_valid_vaultofsatoshi_apisecret'),
 				),
 				'table' => 'accounts_vaultofsatoshi',
-			);
-
-		case "d2_wdc":
-			return array(
-				'inputs' => array(
-					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-				),
-				'table' => 'accounts_d2_wdc',
-				'title' => 'd2 DOGE account',
-				'khash' => true,
-				'title_key' => 'd2',
 			);
 
 		// --- securities ---
@@ -2628,6 +2641,11 @@ function is_valid_vaultofsatoshi_apisecret($key) {
 function is_valid_mpos_apikey($key) {
 	// looks like a 64 character hex string
 	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_scryptguild_apikey($key) {
+	// looks like a 32 character hex string
+	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

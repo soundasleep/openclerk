@@ -149,6 +149,8 @@ $standard_jobs = array(
 	array('table' => 'accounts_shibepool', 'type' => 'shibepool', 'failure' => true),
 	array('table' => 'accounts_cryptopools_dgc', 'type' => 'cryptopools_dgc', 'failure' => true),
 	array('table' => 'accounts_d2_wdc', 'type' => 'd2_wdc', 'failure' => true),
+	array('table' => 'accounts_scryptguild', 'type' => 'scryptguild', 'failure' => true),
+
 	array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1', 'user_id' => get_site_config('system_user_id')),
 
 	array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),

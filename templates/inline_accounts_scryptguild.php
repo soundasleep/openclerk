@@ -1,5 +1,5 @@
 <?php
-$account_data = array('exchange_name' => get_exchange_name('scryptpools'));
+$account_data = array('exchange_name' => get_exchange_name('scryptguild'));
 ?>
 
 <div class="instructions_add">
@@ -7,11 +7,11 @@ $account_data = array('exchange_name' => get_exchange_name('scryptpools'));
 
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account
-		and visit your <a href="http://doge.scryptpools.com/index.php?page=account&amp;action=edit">Edit Account page</a>.<br>
-		<img src="<?php echo htmlspecialchars(url_for('img/accounts/scryptpools1.png')); ?>"></li>
+		and visit your <a href="https://www.scryptguild.com/profile.php">Profile page</a>.<br>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/scryptguild1.png')); ?>"></li>
 
 	<li>Copy and paste your <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".<br>
-		<img src="<?php echo htmlspecialchars(url_for('img/accounts/scryptpools2.png')); ?>"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/scryptguild2.png')); ?>"></li>
 </ol>
 </div>
 
