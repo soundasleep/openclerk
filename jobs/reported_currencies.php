@@ -21,6 +21,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/vaultofsatoshi.php");
 		break;
 
+	case "btce":
+		require(__DIR__ . "/reported_currencies/btce.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;

@@ -3361,3 +3361,4 @@ ALTER TABLE exchanges ADD track_reported_currencies tinyint not null default 0;
 ALTER TABLE exchanges ADD INDEX(track_reported_currencies);
 
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='vaultofsatoshi';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='btce';

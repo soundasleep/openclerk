@@ -151,6 +151,10 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"coinbase_client_id" => 'xxx',
 		"coinbase_client_secret" => 'xxx',
 
+		// application data for APIs
+		"btce_example_api_key" => '...',
+		"btce_example_api_secret" => '...',
+
 		// premium properties
 		"premium_currencies" => array('btc', 'ltc'),
 		"premium_btc_monthly" => 0.02,
