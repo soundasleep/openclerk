@@ -15,15 +15,12 @@
 	</ul>
 </p>
 
-<!--
 <div class="tip">
 Cryptocurrencies that do <em>not</em> have a suitable explorer API yet at the time of writing:
 <ul>
-	<li><span class="currency_name_nmc">Namecoin</span> (the <a href="http://explorer.dot-bit.org/">Namecoin block explorer</a> does not display exact amounts nor address balances)</li>
-	<li><span class="currency_name_xrp">Ripple</span> (<a href="http://rippledb.com/">Ripple DB</a> does not provide balances for an address)</li>
+	<li><span class="currency_name_smc">Smartcoin</span></li>
 </ul>
 </div>
--->
 
 <p>
 	Currently <?php echo htmlspecialchars(get_site_config('site_name')); ?> supports the <?php
