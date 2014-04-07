@@ -46,7 +46,8 @@ $graph = array(
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_subscribe")); ?>">Pending subscription requests</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_user_list")); ?>">Users administration</a></li>
 	<li><a href="<?php echo htmlspecialchars(url_for("admin_accounts")); ?>">Accounts Status</a></li>
-	<li><a href="<?php echo htmlspecialchars(url_for("admin_metrics")); ?>">Site Performance Metrics</a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for("admin_metrics")); ?>">Site performance metrics</a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for("admin_reported_currencies")); ?>">Exchange reported currencies</a></li>
 </ul>
 
 <h2 style="clear: both;"><a href="<?php echo htmlspecialchars(url_for('admin_exceptions')); ?>">Recent Exceptions</a></h2>

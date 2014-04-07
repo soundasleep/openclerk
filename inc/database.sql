@@ -3345,6 +3345,7 @@ ALTER TABLE uncaught_exceptions ADD INDEX(created_at);
 ALTER TABLE ticker ADD INDEX(created_at);
 
 -- issue #121: track supported currencies from API responses
+-- we don't track pairs (I think that's too much work), just the currencies supported
 DROP TABLE IF EXISTS reported_currencies;
 CREATE TABLE reported_currencies (
 	id int not null auto_increment primary key,
