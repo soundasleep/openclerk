@@ -45,6 +45,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/cryptsy.php");
 		break;
 
+	case "justcoin":
+		require(__DIR__ . "/reported_currencies/justcoin.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange to report currencies " . $exchange['name']);
 		break;
