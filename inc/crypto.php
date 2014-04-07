@@ -225,7 +225,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("vaultofsatoshi");
+	return array("vaultofsatoshi", "bit2c");
 }
 
 function get_exchange_pairs() {
