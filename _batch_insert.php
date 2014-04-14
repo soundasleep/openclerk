@@ -83,7 +83,8 @@ function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
 	crypto_log("Inserted new $exchange $currency hashrates id=" . $last_id);
 
 	// disable old instances
-	$q = db()->prepare("UPDATE hashrates SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND account_id=:account_id AND currency=:currency AND id <> :id");
+	// first execute a read-only query for performance
+	$q = db()->prepare("SELECT id FROM hashrates WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND account_id=:account_id AND currency=:currency AND id <> :id");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"account_id" => $account['id'],
@@ -92,11 +93,19 @@ function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
 		"id" => $last_id,
 	));
 
+	$to_unset = $q->fetchAll();
+	foreach ($to_unset as $row) {
+		// then update each row individually
+		$q = db()->prepare("UPDATE hashrates SET is_recent=0 WHERE id=?");
+		$q->execute(array($row['id']));
+	}
+
 	// all other data from today is now old
 	// NOTE if the system time changes between the next two commands, then we may erraneously
 	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
 	// relying on MySQL
-	$q = db()->prepare("UPDATE hashrates SET is_daily_data=0 WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency AND
+	// first execute a read-only query for performance
+	$q = db()->prepare("SELECT id FROM hashrates WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency AND
 		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y') AND id <> :id");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
@@ -105,6 +114,13 @@ function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
 		"currency" => $currency,
 		"id" => $last_id,
 	));
+
+	$to_unset = $q->fetchAll();
+	foreach ($to_unset as $row) {
+		// then update each row individually
+		$q = db()->prepare("UPDATE hashrates SET is_daily_data=0 WHERE id=?");
+		$q->execute(array($row['id']));
+	}
 
 }
 
@@ -122,20 +138,36 @@ function add_summary_instance($job, $summary_type, $total) {
 	crypto_log("Inserted new summary_instances '$summary_type' id=" . $last_id);
 
 	// update old summaries
-	$q = db()->prepare("UPDATE summary_instances SET is_recent=0 WHERE is_recent=1 AND user_id=? AND summary_type=? AND id <> ?");
+	// first execute a read-only query for performance
+	$q = db()->prepare("SELECT id FROM summary_instances WHERE is_recent=1 AND user_id=? AND summary_type=? AND id <> ?");
 	$q->execute(array($job['user_id'], $summary_type, $last_id));
+
+	$to_unset = $q->fetchAll();
+	foreach ($to_unset as $row) {
+		// then update each row individually
+		$q = db()->prepare("UPDATE summary_instances SET is_recent=0 WHERE id=?");
+		$q->execute(array($row['id']));
+	}
 
 	// all other data from today is now old
 	// NOTE if the system time changes between the next two commands, then we may erraneously
 	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
 	// relying on MySQL
-	$q = db()->prepare("UPDATE summary_instances SET is_daily_data=0 WHERE is_daily_data=1 AND summary_type=:summary_type AND user_id=:user_id AND
+	// first execute a read-only query for performance
+	$q = db()->prepare("SELECT id FROM summary_instances WHERE is_daily_data=1 AND summary_type=:summary_type AND user_id=:user_id AND
 		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y') AND id <> :id");
 	$q->execute(array(
 		"summary_type" => $summary_type,
 		"user_id" => $job['user_id'],
 		"id" => $last_id,
 	));
+
+	$to_unset = $q->fetchAll();
+	foreach ($to_unset as $row) {
+		// then update each row individually
+		$q = db()->prepare("UPDATE summary_instances SET is_daily_data=0 WHERE id=?");
+		$q->execute(array($row['id']));
+	}
 
 }
 
