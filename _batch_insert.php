@@ -22,7 +22,8 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 	crypto_log("Inserted new $exchange $currency balances id=" . $last_id);
 
 	// disable old instances
-	$q = db()->prepare("UPDATE balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND account_id=:account_id AND currency=:currency AND id <> :id");
+	// first execute a read-only query for performance
+	$q = db()->prepare("SELECT id FROM balances WHERE is_recent=1 AND user_id=:user_id AND exchange=:exchange AND account_id=:account_id AND currency=:currency AND id <> :id");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"account_id" => $account['id'],
@@ -31,11 +32,20 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 		"id" => $last_id,
 	));
 
+	$to_unset = $q->fetchAll();
+	foreach ($to_unset as $row) {
+		// then update each balance individually
+		$q = db()->prepare("UPDATE balances SET is_recent=0 WHERE id=?");
+		$q->execute(array($row['id']));
+	}
+
 	// all other data from today is now old
 	// NOTE if the system time changes between the next two commands, then we may erraneously
 	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
 	// relying on MySQL
-	$q = db()->prepare("UPDATE balances SET is_daily_data=0 WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency AND
+	// first execute a read-only query for performance
+	// (because this is a long query, making it a SELECT should mean we don't block other pending queries)
+	$q = db()->prepare("SELECT id FROM balances WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency AND
 		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y') AND id <> :id");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
@@ -45,6 +55,12 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 		"id" => $last_id,
 	));
 
+	$to_unset = $q->fetchAll();
+	foreach ($to_unset as $row) {
+		// then update each balance individually
+		$q = db()->prepare("UPDATE balances SET is_daily_data=0 WHERE id=?");
+		$q->execute(array($row['id']));
+	}
 
 }
 
