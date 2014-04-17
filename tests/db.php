@@ -14,6 +14,7 @@ class DbTest extends UnitTestCase {
 			"delete\nfrom foo",
 			"insert\ninto foo values(null)",
 			"\ninsert into foo values(null)",
+			"UPDATE jobs SET meow=?",
 		);
 		foreach ($queries as $q) {
 			$this->assertTrue(ReplicatedDbWrapper::isWriteQuery($q), "'$q' should be a write query");
@@ -35,10 +36,31 @@ class DbTest extends UnitTestCase {
 			// these queries should explicitly be db_master() if the master is necessary
 			"show global status",
 			"show slave status",
+			"SELECT meow FROM jobs",
 		);
 		foreach ($queries as $q) {
 			$this->assertFalse(ReplicatedDbWrapper::isWriteQuery($q), "'$q' should not be a write query");
 		}
+	}
+
+	function test_db_switch() {
+		$this->assertTrue(get_site_config('database_slave'), "database_slave needs to be true");
+		$q = db()->prepare("UPDATE jobs SET meow=?");
+		$this->assertTrue($q->isMaster(), "write query should be master");
+		$this->assertFalse($q->isSlave(), "write query should not be slave");
+		$this->assertTrue(db()->isMaster());
+		$this->assertFalse(db()->isSlave());
+		$q = db()->prepare("SELECT meow FROM jobs");
+		$this->assertTrue($q->isSlave(), "read query should be slave");
+		$this->assertFalse($q->isMaster(), "read query should not be master");
+		$this->assertTrue(db()->isSlave());
+		$this->assertFalse(db()->isMaster());
+	}
+
+	function test_equality_sanity() {
+		$this->assertTrue(get_site_config('database_slave'), "database_slave needs to be true");
+		$this->assertIdentical(db_master(), db_master());
+		$this->assertIdentical(db_slave(), db_slave());
 	}
 
 }

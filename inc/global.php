@@ -46,7 +46,7 @@ class ReplicatedDbWrapper {
 			}
 			$this->last_db = db_master();
 		}
-		return $this->last_db->prepare($query);;
+		return $this->last_db->prepare($query);
 	}
 
 	public function lastInsertId() {
@@ -62,6 +62,16 @@ class ReplicatedDbWrapper {
 			return "[master: " . db_master()->stats() . ", slave: " . db_slave()->stats() . "]";
 		}
 		return $this->last_db->stats();
+	}
+
+	public function isSlave() {
+		global $db_slave_instance;
+		return $this->last_db === $db_slave_instance;
+	}
+
+	public function isMaster() {
+		global $db_master_instance;
+		return $this->last_db === $db_master_instance;
 	}
 
 	/**
@@ -149,9 +159,13 @@ $stats_fetchAll = 0;
  */
 class DebugPDOWrapper {
 	var $wrap;
+	var $is_master;
+	var $is_slave;
 
 	public function __construct($wrap) {
 		$this->wrap = $wrap;
+		$this->is_master = $this->isMaster();
+		$this->is_slave = $this->isSlave();
 	}
 
 	public function setAttribute($a, $b) {
@@ -170,7 +184,11 @@ class DebugPDOWrapper {
 	public function prepare($a) {
 		global $global_timed_sql;
 		$start_time = microtime(true);
+		$was_master = $this->isMaster();
+		$was_slave = $this->isSlave();
 		$result = new DebugPDOWrapper($this->wrap->prepare($a));
+		$result->is_master = $was_master;
+		$result->is_slave = $was_slave;
 		$result->query = $a;
 		$end_time = microtime(true);
 		$time_diff = ($end_time - $start_time) * 1000;
@@ -255,6 +273,20 @@ class DebugPDOWrapper {
 		$s = number_format($stats_queries) . " queries" . ($stats_fetch ? ", " . number_format($stats_fetch) . " fetch" : "") . ($stats_fetchAll ? ", " . number_format($stats_fetchAll) . " fetchAll" : "");
 		$stats_queries = $stats_fetch = $stats_fetchAll = 0;
 		return $s;
+	}
+
+	public function isSlave() {
+		global $db_slave_instance;
+		return $this->is_slave === true || $this->wrap === $db_slave_instance;
+	}
+
+	public function isMaster() {
+		global $db_master_instance;
+		return $this->is_master === true || $this->wrap === $db_master_instance;
+	}
+
+	public function __toString() {
+		return "[wrap=" . get_class($this->wrap) . "]";
 	}
 
 }
