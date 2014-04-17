@@ -32,12 +32,12 @@ if (isset($argv[2]) && $argv[2] && $argv[2] != "-") {
 
 if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
     // run a particular job, even if it's already been executed
-    $q = db()->prepare("SELECT * FROM jobs WHERE id=?");
+    $q = db_master()->prepare("SELECT * FROM jobs WHERE id=?");
     $q->execute(array((int) $argv[3]));
     $job = $q->fetch();
 } else if (require_get("job_id", false)) {
 	// run a particular job, even if it's already been executed
-	$q = db()->prepare("SELECT * FROM jobs WHERE id=?");
+	$q = db_master()->prepare("SELECT * FROM jobs WHERE id=?");
 	$q->execute(array((int) require_get("job_id")));
 	$job = $q->fetch();
 } else {
@@ -51,13 +51,13 @@ if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
 	}
 
 	// find all jobs that have crashed (that have taken longer than five minutes) and mark them as errored
-	$q = db()->prepare("UPDATE jobs SET is_executing=0,execution_count=execution_count+1,is_error=1,is_timeout=1 WHERE is_executing=1 AND
+	$q = db_master()->prepare("UPDATE jobs SET is_executing=0,execution_count=execution_count+1,is_error=1,is_timeout=1 WHERE is_executing=1 AND
 		((is_test_job=0 AND execution_started < DATE_SUB(NOW(), INTERVAL 5 MINUTE)) OR
 		(is_test_job=1 AND execution_started < DATE_SUB(NOW(), INTERVAL 1 MINUTE)))");
 	$q->execute();
 
 	// don't execute another job if we're running too many jobs already
-	$q = db()->prepare("SELECT COUNT(*) AS c FROM jobs WHERE is_executing=1");
+	$q = db_master()->prepare("SELECT COUNT(*) AS c FROM jobs WHERE is_executing=1");
 	$q->execute();
 	$job_count = $q->fetch();
 	if ($job_count['c'] >= get_site_config('maximum_jobs_running')) {
@@ -66,7 +66,7 @@ if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
 	}
 
 	// select the most important job to execute next
-	$q = db()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 $job_type_where ORDER BY priority ASC, id ASC LIMIT 20");
+	$q = db_master()->prepare("SELECT * FROM jobs WHERE is_executed=0 AND is_executing=0 $job_type_where ORDER BY priority ASC, id ASC LIMIT 20");
 	$q->execute();
 
 	// iterate until we find a job that we can actually run right now
@@ -74,7 +74,7 @@ if (isset($argv[3]) && $argv[3] && $argv[3] != "-") {
 		$throttle = get_site_config('throttle_' . $job['job_type'], false);
 		if ($throttle) {
 			// find the last executed job
-			$q1 = db()->prepare("SELECT * FROM jobs WHERE is_executed=1 AND job_type=? AND executed_at > date_sub(now(), interval ? second) LIMIT 1");
+			$q1 = db_master()->prepare("SELECT * FROM jobs WHERE is_executed=1 AND job_type=? AND executed_at > date_sub(now(), interval ? second) LIMIT 1");
 			$q1->execute(array($job['job_type'], $throttle));
 			if ($early = $q1->fetch()) {
 				crypto_log("Cannot run job " . $job['id'] . " (" . $job['job_type'] . ": another job " . $early['job_type'] . " was run less than $throttle seconds ago (" . $early['id'] . ")");
@@ -127,11 +127,11 @@ try {
 	} else {
 		// update old jobs that they are no longer recent
 		// assumes all jobs can be grouped by (job_type,user_id,arg_id)
-		$q = db()->prepare("UPDATE jobs SET is_recent=0 WHERE is_recent=1 AND job_type=? AND user_id=? AND arg_id=?");
+		$q = db_master()->prepare("UPDATE jobs SET is_recent=0 WHERE is_recent=1 AND job_type=? AND user_id=? AND arg_id=?");
 		$q->execute(array($job['job_type'], $job['user_id'], $job['arg_id']));
 
 		// update the job execution count
-		$q = db()->prepare("UPDATE jobs SET is_executing=1,execution_count=execution_count+1,is_recent=1,execution_started=NOW() WHERE id=?");
+		$q = db_master()->prepare("UPDATE jobs SET is_executing=1,execution_count=execution_count+1,is_recent=1,execution_started=NOW() WHERE id=?");
 		$q->execute(array($job['id']));
 	}
 
@@ -626,7 +626,7 @@ try {
 }
 
 // delete job
-$q = db()->prepare("UPDATE jobs SET is_executed=1,is_executing=0,is_error=?,executed_at=NOW() WHERE id=? LIMIT 1");
+$q = db_master()->prepare("UPDATE jobs SET is_executed=1,is_executing=0,is_error=?,executed_at=NOW() WHERE id=? LIMIT 1");
 $job['is_error'] = ($runtime_exception === null ? 0 : 1);
 $q->execute(array($job['is_error'], $job['id']));
 
@@ -658,7 +658,7 @@ if ($account_data && $account_data['failure']) {
 		} else if ($runtime_exception instanceof IncapsulaException) {
 			crypto_log("Not increasing failure count: was a IncapsulaException");
 		} else {
-			$q = db()->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");
+			$q = db_master()->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");
 			$q->execute(array($job['arg_id']));
 			crypto_log("Increasing account failure count");
 		}
@@ -670,14 +670,14 @@ if ($account_data && $account_data['failure']) {
 		} else {
 
 			// failed too many times?
-			$q = db()->prepare("SELECT * FROM $failing_table WHERE id=? LIMIT 1");
+			$q = db_master()->prepare("SELECT * FROM $failing_table WHERE id=? LIMIT 1");
 			$q->execute(array($job['arg_id']));
 			$account = $q->fetch();
 			crypto_log("Current account failure count: " . number_format($account['failures']));
 
 			if ($account['failures'] >= get_premium_value($user, 'max_failures')) {
 				// disable it and send an email
-				$q = db()->prepare("UPDATE $failing_table SET is_disabled=1 WHERE id=?");
+				$q = db_master()->prepare("UPDATE $failing_table SET is_disabled=1 WHERE id=?");
 				$q->execute(array($job['arg_id']));
 
 				if ($user['email'] && !$account['is_disabled'] /* don't send the same email multiple times */) {
@@ -702,7 +702,7 @@ if ($account_data && $account_data['failure']) {
 	} else {
 
 		// reset the failure counter
-		$q = db()->prepare("UPDATE $failing_table SET failures=0 WHERE id=?");
+		$q = db_master()->prepare("UPDATE $failing_table SET failures=0 WHERE id=?");
 		$q->execute(array($job['arg_id']));
 
 	}

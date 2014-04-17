@@ -32,6 +32,9 @@ class DbTest extends UnitTestCase {
 			"select * from users join x",
 			"select\n* from users",
 			"\nselect * from users",
+			// these queries should explicitly be db_master() if the master is necessary
+			"show global status",
+			"show slave status",
 		);
 		foreach ($queries as $q) {
 			$this->assertFalse(ReplicatedDbWrapper::isWriteQuery($q), "'$q' should not be a write query");

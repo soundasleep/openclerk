@@ -23,7 +23,7 @@ $cutoff_date = date('Y-m-d', strtotime(get_site_config('archive_ticker_data'))) 
 $summary_date_prefix = " 00:00:00"; // +00:00
 crypto_log("Cleaning up ticker data earlier than " . htmlspecialchars($cutoff_date) . " into summaries...");
 
-$q = db()->prepare("SELECT * FROM ticker WHERE created_at <= :date ORDER BY created_at ASC");
+$q = db_master()->prepare("SELECT * FROM ticker WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
 
 // we're going to store this all in memory, because at least that way we don't have to
@@ -87,7 +87,7 @@ foreach ($stored as $date => $a) {
 	foreach ($a as $exchange => $b) {
 		foreach ($b as $cur1 => $c) {
 			foreach ($c as $cur2 => $summary) {
-				$q = db()->prepare("INSERT INTO graph_data_ticker SET
+				$q = db_master()->prepare("INSERT INTO graph_data_ticker SET
 						exchange=:exchange, currency1=:currency1, currency2=:currency2, data_date=:data_date, samples=:samples,
 						volume=:volume, last_trade_min=:min, last_trade_opening=:open, last_trade_closing=:close, last_trade_max=:max, bid=:bid, ask=:ask, last_trade_stdev=:stdev");
 				$q->execute(array(
@@ -114,7 +114,7 @@ crypto_log("Inserted " . number_format($insert_count) . " summarised entries int
 
 // finally, delete all the old data
 // we've exhausted over everything so this should be safe
-$q = db()->prepare("DELETE FROM ticker WHERE created_at <= :date ORDER BY created_at ASC");
+$q = db_master()->prepare("DELETE FROM ticker WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
 crypto_log("Deleted " . number_format($count) . " ticker entries");
 

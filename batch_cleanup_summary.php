@@ -23,7 +23,7 @@ $cutoff_date = date('Y-m-d', strtotime(get_site_config('archive_summary_data')))
 $summary_date_prefix = " 00:00:00"; // +00:00
 crypto_log("Cleaning up ticker data earlier than " . htmlspecialchars($cutoff_date) . " into summaries...");
 
-$q = db()->prepare("SELECT * FROM summary_instances WHERE created_at <= :date ORDER BY created_at ASC");
+$q = db_master()->prepare("SELECT * FROM summary_instances WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
 
 // we're going to store this all in memory, because at least that way we don't have to
@@ -78,7 +78,7 @@ $insert_count = 0;
 foreach ($stored as $date => $a) {
 	foreach ($a as $user_id => $b) {
 		foreach ($b as $type => $summary) {
-			$q = db()->prepare("INSERT INTO graph_data_summary SET
+			$q = db_master()->prepare("INSERT INTO graph_data_summary SET
 					user_id=:user_id, summary_type=:summary_type, data_date=:data_date, samples=:samples,
 					balance_min=:min, balance_opening=:open, balance_closing=:close, balance_max=:max, balance_stdev=:stdev");
 			$q->execute(array(
@@ -100,7 +100,7 @@ crypto_log("Inserted " . number_format($insert_count) . " summary entries into g
 
 // finally, delete all the old data
 // we've exhausted over everything so this should be safe
-$q = db()->prepare("DELETE FROM summary_instances WHERE created_at <= :date ORDER BY created_at ASC");
+$q = db_master()->prepare("DELETE FROM summary_instances WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
 crypto_log("Deleted " . number_format($count) . " summary entries");
 

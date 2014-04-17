@@ -23,7 +23,7 @@ $cutoff_date = date('Y-m-d', strtotime(get_site_config('archive_balances_data'))
 $summary_date_prefix = " 00:00:00"; // +00:00
 crypto_log("Cleaning up balances data earlier than " . htmlspecialchars($cutoff_date) . " into summaries...");
 
-$q = db()->prepare("SELECT * FROM balances WHERE created_at <= :date ORDER BY created_at ASC");
+$q = db_master()->prepare("SELECT * FROM balances WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
 
 // we're going to store this all in memory, because at least that way we don't have to
@@ -86,7 +86,7 @@ foreach ($stored as $date => $a) {
 		foreach ($b as $exchange => $c) {
 			foreach ($c as $account_id => $d) {
 				foreach ($d as $currency => $summary) {
-					$q = db()->prepare("INSERT INTO graph_data_balances SET
+					$q = db_master()->prepare("INSERT INTO graph_data_balances SET
 							user_id=:user_id, exchange=:exchange, account_id=:account_id, currency=:currency, data_date=:data_date, samples=:samples,
 							balance_min=:min, balance_opening=:open, balance_closing=:close, balance_max=:max, balance_stdev=:stdev");
 					$q->execute(array(
@@ -112,7 +112,7 @@ crypto_log("Inserted " . number_format($insert_count) . " balances entries into 
 
 // finally, delete all the old data
 // we've exhausted over everything so this should be safe
-$q = db()->prepare("DELETE FROM balances WHERE created_at <= :date ORDER BY created_at ASC");
+$q = db_master()->prepare("DELETE FROM balances WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
 crypto_log("Deleted " . number_format($count) . " summary entries");
 

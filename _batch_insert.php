@@ -250,7 +250,7 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 
 	// put into the most recent table
 	// TODO could also use a REPLACE statement
-	$q = db()->prepare("SELECT * FROM ticker_recent WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 LIMIT 1");
+	$q = db_master()->prepare("SELECT * FROM ticker_recent WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 LIMIT 1");
 	$q->execute(array(
 		"exchange" => $exchange['name'],
 		"currency1" => $cur1,
@@ -258,7 +258,7 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 	));
 	if (!$q->fetch()) {
 		// insert in a new blank value (this will not occur very often)
-		$q = db()->prepare("INSERT INTO ticker_recent SET exchange=:exchange, currency1=:currency1, currency2=:currency2");
+		$q = db_master()->prepare("INSERT INTO ticker_recent SET exchange=:exchange, currency1=:currency1, currency2=:currency2");
 		$q->execute(array(
 			"exchange" => $exchange['name'],
 			"currency1" => $cur1,

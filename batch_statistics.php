@@ -157,7 +157,8 @@ foreach ($data as $key => $value) {
 }
 
 // calculate MySQL statistics
-$q = db()->prepare("SHOW GLOBAL STATUS");
+// must request the master database manually!
+$q = db_master()->prepare("SHOW GLOBAL STATUS");
 $q->execute();
 $mysql_mapping = array(
 	'mysql_uptime' => 'Uptime',
