@@ -16,7 +16,7 @@ class DbTest extends UnitTestCase {
 			"\ninsert into foo values(null)",
 		);
 		foreach ($queries as $q) {
-			$this->assertTrue(db_is_write_query($q), "'$q' should be a write query");
+			$this->assertTrue(ReplicatedDbWrapper::isWriteQuery($q), "'$q' should be a write query");
 		}
 	}
 
@@ -34,7 +34,7 @@ class DbTest extends UnitTestCase {
 			"\nselect * from users",
 		);
 		foreach ($queries as $q) {
-			$this->assertFalse(db_is_write_query($q), "'$q' should not be a write query");
+			$this->assertFalse(ReplicatedDbWrapper::isWriteQuery($q), "'$q' should not be a write query");
 		}
 	}
 
