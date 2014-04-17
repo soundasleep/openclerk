@@ -30,11 +30,65 @@ function db() {
 
 		// set timezone
 		if (get_site_config('database_timezone', false)) {
-			$q = db()->prepare("SET time_zone=?");
-			$q->execute(array(get_site_config('database_timezone')));	// TODO make get_site_config parameter
+			$q = $db_instance->prepare("SET time_zone=?");
+			$q->execute(array(get_site_config('database_timezone')));
 		}
 	}
 	return $db_instance;
+}
+
+$db_slave_instance = false;
+function db_slave() {
+	global $db_slave_instance;
+	if (!$db_slave_instance) {
+		$db_slave_instance = new PDO(get_site_config('database_slave_url'), get_site_config('database_slave_username'), get_site_config('database_slave_password'));
+		if (get_site_config('timed_sql')) {
+			$db_slave_instance = new DebugPDOWrapper($db_slave_instance);
+		}
+		$db_slave_instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		// set timezone
+		if (get_site_config('database_slave_timezone', false)) {
+			$q = $db_slave_instance->prepare("SET time_zone=?");
+			$q->execute(array(get_site_config('database_slave_timezone')));
+		}
+	}
+	return $db_slave_instance;
+}
+
+/**
+ * By using {@code db_prepare($query)} rather than {@code db()->prepare($query)},
+ * we can switch to a read-only replicated database if the system decides that
+ * a query is not a write query, and we have set up replication
+ * ({@code get_site_config('database_slave')}).
+ * 
+ * Otherwise this function should be functionally identical to
+ * {@code db()->prepare($query)}.
+ */
+function db_prepare($query) {
+	if (get_site_config('database_slave') && !db_is_write_query($query)) {
+		if (get_site_config('timed_sql')) {
+			global $global_timed_sql;
+			$$global_timed_sql['slave']++;
+		}
+		return db_slave()->prepare($query);
+	} else {
+		if (get_site_config('timed_sql')) {
+			global $global_timed_sql;
+			$$global_timed_sql['master']++;
+		}
+		return db()->prepare($query);
+	}
+}
+
+/**
+ * @return false if there is any chance the given query is a write (UPDATE, SELECT, INSERT) query.
+ */
+function db_is_write_query($query) {
+	$q = " " . strtolower(preg_replace("/\\s/i", " ", $query));
+	return strpos($q, " update ") !== false ||
+		strpos($q, " insert ") !== false || 
+		strpos($q, " delete ") !== false;
 }
 
 if (get_site_config('timed_sql')) {
@@ -48,6 +102,8 @@ if (get_site_config('timed_sql')) {
 		'fetch' => array('count' => 0, 'time' => 0),
 		'fetchAll' => array('count' => 0, 'time' => 0),
 		'lastInsertId' => array('count' => 0, 'time' => 0),
+		'master' => 0,
+		'slave' => 0,
 		'queries' => array(),
 	);
 }

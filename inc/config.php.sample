@@ -25,6 +25,13 @@ function get_site_config($key = null, $fail_if_missing = true) {
 		"database_password" => "clerk",
 		"database_timezone" => false,	// e.g. "-08:00" if your DB is in UTC and your web server is in PST
 
+		// issue #188: if true, then non-write queries will go to this database by default
+		"database_slave" => false,
+		"database_slave_url" => "mysql:host=localhost;dbname=clerk",
+		"database_slave_username" => "clerk",
+		"database_slave_password" => "clerk",
+		"database_slave_timezone" => false,			// this should really be the same as `database_timezone`
+
 		"phpmailer_host" => "mail.example.com",
 		"phpmailer_username" => "sync",
 		"phpmailer_password" => base64_decode("xxx"),
