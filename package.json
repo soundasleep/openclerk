@@ -1,0 +1,38 @@
+{
+  "name": "Openclerk",
+  "description": "An open source project to keep track of cryptocurrency finances",
+  "version": "0.20.0",
+  "keywords": [
+    "bitcoin",
+    "litecoin",
+    "namecoin",
+    "graphs",
+    "cryptocurrency"
+  ],
+  "maintainers": [
+    {
+      "name": "Jevon Wright",
+      "email": "support@jevon.org",
+      "web": "https://jevon.org"
+    }
+  ],
+  "bugs": {
+    "url": "http://redmine.jevon.org/projects/openclerk"
+  },
+  "repository": {
+    "type": "svn",
+    "url": "http://openclerk.googlecode.com/svn/trunk"
+  },
+  "licenses": [
+    {
+      "name": "GNU General Public License v3",
+      "url": "https://www.gnu.org/copyleft/gpl.html"
+    }
+  ],
+  "homepage": "http://openclerk.org",
+  "devDependencies": {
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-cli": "^0.1.13",
+    "grunt": "^0.4.4"
+  }
+}
