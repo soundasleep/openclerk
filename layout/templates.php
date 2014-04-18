@@ -284,8 +284,8 @@ function require_template($id) {
 	$id = str_replace("/", "", $id);
 	$id = str_replace("\\", "", $id);
 
-	if (get_site_config("custom_" . $id, false)) {
-		require(get_site_config("custom_" . $id));
+	if (file_exists(__DIR__ . "/../config/templates/" . $id . ".php")) {
+		require(__DIR__ . "/../config/templates/" . $id . ".php");
 	} else {
 		require(__DIR__ . "/../templates/" . $id . ".php");
 	}

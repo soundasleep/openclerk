@@ -19,8 +19,8 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 
 		foreach ($files as $f) {
 			$s = file_get_contents($f);
-			if (preg_match('#\n(require|require_once|include|include_once)\(("|\')#m', $s, $matches)) {
-				throw new Exception("Found require() that did not use __DIR__ in '" . $f . "': '" . $matches[0] . "'");
+			if (preg_match('#\n[^*/]((require|require_once|include|include_once|file_exists))\(("|\')#m', $s, $matches)) {
+				throw new Exception("Found " . $matches[1] . "() that did not use __DIR__ in '" . $f . "': '" . $matches[0] . "'");
 			}
 		}
 

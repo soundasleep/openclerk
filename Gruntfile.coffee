@@ -11,6 +11,9 @@ module.exports = (grunt) ->
       options:
         bin: 'vendor/bin/phpunit'
         colors: true
+        followOutput: true
+        stopOnError: true
+        stopOnFailure: true
 
     sass:
       dist:
