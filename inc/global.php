@@ -13,7 +13,6 @@ performance_metrics_page_start();
 
 require(__DIR__ . "/security.php");
 require(__DIR__ . "/email.php");
-require(__DIR__ . "/recaptcha.php");
 require(__DIR__ . "/crypto.php");
 require(__DIR__ . "/premium.php");
 require(__DIR__ . "/heavy.php");
