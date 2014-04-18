@@ -1,7 +1,5 @@
 <?php
 
-require_once(__DIR__ . "/../vendor/lastcraft/simpletest/autorun.php");
-
 require_once(__DIR__ . "/../inc/global.php");
 
 /**
@@ -9,7 +7,9 @@ require_once(__DIR__ . "/../inc/global.php");
  * It's pretty important to test this functionality, because it is so critical to the
  * correct operation of the site.
  */
-class SumJobTest extends UnitTestCase {
+class SumJobTest extends PHPUnit_Framework_TestCase {
+
+	var $user;
 
 	function getRates() {
 		return array(
@@ -32,12 +32,12 @@ class SumJobTest extends UnitTestCase {
 		);
 	}
 
-	function before($method) {
+	function setUp() {
 		// first create a new user
 		$this->user = $this->createNewUser();
 	}
 
-	function after($method) {
+	function tearDown() {
 		// finally, delete everything related to this user
 		$this->deleteUser($this->user);
 	}
@@ -189,5 +189,7 @@ class SumJobTest extends UnitTestCase {
 
 // mock methods
 function crypto_log($m) {
-	echo "<!-- " . $m . " -->\n";
+	if (!defined('NO_OUTPUT')) {
+		echo "<!-- " . $m . " -->\n";
+	}
 }

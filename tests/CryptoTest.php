@@ -1,13 +1,11 @@
 <?php
 
-require_once(__DIR__ . "/../vendor/lastcraft/simpletest/autorun.php");
-
 require_once(__DIR__ . "/../inc/global.php");
 
 /**
  * Tests related to the configuration of crypto.php.
  */
-class CryptoTestsTest extends UnitTestCase {
+class CryptoTestsTest extends PHPUnit_Framework_TestCase {
 
 	function testGetAllFiatCurrencies() {
 		$fiat = get_all_fiat_currencies();
@@ -29,7 +27,7 @@ class CryptoTestsTest extends UnitTestCase {
 	}
 
 	function testAllCurrenciesComplete() {
-		$this->assertIdentical(array(), array_diff(get_all_currencies(), get_all_fiat_currencies(), get_all_cryptocurrencies(), get_all_commodity_currencies()));
+		$this->assertSame(array(), array_diff(get_all_currencies(), get_all_fiat_currencies(), get_all_cryptocurrencies(), get_all_commodity_currencies()));
 	}
 
 	function testAllWalletCurrencies() {

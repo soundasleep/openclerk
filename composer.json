@@ -3,7 +3,7 @@
     "phpmailer/phpmailer": "dev-master",
     "soundasleep/html5lib-php": "~0.1.3",
     "lightopenid/lightopenid": "dev-master",
-    "lastcraft/simpletest": "~1.1"
+    "phpunit/phpunit": "4.0"
   },
   "repositories": [{
     "type": "vcs",

@@ -1,10 +1,8 @@
 <?php
 
-require_once(__DIR__ . "/../vendor/lastcraft/simpletest/autorun.php");
-
 require_once(__DIR__ . "/../inc/global.php");
 
-class DbTest extends UnitTestCase {
+class DbTest extends PHPUnit_Framework_TestCase {
 
 	function test_db_is_write_query() {
 		$queries = array(
@@ -59,8 +57,8 @@ class DbTest extends UnitTestCase {
 
 	function test_equality_sanity() {
 		$this->assertTrue(get_site_config('database_slave'), "database_slave needs to be true");
-		$this->assertIdentical(db_master(), db_master());
-		$this->assertIdentical(db_slave(), db_slave());
+		$this->assertSame(db_master(), db_master());
+		$this->assertSame(db_slave(), db_slave());
 	}
 
 }

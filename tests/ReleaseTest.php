@@ -1,13 +1,11 @@
 <?php
 
-require_once(__DIR__ . "/../vendor/lastcraft/simpletest/autorun.php");
-
 require_once(__DIR__ . "/../inc/global.php");
 
 /**
  * Tests related to the release quality of Openclerk - i.e. more like integration tests.
  */
-class ReleaseTestsTest extends UnitTestCase {
+class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Check that each require(), require_once(), include() or include_once() within Openclerk
@@ -46,6 +44,10 @@ class ReleaseTestsTest extends UnitTestCase {
 							// ignore subdirs of vendor
 							continue;
 						}
+						if ($name == 'git') {
+							// ignore 'git' dir (temporarily)
+							continue;
+						}
 						$result = array_merge($result, $this->recurseFindFiles($dir . "/" . $entry, $entry));
 					}
 				}
@@ -74,7 +76,6 @@ class ReleaseTestsTest extends UnitTestCase {
 					// get relative dir
 					$bits = explode("/", $f);
 					unset($bits[count($bits)-1]);	// remove filename
-					unset($bits[0]);	// remove ../
 					$resolved = __DIR__ . "/../" . implode("/", $bits) . $path;
 					$this->assertTrue(file_exists($resolved), "Included path '$path' in '$f' was not found: [$resolved]");
 				}
@@ -94,7 +95,7 @@ class ReleaseTestsTest extends UnitTestCase {
 			$return = 0;
 			$output_array = array();
 			$output = exec("php -l \"" . $f . "\"", $output_array, $return);
-			$this->assertFalse($return, "File '$f' failed lint: '$output' ($return)");
+			$this->assertFalse(!!$return, "File '$f' failed lint: '$output' ($return)");
 			if ($return) {
 				foreach ($output_array as $line) {
 					echo "<br>" . $line . "\n";
@@ -108,15 +109,15 @@ class ReleaseTestsTest extends UnitTestCase {
 	 * Sanity checks for PHP's version_compare().
 	 */
 	function testVersionCompare() {
-		$this->assertEqual(-1, version_compare("0.1", "0.2"), "0.1 < 0.2");
-		$this->assertEqual(1, version_compare("0.2", "0.1"), "0.2 > 0.1");
-		$this->assertEqual(0, version_compare("0.1", "0.1"), "0.1 = 0.1");
-		$this->assertEqual(0, version_compare("0.12", "0.12"));
-		$this->assertEqual(1, version_compare("0.12", "0.1"));
-		$this->assertEqual(1, version_compare("0.12", "0.2"));
-		$this->assertEqual(1, version_compare("0.12.1", "0.2"));
-		$this->assertEqual(1, version_compare("0.13", "0.12.1"));
-		$this->assertEqual(-1, version_compare("0.12.1", "0.13"));
+		$this->assertEquals(-1, version_compare("0.1", "0.2"), "0.1 < 0.2");
+		$this->assertEquals(1, version_compare("0.2", "0.1"), "0.2 > 0.1");
+		$this->assertEquals(0, version_compare("0.1", "0.1"), "0.1 = 0.1");
+		$this->assertEquals(0, version_compare("0.12", "0.12"));
+		$this->assertEquals(1, version_compare("0.12", "0.1"));
+		$this->assertEquals(1, version_compare("0.12", "0.2"));
+		$this->assertEquals(1, version_compare("0.12.1", "0.2"));
+		$this->assertEquals(1, version_compare("0.13", "0.12.1"));
+		$this->assertEquals(-1, version_compare("0.12.1", "0.13"));
 	}
 
 }

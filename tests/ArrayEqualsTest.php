@@ -1,10 +1,8 @@
 <?php
 
-require_once(__DIR__ . "/../vendor/lastcraft/simpletest/autorun.php");
-
 require_once(__DIR__ . "/../inc/global.php");
 
-class ArrayEqualsTest extends UnitTestCase {
+class ArrayEqualsTest extends PHPUnit_Framework_TestCase {
 
 	function test1() {
 		$this->assertTrue(array_equals(array(1, 2), array(2, 1)));
