@@ -232,13 +232,6 @@ function get_default_site_config() {
 		// custom template settings
 		"default_css" => "default.css",
 		"custom_css" => false,
-		"custom_index" => false,
-		"custom_login" => false,
-		"custom_signup" => false,
-		"custom_help" => false,
-		"custom_screenshots" => false,
-		"custom_templates_copyright" => false,
-		// more custom templates go here
 		"forum_link" => "http://bitcointalk.org/",
 		"google_groups_announce" => "openclerk-announce",
 
