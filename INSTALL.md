@@ -19,7 +19,7 @@ To install Openclerk:
 
 1. Install all the build dependencies:
 
-	# install Ruby
+    # install Ruby
     apt-get install rubygems python-software-properties git
 
     # install NodeJS, npm
@@ -29,7 +29,7 @@ To install Openclerk:
 
     # install Composer, globally
     curl -sS https://getcomposer.org/installer | php
-	mv composer.phar /usr/local/bin/composer
+    mv composer.phar /usr/local/bin/composer
 
     gem install sass
     npm install
@@ -41,7 +41,7 @@ To install Openclerk:
     grunt build
 
 1. Update `site/.htaccess` mod_rewrite rules if you are not running within a
-  `/clerk` subfolder
+   `/clerk` subfolder
 
 1. Create a new database and new user:
 
