@@ -50,4 +50,5 @@ will include these files as necessary. Files supported:
 config/site/css/*.scss -> site/styles/*.css
 config/site/img/config/* -> site/img/config/*
 config/site/img/favicon.ico -> site/favicon.ico
+config/templates/*.php -> site/templates/*.php
 ```
