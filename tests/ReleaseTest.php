@@ -14,7 +14,7 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 	 * the root relative.
 	 */
 	function testRequireUsesDir() {
-		$files = $this->recurseFindFiles("..", "");
+		$files = $this->recurseFindFiles(".", "");
 		$this->assertTrue(count($files) > 0);
 
 		foreach ($files as $f) {
@@ -61,7 +61,7 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 	 * Test that all require()s reference a valid file, to prevent a problem like r426
 	 */
 	function testAllIncludesExist() {
-		$files = $this->recurseFindFiles("..", "");
+		$files = $this->recurseFindFiles(".", "");
 		$this->assertTrue(count($files) > 0);
 
 		foreach ($files as $f) {
@@ -88,7 +88,7 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 	 * Lint all PHP files, to prevent typos from causing release problems
 	 */
 	function testLintAll() {
-		$files = $this->recurseFindFiles("..", "");
+		$files = $this->recurseFindFiles(".", "");
 		$this->assertTrue(count($files) > 0);
 
 		foreach ($files as $f) {
