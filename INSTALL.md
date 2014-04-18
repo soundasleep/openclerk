@@ -5,8 +5,6 @@ Welcome to Openclerk 0.12+. These installation instructions are still under
 development - check out http://code.google.com/p/openclerk/issues/detail?id=3
 for more information.
 
-*TODO* These instructions need to be updated due to [the new build script](http://redmine.jevon.org/issues/132).
-
 To install Openclerk:
 
 1. Install MySQL: (requires MySQL 5.1+ or 5.5+ for Openclerk 0.12+)
@@ -45,7 +43,7 @@ To install Openclerk:
 1. Copy inc/config.php.sample to inc/config.php and edit it with relevant
    configuration data.
 
-1. Set up cron jobs to execute the batch_*.php scripts as necessary. Set
+1. Set up cron jobs to execute the `batch/batch_*.php` scripts as necessary. Set
    'automated_key' to a secure value, and use this as the first parameter
    when executing PHP scripts via CLI. For example:
 

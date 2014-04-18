@@ -67,13 +67,18 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'test', "Run tests", ['phpunit']
 
-  grunt.registerTask 'serve', [
+  grunt.registerTask 'build', "Build the static site", [
     'clean',
     'copy:sourceFavicon',
     'copy:configImages',
     'sass',
     'bgShell:spritifyDefault',
     'custom'
+  ]
+
+  grunt.registerTask 'serve', [
+    'build'
+    # TODO add actual watch functionality
   ]
 
   # TODO add feature to spritify for processing dirs rather than files; can then remove this

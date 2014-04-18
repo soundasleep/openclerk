@@ -38,7 +38,7 @@ Openclerk is built and deployed with a rich assortment of web technologies.
 * `gem install sass`
 * `npm install`
 * `composer install`
-* Finally, `grunt serve` to build everything and watch for changes
+* Finally, `grunt build` to build everything
 
 ## Extending
 
