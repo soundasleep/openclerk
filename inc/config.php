@@ -291,7 +291,7 @@ function get_default_premium_config() {
 		"graph_pages_premium" => 20,
 
 		"graphs_per_page_free" => 10,
-		"graphs_per_page_premium" => 30,
+		"graphs_per_page_premium" => 40,
 
 		"graph_refresh_free" => get_site_config('graph_refresh_free'),	// in minutes
 		"graph_refresh_premium" => get_site_config('graph_refresh_premium'),	// in minutes
@@ -308,8 +308,8 @@ function get_default_premium_config() {
 		"notifications_free" => 2,
 		"notifications_premium" => 100,
 
-		"max_failures_free" => 5,
-		"max_failures_premium" => 50,		// increase this value (e.g. 10x) because premium users are exposed to more errors
+		"max_failures_free" => 5 * 5,			// remember a job executes up to 5 times
+		"max_failures_premium" => 20 * 5,		// increase this value (e.g. 10x) because premium users are exposed to more errors
 	);
 
 }
