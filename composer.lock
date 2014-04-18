@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "13f362ccf9db5f4d4fb483ce4c5fe99e",
+    "hash": "d940ce299122700706d60de417f6f873",
     "packages": [
         {
             "name": "lightopenid/lightopenid",
@@ -727,6 +727,47 @@
                 "php"
             ],
             "time": "2014-04-18 00:52:09"
+        },
+        {
+            "name": "soundasleep/spritify",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soundasleep/spritify.git",
+                "reference": "ff4e2e120952ecd8030f6c99f1e54931d4095c12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/ff4e2e120952ecd8030f6c99f1e54931d4095c12",
+                "reference": "ff4e2e120952ecd8030f6c99f1e54931d4095c12",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./"
+                ]
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "description": "A CSS processor to generate spritesheets",
+            "homepage": "https://github.com/soundasleep/spritify",
+            "keywords": [
+                "build",
+                "css",
+                "png",
+                "sprites",
+                "spritesheet"
+            ],
+            "support": {
+                "source": "https://github.com/soundasleep/spritify/tree/0.2.0",
+                "issues": "https://github.com/soundasleep/spritify/issues"
+            },
+            "time": "2014-04-18 05:06:34"
         },
         {
             "name": "symfony/yaml",

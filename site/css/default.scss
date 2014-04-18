@@ -1,11 +1,11 @@
 html,body {
-	font-family: Calibri, Arial;
+	font-family: 'Calibri', Arial;
 	font-size: 95%;
 	background: #111;
 	color: #eee;
 }
 select,button,input {
-	font-family: Calibri, Arial; 
+	font-family: 'Calibri', Arial;
 	font-size: 95%;
 }
 html, form { margin: 0; padding: 0; }
@@ -65,87 +65,87 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 #page_signup #navigation li.signup a,
 #page_admin #navigation li.admin a,
 #page_premium #navigation li.premium a,
-#page_help #navigation li.help a { 
-	font-weight: bold; color: white; 
+#page_help #navigation li.help a {
+	font-weight: bold; color: white;
 }
 
-#navigation li.home a { background: url('img/nuvola/kfm_home.png') 0 2px no-repeat; }
-.screenshots_group li.signup a { background: url('img/nuvola/kgpg_sign.png') 0 3px no-repeat; }
-#navigation li.signup a { background: url('img/nuvola/kgpg_sign.png') 0 2px no-repeat; }
-#navigation li.login a { background: url('img/nuvola/password.png') 0 2px no-repeat; }
-#navigation li.logout a { background: url('img/nuvola/kweather.png') 0 2px no-repeat; }
-#navigation li.profile a { background: url('img/nuvola/klipper_dock.png') 0 2px no-repeat; }
-.screenshots_group li.profile a { background: url('img/nuvola/klipper_dock.png') 0 3px no-repeat; }
-#navigation li.accounts a, #navigation li.admin a { background: url('img/nuvola/kcontrol.png') 0 2px no-repeat; }
-#navigation li.user a { background: url('img/nuvola/kgpg_identity.png') 0 2px no-repeat; }
-#navigation li.premium a { background: url('img/premium16.png') 0 2px no-repeat; }
-#navigation li.help a { background: url('img/nuvola/messagebox_info.png') 0 2px no-repeat; }
-.screenshots_group li.historical a { background: url('img/nuvola/kpdf.png') 0 3px no-repeat; }
+#navigation li.home a { background: url('../img/nuvola/kfm_home.png') 0 2px no-repeat; }
+.screenshots_group li.signup a { background: url('../img/nuvola/kgpg_sign.png') 0 3px no-repeat; }
+#navigation li.signup a { background: url('../img/nuvola/kgpg_sign.png') 0 2px no-repeat; }
+#navigation li.login a { background: url('../img/nuvola/password.png') 0 2px no-repeat; }
+#navigation li.logout a { background: url('../img/nuvola/kweather.png') 0 2px no-repeat; }
+#navigation li.profile a { background: url('../img/nuvola/klipper_dock.png') 0 2px no-repeat; }
+.screenshots_group li.profile a { background: url('../img/nuvola/klipper_dock.png') 0 3px no-repeat; }
+#navigation li.accounts a, #navigation li.admin a { background: url('../img/nuvola/kcontrol.png') 0 2px no-repeat; }
+#navigation li.user a { background: url('../img/nuvola/kgpg_identity.png') 0 2px no-repeat; }
+#navigation li.premium a { background: url('../img/premium16.png') 0 2px no-repeat; }
+#navigation li.help a { background: url('../img/nuvola/messagebox_info.png') 0 2px no-repeat; }
+.screenshots_group li.historical a { background: url('../img/nuvola/kpdf.png') 0 3px no-repeat; }
 
 #page_signup h1, #page_login h1, #page_profile h1, .page_accounts h1, #page_user h1, #page_premium h1, #page_help h1, #page_kb h1, #page_contact h1, #page_historical h1 { padding-left: 40px; line-height: 32px; }
-#page_signup h1 { background: url('img/nuvola/32x32/kgpg_sign.png') top left no-repeat; }
-#page_login h1 { background: url('img/nuvola/32x32/password.png') top left no-repeat; }
-#page_profile h1 { background: url('img/nuvola/32x32/klipper_dock.png') top left no-repeat; }
-.page_accounts h1 { background: url('img/nuvola/32x32/kcontrol.png') top left no-repeat; }
-#page_user h1 { background: url('img/nuvola/32x32/kgpg_identity.png') top left no-repeat; }
-#page_premium h1 { background: url('img/premium32.png') top left no-repeat; }
-#page_help h1, #page_kb h1, #page_contact h1 { background: url('img/nuvola/32x32/messagebox_info.png') top left no-repeat; }
-#page_historical h1 { background: url('img/nuvola/32x32/kpdf.png') top left no-repeat; }
+#page_signup h1 { background: url('../img/nuvola/32x32/kgpg_sign.png') top left no-repeat; }
+#page_login h1 { background: url('../img/nuvola/32x32/password.png') top left no-repeat; }
+#page_profile h1 { background: url('../img/nuvola/32x32/klipper_dock.png') top left no-repeat; }
+.page_accounts h1 { background: url('../img/nuvola/32x32/kcontrol.png') top left no-repeat; }
+#page_user h1 { background: url('../img/nuvola/32x32/kgpg_identity.png') top left no-repeat; }
+#page_premium h1 { background: url('../img/premium32.png') top left no-repeat; }
+#page_help h1, #page_kb h1, #page_contact h1 { background: url('../img/nuvola/32x32/messagebox_info.png') top left no-repeat; }
+#page_historical h1 { background: url('../img/nuvola/32x32/kpdf.png') top left no-repeat; }
 
-#autologin { 
-	font-size: 80%; 
-	width: 60%; 
-	margin: 0px auto 5px auto; 
-	padding: 5px; 
+#autologin {
+	font-size: 80%;
+	width: 60%;
+	margin: 0px auto 5px auto;
+	padding: 5px;
 	text-align: center;
 }
 
-.error { 
-	width: 60%; 
-	border: 1px solid #944; 
-	padding: 10px; 
-	margin: 5px auto 5px auto; 
-	background: #622 url('img/nuvola/32x32/messagebox_critical.png') 10px 10px no-repeat;
+.error {
+	width: 60%;
+	border: 1px solid #944;
+	padding: 10px;
+	margin: 5px auto 5px auto;
+	background: #622 url('../img/nuvola/32x32/messagebox_critical.png') 10px 10px no-repeat;
 	padding-left: 50px;
 	min-height: 32px;
 }
-.warning { 
-	width: 60%; 
-	border: 1px solid #974; 
-	padding: 10px; 
-	margin: 5px auto 5px auto; 
-	background: #642 url('img/nuvola/32x32/messagebox_warning.png') 10px 10px no-repeat;
+.warning {
+	width: 60%;
+	border: 1px solid #974;
+	padding: 10px;
+	margin: 5px auto 5px auto;
+	background: #642 url('../img/nuvola/32x32/messagebox_warning.png') 10px 10px no-repeat;
 	padding-left: 50px;
 	min-height: 32px;
 }
-.success { 
-	width: 60%; 
-	border: 1px solid #496; 
-	padding: 10px; 
-	margin: 5px auto 5px auto; 
-	background: #264 url('img/nuvola/32x32/ok.png') 10px 10px no-repeat;
+.success {
+	width: 60%;
+	border: 1px solid #496;
+	padding: 10px;
+	margin: 5px auto 5px auto;
+	background: #264 url('../img/nuvola/32x32/ok.png') 10px 10px no-repeat;
 	padding-left: 50px;
 	min-height: 32px;
 }
-.message { 
-	width: 60%; 
-	border: 1px solid #469; 
-	padding: 10px; 
-	margin: 5px auto 5px auto; 
-	background: #246 url('img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
+.message {
+	width: 60%;
+	border: 1px solid #469;
+	padding: 10px;
+	margin: 5px auto 5px auto;
+	background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
 	padding-left: 50px;
 	min-height: 32px;
 }
 .tip {
-	padding: 10px; 
-	border: 1px solid #469; 
+	padding: 10px;
+	border: 1px solid #469;
 	margin: 5px 10px 5px 10px;
-	background: #246 url('img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
+	background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
 	x-background-sprite: false;
 	padding-left: 50px;
 }
 .success.success_float {
-	padding: 10px; 
+	padding: 10px;
 	margin: 5px 10px 5px 10px;
 	padding-left: 50px;
 }
@@ -191,13 +191,13 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .status_percent { display: inline-block; width: 75px; padding: 5px 0px 5px 20px; text-align: center; }
 #page_external .status_percent { margin-right: 5px; }
 
-.status_percent.perfect { background: #473 url('img/nuvola/ok.png') 7px 7px no-repeat; }
-.status_percent.good { background: #363 url('img/nuvola/ok.png') 7px 7px no-repeat; }
-.status_percent.ok { background: #352 url('img/nuvola/ok.png') 7px 7px no-repeat; }
-.status_percent.poor { background: #862 url('img/nuvola/messagebox_warning.png') 7px 7px no-repeat; }
-.status_percent.bad { background: #952 url('img/nuvola/messagebox_warning.png') 7px 7px no-repeat; }
-.status_percent.broken { background: #722 url('img/nuvola/messagebox_critical.png') 7px 7px no-repeat; }
-.status_percent.dead { background: #822 url('img/nuvola/messagebox_critical.png') 7px 7px no-repeat; }
+.status_percent.perfect { background: #473 url('../img/nuvola/ok.png') 7px 7px no-repeat; }
+.status_percent.good { background: #363 url('../img/nuvola/ok.png') 7px 7px no-repeat; }
+.status_percent.ok { background: #352 url('../img/nuvola/ok.png') 7px 7px no-repeat; }
+.status_percent.poor { background: #862 url('../img/nuvola/messagebox_warning.png') 7px 7px no-repeat; }
+.status_percent.bad { background: #952 url('../img/nuvola/messagebox_warning.png') 7px 7px no-repeat; }
+.status_percent.broken { background: #722 url('../img/nuvola/messagebox_critical.png') 7px 7px no-repeat; }
+.status_percent.dead { background: #822 url('../img/nuvola/messagebox_critical.png') 7px 7px no-repeat; }
 
 #page_screenshots .tabs .tab_open { text-align: center; }
 #page_screenshots .tabs .tab_open img { max-width: 66%; border: 1px solid #333; }
@@ -228,20 +228,20 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .graph_collection .graph .rate_matrix { list-style: none; margin: 0; padding: 0; }
 .graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
 
-.graph_collection ul.graph_controls { 
-	list-style: none; 
-	margin: 5px; 
-	padding: 10px; 
-	position: absolute; 
-	border: 1px solid #fff; 
-	background: #000; 
-	background-color: rgba(0,0,0,0.9); 
+.graph_collection ul.graph_controls {
+	list-style: none;
+	margin: 5px;
+	padding: 10px;
+	position: absolute;
+	border: 1px solid #fff;
+	background: #000;
+	background-color: rgba(0,0,0,0.9);
 	z-index: 5;
 }
-.graph_collection ul.graph_controls li { 
-	list-style: none; 
-	margin: 0; 
-	padding: 0; 
+.graph_collection ul.graph_controls li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	display: inline-block;
 }
 .graph_collection ul.graph_controls li + li:before {
@@ -258,67 +258,67 @@ h2.graph_heading { margin: 5px 0; padding-top: 5px; font-size: 130%; clear: both
 .standard_account_list .job_error { background: #993333; }
 .standard_account_list .job_success { background: #336633; }
 .standard_account_list .disabled { color: #ccc; font-style: italic; }
-span.status_loading { font-style: italic; padding-left: 20px; background: url('img/spinning_even.gif') top left no-repeat; min-height: 16px; }
-.graph span.status_loading { background: url('img/spinning_none.gif') top left no-repeat; margin: 10px; color: #777; }
-tr.odd span.status_loading { background: url('img/spinning_odd.gif') top left no-repeat; }
+span.status_loading { font-style: italic; padding-left: 20px; background: url('../img/spinning_even.gif') top left no-repeat; min-height: 16px; }
+.graph span.status_loading { background: url('../img/spinning_none.gif') top left no-repeat; margin: 10px; color: #777; }
+tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left no-repeat; }
 
 .address code { font-family: Consolas, Courier New, Courier, monospace; }
-.btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect, .nvc_address .inspect, 
-	.xpm_address .inspect, .trc_address .inspect, .dog_address .inspect, 
+.btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect, .nvc_address .inspect,
+	.xpm_address .inspect, .trc_address .inspect, .dog_address .inspect,
 	.mec_address .inspect, .xrp_address .inspect, .nmc_address .inspect,
 	.dgc_address .inspect, .wdc_address .inspect, .ixc_address .inspect,
 	.vtc_address .inspect, .net_address .inspect, .hbn_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
-.btc_address .inspect { background: url('img/blockchain.png') top left no-repeat; }
-.ltc_address .inspect, .nmc_address .inspect, .mec_address .inspect, .ixc_address .inspect, .net_address .inspect { background: url('img/explorer1.png') top left no-repeat; }
-.ftc_address .inspect { background: url('img/feathercoin.png') top left no-repeat; }
-.ppc_address .inspect { background: url('img/ppcoin.png') top left no-repeat; }
-.nvc_address .inspect { background: url('img/novacoin.png') top left no-repeat; }
-.xpm_address .inspect { background: url('img/explorer_xpm.png') top left no-repeat; }
-.trc_address .inspect { background: url('img/explorer_trc.png') top left no-repeat; }
-.dog_address .inspect { background: url('img/dogechain.png') top left no-repeat; }
-.xrp_address .inspect { background: url('img/ripple_graph.png') top left no-repeat; }
-.dgc_address .inspect { background: url('img/explorer_dgc.png') top left no-repeat; }
-.wdc_address .inspect { background: url('img/explorer_wdc.png') top left no-repeat; }
-.vtc_address .inspect { background: url('img/vertcoin.png') top left no-repeat; }
-.hbn_address .inspect { background: url('img/hobonickels_explorer.png') top left no-repeat; }
-.currency_name_btc, .currency_name_ltc, .currency_name_nmc, .currency_name_ftc, .currency_name_ppc, 
-	.currency_name_nvc, .currency_name_xpm, .currency_name_trc, .currency_name_ghs, 
+.btc_address .inspect { background: url('../img/blockchain.png') top left no-repeat; }
+.ltc_address .inspect, .nmc_address .inspect, .mec_address .inspect, .ixc_address .inspect, .net_address .inspect { background: url('../img/explorer1.png') top left no-repeat; }
+.ftc_address .inspect { background: url('../img/feathercoin.png') top left no-repeat; }
+.ppc_address .inspect { background: url('../img/ppcoin.png') top left no-repeat; }
+.nvc_address .inspect { background: url('../img/novacoin.png') top left no-repeat; }
+.xpm_address .inspect { background: url('../img/explorer_xpm.png') top left no-repeat; }
+.trc_address .inspect { background: url('../img/explorer_trc.png') top left no-repeat; }
+.dog_address .inspect { background: url('../img/dogechain.png') top left no-repeat; }
+.xrp_address .inspect { background: url('../img/ripple_graph.png') top left no-repeat; }
+.dgc_address .inspect { background: url('../img/explorer_dgc.png') top left no-repeat; }
+.wdc_address .inspect { background: url('../img/explorer_wdc.png') top left no-repeat; }
+.vtc_address .inspect { background: url('../img/vertcoin.png') top left no-repeat; }
+.hbn_address .inspect { background: url('../img/hobonickels_explorer.png') top left no-repeat; }
+.currency_name_btc, .currency_name_ltc, .currency_name_nmc, .currency_name_ftc, .currency_name_ppc,
+	.currency_name_nvc, .currency_name_xpm, .currency_name_trc, .currency_name_ghs,
 	.currency_name_dog, .currency_name_mec, .currency_name_xrp, .currency_name_dgc,
 	.currency_name_wdc, .currency_name_ixc, .currency_name_vtc, .currency_name_net,
-	.currency_name_hbn { padding-left: 20px; } 
-.currency_name_btc { background: url('img/bitcoin.png') 0 0 no-repeat; }
-.currency_name_ltc { background: url('img/litecoin.png') 0 0 no-repeat; } 
-.currency_name_nmc { background: url('img/namecoin.png') 0 0 no-repeat; } 
-.currency_name_ftc { background: url('img/feathercoin.png') 0 0 no-repeat; } 
-.currency_name_ppc { background: url('img/ppcoin.png') 0 0 no-repeat; } 
-.currency_name_nvc { background: url('img/novacoin.png') 0 0 no-repeat; } 
-.currency_name_xpm { background: url('img/primecoin.png') 0 0 no-repeat; } 
-.currency_name_trc { background: url('img/terracoin.png') 0 0 no-repeat; } 
-.currency_name_dog { background: url('img/dogecoin.png') 0 0 no-repeat; font-family: 'Comic Sans MS'; font-size: 85%; } 
-.currency_name_mec { background: url('img/megacoin.png') 0 0 no-repeat; } 
-.currency_name_xrp { background: url('img/ripple.png') 0 0 no-repeat; } 
-.currency_name_dgc { background: url('img/digitalcoin.png') 0 0 no-repeat; } 
-.currency_name_wdc { background: url('img/explorer_wdc.png') 0 0 no-repeat; } 
-.currency_name_ixc { background: url('img/ixcoin.png') 0 0 no-repeat; } 
-.currency_name_vtc { background: url('img/vertcoin.png') 0 0 no-repeat; } 
-.currency_name_net { background: url('img/netcoin.png') 0 0 no-repeat; } 
-.currency_name_hbn { background: url('img/hobonickels.png') 0 0 no-repeat; } 
-.currency_name_ghs { background: url('img/ghs.png') 0 0 no-repeat; } 
+	.currency_name_hbn { padding-left: 20px; }
+.currency_name_btc { background: url('../img/bitcoin.png') 0 0 no-repeat; }
+.currency_name_ltc { background: url('../img/litecoin.png') 0 0 no-repeat; }
+.currency_name_nmc { background: url('../img/namecoin.png') 0 0 no-repeat; }
+.currency_name_ftc { background: url('../img/feathercoin.png') 0 0 no-repeat; }
+.currency_name_ppc { background: url('../img/ppcoin.png') 0 0 no-repeat; }
+.currency_name_nvc { background: url('../img/novacoin.png') 0 0 no-repeat; }
+.currency_name_xpm { background: url('../img/primecoin.png') 0 0 no-repeat; }
+.currency_name_trc { background: url('../img/terracoin.png') 0 0 no-repeat; }
+.currency_name_dog { background: url('../img/dogecoin.png') 0 0 no-repeat; font-family: 'Comic Sans MS'; font-size: 85%; }
+.currency_name_mec { background: url('../img/megacoin.png') 0 0 no-repeat; }
+.currency_name_xrp { background: url('../img/ripple.png') 0 0 no-repeat; }
+.currency_name_dgc { background: url('../img/digitalcoin.png') 0 0 no-repeat; }
+.currency_name_wdc { background: url('../img/explorer_wdc.png') 0 0 no-repeat; }
+.currency_name_ixc { background: url('../img/ixcoin.png') 0 0 no-repeat; }
+.currency_name_vtc { background: url('../img/vertcoin.png') 0 0 no-repeat; }
+.currency_name_net { background: url('../img/netcoin.png') 0 0 no-repeat; }
+.currency_name_hbn { background: url('../img/hobonickels.png') 0 0 no-repeat; }
+.currency_name_ghs { background: url('../img/ghs.png') 0 0 no-repeat; }
 .purchase_button { padding: 2px; }
-.help_name_twitter { background: url('img/twitter.png') top left no-repeat; padding-left: 20px; } 
-.help_name_facebook { background: url('img/facebook.png') top left no-repeat; padding-left: 20px; } 
-.help_name_email { background: url('img/gmail.png') top left no-repeat; padding-left: 20px; } 
-.help_name_forum { background: url('img/bitcointalk.png') top left no-repeat; padding-left: 20px; } 
-.help_name_litecoinforum { background: url('img/litecoin.png') top left no-repeat; padding-left: 20px; } 
-.help_name_groups { background: url('img/groups.png') top left no-repeat; padding-left: 20px; } 
+.help_name_twitter { background: url('../img/twitter.png') top left no-repeat; padding-left: 20px; }
+.help_name_facebook { background: url('../img/facebook.png') top left no-repeat; padding-left: 20px; }
+.help_name_email { background: url('../img/gmail.png') top left no-repeat; padding-left: 20px; }
+.help_name_forum { background: url('../img/bitcointalk.png') top left no-repeat; padding-left: 20px; }
+.help_name_litecoinforum { background: url('../img/litecoin.png') top left no-repeat; padding-left: 20px; }
+.help_name_groups { background: url('../img/groups.png') top left no-repeat; padding-left: 20px; }
 .kb_text img.help_inline { max-width: 40%; float: right; margin: 0 0 15px 15px; }
 .kb_text img.help_inline.help_inline_double { clear: right; }
 .kb_text img { max-width: 60%; max-height: 240px; }
 .kb_text h2 { clear: both; }
 table.fancy.contact-table { margin-top: 10px; margin-bottom: 10px; }
 .discounted { color: #666; text-decoration: line-through; }
-.twitter { background: url('img/twitter.png') 0px 2px no-repeat; padding-left: 20px; display: inline-block; height: 18px; } 
-.facebook { background: url('img/facebook.png') 0px 2px no-repeat; padding-left: 20px; display: inline-block; height: 18px; } 
+.twitter { background: url('../img/twitter.png') 0px 2px no-repeat; padding-left: 20px; display: inline-block; height: 18px; }
+.facebook { background: url('../img/facebook.png') 0px 2px no-repeat; padding-left: 20px; display: inline-block; height: 18px; }
 .currency_list { margin-top: 10px; }
 .currency_list li { line-height: 2em; }
 
@@ -332,16 +332,16 @@ select.country { max-width: 240px; }
 .authentication-form button.openid { height: 32px; padding: 2px 5px 5px 5px; margin-right: 3px; }
 button .openid, .openid_list .openid { padding-left: 20px; line-height: 20px; }
 .openid_list td.buttons { text-align: center; padding-top: 10px; }
-.openid.openid_manual { background: url('img/openid.png') 0 0 no-repeat; }
-.openid.google { background: url('img/google2.png') 0 0 no-repeat; }
-.openid.stackexchange { background: url('img/stackexchange.png') 0 0 no-repeat; }
-.openid.yahoo { background: url('img/yahoo.png') 0 0 no-repeat; }
-.openid.blogspot { background: url('img/blogspot.png') 0 0 no-repeat; }
-.openid.launchpad { background: url('img/launchpad.png') 0 0 no-repeat; }
-.openid.aol { background: url('img/aol.png') 0 0 no-repeat; }
-.openid.verisign { background: url('img/verisign.png') 0 0 no-repeat; }
+.openid.openid_manual { background: url('../img/openid.png') 0 0 no-repeat; }
+.openid.google { background: url('../img/google2.png') 0 0 no-repeat; }
+.openid.stackexchange { background: url('../img/stackexchange.png') 0 0 no-repeat; }
+.openid.yahoo { background: url('../img/yahoo.png') 0 0 no-repeat; }
+.openid.blogspot { background: url('../img/blogspot.png') 0 0 no-repeat; }
+.openid.launchpad { background: url('../img/launchpad.png') 0 0 no-repeat; }
+.openid.aol { background: url('../img/aol.png') 0 0 no-repeat; }
+.openid.verisign { background: url('../img/verisign.png') 0 0 no-repeat; }
 
-.email_notification { padding-left: 20px; background: url('img/nuvola/mail_forward.png') 0 0 no-repeat; }
+.email_notification { padding-left: 20px; background: url('../img/nuvola/mail_forward.png') 0 0 no-repeat; }
 
 #page_historical .backlink { float: left; }
 .historical_selectors { float: right; margin: 12px; margin-right: 30px; }

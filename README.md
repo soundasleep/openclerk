@@ -39,3 +39,13 @@ Openclerk is built and deployed with a rich assortment of web technologies.
 * `npm install`
 * `composer install`
 * Finally, `grunt serve` to build everything and watch for changes
+
+## Extending
+
+If you want to have an openclerk base (like CryptFolio), you can place your changes into a new `config/` directory,
+and the build script (and [eventually](http://redmine.jevon.org/issues/132) config scripts and template scripts)
+will include these files as necessary. Files supported:
+
+```
+config/site/css/*.scss
+```
