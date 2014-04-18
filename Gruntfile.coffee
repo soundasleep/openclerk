@@ -30,6 +30,10 @@ module.exports = (grunt) ->
         }]
 
     copy:
+      sourceFavicon:
+        src: 'site/img/favicon.ico',
+        dest: 'site/favicon.ico'
+
       configImages:
         files: [{
           expand: true
@@ -37,6 +41,10 @@ module.exports = (grunt) ->
           src: ['**/*']
           dest: 'site/img/config/'
         }]
+
+      configFavicon:
+        src: 'config/site/img/favicon.ico',
+        dest: 'site/favicon.ico'
 
     bgShell:
       # TODO add a grunt-spritify npm task to wrap this
@@ -58,14 +66,16 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'serve', [
     'clean',
+    'copy:sourceFavicon',
     'copy:configImages',
     'sass',
     'bgShell:spritifyDefault',
-    'customSpritifyCustom'
+    'custom'
   ]
 
   # TODO add feature to spritify for processing dirs rather than files; can then remove this
-  grunt.registerTask 'customSpritifyCustom', "Build custom content if necessary", ->
+  grunt.registerTask 'custom', "Build custom content if necessary", ->
     grunt.task.run(['bgShell:spritifyCustom']) if grunt.file.exists('site/styles/custom.css')
+    grunt.task.run(['copy:configFavicon']) if grunt.file.exists('config/site/img/favicon.ico')
 
   grunt.registerTask 'default', ['test']
