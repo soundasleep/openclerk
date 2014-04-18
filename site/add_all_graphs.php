@@ -5,7 +5,7 @@
  */
 
 require(__DIR__ . "/../inc/global.php");
-require(__DIR__ . "/layout/graphs.php");
+require(__DIR__ . "/../layout/graphs.php");
 require_login();
 require_admin();
 

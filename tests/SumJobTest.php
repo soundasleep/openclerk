@@ -154,7 +154,7 @@ class SumJobTest extends PHPUnit_Framework_TestCase {
 		$q->execute(array($job_id));
 		$job = $q->fetch();
 
-		require_once(__DIR__ . "/../_batch_insert.php");
+		require_once(__DIR__ . "/../batch/_batch_insert.php");
 		require(__DIR__ . "/../jobs/sum.php");
 
 		// now, find all summary_instances
