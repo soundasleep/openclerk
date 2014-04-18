@@ -1,0 +1,40 @@
+<Files "_*">
+	Order deny,allow
+	Deny from all
+</Files>
+
+RewriteEngine on
+
+# client-side URI mapping
+# if you are running in a top-level domain, you should use this:
+# RewriteBase /
+# ErrorDocument 404 /404.php
+# if you are running in a subfolder, you should instead use this:
+RewriteBase /clerk/batch
+ErrorDocument 404 /clerk/batch/404.php
+
+# Provide human-readable URLs for some common paths; otherwise
+# all scripts are accessible through the final rule below.
+# To disable these rules, edit url_for() and remove the switch($module) statement.
+# Also see: Issue #4.
+
+RewriteCond %{QUERY_STRING}     	^q=(.*)$    [NC]
+RewriteRule ^kb$         help/%1     [R=301,L]
+
+RewriteRule ^help/([0-9a-z\-_]+)$         kb.php?q=$1     [L,QSA]
+
+# RewriteRule ^([0-9a-z_]+)/$        $1         [R,QSA]
+RewriteRule ^help/$        $1         [R,QSA]
+RewriteRule ^signup/$        $1         [R,QSA]
+RewriteRule ^login/$        $1         [R,QSA]
+RewriteRule ^profile/$        $1         [R,QSA]
+
+RewriteRule ^js/add_graph.js$ js/add_graph.js.php [L,QSA]
+
+RewriteRule ^api/([0-9a-z_]+)/([0-9a-z_]+).json$	api/$1/$2.php		[L,QSA]
+
+RewriteRule ^qr/([0-9a-zA-Z_]+)$	img/qr/qr.php?code=$1	[L,QSA]
+
+# This rewrites /foo to /foo.php
+# To disable this rule, edit url_for() to return the normal .php extension for a given path.
+RewriteRule ^([0-9a-z_]+)$         $1.php     [L,QSA]
