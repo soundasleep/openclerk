@@ -5,6 +5,7 @@ require(__DIR__ . (disabled) "/locale.php");
 require(__DIR__ . (disabled) "/standard.php");
 */
 require(__DIR__ . "/config.php");
+define('LIGHTOPENID_TIMEOUT', get_site_config('get_openid_timeout') * 1000);
 
 // before loading sessions
 require(__DIR__ . "/performance.php");
@@ -24,7 +25,7 @@ require(__DIR__ . "/kb.php");
  * a query is not a write query, and we have set up replication
  * ({@code get_site_config('database_slave')}),
  * without having to change instances of {@code db()->prepare($query)} throughout the site.
- * 
+ *
  * Otherwise this function should be functionally identical to
  * {@code db()->prepare($query)}.
  */
@@ -80,7 +81,7 @@ class ReplicatedDbWrapper {
 	public static function isWriteQuery($query) {
 		$q = " " . strtolower(preg_replace("/\\s/i", " ", $query));
 		return strpos($q, " update ") !== false ||
-			strpos($q, " insert ") !== false || 
+			strpos($q, " insert ") !== false ||
 			strpos($q, " delete ") !== false;
 	}
 }

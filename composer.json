@@ -1,6 +1,11 @@
 {
   "require": {
     "phpmailer/phpmailer": "dev-master",
-    "soundasleep/html5lib-php": "~0.1.3"
-  }
+    "soundasleep/html5lib-php": "~0.1.3",
+    "lightopenid/lightopenid": "dev-master"
+  },
+  "repositories": [{
+    "type": "vcs",
+    "url": "https://github.com/soundasleep/lightopenid"
+  }]
 }

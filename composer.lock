@@ -3,8 +3,44 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "762b080ad39b3ccb75d84ef930798cab",
+    "hash": "4f621c970df5db790dc98368e644b23d",
     "packages": [
+        {
+            "name": "lightopenid/lightopenid",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soundasleep/lightopenid.git",
+                "reference": "7fca9966218090ecb928582e1689b6ec678e652b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soundasleep/lightopenid/zipball/7fca9966218090ecb928582e1689b6ec678e652b",
+                "reference": "7fca9966218090ecb928582e1689b6ec678e652b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "homepage": "http://code.google.com/p/lightopenid/",
+            "keywords": [
+                "openid"
+            ],
+            "support": {
+                "source": "https://github.com/soundasleep/lightopenid/tree/master",
+                "issues": "https://github.com/soundasleep/lightopenid/issues"
+            },
+            "time": "2014-04-18 02:09:10"
+        },
         {
             "name": "phpmailer/phpmailer",
             "version": "dev-master",
@@ -120,7 +156,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpmailer/phpmailer": 20
+        "phpmailer/phpmailer": 20,
+        "lightopenid/lightopenid": 20
     },
     "platform": [
 
