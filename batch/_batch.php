@@ -65,7 +65,10 @@ if (get_site_config('timed_curl')) {
 	);
 }
 
-// wraps file_get_contents() with timeout information etc
+/**
+ * Wraps {@link #file_get_contents()} with timeout information etc.
+ * May throw a {@link ExternalAPIException} if something unexpected occured.
+ */
 function crypto_get_contents($url, $options = array()) {
 	if (get_site_config('timed_curl')) {
 		$curl_start = microtime(true);
@@ -105,8 +108,82 @@ function crypto_get_contents($url, $options = array()) {
 	}
 
 	if ($res === false) throw new ExternalAPIException('Could not get reply: '.curl_error($ch));
+	crypto_check_response($res);
 
 	return $res;
+}
+
+/**
+ * @throws a {@link CloudFlareException} or {@link IncapsulaException} if the given
+ * 		remote response suggests something about CloudFlare or Incapsula.
+ * @throws an {@link ExternalAPIException} if the response suggests something else that was unexpected
+ */
+function crypto_check_response($string) {
+	if (strpos($string, 'DDoS protection by CloudFlare') !== false) {
+		throw new CloudFlareException('Throttled by CloudFlare' . ($message ? " $message" : ""));
+	}
+	if (strpos($string, 'CloudFlare') !== false) {
+		if (strpos($string, 'The origin web server timed out responding to this request.') !== false) {
+			throw new CloudFlareException('Cloudflare reported: The origin web server timed out responding to this request.');
+		}
+	}
+	if (strpos($string, 'Incapsula incident') !== false) {
+		throw new IncapsulaException('Blocked by Incapsula' . ($message ? " $message" : ""));
+	}
+	if (strpos($string, '_Incapsula_Resource') !== false) {
+		throw new IncapsulaException('Throttled by Incapsula' . ($message ? " $message" : ""));
+	}
+	if (strpos(strtolower($string), '301 moved permanently') !== false) {
+		throw new ExternalAPIException("API location has been moved permanently" . ($message ? " $message" : ""));
+	}
+	if (strpos($string, "Access denied for user '") !== false) {
+		throw new ExternalAPIException("Remote database host returned 'Access denied'" . ($message ? " $message" : ""));
+	}
+	if (strpos(strtolower($string), "502 bad gateway") !== false) {
+		throw new ExternalAPIException("Bad gateway" . ($message ? " $message" : ""));
+	}
+	if (strpos(strtolower($string), "connection timed out") !== false) {
+		throw new ExternalAPIException("Connection timed out" . ($message ? " $message" : ""));
+	}
+}
+
+/**
+ * Try to decode a JSON string, or try and work out why it failed to decode but throw an exception
+ * if it was not a valid JSON string.
+ *
+ * @param empty_is_ok if true, then don't bail if the returned JSON is an empty array
+ */
+function crypto_json_decode($string, $message = false, $empty_array_is_ok = false) {
+	$json = json_decode($string, true);
+	if (!$json) {
+		if ($empty_array_is_ok && is_array($json)) {
+			// the result is an empty array
+			return $json;
+		}
+		crypto_log(htmlspecialchars($string));
+		crypto_check_response($string);
+		if (substr($string, 0, 1) == "<") {
+			throw new ExternalAPIException("Unexpectedly received HTML instead of JSON" . ($message ? " $message" : ""));
+		}
+		if (strpos(strtolower($string), "invalid key") !== false) {
+			throw new ExternalAPIException("Invalid key" . ($message ? " $message" : ""));
+		}
+		if (strpos(strtolower($string), "bad api key") !== false) {
+			throw new ExternalAPIException("Bad API key" . ($message ? " $message" : ""));
+		}
+		if (strpos(strtolower($string), "access denied") !== false) {
+			throw new ExternalAPIException("Access denied" . ($message ? " $message" : ""));
+		}
+		if (strpos(strtolower($string), "parameter error") !== false) {
+			// for 796 Exchange
+			throw new ExternalAPIException("Parameter error" . ($message ? " $message" : ""));
+		}
+		if (!$string) {
+			throw new EmptyResponseException('Response was empty' . ($message ? " $message" : ""));
+		}
+		throw new ExternalAPIException('Invalid data received' . ($message ? " $message" : ""));
+	}
+	return $json;
 }
 
 class WrappedJobException extends Exception {
