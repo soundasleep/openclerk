@@ -8,11 +8,11 @@ require(__DIR__ . "/phpmailer.php");
  * @throws MailerException if the mail could not be immediately sent (e.g. technical error, invalid e-mail address...)
  */
 function send_email($to_email, $to_name, $template_id, $args = array()) {
-	if (!file_exists("emails/" . $template_id . ".txt")) {
+	if (!file_exists(__DIR__ . "/../emails/" . $template_id . ".txt")) {
 		throw new Exception("Email template $template_id does not exist");
 	}
 
-	$template = file_get_contents("emails/" . $template_id . ".txt");
+	$template = file_get_contents(__DIR__ . "/../emails/" . $template_id . ".txt");
 
 	// replace variables
 	// TODO add escaping
