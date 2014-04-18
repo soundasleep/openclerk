@@ -30,16 +30,6 @@ List of features that present in the first release, now running at https://crypt
 
 More information: http://openclerk.org
 
-## Installing
-
-Openclerk is built and deployed with a rich assortment of web technologies.
-
-* Install ruby, NodeJS, npm and composer.
-* `gem install sass`
-* `npm install`
-* `composer install`
-* Finally, `grunt build` to build everything
-
 ## Extending
 
 If you want to have an openclerk base (like CryptFolio), you can place your changes into a new `config/` directory,

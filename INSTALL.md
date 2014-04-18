@@ -19,9 +19,21 @@ To install Openclerk:
 
 1. Install all the build dependencies:
 
-    sudo apt-get install ...
+	# install Ruby
+    apt-get install rubygems python-software-properties git
+
+    # install NodeJS, npm
+    add-apt-repository ppa:chris-lea/node.js
+    apt-get update
+    apt-get install nodejs      # also installs npm from latest
+
+    # install Composer, globally
+    curl -sS https://getcomposer.org/installer | php
+	mv composer.phar /usr/local/bin/composer
+
+    gem install sass
     npm install
-    grunt install
+    npm install -g grunt-cli
     composer install
 
 1. Build through Grunt:
