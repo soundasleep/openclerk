@@ -36,6 +36,8 @@
     "grunt": "^0.4.4",
     "grunt-phpunit": "^0.3.3",
     "grunt-contrib-sass": "^0.7.3",
-    "grunt-bg-shell": "^2.3.1"
+    "grunt-bg-shell": "^2.3.1",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-clean": "^0.5.0"
   }
 }

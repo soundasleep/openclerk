@@ -13,17 +13,17 @@ List of features that present in the first release, now running at https://crypt
 * Support for multiple fiat currencies (USD, NZD)
 * Support for offline wallets
 * Support for online wallets
-  * Mt.Gox
-  * BTC-e
-  * Vircurex
-  * Litecoin Global
-  * BTC Trading Co.
-  * Generic API
+	* Mt.Gox
+	* BTC-e
+	* Vircurex
+	* Litecoin Global
+	* BTC Trading Co.
+	* Generic API
 * Support for multiple exchanges
-  * Mt.Gox
-  * BTC-e
-  * Vircurex
-  * BitNZ
+	* Mt.Gox
+	* BTC-e
+	* Vircurex
+	* BitNZ
 * User-defined summary home page with configurable graphs and level of detail
 * External API summary page
 * Premium accounts to support site hosting and access more frequently updated data and advanced reports
@@ -47,5 +47,6 @@ and the build script (and [eventually](http://redmine.jevon.org/issues/132) conf
 will include these files as necessary. Files supported:
 
 ```
-config/site/css/*.scss
+config/site/css/*.scss -> site/styles/*.css
+config/site/img/config/* -> site/img/config/*
 ```
