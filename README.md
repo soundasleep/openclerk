@@ -18,14 +18,24 @@ List of features that present in the first release, now running at https://crypt
   * Vircurex
   * Litecoin Global
   * BTC Trading Co.
-  * Generic API 
+  * Generic API
 * Support for multiple exchanges
   * Mt.Gox
   * BTC-e
   * Vircurex
-  * BitNZ 
+  * BitNZ
 * User-defined summary home page with configurable graphs and level of detail
 * External API summary page
-* Premium accounts to support site hosting and access more frequently updated data and advanced reports 
+* Premium accounts to support site hosting and access more frequently updated data and advanced reports
 
 More information: http://openclerk.org
+
+## Installing
+
+Openclerk is built and deployed with a rich assortment of web technologies.
+
+* Install ruby, NodeJS, npm and composer.
+* `gem install sass`
+* `npm install`
+* `composer install`
+* Finally, `grunt serve` to build everything and watch for changes

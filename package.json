@@ -34,6 +34,7 @@
     "grunt-contrib-coffee": "^0.10.1",
     "grunt-cli": "^0.1.13",
     "grunt": "^0.4.4",
-    "grunt-phpunit": "^0.3.3"
+    "grunt-phpunit": "^0.3.3",
+    "grunt-contrib-sass": "^0.7.3"
   }
 }
