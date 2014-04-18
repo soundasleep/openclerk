@@ -29,15 +29,15 @@ $messages = array();
 $accounts = user_limits_summary(user_id());
 
 // get our currency preferences
-require(__DIR__ . "/graphs/util.php");
+require(__DIR__ . "/../graphs/util.php");
 $summaries = get_all_summary_currencies();
 $currencies = get_all_currencies();
 
-require(__DIR__ . "/graphs/types.php");
+require(__DIR__ . "/../graphs/types.php");
 $graphs = graph_types();
 
 // work out which graphs we would have
-require(__DIR__ . "/graphs/managed.php");
+require(__DIR__ . "/../graphs/managed.php");
 $auto_graphs = calculate_user_graphs($user, 'auto');
 $managed_graphs = calculate_all_managed_graphs($user);
 

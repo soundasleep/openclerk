@@ -24,7 +24,7 @@ $pages = $q->fetchAll();
 // get all of our latest balances, ignoring currencies we're not interested in
 $balances = array();
 $last_updated = array();
-require(__DIR__ . "/graphs/util.php");
+require(__DIR__ . "/../graphs/util.php");
 foreach (get_all_summary_currencies() as $cur => $summary) {
 	$balances[$cur] = array();
 }

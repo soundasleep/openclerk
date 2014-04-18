@@ -21,7 +21,7 @@ $messages = array();
 $accounts = user_limits_summary(user_id());
 
 // get our offset values
-require(__DIR__ . "/graphs/util.php");
+require(__DIR__ . "/../graphs/util.php");
 $summaries = get_all_summary_currencies();
 $offsets = get_all_offset_instances();
 $currencies = get_all_currencies();

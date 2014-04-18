@@ -80,7 +80,7 @@ function get_supported_notifications() {
 		$supported_exchange_currencies = array();
 
 		// all the exchanges we may be interested in
-		require(__DIR__ . "/graphs/util.php");
+		require(__DIR__ . "/../graphs/util.php");
 		$summaries = get_all_summary_currencies();
 		$conversions = get_all_conversion_currencies();
 

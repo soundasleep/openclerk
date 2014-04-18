@@ -549,11 +549,11 @@ function render_graph_actual($graph, $is_public) {
 
 		case "metrics_slow_graphs_graph":
 			render_metrics_slow_graphs_graph($graph);
-			break;		
+			break;
 
 		case "metrics_slow_graphs_database_graph":
 			render_metrics_slow_graphs_database_graph($graph);
-			break;		
+			break;
 
 		case "metrics_slow_graphs_count_graph":
 			render_metrics_slow_graphs_count_graph($graph);
@@ -564,7 +564,7 @@ function render_graph_actual($graph, $is_public) {
 			break;
 
 		case "calculator":
-			require(__DIR__ . "/../_calculator.php");
+			require(__DIR__ . "/../site/_calculator.php");
 			?>
 			<script type="text/javascript">
 			$(document).ready(function() {

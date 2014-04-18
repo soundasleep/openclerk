@@ -13,7 +13,7 @@ require_user($user);
 $errors = array();
 $messages = array();
 
-require(__DIR__ . "/graphs/managed.php");
+require(__DIR__ . "/../graphs/managed.php");
 
 // get all of our limits
 $accounts = user_limits_summary(user_id());

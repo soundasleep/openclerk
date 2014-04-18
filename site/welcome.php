@@ -7,7 +7,7 @@
 require(__DIR__ . "/../inc/global.php");
 
 require(__DIR__ . "/../layout/templates.php");
-require(__DIR__ . "/graphs/types.php");
+require(__DIR__ . "/../graphs/types.php");
 
 $user = get_user(user_id());
 require_user($user);

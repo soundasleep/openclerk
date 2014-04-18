@@ -23,7 +23,7 @@ $enable_editing = false;
 require(__DIR__ . "/_profile_move.php");
 
 // do we need to replace/update managed graphs?
-require(__DIR__ . "/graphs/managed.php");
+require(__DIR__ . "/../graphs/managed.php");
 if ($user['needs_managed_update']) {
 	update_user_managed_graphs($user);
 }
