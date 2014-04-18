@@ -3,20 +3,53 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4f621c970df5db790dc98368e644b23d",
+    "hash": "cad926f8429e087b1bf6d56b1938b424",
     "packages": [
+        {
+            "name": "lastcraft/simpletest",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lox/simpletest.git",
+                "reference": "1c9db340b758919f16c46d496476432d94400955"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lox/simpletest/zipball/1c9db340b758919f16c46d496476432d94400955",
+                "reference": "1c9db340b758919f16c46d496476432d94400955",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.5"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Marcus Baker",
+                    "email": "marcus@lastcraft.com",
+                    "role": "Original project lead"
+                }
+            ],
+            "description": "Unit testing, mock objects and web testing framework for PHP built around test cases.",
+            "homepage": "http://simpletest.org/",
+            "time": "2012-06-12 05:22:54"
+        },
         {
             "name": "lightopenid/lightopenid",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/lightopenid.git",
-                "reference": "7fca9966218090ecb928582e1689b6ec678e652b"
+                "reference": "45e59630025cff221392c3ed32cd979f3b278aae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/lightopenid/zipball/7fca9966218090ecb928582e1689b6ec678e652b",
-                "reference": "7fca9966218090ecb928582e1689b6ec678e652b",
+                "url": "https://api.github.com/repos/soundasleep/lightopenid/zipball/45e59630025cff221392c3ed32cd979f3b278aae",
+                "reference": "45e59630025cff221392c3ed32cd979f3b278aae",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +72,7 @@
                 "source": "https://github.com/soundasleep/lightopenid/tree/master",
                 "issues": "https://github.com/soundasleep/lightopenid/issues"
             },
-            "time": "2014-04-18 02:09:10"
+            "time": "2014-04-18 02:16:03"
         },
         {
             "name": "phpmailer/phpmailer",

@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../inc/simpletest/autorun.php");
+require_once(__DIR__ . "/../vendor/lastcraft/simpletest/autorun.php");
 
 require_once(__DIR__ . "/../inc/global.php");
 

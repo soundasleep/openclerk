@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../inc/simpletest/autorun.php");
+require_once(__DIR__ . "/../vendor/lastcraft/simpletest/autorun.php");
 
 require_once(__DIR__ . "/../inc/global.php");
 
@@ -40,6 +40,10 @@ class ReleaseTestsTest extends UnitTestCase {
 					} else if (is_dir($dir . "/" . $entry)) {
 						if ($name == 'inc') {
 							// ignore subdirs of inc
+							continue;
+						}
+						if ($name == 'vendor') {
+							// ignore subdirs of vendor
 							continue;
 						}
 						$result = array_merge($result, $this->recurseFindFiles($dir . "/" . $entry, $entry));

@@ -2,7 +2,8 @@
   "require": {
     "phpmailer/phpmailer": "dev-master",
     "soundasleep/html5lib-php": "~0.1.3",
-    "lightopenid/lightopenid": "dev-master"
+    "lightopenid/lightopenid": "dev-master",
+    "lastcraft/simpletest": "~1.1"
   },
   "repositories": [{
     "type": "vcs",

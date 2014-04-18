@@ -4,7 +4,7 @@
 require(__DIR__ . "/../inc/global.php");
 require_admin();
 
-require_once(__DIR__ . "/../inc/simpletest/autorun.php");
+require_once(__DIR__ . "/../vendor/lastcraft/simpletest/autorun.php");
 
 set_time_limit(180);	// make it long, but not too long
 
