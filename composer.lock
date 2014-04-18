@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d940ce299122700706d60de417f6f873",
+    "hash": "e471bb8fc38dc36f3dee7408b631b721",
     "packages": [
         {
             "name": "lightopenid/lightopenid",
@@ -730,16 +730,16 @@
         },
         {
             "name": "soundasleep/spritify",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/spritify.git",
-                "reference": "ff4e2e120952ecd8030f6c99f1e54931d4095c12"
+                "reference": "87a5b19e4938f25126259f1ef7fb2eeec0cf7a47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/ff4e2e120952ecd8030f6c99f1e54931d4095c12",
-                "reference": "ff4e2e120952ecd8030f6c99f1e54931d4095c12",
+                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/87a5b19e4938f25126259f1ef7fb2eeec0cf7a47",
+                "reference": "87a5b19e4938f25126259f1ef7fb2eeec0cf7a47",
                 "shasum": ""
             },
             "require": {
@@ -764,10 +764,10 @@
                 "spritesheet"
             ],
             "support": {
-                "source": "https://github.com/soundasleep/spritify/tree/0.2.0",
+                "source": "https://github.com/soundasleep/spritify/tree/0.2.1",
                 "issues": "https://github.com/soundasleep/spritify/issues"
             },
-            "time": "2014-04-18 05:06:34"
+            "time": "2014-04-18 09:12:40"
         },
         {
             "name": "symfony/yaml",
