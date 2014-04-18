@@ -180,7 +180,7 @@ function graph_types_public($summaries = array()) {
 		'description' => 'The time spent in the database on the slowest jobs represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
-	);	
+	);
 
 	$data['metrics_slow_pages_graph'] = array(
 		'title' => "Slowest pages (graph)",
@@ -196,7 +196,7 @@ function graph_types_public($summaries = array()) {
 		'description' => 'The time spent in the database on the slowest pages represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
-	);	
+	);
 
 	$data['metrics_slow_graphs_graph'] = array(
 		'title' => "Slowest graphs (graph)",
@@ -204,7 +204,7 @@ function graph_types_public($summaries = array()) {
 		'description' => 'The slowest graphs represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
-	);	
+	);
 
 	$data['metrics_slow_graphs_database_graph'] = array(
 		'title' => "Slowest graphs database time (graph)",
@@ -212,7 +212,7 @@ function graph_types_public($summaries = array()) {
 		'description' => 'The time spent in the database on the slowest graphs represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
-	);	
+	);
 
 	$data['metrics_slow_graphs_count_graph'] = array(
 		'title' => "Slowest graphs frequency (graph)",
@@ -220,7 +220,7 @@ function graph_types_public($summaries = array()) {
 		'description' => 'The frequency that the slowest graphs are requested, represented as a graph over time.',
 		'hide' => true,		// should only be accessible by admins
 		'admin' => true,	// should only be accessible by admins
-	);	
+	);
 
 	$data['metrics_jobs_frequency_graph'] = array(
 		'title' => "Job frequency (graph)",
@@ -557,8 +557,10 @@ function graph_technical_types() {
 		"sma" => array('title' => 'Simple moving average (SMA)', 'period' => true, 'premium' => false, 'title_short' => 'SMA',
 			'description' => 'A simple moving average of the price - or midpoint between buy and sell - over the last <i>n</i> days.'),
 	);
-	foreach (graph_premium_technical_types() as $key => $value) {
-		$data[$key] = $value;
+	if (function_exists('graph_technical_types_ext')) {
+		foreach (graph_technical_types_ext() as $key => $value) {
+			$data[$key] = $value;
+		}
 	}
 
 	// add sample images

@@ -220,7 +220,7 @@ function crypto_address($currency, $address) {
 	foreach (get_blockchain_currencies() as $explorer => $currencies) {
 		foreach ($currencies as $cur) {
 			if ($cur == $currency) {
-				return "<span class=\"address " . $currency . "_address\"><code>" . htmlspecialchars($address) . "</code> 
+				return "<span class=\"address " . $currency . "_address\"><code>" . htmlspecialchars($address) . "</code>
 					<a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config($currency . "_address_url") . $address) . "\" title=\"Inspect with " . htmlspecialchars($explorer) . "\">?</a>
 				</span>";
 			}
@@ -284,8 +284,7 @@ function require_template($id) {
 	$id = str_replace("/", "", $id);
 	$id = str_replace("\\", "", $id);
 
-	$config = get_site_config();
-	if (isset($config["custom_" . $id]) && get_site_config("custom_" . $id)) {
+	if (get_site_config("custom_" . $id, false)) {
 		require(get_site_config("custom_" . $id));
 	} else {
 		require(__DIR__ . "/../templates/" . $id . ".php");
