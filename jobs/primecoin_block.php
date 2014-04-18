@@ -7,7 +7,7 @@
  */
 
 $html = crypto_get_contents(crypto_wrap_url(get_site_config('xpm_block_url_html')));
-require(__DIR__ . '/../inc/html5lib/Parser.php');
+require(__DIR__ . '/../vendor/soundasleep/html5lib-php/library/HTML5/Parser.php');
 
 // this HTML is totally messed up and invalid; try to clean it up
 $html = preg_replace("/&([a-z]+)/im", "", $html);

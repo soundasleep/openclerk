@@ -1,5 +1,6 @@
 {
   "require": {
-    "phpmailer/phpmailer": "dev-master"
+    "phpmailer/phpmailer": "dev-master",
+    "soundasleep/html5lib-php": "~0.1.3"
   }
 }

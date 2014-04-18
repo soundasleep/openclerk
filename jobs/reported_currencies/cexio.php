@@ -6,7 +6,7 @@
  */
 
 $bitnz = array();
-require(__DIR__ . '/../../inc/html5lib/Parser.php');
+require(__DIR__ . '/../../vendor/soundasleep/html5lib-php/library/HTML5/Parser.php');
 $html = crypto_get_contents(crypto_wrap_url("https://cex.io/"));
 $dom = HTML5_Parser::parse($html);
 

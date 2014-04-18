@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a4c65d33efd5e8dbb649627d39fee966",
+    "hash": "762b080ad39b3ccb75d84ef930798cab",
     "packages": [
         {
             "name": "phpmailer/phpmailer",
@@ -57,6 +57,59 @@
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "time": "2014-04-16 09:04:28"
+        },
+        {
+            "name": "soundasleep/html5lib-php",
+            "version": "0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soundasleep/html5lib-php.git",
+                "reference": "33c171e9c4eeec837f9fd0c95b397fa5e087579c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soundasleep/html5lib-php/zipball/33c171e9c4eeec837f9fd0c95b397fa5e087579c",
+                "reference": "33c171e9c4eeec837f9fd0c95b397fa5e087579c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTML5Lib": "src/",
+                    "HTML5Lib\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Multiple users",
+                    "homepage": "https://code.google.com/p/html5lib/",
+                    "role": "Original developers"
+                },
+                {
+                    "name": "Sébastien Lavoie",
+                    "homepage": "http://blog.lavoie.sl",
+                    "role": "Packager"
+                },
+                {
+                    "name": "Jevon Wright",
+                    "homepage": "http://jevon.org",
+                    "role": "Packager"
+                }
+            ],
+            "description": "A PHP implementations of a HTML parser based on the WHATWG HTML5 specification.",
+            "homepage": "https://github.com/soundasleep/html5lib-php",
+            "keywords": [
+                "HTML5",
+                "php"
+            ],
+            "time": "2014-04-18 00:52:09"
         }
     ],
     "packages-dev": [

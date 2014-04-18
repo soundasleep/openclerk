@@ -8,7 +8,7 @@
 $exchange_name = "virtex";
 $get_exchange_pairs = get_exchange_pairs();
 
-require(__DIR__ . '/../../inc/html5lib/Parser.php');
+require(__DIR__ . '/../../vendor/soundasleep/html5lib-php/library/HTML5/Parser.php');
 
 function virtex_table_first_row($xml, $table_id, $expected = 4) {
 	$orderbook = $xml->xpath("//html:div[@id='$table_id']/html:table/html:tbody/html:tr");
@@ -59,7 +59,7 @@ foreach ($get_exchange_pairs['virtex'] as $pair) {
 	if ($currency1 == "ltc" && $currency2 == "btc") {
 		$url = "https://www.cavirtex.com/orderbook?filterby=" . get_currency_abbr($currency2) . get_currency_abbr($currency1);
 	} else {
-		$url = "https://www.cavirtex.com/orderbook?filterby=" . get_currency_abbr($currency1) . get_currency_abbr($currency2);		
+		$url = "https://www.cavirtex.com/orderbook?filterby=" . get_currency_abbr($currency1) . get_currency_abbr($currency2);
 	}
 	$html = crypto_get_contents(crypto_wrap_url($url));
 
