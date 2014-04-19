@@ -7,7 +7,7 @@ Also see the pending issue for developing an upgrade script: [#115](http://redmi
 Upgrading an Openclerk instance is currently a manual process but fairly
 straightforward once you have done it a couple of times. The basic format is:
 
-1. Update `config.php` and set jobs_enabled to false
+1. Update `config.php` and set `jobs_enabled` to false
 
 1. Execute `svn update` to update to the latest version
 

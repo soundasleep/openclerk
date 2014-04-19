@@ -39,7 +39,7 @@ if ($openid) {
 			}
 
 			// to sign up with OpenID, we must first authenticate to see if the identity already exists
-			require(__DIR__ . "/vendor/lightopenid/lightopenid/openid.php");
+			require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
 			$light = new LightOpenID(get_openid_host());
 
 			if (!$light->mode) {

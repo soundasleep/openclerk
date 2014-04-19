@@ -23,7 +23,7 @@ try {
 			throw new EscapedException("That is not a valid OpenID identity.");
 		}
 
-		require(__DIR__ . "/vendor/lightopenid/lightopenid/openid.php");
+		require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
 		$light = new LightOpenID(get_openid_host());
 
 		if (!$light->mode) {
