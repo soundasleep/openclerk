@@ -19,7 +19,7 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 
 		foreach ($files as $f) {
 			$s = file_get_contents($f);
-			if (preg_match('#\n[^*/]((require|require_once|include|include_once|file_exists))\(("|\')#m', $s, $matches)) {
+			if (preg_match('#\n[^*/]*((require|require_once|include|include_once|file_exists))\(("|\')[^/]#m', $s, $matches)) {
 				throw new Exception("Found " . $matches[1] . "() that did not use __DIR__ in '" . $f . "': '" . $matches[0] . "'");
 			}
 		}
@@ -66,7 +66,7 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 
 		foreach ($files as $f) {
 			$s = file_get_contents($f);
-			if (preg_match_all('#\n(require|require_once|include|include_once)\(__DIR__ . ("|\')([^"\']+)("|\')#m', $s, $matches_array, PREG_SET_ORDER)) {
+			if (preg_match_all('#\n[^*/]*(require|require_once|include|include_once)\(__DIR__ . ("|\')([^"\']+)("|\')#m', $s, $matches_array, PREG_SET_ORDER)) {
 				foreach ($matches_array as $matches) {
 					$path = $matches[3];
 
