@@ -41,7 +41,7 @@ $currency2 = require_get("currency2", "usd");
 function get_all_rates() {
 	return <?php
 
-	require(__DIR__ . "/inc/api.php");
+	require(__DIR__ . "/../inc/api.php");
 	$rates = api_get_all_rates(true /* with_extra */);
 
 	echo json_encode($rates);
