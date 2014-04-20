@@ -13,7 +13,7 @@ require(__DIR__ . "/../layout/graphs.php");
 $messages = array();
 $errors = array();
 
-page_header("Status", "page_admin", array('common_js' => true, 'jquery' => true, 'jsapi' => true));
+page_header("Status", "page_admin", array('jsapi' => true));
 
 ?>
 

@@ -145,7 +145,7 @@ if ($openid) {
 }
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Signup", "page_signup", array('jquery' => true, 'js' => 'auth'));
+page_header("Signup", "page_signup", array('js' => 'auth'));
 
 ?>
 

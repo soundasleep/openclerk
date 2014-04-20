@@ -99,7 +99,7 @@ if (require_post("months", false) || require_post("years", false)) {
 	}
 }
 
-page_header("Purchase Premium", "page_purchase", array('jquery' => true, 'js' => 'purchase'));
+page_header("Purchase Premium", "page_purchase", array('js' => 'purchase'));
 
 ?>
 

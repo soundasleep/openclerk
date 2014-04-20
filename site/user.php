@@ -99,7 +99,7 @@ if (require_get("new_purchase", false)) {
 // get all of our accounts limits
 $accounts = user_limits_summary(user_id());
 
-page_header("User Account", "page_user", array('jquery' => true, 'common_js' => true));
+page_header("User Account", "page_user");
 
 ?>
 

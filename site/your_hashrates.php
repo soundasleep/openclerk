@@ -14,7 +14,7 @@ $user = get_user(user_id());
 
 require(__DIR__ . "/_profile_common.php");
 
-page_header("Your Hashrates", "page_your_hashrates", array('jquery' => true, 'js' => array('common', 'accounts'), 'class' => 'report_page'));
+page_header("Your Hashrates", "page_your_hashrates", array('js' => array('accounts'), 'class' => 'report_page'));
 
 // get all pages
 $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 ORDER BY page_order ASC, id ASC");

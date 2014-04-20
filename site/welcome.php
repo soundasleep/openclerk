@@ -15,7 +15,7 @@ require_user($user);
 $messages = array();
 $errors = array();
 
-page_header("Welcome to " . get_site_config('site_name'), "page_welcome", array('js' => 'common', 'jquery' => true));
+page_header("Welcome to " . get_site_config('site_name'), "page_welcome");
 
 ?>
 

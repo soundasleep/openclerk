@@ -7,7 +7,7 @@
 require(__DIR__ . "/../inc/global.php");
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("External API Status", "page_external", array('common_js' => true));
+page_header("External API Status", "page_external");
 
 $last_updated = false;
 $q = db()->prepare("SELECT * FROM external_status WHERE is_recent=1");

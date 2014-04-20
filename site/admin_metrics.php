@@ -13,7 +13,7 @@ require(__DIR__ . "/../layout/graphs.php");
 $messages = array();
 $errors = array();
 
-page_header("Site Metrics", "page_admin_metrics", array('common_js' => true, 'jquery' => true, 'jsapi' => true));
+page_header("Site Metrics", "page_admin_metrics", array('jsapi' => true));
 $graph_count = 0;
 
 ?>

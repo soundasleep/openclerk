@@ -3,7 +3,7 @@
 require(__DIR__ . "/../inc/global.php");
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Screenshots", "page_screenshots", array('common_js' => true, 'jquery' => true));
+page_header("Screenshots", "page_screenshots");
 
 require_template("screenshots");
 

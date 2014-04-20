@@ -172,7 +172,7 @@ if ($pages) {
 	// correctly refreshed when necessary
 	$hash = md5($user['id'] . ":" . $user['last_summaries_update']);
 
-	page_header($page_title_prefix . $page_title, "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => array('profile', 'calculator', 'add_graph?hash=' . $hash), 'class' => 'report_page'));
+	page_header($page_title_prefix . $page_title, "page_profile", array('jsapi' => true, 'js' => array('profile', 'calculator', 'add_graph?hash=' . $hash), 'class' => 'report_page'));
 
 ?>
 
@@ -258,7 +258,7 @@ if (!$graphs) { ?>
 <?php } else {
 	/* no pages */
 
-	page_header("Your Reports", "page_profile", array('common_js' => true, 'jsapi' => true, 'jquery' => true, 'js' => 'profile', 'class' => 'report_page'));
+	page_header("Your Reports", "page_profile", array('jsapi' => true, 'js' => 'profile', 'class' => 'report_page'));
 	?>
 
 <div class="message">

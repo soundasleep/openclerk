@@ -116,7 +116,7 @@ if ($destination && !require_get("pause", false)) {
 }
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Login", "page_login", array('jquery' => true, 'js' => 'auth'));
+page_header("Login", "page_login", array('js' => 'auth'));
 
 ?>
 

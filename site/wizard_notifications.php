@@ -9,7 +9,7 @@ require(__DIR__ . "/../inc/global.php");
 require_login();
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Notification Preferences", "page_wizard_notifications", array('jquery' => true, 'js' => array('common', 'wizard', 'notifications', 'accounts' /* for sorting */), 'class' => 'page_accounts'));
+page_header("Notification Preferences", "page_wizard_notifications", array('js' => array('wizard', 'notifications', 'accounts' /* for sorting */), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);

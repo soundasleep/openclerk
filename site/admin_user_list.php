@@ -13,7 +13,7 @@ require(__DIR__ . "/../layout/graphs.php");
 $messages = array();
 $errors = array();
 
-page_header("Admin: Users", "page_admin_user_list", array('jquery' => true, 'js' => array('common', 'accounts')));
+page_header("Admin: Users", "page_admin_user_list", array('js' => array('accounts')));
 
 $max_count = 30;
 $args = array();

@@ -89,7 +89,7 @@ try {
 }
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Add OpenID Identity", "page_openid_add", array('jquery' => true, 'js' => 'auth'));
+page_header("Add OpenID Identity", "page_openid_add", array('js' => 'auth'));
 
 ?>
 

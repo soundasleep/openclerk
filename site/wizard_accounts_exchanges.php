@@ -12,7 +12,7 @@ require_login();
 require(__DIR__ . "/../graphs/util.php");
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Add Exchanges", "page_wizard_accounts_exchanges", array('jquery' => true, 'js' => array('accounts', 'wizard'), 'common_js' => true, 'class' => 'page_accounts'));
+page_header("Add Exchanges", "page_wizard_accounts_exchanges", array('js' => array('accounts', 'wizard'), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);

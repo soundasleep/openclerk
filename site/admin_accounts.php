@@ -53,7 +53,7 @@ if (require_post("enable", false)) {
 	$messages[] = "Re-enabled " . plural($count, "account") . ".";
 }
 
-page_header("Admin: Accounts", "page_admin_accounts", array('jquery' => true, 'js' => array('common', 'accounts')));
+page_header("Admin: Accounts", "page_admin_accounts", array('js' => array('accounts')));
 
 // where 0% = bad; 100% = perfect; etc
 function get_error_class($n) {
