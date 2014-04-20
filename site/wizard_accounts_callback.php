@@ -16,6 +16,7 @@ $id = require_get('id');
 
 // make sure that we actually have a valid account
 $account_data = false;
+$accounts = array();
 foreach (account_data_grouped() as $label => $data) {
 	foreach ($data as $key => $value) {
 		if ($key == $exchange) {
