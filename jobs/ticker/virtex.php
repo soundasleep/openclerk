@@ -94,7 +94,7 @@ foreach ($get_exchange_pairs['virtex'] as $pair) {
 		$sell = $tmp;
 	}
 
-	insert_new_ticker($job, $exchange, $currency1, $currency2, array(
+	insert_new_ticker($job, $exchange, $currency2, $currency1, array(
 		"last_trade" => $last_trade,
 		// Virtex returns buy/sell in the incorrect order
 		"bid" => $buy,

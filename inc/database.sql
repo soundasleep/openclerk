@@ -3476,3 +3476,16 @@ ALTER TABLE securities_cryptotrade ADD is_disabled tinyint not null default 0;
 ALTER TABLE securities_cryptotrade ADD failures tinyint not null default 0;
 ALTER TABLE securities_cryptotrade ADD first_failure timestamp null;
 ALTER TABLE securities_cryptotrade ADD INDEX(is_disabled);
+
+-- issue #178: missing virtex LTC rates
+DELETE FROM ticker_recent WHERE exchange='virtex';
+
+UPDATE ticker SET currency1='cad', currency2='btc' WHERE exchange='virtex' AND currency1='btc' AND currency2='cad';
+UPDATE ticker_recent SET currency1='cad', currency2='btc' WHERE exchange='virtex' AND currency1='btc' AND currency2='cad';
+
+UPDATE ticker SET currency1='btc', currency2='ltc' WHERE exchange='virtex' AND currency1='ltc' AND currency2='btc';
+UPDATE ticker_recent SET currency1='btc', currency2='ltc' WHERE exchange='virtex' AND currency1='ltc' AND currency2='btc';
+
+UPDATE ticker SET currency1='cad', currency2='ltc' WHERE exchange='virtex' AND currency1='ltc' AND currency2='cad';
+UPDATE ticker_recent SET currency1='cad', currency2='ltc' WHERE exchange='virtex' AND currency1='ltc' AND currency2='cad';
+
