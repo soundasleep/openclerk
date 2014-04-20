@@ -59,10 +59,21 @@ module.exports = (grunt) ->
         cmd: 'php -f vendor/soundasleep/spritify/spritify.php -- --input site/styles/custom.css --png ../img/custom-sprites.png --output site/styles/custom.css'
         fail: true
 
+    watch:
+      styles:
+        files: ['**/*.scss']
+        tasks: ['sass', 'bgShell:spritifyDefault', 'custom']
+
+      config:
+        files: 'config/site/img/config/**'
+        tasks: ['copy:configImages', 'copy:configFavicon']
+
+
   grunt.loadNpmTasks 'grunt-bg-shell'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-sass'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-phpunit'
 
   grunt.registerTask 'test', "Run tests", ['phpunit']
@@ -77,8 +88,8 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask 'serve', [
-    'build'
-    # TODO add actual watch functionality
+    'build',
+    'watch'
   ]
 
   # TODO add feature to spritify for processing dirs rather than files; can then remove this
