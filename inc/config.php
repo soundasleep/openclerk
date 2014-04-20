@@ -157,7 +157,9 @@ function get_default_site_config() {
 		"ppc_address_url" => "http://ppc.cryptocoinexplorer.com/address/",
 		"ppc_block_url" => "http://ppc.cryptocoinexplorer.com/chain/PPCoin/q/getblockcount",
 		"nvc_address_url" => "http://nvc.cryptocoinexplorer.com/address/",
-		"nvc_block_url" => "http://nvc.cryptocoinexplorer.com/chain/Novacoin/q/getblockcount",
+		// not implemented yet!
+		// "nvc_block_url" => "http://nvc.cryptocoinexplorer.com/chain/Novacoin/q/getblockcount",
+		"nvc_block_url_html" => "http://nvc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
 		"xpm_address_url" => "http://xpm.cryptocoinexplorer.com/address/",
 		// not implemented yet!
 		// "xpm_block_url" => "http://xpm.cryptocoinexplorer.com/chain/Primecoin/q/getblockcount",
