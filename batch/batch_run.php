@@ -239,10 +239,6 @@ try {
 			require(__DIR__ . "/../jobs/primecoin_block.php");
 			break;
 
-		case "terracoin_block":
-			require(__DIR__ . "/../jobs/terracoin_block.php");
-			break;
-
 		case "dogecoin_block":
 			require(__DIR__ . "/../jobs/dogecoin_block.php");
 			break;

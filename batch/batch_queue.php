@@ -295,7 +295,7 @@ foreach ($standard_jobs as $standard) {
 if (!$premium_only) {
 	$block_jobs = array('version_check', 'litecoin_block',
 		'feathercoin_block', 'ppcoin_block', 'novacoin_block', 'primecoin_block',
-		'terracoin_block', 'dogecoin_block', 'megacoin_block', 'namecoin_block',
+		'dogecoin_block', 'megacoin_block', 'namecoin_block',
 		'digitalcoin_block', 'worldcoin_block', 'ixcoin_block',
 		'netcoin_block', 'hobonickels_block');
 	foreach ($block_jobs as $name) {
