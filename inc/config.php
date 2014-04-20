@@ -163,7 +163,9 @@ function get_default_site_config() {
 		// "xpm_block_url" => "http://xpm.cryptocoinexplorer.com/chain/Primecoin/q/getblockcount",
 		"xpm_block_url_html" => "http://xpm.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
 		"trc_address_url" => "http://trc.cryptocoinexplorer.com/address/",
-		"trc_block_url" => "http://trc.cryptocoinexplorer.com/chain/Terracoin/q/getblockcount",
+		// not implemented yet!
+		// "trc_block_url" => "http://trc.cryptocoinexplorer.com/chain/Terracoin/q/getblockcount",
+		"trc_block_url_html" => "http://trc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
 		"dog_address_url" => "http://dogechain.info//address/",
 		"dog_block_url" => "http://dogechain.info//chain/Dogecoin/q/getblockcount",
 		"mec_address_url" => "http://mega.rapta.net:2750/address/",

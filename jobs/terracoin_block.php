@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Get current Primecoin block number.
+ * Get current Terracoin block number.
  * Since this isn't based off Abe, we scrape HTML instead (ergh).
  */
 
-$currency = "xpm";
-$block_table = "primecoin_blocks";
+$currency = "trc";
+$block_table = "terracoin_blocks";
 require(__DIR__ . "/_cryptocoinexplorer_block.php");
