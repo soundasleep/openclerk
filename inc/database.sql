@@ -3465,3 +3465,14 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 ALTER TABLE users ADD locale VARCHAR(6) NULL;
 ALTER TABLE users ADD INDEX(locale);
 
+-- allow securities_cryptostocks accounts to be disabled automatically
+ALTER TABLE securities_cryptostocks ADD is_disabled tinyint not null default 0;
+ALTER TABLE securities_cryptostocks ADD failures tinyint not null default 0;
+ALTER TABLE securities_cryptostocks ADD first_failure timestamp null;
+ALTER TABLE securities_cryptostocks ADD INDEX(is_disabled);
+
+-- allow securities_cryptotrade accounts to be disabled automatically
+ALTER TABLE securities_cryptotrade ADD is_disabled tinyint not null default 0;
+ALTER TABLE securities_cryptotrade ADD failures tinyint not null default 0;
+ALTER TABLE securities_cryptotrade ADD first_failure timestamp null;
+ALTER TABLE securities_cryptotrade ADD INDEX(is_disabled);

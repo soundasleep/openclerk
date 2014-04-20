@@ -375,6 +375,10 @@ try {
 			require(__DIR__ . "/../jobs/crypto-trade.php");
 			break;
 
+		case "securities_crypto-trade":
+			require(__DIR__ . "/../jobs/securities_cryptotrade.php");
+			break;
+
 		case "bitstamp":
 			require(__DIR__ . "/../jobs/bitstamp.php");
 			break;
