@@ -75,18 +75,15 @@ function crypto_get_contents($url, $options = array()) {
 	}
 
 	// normally file_get_contents is OK, but if URLs are down etc, the timeout has no value and we can just stall here forever
-	// this also means we don't have to enable OpenSSL on windows (etc), which is just a bit of a mess
-	$ch = null;
-	if (is_null($ch)) {
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Openclerk PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
-	}
+	// this also means we don't have to enable OpenSSL on windows for file_get_contents('https://...'), which is just a bit of a mess
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Openclerk PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_TIMEOUT, get_site_config('get_contents_timeout') /* in sec */);	// defaults to infinite
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, get_site_config('get_contents_timeout') /* in sec */);	// defaults to 300s
 	// curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
 	// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+	curl_setopt($ch, CURLOPT_ENCODING, "gzip");			// enable gzip decompression if necessary
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 	foreach ($options as $key => $value) {
 		curl_setopt($ch, $key, $value);
