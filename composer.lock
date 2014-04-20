@@ -3,8 +3,47 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e471bb8fc38dc36f3dee7408b631b721",
+    "hash": "2204e66c0da73ec81d625376e796933d",
     "packages": [
+        {
+            "name": "kwipi/famfamfam-flags",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kwipi/famfamfam-flags.git",
+                "reference": "bea3a8cefad5062b59d59f0603f37366ecbd032d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kwipi/famfamfam-flags/zipball/bea3a8cefad5062b59d59f0603f37366ecbd032d",
+                "reference": "bea3a8cefad5062b59d59f0603f37366ecbd032d",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kwipi",
+                    "email": "contact@kwipi.org",
+                    "homepage": "http://www.kwipi.org/",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "FamFamFam Flags icon pack",
+            "homepage": "https://github.com/kwipi/famfamfam-flags",
+            "keywords": [
+                "famfamfam",
+                "flag",
+                "gif",
+                "icon",
+                "img",
+                "png"
+            ],
+            "time": "2014-02-27 21:42:03"
+        },
         {
             "name": "lightopenid/lightopenid",
             "version": "dev-master",

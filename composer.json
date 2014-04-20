@@ -4,7 +4,8 @@
     "soundasleep/html5lib-php": "~0.1.3",
     "lightopenid/lightopenid": "dev-master",
     "phpunit/phpunit": "4.0",
-    "soundasleep/spritify": "0.2.1"
+    "soundasleep/spritify": "0.2.1",
+    "kwipi/famfamfam-flags": "0.1.1"
   },
   "repositories": [{
     "type": "vcs",

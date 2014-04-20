@@ -18,6 +18,15 @@ require(__DIR__ . "/premium.php");
 require(__DIR__ . "/heavy.php");
 require(__DIR__ . "/kb.php");
 
+// issue #152: support i18n
+require(__DIR__ . "/i18n.php");
+function missing_locale_string($key, $locale) {
+	log_uncaught_exception(new LocaleException("Locale '$locale': Missing key '$key'"));
+}
+if (isset($_COOKIE["locale"]) && !isset($_SESSION["locale"]) && in_array($_COOKIE["locale"], get_all_locales())) {
+	set_locale($_COOKIE["locale"]);
+}
+
 /**
  * Using this silent wrapper,
  * we can switch to a read-only replicated database if the system decides that
@@ -686,10 +695,32 @@ function url_add($url, $arguments) {
 	return $url;
 }
 
+/**
+ * Returns the current request URL along with hostname and $_GET parameters.
+ */
 function request_url() {
 	return ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? "https" : "http") . "://" .
 			(isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['SERVER_ADDR']) .
 			$_SERVER["REQUEST_URI"];
+}
+
+/**
+ * Returns the current request path without any hostname or $_GET parameters.
+ * Returns the current request URL along with $_GET parameters, relative to
+ * {@code get_site_config('absolute_url')}.
+ */
+function request_url_relative() {
+	$url = str_replace("https://", "http://", request_url());
+	if (strpos($url, "?") !== false) {
+		$url = substr($url, 0, strpos($url, "?"));
+	}
+	$absolute = str_replace("https://", "http://", get_site_config('absolute_url'));
+
+	$result = str_replace($absolute, "", $url);
+	if (!$result) {
+		$result = "index";
+	}
+	return $result;
 }
 
 /**

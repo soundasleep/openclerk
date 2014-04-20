@@ -40,65 +40,7 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 .disabled { color: gray; }
 .selected a { color: white; font-weight: bold; text-decoration: none; }
 
-/* navigation */
-#navigation {
-	margin: 5px auto 15px auto;
-	max-width: 940px;
-	text-align: center;
-	background: #432;
-	border: 1px solid #654;
-	padding: 6px;
-	font-size: 100%;
-}
-#navigation ul { margin: 0; padding: 0; }
-#navigation li { list-style: none; display: inline; display: inline-block; padding: 4px 10px 4px 8px; border: 1px solid #543; border-radius: 4px; background: #321; margin: 0 2px 0 2px; box-shadow: 2px 2px 2px rgba(0,0,0,0.3); }
-#navigation li + li { margin-left: 5px; }
-#navigation li a { text-decoration: none; padding-left: 21px; display: inline-block; min-height: 16px; }
-.screenshots_group li.signup a, .screenshots_group li.profile a, .screenshots_group li.historical a { text-decoration: none; padding-left: 23px; display: inline-block; min-height: 16px; }
-#navigation li a:hover { text-decoration: hover; }
-
-#page_home #navigation li.home a,
-#page_profile #navigation li.profile a,
-.page_accounts #navigation li.accounts a,
-#page_user #navigation li.user a,
-#page_login #navigation li.login a,
-#page_signup #navigation li.signup a,
-#page_admin #navigation li.admin a,
-#page_premium #navigation li.premium a,
-#page_help #navigation li.help a {
-	font-weight: bold; color: white;
-}
-
-#navigation li.home a { background: url('../img/nuvola/kfm_home.png') 0 2px no-repeat; }
-.screenshots_group li.signup a { background: url('../img/nuvola/kgpg_sign.png') 0 3px no-repeat; }
-#navigation li.signup a { background: url('../img/nuvola/kgpg_sign.png') 0 2px no-repeat; }
-#navigation li.login a { background: url('../img/nuvola/password.png') 0 2px no-repeat; }
-#navigation li.logout a { background: url('../img/nuvola/kweather.png') 0 2px no-repeat; }
-#navigation li.profile a { background: url('../img/nuvola/klipper_dock.png') 0 2px no-repeat; }
-.screenshots_group li.profile a { background: url('../img/nuvola/klipper_dock.png') 0 3px no-repeat; }
-#navigation li.accounts a, #navigation li.admin a { background: url('../img/nuvola/kcontrol.png') 0 2px no-repeat; }
-#navigation li.user a { background: url('../img/nuvola/kgpg_identity.png') 0 2px no-repeat; }
-#navigation li.premium a { background: url('../img/premium16.png') 0 2px no-repeat; }
-#navigation li.help a { background: url('../img/nuvola/messagebox_info.png') 0 2px no-repeat; }
-.screenshots_group li.historical a { background: url('../img/nuvola/kpdf.png') 0 3px no-repeat; }
-
-#page_signup h1, #page_login h1, #page_profile h1, .page_accounts h1, #page_user h1, #page_premium h1, #page_help h1, #page_kb h1, #page_contact h1, #page_historical h1 { padding-left: 40px; line-height: 32px; }
-#page_signup h1 { background: url('../img/nuvola/32x32/kgpg_sign.png') top left no-repeat; }
-#page_login h1 { background: url('../img/nuvola/32x32/password.png') top left no-repeat; }
-#page_profile h1 { background: url('../img/nuvola/32x32/klipper_dock.png') top left no-repeat; }
-.page_accounts h1 { background: url('../img/nuvola/32x32/kcontrol.png') top left no-repeat; }
-#page_user h1 { background: url('../img/nuvola/32x32/kgpg_identity.png') top left no-repeat; }
-#page_premium h1 { background: url('../img/premium32.png') top left no-repeat; }
-#page_help h1, #page_kb h1, #page_contact h1 { background: url('../img/nuvola/32x32/messagebox_info.png') top left no-repeat; }
-#page_historical h1 { background: url('../img/nuvola/32x32/kpdf.png') top left no-repeat; }
-
-#autologin {
-	font-size: 80%;
-	width: 60%;
-	margin: 0px auto 5px auto;
-	padding: 5px;
-	text-align: center;
-}
+@import "navigation";
 
 .error {
 	width: 60%;
@@ -348,3 +290,5 @@ button .openid, .openid_list .openid { padding-left: 20px; line-height: 20px; }
 .historical_selectors td { padding-left: 15px; }
 .historical_selectors th { display: none; }
 #page_historical .graph_collection { clear: both; }
+
+@import "locale";

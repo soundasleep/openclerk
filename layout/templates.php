@@ -5,9 +5,15 @@ function page_header($page_title, $page_id = false, $options = array()) {
 	define('PAGE_RENDER_START', microtime(true));
 	header('Content-type: text/html; charset=utf-8');
 
+	$html_classes = array();
+	if (has_required_admin()) {
+		$html_classes[] = "body_admin";
+	}
+	$html_classes[] = get_site_config('site_id');
+
 ?>
 <!DOCTYPE HTML>
-<html<?php if (has_required_admin()) { echo " class=\"body_admin\""; } ?>>
+<html<?php echo " class=\"" . implode(" ", $html_classes) . "\""; ?>>
 <head>
     <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
     <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for(get_site_config('default_css') . '?' . get_site_config('openclerk_version'))); ?>" />
@@ -20,14 +26,10 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <?php if (isset($options["refresh"])) { ?>
     <meta http-equiv="refresh" content="<?php echo htmlspecialchars($options['refresh']); ?>">
     <?php } ?>
-    <?php if (isset($options["jquery"]) && $options["jquery"]) { ?>
     <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/jquery-1.9.1.min.js')); ?>"></script>
-    <?php } ?>
+    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/common.js' . '?' . get_site_config('openclerk_version'))); ?>"></script>
     <?php if (isset($options['jsapi']) && $options['jsapi']) { ?>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <?php } ?>
-    <?php if (isset($options["common_js"]) && $options["common_js"]) { ?>
-    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/common.js' . '?' . get_site_config('openclerk_version'))); ?>"></script>
     <?php } ?>
     <?php if (isset($options["js"]) && $options["js"]) {
     	if (!is_array($options['js'])) $options['js'] = array($options['js']);
@@ -47,6 +49,17 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <div class="body_wrapper">
 
 <?php require_template("templates_header"); ?>
+
+<form action="<?php echo htmlspecialchars(url_for('set_locale')); ?>" method="post" id="locale_selector">
+	<select class="language-list locale locale-<?php echo htmlspecialchars(get_current_locale()); ?>" name="locale">
+	<?php foreach (get_all_locales() as $locale) {
+		$selected = get_current_locale() == $locale;
+		echo "<option value=\"" . htmlspecialchars($locale) . "\" class=\"locale locale-" . htmlspecialchars($locale) . "\"" . ($selected ? " selected" : "") . ">" . htmlspecialchars(t("locale-" . $locale)) . "</option>\n";
+	}
+	?>
+	</select>
+	<input type="hidden" name="redirect" value="<?php echo htmlspecialchars(url_for(request_url_relative(), $_GET)); ?>">
+</form>
 
 <div id="navigation">
 <ul>

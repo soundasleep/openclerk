@@ -46,6 +46,7 @@ function get_default_site_config() {
 		// framework-specific
 		"site_name" => "Openclerk",
 		"site_email" => "support@example.com",
+		"site_id" => "openclerk",
 		"openid_host" => "localhost",
 		"absolute_url" => "http://localhost/clerk/",
 		"openclerk_version" => "0.21",		// this is just a label displayed at the bottom of each page

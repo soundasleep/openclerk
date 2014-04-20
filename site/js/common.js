@@ -123,3 +123,12 @@ function execute_queued_ajax_request() {
 		});
 	}
 }
+
+/**
+ * Locale switching.
+ */
+$(document).ready(function() {
+  $("#locale_selector select").change(function() {
+    $("#locale_selector").submit();
+  });
+});
