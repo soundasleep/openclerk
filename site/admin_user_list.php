@@ -19,7 +19,7 @@ $max_count = 30;
 $args = array();
 $search_query = "";
 if (require_post("search", false)) {
-	$search_query = " WHERE name LIKE :search OR email LIKE :search OR url LIKE :search";
+	$search_query = " WHERE name LIKE :search OR email LIKE :search";
 	$args['search'] = '%' . require_post("search") . '%';
 } else if (require_post("just_premium", false)) {
 	$search_query = " WHERE is_premium=1";
