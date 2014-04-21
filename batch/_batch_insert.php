@@ -8,7 +8,7 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 	crypto_log("$exchange $currency balance for user " . $job['user_id'] . ": " . $balance);
 
 	// we have a balance; update the database
-	$q = db()->prepare("INSERT INTO balances SET user_id=:user_id, exchange=:exchange, account_id=:account_id, balance=:balance, currency=:currency, job_id=:job_id, is_recent=1, is_daily_data=1");
+	$q = db()->prepare("INSERT INTO balances SET user_id=:user_id, exchange=:exchange, account_id=:account_id, balance=:balance, currency=:currency, job_id=:job_id, is_recent=1, is_daily_data=1, created_at=NOW(), created_at_day=TO_DAYS(NOW())");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"account_id" => $account['id'],
@@ -36,7 +36,7 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
 	// relying on MySQL
 	$q = db()->prepare("UPDATE balances SET is_daily_data=0 WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency AND
-		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y') AND id <> :id");
+		created_at_day = TO_DAYS(NOW()) AND id <> :id");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"account_id" => $account['id'],
@@ -53,7 +53,7 @@ function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
 	crypto_log("$exchange $currency hashrate for user " . $job['user_id'] . ": " . $mhash . " MH/s");
 
 	// we have a balance; update the database
-	$q = db()->prepare("INSERT INTO hashrates SET user_id=:user_id, exchange=:exchange, account_id=:account_id, mhash=:mhash, currency=:currency, job_id=:job_id, is_recent=1, is_daily_data=1");
+	$q = db()->prepare("INSERT INTO hashrates SET user_id=:user_id, exchange=:exchange, account_id=:account_id, mhash=:mhash, currency=:currency, job_id=:job_id, is_recent=1, is_daily_data=1, created_at=NOW(), created_at_day=TO_DAYS(NOW())");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"account_id" => $account['id'],
@@ -81,7 +81,7 @@ function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
 	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
 	// relying on MySQL
 	$q = db()->prepare("UPDATE hashrates SET is_daily_data=0 WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency AND
-		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y') AND id <> :id");
+		created_at_day = TO_DAYS(NOW()) AND id <> :id");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"account_id" => $account['id'],
@@ -95,7 +95,7 @@ function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
 function add_summary_instance($job, $summary_type, $total) {
 
 	// insert new summary
-	$q = db()->prepare("INSERT INTO summary_instances SET is_recent=1, user_id=:user_id, summary_type=:summary_type, balance=:balance, job_id=:job_id, is_daily_data=1");
+	$q = db()->prepare("INSERT INTO summary_instances SET is_recent=1, user_id=:user_id, summary_type=:summary_type, balance=:balance, job_id=:job_id, is_daily_data=1, created_at=NOW(), created_at_day=TO_DAYS(NOW())");
 	$q->execute(array(
 		"user_id" => $job['user_id'],
 		"summary_type" => $summary_type,
@@ -114,7 +114,7 @@ function add_summary_instance($job, $summary_type, $total) {
 	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
 	// relying on MySQL
 	$q = db()->prepare("UPDATE summary_instances SET is_daily_data=0 WHERE is_daily_data=1 AND summary_type=:summary_type AND user_id=:user_id AND
-		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y') AND id <> :id");
+		created_at_day = TO_DAYS(NOW()) AND id <> :id");
 	$q->execute(array(
 		"summary_type" => $summary_type,
 		"user_id" => $job['user_id'],
@@ -163,7 +163,7 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 	}
 
 	// insert in new ticker value
-	$q = db()->prepare("INSERT INTO ticker SET exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, bid=:bid, ask=:ask, volume=:volume, job_id=:job_id, is_daily_data=1");
+	$q = db()->prepare("INSERT INTO ticker SET exchange=:exchange, currency1=:currency1, currency2=:currency2, last_trade=:last_trade, bid=:bid, ask=:ask, volume=:volume, job_id=:job_id, is_daily_data=1, created_at=NOW(), created_at_day=TO_DAYS(NOW())");
 	$q->execute(array(
 		"exchange" => $exchange['name'],
 		"currency1" => $cur1,
@@ -220,7 +220,7 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
 	// relying on MySQL
 	$q = db()->prepare("UPDATE ticker SET is_daily_data=0 WHERE is_daily_data=1 AND exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 AND
-		date_format(created_at, '%d-%m-%Y') = date_format(now(), '%d-%m-%Y') AND id <> :id");
+		created_at_day = TO_DAYS(NOW()) AND id <> :id");
 	$q->execute(array(
 		"exchange" => $exchange['name'],
 		"currency1" => $cur1,

@@ -3496,3 +3496,20 @@ ALTER TABLE users ADD INDEX(password_hash);
 ALTER TABLE users ADD password_last_changed datetime null;
 
 ALTER TABLE users ADD last_password_reset datetime null;
+
+-- issue #177: add created_at_day index to balance, ticker tables
+ALTER TABLE balances ADD created_at_day mediumint not null;
+UPDATE balances SET created_at_day=TO_DAYS(created_at);
+ALTER TABLE balances ADD INDEX(created_at_day);
+
+ALTER TABLE hashrates ADD created_at_day mediumint not null;
+UPDATE hashrates SET created_at_day=TO_DAYS(created_at);
+ALTER TABLE hashrates ADD INDEX(created_at_day);
+
+ALTER TABLE summary_instances ADD created_at_day mediumint not null;
+UPDATE summary_instances SET created_at_day=TO_DAYS(created_at);
+ALTER TABLE summary_instances ADD INDEX(created_at_day);
+
+ALTER TABLE ticker ADD created_at_day mediumint not null;
+UPDATE ticker SET created_at_day=TO_DAYS(created_at);
+ALTER TABLE ticker ADD INDEX(created_at_day);

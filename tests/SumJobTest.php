@@ -119,7 +119,7 @@ class SumJobTest extends PHPUnit_Framework_TestCase {
 	}
 
 	function createAccountBalance($user, $exchange, $currency, $balance) {
-		$q = db()->prepare("INSERT INTO balances SET user_id=:user, exchange=:exchange, balance=:balance, currency=:currency, account_id=0, is_recent=1");
+		$q = db()->prepare("INSERT INTO balances SET user_id=:user, exchange=:exchange, balance=:balance, currency=:currency, account_id=0, is_recent=1, created_at_days=TO_DAYS(NOW())");
 		$q->execute(array(
 			'user' => $user['id'],
 			'exchange' => $exchange,
