@@ -5,5 +5,5 @@
  */
 
 $currency = "xpm";
-require("_cryptocoinexplorer.php");
+require(__DIR__ . "/_cryptocoinexplorer.php");
 
