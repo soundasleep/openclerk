@@ -155,6 +155,9 @@ function try_autologin() {
  * Complete login, setting login keys to session or cookies as necessary.
  */
 function complete_login($user, $autologin) {
+	// immediately mark user as logged in
+	global $global_user_logged_in;
+	$global_user_logged_in = true;
 
 	// delete old web keys
 	$query = db()->prepare("DELETE FROM valid_user_keys WHERE user_id=? AND DATEDIFF(NOW(), created_at) > ?");
