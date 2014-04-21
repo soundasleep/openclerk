@@ -23,7 +23,7 @@ if (!$user['email']) {
 
 // check there are no other accounts using a password hash on this e-mail address
 $q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0 AND id <> ?");
-$q->execute(array($email, user_id()));
+$q->execute(array($user['email'], user_id()));
 if ($q->fetch()) {
 	$errors[] = t("This e-mail address is already being used by another account for password login.");
 }
