@@ -211,6 +211,8 @@ page_header("Login", "page_login", array('js' => 'auth'));
 			<br>
 			<input type="submit" name="submit" value="Login" id="password_manual_submit">
 
+			<a class="forgotten-password" href="<?php echo htmlspecialchars(url_for('password', array('email' => $email))); ?>">Forgotten password?</a>
+
 			<hr>
 			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>">Use OpenID instead</a>
 

@@ -3494,3 +3494,5 @@ ALTER TABLE users ADD password_hash VARCHAR(64) NULL;
 ALTER TABLE users ADD INDEX(password_hash);
 
 ALTER TABLE users ADD password_last_changed datetime null;
+
+ALTER TABLE users ADD last_password_reset datetime null;
