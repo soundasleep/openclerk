@@ -693,6 +693,9 @@ function account_data_grouped() {
 			if (!isset($data[$key0][$key]['title'])) {
 				$data[$key0][$key]['title'] = get_exchange_name($key) . (isset($row['suffix']) ? $row['suffix'] : "") . " " . $data[$key0][$key]['labels'];
 			}
+			if (!isset($data[$key0][$key]['title_key'])) {
+				$data[$key0][$key]['title_key'] = $key;
+			}
 			if (!isset($data[$key0][$key]['failure'])) {
 				$data[$key0][$key]['failure'] = false;
 			}

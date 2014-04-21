@@ -587,6 +587,15 @@ try {
 			require(__DIR__ . "/../jobs/version_check.php");
 			break;
 
+		// transaction jobs
+		case "transaction_creator":
+			require(__DIR__ . "/../jobs/transaction_creator.php");
+			break;
+
+		case "transactions":
+			require(__DIR__ . "/../jobs/transactions.php");
+			break;
+
 		// cleanup jobs, admin jobs etc
 		case "outstanding":
 			require(__DIR__ . "/../jobs/outstanding.php");

@@ -3513,3 +3513,64 @@ ALTER TABLE summary_instances ADD INDEX(created_at_day);
 ALTER TABLE ticker ADD created_at_day mediumint not null;
 UPDATE ticker SET created_at_day=TO_DAYS(created_at);
 ALTER TABLE ticker ADD INDEX(created_at_day);
+
+ALTER TABLE graph_data_balances ADD data_date_day mediumint not null;
+UPDATE graph_data_balances SET data_date_day=TO_DAYS(data_date);
+ALTER TABLE graph_data_balances ADD INDEX(data_date_day);
+
+-- issue #194: track account transactions
+-- we will get the system to populate these automatically (which could be user-configurable)
+-- and allow users to add/remove entries as well
+DROP TABLE IF EXISTS transactions;
+
+CREATE TABLE transactions (
+	id int not null auto_increment primary key,
+	user_id int not null,
+
+	created_at timestamp not null default current_timestamp,
+	updated_at timestamp null,
+	is_automatic tinyint not null default 0,
+
+	transaction_date timestamp not null,
+	transaction_date_day mediumint not null,
+	exchange varchar(32) not null,
+	account_id int not null,
+
+	-- optional fields for user entered transactions
+	description varchar(255) null,
+	-- category_id int null,
+	reference varchar(255) null,
+
+	currency1 varchar(3) null,
+	value1 decimal(24,8) null,
+	currency2 varchar(3) null,
+	value2 decimal(24,8) null,
+
+	INDEX(user_id, exchange, account_id, transaction_date),
+	INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(transaction_date_day)
+);
+
+-- for doing multiple batch jobs, tracking automatic daily transaction creation
+DROP TABLE IF EXISTS transaction_creators;
+
+CREATE TABLE transaction_creators (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+
+	exchange varchar(32) not null,
+	account_id int not null,
+
+	transaction_cursor mediumint not null default 0,
+
+	-- is_disabled can also be used by a user to specifically disable a creator
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+
+	INDEX(is_disabled)
+);
+
+ALTER TABLE users ADD last_tx_creator_queue timestamp null;
+

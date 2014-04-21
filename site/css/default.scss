@@ -32,7 +32,8 @@ table.standard tr.odd.selected { background: #111; }
 table.standard th { min-width: 40px; }
 table.standard td { min-width: 60px; }
 table.standard td.date { white-space: nowrap; }
-table.standard td.number, table.standard th.number { text-align: right; }
+table.standard td.number, table.standard th.number, table.standard td.align-right { text-align: right; }
+table.standard td.number.negative { color: #f33; }
 table.full-width { width: 100%; }
 table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 
