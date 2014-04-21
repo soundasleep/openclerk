@@ -23,7 +23,22 @@ if ($name !== false && $email !== false) {
 		$errors[] = "Invalid name.";
 	} else if ($email !== "" && !is_valid_email($email)) {
 		$errors[] = "Invalid e-mail.";
-	} else {
+	} else if (!$email && $user['password_hash']) {
+		$errors[] = "You cannot remove your e-mail address until you have disabled <a href=\"" . htmlspecialchars(url_for('user#user_password')) . "\">password login</a> on this account.";
+	}
+
+	// check that there are no existing users with this e-mail address
+	if ($email && $user['password_hash']) {
+		$q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0 AND id <> ?");
+		$q->execute(array($email, $user['id']));
+
+		if ($q->fetch()) {
+			$errors[] = t("That e-mail address is already in use by another account using password login.");
+		}
+	}
+
+	if (!$errors) {
+
 		$subscribe = $email ? (require_post("subscribe", false) ? 1 : 0) : 0;		// if we have no e-mail, we can't subscribe
 		$disable_graph_refresh = require_post("disable_graph_refresh", false) ? 1 : 0;
 
@@ -51,7 +66,7 @@ if ($name !== false && $email !== false) {
 
 		// try sending email
 		if ($email && $email != $old_email) {
-			send_email($email, $email, "change_email", array(
+			send_email($email, $email, $old_email ? "change_email" : "new_email", array(
 				"old_email" => $old_email ? $old_email : "(no previous e-mail address)",
 				"email" => $email,
 				"url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),
@@ -99,7 +114,11 @@ if (require_get("new_purchase", false)) {
 // get all of our accounts limits
 $accounts = user_limits_summary(user_id());
 
-page_header("User Account", "page_user");
+$q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? ORDER BY url ASC");
+$q->execute(array(user_id()));
+$identities = $q->fetchAll();
+
+page_header("User Account", "page_user", array('js' => 'user'));
 
 ?>
 
@@ -126,7 +145,7 @@ page_header("User Account", "page_user");
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_user_contact">Contact Details</li><li id="tab_user_openid">Identities</li><li id="tab_user_premium">Premium</li><li id="tab_user_outstanding">Outstanding Payments</li><li id="tab_user_mailinglist">Mailing List</li>
+		<li id="tab_user_contact">Contact Details</li><li id="tab_user_password">Password</li><li id="tab_user_openid">Identities</li><li id="tab_user_premium">Premium</li><li id="tab_user_outstanding">Outstanding Payments</li><li id="tab_user_mailinglist">Mailing List</li>
 	</ul>
 
 	<ul class="tab_groups">
@@ -186,15 +205,155 @@ Looking for your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies
 </div>
 
 	</li>
+	<li id="tab_user_password_tab" style="display:none;">
+
+<div class="tip tip_float">
+	<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>">OpenID login</a>
+	is often much more secure than using an e-mail and password. If you do use a password, please
+	make sure you do not use the same password on other cryptocurrency sites.
+</div>
+
+<?php if (!$user['password_hash']) { ?>
+
+<h2>Enable e-mail/password login</h2>
+
+<p>
+	You have not enabled e-mail/password login on your account.
+	Adding a password will not increase security,
+	and you should continue to login with your <a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">OpenID identities</a>.
+</p>
+
+<?php if (!$user['email']) { ?>
+
+<p>
+	You cannot enable e-mail/password login on your account as
+	you first need to <a href="<?php echo htmlspecialchars(url_for('user#user_contact')); ?>">add an e-mail address</a>.
+</p>
+
+<?php } else { ?>
+
+<?php
+// check there are no other accounts using a password hash on this e-mail address
+$q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0 AND id <> ?");
+$q->execute(array($user['email'], user_id()));
+if ($q->fetch()) {
+?>
+
+<p>
+	You cannot enable e-mail/password login on your account as
+	this e-mail address is already in use by another account for password login.
+</p>
+
+<?php } else { ?>
+
+<p class="show-password-form">
+	<a>Enable e-mail/password login on your account</a>
+</p>
+
+<form action="<?php echo htmlspecialchars(url_for('set_password')); ?>" method="post" class="add-password-form" style="display:none;">
+<table class="user-profile">
+<tr>
+	<th>Email:</th>
+	<td><?php echo htmlspecialchars($user['email']); ?></td>
+</tr>
+<tr>
+	<th><label for="password">Password:</label></th>
+	<td>
+		<input type="password" id="password" name="password" size="32" value="" maxlength="255"> <span class="required">*</span>
+	</td>
+</tr>
+<tr>
+	<th><label for="password2">Repeat:</label></th>
+	<td>
+		<input type="password" id="password2" name="password2" size="32" value="" maxlength="255"> <span class="required">*</span>
+	</td>
+</tr>
+<tr>
+	<td colspan="2" class="buttons">
+		<input type="submit" value="Add password">
+	</td>
+</tr>
+</table>
+</form>
+
+<?php } ?>
+<?php } ?>
+
+<?php } else { ?>
+
+<h2>Change password</h2>
+
+<p>
+	Your password was last changed <?php echo recent_format_html($user['password_last_changed']); ?>.
+</p>
+
+<form action="<?php echo htmlspecialchars(url_for('set_password')); ?>" method="post">
+<table class="user-profile">
+<tr>
+	<th>Email:</th>
+	<td><?php echo htmlspecialchars($user['email']); ?></td>
+</tr>
+<tr>
+	<th><label for="password">Password:</label></th>
+	<td>
+		<input type="password" id="password" name="password" size="32" value="" maxlength="255"> <span class="required">*</span>
+	</td>
+</tr>
+<tr>
+	<th><label for="password2">Repeat:</label></th>
+	<td>
+		<input type="password" id="password2" name="password2" size="32" value="" maxlength="255"> <span class="required">*</span>
+	</td>
+</tr>
+<tr>
+	<td colspan="2" class="buttons">
+		<input type="submit" value="Add password">
+	</td>
+</tr>
+</table>
+</form>
+
+<hr>
+
+<h2>Remove password login</h2>
+
+<p>
+	Once you have added at least one <a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">OpenID identity</a>
+	to your account, you can disable e-mail/password login on your account to increase security.
+	You will then have to use your OpenID identities to login in the future.
+</p>
+
+<?php if ($identities) { ?>
+<form action="<?php echo htmlspecialchars(url_for('delete_password')); ?>" method="post">
+<table class="user-profile">
+<tr>
+	<td>
+		<label><input type="checkbox" name="confirm" value="1"> Disable e-mail/password login</label>
+	</td>
+</tr>
+<tr>
+	<td class="buttons">
+		<input type="submit" value="Remove password">
+	</td>
+</tr>
+</table>
+</form>
+
+<?php } else { ?>
+
+<p>
+	You cannot disable e-mail/password login on your account until you add at least one
+	<a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">OpenID identity</a>.
+</p>
+
+<?php } ?>
+
+<?php } ?>
+
+	</li>
 	<li id="tab_user_openid_tab" style="display:none;">
 
 <h2>Your OpenID Identites</h2>
-
-<?php
-$q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? ORDER BY url ASC");
-$q->execute(array(user_id()));
-$identities = $q->fetchAll();
-?>
 
 <table class="standard fancy openid_list">
 <thead>
@@ -238,6 +397,11 @@ foreach ($identities as $identity) {
 			</form>
 		</td>
 		<?php } ?>
+	</tr>
+<?php } ?>
+<?php if (!$identities) { ?>
+	<tr>
+		<td colspan="3"><i>No OpenID identities defined.</i></td>
 	</tr>
 <?php } ?>
 </tbody>

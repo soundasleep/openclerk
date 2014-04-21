@@ -3493,3 +3493,4 @@ UPDATE ticker_recent SET currency1='cad', currency2='ltc' WHERE exchange='virtex
 ALTER TABLE users ADD password_hash VARCHAR(64) NULL;
 ALTER TABLE users ADD INDEX(password_hash);
 
+ALTER TABLE users ADD password_last_changed datetime null;

@@ -12,6 +12,10 @@ $password = $use_password ? require_post("password", require_get("password", fal
 if ($password && !is_string($password)) {
 	throw new Exception("Invalid password parameter");
 }
+$password2 = $use_password ? require_post("password2", require_get("password2", false)) : false;
+if ($password2 && !is_string($password2)) {
+	throw new Exception("Invalid password2 parameter");
+}
 $name = require_post("name", require_get("name", false));
 $agree = require_post("agree", require_get("agree", false));
 $openid = $use_password ? false : require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
@@ -43,6 +47,9 @@ if ($openid || $password) {
 	if ($password && (strlen($password) < 6 || strlen($password) > 255)) {
 		$errors[] = t("Please select a password between 6-255 characters long.");
 	}
+	if ($password && $password != $password2) {
+		$errors[] = t("Those passwords do not match.");
+	}
 	if ($openid && $password) {
 		// but you can add OpenID identities later
 		$errors[] = t("You cannot use both OpenID and password at signup.");
@@ -55,11 +62,11 @@ if ($openid || $password) {
 				// (a user can have multiple OpenID accounts for an e-mail address, but not multiple passwords,
 				// since this would confuse 'forgotten password')
 				// remember that e-mail addresses (without the domain) are case-sensitive
-				$q = db()->prepare("SELECT * FROM users WHERE email=? LIMIT 1");
+				$q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash)=0 LIMIT 1");
 				$q->execute(array($email));
 
 				if ($q->fetch()) {
-					throw new EscapedException("That e-mail address is already in use.");
+					throw new EscapedException("That e-mail address is already in use by another account using password login. Did you mean to <a href=\"" . htmlspecialchars(url_for('login', array('use_password' => true, 'email' => $email))) . "\">login instead</a>?");
 				}
 
 			} else {
@@ -137,7 +144,7 @@ if ($openid || $password) {
 				$q = db()->prepare("INSERT INTO openid_identities SET user_id=?, url=?");
 				$q->execute(array($user['id'], $light->identity));
 			} else {
-				$q = db()->prepare("UPDATE users SET password_hash=? WHERE id=?");
+				$q = db()->prepare("UPDATE users SET password_hash=?, password_last_changed=NOW() WHERE id=?");
 				$password_hash = md5(get_site_config('password_salt') . $password);
 				$q->execute(array($password_hash, $user['id']));
 			}
@@ -262,7 +269,17 @@ page_header("Signup", "page_signup", array('js' => 'auth'));
 		<th><label for="password">Password:</label></th>
 		<td>
 			<input type="password" id="password" name="password" size="32" value="" maxlength="255"> <span class="required">*</span>
-			<br>
+		</td>
+	</tr>
+	<tr class="login-with-password"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>
+		<th><label for="password2">Repeat:</label></th>
+		<td>
+			<input type="password" id="password2" name="password2" size="32" value="" maxlength="255"> <span class="required">*</span>
+		</td>
+	</tr>
+	<tr class="login-with-password"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>
+		<th></th>
+		<td>
 			<input type="submit" name="submit" value="Signup" id="password_manual_submit">
 
 			<hr>
