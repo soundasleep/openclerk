@@ -15,6 +15,8 @@ if ($openid && !is_string($openid)) {
 $subscribe = require_post("subscribe", require_get("subscribe", $openid ? false : true));
 $country = require_post("country", require_get("country", false));
 
+$use_password = require_get("use_password", false);
+
 $messages = array();
 $errors = array();
 
@@ -173,7 +175,7 @@ page_header("Signup", "page_signup", array('js' => 'auth'));
 	</tr>
 	<tr>
 		<th><label for="email">Email:</label></th>
-		<td><input type="text" id="email" name="email" size="48" value="<?php echo htmlspecialchars($email); ?>" maxlength="255"></td>
+		<td><input type="text" id="email" name="email" size="48" value="<?php echo htmlspecialchars($email); ?>" maxlength="255"> <span class="required email-required"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>*</span></td>
 	</tr>
 	<tr>
 		<th></th>
@@ -190,7 +192,7 @@ page_header("Signup", "page_signup", array('js' => 'auth'));
 	<tr>
 		<td colspan="2" class="hr"><hr></td>
 	</tr>
-	<tr class="signup-with">
+	<tr class="signup-with"<?php echo $use_password ? " style=\"display:none;\"" : ""; ?>>
 		<th>Signup with:</th>
 		<td>
 			<input type="hidden" name="submit" value="1">
@@ -206,16 +208,32 @@ page_header("Signup", "page_signup", array('js' => 'auth'));
 			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</span></button>
 
 			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Signup" ? "" : "display:none;"; ?>">
-			<table>
-			<tr>
-				<th>OpenID URL:</th>
-				<td>
-					<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
-					<input type="submit" name="submit" value="Signup" id="openid_manual_submit">
-				</td>
-			</tr>
-			</table>
+				<table>
+				<tr>
+					<th>OpenID URL:</th>
+					<td>
+						<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
+						<input type="submit" name="submit" value="Signup" id="openid_manual_submit">
+					</td>
+				</tr>
+				</table>
 			</div>
+
+			<hr>
+			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => true))); ?>">Use a password instead</a>
+
+		</td>
+	</tr>
+	<tr class="signup-with-password"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>
+		<th><label for="password">Password:</label></th>
+		<td>
+			<input type="text" id="password" name="password" size="32" value="" maxlength="255"> <span class="required">*</span>
+			<br>
+			<input type="submit" name="submit" value="Signup" id="password_manual_submit">
+
+			<hr>
+			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>">Use OpenID instead</a>
+
 		</td>
 	</tr>
 </table>

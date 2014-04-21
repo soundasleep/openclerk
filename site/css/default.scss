@@ -1,19 +1,19 @@
 html,body {
-	font-family: 'Calibri', Arial;
-	font-size: 95%;
-	background: #111;
-	color: #eee;
+  font-family: 'Calibri', Arial;
+  font-size: 95%;
+  background: #111;
+  color: #eee;
 }
 select,button,input {
-	font-family: 'Calibri', Arial;
-	font-size: 95%;
+  font-family: 'Calibri', Arial;
+  font-size: 95%;
 }
 html, form { margin: 0; padding: 0; }
 body { margin: 15px; padding: 0; }
 
 a, a:active, a:visited {
-	color: #ee3;
-	text-decoration: underline;
+  color: #ee3;
+  text-decoration: underline;
 }
 a:hover {
     color: #e93;
@@ -43,61 +43,61 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 @import "navigation";
 
 .error {
-	width: 60%;
-	border: 1px solid #944;
-	padding: 10px;
-	margin: 5px auto 5px auto;
-	background: #622 url('../img/nuvola/32x32/messagebox_critical.png') 10px 10px no-repeat;
-	padding-left: 50px;
-	min-height: 32px;
+  width: 60%;
+  border: 1px solid #944;
+  padding: 10px;
+  margin: 5px auto 5px auto;
+  background: #622 url('../img/nuvola/32x32/messagebox_critical.png') 10px 10px no-repeat;
+  padding-left: 50px;
+  min-height: 32px;
 }
 .warning {
-	width: 60%;
-	border: 1px solid #974;
-	padding: 10px;
-	margin: 5px auto 5px auto;
-	background: #642 url('../img/nuvola/32x32/messagebox_warning.png') 10px 10px no-repeat;
-	padding-left: 50px;
-	min-height: 32px;
+  width: 60%;
+  border: 1px solid #974;
+  padding: 10px;
+  margin: 5px auto 5px auto;
+  background: #642 url('../img/nuvola/32x32/messagebox_warning.png') 10px 10px no-repeat;
+  padding-left: 50px;
+  min-height: 32px;
 }
 .success {
-	width: 60%;
-	border: 1px solid #496;
-	padding: 10px;
-	margin: 5px auto 5px auto;
-	background: #264 url('../img/nuvola/32x32/ok.png') 10px 10px no-repeat;
-	padding-left: 50px;
-	min-height: 32px;
+  width: 60%;
+  border: 1px solid #496;
+  padding: 10px;
+  margin: 5px auto 5px auto;
+  background: #264 url('../img/nuvola/32x32/ok.png') 10px 10px no-repeat;
+  padding-left: 50px;
+  min-height: 32px;
 }
 .message {
-	width: 60%;
-	border: 1px solid #469;
-	padding: 10px;
-	margin: 5px auto 5px auto;
-	background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
-	padding-left: 50px;
-	min-height: 32px;
+  width: 60%;
+  border: 1px solid #469;
+  padding: 10px;
+  margin: 5px auto 5px auto;
+  background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
+  padding-left: 50px;
+  min-height: 32px;
 }
 .tip {
-	padding: 10px;
-	border: 1px solid #469;
-	margin: 5px 10px 5px 10px;
-	background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
-	x-background-sprite: false;
-	padding-left: 50px;
+  padding: 10px;
+  border: 1px solid #469;
+  margin: 5px 10px 5px 10px;
+  background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
+  x-background-sprite: false;
+  padding-left: 50px;
 }
 .success.success_float {
-	padding: 10px;
-	margin: 5px 10px 5px 10px;
-	padding-left: 50px;
+  padding: 10px;
+  margin: 5px 10px 5px 10px;
+  padding-left: 50px;
 }
 .tip_float, .success_float {
-	width: 40%;
-	float: right;
+  width: 40%;
+  float: right;
 }
 .page_accounts .tip_float {
-	width: 30%;
-	margin-top: 0;
+  width: 30%;
+  margin-top: 0;
 }
 .error ul, .success ul, .message ul, .warning ul { margin: 0; padding: 0; list-style: none; }
 span.required { color: red; font-weight: normal; }
@@ -171,23 +171,23 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
 
 .graph_collection ul.graph_controls {
-	list-style: none;
-	margin: 5px;
-	padding: 10px;
-	position: absolute;
-	border: 1px solid #fff;
-	background: #000;
-	background-color: rgba(0,0,0,0.9);
-	z-index: 5;
+  list-style: none;
+  margin: 5px;
+  padding: 10px;
+  position: absolute;
+  border: 1px solid #fff;
+  background: #000;
+  background-color: rgba(0,0,0,0.9);
+  z-index: 5;
 }
 .graph_collection ul.graph_controls li {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: inline-block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
 }
 .graph_collection ul.graph_controls li + li:before {
-	content: ' - ';
+  content: ' - ';
 }
 .editing_enabled .graph { min-height: 80px; min-width: 245px; } /* make it easier to edit small graphs; editing graphs should now cover at least the edit controls */
 
@@ -206,10 +206,10 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 
 .address code { font-family: Consolas, Courier New, Courier, monospace; }
 .btc_address .inspect, .ltc_address .inspect, .ftc_address .inspect, .ppc_address .inspect, .nvc_address .inspect,
-	.xpm_address .inspect, .trc_address .inspect, .dog_address .inspect,
-	.mec_address .inspect, .xrp_address .inspect, .nmc_address .inspect,
-	.dgc_address .inspect, .wdc_address .inspect, .ixc_address .inspect,
-	.vtc_address .inspect, .net_address .inspect, .hbn_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
+  .xpm_address .inspect, .trc_address .inspect, .dog_address .inspect,
+  .mec_address .inspect, .xrp_address .inspect, .nmc_address .inspect,
+  .dgc_address .inspect, .wdc_address .inspect, .ixc_address .inspect,
+  .vtc_address .inspect, .net_address .inspect, .hbn_address .inspect { display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom; }
 .btc_address .inspect { background: url('../img/blockchain.png') top left no-repeat; }
 .ltc_address .inspect, .nmc_address .inspect, .mec_address .inspect, .ixc_address .inspect, .net_address .inspect { background: url('../img/explorer1.png') top left no-repeat; }
 .ftc_address .inspect { background: url('../img/feathercoin.png') top left no-repeat; }
@@ -224,10 +224,10 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .vtc_address .inspect { background: url('../img/vertcoin.png') top left no-repeat; }
 .hbn_address .inspect { background: url('../img/hobonickels_explorer.png') top left no-repeat; }
 .currency_name_btc, .currency_name_ltc, .currency_name_nmc, .currency_name_ftc, .currency_name_ppc,
-	.currency_name_nvc, .currency_name_xpm, .currency_name_trc, .currency_name_ghs,
-	.currency_name_dog, .currency_name_mec, .currency_name_xrp, .currency_name_dgc,
-	.currency_name_wdc, .currency_name_ixc, .currency_name_vtc, .currency_name_net,
-	.currency_name_hbn { padding-left: 20px; }
+  .currency_name_nvc, .currency_name_xpm, .currency_name_trc, .currency_name_ghs,
+  .currency_name_dog, .currency_name_mec, .currency_name_xrp, .currency_name_dgc,
+  .currency_name_wdc, .currency_name_ixc, .currency_name_vtc, .currency_name_net,
+  .currency_name_hbn { padding-left: 20px; }
 .currency_name_btc { background: url('../img/bitcoin.png') 0 0 no-repeat; }
 .currency_name_ltc { background: url('../img/litecoin.png') 0 0 no-repeat; }
 .currency_name_nmc { background: url('../img/namecoin.png') 0 0 no-repeat; }
@@ -268,7 +268,9 @@ select.country { max-width: 240px; }
 .authentication-form { background: #222; border: 1px solid #333; border-radius: 16px; padding: 16px; margin: 10px auto 10px auto; max-width: 600px; }
 .authentication-form h2 { margin-top: 0; }
 .authentication-form th, .user-profile th { text-align: left; white-space: nowrap; width: 10%; vertical-align: top; line-height: 150%; min-width: 100px; }
-.authentication-form .signup-with th { padding-top: 5px; }
+.authentication-form .signup-with th, .authentication-form .signup-with-password th { padding-top: 5px; }
+.authentication-form .signup-with-password td { padding-top: 2px; }
+.authentication-form .signup-with-password input[type='submit'] { margin-top: 5px; padding: 2px 5px 2px 5px; }
 
 .authentication-form button { margin-bottom: 5px; }
 .authentication-form button.openid { height: 32px; padding: 2px 5px 5px 5px; margin-right: 3px; }
