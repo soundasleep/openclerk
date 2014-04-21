@@ -24,14 +24,14 @@ if (require_post("search", false)) {
 } else if (require_post("just_premium", false)) {
 	$search_query = " WHERE is_premium=1";
 }
-$q = db()->prepare("SELECT u.*, s.c AS currencies, openid_identities.url AS url, COUNT(openid_identities.url) AS identity_count
+$q = db()->prepare("SELECT u.*, s.c AS currencies
 	FROM users AS u
 		LEFT JOIN (SELECT COUNT(*) AS c, user_id FROM summaries GROUP BY user_id) AS s ON s.user_id=u.id
-		JOIN openid_identities ON openid_identities.user_id=u.id
 	$search_query
 	GROUP BY u.id
 	ORDER BY u.id DESC LIMIT " . ($max_count+1) . "");
 $q->execute($args);
+$users = $q->fetchAll();
 
 ?>
 
@@ -78,14 +78,21 @@ $q->execute($args);
 <tbody>
 <?php
 	$count = 0;
-	while ($user = $q->fetch()) {
+	foreach ($users as $user) {
 		$count++;
 		if ($count > $max_count) {
 			echo "<tr><td colspan=\"9\"><i>(Additional results not shown here)</i></td></tr>\n";
 		} else {
+			$q = db()->prepare("SELECT COUNT(*) AS identity_count, url FROM openid_identities WHERE user_id=?");
+			$q->execute(array($user['id']));
+			$openid = $q->fetch();
 			echo "<tr>\n";
 			echo "<td class=\"number\">" . number_format($user['id']) . "</td>\n";
-			echo "<td><a href=\"" . htmlspecialchars($user['url']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> " . $user['identity_count'] . "</td>\n";
+			if ($openid && $openid['identity_count']) {
+				echo "<td><a href=\"" . htmlspecialchars($openid['url']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> " . $openid['identity_count'] . "</td>\n";
+			} else {
+				echo "<td>" . htmlspecialchars($user['email']) . "</a> (password)</td>\n";
+			}
 			echo "<td>" . htmlspecialchars($user['name']) . "</td>\n";
 			echo "<td class=\"" . ($user['is_premium'] ? 'yes' : 'no') . "\">-</td>\n";
 			echo "<td>" . recent_format_html($user['premium_expires'], "", "") . "</td>\n";

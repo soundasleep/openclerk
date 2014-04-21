@@ -5,9 +5,16 @@ require(__DIR__ . "/../inc/global.php");
 // POST overrides GET
 $destination = require_post("destination", require_get("destination", false));
 $autologin = require_post("autologin", require_get("autologin", true));
+$use_password = require_post("use_password", require_get("use_password", false));
+
+$email = $use_password ? trim(require_post("email", require_get("email", false))) : false;
+$password = $use_password ? require_post("password", require_get("password", false)) : false;
+if ($password && !is_string($password)) {
+	throw new Exception("Invalid password parameter");
+}
 $error = "";
 $logout = require_post("logout", require_get("logout", false));
-$openid = require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+$openid = $use_password ? false : require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
 if ($openid && !is_string($openid)) {
 	throw new Exception("Invalid openid parameter");
 }
@@ -17,6 +24,11 @@ $errors = array();
 
 // try logging in?
 try {
+	if ($openid && $password) {
+		// but you can add OpenID identities later
+		throw new EscapedException(t("You cannot use both OpenID and password at login."));
+	}
+
 	if ($logout) {
 		$_SESSION["user_id"] = "";
 		$_SESSION["user_key"] = "";
@@ -100,7 +112,32 @@ try {
 		$destination = str_replace('#[a-z]+://#im', '', $destination);
 		redirect($destination);
 
+	} elseif ($email && $password && !require_get("pause", false)) {
+
+		$password_hash = md5(get_site_config('password_salt') . $password);
+		$q = db()->prepare("SELECT * FROM users WHERE email=? AND password_hash=? LIMIT 1");
+		$q->execute(array($email, $password_hash));
+
+		$user = $q->fetch();
+		if (!$user) {
+			throw new EscapedException(t("Invalid username or password."));
+		}
+
+		complete_login($user, $autologin);
+
+		// redirect
+		if (!$destination) {
+			$destination = url_for(get_site_config('default_login'));
+		}
+
+		set_temporary_messages($messages);
+		set_temporary_errors($errors);
+		// possible injection here... strip all protocol information to prevent redirection to external site
+		$destination = str_replace('#[a-z]+://#im', '', $destination);
+		redirect($destination);
+
 	}
+
 } catch (Exception $e) {
 	if (!($e instanceof EscapedException)) {
 		$e = new EscapedException(htmlspecialchars($e->getMessage()), (int) $e->getCode() /* PDO getCode doesn't return an int */, $e);
@@ -127,7 +164,7 @@ page_header("Login", "page_login", array('js' => 'auth'));
 
 <form action="<?php echo htmlspecialchars(absolute_url(url_for('login'))); ?>" method="post">
 <table class="login_form">
-	<tr class="signup-with">
+	<tr class="signup-with login-with-openid"<?php echo $use_password ? " style=\"display:none;\"" : ""; ?>>
 		<th>Login with:</th>
 		<td>
 			<input type="hidden" name="submit" value="1">
@@ -143,26 +180,48 @@ page_header("Login", "page_login", array('js' => 'auth'));
 			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</span></button>
 
 			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Login" ? "" : "display:none;"; ?>">
-			<table>
-			<tr>
-				<th>OpenID URL:</th>
-				<td>
-					<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
-					<input type="submit" name="submit" value="Login" id="openid_manual_submit">
-					<?php if ($destination) { ?>
-					<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
-					<?php } ?>
-				</td>
-			</tr>
-			</table>
+				<table>
+				<tr>
+					<th>OpenID URL:</th>
+					<td>
+						<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
+						<input type="submit" name="submit" value="Login" id="openid_manual_submit">
+						<?php if ($destination) { ?>
+						<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
+						<?php } ?>
+					</td>
+				</tr>
+				</table>
 			</div>
+
+			<hr>
+			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => true))); ?>">Use a password instead</a>
 		</td>
 	</tr>
-	<tr>
+	<tr class="login-with-password"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>
+		<th><label for="password">E-mail:</label></th>
+		<td>
+			<input type="text" id="email" name="email" size="48" value="<?php echo htmlspecialchars($email); ?>" maxlength="255">
+		</td>
+	</tr>
+	<tr class="login-with-password"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>
+		<th><label for="password">Password:</label></th>
+		<td>
+			<input type="password" id="password" name="password" size="32" value="" maxlength="255">
+			<br>
+			<input type="submit" name="submit" value="Login" id="password_manual_submit">
+
+			<hr>
+			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>">Use OpenID instead</a>
+
+		</td>
+	</tr>
+	<tr class="autologin">
 		<th></th>
 		<td><label><input type="checkbox" name="autologin" value="1"<?php echo $autologin ? " checked" : ""; ?>> Log in automatically</label></td>
 	</tr>
 </table>
+<input type="hidden" name="use_password" id="use_password" value="<?php echo $use_password ? 1 : 0; ?>">
 </form>
 </div>
 

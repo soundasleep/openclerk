@@ -3489,3 +3489,7 @@ UPDATE ticker_recent SET currency1='btc', currency2='ltc' WHERE exchange='virtex
 UPDATE ticker SET currency1='cad', currency2='ltc' WHERE exchange='virtex' AND currency1='ltc' AND currency2='cad';
 UPDATE ticker_recent SET currency1='cad', currency2='ltc' WHERE exchange='virtex' AND currency1='ltc' AND currency2='cad';
 
+-- issue #142: support username/password login
+ALTER TABLE users ADD password_hash VARCHAR(64) NULL;
+ALTER TABLE users ADD INDEX(password_hash);
+

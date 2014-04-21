@@ -42,16 +42,19 @@ $(document).ready(function() {
  * OpenID/password switch
  */
 $(document).ready(function() {
-  $(".signup-with .password-openid-switch").click(function() {
-    $(".signup-with").hide();
-    $(".signup-with-password").show();
+  $(".login-with-openid .password-openid-switch").click(function() {
+    $(".login-with-openid").hide();
+    $(".login-with-password").show();
     $(".email-required").show();
+    $(".login-with-password input:first").focus();
+    $("input#use_password").val(1);
     return false;   // stop event bubbling
   })
-  $(".signup-with-password .password-openid-switch").click(function() {
-    $(".signup-with").show();
-    $(".signup-with-password").hide();
+  $(".login-with-password .password-openid-switch").click(function() {
+    $(".login-with-openid").show();
+    $(".login-with-password").hide();
     $(".email-required").hide();
+    $("input#use_password").val(0);
     return false;   // stop event bubbling
   })
 });
