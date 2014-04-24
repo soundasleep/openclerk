@@ -53,7 +53,12 @@ $global_loaded_locales = array();
  * @see set_locale($locale)
  * @see missing_locale_string($key, $locale)
  */
-function t($key, $args = array()) {
+function t($category, $key = false, $args = array()) {
+	if (!$args) {
+		// swap arguments if necessary
+		return t("[empty category]", $category, $key + array("__ignored__" => false));
+	}
+
 	$locale = get_current_locale();
 
 	global $global_loaded_locales;
@@ -69,12 +74,21 @@ function t($key, $args = array()) {
 		$global_loaded_locales[$locale] = $result;
 	}
 
+	if (!is_array($args)) {
+		throw new LocaleException("Expected array argument");
+	}
+	foreach ($args as $k => $value) {
+		if (is_numeric($k)) {
+			throw new LocaleException("Did not expect numeric key '$k'");
+		}
+	}
+
 	if (!isset($global_loaded_locales[$locale][$key])) {
 		if (function_exists('missing_locale_string')) {
 			missing_locale_string($key, $locale);
 		}
-		return sprintf($key, $args);
+		return strtr($key, $args);
 	}
-	return sprintf($global_loaded_locales[$locale][$key], $args);
+	return strtr($global_loaded_locales[$locale][$key], $args);
 }
 
