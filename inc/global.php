@@ -407,11 +407,11 @@ function log_uncaught_exception($e, $extra_args = array(), $extra_query = "") {
 		created_at=NOW() $extra_query");
 	$q->execute(array_join(array(
 		// clamp messages to 255 characters
-		substr($e->getMessage(), 0, 255),
-		substr($e->getPrevious() ? $e->getPrevious()->getMessage() : "", 0, 255),
-		substr($e->getFile(), 0, 255),
+		mb_substr($e->getMessage(), 0, 255),
+		mb_substr($e->getPrevious() ? $e->getPrevious()->getMessage() : "", 0, 255),
+		mb_substr($e->getFile(), 0, 255),
 		$e->getLine(),
-		serialize($e),
+		mb_substr(serialize($e), 0, 65535),
 	), $extra_args));
 }
 
