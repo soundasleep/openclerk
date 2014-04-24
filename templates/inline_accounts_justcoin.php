@@ -6,7 +6,7 @@ $account_data = array('exchange_name' => get_exchange_name('justcoin'));
 <h2>Adding a <?php echo $account_data['exchange_name']; ?> account</h2>
 
 <ol class="steps">
-	<li>Log into <a href="https://justcoin.com/client/#settings/profile"><?php echo $account_data['exchange_name']; ?></a> account and visit your <i>Account Settings</i>.<br>
+	<li>Log into <a href="https://justcoin.com/client/#settings/profile">your <?php echo $account_data['exchange_name']; ?> account</a> and visit your <i>Account Settings</i>.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/justcoin1.png')); ?>"></li>
 
 	<li>Visit your <a href="https://justcoin.com/client/#settings/apikeys">API keys</a> section.<br>

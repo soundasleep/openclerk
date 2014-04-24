@@ -8,7 +8,7 @@
 function get_all_currencies() {
 	return array(
 		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn",
-		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils",
+		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw",
 		"ghs",
 	);
 }
@@ -23,7 +23,7 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("ils", "ixc", "vtc", "net", "hbn");
+	return array("krw");
 }
 
 function get_all_cryptocurrencies() {
@@ -75,6 +75,7 @@ function get_currency_name($n) {
 		case "eur": return "Euro";
 		case "gbp":	return "Pound sterling";
 		case "ils":	return "Israeli new shekel";
+		case "krw": return "South Korean won";
 
 		case "ghs": return "CEX.io GHS";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
@@ -223,6 +224,7 @@ function get_all_exchanges() {
 		"d2" => "d2",
 		"d2_wdc" => "d2",
 		"scryptguild" => "ScryptGuild",
+		"kraken" => "Kraken",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -239,7 +241,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("bit2c");
+	return array("kraken");
 }
 
 function get_exchange_pairs() {
@@ -265,6 +267,7 @@ function get_exchange_pairs() {
 				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc'), array('btc', 'ixc'), array('btc', 'vtc'),
 				array('btc', 'net'), array('ltc', 'net'), array('btc', 'hbn')),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
+		// TODO kraken
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils')),
@@ -384,6 +387,7 @@ function get_supported_wallets() {
 		"hypernova" => array('ltc', 'hash'),
 		"justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),	 // supports btc, usd, eur, nok, ltc
 		"khore" => array('nvc', 'hash'),
+		"kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw'),		// also 'asset-based Ven/XVN'
 		"litecoinpool" => array('ltc', 'hash'),
 		"litecoininvest" => array('ltc'),
 		"liteguardian" => array('ltc'),
@@ -503,6 +507,7 @@ function get_default_currency_exchange($c) {
 		case "cny": return "btcchina";
 		case "pln": return "bitcurex";
 		case "ils": return "bit2c";
+		case "krw": return "kraken";
 		// commodities
 		case "ghs": return "cexio";
 		default: throw new Exception("Unknown currency to exchange into: $c");
@@ -646,6 +651,7 @@ function account_data_grouped() {
 			'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'kraken' => array('table' => 'accounts_kraken', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -825,6 +831,7 @@ function get_external_apis() {
 			'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
 			'cryptsy' => '<a href="https://www.cryptsy.com/">Crypsty</a>',
 			'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
+			'kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
@@ -1689,6 +1696,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret key', 'callback' => 'is_valid_vaultofsatoshi_apisecret'),
 				),
 				'table' => 'accounts_vaultofsatoshi',
+			);
+
+		case "kraken":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_kraken_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_kraken_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_kraken',
 			);
 
 		// --- securities ---
@@ -2649,6 +2665,14 @@ function is_valid_mpos_apikey($key) {
 function is_valid_scryptguild_apikey($key) {
 	// looks like a 32 character hex string
 	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_kraken_apikey($key) {
+	return strlen($key) == 56 && preg_match("#^[a-zA-Z0-9]+$#", $key);
+}
+
+function is_valid_kraken_apisecret($key) {
+	return strlen($key) > 64 && strlen($key) < 128 && preg_match('#^[a-zA-Z0-9=/+]+$#', $key);
 }
 
 function is_valid_currency($c) {
