@@ -659,6 +659,9 @@ if (!$account_data) {
 	if ($job['job_type'] == 'securities_havelock') {
 		$account_data = array('failure' => true, 'table' => 'securities_havelock', 'exchange' => 'securities_havelock', 'label' => 'ticker', 'labels' => 'tickers', 'title' => $job['arg_id']);
 	}
+	if ($job['job_type'] == 'securities_cryptotrade') {
+		$account_data = array('failure' => true, 'table' => 'securities_cryptotrade', 'exchange' => 'securities_cryptotrade', 'label' => 'ticker', 'labels' => 'tickers', 'title' => $job['arg_id']);
+	}
 }
 if ($account_data && $account_data['failure']) {
 	$failing_table = $account_data['table'];
