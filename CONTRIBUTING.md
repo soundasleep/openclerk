@@ -8,3 +8,6 @@ Contributing
 ## Running tests
 
 Tests can be run by executing `vendor/bin/phpunit` in the root directory, or by running `grunt test`.
+
+To run a single test, run `vendor/bin/phpunit tests/TestName`.
+
