@@ -54,11 +54,18 @@ $global_loaded_locales = array();
  * @see missing_locale_string($key, $locale)
  */
 function t($category, $key = false, $args = array()) {
-	if (!$args) {
-		// swap arguments if necessary
-		return t("[empty category]", $category, $key + array("__ignored__" => false));
+	if (is_string($category) && is_string($key)) {
+		return t_without_category($key, $args);
+	} else {
+		if ($key === false) {
+			return t_without_category($category);
+		} else {
+			return t_without_category($category, $key);
+		}
 	}
+}
 
+function t_without_category($key = false, $args = array()) {
 	$locale = get_current_locale();
 
 	global $global_loaded_locales;

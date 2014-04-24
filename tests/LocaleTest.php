@@ -15,6 +15,7 @@ class LocaleTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("Hello meow 1", t("Hello :world 1", array(':world' => 'meow')));
 		$this->assertEquals(":hello :hi 2", t(":hi :hello 2", array(':hi' => ':hello', ':hello' => ':hi')));
 		$this->assertEquals("Hello :world 3", t("Hello :world 3", array(':meow' => ':world')));
+		$this->assertEquals("Hello :world 4", t("Hello :world 4"));
 
 		// these should all throw exceptions
 		try {
@@ -33,6 +34,7 @@ class LocaleTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("Hello meow 1", t("test", "Hello :world 1", array(':world' => 'meow')));
 		$this->assertEquals(":hello :hi 2", t("test", ":hi :hello 2", array(':hi' => ':hello', ':hello' => ':hi')));
 		$this->assertEquals("Hello :world 3", t("test", "Hello :world 3", array(':meow' => ':world')));
+		$this->assertEquals("Hello :world 4", t("test", "Hello :world 4"));
 
 		// these should all throw exceptions
 		try {
