@@ -116,7 +116,7 @@ function crypto_get_contents($url, $options = array()) {
  * 		remote response suggests something about CloudFlare or Incapsula.
  * @throws an {@link ExternalAPIException} if the response suggests something else that was unexpected
  */
-function crypto_check_response($string) {
+function crypto_check_response($string, $message = false) {
 	if (strpos($string, 'DDoS protection by CloudFlare') !== false) {
 		throw new CloudFlareException('Throttled by CloudFlare' . ($message ? " $message" : ""));
 	}
