@@ -19,7 +19,7 @@ if (get_site_config('new_user_premium_update_hours') && strtotime($user['created
 		$q->execute();
 		$stats = $q->fetch();
 		if ($stats) {
-			$messages[] = "As a new user, it will take " . expected_delay_html($stats['premium_delay_minutes']) . " for your first accounts to be updated and
+			$messages[] = "As a new user, it will take " . expected_delay_html($stats['premium_delay_minutes']) . " for your <a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">accounts and addresses</a> to be updated and
 				your first reports to be generated.";
 		}
 	} else {

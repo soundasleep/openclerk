@@ -744,6 +744,13 @@ function is_valid_url($e) {
 }
 
 /**
+ * Is this user a 'new user' w.r.t. {@code new_user_premium_update_hours}?
+ */
+function user_is_new($user) {
+	return get_site_config('new_user_premium_update_hours') && strtotime($user['created_at']) > strtotime('-' . get_site_config('new_user_premium_update_hours') . ' hour');
+}
+
+/**
  * Generate a random key of the specified length. This key needs to be
  * alphanumeric. Case-sensitivity is not specified.
  */

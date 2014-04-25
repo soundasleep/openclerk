@@ -379,7 +379,7 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 
 		render_linegraph_date($graph, array_values($data));
 	} else {
-		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated.
+		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated by " . get_site_config('site_name') . ".
 					<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
 	}
 
@@ -653,7 +653,7 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 		if ($user_id == get_site_config('system_user_id')) {
 			render_text($graph, "No data to display.");	// or Invalid balance type.
 		} else {
-			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated.
+			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated by " . get_site_config('site_name') . ".
 						<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
 		}
 	}
@@ -810,9 +810,9 @@ function render_site_admin_statistics($graph) {
 			}
 		}
 		$parts = array(
-			'1', 
-			'created_at >= date_sub(now(), interval 7 day)', 
-			'created_at >= date_sub(now(), interval 1 day)', 
+			'1',
+			'created_at >= date_sub(now(), interval 7 day)',
+			'created_at >= date_sub(now(), interval 1 day)',
 			'created_at >= date_sub(now(), interval 1 hour)',
 		);
 		foreach ($parts as $query) {
@@ -928,16 +928,16 @@ function render_metrics_table($graph, $report_type, $report_table, $report_ref_t
 	}
 
 	// get all queries
-	$q = db()->prepare("SELECT * FROM $report_table AS r 
+	$q = db()->prepare("SELECT * FROM $report_table AS r
 			JOIN $report_ref_table AS q ON r.$report_reference=q.id
-			JOIN performance_metrics_pages AS p ON r.page_id=p.id 
+			JOIN performance_metrics_pages AS p ON r.page_id=p.id
 			WHERE report_id=?");
 	$q->execute(array($report['id']));
 	$data = array();
 	while ($query = $q->fetch()) {
 		$data[] = array(
-			$key_formatter($query[$key]), 
-			number_format($query[$key . '_count']), 
+			$key_formatter($query[$key]),
+			number_format($query[$key . '_count']),
 			number_format($query[$key . '_time'] / $query[$key . '_count']),
 			"<a href=\"" . url_for($query['script_name']) . "\">" . $query['script_name'] . "</a>",
 		);
@@ -1022,7 +1022,7 @@ function render_metrics_graph($graph, $report_type, $report_table, $report_ref_t
 			if (!isset($row[$id])) $data[$date][$id] = 0;
 		}
 	}
-	
+
 	if (count($data) > 1) {
 		render_linegraph_date($graph, array_values($data));
 	} else {

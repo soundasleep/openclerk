@@ -161,6 +161,15 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .graph_collection .graph table.standard { width: 100%; }
 .graph_collection .graph table.standard th { min-width: 1px; }
 .graph_collection .graph .last_updated { float: right; text-align: right; color: #333; font-size: 80%; background: #111; margin-top: 10px; margin-right: 5px; }
+.graph_collection .graph .outofdate {
+  background: url('../img/nuvola/messagebox_info.png') top left no-repeat;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 5px;
+  vertical-align: text-bottom;
+}
 .graph_collection .graph .graph_headings { height: 2em; width: 100%; overflow: hidden; }
 .graph_collection .graph .render_time { display: inline-block; float: right; color: #333; font-size: 80%; z-index: 1; /* float over graph */ top: -1.25em; }
 .graph_collection .graph .graph_title a { color: white; text-decoration: none; }

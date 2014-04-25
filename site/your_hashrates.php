@@ -116,7 +116,7 @@ foreach ($data as $exchange => $balance) {
 
 		<?php if (!$balances) { ?>
 		<li>
-		Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated.<br>
+		Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by <?php echo htmlspecialchars(get_site_config('site_name')); ?>.<br>
 		<a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Add accounts and addresses</a>
 		</li>
 		<?php } ?>

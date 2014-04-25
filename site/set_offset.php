@@ -67,6 +67,10 @@ foreach ($currencies as $c) {
 	}
 }
 
+// update has_added_account
+$q = db()->prepare("UPDATE users SET has_added_account=1,last_account_change=NOW() WHERE id=?");
+$q->execute(array(user_id()));
+
 if (require_post("wizard", false)) {
 	$messages[] = "Updated currency offsets.";
 }

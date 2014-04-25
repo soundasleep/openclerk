@@ -3971,3 +3971,99 @@ ALTER TABLE accounts_individual_litecoinglobal ADD INDEX(is_disabled_manually);
 -- Other
 ALTER TABLE accounts_generic ADD is_disabled_manually tinyint not null default 0;
 ALTER TABLE accounts_generic ADD INDEX(is_disabled_manually);
+
+-- issue #200: display out-of-date warning for new users
+ALTER TABLE users ADD last_account_change timestamp null;
+
+ALTER TABLE users ADD last_sum_job timestamp null;
+ALTER TABLE users ADD has_added_account tinyint not null default 0;
+ALTER TABLE users ADD INDEX(has_added_account);
+
+-- Addresses
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM addresses);
+-- Mining pools
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_50btc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_beeeeer);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_bitminter);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_btcguild);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_coinhuntr);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_cryptopools_dgc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_d2_wdc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_dedicatedpool_doge);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_dogechainpool);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_dogepoolpw);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_ecoining_ppc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_eligius);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_elitistjerks);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_ghashio);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_givemecoins);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_hashfaster_doge);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_hashfaster_ftc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_hashfaster_ltc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_hypernova);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_kattare);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_khore);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_lite_coinpool);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_litecoinpool);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_liteguardian);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_litepooleu);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_ltcmineru);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_miningforeman);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_miningforeman_ftc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_miningpoolco);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_multipool);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_nut2pools_ftc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_ozcoin_btc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_ozcoin_ltc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_poolx);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_scryptguild);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_scryptpools);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_shibepool);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_slush);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_smalltimeminer_mec);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_teamdoge);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_triplemining);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_wemineftc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_wemineltc);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_ypool);
+-- Exchanges
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_bips);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_bit2c);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_bitcurex_eur);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_bitcurex_pln);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_bitstamp);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_btce);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_cexio);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_coinbase);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_cryptotrade);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_cryptsy);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_justcoin);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_kraken);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_mtgox);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_vaultofsatoshi);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_vircurex);
+-- Securities
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_796);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_bitfunder);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_btcinve);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_btct);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_cryptotrade);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_cryptostocks);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_havelock);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_litecoininvest);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_litecoinglobal);
+-- Individual Securities
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_796);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_bitfunder);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_btcinve);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_btct);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_cryptotrade);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_cryptostocks);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_havelock);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_litecoininvest);
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_individual_litecoinglobal);
+-- Other
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM accounts_generic);
+
+-- Also, offsets
+UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM offsets);

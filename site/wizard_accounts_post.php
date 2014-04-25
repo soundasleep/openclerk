@@ -101,7 +101,7 @@ if (require_post("key", false) !== false && require_post("id", false)) {
 
 }
 
-// process add/delete
+// process add
 if (require_post("add", false)) {
 	$query = "";
 	$args = array();
@@ -162,6 +162,10 @@ if (require_post("add", false)) {
 					priority=:priority,
 					is_test_job=1");
 		$q->execute(array('job_type' => $account_data['exchange'], 'user_id' => user_id(), 'arg_id' => $id, 'priority' => get_site_config('job_test_priority')));
+
+		// update has_added_account
+		$q = db()->prepare("UPDATE users SET has_added_account=1,last_account_change=NOW() WHERE id=?");
+		$q->execute(array(user_id()));
 
 		// redirect to GET
 		set_temporary_errors($errors);

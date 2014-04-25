@@ -285,6 +285,14 @@ function render_graph_headings($graph) {
 	<?php if (isset($graph['last_updated']) && $graph['last_updated'] && $graph['width'] > 1) { ?>
 		$("#last_updated_<?php echo $graph['id']; ?>").html(<?php echo json_encode(recent_format_html($graph['last_updated'])); ?>);
 	<?php } ?>
+
+	<?php /* issue #200: display warning for out-of-date data */
+	$user = user_logged_in() ? get_user(user_id()) : false;
+	if ($user && $graph['uses_summaries'] && (!$user['has_added_account'] || !$user['is_first_report_sent'] || strtotime($user['last_account_change']) > strtotime($user['last_sum_job']))) { ?>
+		$("#outofdate_<?php echo $graph['id']; ?>").show();
+	<?php } else { ?>
+		$("#outofdate_<?php echo $graph['id']; ?>").hide();
+	<?php } ?>
 <?php
 }
 

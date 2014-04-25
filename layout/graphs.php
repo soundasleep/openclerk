@@ -56,6 +56,7 @@ function render_graph($graph, $is_public = false) {
 	// get relevant technicals, if any
 	// (we need to get these before render_graph_controls() so that the edit graph inline form knows about technicals)
 	$graph['technicals'] = load_technicals($graph, $is_public);
+	$graph['uses_summaries'] = isset($graph_type['uses_summaries']) && $graph_type['uses_summaries'];
 
 	if (isset($graph['arg0_resolved']) && substr($graph['graph_type'], 0, strlen("securities_")) == "securities_") {
 		// we need to unresolve the name to find the appropriate security
@@ -116,6 +117,19 @@ function render_graph($graph, $is_public = false) {
 	echo htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']);
 	if ($historical) echo "</a>";
 	echo "</h2>\n";
+	$title = "";
+	if (user_logged_in()) {
+		$user = get_user(user_id());
+		$plural_hours = plural(user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours"), 'hour');
+		if ($user['is_first_report_sent']) {
+			$title = "This graph will take up to " . $plural_hours . " to be updated with recently added or removed accounts.";
+		} else if ($user['has_added_account']) {
+			$title = "As a new user, it will take up to " . $plural_hours . " for this graph to be populated with initial data.";
+		} else {
+			$title = "You need to add some account data for this graph to display.";
+		}
+	}
+	echo "<span class=\"outofdate\" id=\"outofdate_" . htmlspecialchars($graph['id']) . "\" title=\"" . htmlspecialchars($title) . "\" style=\"display:none;\"></span>\n";
 	echo "<span class=\"subheading\" id=\"subheading_" . htmlspecialchars($graph['id']) . "\"></span>\n";
 	echo "<span class=\"last_updated\" id=\"last_updated_" . htmlspecialchars($graph['id']) . "\"></span>\n";		// issue #46: Chrome rendering bugs mean we need to render last_updated as per subheadings
 	render_graph_controls($graph);
@@ -218,6 +232,7 @@ function render_graph_actual($graph, $is_public) {
 		// this should never happen because graph_types should be checked before load_technicals is called
 		throw new Exception("Could not render graph '" . htmlspecialchars($graph['graph_type']) . "': no such graph type");
 	}
+	$graph_type = $graph_types[$graph['graph_type']];
 
 	// check that if this graph is only for admins, then we are an admin
 	if (isset($graph_type['admin']) && $graph_type['admin'] && !is_admin()) {
@@ -227,6 +242,7 @@ function render_graph_actual($graph, $is_public) {
 	// get relevant technicals, if any
 	// (we need to get these before render_graph_controls() so that the edit graph inline form knows about technicals)
 	$graph['technicals'] = load_technicals($graph, $is_public);
+	$graph['uses_summaries'] = isset($graph_type['uses_summaries']) && $graph_type['uses_summaries'];
 
 	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Add more currencies</a>";
 
@@ -277,7 +293,7 @@ function render_graph_actual($graph, $is_public) {
 			if ($data) {
 				render_pie_chart($graph, $data, 'Currency', 'BTC');
 			} else {
-				render_text($graph, "Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated.
+				render_text($graph, "Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by " . get_site_config('site_name') . ".
 					<br><a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
 			}
 			break;
@@ -715,7 +731,7 @@ function render_graph_actual($graph, $is_public) {
 									render_table_vertical($graph, $table, $head);
 								}
 							} else {
-								render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated.
+								render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated by " . get_site_config('site_name') . ".
 									<br><a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
 							}
 							break 2;

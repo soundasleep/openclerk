@@ -268,16 +268,16 @@ function graph_types() {
 	$data = array(
 		'category_general' => array('title' => 'General', 'category' => true),
 		'subcategory_general' => array('title' => 'General graphs', 'subcategory' => true),
-		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall proportional value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'default_width' => get_site_config('default_user_graph_height')),
-		'btc_equivalent_graph' => array('title' => 'Equivalent BTC balances (graph)', 'heading' => 'Equivalent BTC', 'description' => 'A line graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true),
-		'btc_equivalent_stacked' => array('title' => 'Equivalent BTC balances (stacked)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true),
-		'btc_equivalent_proportional' => array('title' => 'Equivalent BTC balances (proportional)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the proportional historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true),
+		'btc_equivalent' => array('title' => 'Equivalent BTC balances (pie)', 'heading' => 'Equivalent BTC', 'description' => 'A pie chart representing the overall proportional value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'default_width' => get_site_config('default_user_graph_height'), 'uses_summaries' => true),
+		'btc_equivalent_graph' => array('title' => 'Equivalent BTC balances (graph)', 'heading' => 'Equivalent BTC', 'description' => 'A line graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true, 'uses_summaries' => true),
+		'btc_equivalent_stacked' => array('title' => 'Equivalent BTC balances (stacked)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true, 'uses_summaries' => true),
+		'btc_equivalent_proportional' => array('title' => 'Equivalent BTC balances (proportional)', 'heading' => 'Equivalent BTC', 'description' => 'A stacked area graph displaying the proportional historical value of all currencies if they were all converted into BTC.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'days' => true, 'uses_summaries' => true),
 		'mtgox_btc_table' => array('title' => 'Mt.Gox USD/BTC (table)', 'heading' => 'Mt.Gox', 'description' => 'A simple table displaying the current bid/ask USD/BTC price on Mt.Gox.', 'default_width' => get_site_config('default_user_graph_height')),
 		'ticker_matrix' => array('title' => 'All currencies exchange rates (matrix)', 'heading' => 'All exchanges', 'description' => 'A matrix displaying the current bid/ask of all of the currencies and exchanges <a href="' . htmlspecialchars(url_for('wizard_currencies')) .'">you are interested in</a>.'),
-		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).', 'default_width' => get_site_config('default_user_graph_height')),
-		'total_converted_table' => array('title' => 'Total converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.<p>Supports ' . $total_fiat_currencies . '.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'default_width' => get_site_config('default_user_graph_height')),
-		'crypto_converted_table' => array('title' => 'Total converted crypto balances (table)', 'heading' => 'Converted crypto', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies - if they were immediately converted into other cryptocurrencies.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_cryptocurrencies(), array('btc'))) . '.', 'default_width' => get_site_config('default_user_graph_height')),
-		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.'),
+		'balances_table' => array('title' => 'Total balances (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all your currencies (before any conversions).', 'default_width' => get_site_config('default_user_graph_height'), 'uses_summaries' => true),
+		'total_converted_table' => array('title' => 'Total converted fiat balances (table)', 'heading' => 'Converted fiat', 'description' => 'A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.<p>Supports ' . $total_fiat_currencies . '.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.', 'default_width' => get_site_config('default_user_graph_height'), 'uses_summaries' => true),
+		'crypto_converted_table' => array('title' => 'Total converted crypto balances (table)', 'heading' => 'Converted crypto', 'description' => 'A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies - if they were immediately converted into other cryptocurrencies.<p>Exchanges used: ' . get_default_exchange_text(array_diff(get_all_cryptocurrencies(), array('btc'))) . '.', 'default_width' => get_site_config('default_user_graph_height'), 'uses_summaries' => true),
+		'balances_offset_table' => array('title' => 'Total balances with offsets (table)', 'heading' => 'Total balances', 'description' => 'A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.', 'uses_summaries' => true),
 	);
 
 	$summaries = get_all_summary_currencies();
@@ -304,6 +304,7 @@ function graph_types() {
 			'days' => true,
 			'delta' => true,	/* allow deltas */
 			'technical' => true,
+			'uses_summaries' => true,
 		);
 	}
 
@@ -322,6 +323,7 @@ function graph_types() {
 			'days' => true,
 			'delta' => true,	/* allow deltas */
 			'technical' => true,
+			'uses_summaries' => true,
 		);
 	}
 
@@ -342,6 +344,7 @@ function graph_types() {
 			'days' => true,
 			'delta' => true,	/* allow deltas */
 			'technical' => true,
+			'uses_summaries' => true,
 		);
 	}
 
@@ -358,6 +361,7 @@ function graph_types() {
 			'description' => "A pie chart representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'hide' => !isset($summaries[$currency]),
 			'default_width' => get_site_config('default_user_graph_height'),
+			'uses_summaries' => true,
 		);
 	}
 
@@ -373,6 +377,7 @@ function graph_types() {
 			'description' => "A line graph representing all of the sources of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]),
+			'uses_summaries' => true,
 		);
 	}
 
@@ -387,6 +392,7 @@ function graph_types() {
 			'heading' => "Your " . get_currency_abbr($currency) . " balances",
 			'description' => "A table displaying all of your " . get_currency_name($currency) . " balances and the total balance (before any conversions).",
 			'hide' => !isset($summaries[$currency]),
+			'uses_summaries' => true,
 		);
 	}
 
@@ -402,6 +408,7 @@ function graph_types() {
 			'description' => "A stacked area graph displaying the historical value of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]),
+			'uses_summaries' => true,
 		);
 	}
 
@@ -417,6 +424,7 @@ function graph_types() {
 			'description' => "A stacked area graph displaying the proportional historical value of your total " . get_currency_name($currency) . " balance (before any conversions).",
 			'days' => true,
 			'hide' => !isset($summaries[$currency]),
+			'uses_summaries' => true,
 		);
 	}
 
@@ -440,6 +448,7 @@ function graph_types() {
 			'days' => true,
 			'delta' => true,	/* allow deltas */
 			'technical' => true,
+			'uses_summaries' => true,
 		);
 	}
 

@@ -37,7 +37,7 @@ if (require_post("title", false) !== false && require_post("id", false)) {
 
 }
 
-// process add/delete
+// process add
 if (require_post("add", false) && require_post("address", false)) {
 	$address = trim(require_post("address"));
 	$title = trim(require_post("title", false));
@@ -55,6 +55,10 @@ if (require_post("add", false) && require_post("address", false)) {
 		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?, title=?");
 		$q->execute(array(user_id(), $address, $account_data['currency'], $title));
 		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " " . crypto_address($account_data['currency'], $address) . ". Balances from this address will be retrieved shortly.";
+
+		// update has_added_account
+		$q = db()->prepare("UPDATE users SET has_added_account=1,last_account_change=NOW() WHERE id=?");
+		$q->execute(array(user_id()));
 
 		// redirect to GET
 		set_temporary_messages($messages);
