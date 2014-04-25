@@ -108,7 +108,7 @@ require(__DIR__ . "/_finance_pages.php");
 							$account_full = $q->fetch();
 
 							echo "<option class=\"exchange-" . htmlspecialchars($account['exchange']) . "\" value=\"" . htmlspecialchars($account['account_id']) . "\"" .
-								($page_args['account_id'] == $account['account_id'] ? " selected" : "") . ">" .
+								(($page_args['account_id'] == $account['account_id'] && $page_args['exchange'] == $account['exchange']) ? " selected" : "") . ">" .
 								htmlspecialchars(($account_full && isset($account_full['title']) && $account_full['title']) ? $account_full['title'] : "(untitled)") .
 								"</option>\n";
 						}
