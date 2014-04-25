@@ -248,6 +248,7 @@ function get_default_site_config() {
 		"custom_css" => false,
 		"forum_link" => "http://bitcointalk.org/",
 		"google_groups_announce" => "openclerk-announce",
+		"version_history_link" => "https://groups.google.com/forum/#!forum/cryptfolio-announce",
 
 	);
 

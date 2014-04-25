@@ -129,6 +129,7 @@ function page_footer() {
 			<ul>
 				<li><a href="<?php echo htmlspecialchars(url_for('historical')); ?>">Historical Data</a></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('calculator')); ?>">Calculator</a></li>
+				<li><a href="<?php echo htmlspecialchars(get_site_config('version_history_link')); ?>">Release History</a></li>
 			</ul>
 		</li>
 		<li><span class="title">Support</span>
