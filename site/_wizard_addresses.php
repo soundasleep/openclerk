@@ -98,33 +98,34 @@ foreach ($accounts as $a) {
 			<?php if ($enabled) { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="disable_creator" value="Disable" class="disable" onclick="return confirmCreatorDisable();" title="Disable transaction generation for this account.">
+				<input type="submit" name="disable_creator" value="Disable" class="disable" onclick="return confirmCreatorDisable();" title="Disable transaction generation for this account">
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 				<input type="hidden" name="callback" value="wizard_accounts_addresses">
 			</form>
 			<?php } else { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="enable_creator" value="Enable" class="enable" title="Enable transaction generation for this account.">
+				<input type="submit" name="enable_creator" value="Enable" class="enable" title="Enable transaction generation for this account">
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 				<input type="hidden" name="callback" value="wizard_accounts_addresses">
 			</form>
 		<?php } ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="reset_creator" value="Reset" class="enable" onclick="return confirmTransactionsReset();" title="Delete generated historical transactions and start again.">
+				<input type="submit" name="reset_creator" value="Reset" class="reset" onclick="return confirmTransactionsReset();" title="Delete generated historical transactions and start again">
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 				<input type="hidden" name="callback" value="wizard_accounts_addresses">
 			</form>
-			<br>
-			<a href="<?php echo htmlspecialchars(url_for('your_transactions', array('exchange' => $account_data['job_type'], 'account_id' => $a['id']))); ?>" class="view-transactions">View</a>
-			(<?php echo number_format($transaction_count['c']); ?>)
+			<span class="transaction-count">
+				<a href="<?php echo htmlspecialchars(url_for('your_transactions', array('exchange' => $account_data['job_type'], 'account_id' => $a['id']))); ?>" class="view-transactions" title="View historical transactions">View</a>
+				(<?php echo number_format($transaction_count['c']); ?>)
+			</span>
 		</td>
 		<td>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
-				<input type="submit" name="delete" value="Delete" class="delete" onclick="return confirm('Are you sure you want to remove this address?');">
+				<input type="submit" name="delete" value="Delete" class="delete" onclick="return confirm('Are you sure you want to remove this address?');" title="Delete this address">
 			</form>
 		</td>
 	</tr>

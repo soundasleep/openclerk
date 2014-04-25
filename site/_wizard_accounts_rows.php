@@ -157,32 +157,33 @@ foreach ($accounts as $a) {
 			<?php if ($enabled) { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="disable_creator" value="Disable" class="disable" onclick="return confirmCreatorDisable();" title="Disable transaction generation for this account.">
+				<input type="submit" name="disable_creator" value="Disable" class="disable" onclick="return confirmCreatorDisable();" title="Disable transaction generation for this account">
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
 			<?php } else { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="enable_creator" value="Enable" class="enable" title="Enable transaction generation for this account.">
+				<input type="submit" name="enable_creator" value="Enable" class="enable" title="Enable transaction generation for this account">
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
 		<?php } ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="reset_creator" value="Reset" class="enable" onclick="return confirmTransactionsReset();" title="Delete generated historical transactions and start again.">
+				<input type="submit" name="reset_creator" value="Reset" class="reset" onclick="return confirmTransactionsReset();" title="Delete generated historical transactions and start again">
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
-			<br>
-			<a href="<?php echo htmlspecialchars(url_for('your_transactions', array('exchange' => $a['exchange'], 'account_id' => $a['id']))); ?>" class="view-transactions">View</a>
-			(<?php echo number_format($transaction_count['c']); ?>)
+			<span class="transaction-count">
+				<a href="<?php echo htmlspecialchars(url_for('your_transactions', array('exchange' => $a['exchange'], 'account_id' => $a['id']))); ?>" class="view-transactions" title="View historical transactions">View</a>
+				(<?php echo number_format($transaction_count['c']); ?>)
+			</span>
 		</td>
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="delete" value="Delete" class="delete" onclick="return confirmAccountDelete();" title="Delete this account, removing all historical data.">
+				<input type="submit" name="delete" value="Delete" class="delete" onclick="return confirmAccountDelete();" title="Delete this account, removing all historical data">
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
@@ -199,7 +200,7 @@ foreach ($accounts as $a) {
 					<?php } else { ?>
 					<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 						<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-						<input type="submit" name="test" value="Test" class="test" title="Request an immediate test of this account.">
+						<input type="submit" name="test" value="Test" class="test" title="Request an immediate test of this account">
 						<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 						<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 					</form>
@@ -210,14 +211,14 @@ foreach ($accounts as $a) {
 					<?php if ($is_disabled) { ?>
 						<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 							<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-							<input type="submit" name="enable" value="Enable" class="enable" title="Re-enable this account.">
+							<input type="submit" name="enable" value="Enable" class="enable" title="Re-enable this account">
 							<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 							<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 						</form>
 					<?php } else if ($account_type_data['failure']) { ?>
 						<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 							<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-							<input type="submit" name="disable" value="Disable" class="disable" title="Disable this account, preserving any historical data.">
+							<input type="submit" name="disable" value="Disable" class="disable" title="Disable this account, preserving any historical data">
 							<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 							<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 						</form>

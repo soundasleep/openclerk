@@ -347,6 +347,8 @@ button .openid, .openid_list .openid { padding-left: 20px; line-height: 20px; }
 .historical_selectors th { display: none; }
 #page_historical .graph_collection { clear: both; }
 
+@import "buttons";
+
 @import "locale";
 
 // pages

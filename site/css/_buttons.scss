@@ -1,0 +1,66 @@
+/**
+ * Styles for buttons.
+ */
+
+$button-background: transparent;
+
+input[type=submit], button {
+
+  // common button styles
+  &.reset, &.delete, &.test, &.enable, &.disable {
+    display: inline-block;
+    width: (16px+8px);
+    height: (16px+8px);
+    background-color: $button-background;
+    border: 1px outset rgba(0,0,0,0.2);
+    text-indent: 900em;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      background-color: #111;
+    }
+    &:active {
+      border: 1px inset #ccc;
+    }
+  }
+
+  // and now images
+  &.reset {
+    background: $button-background url('../img/nuvola/redo.png') 3px 3px no-repeat;
+  }
+  &.delete {
+    background: $button-background url('../img/nuvola/editdelete.png') 3px 3px no-repeat;
+  }
+  &.test {
+    background: $button-background url('../img/nuvola/reload.png') 3px 3px no-repeat;
+  }
+  &.enable {
+    background: $button-background url('../img/nuvola/ok.png') 3px 3px no-repeat;
+  }
+  &.disable {
+    background: $button-background url('../img/nuvola/ok_disabled.png') 3px 3px no-repeat;
+  }
+
+}
+
+// TODO should go into a wizards include probably
+.wizard_page .view-transactions {
+  display: inline-block;
+  width: (16px+8px);
+  height: (16px+8px);
+  background: $button-background url('../img/nuvola/viewmag.png') 3px 3px no-repeat;
+  border: 1px outset rgba(0,0,0,0.2);
+  text-indent: 900em;
+  border-radius: 4px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  vertical-align: top;
+
+  &:hover, &:focus {
+    background-color: #111;
+  }
+  &:active {
+    border: 1px inset #ccc;
+  }
+}
