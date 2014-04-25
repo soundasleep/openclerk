@@ -4088,6 +4088,8 @@ CREATE TABLE average_market_count (
 
 -- we also want to generate lots of historical data for the average market
 -- this query will be very heavy
+DELETE FROM graph_data_ticker WHERE exchange='average';
+
 INSERT INTO graph_data_ticker (
 	SELECT NULL as id,
 		NOW() as created_at,
@@ -4095,7 +4097,7 @@ INSERT INTO graph_data_ticker (
 		currency1,
 		currency2,
 		MAX(data_date) AS data_date,
-		1 AS samples,
+		COUNT(*) AS samples,
 		SUM(ask * volume) / SUM(volume) AS ask,
 		SUM(bid * volume) / SUM(volume) AS bid,
 		SUM(volume) AS volume,
@@ -4105,6 +4107,7 @@ INSERT INTO graph_data_ticker (
 		SUM(last_trade_max * volume) / SUM(volume) AS last_trade_max,
 		0 AS last_trade_stdev
 		FROM graph_data_ticker
+			WHERE volume > 0
 			GROUP BY currency1, currency2, data_date
 );
 
@@ -4116,7 +4119,7 @@ INSERT INTO graph_data_ticker (
 		currency1,
 		currency2,
 		MAX(created_at) AS data_date,
-		1 AS samples,
+		COUNT(*) AS samples,
 		SUM(ask * volume) / SUM(volume) AS ask,
 		SUM(bid * volume) / SUM(volume) AS bid,
 		SUM(volume) AS volume,
@@ -4126,5 +4129,6 @@ INSERT INTO graph_data_ticker (
 		0 AS last_trade_max,
 		0 AS last_trade_stdev
 		FROM ticker
+			WHERE volume > 0
 			GROUP BY currency1, currency2, to_days(created_at)
 );
