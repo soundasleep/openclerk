@@ -142,3 +142,7 @@ function confirmAccountDelete() {
 function confirmCreatorDisable() {
   return confirm("Disabling transactions will prevent new transactions from being created for this account, but will not remove old transaction data.");
 }
+
+function confirmTransactionsReset() {
+  return confirm("Resetting transactions for this account will delete all historical generated transaction data for this account, and will restart generating a new list of historical transactions for this account.");
+}

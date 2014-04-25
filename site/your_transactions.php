@@ -148,6 +148,7 @@ require(__DIR__ . "/_finance_pages.php");
 		<tr class="buttons">
 			<td colspan="2">
 				<input type="submit" value="Filter">
+				<a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">Reset</a>
 			</td>
 		</tr>
 		</table>

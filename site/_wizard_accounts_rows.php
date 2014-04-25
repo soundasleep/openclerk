@@ -169,6 +169,12 @@ foreach ($accounts as $a) {
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
 		<?php } ?>
+			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+				<input type="submit" name="reset_creator" value="Reset" class="enable" onclick="return confirmTransactionsReset();" title="Delete generated historical transactions and start again.">
+				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+			</form>
 			<br>
 			<a href="<?php echo htmlspecialchars(url_for('your_transactions', array('exchange' => $a['exchange'], 'account_id' => $a['id']))); ?>" class="view-transactions">View</a>
 			(<?php echo number_format($transaction_count['c']); ?>)

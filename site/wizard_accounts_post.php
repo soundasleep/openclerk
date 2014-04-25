@@ -307,6 +307,22 @@ if (require_post('enable_creator', false) && require_post('id', false)) {
 	redirect(url_for(require_post("callback")));
 }
 
+// process 'reset_creator'
+if (require_post('reset_creator', false) && require_post('id', false)) {
+	// delete all existing creators
+	$q = db()->prepare("DELETE FROM transaction_creators WHERE user_id=? AND exchange=? AND account_id=?");
+	$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+
+	// delete all existing transactions
+	$q = db()->prepare("DELETE FROM transactions WHERE user_id=? AND exchange=? AND account_id=?");
+	$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+
+	$messages[] = "Reset transactions for " . htmlspecialchars($account_data['title']) . "; historical transactions will soon be generated automatically.";
+
+	set_temporary_messages($messages);
+	redirect(url_for(require_post("callback")));
+}
+
 // either there was an error or we haven't done anything; go back to callback
 set_temporary_errors($errors);
 set_temporary_messages($messages);
