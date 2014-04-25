@@ -1985,6 +1985,7 @@ function get_wizard_account_type($wizard) {
 				'url' => 'wizard_accounts_exchanges',
 				'add_help' => 'add_service',
 				'a' => 'an',
+				'transaction_creation' => true,
 			);
 			break;
 
@@ -2038,6 +2039,7 @@ function get_wizard_account_type($wizard) {
 				'a' => 'an',
 				'display_headings' => array('multiplier' => 'Multiplier'),
 				'display_editable' => array('multiplier' => 'number_format_autoprecision'),
+				'transaction_creation' => true,
 			);
 			break;
 

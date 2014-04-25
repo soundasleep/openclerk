@@ -17,6 +17,19 @@
 </p>
 
 <p>
+	Transactions can be automatically created for all types of
+	<a href="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses')); ?>">addresses</a>,
+	<a href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">mining pool accounts</a>,
+	<a href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">exchange accounts</a>, and
+	<a href="<?php echo htmlspecialchars(url_for('wizard_accounts_other')); ?>">other accounts</a>.
+
+	Transactions are not generated for
+	<a href="<?php echo htmlspecialchars(url_for('wizard_accounts_securities')); ?>">securities exchanges accounts</a> or
+	<a href="<?php echo htmlspecialchars(url_for('wizard_accounts_individual_securities')); ?>">individual security accounts</a>,
+	since their values generally change so frequently that generating transactions would be pointless.
+</p>
+
+<p>
 	You may disable automatic transaction generation by visiting <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts wizard</a>
 	and disabling transaction generation through the wizards. This will prevent any future transactions from being generated, but it will not
 	delete any historical transactions.
