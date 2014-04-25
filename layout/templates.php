@@ -54,7 +54,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
 	<select class="language-list locale locale-<?php echo htmlspecialchars(get_current_locale()); ?>" name="locale">
 	<?php foreach (get_all_locales() as $locale) {
 		$selected = get_current_locale() == $locale;
-		echo "<option value=\"" . htmlspecialchars($locale) . "\" class=\"locale locale-" . htmlspecialchars($locale) . "\"" . ($selected ? " selected" : "") . ">" . htmlspecialchars(t("locale-" . $locale)) . "</option>\n";
+		echo "<option value=\"" . htmlspecialchars($locale) . "\" class=\"locale locale-" . htmlspecialchars($locale) . "\"" . ($selected ? " selected" : "") . ">" . htmlspecialchars(get_locale_label($locale)) . "</option>\n";
 	}
 	?>
 	</select>

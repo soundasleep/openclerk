@@ -32,6 +32,17 @@ function get_all_locales() {
 	);
 }
 
+function get_locale_label($locale) {
+	switch ($locale) {
+		case "en":	return "English";
+		case "fr":	return "French";
+		case "meow": return "Lolcat";
+
+		default:
+			throw new LocaleException("Unknown locale for label '$locale'");
+	}
+}
+
 /**
  * Get the current locale, or 'en' if none is defined.
  */
