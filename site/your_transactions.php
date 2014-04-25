@@ -148,7 +148,7 @@ require(__DIR__ . "/_finance_pages.php");
 		<tr class="buttons">
 			<td colspan="2">
 				<input type="submit" value="Filter">
-				<a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">Reset</a>
+				<a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">Show All</a>
 			</td>
 		</tr>
 		</table>
@@ -195,6 +195,7 @@ require(__DIR__ . "/_finance_pages.php");
 <tbody>
 <?php
 $count = 0;
+$last_date = 0;
 foreach ($transactions as $transaction) {
 	$account_data = get_account_data($transaction['exchange'], false);
 	$account_full = false;
@@ -204,9 +205,15 @@ foreach ($transactions as $transaction) {
 		$account_full = $q->fetch();
 	}
 
+	$transaction_date = date("Y-m-d", strtotime($transaction['transaction_date']));
+
 	?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
-		<td><?php echo "<span title=\"" . htmlspecialchars(date('Y-m-d H:i:s', strtotime($transaction['transaction_date']))) . "\">" . date("Y-m-d", strtotime($transaction['transaction_date'])) . "</span>"; ?></td>
+		<td class="<?php echo $last_date == $transaction_date ? "repeated_date" : ""; ?>">
+			<?php
+			echo "<span title=\"" . htmlspecialchars($transaction_date) . "\">" . ($transaction_date) . "</span>";
+			?>
+		</td>
 		<td>
 			<?php
 			$url = url_for('your_transactions', array('exchange' => $transaction['exchange'], 'account_id' => $transaction['account_id']));
@@ -239,7 +246,8 @@ foreach ($transactions as $transaction) {
 			</span>
 		</td>
 	</tr>
-<?php } ?>
+<?php $last_date = $transaction_date;
+} ?>
 <?php if (!$transactions) { ?>
 	<tr><td colspan="4"><i>No transactions found.</td></tr>
 <?php } ?>
