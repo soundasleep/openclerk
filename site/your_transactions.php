@@ -14,8 +14,6 @@ $user = get_user(user_id());
 
 $page_size = 50;
 
-require(__DIR__ . "/_profile_common.php");
-
 page_header("Your Transactions", "page_your_transactions", array('js' => array('accounts', 'transactions'), 'class' => 'report_page'));
 
 // get all possible exchanges and currencies
@@ -70,7 +68,7 @@ $transactions = $q->fetchAll();
 <?php
 $page_id = -1;
 $your_transactions = true;
-require(__DIR__ . "/_profile_pages.php");
+require(__DIR__ . "/_finance_pages.php");
 ?>
 
 <div style="clear:both;"></div>
@@ -139,7 +137,7 @@ require(__DIR__ . "/_profile_pages.php");
 		</form>
 	</div>
 
-	<h1><?php echo get_site_config('site_name'); ?> Finance</h1>
+	<h1>Your Transactions</h1>
 
 	<p>
 		This is a draft version of a page which will allow you to see the historical changes to your various accounts over time as daily transactions,
