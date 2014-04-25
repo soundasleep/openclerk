@@ -2671,11 +2671,11 @@ function is_valid_scryptguild_apikey($key) {
 }
 
 function is_valid_kraken_apikey($key) {
-	return strlen($key) == 56 && preg_match("#^[a-zA-Z0-9]+$#", $key);
+	return strlen($key) == 56 && preg_match("#^[a-zA-Z0-9=/+]+$#", $key);
 }
 
 function is_valid_kraken_apisecret($key) {
-	return strlen($key) > 64 && strlen($key) < 128 && preg_match('#^[a-zA-Z0-9=/+]+$#', $key);
+	return strlen($key) > 64 && strlen($key) < 128 && preg_match("#^[a-zA-Z0-9=/+]+$#", $key);
 }
 
 function is_valid_currency($c) {
