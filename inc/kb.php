@@ -20,19 +20,23 @@ function get_knowledge_base() {
 		'Interface' => array(
 			'bitcoin_csv' => "How do I upload a Bitcoin-Qt CSV file?",
 			'litecoin_csv' => "How do I upload a Litecoin-Qt CSV file?",
+			'notifications' => array('title' => "How do automated notifications work?", 'inline' => 'inline_notifications'),
 			'managed_graphs' => array('title' => "How are graphs automatically managed?", 'inline' => 'inline_managed_graphs'),
-			'notifications' => array('title' => "How do automated notifications work?", 'inline' => 'inline_notifications', 'new' => true),
 			'graph_refresh' => array('title' => "Do graphs live update?", 'inline' => 'inline_graph_refresh'),
+			'finance' => array('title' => "What is " . get_site_config('site_name') . " Finance?", 'inline' => 'inline_finance', 'new' => true),
 		),
 		'Accounts' => array(
-			'add_currency' => array('title' => "Can you add support for another cryptocurrency?", 'inline' => 'inline_add_currency', 'new' => true),
-			'add_fiat' => array('title' => "Can you add support for another fiat currency?", 'inline' => 'inline_add_fiat', 'new' => true),
-			'add_service' => array('title' => "Can you add support for another exchange/mining pool?", 'inline' => 'inline_add_service', 'new' => true),
+			'add_currency' => array('title' => "Can you add support for another cryptocurrency?", 'inline' => 'inline_add_currency'),
+			'add_fiat' => array('title' => "Can you add support for another fiat currency?", 'inline' => 'inline_add_fiat'),
+			'add_service' => array('title' => "Can you add support for another exchange/mining pool?", 'inline' => 'inline_add_service'),
 		),
 		'Notifications' => array(
-			'notifications_ticker' => array('title' => "How do I get notified of exchange rate changes?", 'inline' => 'inline_notifications_ticker', 'new' => true),
-			'notifications_reports' => array('title' => "How do I get notified of changes in my reports?", 'inline' => 'inline_notifications_reports', 'new' => true),
-			'notifications_hashrates' => array('title' => "How do I get notified of changes in my hashrates?", 'inline' => 'inline_notifications_hashrates', 'new' => true),
+			'notifications_ticker' => array('title' => "How do I get notified of exchange rate changes?", 'inline' => 'inline_notifications_ticker'),
+			'notifications_reports' => array('title' => "How do I get notified of changes in my reports?", 'inline' => 'inline_notifications_reports'),
+			'notifications_hashrates' => array('title' => "How do I get notified of changes in my hashrates?", 'inline' => 'inline_notifications_hashrates'),
+		),
+		'Finance' => array(
+			'transaction_creation' => array('title' => "How are transactions automatically created?", 'inline' => 'inline_transaction_creation', 'new' => true),
 		),
 	);
 

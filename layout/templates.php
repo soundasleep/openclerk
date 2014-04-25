@@ -66,11 +66,12 @@ function page_header($page_title, $page_id = false, $options = array()) {
 	<li class="home"><a href="<?php echo url_for('index'); ?>"><?php echo htmlspecialchars(get_site_config('site_name')); ?></a></li>
 	<?php if (user_logged_in()) { ?>
 		<li class="profile"><a href="<?php echo url_for('profile'); ?>">Your Reports</a></li>
+		<li class="finance"><a href="<?php echo url_for('your_transactions'); ?>">Finance</a></li>
 		<li class="accounts"><a href="<?php echo url_for('wizard_currencies'); ?>">Configure Accounts</a></li>
 		<li class="user"><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
 		<li class="logout"><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
 		<?php if (is_admin()) { ?>
-			<li class="admin"><a href="<?php echo url_for('admin'); ?>">System Status</a></li>
+			<li class="admin"><a href="<?php echo url_for('admin'); ?>">Admin</a></li>
 		<?php } ?>
 	<?php } else { ?>
 		<li class="signup"><a href="<?php echo url_for('signup'); ?>">Signup</a></li>
