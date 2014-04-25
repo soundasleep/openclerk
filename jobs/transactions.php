@@ -26,36 +26,44 @@ crypto_log("Investigating account " . $account['id'] . " " . $creator['exchange'
 // for every currency this exchange should supports
 $get_supported_wallets = get_supported_wallets();
 
+// add all blockchain wallets
+$account_data_grouped = account_data_grouped();
+foreach ($account_data_grouped['Addresses'] as $exchange => $data) {
+	$get_supported_wallets[$exchange] = array($data['currency'], '_is_currency_');
+}
+
 $cursor = false;
 if (!isset($get_supported_wallets[$account_data['title_key']])) {
 	crypto_log("No supported wallets for " . $account_data['title_key']);
 } else {
 	foreach ($get_supported_wallets[$account_data['title_key']] as $currency) {
-		if ($currency == 'hash')
+		if ($currency == 'hash' || $currency == '_is_currency_')
 			continue;
 
+		$is_address_balance = false;
+
 		crypto_log("Processing currency $currency");
+		if (in_array('_is_currency_', $get_supported_wallets[$account_data['title_key']])) {
+			crypto_log("This is an address account: using address_balances rather than balances");
+			$is_address_balance = true;
+		}
 
 		$cursor = false;
 		if ($creator['transaction_cursor']) {
-			// select the cursor value
-			$q = db()->prepare("SELECT * FROM balances WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency
-				AND created_at_day <= :cursor ORDER BY created_at_day DESC LIMIT 1");
-			$q->execute(array(
-				"user_id" => $account['user_id'],
-				"account_id" => $account['id'],
-				"exchange" => $creator['exchange'],
-				"currency" => $currency,
-				"cursor" => $creator['transaction_cursor'],
-			));
-			$cursor = $q->fetch();
-
-			// is the cursor older than recent data?
-			if (!$cursor) {
-				crypto_log("Searching graph_data_balances for older cursor than " . $creator['transaction_cursor']);
-				$q = db()->prepare("SELECT exchange, account_id, currency, balance_closing AS balance, data_date AS created_at, data_date_day AS created_at_day
-						FROM graph_data_balances WHERE user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency
-						AND data_date_day <= :cursor ORDER BY data_date_day DESC LIMIT 1");
+			if ($is_address_balance) {
+				// select the cursor value
+				$q = db()->prepare("SELECT * FROM address_balances WHERE is_daily_data=1 AND user_id=:user_id AND address_id=:address_id
+					AND created_at_day <= :cursor ORDER BY created_at_day DESC LIMIT 1");
+				$q->execute(array(
+					"user_id" => $account['user_id'],
+					"address_id" => $account['id'],
+					"cursor" => $creator['transaction_cursor'],
+				));
+				$cursor = $q->fetch();
+			} else {
+				// select the cursor value
+				$q = db()->prepare("SELECT * FROM balances WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency
+					AND created_at_day <= :cursor ORDER BY created_at_day DESC LIMIT 1");
 				$q->execute(array(
 					"user_id" => $account['user_id'],
 					"account_id" => $account['id'],
@@ -64,34 +72,63 @@ if (!isset($get_supported_wallets[$account_data['title_key']])) {
 					"cursor" => $creator['transaction_cursor'],
 				));
 				$cursor = $q->fetch();
+
+				// is the cursor older than recent data?
+				if (!$cursor) {
+					crypto_log("Searching graph_data_balances for older cursor than " . $creator['transaction_cursor']);
+					$q = db()->prepare("SELECT exchange, account_id, currency, balance_closing AS balance, data_date AS created_at, data_date_day AS created_at_day
+							FROM graph_data_balances WHERE user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency
+							AND data_date_day <= :cursor ORDER BY data_date_day DESC LIMIT 1");
+					$q->execute(array(
+						"user_id" => $account['user_id'],
+						"account_id" => $account['id'],
+						"exchange" => $creator['exchange'],
+						"currency" => $currency,
+						"cursor" => $creator['transaction_cursor'],
+					));
+					$cursor = $q->fetch();
+				}
 			}
 		}
 
 		// use the cursor to select new balances
 		$balances = array();
 
-		$q = db()->prepare("SELECT exchange, account_id, currency, balance_closing AS balance, data_date AS created_at, data_date_day AS created_at_day
-				FROM graph_data_balances WHERE user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency
-				AND data_date_day > :cursor AND data_date_day <= TO_DAYS(DATE_SUB(NOW(), INTERVAL 1 DAY))");
-		$q->execute(array(
-			"user_id" => $account['user_id'],
-			"account_id" => $account['id'],
-			"exchange" => $creator['exchange'],
-			"currency" => $currency,
-			"cursor" => $creator['transaction_cursor'],
-		));
-		$balances += $q->fetchAll();
+		if ($is_address_balance) {
+			$q = db()->prepare("SELECT *, :currency AS currency FROM address_balances WHERE is_daily_data=1 AND user_id=:user_id AND address_id=:address_id
+					AND created_at_day > :cursor AND created_at_day <= TO_DAYS(DATE_SUB(NOW(), INTERVAL 1 DAY))");
+			$q->execute(array(
+				"user_id" => $account['user_id'],
+				"address_id" => $account['id'],
+				"currency" => $currency,
+				"cursor" => $creator['transaction_cursor'],
+			));
+			$balances += $q->fetchAll();
 
-		$q = db()->prepare("SELECT * FROM balances WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency
-				AND created_at_day > :cursor AND created_at_day <= TO_DAYS(DATE_SUB(NOW(), INTERVAL 1 DAY))");
-		$q->execute(array(
-			"user_id" => $account['user_id'],
-			"account_id" => $account['id'],
-			"exchange" => $creator['exchange'],
-			"currency" => $currency,
-			"cursor" => $creator['transaction_cursor'],
-		));
-		$balances += $q->fetchAll();
+		} else {
+			$q = db()->prepare("SELECT exchange, account_id, currency, balance_closing AS balance, data_date AS created_at, data_date_day AS created_at_day
+					FROM graph_data_balances WHERE user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency
+					AND data_date_day > :cursor AND data_date_day <= TO_DAYS(DATE_SUB(NOW(), INTERVAL 1 DAY))");
+			$q->execute(array(
+				"user_id" => $account['user_id'],
+				"account_id" => $account['id'],
+				"exchange" => $creator['exchange'],
+				"currency" => $currency,
+				"cursor" => $creator['transaction_cursor'],
+			));
+			$balances += $q->fetchAll();
+
+			$q = db()->prepare("SELECT * FROM balances WHERE is_daily_data=1 AND user_id=:user_id AND account_id=:account_id AND exchange=:exchange AND currency=:currency
+					AND created_at_day > :cursor AND created_at_day <= TO_DAYS(DATE_SUB(NOW(), INTERVAL 1 DAY))");
+			$q->execute(array(
+				"user_id" => $account['user_id'],
+				"account_id" => $account['id'],
+				"exchange" => $creator['exchange'],
+				"currency" => $currency,
+				"cursor" => $creator['transaction_cursor'],
+			));
+			$balances += $q->fetchAll();
+		}
 
 		crypto_log("Processing " . number_format(count($balances)) . " balances");
 

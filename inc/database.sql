@@ -4209,3 +4209,10 @@ INSERT INTO temp (id)
 -- using INNER JOIN is MUCH faster than WHERE (id) IN (SELECT)
 UPDATE address_balances INNER JOIN temp ON address_balances.id=temp.id SET is_daily_data=1;
 DROP TABLE temp;
+
+ALTER TABLE transaction_creators ADD is_address tinyint not null default 0;
+ALTER TABLE transaction_creators ADD INDEX(is_address);
+
+-- stop NULLs getting in; if we have a transaction, it must have a currency and value (which may be 0) defined
+ALTER TABLE transactions MODIFY currency1 varchar(3) not null;
+ALTER TABLE transactions MODIFY value1 decimal(24,8) not null;

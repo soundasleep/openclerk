@@ -254,7 +254,7 @@ if (require_post('enable', false) && require_post('id', false)) {
 		$errors[] = "Cannot enable that account; that account type is disabled.";
 	} else {
 		// reset all failure fields
-		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=0,first_failure=NULL,failures=0 WHERE id=? AND user_id=?");
+		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=0,is_disabled_manually=0,first_failure=NULL,failures=0 WHERE id=? AND user_id=?");
 		$q->execute(array(require_post("id"), user_id()));
 
 		$messages[] = "Enabled " . htmlspecialchars($account_data['title']) . ".";
@@ -280,13 +280,32 @@ if (require_post('disable_creator', false) && require_post('id', false)) {
 		$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
 	}
 
-	$messages[] = "Disabled transactions for " . htmlspecialchars($account_data['title']) . ".";
+	$messages[] = "Disabled transaction creation for " . htmlspecialchars($account_data['title']) . ".";
 
 	set_temporary_messages($messages);
 	redirect(url_for(require_post("callback")));
 }
 
-// TODO process 'enable_creator'
+// process 'enable_creator'
+if (require_post('enable_creator', false) && require_post('id', false)) {
+	// does one exist?
+	$q = db()->prepare("SELECT * FROM transaction_creators WHERE user_id=? AND exchange=? AND account_id=?");
+	$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+	if ($q->fetch()) {
+		// enable the existing one
+		$q = db()->prepare("UPDATE transaction_creators SET is_disabled=0,is_disabled_manually=0 WHERE user_id=? AND exchange=? AND account_id=?");
+		$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+	} else {
+		// insert a new one that's enabled
+		$q = db()->prepare("INSERT INTO transaction_creators SET user_id=?,exchange=?,account_id=?");
+		$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+	}
+
+	$messages[] = "Enabled transaction creation for " . htmlspecialchars($account_data['title']) . ".";
+
+	set_temporary_messages($messages);
+	redirect(url_for(require_post("callback")));
+}
 
 // either there was an error or we haven't done anything; go back to callback
 set_temporary_errors($errors);

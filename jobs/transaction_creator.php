@@ -8,15 +8,22 @@
 // create a map of all the current user exchanges
 $accounts = account_data_grouped();
 $current_accounts = array();
-foreach ($accounts['Mining pools'] as $exchange => $account) {
+foreach ($accounts as $label => $accounts_data) {
+	foreach ($accounts_data as $exchange => $account) {
+		if (!isset($account['wizard']))
+			continue;
 
-	$q = db()->prepare("SELECT * FROM " . $account['table'] . " WHERE user_id=?");
-	$q->execute(array($job['user_id']));
-	while ($a = $q->fetch()) {
-		$a['exchange'] = $exchange;
-		$current_accounts[$exchange . " " . $a['id']] = $a;
+		$wizard = get_wizard_account_type($account['wizard']);
+		if (!$wizard['transaction_creation'])
+			continue;
+
+		$q = db()->prepare("SELECT * FROM " . $account['table'] . " WHERE user_id=?" . (isset($account['query']) ? $account['query'] : false));
+		$q->execute(array($job['user_id']));
+		while ($a = $q->fetch()) {
+			$a['exchange'] = $exchange;
+			$current_accounts[$exchange . " " . $a['id']] = $a;
+		}
 	}
-
 }
 
 crypto_log("User " . $job['user_id'] . " has " . count($current_accounts) . " accounts to parse.");

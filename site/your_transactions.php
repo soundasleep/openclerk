@@ -62,6 +62,15 @@ $q = db()->prepare("SELECT * FROM transactions WHERE user_id=? $extra_query ORDE
 $q->execute(array_merge(array(user_id()), $extra_args));
 $transactions = $q->fetchAll();
 
+function get_exchange_or_currency_name($exchange) {
+	$account_data_grouped = account_data_grouped();
+	if (isset($account_data_grouped['Addresses'][$exchange])) {
+		return $account_data_grouped['Addresses'][$exchange]['title'];
+	} else {
+		return get_exchange_name($exchange);
+	}
+}
+
 ?>
 
 <!-- page list -->
@@ -88,7 +97,7 @@ require(__DIR__ . "/_finance_pages.php");
 					foreach ($exchanges as $exchange) {
 						echo "<option value=\"" . htmlspecialchars($exchange['exchange']) . "\"" .
 							($page_args['exchange'] == $exchange['exchange'] ? " selected" : "") . ">" .
-							htmlspecialchars(get_exchange_name($exchange['exchange'])) .
+							htmlspecialchars(get_exchange_or_currency_name($exchange['exchange'])) .
 							"</option>\n";
 					} ?>
 				</select>
@@ -107,9 +116,17 @@ require(__DIR__ . "/_finance_pages.php");
 							$q->execute(array($account['account_id']));
 							$account_full = $q->fetch();
 
+							$title = false;
+							if (!$title && $account_full && isset($account_full['title']) && $account_full['title']) {
+								$title = $account_full['title'];
+							}
+							if (!$title && $account_full && isset($account_full['address']) && $account_full['address']) {
+								$title = $account_full['address'];
+							}
+
 							echo "<option class=\"exchange-" . htmlspecialchars($account['exchange']) . "\" value=\"" . htmlspecialchars($account['account_id']) . "\"" .
 								(($page_args['account_id'] == $account['account_id'] && $page_args['exchange'] == $account['exchange']) ? " selected" : "") . ">" .
-								htmlspecialchars(($account_full && isset($account_full['title']) && $account_full['title']) ? $account_full['title'] : "(untitled)") .
+								htmlspecialchars($title ? $title : "(untitled)") .
 								"</option>\n";
 						}
 					} ?>
@@ -179,11 +196,11 @@ require(__DIR__ . "/_finance_pages.php");
 $count = 0;
 foreach ($transactions as $transaction) {
 	$account_data = get_account_data($transaction['exchange'], false);
-	$account = false;
+	$account_full = false;
 	if ($account_data) {
 		$q = db()->prepare("SELECT * FROM " . $account_data['table'] . " WHERE id=? LIMIT 1");
 		$q->execute(array($transaction['account_id']));
-		$account = $q->fetch();
+		$account_full = $q->fetch();
 	}
 
 	?>
@@ -193,10 +210,19 @@ foreach ($transactions as $transaction) {
 			<?php
 			$url = url_for('your_transactions', array('exchange' => $transaction['exchange'], 'account_id' => $transaction['account_id']));
 			echo $url ? "<a href=\"" . htmlspecialchars($url) . "\">" : "";
-			echo get_exchange_name($transaction['exchange']);
-			if ($account && isset($account['title'])) {
+			echo get_exchange_or_currency_name($transaction['exchange']);
+
+			$title = false;
+			if (!$title && $account_full && isset($account_full['title']) && $account_full['title']) {
+				$title = $account_full['title'];
+			}
+			if (!$title && $account_full && isset($account_full['address']) && $account_full['address']) {
+				$title = $account_full['address'];
+			}
+
+			if ($account && $title) {
 				echo ": ";
-				echo $account['title'] ? htmlspecialchars($account['title']) : "<i>untitled</i>";
+				echo $title ? htmlspecialchars($title) : "<i>untitled</i>";
 			}
 			echo $url ? "</a>" : "";
 		 	?>

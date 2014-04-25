@@ -1956,6 +1956,26 @@ function get_accounts_wizard_config_basic($exchange) {
 // this function is in crypto.php so we can use just one wizard_accounts_callback rather than needing wizard_accounts_exchanges_callback (etc)
 function get_wizard_account_type($wizard) {
 	switch ($wizard) {
+		// this should only be used for transaction creators!
+		case "addresses":
+			$account_type = array(
+				'title' => 'Address',
+				'titles' => 'Addresses',
+				'wizard' => 'addresses',
+				'transaction_creation' => true,
+			);
+			break;
+
+		// this should only be used for transaction creators!
+		case "notifications":
+			$account_type = array(
+				'title' => 'Notification',
+				'titles' => 'Notifications',
+				'wizard' => 'notifications',
+				'transaction_creation' => false,
+			);
+			break;
+
 		case "exchanges":
 			$account_type = array(
 				'title' => 'Exchange',
@@ -1976,6 +1996,7 @@ function get_wizard_account_type($wizard) {
 				'hashrate' => true,
 				'url' => 'wizard_accounts_pools',
 				'add_help' => 'add_service',
+				'transaction_creation' => true,
 			);
 			break;
 
@@ -2041,6 +2062,9 @@ function get_wizard_account_type($wizard) {
 	}
 	if (!isset($account_type['a'])) {
 		$account_type['a'] = "a";
+	}
+	if (!isset($account_type['transaction_creation'])) {
+		$account_type['transaction_creation'] = false;
 	}
 
 	return $account_type;
