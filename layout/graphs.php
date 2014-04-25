@@ -603,7 +603,14 @@ function render_graph_actual($graph, $is_public) {
 			if (substr($graph['graph_type'], -strlen("_daily")) == "_daily") {
 				$split = explode("_", $graph['graph_type']);
 				if (count($split) == 3 && strlen($split[1]) == 6) {
-					// checks
+					// if this is an average graph, go straight away
+					if ($split[0] == "average") {
+						// we won't check pairs, we just won't get any data
+						render_ticker_graph($graph, "average", substr($split[1], 0, 3), substr($split[1], 3));
+						break;
+					}
+
+					// check that the given exchange and pair exist
 					$exchange_pairs = get_exchange_pairs();
 					if (isset($exchange_pairs[$split[0]])) {
 						// we won't check pairs, we just won't get any data
@@ -662,6 +669,29 @@ function render_graph_actual($graph, $is_public) {
 				}
 				if ($was_summary_type) break;
 
+			}
+
+			// average market prices
+			if (substr($graph['graph_type'], -strlen("_markets")) == "_markets") {
+				$split = explode("_", $graph['graph_type']);
+				if (count($split) == 3 && strlen($split[1]) == 6) {
+					// if this is an average graph, go straight away
+					if ($split[0] == "average") {
+						// we won't check pairs, we just won't get any data
+						$currency1 = substr($split[1], 0, 3);
+						$currency2 = substr($split[1], 3);
+						$q = db()->prepare("SELECT * FROM ticker_recent WHERE currency1=? AND currency2=? ORDER BY volume DESC");
+						$q->execute(array($currency1, $currency2));
+						$tickers = $q->fetchAll();
+
+						$q = db()->prepare("SELECT * FROM average_market_count WHERE currency1=? AND currency2=?");
+						$q->execute(array($currency1, $currency2));
+						$market_count = $q->fetch();
+
+						render_average_markets_table($graph, $tickers, $market_count);
+						break;
+					}
+				}
 			}
 
 			// composition charts

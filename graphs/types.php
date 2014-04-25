@@ -41,6 +41,57 @@ function graph_types_public($summaries = array()) {
 		}
 	}
 
+	{
+		// generate the possible average graphs independently, using ticker_recent
+		$key = 'average';
+		// get the averages pairs once
+		$q = db()->prepare("SELECT * FROM ticker_recent WHERE exchange=? ORDER BY currency1 ASC, currency2 ASC");
+		$q->execute(array($key));
+		$averages = $q->fetchAll();
+
+
+		$data['subcategory_exchanges_' . $key] = array(
+			'title' => get_exchange_name($key),
+			'subcategory' => true,
+		);
+
+		foreach ($averages as $ticker) {
+			$pp = get_currency_abbr($ticker['currency1']) . "/" . get_currency_abbr($ticker['currency2']);
+			$data[$key . "_" . $ticker['currency1'] . $ticker['currency2'] . "_daily"] = array(
+				'title' => get_exchange_name($key) . " historical $pp (graph)",
+				'heading' => get_exchange_name($key) . " $pp",
+				'description' => "A line graph displaying the historical average market bid/ask values for $pp.",
+				'pairs' => $pair,
+				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])),
+				'public' => true, /* can be displayed publicly */
+				'days' => true,
+				'technical' => true, /* allow technical indicators */
+				'delta' => true,	/* allow deltas */
+				'historical' => 'get_exchange_historical',
+				'historical_arg0' => array('key' => $key, 'pair' => $pair),
+				'exchange' => $key,
+			);
+		}
+
+		foreach ($averages as $ticker) {
+			$pp = get_currency_abbr($ticker['currency1']) . "/" . get_currency_abbr($ticker['currency2']);
+			$data[$key . "_" . $ticker['currency1'] . $ticker['currency2'] . "_markets"] = array(
+				'title' => get_exchange_name($key) . " historical $pp (market data)",
+				'heading' => get_exchange_name($key) . " $pp",
+				'description' => "A table displaying the market data used to generate the average market price for $pp.",
+				'pairs' => $pair,
+				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])),
+				'public' => true, /* can be displayed publicly */
+				'days' => true,
+				'technical' => true, /* allow technical indicators */
+				'delta' => true,	/* allow deltas */
+				'historical' => 'get_exchange_historical',
+				'historical_arg0' => array('key' => $key, 'pair' => $pair),
+				'exchange' => $key,
+			);
+		}
+	}
+
 	$data['category_securities'] = array(
 		'title' => 'Securities',
 		'category' => true,

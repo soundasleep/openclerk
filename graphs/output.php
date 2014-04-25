@@ -301,3 +301,47 @@ function render_graph_headings($graph) {
 function get_dimensions($graph) {
 	return ' style="width: ' . (get_site_config('default_graph_width') * $graph['width']) . 'px; height: ' . (get_site_config('default_graph_height') * $graph['height']) . 'px;"';
 }
+
+
+function render_average_markets_table($graph, $tickers, $market_count) {
+	$graph_id = htmlspecialchars($graph['id']);
+	$average = false;
+	foreach ($tickers as $ticker) {
+		if ($ticker['exchange'] == 'average') {
+			$average = $ticker;
+		}
+	}
+	if (!$average) {
+		return render_text($graph, "Could not find any average data");
+	}
+
+	// generate the table of data
+	$head = array(array(
+		array('title' => 'Exchange'),
+		array('title' => 'Price', 'class' => 'number'),
+		array('title' => 'Volume', 'class' => 'number'),
+	));
+	foreach ($tickers as $ticker) {
+		if ($ticker['exchange'] == "average") {
+			continue;
+		}
+
+		$data[] = array(
+			$ticker['exchange'],
+			$ticker['last_trade'],
+			currency_format($average['currency1'], $ticker['volume'], 0) . " (" .
+				($average['volume'] == 0 ? "-" : (number_format($ticker['volume'] * 100 / $average['volume']) . "%")) . ")",
+		);
+	}
+
+?>
+<div class="graph_average">
+	<h1>Average <?php echo get_currency_abbr($average['currency1']) . "/" . get_currency_abbr($average['currency2']); ?>:
+		<?php echo currency_format($average['currency1'], $average['last_trade']); ?>
+		<small>(<?php echo number_format($average['volume']); ?> <?php echo get_currency_abbr($average['currency1']); ?>)</small></h1>
+
+	<?php render_table_vertical($graph, $data, $head); ?>
+</div>
+<?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
+<?php
+}

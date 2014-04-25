@@ -225,6 +225,7 @@ function get_all_exchanges() {
 		"d2_wdc" => "d2",
 		"scryptguild" => "ScryptGuild",
 		"kraken" => "Kraken",
+		"average" => "Market Average",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",

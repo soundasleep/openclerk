@@ -4067,3 +4067,20 @@ UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM acco
 
 -- Also, offsets
 UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM offsets);
+
+-- issue #186: add cryptocurrency average price indices
+INSERT INTO exchanges SET name='average';
+
+DROP TABLE IF EXISTS average_market_count;
+
+CREATE TABLE average_market_count (
+	id int not null auto_increment primary key,
+	created_at timestamp not null default current_timestamp,
+
+	currency1 varchar(3) not null,
+	currency2 varchar(3) not null,
+
+	market_count int not null,
+
+	UNIQUE(currency1, currency2)
+);

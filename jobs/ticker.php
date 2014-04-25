@@ -89,6 +89,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/kraken.php");
 		break;
 
+	case "average":
+		require(__DIR__ . "/ticker/average.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;

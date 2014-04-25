@@ -1070,4 +1070,3 @@ function render_metrics_slow_graphs_count_graph($graph) {
 function render_metrics_jobs_frequency_graph($graph) {
 	return render_metrics_graph($graph, 'jobs_frequency', 'performance_report_job_frequency', null, null, null, 'job_type', 'jobs_per_hour');
 }
-
