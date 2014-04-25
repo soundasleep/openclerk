@@ -474,6 +474,18 @@ function get_summary_types() {
 		}
 	}
 
+	// finally, add market averages for fiats
+	foreach (get_all_fiat_currencies() as $cur) {
+		$exchange = "average";
+		$summary_types['summary_' . $cur . '_' . $exchange] = array(
+			'currency' => $cur,
+			'key' => $cur . '_' . $exchange,
+			'title' => get_currency_name($cur) . ' (converted using market average)',
+			'short_title' => get_currency_abbr($cur) . ' (market average)',
+			'exchange' => $exchange,
+		);
+	}
+
 	return $summary_types;
 
 }
@@ -540,6 +552,17 @@ function get_total_conversion_summary_types() {
 					);
 				}
 			}
+		}
+
+		// and also all average pairs for all fiats
+		foreach (get_all_fiat_currencies() as $cur) {
+			$exchange = "average";
+			$summary_types[$cur . '_' . $exchange] = array(
+				'currency' => $cur,
+				'title' => get_currency_name($cur) . ' (converted using market average)',
+				'short_title' => get_currency_abbr($cur) . ' (market average)',
+				'exchange' => $exchange,
+			);
 		}
 
 		// sort by currency order, then title
