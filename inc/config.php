@@ -182,7 +182,9 @@ function get_default_site_config() {
 		// "dgc_block_url" => "http://dgc.cryptocoinexplorer.com/chain/Digitalcoin/q/getblockcount",
 		"dgc_block_url_html" => "http://dgc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
 		"wdc_address_url" => "http://wdc.cryptocoinexplorer.com/address/",
-		"wdc_block_url" => "http://wdc.cryptocoinexplorer.com/chain/Worldcoin/q/getblockcount",
+		// not implemented yet!
+		// "wdc_block_url" => "http://wdc.cryptocoinexplorer.com/chain/Worldcoin/q/getblockcount",
+		"wdc_block_url_html" => "http://wdc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
 		"ixc_address_url" => "http://block.al.tcoin.info/address/",
 		"ixc_block_url" => "http://block.al.tcoin.info/chain/Ixcoin/q/getblockcount",
 		"vtc_address_url" => "http://vertexplorer.com/address/",
