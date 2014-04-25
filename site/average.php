@@ -112,7 +112,7 @@ foreach ($pairs as $pair) {
 		<?php $first_tab = true;
 		foreach ($all_main_currencies as $c) { ?>
 		<li id="tab_average_<?php echo $c; ?>_tab"<?php echo $first_tab ? "" : " style=\"display:none;\""; ?> class="tab">
-			<h3><?php echo get_currency_name($pair['currency1']); ?> market averages</h3>
+			<h3><?php echo get_currency_name($c); ?> market averages</h3>
 			<ul>
 			<?php
 			foreach ($pairs as $pair) {
