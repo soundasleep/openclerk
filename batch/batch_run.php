@@ -547,6 +547,10 @@ try {
 			require(__DIR__ . "/../jobs/rapidhash_doge.php");
 			break;
 
+		case "rapidhash_vtc":
+			require(__DIR__ . "/../jobs/rapidhash_vtc.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");
