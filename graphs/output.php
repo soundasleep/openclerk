@@ -315,6 +315,8 @@ function render_average_markets_table($graph, $tickers, $market_count) {
 		return render_text($graph, "Could not find any average data");
 	}
 
+	$volume_currency = $average['currency2'];
+
 	// generate the table of data
 	$head = array(array(
 		array('title' => 'Exchange'),
@@ -325,11 +327,15 @@ function render_average_markets_table($graph, $tickers, $market_count) {
 		if ($ticker['exchange'] == "average") {
 			continue;
 		}
+		if ($ticker['volume'] == 0) {
+			continue;
+		}
 
+		$id = $ticker['exchange'] . "_" . $ticker['currency1'] . $ticker['currency2'] . "_daily";
 		$data[] = array(
-			$ticker['exchange'],
-			$ticker['last_trade'],
-			currency_format($average['currency1'], $ticker['volume'], 0) . " (" .
+			"<a href=\"" . htmlspecialchars(url_for('historical', array('id' => $id))) . "\">" . get_exchange_name($ticker['exchange']) . "</a>",
+			average_currency_format_html($ticker['last_trade'], $ticker['last_trade']),
+			currency_format($volume_currency, $ticker['volume'], 0) . " (" .
 				($average['volume'] == 0 ? "-" : (number_format($ticker['volume'] * 100 / $average['volume']) . "%")) . ")",
 		);
 	}
@@ -338,10 +344,26 @@ function render_average_markets_table($graph, $tickers, $market_count) {
 <div class="graph_average">
 	<h1>Average <?php echo get_currency_abbr($average['currency1']) . "/" . get_currency_abbr($average['currency2']); ?>:
 		<?php echo currency_format($average['currency1'], $average['last_trade']); ?>
-		<small>(<?php echo number_format($average['volume']); ?> <?php echo get_currency_abbr($average['currency1']); ?>)</small></h1>
+		<small>(<?php echo number_format($average['volume']); ?> <?php echo get_currency_abbr($volume_currency); ?>)</small></h1>
 
 	<?php render_table_vertical($graph, $data, $head); ?>
 </div>
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 <?php
+}
+
+function average_currency_format_html($cmp, $n) {
+	if ($cmp > 1000) {
+		return number_format_html($n, 0);
+	} else if ($cmp > 100) {
+		return number_format_html($n, 1);
+	} else if ($cmp > 1) {
+		return number_format_html($n, 4);
+	} else if ($cmp > 1e-2) {
+		return number_format_html($n, 4);
+	} else if ($cmp > 1e-4) {
+		return number_format_html($n, 6);
+	} else {
+		return number_format_html($n, 8);
+	}
 }
