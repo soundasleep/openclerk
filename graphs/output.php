@@ -5,7 +5,9 @@ function render_text($graph, $text) {
 ?>
 <div id="graph_<?php echo $graph_id; ?>"<?php echo get_dimensions($graph); ?>>
 <div class="overflow_wrapper">
-<?php echo $text; ?>
+	<div class="graph_text">
+		<?php echo $text; ?>
+	</div>
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 </div>
 </div>

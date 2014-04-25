@@ -380,7 +380,7 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 		render_linegraph_date($graph, array_values($data));
 	} else {
 		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated by " . get_site_config('site_name') . ".
-					<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
+					<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
 	}
 
 }
@@ -654,7 +654,7 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 			render_text($graph, "No data to display.");	// or Invalid balance type.
 		} else {
 			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated by " . get_site_config('site_name') . ".
-						<br><a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
+						<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
 		}
 	}
 

@@ -271,6 +271,10 @@ foreach ($summaries as $summary) {
 
 }
 
+// update last_sum_job
+$q = db()->prepare("UPDATE users SET last_sum_job=NOW() WHERE id=?");
+$q->execute(array($job['user_id']));
+
 // and now that we have added summary instances, check for first_report
 // (this is so that first_report jobs don't block up the job queue)
 

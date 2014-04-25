@@ -244,7 +244,7 @@ function render_graph_actual($graph, $is_public) {
 	$graph['technicals'] = load_technicals($graph, $is_public);
 	$graph['uses_summaries'] = isset($graph_type['uses_summaries']) && $graph_type['uses_summaries'];
 
-	$add_more_currencies = "<a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Add more currencies</a>";
+	$add_more_currencies = "<a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Add more currencies</a>";
 
 	switch ($graph['graph_type']) {
 
@@ -290,11 +290,11 @@ function render_graph_actual($graph, $is_public) {
 			}
 			$data[0] = $headings;
 
-			if ($data) {
+			if (count($data) > 1) {
 				render_pie_chart($graph, $data, 'Currency', 'BTC');
 			} else {
 				render_text($graph, "Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by " . get_site_config('site_name') . ".
-					<br><a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
+					<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
 			}
 			break;
 
@@ -732,7 +732,7 @@ function render_graph_actual($graph, $is_public) {
 								}
 							} else {
 								render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated by " . get_site_config('site_name') . ".
-									<br><a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
+									<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
 							}
 							break 2;
 
