@@ -257,7 +257,8 @@ function get_exchange_pairs() {
 				array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),
 				array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
 		"cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('nmc', 'ghs')),
-		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'), array('cny', 'btc'), array('pln', 'btc'), array('nzd', 'btc')),
+		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'), array('cny', 'btc'),
+				array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc')),
 		"coins-e" => array(array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'),
 				array('ltc', 'xpm'), array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'), array('btc', 'wdc'),
 				array('btc', 'nvc'), array('btc', 'dgc')),
@@ -313,6 +314,8 @@ function get_new_exchange_pairs() {
 		"kraken_krwxrp",
 		"kraken_usddog",
 		"kraken_usdxrp",
+		"coinbase_ilsbtc",
+		"coinbase_krwbtc",
 	);
 }
 
