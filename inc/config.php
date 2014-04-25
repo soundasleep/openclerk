@@ -178,7 +178,9 @@ function get_default_site_config() {
 		"nmc_address_url" => "http://192.241.222.65/address/",
 		"nmc_block_url" => "http://192.241.222.65/chain/Namecoin/q/getblockcount",
 		"dgc_address_url" => "http://dgc.cryptocoinexplorer.com/address/",
-		"dgc_block_url" => "http://dgc.cryptocoinexplorer.com/chain/Digitalcoin/q/getblockcount",
+		// not implemented yet!
+		// "dgc_block_url" => "http://dgc.cryptocoinexplorer.com/chain/Digitalcoin/q/getblockcount",
+		"dgc_block_url_html" => "http://dgc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
 		"wdc_address_url" => "http://wdc.cryptocoinexplorer.com/address/",
 		"wdc_block_url" => "http://wdc.cryptocoinexplorer.com/chain/Worldcoin/q/getblockcount",
 		"ixc_address_url" => "http://block.al.tcoin.info/address/",
