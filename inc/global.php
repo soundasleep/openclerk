@@ -450,6 +450,9 @@ function fatal_handler() {
 }
 
 function redirect($url) {
+	if (strpos($url, "\n") !== false) {
+		throw new Exception("Invalid multiline URL '$url'");
+	}
 	header('Location: ' . $url);
 	die();
 }

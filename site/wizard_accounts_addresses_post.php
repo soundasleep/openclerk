@@ -209,6 +209,10 @@ if (isset($_FILES['csv']) || require_post('addresses', false)) {
 	redirect(url_for("wizard_accounts_addresses#wizard_" . $currency));
 }
 
+// process enable_creator, disable_creator, reset_creator
+$account_data['exchange'] = $account_data['job_type'];
+require(__DIR__ . "/_wizard_accounts_creator_post.php");
+
 // otherwise we've got some other error; continue to redirect to GET
 set_temporary_messages($messages);
 set_temporary_errors($errors);
