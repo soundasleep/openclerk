@@ -16,7 +16,7 @@ $page_size = 50;
 
 require(__DIR__ . "/_profile_common.php");
 
-page_header("Your Transactions", "page_your_transactions", array('js' => array('accounts'), 'class' => 'report_page'));
+page_header("Your Transactions", "page_your_transactions", array('js' => array('accounts', 'transactions'), 'class' => 'report_page'));
 
 // get all possible exchanges and currencies
 $q = db()->prepare("SELECT exchange FROM transactions WHERE user_id=? GROUP BY exchange");
@@ -28,10 +28,16 @@ $q = db()->prepare("SELECT currency1 AS currency FROM transactions WHERE user_id
 $q->execute(array(user_id()));
 $currencies = $q->fetchAll();
 
+// get all possible transactions
+$q = db()->prepare("SELECT exchange, account_id FROM transactions WHERE user_id=? GROUP BY exchange,account_id");
+$q->execute(array(user_id()));
+$accounts = $q->fetchAll();
+
 $page_args = array(
 	'skip' => max(0, (int) require_get("skip", 0)),
 	'exchange' => require_get('exchange', false),
 	'currency' => require_get('currency', false),
+	'account_id' => require_get('account_id', false),
 );
 
 // TODO implement filtering
@@ -47,6 +53,11 @@ if ($page_args['currency']) {
 	$extra_query .= " AND (currency1=? OR currency2=?)";
 	$extra_args[] = $page_args['currency'];
 	$extra_args[] = $page_args['currency'];
+}
+
+if ($page_args['account_id']) {
+	$extra_query .= " AND account_id=?";
+	$extra_args[] = $page_args['account_id'];
 }
 
 $q = db()->prepare("SELECT * FROM transactions WHERE user_id=? $extra_query ORDER BY transaction_date_day DESC LIMIT " . $page_args['skip'] . ", $page_size");
@@ -73,11 +84,36 @@ require(__DIR__ . "/_profile_pages.php");
 		<tr>
 			<th>Account Type</th>
 			<td>
-				<select name="exchange">
+				<select name="exchange" id="exchange_list">
 					<option value="">(all)</option>
 					<?php
 					foreach ($exchanges as $exchange) {
-						echo "<option value=\"" . htmlspecialchars($exchange['exchange']) . "\"" . ($page_args['exchange'] == $exchange['exchange'] ? " selected" : "") . ">" . htmlspecialchars(get_exchange_name($exchange['exchange'])) . "</option>\n";
+						echo "<option value=\"" . htmlspecialchars($exchange['exchange']) . "\"" .
+							($page_args['exchange'] == $exchange['exchange'] ? " selected" : "") . ">" .
+							htmlspecialchars(get_exchange_name($exchange['exchange'])) .
+							"</option>\n";
+					} ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Account</th>
+			<td>
+				<select name="account_id" id="account_id_list">
+					<option value="" class="all">(all)</option>
+					<?php
+					foreach ($accounts as $account) {
+						$account_data = get_account_data($account['exchange'], false);
+						if ($account_data) {
+							$q = db()->prepare("SELECT * FROM " . $account_data['table'] . " WHERE id=?");
+							$q->execute(array($account['account_id']));
+							$account_full = $q->fetch();
+
+							echo "<option class=\"exchange-" . htmlspecialchars($account['exchange']) . "\" value=\"" . htmlspecialchars($account['account_id']) . "\"" .
+								($page_args['account_id'] == $account['account_id'] ? " selected" : "") . ">" .
+								htmlspecialchars(($account_full && isset($account_full['title']) && $account_full['title']) ? $account_full['title'] : "(untitled)") .
+								"</option>\n";
+						}
 					} ?>
 				</select>
 			</td>
@@ -85,7 +121,7 @@ require(__DIR__ . "/_profile_pages.php");
 		<tr>
 			<th>Transaction currency</th>
 			<td>
-				<select name="currency">
+				<select name="currency" id="currency_list">
 					<option value="">(all)</option>
 					<?php
 					foreach ($currencies as $currency) {
@@ -134,10 +170,29 @@ require(__DIR__ . "/_profile_pages.php");
 <?php
 $count = 0;
 foreach ($transactions as $transaction) {
+	$account_data = get_account_data($transaction['exchange'], false);
+	$account = false;
+	if ($account_data) {
+		$q = db()->prepare("SELECT * FROM " . $account_data['table'] . " WHERE id=? LIMIT 1");
+		$q->execute(array($transaction['account_id']));
+		$account = $q->fetch();
+	}
+
 	?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
 		<td><?php echo "<span title=\"" . htmlspecialchars(date('Y-m-d H:i:s', strtotime($transaction['transaction_date']))) . "\">" . date("Y-m-d", strtotime($transaction['transaction_date'])) . "</span>"; ?></td>
-		<td><?php echo get_exchange_name($transaction['exchange']); ?></td>
+		<td>
+			<?php
+			$url = url_for('your_transactions', array('exchange' => $transaction['exchange'], 'account_id' => $transaction['account_id']));
+			echo $url ? "<a href=\"" . htmlspecialchars($url) . "\">" : "";
+			echo get_exchange_name($transaction['exchange']);
+			if ($account && isset($account['title'])) {
+				echo ": ";
+				echo $account['title'] ? htmlspecialchars($account['title']) : "<i>untitled</i>";
+			}
+			echo $url ? "</a>" : "";
+		 	?>
+		</td>
 		<td>
 			<?php if ($transaction['is_automatic']) { ?>
 			(generated automatically)

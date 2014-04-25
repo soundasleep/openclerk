@@ -758,7 +758,11 @@ function account_data_grouped() {
 	return $data;
 }
 
-function get_account_data($exchange) {
+/**
+ * @return the account data as an array, or {@code false} if no account type could be found (and {@code throw_exception_on_failure} is {@code false})
+ * @throws Exception if {@code throw_exception_on_failure} is {@code true} and no account type could be found
+ */
+function get_account_data($exchange, $throw_exception_on_failure = true) {
 	foreach (account_data_grouped() as $group => $data) {
 		foreach ($data as $key => $values) {
 			if ($key == $exchange) {
@@ -766,7 +770,11 @@ function get_account_data($exchange) {
 			}
 		}
 	}
-	throw new Exception("Could not find any exchange '$exchange'");
+	if ($throw_exception_on_failure) {
+		throw new Exception("Could not find any exchange '$exchange'");
+	} else {
+		return false;
+	}
 }
 
 // we can't get this from account_data_grouped() because this also includes ticker information
