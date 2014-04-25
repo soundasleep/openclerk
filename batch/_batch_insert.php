@@ -45,7 +45,6 @@ function insert_new_balance($job, $account, $exchange, $currency, $balance) {
 		"id" => $last_id,
 	));
 
-
 }
 
 function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
@@ -87,6 +86,43 @@ function insert_new_hashrate($job, $account, $exchange, $currency, $mhash) {
 		"account_id" => $account['id'],
 		"exchange" => $exchange,
 		"currency" => $currency,
+		"id" => $last_id,
+	));
+
+}
+
+function insert_new_address_balance($job, $address, $balance) {
+
+	crypto_log("Address balance for user " . $job['user_id'] . ": " . $balance);
+
+	// we have a balance; update the database
+	$q = db()->prepare("INSERT INTO address_balances SET user_id=:user_id, address_id=:address_id, balance=:balance, is_recent=1, is_daily_data=1, created_at=NOW(), created_at_day=TO_DAYS(NOW())");
+	$q->execute(array(
+		"user_id" => $job['user_id'],
+		"address_id" => $address['id'],
+		"balance" => $balance,
+		// we ignore server_time
+	));
+	$last_id = db()->lastInsertId();
+	crypto_log("Inserted new address_balances id=" . $last_id);
+
+	// disable old instances
+	$q = db()->prepare("UPDATE address_balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND address_id=:address_id AND id <> :id");
+	$q->execute(array(
+		"user_id" => $job['user_id'],
+		"address_id" => $address['id'],
+		"id" => $last_id,
+	));
+
+	// all other data from today is now old
+	// NOTE if the system time changes between the next two commands, then we may erraneously
+	// specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
+	// relying on MySQL
+	$q = db()->prepare("UPDATE address_balances SET is_daily_data=0 WHERE is_daily_data=1 AND user_id=:user_id AND address_id=:address_id AND
+		created_at_day = TO_DAYS(NOW()) AND id <> :id");
+	$q->execute(array(
+		"user_id" => $job['user_id'],
+		"address_id" => $address['id'],
 		"id" => $last_id,
 	));
 

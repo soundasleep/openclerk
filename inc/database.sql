@@ -4192,3 +4192,20 @@ CREATE TABLE accounts_cryptotroll_doge (
 -- issue #194: more database work for transactions
 ALTER TABLE transaction_creators ADD is_disabled_manually tinyint not null default 0;
 ALTER TABLE transaction_creators ADD INDEX(is_disabled_manually);
+
+-- add is_daily_data, etc fields to address_balances
+ALTER TABLE address_balances ADD is_daily_data tinyint not null default 0;
+ALTER TABLE address_balances ADD INDEX(is_daily_data);
+
+ALTER TABLE address_balances ADD created_at_day mediumint not null;
+UPDATE address_balances SET created_at_day=TO_DAYS(created_at);
+ALTER TABLE address_balances ADD INDEX(created_at_day);
+
+-- select the last address_balance of each day to be daily data
+CREATE TABLE temp (id int not null);
+INSERT INTO temp (id)
+	SELECT MAX(id) AS id FROM address_balances
+	GROUP BY created_at_day, user_id, address_id;
+-- using INNER JOIN is MUCH faster than WHERE (id) IN (SELECT)
+UPDATE address_balances INNER JOIN temp ON address_balances.id=temp.id SET is_daily_data=1;
+DROP TABLE temp;

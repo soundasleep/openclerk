@@ -118,18 +118,4 @@ if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |
 	throw new ExternalAPIException("Could not find balance on page");
 }
 
-// disable old instances
-$q = db()->prepare("UPDATE address_balances SET is_recent=0 WHERE is_recent=1 AND user_id=:user_id AND address_id=:address_id");
-$q->execute(array(
-	"user_id" => $job['user_id'],
-	"address_id" => $address['id'],
-));
-
-// we have a balance; update the database
-$q = db()->prepare("INSERT INTO address_balances SET user_id=:user_id, address_id=:address_id, balance=:balance, is_recent=1");
-$q->execute(array(
-	"user_id" => $job['user_id'],
-	"address_id" => $address['id'],
-	"balance" => $balance,
-));
-crypto_log("Inserted new " . get_currency_abbr($abe_data['currency']) . " address_balances id=" . db()->lastInsertId());
+insert_new_address_balance($job, $address, $balance);
