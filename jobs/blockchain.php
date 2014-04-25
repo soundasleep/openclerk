@@ -18,6 +18,10 @@ if ($address['is_received']) {
 } else {
 	$url = "http://blockchain.info/q/addressbalance/" . urlencode($address['address']) . "?confirmations=" . get_site_config('btc_confirmations');
 }
+if (get_site_config('blockchain_api_key')) {
+	crypto_log("Using Blockchain API key.");
+	$url = url_add($url, array('api_code' => get_site_config('blockchain_api_key')));
+}
 $balance = crypto_get_contents(crypto_wrap_url($url));
 $divisor = 1e8;		// divide by 1e8 to get btc balance
 

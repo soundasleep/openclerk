@@ -220,6 +220,7 @@ function get_default_site_config() {
 		"btce_example_api_secret" => '...',
 		"vaultofsatoshi_info_currency_api_key" => '...',
 		"vaultofsatoshi_info_currency_api_secret" => '...',
+		"blockchain_api_key" => false,		// if you have one, optional
 
 		// premium properties
 		"premium_currencies" => array('btc', 'ltc'),
