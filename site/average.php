@@ -124,7 +124,7 @@ foreach ($pairs as $pair) {
 
 				$selected = ($currency1 == $pair['currency1'] && $currency2 == $pair['currency2']);
 				echo "<li" . ($selected ? " class=\"selected\"" : "") . ">";
-				echo "<a href=\"" . htmlspecialchars(url_for('average', array('currency1' => $pair['currency1'], 'currency2' => $pair['currency2']))) . "\">";
+				echo "<a href=\"" . htmlspecialchars(url_for('average#average_' . $pair['currency1'], array('currency1' => $pair['currency1'], 'currency2' => $pair['currency2']))) . "\">";
 				echo get_currency_abbr($pair['currency1']) . "/" . get_currency_abbr($pair['currency2']);
 				echo "</a>";
 				echo " (" . number_format($pair['market_count']) . ")";

@@ -128,6 +128,7 @@ function page_footer() {
 		<li><span class="title">Tools</span>
 			<ul>
 				<li><a href="<?php echo htmlspecialchars(url_for('historical')); ?>">Historical Data</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('average')); ?>">Market Averages</a> <span class="new">new</span></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('calculator')); ?>">Calculator</a></li>
 				<li><a href="<?php echo htmlspecialchars(get_site_config('version_history_link')); ?>">Release History</a></li>
 			</ul>
