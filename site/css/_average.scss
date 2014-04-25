@@ -4,6 +4,16 @@
     padding-top: 20px;
 
     .tabs .tab_list > li { min-width: 70px; }
+
+    .tabs .tab h3 {
+      font-size: 110%;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+
+    .tabs .tab ul {
+      margin-bottom: 10px;
+    }
   }
 
   .market-data {
