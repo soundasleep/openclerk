@@ -4148,8 +4148,9 @@ CREATE TABLE accounts_rapidhash_doge (
 	is_disabled tinyint not null default 0,
 	failures tinyint not null default 0,
 	first_failure timestamp null,
+	is_disabled_manually tinyint not null default 0,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
 
 DROP TABLE IF EXISTS accounts_rapidhash_vtc;
@@ -4166,8 +4167,9 @@ CREATE TABLE accounts_rapidhash_vtc (
 	is_disabled tinyint not null default 0,
 	failures tinyint not null default 0,
 	first_failure timestamp null,
+	is_disabled_manually tinyint not null default 0,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
 
 -- issue #84: add cryptotroll doge mining pool
@@ -4185,8 +4187,9 @@ CREATE TABLE accounts_cryptotroll_doge (
 	is_disabled tinyint not null default 0,
 	failures tinyint not null default 0,
 	first_failure timestamp null,
+	is_disabled_manually tinyint not null default 0,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
 
 -- issue #194: more database work for transactions
