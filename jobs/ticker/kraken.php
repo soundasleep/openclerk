@@ -69,7 +69,7 @@ foreach ($map as $key => $pair) {
 
 	if (isset($ticker['error'][0]) && $ticker['error'][0]) {
 		$error = $pair[0] . "/" . $pair[1] . " (" . $key . ") returned " . $ticker['error'][0];
-		throw new JobException($error);
+		throw new ExternalAPIException($error);
 	}
 
 	// thanks for obsfucating, Kraken!

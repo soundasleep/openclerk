@@ -3771,3 +3771,5 @@ CREATE TABLE accounts_kraken (
 );
 
 INSERT INTO exchanges SET name='kraken';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='kraken';
+
