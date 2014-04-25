@@ -49,20 +49,22 @@ function graph_types_public($summaries = array()) {
 		$q->execute(array($key));
 		$averages = $q->fetchAll();
 
-
 		$data['subcategory_exchanges_' . $key] = array(
 			'title' => get_exchange_name($key),
 			'subcategory' => true,
 		);
 
 		foreach ($averages as $ticker) {
+			if (!in_array($ticker['currency1'], get_all_currencies())) continue;
+			if (!in_array($ticker['currency2'], get_all_currencies())) continue;
+
 			$pp = get_currency_abbr($ticker['currency1']) . "/" . get_currency_abbr($ticker['currency2']);
 			$data[$key . "_" . $ticker['currency1'] . $ticker['currency2'] . "_daily"] = array(
 				'title' => get_exchange_name($key) . " historical $pp (graph)",
 				'heading' => get_exchange_name($key) . " $pp",
 				'description' => "A line graph displaying the historical average market bid/ask values for $pp.",
 				'pairs' => $pair,
-				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])),
+				'hide' => !(isset($summaries[$ticker['currency1']]) && isset($summaries[$ticker['currency2']])),
 				'public' => true, /* can be displayed publicly */
 				'days' => true,
 				'technical' => true, /* allow technical indicators */
@@ -74,13 +76,16 @@ function graph_types_public($summaries = array()) {
 		}
 
 		foreach ($averages as $ticker) {
+			if (!in_array($ticker['currency1'], get_all_currencies())) continue;
+			if (!in_array($ticker['currency2'], get_all_currencies())) continue;
+
 			$pp = get_currency_abbr($ticker['currency1']) . "/" . get_currency_abbr($ticker['currency2']);
 			$data[$key . "_" . $ticker['currency1'] . $ticker['currency2'] . "_markets"] = array(
 				'title' => get_exchange_name($key) . " historical $pp (market data)",
 				'heading' => get_exchange_name($key) . " $pp exchange data",
 				'description' => "A table displaying the market data used to generate the average market price for $pp.",
 				'pairs' => $pair,
-				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])),
+				'hide' => !(isset($summaries[$ticker['currency1']]) && isset($summaries[$ticker['currency2']])),
 				'public' => true, /* can be displayed publicly */
 				'days' => true,
 				'technical' => true, /* allow technical indicators */

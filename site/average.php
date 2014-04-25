@@ -69,6 +69,7 @@ $graph_id = 0;
 			'public' => true,
 			'delta' => "",
 			'no_technicals' => true,
+			"arg0" => true,
 		);
 	?>
 	<?php render_graph($graph, true /* is public */); ?>
@@ -85,6 +86,7 @@ $graph_id = 0;
 			'public' => true,
 			'delta' => "",
 			'no_technicals' => true,
+			"arg0" => true,
 		);
 	?>
 	<?php render_graph($graph, true /* is public */); ?>
