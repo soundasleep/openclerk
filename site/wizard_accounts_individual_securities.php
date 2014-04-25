@@ -12,7 +12,7 @@ require_login();
 require(__DIR__ . "/../graphs/util.php");
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Add Individual Securities", "page_wizard_accounts_individual_securities", array('js' => array('accounts', 'wizard'), 'class' => 'page_accounts'));
+page_header("Add Individual Securities", "page_wizard_accounts_individual_securities", array('js' => array('accounts', 'wizard'), 'class' => 'page_accounts wizard_page'));
 
 $user = get_user(user_id());
 require_user($user);

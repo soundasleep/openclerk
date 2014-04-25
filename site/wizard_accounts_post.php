@@ -265,6 +265,29 @@ if (require_post('enable', false) && require_post('id', false)) {
 
 }
 
+// process 'disable_creator'
+if (require_post('disable_creator', false) && require_post('id', false)) {
+	// does one exist?
+	$q = db()->prepare("SELECT * FROM transaction_creators WHERE user_id=? AND exchange=? AND account_id=?");
+	$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+	if ($q->fetch()) {
+		// disable the existing one
+		$q = db()->prepare("UPDATE transaction_creators SET is_disabled=1,is_disabled_manually=1 WHERE user_id=? AND exchange=? AND account_id=?");
+		$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+	} else {
+		// insert a new one that's disabled
+		$q = db()->prepare("INSERT INTO transaction_creators SET is_disabled=1,is_disabled_manually=1,user_id=?,exchange=?,account_id=?");
+		$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
+	}
+
+	$messages[] = "Disabled transactions for " . htmlspecialchars($account_data['title']) . ".";
+
+	set_temporary_messages($messages);
+	redirect(url_for(require_post("callback")));
+}
+
+// TODO process 'enable_creator'
+
 // either there was an error or we haven't done anything; go back to callback
 set_temporary_errors($errors);
 set_temporary_messages($messages);

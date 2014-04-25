@@ -139,11 +139,21 @@ require(__DIR__ . "/_profile_pages.php");
 		</form>
 	</div>
 
-	<h1>Your Transactions</h1>
+	<h1><?php echo get_site_config('site_name'); ?> Finance</h1>
 
 	<p>
 		This is a draft version of a page which will allow you to see the historical changes to your various accounts over time as daily transactions,
 		generated automatically by <?php echo htmlspecialchars(get_site_config('site_name')); ?>.
+	</p>
+
+	<p>
+		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'finance'))); ?>">What is <?php echo get_site_config('site_name'); ?> Finance?</a> -
+		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'transaction_creation'))); ?>">How are transactions automatically created?</a>
+	</p>
+
+	<p>
+		To prevent individual accounts from generating transactions, visit <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts wizard</a>
+		and disable transaction generation.
 	</p>
 
 	<p>

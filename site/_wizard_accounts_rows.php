@@ -143,6 +143,36 @@ foreach ($accounts as $a) {
 			}
 			echo "</td>";
 		} ?>
+		<?php
+		$q = db()->prepare("SELECT * FROM transaction_creators WHERE exchange=? AND account_id=?");
+		$q->execute(array($a['exchange'], $a['id']));
+		$creator = $q->fetch();
+		$enabled = $creator && !$creator['is_disabled'];
+
+		$q = db()->prepare("SELECT COUNT(*) AS c FROM transactions WHERE user_id=? AND exchange=? AND account_id=?");
+		$q->execute(array(user_id(), $a['exchange'], $a['id']));
+		$transaction_count = $q->fetch();
+		?>
+		<td class="buttons">
+			<?php if ($enabled) { ?>
+			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+				<input type="submit" name="disable_creator" value="Disable" class="disable" onclick="return confirmCreatorDisable();" title="Disable transaction generation for this account.">
+				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+			</form>
+			<?php } else { ?>
+			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+				<input type="submit" name="enable_creator" value="Enable" class="enable" title="Enable transaction generation for this account.">
+				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+			</form>
+		<?php } ?>
+			<br>
+			<a href="<?php echo htmlspecialchars(url_for('your_transactions', array('exchange' => $a['exchange'], 'account_id' => $a['id']))); ?>" class="view-transactions">View</a>
+			(<?php echo number_format($transaction_count['c']); ?>)
+		</td>
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">

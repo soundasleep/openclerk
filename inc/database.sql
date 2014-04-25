@@ -4188,3 +4188,7 @@ CREATE TABLE accounts_cryptotroll_doge (
 
 	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+
+-- issue #194: more database work for transactions
+ALTER TABLE transaction_creators ADD is_disabled_manually tinyint not null default 0;
+ALTER TABLE transaction_creators ADD INDEX(is_disabled_manually);

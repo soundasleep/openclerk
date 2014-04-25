@@ -80,6 +80,7 @@ if (user_is_new($user) && !$user['is_premium']) echo " (for the next " . plural(
 		<th>Last checked</th>
 		<th>Balances</th>
 		<?php if ($account_type['hashrate']) { echo "<th>Hashrate</th>"; } ?>
+		<th>Transactions</th>
 		<th class="buttons"></th>
 	</tr>
 </thead>
