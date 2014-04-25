@@ -226,6 +226,9 @@ function get_all_exchanges() {
 		"scryptguild" => "ScryptGuild",
 		"kraken" => "Kraken",
 		"average" => "Market Average",
+		"rapidhash" => "RapidHash",
+		"rapidhash_doge" => "RapidHash",
+		"rapidhash_vtc" => "RapidHash",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -404,6 +407,7 @@ function get_supported_wallets() {
 		"nut2pools" => array('ftc', 'hash'),
 		"ozcoin" => array('ltc', 'btc', 'hash'),
 		"poolx" => array('ltc', 'hash'),
+		"rapidhash" => array('dog', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
 		"scryptguild" => array('btc', 'dog', 'ltc', 'wdc', 'dgc', 'hash'),	// others available: lot, leaf, sbc, smc, meow, glc, eac, csc, anc
 		"shibepool" => array('dog', 'hash'),
@@ -435,7 +439,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("kraken");
+	return array("kraken", "rapidhash", "rapidhash_doge");
 }
 
 function get_summary_types() {
@@ -654,6 +658,7 @@ function account_data_grouped() {
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'rapidhash_doge' => array('table' => 'accounts_rapidhash_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true),
 			'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -831,6 +836,7 @@ function get_external_apis() {
 			'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
 			'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
 			'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
+			'rapidhash_doge' => '<a href="https://doge.rapidhash.net/">RapidHash</a> (DOGE)',
 			'scryptguild' => '<a href="https://www.scryptguild.com/">ScryptGuild</a>',
 			'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
@@ -1585,6 +1591,16 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'table' => 'accounts_scryptguild',
 				'khash' => true,
+			);
+
+		case "rapidhash_doge":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
+				),
+				'table' => 'accounts_rapidhash_doge',
+				'title' => 'RapidHash DOGE account',
+				'title_key' => 'rapidhash',
 			);
 
 		// --- exchanges ---

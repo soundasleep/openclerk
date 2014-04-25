@@ -152,6 +152,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_d2_wdc', 'type' => 'd2_wdc', 'failure' => true),
 	array('table' => 'accounts_scryptguild', 'type' => 'scryptguild', 'failure' => true),
 	array('table' => 'accounts_kraken', 'type' => 'kraken', 'failure' => true),
+	array('table' => 'accounts_rapidhash_doge', 'type' => 'rapidhash_doge', 'failure' => true),
 
 	array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1', 'user_id' => get_site_config('system_user_id')),
 

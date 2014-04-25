@@ -4132,3 +4132,22 @@ INSERT INTO graph_data_ticker (
 			WHERE volume > 0
 			GROUP BY currency1, currency2, to_days(created_at)
 );
+
+-- issue #198: add rapidhash mining pool
+DROP TABLE IF EXISTS accounts_rapidhash_doge;
+
+CREATE TABLE accounts_rapidhash_doge (
+	id int not null auto_increment primary key,
+	user_id int not null,
+	created_at timestamp not null default current_timestamp,
+	last_queue timestamp,
+
+	title varchar(255),
+	api_key varchar(255) not null,
+
+	is_disabled tinyint not null default 0,
+	failures tinyint not null default 0,
+	first_failure timestamp null,
+
+	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+);

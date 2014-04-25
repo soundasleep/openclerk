@@ -543,6 +543,10 @@ try {
 			require(__DIR__ . "/../jobs/kraken.php");
 			break;
 
+		case "rapidhash_doge":
+			require(__DIR__ . "/../jobs/rapidhash_doge.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");
