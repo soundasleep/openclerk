@@ -35,6 +35,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 </div>
 <div class="column">
 <ul>
+	<li>coinmine.pw (<a href="http://www.coinmine.pw/api-information.php">PayAPI</a> is not safe &ndash; <a href="http://redmine.jevon.org/issues/106">#106</a>)</li>
 	<li>Coin.Mx</li>
 	<li>Coins-E</li>
 	<li>fast-pool.com</li>
