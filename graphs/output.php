@@ -346,7 +346,7 @@ function render_average_markets_table($graph, $tickers, $market_count) {
 <div class="graph_average">
 	<h1><?php echo get_currency_abbr($average['currency1']) . "/" . get_currency_abbr($average['currency2']); ?>:
 		<?php echo currency_format($average['currency1'], $average['last_trade']); ?></h1>
-	<h2>(<?php echo number_format($average['volume']); ?> <?php echo get_currency_abbr($volume_currency); ?>)</h2>
+	<h2>(<?php echo number_format($average['volume']); ?> <?php echo get_currency_abbr($volume_currency); ?> total volume)</h2>
 
 	<?php render_table_vertical($graph, $data, $head); ?>
 </div>

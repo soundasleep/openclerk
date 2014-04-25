@@ -4071,6 +4071,7 @@ UPDATE users SET has_added_account=1 WHERE id IN (SELECT user_id AS id FROM offs
 -- issue #186: add cryptocurrency average price indices
 INSERT INTO exchanges SET name='average';
 
+-- this is only the most recent market count, we don't persist this long-term
 DROP TABLE IF EXISTS average_market_count;
 
 CREATE TABLE average_market_count (
@@ -4083,4 +4084,47 @@ CREATE TABLE average_market_count (
 	market_count int not null,
 
 	UNIQUE(currency1, currency2)
+);
+
+-- we also want to generate lots of historical data for the average market
+-- this query will be very heavy
+INSERT INTO graph_data_ticker (
+	SELECT NULL as id,
+		NOW() as created_at,
+		'average' AS exchange,
+		currency1,
+		currency2,
+		MAX(data_date) AS data_date,
+		1 AS samples,
+		SUM(ask * volume) / SUM(volume) AS ask,
+		SUM(bid * volume) / SUM(volume) AS bid,
+		SUM(volume) AS volume,
+		SUM(last_trade_min * volume) / SUM(volume) AS last_trade_min,
+		SUM(last_trade_opening * volume) / SUM(volume) AS last_trade_opening,
+		SUM(last_trade_closing * volume) / SUM(volume) AS last_trade_closing,
+		SUM(last_trade_max * volume) / SUM(volume) AS last_trade_max,
+		0 AS last_trade_stdev
+		FROM graph_data_ticker
+			GROUP BY currency1, currency2, data_date
+);
+
+-- also do data from 'ticker' that isn't yet in graph_data_ticker
+INSERT INTO graph_data_ticker (
+	SELECT NULL as id,
+		NOW() as created_at,
+		'average' AS exchange,
+		currency1,
+		currency2,
+		MAX(created_at) AS data_date,
+		1 AS samples,
+		SUM(ask * volume) / SUM(volume) AS ask,
+		SUM(bid * volume) / SUM(volume) AS bid,
+		SUM(volume) AS volume,
+		0 AS last_trade_min,
+		SUM(last_trade * volume) / SUM(volume) AS last_trade_opening,
+		SUM(last_trade * volume) / SUM(volume) AS last_trade_closing,
+		0 AS last_trade_max,
+		0 AS last_trade_stdev
+		FROM ticker
+			GROUP BY currency1, currency2, to_days(created_at)
 );
