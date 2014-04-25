@@ -415,6 +415,40 @@ function log_uncaught_exception($e, $extra_args = array(), $extra_query = "") {
 	), $extra_args));
 }
 
+class FatalException /* cannot extend Exception, since getMessage() etc are final */ {
+	var $wrapped;
+
+	public function __construct($error) {
+		$this->wrapped = $error;
+	}
+
+	public function getMessage() {
+		return $this->wrapped['message'];
+	}
+	public function getFile() {
+		return $this->wrapped['file'];
+	}
+	public function getCode() {
+		return $this->wrapped['type'];
+	}
+	public function getLine() {
+		return $this->wrapped['line'];
+	}
+	public function getPrevious() {
+		return null;
+	}
+}
+register_shutdown_function('fatal_handler');
+/**
+ * Allows for capturing fatal errors (missing includes, undefined functions etc)
+ */
+function fatal_handler() {
+	$error = error_get_last();
+	if ($error['type'] == E_ERROR || $error['type'] == E_CORE_ERROR || $error['type'] == E_COMPILE_ERROR) {
+		log_uncaught_exception(new FatalException($error));
+	}
+}
+
 function redirect($url) {
 	header('Location: ' . $url);
 	die();
