@@ -771,7 +771,7 @@ function request_url_relative() {
  * an e-mail address, accept it.
  */
 function is_valid_email($e) {
-	return mb_strlen($e) <= 255 && preg_match("/^[^@]+@([^@]+\\.)+[^@]+$/u", $e);
+	return mb_strlen($e) <= 255 && preg_match("/^[^@ ]+@([^@ ]+\\.)+[^@ ]+$/u", $e);
 }
 
 function is_valid_url($e) {

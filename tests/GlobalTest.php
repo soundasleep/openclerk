@@ -23,6 +23,10 @@ class GlobalTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotValidEmail("one@two@three.com");
 		$this->assertNotValidEmail("abc.example.com");
 		$this->assertNotValidEmail("localhost@localdomain");
+		$this->assertNotValidEmail("support@ openclerk.org");
+		$this->assertNotValidEmail("support @openclerk.org");
+		$this->assertNotValidEmail("support @openclerk. org");
+		$this->assertNotValidEmail(" support@openclerk.org");
 	}
 
 	function assertValidEmail($e) {
