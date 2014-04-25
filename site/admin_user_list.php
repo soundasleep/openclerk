@@ -67,6 +67,7 @@ $users = $q->fetchAll();
 		<th class="default_sort_down">ID</th>
 		<th>Email</th>
 		<th>Name</th>
+		<th>Added account</th>
 		<th>Premium</th>
 		<th>Premium expires</th>
 		<th>Signed up</th>
@@ -94,6 +95,7 @@ $users = $q->fetchAll();
 				echo "<td>" . htmlspecialchars($user['email']) . "</a> (password)</td>\n";
 			}
 			echo "<td>" . htmlspecialchars($user['name']) . "</td>\n";
+			echo "<td class=\"" . ($user['has_added_account'] ? 'yes' : 'no') . "\">-</td>\n";
 			echo "<td class=\"" . ($user['is_premium'] ? 'yes' : 'no') . "\">-</td>\n";
 			echo "<td>" . recent_format_html($user['premium_expires'], "", "") . "</td>\n";
 			echo "<td>" . recent_format_html($user['created_at']) . "</td>\n";
@@ -117,6 +119,12 @@ $users = $q->fetchAll();
 				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
 				echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
 				echo "<input type=\"submit\" value=\"Delete\" onclick=\"return confirm('Are you sure you want to delete this user?');\">";
+				echo "</form>";
+			}
+			{
+				echo "<form action=\"" . htmlspecialchars(url_for('admin_user_jobs')) . "\" method=\"get\">";
+				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
+				echo "<input type=\"submit\" value=\"Recent Jobs\">";
 				echo "</form>";
 			}
 			echo "</td>\n";

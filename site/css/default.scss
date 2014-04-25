@@ -43,54 +43,56 @@ table.standard ul { margin: 0; padding: 0; margin-left: 1.1em; }
 
 @import "navigation";
 
-.error {
-  width: 60%;
-  border: 1px solid #944;
-  padding: 10px;
-  margin: 5px auto 5px auto;
-  background: #622 url('../img/nuvola/32x32/messagebox_critical.png') 10px 10px no-repeat;
-  padding-left: 50px;
-  min-height: 32px;
-}
-.warning {
-  width: 60%;
-  border: 1px solid #974;
-  padding: 10px;
-  margin: 5px auto 5px auto;
-  background: #642 url('../img/nuvola/32x32/messagebox_warning.png') 10px 10px no-repeat;
-  padding-left: 50px;
-  min-height: 32px;
-}
-.success {
-  width: 60%;
-  border: 1px solid #496;
-  padding: 10px;
-  margin: 5px auto 5px auto;
-  background: #264 url('../img/nuvola/32x32/ok.png') 10px 10px no-repeat;
-  padding-left: 50px;
-  min-height: 32px;
-}
-.message {
-  width: 60%;
-  border: 1px solid #469;
-  padding: 10px;
-  margin: 5px auto 5px auto;
-  background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
-  padding-left: 50px;
-  min-height: 32px;
-}
-.tip {
-  padding: 10px;
-  border: 1px solid #469;
-  margin: 5px 10px 5px 10px;
-  background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
-  x-background-sprite: false;
-  padding-left: 50px;
-}
-.success.success_float {
-  padding: 10px;
-  margin: 5px 10px 5px 10px;
-  padding-left: 50px;
+div, p {
+  &.error {
+    width: 60%;
+    border: 1px solid #944;
+    padding: 10px;
+    margin: 5px auto 5px auto;
+    background: #622 url('../img/nuvola/32x32/messagebox_critical.png') 10px 10px no-repeat;
+    padding-left: 50px;
+    min-height: 32px;
+  }
+  &.warning {
+    width: 60%;
+    border: 1px solid #974;
+    padding: 10px;
+    margin: 5px auto 5px auto;
+    background: #642 url('../img/nuvola/32x32/messagebox_warning.png') 10px 10px no-repeat;
+    padding-left: 50px;
+    min-height: 32px;
+  }
+  &.success {
+    width: 60%;
+    border: 1px solid #496;
+    padding: 10px;
+    margin: 5px auto 5px auto;
+    background: #264 url('../img/nuvola/32x32/ok.png') 10px 10px no-repeat;
+    padding-left: 50px;
+    min-height: 32px;
+    &.success_float {
+      padding: 10px;
+      margin: 5px 10px 5px 10px;
+      padding-left: 50px;
+    }
+  }
+  &.message {
+    width: 60%;
+    border: 1px solid #469;
+    padding: 10px;
+    margin: 5px auto 5px auto;
+    background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
+    padding-left: 50px;
+    min-height: 32px;
+  }
+  &.tip {
+    padding: 10px;
+    border: 1px solid #469;
+    margin: 5px 10px 5px 10px;
+    background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
+    x-background-sprite: false;
+    padding-left: 50px;
+  }
 }
 .tip_float, .success_float {
   width: 40%;
