@@ -170,6 +170,20 @@ if (require_post("add", false)) {
 	}
 }
 
+// process 'disable'
+if (require_post("disable", false) && require_post("id", false)) {
+	$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=1,is_disabled_manually=1 WHERE id=? AND user_id=?");
+	$q->execute(array(require_post("id"), user_id()));
+
+	$messages[] = "Disabled " . htmlspecialchars($account_data['title']) . ".";
+
+	// redirect to GET
+	set_temporary_errors($errors);
+	set_temporary_messages($messages);
+	redirect(url_for(require_post("callback")));
+}
+
+// process 'delete'
 if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM " . $account_data['table'] . " WHERE id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));

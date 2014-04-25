@@ -134,3 +134,7 @@ function getSortValue(e) {
 	}
 	return $(e).text().trim();
 }
+
+function confirmAccountDelete() {
+  return confirm("Are you sure you want to delete this account?\n\nThis will delete all historical data for this account, but will not update any historical summary calculations which may have used this data.\n\nYou may wish to disable this account instead, which will retain historical account data and keep your historical summaries correct, by clicking \"Cancel\" and using the \"Disable\" button instead.");
+}

@@ -146,40 +146,47 @@ foreach ($accounts as $a) {
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="delete" value="Delete" class="delete" onclick="return confirm('Are you sure you want to remove this account?');">
+				<input type="submit" name="delete" value="Delete" class="delete" onclick="return confirmAccountDelete();" title="Delete this account, removing all historical data.">
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
 			<?php if (!$account_type_data['disabled']) {
 				if ($is_test_job) { ?>
-				<span class="status_loading">Testing...</span>
-					<?php if (!isset($is_in_callback)) { ?>
-						<script type="text/javascript">
-						$(document).ready(function() {
-							initialise_wizard_test_callback($('#<?php echo htmlspecialchars($row_element_id); ?>'), <?php echo json_encode(url_for('wizard_accounts_callback', array('exchange' => $a['exchange'], 'id' => $a['id']))); ?>);
-						});
-						</script>
+					<span class="status_loading">Testing...</span>
+						<?php if (!isset($is_in_callback)) { ?>
+							<script type="text/javascript">
+							$(document).ready(function() {
+								initialise_wizard_test_callback($('#<?php echo htmlspecialchars($row_element_id); ?>'), <?php echo json_encode(url_for('wizard_accounts_callback', array('exchange' => $a['exchange'], 'id' => $a['id']))); ?>);
+							});
+							</script>
+						<?php } ?>
+					<?php } else { ?>
+					<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+						<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+						<input type="submit" name="test" value="Test" class="test" title="Request an immediate test of this account.">
+						<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+						<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+					</form>
+					<?php if (isset($is_in_callback)) {
+						// used to identify when a test has been successfully completed
+						echo "<!-- successful test -->";
+					} ?>
+					<?php if ($is_disabled) { ?>
+						<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+							<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+							<input type="submit" name="enable" value="Enable" class="enable" title="Re-enable this account.">
+							<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+							<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+						</form>
+					<?php } else if ($account_type_data['failure']) { ?>
+						<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+							<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+							<input type="submit" name="disable" value="Disable" class="disable" title="Disable this account, preserving any historical data.">
+							<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+							<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+						</form>
 					<?php } ?>
-				<?php } else { ?>
-				<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
-					<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-					<input type="submit" name="test" value="Test" class="test">
-					<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
-					<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
-				</form>
-				<?php if (isset($is_in_callback)) {
-					// used to identify when a test has been successfully completed
-					echo "<!-- successful test -->";
-				} ?>
 				<?php } ?>
-			<?php } ?>
-			<?php if ($is_disabled && !$account_type_data['disabled']) { ?>
-			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
-				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="enable" value="Enable" class="enable">
-				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
-				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
-			</form>
 			<?php } ?>
 		</td>
 <?php if (!isset($is_in_callback)) { ?>
