@@ -229,6 +229,8 @@ function get_all_exchanges() {
 		"rapidhash" => "RapidHash",
 		"rapidhash_doge" => "RapidHash",
 		"rapidhash_vtc" => "RapidHash",
+		"cryptotroll" => "Cryptotroll",
+		"cryptotroll_doge" => "Cryptotroll",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -377,6 +379,7 @@ function get_supported_wallets() {
 		"cryptopools" => array('dgc', 'hash'),		// other coins available
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc'),
+		"cryptotroll" => array('dog', 'hash'),
 		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn'),
 		"cexio" => array('btc', 'ghs', 'nmc'),		// also available: ixc, dvc
 		"d2" => array('wdc', 'hash'),				// other coins available
@@ -439,7 +442,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("kraken", "rapidhash", "rapidhash_doge", "rapidhash_vtc");
+	return array("kraken", "rapidhash", "rapidhash_doge", "rapidhash_vtc", "cryptotroll", "cryptotroll_doge");
 }
 
 function get_summary_types() {
@@ -630,6 +633,7 @@ function account_data_grouped() {
 			'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'cryptopools_dgc' => array('table' => 'accounts_cryptopools_dgc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptopools', 'suffix' => ' DGC'),
+			'cryptotroll_doge' => array('table' => 'accounts_cryptotroll_doge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptotroll', 'suffix' => ' DOGE'),
 			'd2_wdc' => array('table' => 'accounts_d2_wdc', 'group' => 'accounts', 'suffix' => ' WDC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'd2'),
 			'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
 			'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -658,8 +662,8 @@ function account_data_grouped() {
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-			'rapidhash_doge' => array('table' => 'accounts_rapidhash_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true),
-			'rapidhash_vtc' => array('table' => 'accounts_rapidhash_vtc', 'group' => 'accounts', 'suffix' => ' VTC', 'wizard' => 'pools', 'failure' => true),
+			'rapidhash_doge' => array('table' => 'accounts_rapidhash_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash'),
+			'rapidhash_vtc' => array('table' => 'accounts_rapidhash_vtc', 'group' => 'accounts', 'suffix' => ' VTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash'),
 			'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -810,6 +814,7 @@ function get_external_apis() {
 			'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
 			'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
 			'cryptopools_dgc' => '<a href="http://dgc.cryptopools.com/">CryptoPools</a> (DGC)',
+			'cryptotroll_doge' => '<a href="http://doge.cryptotroll.com">Cryptotroll</a> (DOGE)',
 			'd2_wdc' => '<a href="https://wdc.d2.cc/">d2</a> (WDC)',
 			'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
 			'dogechainpool' => '<a href="http://pool.dogechain.info/">Dogechain Pool</a>',
@@ -1613,6 +1618,16 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_rapidhash_vtc',
 				'title' => 'RapidHash VTC account',
 				'title_key' => 'rapidhash',
+			);
+
+		case "cryptotroll_doge":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
+				),
+				'table' => 'accounts_cryptotroll_doge',
+				'title' => 'Cryptotroll DOGE account',
+				'title_key' => 'cryptotroll',
 			);
 
 		// --- exchanges ---

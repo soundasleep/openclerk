@@ -551,6 +551,10 @@ try {
 			require(__DIR__ . "/../jobs/rapidhash_vtc.php");
 			break;
 
+		case "cryptotroll_doge":
+			require(__DIR__ . "/../jobs/cryptotroll_doge.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");
