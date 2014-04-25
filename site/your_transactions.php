@@ -14,22 +14,32 @@ $user = get_user(user_id());
 
 $page_size = 50;
 
-page_header("Your Transactions", "page_your_transactions", array('js' => array('accounts', 'transactions'), 'class' => 'report_page'));
+page_header("Your Transactions", "page_your_transactions", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
+
+function get_exchange_or_currency_name($exchange) {
+	$account_data_grouped = account_data_grouped();
+	if (isset($account_data_grouped['Addresses'][$exchange])) {
+		return $account_data_grouped['Addresses'][$exchange]['title'];
+	} else {
+		return get_exchange_name($exchange);
+	}
+}
 
 // get all possible exchanges and currencies
-$q = db()->prepare("SELECT exchange FROM transactions WHERE user_id=? GROUP BY exchange");
+$q = db()->prepare("SELECT exchange FROM transactions WHERE user_id=? GROUP BY exchange ORDER BY exchange ASC");
 $q->execute(array(user_id()));
 $exchanges = $q->fetchAll();
 
 // get all possible exchanges and currencies
-$q = db()->prepare("SELECT currency1 AS currency FROM transactions WHERE user_id=? GROUP BY currency1");
+$q = db()->prepare("SELECT currency1 AS currency FROM transactions WHERE user_id=? GROUP BY currency1 ORDER BY currency ASC");
 $q->execute(array(user_id()));
 $currencies = $q->fetchAll();
 
 // get all possible transactions
-$q = db()->prepare("SELECT exchange, account_id FROM transactions WHERE user_id=? GROUP BY exchange,account_id");
+$q = db()->prepare("SELECT exchange, account_id FROM transactions WHERE user_id=? GROUP BY exchange,account_id ORDER BY exchange ASC ,account_id ASC");
 $q->execute(array(user_id()));
 $accounts = $q->fetchAll();
+// much too complicated to sort here
 
 $page_args = array(
 	'skip' => max(0, (int) require_get("skip", 0)),
@@ -61,15 +71,6 @@ if ($page_args['account_id']) {
 $q = db()->prepare("SELECT * FROM transactions WHERE user_id=? $extra_query ORDER BY transaction_date_day DESC LIMIT " . $page_args['skip'] . ", $page_size");
 $q->execute(array_merge(array(user_id()), $extra_args));
 $transactions = $q->fetchAll();
-
-function get_exchange_or_currency_name($exchange) {
-	$account_data_grouped = account_data_grouped();
-	if (isset($account_data_grouped['Addresses'][$exchange])) {
-		return $account_data_grouped['Addresses'][$exchange]['title'];
-	} else {
-		return get_exchange_name($exchange);
-	}
-}
 
 ?>
 
@@ -184,6 +185,7 @@ require(__DIR__ . "/_finance_pages.php");
 <thead>
 	<tr>
 		<th class="balance default_sort_down">Date</th>
+		<th class="">Account ID</th>
 		<th class="">Account</th>
 		<th class="">Description</th>
 		<th class="number">Amount</th>
@@ -210,6 +212,9 @@ foreach ($transactions as $transaction) {
 			<?php
 			echo "<span title=\"" . htmlspecialchars($transaction_date) . "\">" . ($transaction_date) . "</span>";
 			?>
+		</td>
+		<td>
+			<?php echo htmlspecialchars($transaction['exchange'] . "-" . $transaction['account_id']); ?>
 		</td>
 		<td>
 			<?php
