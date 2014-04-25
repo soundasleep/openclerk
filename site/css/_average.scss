@@ -1,0 +1,45 @@
+#page_average {
+  .currencies {
+    clear: both;
+    padding-top: 20px;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+    }
+
+    li + li:before {
+      content: ' - ';
+    }
+  }
+
+  .market-data {
+    display: inline-block;
+    float: left;
+  }
+
+  .market-data .graph_title {
+    display: none;
+  }
+
+  .graph_collection {
+    width: 100%;
+    text-align: center;
+
+    .graph {
+      margin-left: 20px;
+    }
+  }
+
+  .graph_collection .market-data .graph .graph_average .overflow_wrapper {
+    height: 80%;
+  }
+}
+

@@ -340,14 +340,19 @@ function render_average_markets_table($graph, $tickers, $market_count) {
 		);
 	}
 
+	$graph['last_updated'] = $average['created_at'];
+
 ?>
 <div class="graph_average">
-	<h1>Average <?php echo get_currency_abbr($average['currency1']) . "/" . get_currency_abbr($average['currency2']); ?>:
-		<?php echo currency_format($average['currency1'], $average['last_trade']); ?>
-		<small>(<?php echo number_format($average['volume']); ?> <?php echo get_currency_abbr($volume_currency); ?>)</small></h1>
+	<h1><?php echo get_currency_abbr($average['currency1']) . "/" . get_currency_abbr($average['currency2']); ?>:
+		<?php echo currency_format($average['currency1'], $average['last_trade']); ?></h1>
+	<h2>(<?php echo number_format($average['volume']); ?> <?php echo get_currency_abbr($volume_currency); ?>)</h2>
 
 	<?php render_table_vertical($graph, $data, $head); ?>
 </div>
+<script type="text/javascript">
+  <?php render_graph_headings($graph); ?>
+</script>
 <?php if (isset($graph['extra'])) echo '<div class="graph_extra">' . $graph['extra'] . '</div>'; ?>
 <?php
 }

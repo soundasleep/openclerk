@@ -20,6 +20,8 @@ $q = db()->prepare("SELECT * FROM ticker_recent AS t
 $q->execute(array("average"));
 $pairs = array();
 while ($ticker = $q->fetch()) {
+	// TODO strip out currencies we aren't officially tracking yet
+
 	$key = $ticker['currency1'] . $ticker['currency2'];
 	$pairs[$key] = $ticker;
 }
@@ -46,9 +48,58 @@ $graph_id = 0;
 
 <h1>Market Average: <?php echo get_currency_abbr($currency1); ?>/<?php echo get_currency_abbr($currency2); ?></h1>
 
+<?php require_template("average"); ?>
+
+<div class="graph_collection">
+	<div class="market-data">
+	<?php
+		$graph = array(
+			'graph_type' => "average_" . $currency1 . $currency2 . "_markets",
+			'width' => 4,
+			'height' => 2,
+			'page_order' => 0,
+			'days' => 45,
+			'id' => $graph_id++,
+			'public' => true,
+			'delta' => "",
+			'no_technicals' => true,
+		);
+	?>
+	<?php render_graph($graph, true /* is public */); ?>
+	</div>
+
+	<?php
+		$graph = array(
+			'graph_type' => "average_" . $currency1 . $currency2 . "_daily",
+			'width' => 4,
+			'height' => 2,
+			'page_order' => 0,
+			'days' => 45,
+			'id' => $graph_id++,
+			'public' => true,
+			'delta' => "",
+			'no_technicals' => true,
+		);
+	?>
+	<?php render_graph($graph, true /* is public */); ?>
+</div>
+
 <div class="currencies">
-	<ul>
-	<?php foreach ($pairs as $pair) {
+	<h2>Other market averages</h2>
+
+	<?php
+	$last_currency = false;
+
+	foreach ($pairs as $pair) {
+		if ($pair['currency1'] != $last_currency) {
+			if ($last_currency !== false) {
+				echo "</ul>\n";
+			}
+			echo "<h3>" . get_currency_name($pair['currency1']) . "</h3>\n";
+			echo "<ul>\n";
+		}
+		$last_currency = $pair['currency1'];
+
 		$selected = ($currency1 == $pair['currency1'] && $currency2 == $pair['currency2']);
 		echo "<li" . ($selected ? " class=\"selected\"" : "") . ">";
 		echo "<a href=\"" . htmlspecialchars(url_for('average', array('currency1' => $pair['currency1'], 'currency2' => $pair['currency2']))) . "\">";
@@ -56,41 +107,11 @@ $graph_id = 0;
 		echo "</a>";
 		echo " (" . number_format($pair['market_count']) . ")";
 		echo "</li>\n";
-	} ?>
-	</ul>
+	}
+
+	echo "</ul>";
+	?>
 </div>
-
-	<div class="graph_collection">
-		<?php
-			$graph = array(
-				'graph_type' => "average_" . $currency1 . $currency2 . "_markets",
-				'width' => 4,
-				'height' => 2,
-				'page_order' => 0,
-				'days' => 45,
-				'id' => $graph_id++,
-				'public' => true,
-				'delta' => "",
-				'no_technicals' => true,
-			);
-		?>
-		<?php render_graph($graph, true /* is public */); ?>
-
-		<?php
-			$graph = array(
-				'graph_type' => "average_" . $currency1 . $currency2 . "_daily",
-				'width' => 6,
-				'height' => 4,
-				'page_order' => 0,
-				'days' => 45,
-				'id' => $graph_id++,
-				'public' => true,
-				'delta' => "",
-				'no_technicals' => true,
-			);
-		?>
-		<?php render_graph($graph, true /* is public */); ?>
-	</div>
 
 <?php
 

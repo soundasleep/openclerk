@@ -189,6 +189,28 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .graph_collection .graph .rate_matrix { list-style: none; margin: 0; padding: 0; }
 .graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
 
+.graph_collection .graph .graph_average {
+  h1, h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: block;
+  }
+  h1 {
+    height: 20%;
+  }
+  h2 {
+    height: 10%;
+    font-weight: normal;
+    font-size: 90%;
+    color: #ccc;
+    margin-bottom: 10px;
+  }
+  .overflow_wrapper {
+    height: 70%;
+  }
+}
+
 .graph_collection ul.graph_controls {
   list-style: none;
   margin: 5px;
@@ -324,3 +346,5 @@ button .openid, .openid_list .openid { padding-left: 20px; line-height: 20px; }
 #page_historical .graph_collection { clear: both; }
 
 @import "locale";
+
+@import "average";
