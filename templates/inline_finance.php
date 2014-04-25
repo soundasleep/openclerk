@@ -6,8 +6,8 @@
 </p>
 
 <p>
-	Note that this feature is still in draft stage, and there may be bugs or usability issues in using these
-	new inferfaces. If you find any problems with the Finance interface, please <a href="<?php echo htmlspecialchars(url_for('contact')); ?>">let us know</a>.
+	Note that this feature is still under development and not yet complete, and there may be bugs or usability issues.
+	If you find any problems with the Finance interface, please <a href="<?php echo htmlspecialchars(url_for('contact')); ?>">let us know</a>.
 </p>
 
 <p>

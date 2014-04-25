@@ -33,14 +33,12 @@
 	<li class="page_tabsecurities<?php if (require_get("securities", false)) echo " page_current"; ?> premium"><a href="<?php echo htmlspecialchars(url_for('profile', $args)); ?>">
 		Your Securities (<?php echo number_format($securities_count); ?>)
 	</a></li>
-	<?php if (is_admin()) { ?>
-		<?php
-		$args = array();
-		if (require_get("demo", false)) {
-			$args['demo'] = require_get("demo");
-		} ?>
-		<li class="page_tabtransactions<?php if (isset($your_transactions) && $your_transactions) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('your_transactions', $args)); ?>">
-			Your Transactions <span class="new">new</span>
-		</a></li>
-	<?php } ?>
+	<?php
+	$args = array();
+	if (require_get("demo", false)) {
+		$args['demo'] = require_get("demo");
+	} ?>
+	<li class="page_tabtransactions<?php if (isset($your_transactions) && $your_transactions) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('your_transactions', $args)); ?>">
+		Your Transactions <span class="new">new</span>
+	</a></li>
 </ul>

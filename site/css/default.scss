@@ -74,6 +74,8 @@ div, p {
       padding: 10px;
       margin: 5px 10px 5px 10px;
       padding-left: 50px;
+      width: 40%;
+      float: right;
     }
   }
   &.message {
@@ -92,11 +94,11 @@ div, p {
     background: #246 url('../img/nuvola/32x32/messagebox_info.png') 10px 10px no-repeat;
     x-background-sprite: false;
     padding-left: 50px;
+    &.tip_float {
+      width: 40%;
+      float: right;
+    }
   }
-}
-.tip_float, .success_float {
-  width: 40%;
-  float: right;
 }
 .page_accounts .tip_float {
   width: 30%;

@@ -134,7 +134,7 @@ require(__DIR__ . "/_finance_pages.php");
 			</td>
 		</tr>
 		<tr>
-			<th>Transaction currency</th>
+			<th>Currency</th>
 			<td>
 				<select name="currency" id="currency_list">
 					<option value="">(all)</option>
@@ -160,11 +160,7 @@ require(__DIR__ . "/_finance_pages.php");
 	<p>
 		This is a draft version of a page which will allow you to see the historical changes to your various accounts over time as daily transactions,
 		generated automatically by <?php echo htmlspecialchars(get_site_config('site_name')); ?>.
-	</p>
-
-	<p>
-		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'finance'))); ?>">What is <?php echo get_site_config('site_name'); ?> Finance?</a> -
-		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'transaction_creation'))); ?>">How are transactions automatically created?</a>
+		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'finance'))); ?>">Learn more</a>
 	</p>
 
 	<p>
@@ -174,6 +170,7 @@ require(__DIR__ . "/_finance_pages.php");
 
 	<p>
 		In the future, you will be able to edit or delete these transactions, create your own transactions, or export these transactions to CSV.
+		Future functionality will also become limited to <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium users</a>.
 	</p>
 </div>
 
