@@ -3773,3 +3773,38 @@ CREATE TABLE accounts_kraken (
 INSERT INTO exchanges SET name='kraken';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='kraken';
 
+-- issue #201: deleting an account does not delete old hashrate data
+DELETE FROM hashrates WHERE exchange='50btc' AND account_id NOT IN (SELECT id FROM accounts_50btc);
+DELETE FROM hashrates WHERE exchange='bitminter' AND account_id NOT IN (SELECT id FROM accounts_bitminter);
+DELETE FROM hashrates WHERE exchange='btcguild' AND account_id NOT IN (SELECT id FROM accounts_btcguild);
+DELETE FROM hashrates WHERE exchange='coinhuntr' AND account_id NOT IN (SELECT id FROM accounts_coinhuntr);
+DELETE FROM hashrates WHERE exchange='dogechainpool' AND account_id NOT IN (SELECT id FROM accounts_dogechainpool);
+DELETE FROM hashrates WHERE exchange='dogepoolpw' AND account_id NOT IN (SELECT id FROM accounts_dogepoolpw);
+DELETE FROM hashrates WHERE exchange='ecoining_ppc' AND account_id NOT IN (SELECT id FROM accounts_ecoining_ppc);
+DELETE FROM hashrates WHERE exchange='eligius' AND account_id NOT IN (SELECT id FROM accounts_eligius);
+DELETE FROM hashrates WHERE exchange='ghashio' AND account_id NOT IN (SELECT id FROM accounts_ghashio);
+DELETE FROM hashrates WHERE exchange='givemecoins' AND account_id NOT IN (SELECT id FROM accounts_givemecoins);
+DELETE FROM hashrates WHERE exchange='givemeltc' AND account_id NOT IN (SELECT id FROM accounts_givemeltc);
+DELETE FROM hashrates WHERE exchange='hashfaster_doge' AND account_id NOT IN (SELECT id FROM accounts_hashfaster_doge);
+DELETE FROM hashrates WHERE exchange='hashfaster_ftc' AND account_id NOT IN (SELECT id FROM accounts_hashfaster_ftc);
+DELETE FROM hashrates WHERE exchange='hashfaster_ltc' AND account_id NOT IN (SELECT id FROM accounts_hashfaster_ltc);
+DELETE FROM hashrates WHERE exchange='hypernova' AND account_id NOT IN (SELECT id FROM accounts_hypernova);
+DELETE FROM hashrates WHERE exchange='kattare' AND account_id NOT IN (SELECT id FROM accounts_kattare);
+DELETE FROM hashrates WHERE exchange='khore' AND account_id NOT IN (SELECT id FROM accounts_khore);
+DELETE FROM hashrates WHERE exchange='litecoinpool' AND account_id NOT IN (SELECT id FROM accounts_litecoinpool);
+DELETE FROM hashrates WHERE exchange='liteguardian' AND account_id NOT IN (SELECT id FROM accounts_liteguardian);
+DELETE FROM hashrates WHERE exchange='lite_coinpool' AND account_id NOT IN (SELECT id FROM accounts_lite_coinpool);
+DELETE FROM hashrates WHERE exchange='miningforeman' AND account_id NOT IN (SELECT id FROM accounts_miningforeman);
+DELETE FROM hashrates WHERE exchange='miningpoolco' AND account_id NOT IN (SELECT id FROM accounts_miningpoolco);
+DELETE FROM hashrates WHERE exchange='multipool' AND account_id NOT IN (SELECT id FROM accounts_multipool);
+DELETE FROM hashrates WHERE exchange='nut2pools_ftc' AND account_id NOT IN (SELECT id FROM accounts_nut2pools_ftc);
+DELETE FROM hashrates WHERE exchange='ozcoin_btc' AND account_id NOT IN (SELECT id FROM accounts_ozcoin_btc);
+DELETE FROM hashrates WHERE exchange='ozcoin_ltc' AND account_id NOT IN (SELECT id FROM accounts_ozcoin_ltc);
+DELETE FROM hashrates WHERE exchange='poolx' AND account_id NOT IN (SELECT id FROM accounts_poolx);
+DELETE FROM hashrates WHERE exchange='scryptguild' AND account_id NOT IN (SELECT id FROM accounts_scryptguild);
+DELETE FROM hashrates WHERE exchange='scryptpools' AND account_id NOT IN (SELECT id FROM accounts_scryptpools);
+DELETE FROM hashrates WHERE exchange='slush' AND account_id NOT IN (SELECT id FROM accounts_slush);
+DELETE FROM hashrates WHERE exchange='smalltimeminer_mec' AND account_id NOT IN (SELECT id FROM accounts_smalltimeminer_mec);
+DELETE FROM hashrates WHERE exchange='teamdoge' AND account_id NOT IN (SELECT id FROM accounts_teamdoge);
+DELETE FROM hashrates WHERE exchange='triplemining' AND account_id NOT IN (SELECT id FROM accounts_triplemining);
+DELETE FROM hashrates WHERE exchange='wemineltc' AND account_id NOT IN (SELECT id FROM accounts_wemineltc);

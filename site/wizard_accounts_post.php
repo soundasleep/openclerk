@@ -178,6 +178,10 @@ if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM balances WHERE account_id=? AND user_id=? AND exchange=?");
 	$q->execute(array(require_post("id"), user_id(), $account_data['exchange']));
 
+	// issue #201: also delete old hashrate data
+	$q = db()->prepare("DELETE FROM hashrates WHERE account_id=? AND user_id=? AND exchange=?");
+	$q->execute(array(require_post("id"), user_id(), $account_data['exchange']));
+
 	// we also need to remove old _securities and _wallet balances for this exchange as well
 	// fixes bug described by Tobias
 	$q = db()->prepare("DELETE FROM balances WHERE account_id=? AND user_id=? AND exchange=?");
