@@ -3,21 +3,7 @@
     clear: both;
     padding-top: 20px;
 
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    li {
-      display: inline-block;
-      margin: 0;
-      padding: 0;
-    }
-
-    li + li:before {
-      content: ' - ';
-    }
+    .tabs .tab_list > li { min-width: 70px; }
   }
 
   .market-data {
@@ -31,15 +17,19 @@
 
   .graph_collection {
     width: 100%;
-    text-align: center;
 
     .graph {
       margin-left: 20px;
     }
   }
 
+  .graph_average {
+      position: relative;
+      top: -1.5em;
+  }
+
   .graph_collection .market-data .graph .graph_average .overflow_wrapper {
-    height: 80%;
+    height: 87%;
   }
 }
 

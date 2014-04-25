@@ -21,6 +21,12 @@ $q->execute(array("average"));
 $pairs = array();
 while ($ticker = $q->fetch()) {
 	// TODO strip out currencies we aren't officially tracking yet
+	if (!in_array($ticker['currency1'], get_all_currencies())) {
+		continue;
+	}
+	if (!in_array($ticker['currency2'], get_all_currencies())) {
+		continue;
+	}
 
 	$key = $ticker['currency1'] . $ticker['currency2'];
 	$pairs[$key] = $ticker;
@@ -84,33 +90,57 @@ $graph_id = 0;
 	<?php render_graph($graph, true /* is public */); ?>
 </div>
 
+<?php
+$all_main_currencies = array();
+foreach ($pairs as $pair) {
+	$all_main_currencies[$pair['currency1']] = $pair['currency1'];
+}
+?>
+
 <div class="currencies">
 	<h2>Other market averages</h2>
 
-	<?php
-	$last_currency = false;
+	<div class="tabs" id="tabs_average">
+		<ul class="tab_list">
+			<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
+			<?php foreach ($all_main_currencies as $c) {
+				echo "<li id=\"tab_average_" . $c . "\"><span class=\"currency_name_" . $c . "\">" . htmlspecialchars(get_currency_abbr($c)) . "</span></li>";
+			} ?>
+		</ul>
 
-	foreach ($pairs as $pair) {
-		if ($pair['currency1'] != $last_currency) {
-			if ($last_currency !== false) {
-				echo "</ul>\n";
+		<ul class="tab_groups">
+		<?php $first_tab = true;
+		foreach ($all_main_currencies as $c) { ?>
+		<li id="tab_average_<?php echo $c; ?>_tab"<?php echo $first_tab ? "" : " style=\"display:none;\""; ?> class="tab">
+			<h3><?php echo get_currency_name($pair['currency1']); ?> market averages</h3>
+			<ul>
+			<?php
+			foreach ($pairs as $pair) {
+				if ($pair['currency1'] != $c) {
+					continue;
+				}
+
+				$selected = ($currency1 == $pair['currency1'] && $currency2 == $pair['currency2']);
+				echo "<li" . ($selected ? " class=\"selected\"" : "") . ">";
+				echo "<a href=\"" . htmlspecialchars(url_for('average', array('currency1' => $pair['currency1'], 'currency2' => $pair['currency2']))) . "\">";
+				echo get_currency_abbr($pair['currency1']) . "/" . get_currency_abbr($pair['currency2']);
+				echo "</a>";
+				echo " (" . number_format($pair['market_count']) . ")";
+				echo "</li>\n";
 			}
-			echo "<h3>" . get_currency_name($pair['currency1']) . "</h3>\n";
-			echo "<ul>\n";
-		}
-		$last_currency = $pair['currency1'];
+			?>
+			</ul>
+		</li>
+		<?php $first_tab = false;
+		} ?>
+		</ul>
+	</div>
 
-		$selected = ($currency1 == $pair['currency1'] && $currency2 == $pair['currency2']);
-		echo "<li" . ($selected ? " class=\"selected\"" : "") . ">";
-		echo "<a href=\"" . htmlspecialchars(url_for('average', array('currency1' => $pair['currency1'], 'currency2' => $pair['currency2']))) . "\">";
-		echo get_currency_abbr($pair['currency1']) . "/" . get_currency_abbr($pair['currency2']);
-		echo "</a>";
-		echo " (" . number_format($pair['market_count']) . ")";
-		echo "</li>\n";
-	}
-
-	echo "</ul>";
-	?>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		initialise_tabs('#tabs_average');
+	});
+	</script>
 </div>
 
 <?php
