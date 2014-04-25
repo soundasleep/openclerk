@@ -267,7 +267,12 @@ function get_exchange_pairs() {
 				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc'), array('btc', 'ixc'), array('btc', 'vtc'),
 				array('btc', 'net'), array('ltc', 'net'), array('btc', 'hbn')),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
-		// TODO kraken
+		"kraken" => array(array('ltc', 'dog'), array('ltc', 'xrp'), array('eur', 'ltc'), array('krw', 'ltc'), array('usd', 'ltc'),
+				array('nmc', 'dog'), array('nmc', 'xrp'), array('eur', 'nmc'), array('krw', 'nmc'), array('usd', 'nmc'),
+				array('btc', 'ltc'), array('btc', 'nmc'), array('btc', 'dog'), array('btc', 'xrp'), array('eur', 'btc'), array('krw', 'btc'), array('usd', 'btc'),	// also [btc, ven]
+				array('eur', 'dog'), array('eur', 'xrp'),
+				array('krw', 'xrp'),
+				array('usd', 'dog'), array('usd', 'xrp')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils')),
@@ -286,34 +291,28 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"btce_gbpbtc",
-		"btce_gbpltc",
-		"btce_cnybtc",
-		"btce_cnyltc",
-		"btce_usdcny",
-		"btce_usdgbp",
-		"btce_usdnvc",
-		"cexio_btcltc",
-		"cexio_btcnmc",
-		"cexio_nmcghs",
-		"coins-e_btcnvc",
-		"coins-e_btcdgc",
-		"cryptsy_btcnmc",
-		"themoneyconverter_usdgbp",
-		"virtex_cadltc",
-		"virtex_btcltc",
-		"bit2c_ilsbtc",
-		"bit2c_ilsltc",
-		"bit2c_btcltc",
-		"cryptsy_btcixc",
-		"vircurex_btcixc",
-		"cryptsy_btcvtc",
-		"vaultofsatoshi_usdvtc",
-		"vaultofsatoshi_cadvtc",
-		"vircurex_btcvtc",
-		"cryptsy_btcnet",
-		"cryptsy_ltcnet",
-		"cryptsy_btchbn",
+		"kraken_ltcdog",
+		"kraken_ltcxrp",
+		"kraken_eurltc",
+		"kraken_krwltc",
+		"kraken_usdltc",
+		"kraken_nmcdog",
+		"kraken_nmcxrp",
+		"kraken_eurnmc",
+		"kraken_krwnmc",
+		"kraken_usdnmc",
+		"kraken_btcltc",
+		"kraken_btcnmc",
+		"kraken_btcdog",
+		"kraken_btcxrp",
+		"kraken_eurbtc",
+		"kraken_krwbtc",
+		"kraken_usdbtc",
+		"kraken_eurdog",
+		"kraken_eurxrp",
+		"kraken_krwxrp",
+		"kraken_usddog",
+		"kraken_usdxrp",
 	);
 }
 
@@ -432,7 +431,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("bit2c", "scryptguild");
+	return array("kraken");
 }
 
 function get_summary_types() {
@@ -848,6 +847,7 @@ function get_external_apis() {
 			'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'ticker_coins-e' => '<a href="https://www.coins-e.com">Coins-E</a>',
 			'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
+			'ticker_kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
 			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
 			'ticker_vircurex' => '<a href="https://vircurex.com">Vircurex</a>',

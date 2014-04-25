@@ -85,6 +85,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/vaultofsatoshi.php");
 		break;
 
+	case "kraken":
+		require(__DIR__ . "/ticker/kraken.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;

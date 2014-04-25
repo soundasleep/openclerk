@@ -123,6 +123,7 @@ function get_default_site_config() {
 		"sleep_crypto-trade_ticker" => 1,
 		"sleep_givemecoins" => 0,
 		"sleep_vaultofsatoshi_ticker" => 5,
+		"sleep_kraken_ticker" => 1,
 		"sleep_givemecoins" => 0,
 		"max_job_executions" => 5,	// if a job fails to run more than this number of times, then explicitly mark it as failed
 		"throttle_btcguild" => 30,	// only execute this job once every X seconds

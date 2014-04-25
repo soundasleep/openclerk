@@ -52,10 +52,11 @@ function kraken_query($key, $secret, $path, array $request = array()) {
  * Kraken exchange.
  *
  * @return 3-character currency code, or {@code false} if none is found
+ * @see #get_iso4_name()
  */
 function map_iso4_name($cur) {
 	switch ($cur) {
-		case "xbtc": return "btc";
+		case "xxbt": return "btc";
 		case "xltc": return "ltc";
 		case "xxrp": return "xrp";
 		case "xnmc": return "nmc";
@@ -71,8 +72,32 @@ function map_iso4_name($cur) {
 		case "zrub": return "rur";
 		case "zjpy": return "jpy";
 		case "zaud": return "aud";
-		
+
 		default:
-			return false;
+			throw new JobException("Unknown iso4 code " . htmlspecialchars($cur));
+	}
+}
+
+function get_iso4_name($cur) {
+	switch ($cur) {
+		case "btc": return "xxbt";
+		case "ltc": return "xltc";
+		case "xrp": return "xxrp";
+		case "nmc": return "xnmc";
+		case "dog": return "xxdg";
+		// case "xxvn": return "ven"; - "Ven (XVN) is the only digital currency that's completely back by assets"
+
+		case "usd": return "zusd";
+		case "eur": return "zeur";
+		case "gbp": return "zgbp";
+		case "krw": return "zkrw";
+		case "cad": return "zcad";
+		case "cny": return "zcny";
+		case "rur": return "zrub";
+		case "jpy": return "zjpy";
+		case "aud": return "zaud";
+
+		default:
+			throw new JobException("Unknown currency for iso4 " . htmlspecialchars($cur));
 	}
 }
