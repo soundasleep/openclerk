@@ -147,7 +147,7 @@ foreach ($accounts as $a) {
 		$q = db()->prepare("SELECT * FROM transaction_creators WHERE exchange=? AND account_id=?");
 		$q->execute(array($a['exchange'], $a['id']));
 		$creator = $q->fetch();
-		$enabled = $creator && !$creator['is_disabled'];
+		$enabled = !$creator || !$creator['is_disabled'];
 
 		$q = db()->prepare("SELECT COUNT(*) AS c FROM transactions WHERE user_id=? AND exchange=? AND account_id=?");
 		$q->execute(array(user_id(), $a['exchange'], $a['id']));
