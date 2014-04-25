@@ -30,7 +30,7 @@ foreach ($size_options as $size_key => $size_value) { ?>
 	<th><?php echo htmlspecialchars($size_value); ?>:</th>
 	<td><select name="<?php echo htmlspecialchars($size_key); ?>">
 		<?php
-			$options = array(1 => "Small", 2 => "Medium", 4 => "Large", 5 => "Larger", 6 => "Very Large");
+			$options = array(1 => "Small", 2 => "Medium", 4 => "Large", 5 => "Larger", 6 => "Very Large", 8 => "Huge", 10 => "Massive");
 			foreach ($options as $key => $value) {
 				echo '<option value="' . htmlspecialchars($key) . '"' . (get_site_config('default_user_graph_' . $size_key, 4) == $key ? ' selected' : '') . '>' . htmlspecialchars($value) . ' (' . number_format(get_site_config('default_graph_' . $size_key) * $key) . 'px)</option>';
 			}
