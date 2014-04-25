@@ -214,6 +214,8 @@ function get_default_site_config() {
 		// application data for APIs
 		"btce_example_api_key" => '...',
 		"btce_example_api_secret" => '...',
+		"vaultofsatoshi_info_currency_api_key" => '...',
+		"vaultofsatoshi_info_currency_api_secret" => '...',
 
 		// premium properties
 		"premium_currencies" => array('btc', 'ltc'),
