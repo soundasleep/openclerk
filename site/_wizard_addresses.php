@@ -83,7 +83,7 @@ foreach ($accounts as $a) {
 			: <?php echo htmlspecialchars($job['message']); ?>
 			<?php } ?>
 		</td>
-		<td><?php echo $a['balance'] === null ? "-" : currency_format($account_data['currency'], $a['balance']); ?></td>
+		<td class="balances"><?php echo $a['balance'] === null ? "-" : currency_format($account_data['currency'], $a['balance']); ?></td>
 		<?php
 		$q = db()->prepare("SELECT * FROM transaction_creators WHERE exchange=? AND account_id=?");
 		$q->execute(array($account_data['job_type'], $a['id']));

@@ -107,7 +107,7 @@ foreach ($accounts as $a) {
 			: <?php echo htmlspecialchars($job['message']); ?>
 			<?php } ?>
 		</td>
-		<td><?php
+		<td class="balances"><?php
 			$had_balance = false;
 			echo "<ul>";
 			foreach ($balances as $c => $value) {
@@ -135,7 +135,7 @@ foreach ($accounts as $a) {
 		<?php if ($account_type['hashrate']) {
 			$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
 			$q->execute(array($a['exchange'], $a['id'], $a['user_id']));
-			echo "<td>";
+			echo "<td class=\"balances\">";
 			if ($mhash = $q->fetch()) {
 				echo $mhash['mhash'] ? (!(isset($a['khash']) && $a['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
 			} else {
