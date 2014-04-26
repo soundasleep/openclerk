@@ -55,7 +55,7 @@ function kraken_query($key, $secret, $path, array $request = array()) {
  * @see #get_iso4_name()
  */
 function map_iso4_name($cur) {
-	switch ($cur) {
+	switch (srtolower($cur)) {
 		case "xxbt": return "btc";
 		case "xltc": return "ltc";
 		case "xxrp": return "xrp";
