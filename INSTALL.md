@@ -13,7 +13,7 @@ To install Openclerk:
 
 1. Install PHP/Apache: (requires PHP 5+)
 
-    sudo apt-get install apache2 php5 php5-mysql php5-curl php5-mbstring
+    sudo apt-get install apache2 php5 php5-mysql php5-curl libapache2-mod-php5
     sudo a2enmod rewrite
     sudo service apache2 restart
 

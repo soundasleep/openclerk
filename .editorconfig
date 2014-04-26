@@ -48,3 +48,9 @@ indent_size = 2
 [**.md]
 indent_style = space
 indent_size = 2
+
+[**.sql]
+# very important; mysql client will interpret \t as tab character
+indent_style = space
+indent_size = 2
+

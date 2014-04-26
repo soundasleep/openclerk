@@ -8,21 +8,21 @@
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
-	id int not null auto_increment primary key,
-	name varchar(255),
-	openid_identity varchar(255) not null unique,
-	email varchar(255),
-	is_admin tinyint not null default 0,
-	is_system tinyint not null default 0,
-	created_at timestamp not null default current_timestamp,
-	updated_at datetime,
-	last_login datetime,
+  id int not null auto_increment primary key,
+  name varchar(255),
+  openid_identity varchar(255) not null unique,
+  email varchar(255),
+  is_admin tinyint not null default 0,
+  is_system tinyint not null default 0,
+  created_at timestamp not null default current_timestamp,
+  updated_at datetime,
+  last_login datetime,
 
-	is_premium tinyint not null default 0,
-	premium_expires datetime,
-	is_reminder_sent tinyint not null default 0,
+  is_premium tinyint not null default 0,
+  premium_expires datetime,
+  is_reminder_sent tinyint not null default 0,
 
-	INDEX(openid_identity), INDEX(is_premium), INDEX(is_admin), INDEX(is_system)
+  INDEX(openid_identity), INDEX(is_premium), INDEX(is_admin), INDEX(is_system)
 );
 
 INSERT INTO users SET id=100,name='System',openid_identity='http://openclerk.org/',email='support@openclerk.org',is_admin=0,is_system=1;
@@ -30,30 +30,30 @@ INSERT INTO users SET id=100,name='System',openid_identity='http://openclerk.org
 DROP TABLE IF EXISTS valid_user_keys;
 
 CREATE TABLE valid_user_keys (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	user_key varchar(64) not null unique,
-	created_at timestamp not null default current_timestamp,
-	INDEX (user_id),
-	INDEX (user_key)
+  id int not null auto_increment primary key,
+  user_id int not null,
+  user_key varchar(64) not null unique,
+  created_at timestamp not null default current_timestamp,
+  INDEX (user_id),
+  INDEX (user_key)
 );
 
 -- recent uncaught exceptions
 DROP TABLE IF EXISTS uncaught_exceptions;
 
 CREATE TABLE uncaught_exceptions (
-	id int not null auto_increment primary key,
-	message varchar(255),
-	previous_message varchar(255),
-	filename varchar(255),
-	line_number int,
-	raw blob not null,
-	class_name varchar(64),
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  message varchar(255),
+  previous_message varchar(255),
+  filename varchar(255),
+  line_number int,
+  raw blob not null,
+  class_name varchar(64),
+  created_at timestamp not null default current_timestamp,
 
-	job_id int,	-- may have been generated as part of a job
+  job_id int, -- may have been generated as part of a job
 
-	INDEX(job_id), INDEX(class_name)
+  INDEX(job_id), INDEX(class_name)
 );
 
 -- OpenClerk information starts here
@@ -63,74 +63,74 @@ CREATE TABLE uncaught_exceptions (
 DROP TABLE IF EXISTS accounts_btce;
 
 CREATE TABLE accounts_btce (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_poolx;
 
 CREATE TABLE accounts_poolx (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_mtgox;
 
 CREATE TABLE accounts_mtgox (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_vircurex;
 
 CREATE TABLE accounts_vircurex (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_username varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_username varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_litecoinglobal;
 
 CREATE TABLE accounts_litecoinglobal (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- litecoinglobal has a range of securities; as we find new securities
@@ -141,27 +141,27 @@ CREATE TABLE accounts_litecoinglobal (
 DROP TABLE IF EXISTS securities_litecoinglobal;
 
 CREATE TABLE securities_litecoinglobal (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	name varchar(64) not null,
+  name varchar(64) not null,
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_btct;
 
 CREATE TABLE accounts_btct (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- same with btct
@@ -169,13 +169,13 @@ CREATE TABLE accounts_btct (
 DROP TABLE IF EXISTS securities_btct;
 
 CREATE TABLE securities_btct (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	name varchar(64) not null,
+  name varchar(64) not null,
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 -- generic API requests
@@ -183,16 +183,16 @@ CREATE TABLE securities_btct (
 DROP TABLE IF EXISTS accounts_generic;
 
 CREATE TABLE accounts_generic (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	currency varchar(3),
-	api_url varchar(255) not null,
+  title varchar(255),
+  currency varchar(3),
+  api_url varchar(255) not null,
 
-	INDEX(user_id), INDEX(currency), INDEX(last_queue)
+  INDEX(user_id), INDEX(currency), INDEX(last_queue)
 );
 
 -- all accounts (but not addresses) are summarised into balances
@@ -200,18 +200,18 @@ CREATE TABLE accounts_generic (
 DROP TABLE IF EXISTS balances;
 
 CREATE TABLE balances (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
-	account_id int not null,
-	-- we dont need to worry too much about precision
-	balance decimal(16,8) not null,
-	currency varchar(3) not null,
-	is_recent tinyint not null default 0,
+  exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
+  account_id int not null,
+  -- we dont need to worry too much about precision
+  balance decimal(16,8) not null,
+  currency varchar(3) not null,
+  is_recent tinyint not null default 0,
 
-	INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(is_recent), INDEX(account_id)
+  INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(is_recent), INDEX(account_id)
 );
 
 -- all of the different crypto addresses that users can have, and their balances --
@@ -219,29 +219,29 @@ CREATE TABLE balances (
 DROP TABLE IF EXISTS addresses;
 
 CREATE TABLE addresses (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	currency varchar(3) not null,
-	address varchar(36) not null,
+  currency varchar(3) not null,
+  address varchar(36) not null,
 
-	INDEX(currency), INDEX(user_id), INDEX(last_queue)
+  INDEX(currency), INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS address_balances;
 
 CREATE TABLE address_balances (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	address_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  address_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	balance decimal(16,8) not null,
-	is_recent tinyint not null default 0,
+  balance decimal(16,8) not null,
+  is_recent tinyint not null default 0,
 
-	INDEX(user_id), INDEX(address_id), INDEX(is_recent)
+  INDEX(user_id), INDEX(address_id), INDEX(is_recent)
 );
 
 -- Litecoin explorer does not let you specify confirmations parameter,
@@ -250,14 +250,14 @@ CREATE TABLE address_balances (
 DROP TABLE IF EXISTS litecoin_blocks;
 
 CREATE TABLE litecoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- users can also specify offsets for non-API values --
@@ -265,18 +265,18 @@ CREATE TABLE litecoin_blocks (
 DROP TABLE IF EXISTS offsets;
 
 CREATE TABLE offsets (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	currency varchar(3) not null,
-	balance decimal(16,8) not null,
+  currency varchar(3) not null,
+  balance decimal(16,8) not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	-- TODO titles/descriptions?
+  -- TODO titles/descriptions?
 
-	INDEX(user_id), INDEX(currency), INDEX(is_recent)
+  INDEX(user_id), INDEX(currency), INDEX(is_recent)
 );
 
 -- all of the different exchanges that provide ticker data --
@@ -284,15 +284,15 @@ CREATE TABLE offsets (
 DROP TABLE IF EXISTS exchanges;
 
 CREATE TABLE exchanges (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	name varchar(32) not null unique,
-	last_queue datetime,
-	-- this just stores last updated, not what currencies to download etc (defined in PHP)
-	-- and also defines unique names for exchanges
+  name varchar(32) not null unique,
+  last_queue datetime,
+  -- this just stores last updated, not what currencies to download etc (defined in PHP)
+  -- and also defines unique names for exchanges
 
-	INDEX(last_queue), INDEX(name)
+  INDEX(last_queue), INDEX(name)
 );
 
 INSERT INTO exchanges SET name='btce';
@@ -303,30 +303,30 @@ INSERT INTO exchanges SET name='vircurex';
 DROP TABLE IF EXISTS ticker;
 
 CREATE TABLE ticker (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) not null, -- no point to have exchange_id, that's just extra queries
+  exchange varchar(32) not null, -- no point to have exchange_id, that's just extra queries
 
-	currency1 varchar(3),
-	currency2 varchar(3),
+  currency1 varchar(3),
+  currency2 varchar(3),
 
-	-- we don't need to worry too much about precision
-	last_trade decimal(16,8),
-	buy decimal(16,8),
-	sell decimal(16,8),
-	volume decimal(16,8),
+  -- we don't need to worry too much about precision
+  last_trade decimal(16,8),
+  buy decimal(16,8),
+  sell decimal(16,8),
+  volume decimal(16,8),
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	-- derived indexes; rather than creating some query 'GROUP BY date_format(created_at, '%d-%m-%Y')',
-	-- we can use a simple flag to mark daily data.
-	-- only a single row with this index will ever be present for a single day.
-	-- this same logic could be further composed into hourly/etc data.
-	-- this field is updated when jobs are executed.
-	is_daily_data tinyint not null default 0,
+  -- derived indexes; rather than creating some query 'GROUP BY date_format(created_at, '%d-%m-%Y')',
+  -- we can use a simple flag to mark daily data.
+  -- only a single row with this index will ever be present for a single day.
+  -- this same logic could be further composed into hourly/etc data.
+  -- this field is updated when jobs are executed.
+  is_daily_data tinyint not null default 0,
 
-	INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(is_recent), INDEX(is_daily_data)
+  INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(is_recent), INDEX(is_daily_data)
 );
 
 -- and we want to provide summary data for users --
@@ -334,37 +334,37 @@ CREATE TABLE ticker (
 DROP TABLE IF EXISTS summaries;
 
 CREATE TABLE summaries (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	summary_type varchar(32) not null,
+  summary_type varchar(32) not null,
 
-	INDEX(summary_type), INDEX(user_id), INDEX(last_queue)
+  INDEX(summary_type), INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS summary_instances;
 
 CREATE TABLE summary_instances (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	summary_type varchar(32) not null,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  summary_type varchar(32) not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	-- we dont need to worry too much about precision
-	balance decimal(16,8),
+  -- we dont need to worry too much about precision
+  balance decimal(16,8),
 
-	-- derived indexes; rather than creating some query 'GROUP BY date_format(created_at, '%d-%m-%Y')',
-	-- we can use a simple flag to mark daily data.
-	-- only a single row with this index will ever be present for a single day.
-	-- this same logic could be further composed into hourly/etc data.
-	-- this field is updated when jobs are executed.
-	is_daily_data tinyint not null default 0,
+  -- derived indexes; rather than creating some query 'GROUP BY date_format(created_at, '%d-%m-%Y')',
+  -- we can use a simple flag to mark daily data.
+  -- only a single row with this index will ever be present for a single day.
+  -- this same logic could be further composed into hourly/etc data.
+  -- this field is updated when jobs are executed.
+  is_daily_data tinyint not null default 0,
 
-	INDEX(summary_type), INDEX(user_id), INDEX(is_recent), INDEX(is_daily_data)
+  INDEX(summary_type), INDEX(user_id), INDEX(is_recent), INDEX(is_daily_data)
 );
 
 -- to request data, we insert in jobs
@@ -372,21 +372,21 @@ CREATE TABLE summary_instances (
 DROP TABLE IF EXISTS jobs;
 
 CREATE TABLE jobs (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	priority tinyint not null default 10, -- lower value = higher priority
+  priority tinyint not null default 10, -- lower value = higher priority
 
-	job_type varchar(32) not null,
-	user_id int not null,	-- requesting user ID, may be system ID (100)
-	arg_id int,	-- argument for the job, a foreign key ID; may be null
+  job_type varchar(32) not null,
+  user_id int not null,   -- requesting user ID, may be system ID (100)
+  arg_id int, -- argument for the job, a foreign key ID; may be null
 
-	is_executed tinyint not null default 0,
-	is_error tinyint not null default 0,	-- was an exception thrown while processing?
+  is_executed tinyint not null default 0,
+  is_error tinyint not null default 0,    -- was an exception thrown while processing?
 
-	executed_at datetime,
+  executed_at datetime,
 
-	INDEX(job_type), INDEX(priority), INDEX(user_id), INDEX(is_executed), INDEX(is_error)
+  INDEX(job_type), INDEX(priority), INDEX(user_id), INDEX(is_executed), INDEX(is_error)
 );
 
 -- users define graphs for their home page, split across pages
@@ -394,35 +394,35 @@ CREATE TABLE jobs (
 DROP TABLE IF EXISTS graph_pages;
 
 CREATE TABLE graph_pages (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	updated_at datetime,
-	user_id int not null,	-- requesting user ID, may be system ID (100)
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  updated_at datetime,
+  user_id int not null,   -- requesting user ID, may be system ID (100)
 
-	title varchar(64) not null,
-	page_order tinyint default 0,		-- probably a good maximum number of pages, 256
+  title varchar(64) not null,
+  page_order tinyint default 0,       -- probably a good maximum number of pages, 256
 
-	is_removed tinyint not null default 0,		-- not displayed; not deleted in case we want to undo
+  is_removed tinyint not null default 0,      -- not displayed; not deleted in case we want to undo
 
-	INDEX(user_id), INDEX(is_removed)
+  INDEX(user_id), INDEX(is_removed)
 );
 
 DROP TABLE IF EXISTS graphs;
 
 CREATE TABLE graphs (
-	id int not null auto_increment primary key,
-	page_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  page_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	graph_type varchar(32) not null,
-	arg0 int, 		-- some graphs have integer arguments
-	width tinyint default 2,	-- e.g. 1 = half size, 2 = normal size, 4 = extra wide
-	height tinyint default 2,
-	page_order tinyint default 0,		-- probably a good maximum number of graphs, 256
+  graph_type varchar(32) not null,
+  arg0 int,       -- some graphs have integer arguments
+  width tinyint default 2,    -- e.g. 1 = half size, 2 = normal size, 4 = extra wide
+  height tinyint default 2,
+  page_order tinyint default 0,       -- probably a good maximum number of graphs, 256
 
-	is_removed tinyint not null default 0,		-- not displayed; not deleted in case we want to undo
+  is_removed tinyint not null default 0,      -- not displayed; not deleted in case we want to undo
 
-	INDEX(page_id), INDEX(is_removed)
+  INDEX(page_id), INDEX(is_removed)
 
 );
 
@@ -431,26 +431,26 @@ CREATE TABLE graphs (
 DROP TABLE IF EXISTS outstanding_premiums;
 
 CREATE TABLE outstanding_premiums (
-	id int not null auto_increment primary key,
-	user_id int not null,
+  id int not null auto_increment primary key,
+  user_id int not null,
 
-	created_at timestamp not null default current_timestamp,
-	paid_at datetime not null default 0,
-	is_paid tinyint not null default 0,
-	is_unpaid tinyint not null default 0,		-- this has never been paid after a very long time, so it's abandoned
-	last_queue datetime,
+  created_at timestamp not null default current_timestamp,
+  paid_at datetime not null default 0,
+  is_paid tinyint not null default 0,
+  is_unpaid tinyint not null default 0,       -- this has never been paid after a very long time, so it's abandoned
+  last_queue datetime,
 
-	premium_address_id int not null, -- source address
-	balance decimal(16,8),
+  premium_address_id int not null, -- source address
+  balance decimal(16,8),
 
-	-- premium information
-	months tinyint not null,
-	years tinyint not null,
+  -- premium information
+  months tinyint not null,
+  years tinyint not null,
 
-	-- we might as well reuse the existing infrastructure we have for checking address balances
-	address_id int, -- target address in addresses
+  -- we might as well reuse the existing infrastructure we have for checking address balances
+  address_id int, -- target address in addresses
 
-	INDEX(user_id), INDEX(address_id), INDEX(premium_address_id), INDEX(is_paid)
+  INDEX(user_id), INDEX(address_id), INDEX(premium_address_id), INDEX(is_paid)
 );
 
 -- when making a new purchase, we add the address as an address to the System user,
@@ -459,16 +459,16 @@ CREATE TABLE outstanding_premiums (
 DROP TABLE IF EXISTS premium_addresses;
 
 CREATE TABLE premium_addresses (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	is_used tinyint not null default 0,	-- i.e. is used in an outstanding_premiums
-	used_at datetime,
+  is_used tinyint not null default 0, -- i.e. is used in an outstanding_premiums
+  used_at datetime,
 
-	address varchar(36) not null,
-	currency varchar(3) not null,
+  address varchar(36) not null,
+  currency varchar(3) not null,
 
-	INDEX(is_used), INDEX(currency)
+  INDEX(is_used), INDEX(currency)
 );
 
 -- keep track of external APIs; rather than pulling this from the database in real time, we
@@ -477,15 +477,15 @@ CREATE TABLE premium_addresses (
 DROP TABLE IF EXISTS external_status;
 
 CREATE TABLE external_status (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	job_type varchar(32) not null,
-	job_count int not null,
-	job_errors int not null,
-	job_first datetime not null,
-	job_last datetime not null,
-	sample_size int not null
+  job_type varchar(32) not null,
+  job_count int not null,
+  job_errors int not null,
+  job_first datetime not null,
+  job_last datetime not null,
+  sample_size int not null
 );
 
 -- updates since 0.1
@@ -494,51 +494,51 @@ CREATE TABLE external_status (
 DROP TABLE IF EXISTS graph_data_ticker;
 
 CREATE TABLE graph_data_ticker (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) not null, -- no point to have exchange_id, that's just extra queries
+  exchange varchar(32) not null, -- no point to have exchange_id, that's just extra queries
 
-	currency1 varchar(3),
-	currency2 varchar(3),
+  currency1 varchar(3),
+  currency2 varchar(3),
 
-	-- currently all stored graph data is daily
-	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
-	samples int not null,	-- how many samples was this data obtained from?
+  -- currently all stored graph data is daily
+  data_date timestamp not null,   -- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
+  samples int not null,   -- how many samples was this data obtained from?
 
-	buy decimal(16,8),	-- last buy of the day: preserves current behaviour
-	sell decimal(16,8),	-- last sell of the day: preserves current behaviour
-	volume decimal(16,8),	-- maximum volume of the day
+  buy decimal(16,8),  -- last buy of the day: preserves current behaviour
+  sell decimal(16,8), -- last sell of the day: preserves current behaviour
+  volume decimal(16,8),   -- maximum volume of the day
 
-	-- for candlestick plots (eventually)
-	last_trade_min decimal(16,8),
-	last_trade_opening decimal(16,8),
-	last_trade_closing decimal(16,8),
-	last_trade_max decimal(16,8),
+  -- for candlestick plots (eventually)
+  last_trade_min decimal(16,8),
+  last_trade_opening decimal(16,8),
+  last_trade_closing decimal(16,8),
+  last_trade_max decimal(16,8),
 
-	INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(data_date), UNIQUE(exchange, currency1, currency2, data_date)
+  INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(data_date), UNIQUE(exchange, currency1, currency2, data_date)
 );
 
 DROP TABLE IF EXISTS graph_data_summary;
 
 CREATE TABLE graph_data_summary (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	user_id int not null,
-	summary_type varchar(32) not null,
+  user_id int not null,
+  summary_type varchar(32) not null,
 
-	-- currently all stored graph data is daily
-	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
-	samples int not null,	-- how many samples was this data obtained from?
+  -- currently all stored graph data is daily
+  data_date timestamp not null,   -- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
+  samples int not null,   -- how many samples was this data obtained from?
 
-	-- for candlestick plots (eventually)
-	balance_min decimal(16,8),
-	balance_opening decimal(16,8),
-	balance_closing decimal(16,8),	-- also preserves current behaviour
-	balance_max decimal(16,8),
+  -- for candlestick plots (eventually)
+  balance_min decimal(16,8),
+  balance_opening decimal(16,8),
+  balance_closing decimal(16,8),  -- also preserves current behaviour
+  balance_max decimal(16,8),
 
-	INDEX(user_id), INDEX(summary_type), INDEX(data_date), UNIQUE(user_id, summary_type, data_date)
+  INDEX(user_id), INDEX(summary_type), INDEX(data_date), UNIQUE(user_id, summary_type, data_date)
 );
 
 -- in the future we could add graph_data_balances as necessary
@@ -554,30 +554,30 @@ UPDATE graphs SET graph_type='total_converted_table' WHERE graph_type='fiat_conv
 DROP TABLE IF EXISTS feathercoin_blocks;
 
 CREATE TABLE feathercoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 DROP TABLE IF EXISTS accounts_cryptostocks;
 
 CREATE TABLE accounts_cryptostocks (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_email varchar(255) not null,
-	api_key_coin varchar(255) not null,
-	api_key_share varchar(255) not null,
+  title varchar(255),
+  api_email varchar(255) not null,
+  api_key_coin varchar(255) not null,
+  api_key_share varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- as per litecoinglobal/btct
@@ -585,56 +585,56 @@ CREATE TABLE accounts_cryptostocks (
 DROP TABLE IF EXISTS securities_cryptostocks;
 
 CREATE TABLE securities_cryptostocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	name varchar(64) not null,
-	currency varchar(3),	-- only null until we've retrieved the security definition
+  name varchar(64) not null,
+  currency varchar(3),    -- only null until we've retrieved the security definition
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_slush;
 
 CREATE TABLE accounts_slush (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_token varchar(255) not null,
+  title varchar(255),
+  api_token varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_wemineltc;
 
 CREATE TABLE accounts_wemineltc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_givemeltc;
 
 CREATE TABLE accounts_givemeltc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- --------------------------------------------------------------------------
@@ -643,15 +643,15 @@ CREATE TABLE accounts_givemeltc (
 DROP TABLE IF EXISTS accounts_bips;
 
 CREATE TABLE accounts_bips (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 ALTER TABLE graphs ADD days int;
@@ -659,29 +659,29 @@ ALTER TABLE graphs ADD days int;
 DROP TABLE IF EXISTS accounts_btcguild;
 
 CREATE TABLE accounts_btcguild (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_50btc;
 
 CREATE TABLE accounts_50btc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 ALTER TABLE jobs ADD execution_count tinyint not null default 0;
@@ -691,32 +691,32 @@ UPDATE jobs SET execution_count=1 WHERE is_executed=1;
 
 -- prevent POST DDoS of login page
 CREATE TABLE heavy_requests (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	user_ip varchar(64) not null unique,	-- long string for IPv6, lets us block heavy requests based on IP
-	last_request timestamp not null,
+  user_ip varchar(64) not null unique,    -- long string for IPv6, lets us block heavy requests based on IP
+  last_request timestamp not null,
 
-	INDEX(user_ip)
+  INDEX(user_ip)
 );
 
 -- --------------------------------------------------------------------------
 -- upgrade statements from 0.3 to 0.4
 -- --------------------------------------------------------------------------
 CREATE TABLE graph_technicals (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	graph_id int not null,
-	technical_type varchar(32) not null,		-- e.g. 'bollinger'
-	technical_period tinyint,			-- e.g. 10
+  graph_id int not null,
+  technical_type varchar(32) not null,        -- e.g. 'bollinger'
+  technical_period tinyint,           -- e.g. 10
 
-	INDEX(graph_id)
+  INDEX(graph_id)
 );
 
 -- necessary for tax purposes
 ALTER TABLE users ADD country varchar(4) not null;
-ALTER TABLE users ADD user_ip varchar(64) not null;	-- long string for IPv6
+ALTER TABLE users ADD user_ip varchar(64) not null; -- long string for IPv6
 
 -- addresses can have titles
 ALTER TABLE addresses ADD title varchar(255);
@@ -732,54 +732,54 @@ ALTER TABLE jobs ADD INDEX(is_executing);
 DROP TABLE IF EXISTS accounts_hypernova;
 
 CREATE TABLE accounts_hypernova (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_ltcmineru;
 
 CREATE TABLE accounts_ltcmineru (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- we now also summarise balance data
 DROP TABLE IF EXISTS graph_data_balances;
 
 CREATE TABLE graph_data_balances (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	user_id int not null,
-	exchange varchar(32) not null,
-	account_id int not null,
-	currency varchar(3) not null,
+  user_id int not null,
+  exchange varchar(32) not null,
+  account_id int not null,
+  currency varchar(3) not null,
 
-	-- currently all stored graph data is daily
-	data_date timestamp not null,	-- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
-	samples int not null,	-- how many samples was this data obtained from?
+  -- currently all stored graph data is daily
+  data_date timestamp not null,   -- the time of this day should be truncated to 0:00 UTC, representing the next 24 hours
+  samples int not null,   -- how many samples was this data obtained from?
 
-	-- for candlestick plots (eventually)
-	balance_min decimal(16,8),
-	balance_opening decimal(16,8),
-	balance_closing decimal(16,8),	-- also preserves current behaviour
-	balance_max decimal(16,8),
+  -- for candlestick plots (eventually)
+  balance_min decimal(16,8),
+  balance_opening decimal(16,8),
+  balance_closing decimal(16,8),  -- also preserves current behaviour
+  balance_max decimal(16,8),
 
-	INDEX(user_id), INDEX(exchange), INDEX(data_date), UNIQUE(user_id, exchange, account_id, currency, data_date)
+  INDEX(user_id), INDEX(exchange), INDEX(data_date), UNIQUE(user_id, exchange, account_id, currency, data_date)
 );
 
 ALTER TABLE balances ADD is_daily_data tinyint not null default 0;
@@ -820,20 +820,20 @@ DELETE FROM graph_data_summary WHERE summary_type='blockchaineur';
 DROP TABLE IF EXISTS hashrates;
 
 CREATE TABLE hashrates (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
-	account_id int not null,
-	-- we dont need to worry too much about precision
-	mhash float not null,		-- always in mhash
-	currency varchar(3) not null,		-- e.g. slush will insert a btc and a nmc hashrate
-	is_recent tinyint not null default 0,
-	is_daily_data tinyint not null default 0,
-	job_id int,
+  exchange varchar(32) not null, -- e.g. btce, btc, ltc, poolx, bitnz, generic, ...
+  account_id int not null,
+  -- we dont need to worry too much about precision
+  mhash float not null,       -- always in mhash
+  currency varchar(3) not null,       -- e.g. slush will insert a btc and a nmc hashrate
+  is_recent tinyint not null default 0,
+  is_daily_data tinyint not null default 0,
+  job_id int,
 
-	INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(is_recent), INDEX(account_id), INDEX(is_daily_data)
+  INDEX(user_id), INDEX(exchange), INDEX(currency), INDEX(is_recent), INDEX(account_id), INDEX(is_daily_data)
 );
 
 -- precision isn't particularly important for stdev, since it's statistical anyway
@@ -849,13 +849,13 @@ ALTER TABLE users ADD referer VARCHAR(255);
 
 -- system-specific job queues that still need to be queued as appropriate
 CREATE TABLE securities_update (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	exchange varchar(64) not null,
+  exchange varchar(64) not null,
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 INSERT INTO securities_update SET exchange='btct';
@@ -867,10 +867,10 @@ ALTER TABLE external_status ADD INDEX(is_recent);
 
 -- an integer index -> external API status table
 CREATE TABLE external_status_types (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	job_type varchar(32) not null unique
+  job_type varchar(32) not null unique
 );
 
 -- technical_period can be > 128
@@ -879,41 +879,41 @@ ALTER TABLE graph_technicals MODIFY technical_period smallint;
 DROP TABLE IF EXISTS accounts_miningforeman;
 
 CREATE TABLE accounts_miningforeman (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_havelock;
 
 CREATE TABLE accounts_havelock (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS securities_havelock;
 
 CREATE TABLE securities_havelock (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	name varchar(64) not null,
+  name varchar(64) not null,
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 INSERT INTO securities_update SET exchange='havelock';
@@ -937,30 +937,30 @@ UPDATE users SET last_login=NOW();
 -- periodically, create site statistics
 DROP TABLE IF EXISTS site_statistics;
 CREATE TABLE site_statistics (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	is_recent tinyint not null default 0,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  is_recent tinyint not null default 0,
 
-	total_users int not null,
-	disabled_users int not null,
-	premium_users int not null,
+  total_users int not null,
+  disabled_users int not null,
+  premium_users int not null,
 
-	free_delay_minutes int not null,
-	premium_delay_minutes int not null,
-	outstanding_jobs int not null,
-	external_status_job_count int not null,	-- equal to 'sample_size'
-	external_status_job_errors int not null,
+  free_delay_minutes int not null,
+  premium_delay_minutes int not null,
+  outstanding_jobs int not null,
+  external_status_job_count int not null, -- equal to 'sample_size'
+  external_status_job_errors int not null,
 
-	mysql_uptime int not null,		-- 'Uptime'
-	mysql_threads int not null,		-- 'Threads_running'
-	mysql_questions int not null,		-- 'Questions'
-	mysql_slow_queries int not null, 	-- 'Slow_queries'
-	mysql_opens int not null,		-- 'Opened_tables'
-	mysql_flush_tables int not null, 	-- 'Flush_commands'
-	mysql_open_tables int not null, 	-- 'Open_tables'
-	-- mysql_qps_average int not null, // can get qps = questions/uptime
+  mysql_uptime int not null,      -- 'Uptime'
+  mysql_threads int not null,     -- 'Threads_running'
+  mysql_questions int not null,       -- 'Questions'
+  mysql_slow_queries int not null,    -- 'Slow_queries'
+  mysql_opens int not null,       -- 'Opened_tables'
+  mysql_flush_tables int not null,    -- 'Flush_commands'
+  mysql_open_tables int not null,     -- 'Open_tables'
+  -- mysql_qps_average int not null, // can get qps = questions/uptime
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- --------------------------------------------------------------------------
@@ -973,33 +973,33 @@ ALTER TABLE addresses ADD is_received tinyint not null default 0;
 
 -- since we now handle partial payments, need to record how much was paid for each premium
 ALTER TABLE outstanding_premiums ADD paid_balance decimal(16,8) default 0;
-UPDATE outstanding_premiums SET paid_balance=balance WHERE is_paid=1;	-- update old data
+UPDATE outstanding_premiums SET paid_balance=balance WHERE is_paid=1;   -- update old data
 
 DROP TABLE IF EXISTS ppcoin_blocks;
 
 CREATE TABLE ppcoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 DROP TABLE IF EXISTS accounts_miningforeman_ftc;
 
 CREATE TABLE accounts_miningforeman_ftc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- we now keep track of which securities each user has
@@ -1007,17 +1007,17 @@ CREATE TABLE accounts_miningforeman_ftc (
 DROP TABLE IF EXISTS securities;
 
 CREATE TABLE securities (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) not null,		-- e.g. btct, litecoinglobal
-	security_id int not null,		-- e.g. id from securites_btct
+  exchange varchar(32) not null,      -- e.g. btct, litecoinglobal
+  security_id int not null,       -- e.g. id from securites_btct
 
-	quantity int not null,	-- assumes integer value
-	is_recent tinyint not null default 0,
+  quantity int not null,  -- assumes integer value
+  is_recent tinyint not null default 0,
 
-	INDEX(user_id), INDEX(exchange, security_id), INDEX(is_recent)
+  INDEX(user_id), INDEX(exchange, security_id), INDEX(is_recent)
 );
 
 -- for 'heading' graph type
@@ -1033,27 +1033,27 @@ ALTER TABLE site_statistics ADD system_load_5min int;
 ALTER TABLE site_statistics ADD system_load_15min int;
 
 CREATE TABLE accounts_bitminter (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 CREATE TABLE accounts_mine_litecoin (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- rename all old securities balances to _wallet, since now we can track
@@ -1069,15 +1069,15 @@ UPDATE graph_data_balances SET exchange='cryptostocks_wallet' WHERE exchange='cr
 UPDATE graph_data_balances SET exchange='havelock_wallet' WHERE exchange='havelock';
 
 CREATE TABLE accounts_liteguardian (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- fiat currency data from themoneyconverter.com
@@ -1098,15 +1098,15 @@ INSERT INTO exchanges SET name='bitstamp';
 DROP TABLE IF EXISTS accounts_givemecoins;
 
 CREATE TABLE accounts_givemecoins (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- set all old givemeltc balances to 0, so that they don't interfere with our summary calculations
@@ -1121,22 +1121,22 @@ UPDATE balances SET balance=0 WHERE exchange='mine_litecoin' AND is_recent=1;
 UPDATE hashrates SET mhash=0 WHERE exchange='mine_litecoin' AND is_recent=1;
 
 -- managed graph functionality
-ALTER TABLE users ADD graph_managed_type varchar(16) not null default 'none';	-- 'none', 'auto', 'preferences'
+ALTER TABLE users ADD graph_managed_type varchar(16) not null default 'none';   -- 'none', 'auto', 'preferences'
 ALTER TABLE users ADD INDEX(graph_managed_type);
-ALTER TABLE users ADD preferred_crypto varchar(3) not null default 'btc';	-- preferred cryptocurrency
-ALTER TABLE users ADD preferred_fiat varchar(3) not null default 'usd';	-- preferred fiat currency
+ALTER TABLE users ADD preferred_crypto varchar(3) not null default 'btc';   -- preferred cryptocurrency
+ALTER TABLE users ADD preferred_fiat varchar(3) not null default 'usd'; -- preferred fiat currency
 
-ALTER TABLE users ADD needs_managed_update tinyint not null default 0;	-- graph_managed_type = auto or managed, and we need to update our graphs on next profile load
+ALTER TABLE users ADD needs_managed_update tinyint not null default 0;  -- graph_managed_type = auto or managed, and we need to update our graphs on next profile load
 
 -- graph management preferences
 CREATE TABLE managed_graphs (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	preference varchar(32) not null,
+  preference varchar(32) not null,
 
-	INDEX(user_id)
+  INDEX(user_id)
 );
 
 -- was this graph added automatically?
@@ -1164,13 +1164,13 @@ ALTER TABLE users ADD subscribe_announcements tinyint not null default 0;
 -- new subscriptions/unsubscriptions will be placed in here, so that they
 -- can be processed manually (since google groups doesn't have an API)
 CREATE TABLE pending_subscriptions (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	is_subscribe tinyint not null default 0,
+  is_subscribe tinyint not null default 0,
 
-	INDEX(user_id)
+  INDEX(user_id)
 );
 
 -- fields to send users a message when their first reports have been completed
@@ -1189,27 +1189,27 @@ INSERT INTO securities_update SET exchange='bitfunder';
 DROP TABLE IF EXISTS securities_bitfunder;
 
 CREATE TABLE securities_bitfunder (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	name varchar(64) not null,
+  name varchar(64) not null,
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_bitfunder;
 
 CREATE TABLE accounts_bitfunder (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	btc_address varchar(64) not null,
+  title varchar(255),
+  btc_address varchar(64) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- more site statistics
@@ -1221,12 +1221,12 @@ ALTER TABLE site_statistics ADD users_subscribe_announcements int;
 ALTER TABLE site_statistics ADD pending_subscriptions int;
 ALTER TABLE site_statistics ADD pending_unsubscriptions int;
 
-ALTER TABLE users ADD logins_after_disable_warned tinyint not null default 0;	-- not just a switch, but a count
-ALTER TABLE site_statistics ADD user_logins_after_warned int;	-- total count
-ALTER TABLE site_statistics ADD users_login_after_warned int;	-- total users
-ALTER TABLE users ADD logins_after_disabled tinyint not null default 0;	-- not just a switch, but a count
-ALTER TABLE site_statistics ADD user_logins_after_disabled int;	-- total count
-ALTER TABLE site_statistics ADD users_login_after_disabled int;	-- total users
+ALTER TABLE users ADD logins_after_disable_warned tinyint not null default 0;   -- not just a switch, but a count
+ALTER TABLE site_statistics ADD user_logins_after_warned int;   -- total count
+ALTER TABLE site_statistics ADD users_login_after_warned int;   -- total users
+ALTER TABLE users ADD logins_after_disabled tinyint not null default 0; -- not just a switch, but a count
+ALTER TABLE site_statistics ADD user_logins_after_disabled int; -- total count
+ALTER TABLE site_statistics ADD users_login_after_disabled int; -- total users
 
 ALTER TABLE site_statistics MODIFY system_load_1min float;
 ALTER TABLE site_statistics MODIFY system_load_5min float;
@@ -1239,14 +1239,14 @@ ALTER TABLE site_statistics MODIFY system_load_15min float;
 DROP TABLE IF EXISTS novacoin_blocks;
 
 CREATE TABLE novacoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- drop old tables
@@ -1256,81 +1256,81 @@ DROP TABLE IF EXISTS accounts_mine_litecoin;
 DROP TABLE IF EXISTS accounts_khore;
 
 CREATE TABLE accounts_khore (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- for privately-held securities
 CREATE TABLE accounts_individual_litecoinglobal (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_litecoinglobal
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_litecoinglobal
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
 
 CREATE TABLE accounts_individual_btct (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_btct
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_btct
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
 
 CREATE TABLE accounts_individual_bitfunder (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_bitfunder
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_bitfunder
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
 
 CREATE TABLE accounts_individual_cryptostocks (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_cryptostocks
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_cryptostocks
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
 
 CREATE TABLE accounts_individual_havelock (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_havelock
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_havelock
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
 
 -- --------------------------------------------------------------------------
@@ -1340,17 +1340,17 @@ CREATE TABLE accounts_individual_havelock (
 DROP TABLE IF EXISTS accounts_cexio;
 
 CREATE TABLE accounts_cexio (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_username varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_username varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 INSERT INTO exchanges SET name='cexio';
@@ -1360,29 +1360,29 @@ INSERT INTO exchanges SET name='crypto-trade';
 DROP TABLE IF EXISTS accounts_cryptotrade;
 
 CREATE TABLE accounts_cryptotrade (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS securities_cryptotrade;
 
 CREATE TABLE securities_cryptotrade (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	name varchar(64) not null,
-	currency varchar(4) not null,
+  name varchar(64) not null,
+  currency varchar(4) not null,
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 -- we insert these securities manually for now
@@ -1392,16 +1392,16 @@ INSERT INTO securities_cryptotrade SET name='ESB', currency='btc';
 INSERT INTO securities_cryptotrade SET name='ESL', currency='ltc';
 
 CREATE TABLE accounts_individual_cryptotrade (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_cryptotrade
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_cryptotrade
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
 
 -- performance improvements due to MySQL slow queries log
@@ -1499,7 +1499,7 @@ ALTER TABLE users MODIFY last_managed_update timestamp null;
 ALTER TABLE users MODIFY last_report_queue timestamp null;
 
 -- add new site_space statistics
-ALTER TABLE site_statistics ADD disk_free_space float;	-- precision isn't strictly necessary
+ALTER TABLE site_statistics ADD disk_free_space float;  -- precision isn't strictly necessary
 
 -- remove orphaned _securities and _wallet balances
 DELETE FROM balances WHERE exchange='litecoinglobal_securities' AND account_id NOT IN (SELECT id FROM accounts_litecoinglobal);
@@ -1528,33 +1528,33 @@ ALTER TABLE users ADD reminder_sent timestamp null;
 DROP TABLE IF EXISTS accounts_bitstamp;
 
 CREATE TABLE accounts_bitstamp (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_client_id int not null,
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_client_id int not null,
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS accounts_796;
 
 CREATE TABLE accounts_796 (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_app_id int not null,
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_app_id int not null,
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- 796 doesn't have an API for listing securities or their names, so we enter them in manually
@@ -1562,31 +1562,31 @@ CREATE TABLE accounts_796 (
 DROP TABLE IF EXISTS securities_796;
 
 CREATE TABLE securities_796 (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp null,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp null,
 
-	name varchar(64) not null,
-	title varchar(64) not null,
-	api_name varchar(64) not null,		-- because 'mri's API name is 'xchange' instead
+  name varchar(64) not null,
+  title varchar(64) not null,
+  api_name varchar(64) not null,      -- because 'mri's API name is 'xchange' instead
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 INSERT INTO securities_796 SET name='mri', title='796Xchange-MRI', api_name='xchange';
 INSERT INTO securities_796 SET name='asicminer', title='ASICMINER-796', api_name='asicminer';
 INSERT INTO securities_796 SET name='bd', title='BTC-DICE-796', api_name='bd';
 
 CREATE TABLE accounts_individual_796 (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_796
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_796
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id)
 );
 
 ALTER TABLE users ADD securities_count int not null default 0;
@@ -1595,15 +1595,15 @@ ALTER TABLE users ADD securities_last_count_queue timestamp null;
 DROP TABLE IF EXISTS accounts_kattare;
 
 CREATE TABLE accounts_kattare (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp null,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp null,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	INDEX(user_id), INDEX(last_queue)
+  INDEX(user_id), INDEX(last_queue)
 );
 
 -- --------------------------------------------------------------------------
@@ -1761,55 +1761,55 @@ INSERT INTO exchanges SET name='cryptsy';
 DROP TABLE IF EXISTS accounts_litepooleu;
 
 CREATE TABLE accounts_litepooleu (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_coinhuntr;
 
 CREATE TABLE accounts_coinhuntr (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_eligius;
 
 CREATE TABLE accounts_eligius (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	btc_address varchar(64) not null,
+  title varchar(255),
+  btc_address varchar(64) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- for tracking unpaid balances on Eligius accounts
@@ -1818,32 +1818,32 @@ INSERT INTO securities_update SET exchange='eligius';
 DROP TABLE IF EXISTS accounts_lite_coinpool;
 
 CREATE TABLE accounts_lite_coinpool (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS primecoin_blocks;
 
 CREATE TABLE primecoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- --------------------------------------------------------------------------
@@ -1913,64 +1913,64 @@ UPDATE accounts_individual_bitfunder SET is_disabled=1;
 DROP TABLE IF EXISTS terracoin_blocks;
 
 CREATE TABLE terracoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- admin messages (for now, just for version_checks)
 CREATE TABLE admin_messages (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	message_type varchar(32) not null,
-	message varchar(255) not null,		-- NOTE must be htmlspecialchars() as necessary!
+  message_type varchar(32) not null,
+  message varchar(255) not null,      -- NOTE must be htmlspecialchars() as necessary!
 
-	is_read tinyint not null default 0,
+  is_read tinyint not null default 0,
 
-	INDEX(is_read), INDEX(message_type)
+  INDEX(is_read), INDEX(message_type)
 );
 
 DROP TABLE IF EXISTS accounts_beeeeer;
 
 CREATE TABLE accounts_beeeeer (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	xpm_address varchar(64) not null,
+  title varchar(255),
+  xpm_address varchar(64) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- remember this is different from accounts_lite_coinpool
 DROP TABLE IF EXISTS accounts_litecoinpool;
 
 CREATE TABLE accounts_litecoinpool (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- --------------------------------------------------------------------------
@@ -1995,12 +1995,12 @@ UPDATE accounts_litecoinglobal SET last_queue=DATE_SUB(last_queue, INTERVAL 1 DA
 
 -- users can now have multiple OpenID identities per account
 CREATE TABLE openid_identities (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	url varchar(255) not null,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  url varchar(255) not null,
 
-	INDEX(user_id), INDEX(url)
+  INDEX(user_id), INDEX(url)
 );
 
 -- merge existing user identities
@@ -2046,195 +2046,195 @@ ALTER TABLE outstanding_premiums MODIFY paid_balance decimal(24,8) default 0;
 DROP TABLE IF EXISTS dogecoin_blocks;
 
 CREATE TABLE dogecoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 DROP TABLE IF EXISTS accounts_dogepoolpw;
 
 CREATE TABLE accounts_dogepoolpw (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_elitistjerks;
 
 CREATE TABLE accounts_elitistjerks (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_dogechainpool;
 
 CREATE TABLE accounts_dogechainpool (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_hashfaster_ltc;
 
 CREATE TABLE accounts_hashfaster_ltc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_hashfaster_ftc;
 
 CREATE TABLE accounts_hashfaster_ftc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_triplemining;
 
 CREATE TABLE accounts_triplemining (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_ozcoin_ltc;
 
 CREATE TABLE accounts_ozcoin_ltc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_ozcoin_btc;
 
 CREATE TABLE accounts_ozcoin_btc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_scryptpools;
 
 CREATE TABLE accounts_scryptpools (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue datetime,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue datetime,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- we remove is_recent from ticker to hopefully increase performance
 CREATE TABLE ticker_recent (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) not null,
-	currency1 varchar(3) not null,
-	currency2 varchar(3) not null,
+  exchange varchar(32) not null,
+  currency1 varchar(3) not null,
+  currency2 varchar(3) not null,
 
-	last_trade decimal(24,8) null,
-	buy decimal(24,8) null,
-	sell decimal(24,8) null,
-	volume decimal(24,8) null,
+  last_trade decimal(24,8) null,
+  buy decimal(24,8) null,
+  sell decimal(24,8) null,
+  volume decimal(24,8) null,
 
-	job_id int null,
+  job_id int null,
 
-	UNIQUE(exchange, currency1, currency2), INDEX(job_id)
+  UNIQUE(exchange, currency1, currency2), INDEX(job_id)
 );
 
 ALTER TABLE ticker DROP is_recent;
@@ -2256,10 +2256,10 @@ ALTER TABLE hashrates ADD INDEX(user_id, account_id, exchange);
 ALTER TABLE jobs ADD INDEX(is_recent, user_id, job_type, arg_id);
 
 -- we don't need to use the entire index at once, adding is_recent onto the end should make this faster
-ALTER TABLE balances DROP INDEX user_id_2;	-- NOTE check that user_id_2 is a valid index name
+ALTER TABLE balances DROP INDEX user_id_2;  -- NOTE check that user_id_2 is a valid index name
 ALTER TABLE balances ADD INDEX(user_id, account_id, exchange, is_recent);
 
-ALTER TABLE hashrates DROP INDEX user_id_2;	-- NOTE check that user_id_2 is a valid index name
+ALTER TABLE hashrates DROP INDEX user_id_2; -- NOTE check that user_id_2 is a valid index name
 ALTER TABLE hashrates ADD INDEX(user_id, account_id, exchange, is_recent);
 
 -- removing 50btc
@@ -2307,81 +2307,81 @@ ALTER TABLE accounts_litepooleu MODIFY last_queue timestamp null;
 --
 DROP TABLE IF EXISTS notifications;
 CREATE TABLE notifications (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
 
-	last_queue timestamp null,
-	last_value decimal(24,8) null,
+  last_queue timestamp null,
+  last_value decimal(24,8) null,
 
-	notification_type varchar(16) not null,		-- 'summary_instances', 'balances', 'hashrates', 'ticker', 'address_balances'
-	type_id int not null,
+  notification_type varchar(16) not null,     -- 'summary_instances', 'balances', 'hashrates', 'ticker', 'address_balances'
+  type_id int not null,
 
-	trigger_condition varchar(16) not null,		-- 'below', 'above', 'equal', 'not', 'increases', 'decreases', 'increases_by', 'decreases_by'
-	trigger_value decimal(24,8) null,
-	is_percent tinyint not null default 0,
-	period varchar(8) not null,			-- 'hour', 'day', 'week', 'month'
+  trigger_condition varchar(16) not null,     -- 'below', 'above', 'equal', 'not', 'increases', 'decreases', 'increases_by', 'decreases_by'
+  trigger_value decimal(24,8) null,
+  is_percent tinyint not null default 0,
+  period varchar(8) not null,         -- 'hour', 'day', 'week', 'month'
 
-	-- note that 'below' etc notifications will NOT be sent again unless this is false (so we don't continually receive notifications)
-	-- or trigger_condition = increases_by, decreases_by, increases, decreases
-	is_notified tinyint not null default 0,
-	last_notification timestamp null,
+  -- note that 'below' etc notifications will NOT be sent again unless this is false (so we don't continually receive notifications)
+  -- or trigger_condition = increases_by, decreases_by, increases, decreases
+  is_notified tinyint not null default 0,
+  last_notification timestamp null,
 
-	INDEX(user_id),
-	INDEX(notification_type, type_id),
-	INDEX(last_queue)
+  INDEX(user_id),
+  INDEX(notification_type, type_id),
+  INDEX(last_queue)
 );
 
 DROP TABLE IF EXISTS notifications_summary_instances;
 CREATE TABLE notifications_summary_instances (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	summary_type varchar(32) not null
+  summary_type varchar(32) not null
 );
 
 DROP TABLE IF EXISTS notifications_ticker;
 CREATE TABLE notifications_ticker (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) not null,
-	currency1 varchar(3) not null,
-	currency2 varchar(3) not null
+  exchange varchar(32) not null,
+  currency1 varchar(3) not null,
+  currency2 varchar(3) not null
 );
 
 DROP TABLE IF EXISTS notifications_balances;
 CREATE TABLE notifications_balances (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) null,	-- null = any exchange
-	account_id int not null,	-- null = any account
+  exchange varchar(32) null,  -- null = any exchange
+  account_id int not null,    -- null = any account
 
-	INDEX(exchange, account_id)
+  INDEX(exchange, account_id)
 );
 
 DROP TABLE IF EXISTS notifications_hashrates;
 CREATE TABLE notifications_hashrates (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) null,	-- null = any exchange
-	currency varchar(3) not null,
-	account_id int,	-- null = any account
+  exchange varchar(32) null,  -- null = any exchange
+  currency varchar(3) not null,
+  account_id int, -- null = any account
 
-	INDEX(exchange, currency, account_id)
+  INDEX(exchange, currency, account_id)
 );
 
 DROP TABLE IF EXISTS notifications_address_balances;
 CREATE TABLE notifications_address_balances (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	currency varchar(3) not null,
-	address_id int not null,	-- don't support arbitrary 'any address' - will require a lot of querying!
+  currency varchar(3) not null,
+  address_id int not null,    -- don't support arbitrary 'any address' - will require a lot of querying!
 
-	INDEX(currency, address_id)
+  INDEX(currency, address_id)
 );
 
 -- delta graphs
@@ -2391,20 +2391,20 @@ ALTER TABLE graphs ADD delta VARCHAR(8) NOT NULL DEFAULT "";
 DROP TABLE IF EXISTS accounts_bitcurex_pln;
 
 CREATE TABLE accounts_bitcurex_pln (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 INSERT INTO exchanges SET name='bitcurex';
@@ -2412,63 +2412,63 @@ INSERT INTO exchanges SET name='bitcurex';
 DROP TABLE IF EXISTS accounts_bitcurex_eur;
 
 CREATE TABLE accounts_bitcurex_eur (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_hashfaster_doge;
 
 CREATE TABLE accounts_hashfaster_doge (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_justcoin;
 
 CREATE TABLE accounts_justcoin (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 INSERT INTO exchanges SET name='justcoin';
 
 -- we insert these securities manually for now
-INSERT INTO securities_cryptotrade SET name='AMC', currency='btc';	-- ACTIVEMININGCORP
-INSERT INTO securities_cryptotrade SET name='GGB', currency='btc';	-- GALTS-GULCH-ORGANIC
+INSERT INTO securities_cryptotrade SET name='AMC', currency='btc';  -- ACTIVEMININGCORP
+INSERT INTO securities_cryptotrade SET name='GGB', currency='btc';  -- GALTS-GULCH-ORGANIC
 
 -- give crypto-trade securities names
 -- it sure would be nice if crypto-trade provided an API to list securities and their names, rather than inserting them in manually
@@ -2484,37 +2484,37 @@ UPDATE securities_cryptotrade SET title='GALTS-GULCH-ORGANIC' WHERE name='GGB';
 DROP TABLE IF EXISTS accounts_multipool;
 
 CREATE TABLE accounts_multipool (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_wemineftc;
 
 CREATE TABLE accounts_wemineftc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 ALTER TABLE users ADD notifications_sent int not null default 0;
@@ -2526,19 +2526,19 @@ ALTER TABLE site_statistics ADD max_notifications_sent int;
 DROP TABLE IF EXISTS accounts_ypool;
 
 CREATE TABLE accounts_ypool (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- multipool balances were all incorrect
@@ -2599,57 +2599,57 @@ update graph_data_ticker set ask=(@temp:=ask), ask=bid, bid=@temp where exchange
 DROP TABLE IF EXISTS namecoin_blocks;
 
 CREATE TABLE namecoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 DROP TABLE IF EXISTS accounts_ghashio;
 
 CREATE TABLE accounts_ghashio (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_username varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_username varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_coinbase;
 
 CREATE TABLE accounts_coinbase (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
+  title varchar(255),
 
-	-- fields managed through OAuth2
-	api_code varchar(255) not null,
-	refresh_token varchar(255) null,
-	access_token varchar(255) null,
-	access_token_expires datetime null,
+  -- fields managed through OAuth2
+  api_code varchar(255) not null,
+  refresh_token varchar(255) null,
+  access_token varchar(255) null,
+  access_token_expires datetime null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 INSERT INTO exchanges SET name='coinbase';
@@ -2660,46 +2660,46 @@ UPDATE accounts_bips SET is_disabled=1;
 DROP TABLE IF EXISTS accounts_litecoininvest;
 
 CREATE TABLE accounts_litecoininvest (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 CREATE TABLE securities_litecoininvest (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp null,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp null,
 
-	name varchar(64) not null,
+  name varchar(64) not null,
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 CREATE TABLE accounts_individual_litecoininvest (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_litecoininvest
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_litecoininvest
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id), INDEX(is_disabled)
 );
 
 INSERT INTO securities_update SET exchange='litecoininvest';
@@ -2707,46 +2707,46 @@ INSERT INTO securities_update SET exchange='litecoininvest';
 DROP TABLE IF EXISTS accounts_btcinve;
 
 CREATE TABLE accounts_btcinve (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 CREATE TABLE securities_btcinve (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp null,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp null,
 
-	name varchar(64) not null,
+  name varchar(64) not null,
 
-	INDEX(last_queue)
+  INDEX(last_queue)
 );
 
 CREATE TABLE accounts_individual_btcinve (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	quantity int not null,
-	security_id int not null,	-- to securities_litecoininvest
+  title varchar(255),
+  quantity int not null,
+  security_id int not null,   -- to securities_litecoininvest
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(security_id), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(security_id), INDEX(is_disabled)
 );
 
 INSERT INTO securities_update SET exchange='btcinve';
@@ -2759,51 +2759,51 @@ INSERT INTO securities_update SET exchange='btcinve';
 DROP TABLE IF EXISTS megacoin_blocks;
 
 CREATE TABLE megacoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 DROP TABLE IF EXISTS accounts_miningpoolco;
 
 CREATE TABLE accounts_miningpoolco (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_vaultofsatoshi;
 
 CREATE TABLE accounts_vaultofsatoshi (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 INSERT INTO exchanges SET name='vaultofsatoshi';
@@ -2821,91 +2821,91 @@ UPDATE accounts_50btc SET is_disabled=1;
 DROP TABLE IF EXISTS accounts_smalltimeminer_mec;
 
 CREATE TABLE accounts_smalltimeminer_mec (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_ecoining_ppc;
 
 CREATE TABLE accounts_ecoining_ppc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_teamdoge;
 
 CREATE TABLE accounts_teamdoge (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_dedicatedpool_doge;
 
 CREATE TABLE accounts_dedicatedpool_doge (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 DROP TABLE IF EXISTS accounts_nut2pools_ftc;
 
 CREATE TABLE accounts_nut2pools_ftc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- 796 xchange; always changing their APIs silently with no BC
@@ -2920,15 +2920,15 @@ UPDATE securities_796 SET api_name='mri' where name='mri';
 DROP TABLE IF EXISTS cached_strings;
 
 CREATE TABLE cached_strings (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	cache_key varchar(255) not null,
-	cache_hash varchar(32) not null,
+  cache_key varchar(255) not null,
+  cache_hash varchar(32) not null,
 
-	content mediumblob not null, /* up to 16 MB */
+  content mediumblob not null, /* up to 16 MB */
 
-	UNIQUE(cache_key, cache_hash)
+  UNIQUE(cache_key, cache_hash)
 );
 
 -- --------------------------------------------------------------------------
@@ -2961,105 +2961,105 @@ DELETE FROM graph_data_balances WHERE exchange='securities_btct' AND balance_max
 
 -- issue #104: Cryptsy support using application keys
 CREATE TABLE accounts_cryptsy (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_public_key varchar(255) not null,
-	api_private_key varchar(255) not null,
+  title varchar(255),
+  api_public_key varchar(255) not null,
+  api_private_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- issue #42: add shibepool.com DOGE mining pool
 DROP TABLE IF EXISTS accounts_shibepool;
 
 CREATE TABLE accounts_shibepool (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- issue #86: add Digitalcoin DGC cryptocurrency
 DROP TABLE IF EXISTS digitalcoin_blocks;
 
 CREATE TABLE digitalcoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- issue #117: add DGC Cryptopools mining pool
 DROP TABLE IF EXISTS accounts_cryptopools_dgc;
 
 CREATE TABLE accounts_cryptopools_dgc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- issue #107: add Worldcoin WDC cryptocurrency
 DROP TABLE IF EXISTS worldcoin_blocks;
 
 CREATE TABLE worldcoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- issue #118: add DGC Cryptopools mining pool
 DROP TABLE IF EXISTS accounts_d2_wdc;
 
 CREATE TABLE accounts_d2_wdc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- --------------------------------------------------------------------------
@@ -3073,256 +3073,256 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 -- all times are in ms
 DROP TABLE IF EXISTS performance_metrics_jobs;
 CREATE TABLE performance_metrics_jobs (
-	id int not null auto_increment primary key,
-	time_taken int not null,
+  id int not null auto_increment primary key,
+  time_taken int not null,
 
-	job_type varchar(255) not null,
-	arg0 varchar(255) null,		-- e.g. 'btce' for ticker
-	job_failure tinyint not null default 0,
-	runtime_exception varchar(255) null,
+  job_type varchar(255) not null,
+  arg0 varchar(255) null,     -- e.g. 'btce' for ticker
+  job_failure tinyint not null default 0,
+  runtime_exception varchar(255) null,
 
-	-- timed_sql
-	db_prepares int null,
-	db_executes int null,
-	db_fetches int null,
-	db_fetch_alls int null,
-	db_prepare_time int null,
-	db_execute_time int null,
-	db_fetch_time int null,
-	db_fetch_all_time int null,
+  -- timed_sql
+  db_prepares int null,
+  db_executes int null,
+  db_fetches int null,
+  db_fetch_alls int null,
+  db_prepare_time int null,
+  db_execute_time int null,
+  db_fetch_time int null,
+  db_fetch_all_time int null,
 
-	-- timed_curl
-	curl_requests int null,
-	curl_request_time int null,
+  -- timed_curl
+  curl_requests int null,
+  curl_request_time int null,
 
-	INDEX(job_type)
+  INDEX(job_type)
 );
 
 DROP TABLE IF EXISTS performance_metrics_pages;
 CREATE TABLE performance_metrics_pages (
-	id int not null auto_increment primary key,
-	time_taken int not null,
+  id int not null auto_increment primary key,
+  time_taken int not null,
 
-	script_name varchar(255) null,		-- might be null if running from CLI; probably not though
-	is_logged_in tinyint not null,
+  script_name varchar(255) null,      -- might be null if running from CLI; probably not though
+  is_logged_in tinyint not null,
 
-	-- timed_sql
-	db_prepares int null,
-	db_executes int null,
-	db_fetches int null,
-	db_fetch_alls int null,
-	db_prepare_time int null,
-	db_execute_time int null,
-	db_fetch_time int null,
-	db_fetch_all_time int null,
+  -- timed_sql
+  db_prepares int null,
+  db_executes int null,
+  db_fetches int null,
+  db_fetch_alls int null,
+  db_prepare_time int null,
+  db_execute_time int null,
+  db_fetch_time int null,
+  db_fetch_all_time int null,
 
-	-- timed_curl
-	curl_requests int null,
-	curl_request_time int null,
+  -- timed_curl
+  curl_requests int null,
+  curl_request_time int null,
 
-	INDEX(script_name)
+  INDEX(script_name)
 );
 
 DROP TABLE IF EXISTS performance_metrics_graphs;
 CREATE TABLE performance_metrics_graphs (
-	id int not null auto_increment primary key,
-	time_taken int not null,
+  id int not null auto_increment primary key,
+  time_taken int not null,
 
-	graph_type varchar(32) null,
-	is_logged_in tinyint not null,
-	days int null,			-- could be null, e.g. admin graphs
-	has_technicals tinyint not null default 0,
+  graph_type varchar(32) null,
+  is_logged_in tinyint not null,
+  days int null,          -- could be null, e.g. admin graphs
+  has_technicals tinyint not null default 0,
 
-	-- timed_sql
-	db_prepares int null,
-	db_executes int null,
-	db_fetches int null,
-	db_fetch_alls int null,
-	db_prepare_time int null,
-	db_execute_time int null,
-	db_fetch_time int null,
-	db_fetch_all_time int null,
+  -- timed_sql
+  db_prepares int null,
+  db_executes int null,
+  db_fetches int null,
+  db_fetch_alls int null,
+  db_prepare_time int null,
+  db_execute_time int null,
+  db_fetch_time int null,
+  db_fetch_all_time int null,
 
-	-- timed_curl
-	curl_requests int null,
-	curl_request_time int null,
+  -- timed_curl
+  curl_requests int null,
+  curl_request_time int null,
 
-	INDEX(graph_type)
+  INDEX(graph_type)
 );
 
 DROP TABLE IF EXISTS performance_metrics_queues;
 CREATE TABLE performance_metrics_queues (
-	id int not null auto_increment primary key,
-	time_taken int not null,
+  id int not null auto_increment primary key,
+  time_taken int not null,
 
-	user_id int null,
-	priority int null,
-	job_types varchar(255) null,
-	premium_only tinyint null,
+  user_id int null,
+  priority int null,
+  job_types varchar(255) null,
+  premium_only tinyint null,
 
-	-- timed_sql
-	db_prepares int null,
-	db_executes int null,
-	db_fetches int null,
-	db_fetch_alls int null,
-	db_prepare_time int null,
-	db_execute_time int null,
-	db_fetch_time int null,
-	db_fetch_all_time int null,
+  -- timed_sql
+  db_prepares int null,
+  db_executes int null,
+  db_fetches int null,
+  db_fetch_alls int null,
+  db_prepare_time int null,
+  db_execute_time int null,
+  db_fetch_time int null,
+  db_fetch_all_time int null,
 
-	-- timed_curl
-	curl_requests int null,
-	curl_request_time int null,
+  -- timed_curl
+  curl_requests int null,
+  curl_request_time int null,
 
-	INDEX(user_id), INDEX(premium_only)
+  INDEX(user_id), INDEX(premium_only)
 );
 
 DROP TABLE IF EXISTS performance_metrics_queries;
 CREATE TABLE performance_metrics_queries (
-	id int not null auto_increment primary key,
-	query varchar(255) not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  query varchar(255) not null,
+  created_at timestamp not null default current_timestamp,
 
-	INDEX(query)
+  INDEX(query)
 );
 
 DROP TABLE IF EXISTS performance_metrics_slow_queries;
 CREATE TABLE performance_metrics_slow_queries (
-	id int not null auto_increment primary key,
-	query_id int not null,		-- reference to performance_metrics_queries
-	query_count int not null,
-	query_time int not null,
-	page_id int not null,		-- reference to performance_metrics_pages
+  id int not null auto_increment primary key,
+  query_id int not null,      -- reference to performance_metrics_queries
+  query_count int not null,
+  query_time int not null,
+  page_id int not null,       -- reference to performance_metrics_pages
 
-	INDEX(query_id)
+  INDEX(query_id)
 );
 
 DROP TABLE IF EXISTS performance_metrics_repeated_queries;
 CREATE TABLE performance_metrics_repeated_queries (
-	id int not null auto_increment primary key,
-	query_id int not null,		-- reference to performance_metrics_queries
-	query_count int not null,
-	query_time int not null,
-	page_id int not null,		-- reference to performance_metrics_pages
+  id int not null auto_increment primary key,
+  query_id int not null,      -- reference to performance_metrics_queries
+  query_count int not null,
+  query_time int not null,
+  page_id int not null,       -- reference to performance_metrics_pages
 
-	INDEX(query_id)
+  INDEX(query_id)
 );
 
 DROP TABLE IF EXISTS performance_metrics_urls;
 CREATE TABLE performance_metrics_urls (
-	id int not null auto_increment primary key,
-	url varchar(255) not null,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  url varchar(255) not null,
+  created_at timestamp not null default current_timestamp,
 
-	INDEX(url)
+  INDEX(url)
 );
 
 DROP TABLE IF EXISTS performance_metrics_slow_urls;
 CREATE TABLE performance_metrics_slow_urls (
-	id int not null auto_increment primary key,
-	url_id int not null,		-- reference to performance_metrics_urls
-	url_count int not null,
-	url_time int not null,
-	page_id int not null,		-- reference to performance_metrics_pages
+  id int not null auto_increment primary key,
+  url_id int not null,        -- reference to performance_metrics_urls
+  url_count int not null,
+  url_time int not null,
+  page_id int not null,       -- reference to performance_metrics_pages
 
-	INDEX(url_id)
+  INDEX(url_id)
 );
 
 DROP TABLE IF EXISTS performance_metrics_repeated_urls;
 CREATE TABLE performance_metrics_repeated_urls (
-	id int not null auto_increment primary key,
-	url_id int not null,		-- reference to performance_metrics_urls
-	url_count int not null,
-	url_time int not null,
-	page_id int not null,		-- reference to performance_metrics_pages
+  id int not null auto_increment primary key,
+  url_id int not null,        -- reference to performance_metrics_urls
+  url_count int not null,
+  url_time int not null,
+  page_id int not null,       -- reference to performance_metrics_pages
 
-	INDEX(url_id)
+  INDEX(url_id)
 );
 
 -- and once data is collected, we compile them into reports that admins can look at
 DROP TABLE IF EXISTS performance_reports;
 CREATE TABLE performance_reports (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
-	report_type varchar(32) not null,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+  report_type varchar(32) not null,
 
-	INDEX(report_type)
+  INDEX(report_type)
 );
 
 DROP TABLE IF EXISTS performance_report_slow_queries;
 CREATE TABLE performance_report_slow_queries (
-	id int not null auto_increment primary key,
-	report_id int not null,		-- reference to performance_reports
+  id int not null auto_increment primary key,
+  report_id int not null,     -- reference to performance_reports
 
-	query_id int not null,		-- reference to performance_metrics_queries
-	query_count int not null,
-	query_time int not null,
-	page_id int not null,		-- reference to performance_metrics_pages
+  query_id int not null,      -- reference to performance_metrics_queries
+  query_count int not null,
+  query_time int not null,
+  page_id int not null,       -- reference to performance_metrics_pages
 
-	INDEX(report_id)
+  INDEX(report_id)
 );
 
 DROP TABLE IF EXISTS performance_report_slow_urls;
 CREATE TABLE performance_report_slow_urls (
-	id int not null auto_increment primary key,
-	report_id int not null,		-- reference to performance_reports
+  id int not null auto_increment primary key,
+  report_id int not null,     -- reference to performance_reports
 
-	url_id int not null,		-- reference to performance_metrics_urls
-	url_count int not null,
-	url_time int not null,
-	page_id int not null,		-- reference to performance_metrics_pages
+  url_id int not null,        -- reference to performance_metrics_urls
+  url_count int not null,
+  url_time int not null,
+  page_id int not null,       -- reference to performance_metrics_pages
 
-	INDEX(report_id)
+  INDEX(report_id)
 );
 
 DROP TABLE IF EXISTS performance_report_slow_jobs;
 CREATE TABLE performance_report_slow_jobs (
-	id int not null auto_increment primary key,
-	report_id int not null,		-- reference to performance_reports
+  id int not null auto_increment primary key,
+  report_id int not null,     -- reference to performance_reports
 
-	job_type varchar(32) not null,
-	job_count int not null,
-	job_time int not null,
+  job_type varchar(32) not null,
+  job_count int not null,
+  job_time int not null,
 
-	INDEX(report_id)
+  INDEX(report_id)
 );
 
 DROP TABLE IF EXISTS performance_report_slow_pages;
 CREATE TABLE performance_report_slow_pages (
-	id int not null auto_increment primary key,
-	report_id int not null,		-- reference to performance_reports
+  id int not null auto_increment primary key,
+  report_id int not null,     -- reference to performance_reports
 
-	script_name varchar(32) not null,
-	page_count int not null,
-	page_time int not null,
+  script_name varchar(32) not null,
+  page_count int not null,
+  page_time int not null,
 
-	INDEX(report_id)
+  INDEX(report_id)
 );
 
 DROP TABLE IF EXISTS performance_report_slow_graphs;
 CREATE TABLE performance_report_slow_graphs (
-	id int not null auto_increment primary key,
-	report_id int not null,		-- reference to performance_reports
+  id int not null auto_increment primary key,
+  report_id int not null,     -- reference to performance_reports
 
-	graph_type varchar(32) not null,
-	graph_count int not null,
-	graph_time int not null,
+  graph_type varchar(32) not null,
+  graph_count int not null,
+  graph_time int not null,
 
-	INDEX(report_id)
+  INDEX(report_id)
 );
 
 ALTER TABLE performance_metrics_jobs ADD created_at timestamp not null default current_timestamp;
 
 DROP TABLE IF EXISTS performance_report_job_frequency;
 CREATE TABLE performance_report_job_frequency (
-	id int not null auto_increment primary key,
-	report_id int not null,		-- reference to performance_reports
+  id int not null auto_increment primary key,
+  report_id int not null,     -- reference to performance_reports
 
-	job_type varchar(32) not null,
-	job_count int not null,
-	jobs_per_hour int not null,
+  job_type varchar(32) not null,
+  job_count int not null,
+  jobs_per_hour int not null,
 
-	INDEX(report_id)
+  INDEX(report_id)
 );
 
 ALTER TABLE performance_report_slow_jobs ADD job_database int null;
@@ -3348,13 +3348,13 @@ ALTER TABLE ticker ADD INDEX(created_at);
 -- we don't track pairs (I think that's too much work), just the currencies supported
 DROP TABLE IF EXISTS reported_currencies;
 CREATE TABLE reported_currencies (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	exchange varchar(32) not null,
-	currency varchar(16) not null,	-- we could be getting currencies in any format or length
+  exchange varchar(32) not null,
+  currency varchar(16) not null,  -- we could be getting currencies in any format or length
 
-	INDEX(exchange, currency)
+  INDEX(exchange, currency)
 );
 
 ALTER TABLE exchanges ADD track_reported_currencies tinyint not null default 0;
@@ -3375,20 +3375,20 @@ UPDATE exchanges SET track_reported_currencies=1 WHERE name='vircurex';
 DROP TABLE IF EXISTS accounts_bit2c;
 
 CREATE TABLE accounts_bit2c (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 INSERT INTO exchanges SET name='bit2c';
@@ -3397,61 +3397,61 @@ INSERT INTO exchanges SET name='bit2c';
 DROP TABLE IF EXISTS ixcoin_blocks;
 
 CREATE TABLE ixcoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- issue #108: add Netcoin NET cryptocurrency
 DROP TABLE IF EXISTS netcoin_blocks;
 
 CREATE TABLE netcoin_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- issue #44: add Hobonickels HBN cryptocurrency
 DROP TABLE IF EXISTS hobonickels_blocks;
 
 CREATE TABLE hobonickels_blocks (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	blockcount int not null,
+  blockcount int not null,
 
-	is_recent tinyint not null default 0,
+  is_recent tinyint not null default 0,
 
-	INDEX(is_recent)
+  INDEX(is_recent)
 );
 
 -- issue #90: add scryptguild mining pool
 DROP TABLE IF EXISTS accounts_scryptguild;
 
 CREATE TABLE accounts_scryptguild (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 -- --------------------------------------------------------------------------
@@ -3524,52 +3524,52 @@ ALTER TABLE graph_data_balances ADD INDEX(data_date_day);
 DROP TABLE IF EXISTS transactions;
 
 CREATE TABLE transactions (
-	id int not null auto_increment primary key,
-	user_id int not null,
+  id int not null auto_increment primary key,
+  user_id int not null,
 
-	created_at timestamp not null default current_timestamp,
-	updated_at timestamp null,
-	is_automatic tinyint not null default 0,
+  created_at timestamp not null default current_timestamp,
+  updated_at timestamp null,
+  is_automatic tinyint not null default 0,
 
-	transaction_date timestamp not null,
-	transaction_date_day mediumint not null,
-	exchange varchar(32) not null,
-	account_id int not null,
+  transaction_date timestamp not null,
+  transaction_date_day mediumint not null,
+  exchange varchar(32) not null,
+  account_id int not null,
 
-	-- optional fields for user entered transactions
-	description varchar(255) null,
-	-- category_id int null,
-	reference varchar(255) null,
+  -- optional fields for user entered transactions
+  description varchar(255) null,
+  -- category_id int null,
+  reference varchar(255) null,
 
-	currency1 varchar(3) null,
-	value1 decimal(24,8) null,
-	currency2 varchar(3) null,
-	value2 decimal(24,8) null,
+  currency1 varchar(3) null,
+  value1 decimal(24,8) null,
+  currency2 varchar(3) null,
+  value2 decimal(24,8) null,
 
-	INDEX(user_id, exchange, account_id, transaction_date),
-	INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(transaction_date_day)
+  INDEX(user_id, exchange, account_id, transaction_date),
+  INDEX(exchange), INDEX(currency1), INDEX(currency2), INDEX(transaction_date_day)
 );
 
 -- for doing multiple batch jobs, tracking automatic daily transaction creation
 DROP TABLE IF EXISTS transaction_creators;
 
 CREATE TABLE transaction_creators (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	exchange varchar(32) not null,
-	account_id int not null,
+  exchange varchar(32) not null,
+  account_id int not null,
 
-	transaction_cursor mediumint not null default 0,
+  transaction_cursor mediumint not null default 0,
 
-	-- is_disabled can also be used by a user to specifically disable a creator
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  -- is_disabled can also be used by a user to specifically disable a creator
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(is_disabled)
+  INDEX(is_disabled)
 );
 
 ALTER TABLE users ADD last_tx_creator_queue timestamp null;
@@ -3745,7 +3745,6 @@ ALTER TABLE transactions CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE uncaught_exceptions CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE users CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE valid_user_keys CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-ALTER TABLE vertcoin_blocks CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE worldcoin_blocks  CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 -- to see a table's character set: SHOW FULL COLUMNS FROM table_name;
@@ -3754,20 +3753,20 @@ ALTER TABLE worldcoin_blocks  CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode
 DROP TABLE IF EXISTS accounts_kraken;
 
 CREATE TABLE accounts_kraken (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
-	api_secret varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
 
 INSERT INTO exchanges SET name='kraken';
@@ -4075,15 +4074,15 @@ INSERT INTO exchanges SET name='average';
 DROP TABLE IF EXISTS average_market_count;
 
 CREATE TABLE average_market_count (
-	id int not null auto_increment primary key,
-	created_at timestamp not null default current_timestamp,
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
 
-	currency1 varchar(3) not null,
-	currency2 varchar(3) not null,
+  currency1 varchar(3) not null,
+  currency2 varchar(3) not null,
 
-	market_count int not null,
+  market_count int not null,
 
-	UNIQUE(currency1, currency2)
+  UNIQUE(currency1, currency2)
 );
 
 -- we also want to generate lots of historical data for the average market
@@ -4091,105 +4090,105 @@ CREATE TABLE average_market_count (
 DELETE FROM graph_data_ticker WHERE exchange='average';
 
 INSERT INTO graph_data_ticker (
-	SELECT NULL as id,
-		NOW() as created_at,
-		'average' AS exchange,
-		currency1,
-		currency2,
-		MAX(data_date) AS data_date,
-		COUNT(*) AS samples,
-		SUM(ask * volume) / SUM(volume) AS ask,
-		SUM(bid * volume) / SUM(volume) AS bid,
-		SUM(volume) AS volume,
-		SUM(last_trade_min * volume) / SUM(volume) AS last_trade_min,
-		SUM(last_trade_opening * volume) / SUM(volume) AS last_trade_opening,
-		SUM(last_trade_closing * volume) / SUM(volume) AS last_trade_closing,
-		SUM(last_trade_max * volume) / SUM(volume) AS last_trade_max,
-		0 AS last_trade_stdev
-		FROM graph_data_ticker
-			WHERE volume > 0
-			GROUP BY currency1, currency2, data_date
+  SELECT NULL as id,
+    NOW() as created_at,
+    'average' AS exchange,
+    currency1,
+    currency2,
+    MAX(data_date) AS data_date,
+    COUNT(*) AS samples,
+    SUM(ask * volume) / SUM(volume) AS ask,
+    SUM(bid * volume) / SUM(volume) AS bid,
+    SUM(volume) AS volume,
+    SUM(last_trade_min * volume) / SUM(volume) AS last_trade_min,
+    SUM(last_trade_opening * volume) / SUM(volume) AS last_trade_opening,
+    SUM(last_trade_closing * volume) / SUM(volume) AS last_trade_closing,
+    SUM(last_trade_max * volume) / SUM(volume) AS last_trade_max,
+    0 AS last_trade_stdev
+    FROM graph_data_ticker
+      WHERE volume > 0
+      GROUP BY currency1, currency2, data_date
 );
 
 -- also do data from 'ticker' that isn't yet in graph_data_ticker
 INSERT INTO graph_data_ticker (
-	SELECT NULL as id,
-		NOW() as created_at,
-		'average' AS exchange,
-		currency1,
-		currency2,
-		MAX(created_at) AS data_date,
-		COUNT(*) AS samples,
-		SUM(ask * volume) / SUM(volume) AS ask,
-		SUM(bid * volume) / SUM(volume) AS bid,
-		SUM(volume) AS volume,
-		0 AS last_trade_min,
-		SUM(last_trade * volume) / SUM(volume) AS last_trade_opening,
-		SUM(last_trade * volume) / SUM(volume) AS last_trade_closing,
-		0 AS last_trade_max,
-		0 AS last_trade_stdev
-		FROM ticker
-			WHERE volume > 0
-			GROUP BY currency1, currency2, to_days(created_at)
+  SELECT NULL as id,
+    NOW() as created_at,
+    'average' AS exchange,
+    currency1,
+    currency2,
+    MAX(created_at) AS data_date,
+    COUNT(*) AS samples,
+    SUM(ask * volume) / SUM(volume) AS ask,
+    SUM(bid * volume) / SUM(volume) AS bid,
+    SUM(volume) AS volume,
+    0 AS last_trade_min,
+    SUM(last_trade * volume) / SUM(volume) AS last_trade_opening,
+    SUM(last_trade * volume) / SUM(volume) AS last_trade_closing,
+    0 AS last_trade_max,
+    0 AS last_trade_stdev
+    FROM ticker
+      WHERE volume > 0
+      GROUP BY currency1, currency2, to_days(created_at)
 );
 
 -- issue #198: add rapidhash mining pool
 DROP TABLE IF EXISTS accounts_rapidhash_doge;
 
 CREATE TABLE accounts_rapidhash_doge (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
-	is_disabled_manually tinyint not null default 0,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
+  is_disabled_manually tinyint not null default 0,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
 
 DROP TABLE IF EXISTS accounts_rapidhash_vtc;
 
 CREATE TABLE accounts_rapidhash_vtc (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
-	is_disabled_manually tinyint not null default 0,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
+  is_disabled_manually tinyint not null default 0,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
 
 -- issue #84: add cryptotroll doge mining pool
 DROP TABLE IF EXISTS accounts_cryptotroll_doge;
 
 CREATE TABLE accounts_cryptotroll_doge (
-	id int not null auto_increment primary key,
-	user_id int not null,
-	created_at timestamp not null default current_timestamp,
-	last_queue timestamp,
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
 
-	title varchar(255),
-	api_key varchar(255) not null,
+  title varchar(255),
+  api_key varchar(255) not null,
 
-	is_disabled tinyint not null default 0,
-	failures tinyint not null default 0,
-	first_failure timestamp null,
-	is_disabled_manually tinyint not null default 0,
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
+  is_disabled_manually tinyint not null default 0,
 
-	INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
 
 -- issue #194: more database work for transactions
@@ -4207,8 +4206,8 @@ ALTER TABLE address_balances ADD INDEX(created_at_day);
 -- select the last address_balance of each day to be daily data
 CREATE TABLE temp (id int not null);
 INSERT INTO temp (id)
-	SELECT MAX(id) AS id FROM address_balances
-	GROUP BY created_at_day, user_id, address_id;
+  SELECT MAX(id) AS id FROM address_balances
+  GROUP BY created_at_day, user_id, address_id;
 -- using INNER JOIN is MUCH faster than WHERE (id) IN (SELECT)
 UPDATE address_balances INNER JOIN temp ON address_balances.id=temp.id SET is_daily_data=1;
 DROP TABLE temp;
