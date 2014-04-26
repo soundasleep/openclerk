@@ -128,7 +128,7 @@ if ($id && isset($historical_graphs[$id])) {
 
 		if (!isset($def['arg0'])) {
 			echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180))) . "\">" . htmlspecialchars($def['title']) . "</a>";
-			if (in_array(str_replace("_daily", "", $graph_key), get_new_exchange_pairs())) {
+			if (in_array(str_replace("_daily", "", $graph_key), get_new_exchange_pairs()) || in_array($def['exchange'], get_new_exchanges())) {
 				echo " <span class=\"new\">new</span>";
 			}
 			echo "</li>\n";
