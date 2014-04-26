@@ -338,11 +338,11 @@ foreach ($notifications as $notification) {
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="get">
 				<input type="hidden" name="edit" value="<?php echo htmlspecialchars($notification['id']); ?>">
-				<input type="submit" value="Edit" class="edit">
+				<input type="submit" value="Edit" class="edit" title="Edit this notification">
 			</form>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_notifications_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($notification['id']); ?>">
-				<input type="submit" name="delete" value="Delete" class="delete" onclick="return confirm('Are you sure you want to remove this notification?');">
+				<input type="submit" name="delete" value="Delete" class="delete" title="Delete this notification" onclick="return confirm('Are you sure you want to remove this notification?');">
 			</form>
 		</td>
 	</tr>

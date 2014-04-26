@@ -365,7 +365,7 @@ if ($q->fetch()) {
 		/* only allow one identity to be removed */
 		if (count($identities) > 1) {
 		?>
-		<th></th>
+		<th>Delete</th>
 		<?php } ?>
 	</tr>
 </thead>
@@ -393,7 +393,7 @@ foreach ($identities as $identity) {
 		<td>
 			<form action="<?php echo htmlspecialchars(url_for('openid_delete')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($identity['id']); ?>">
-				<input type="submit" value="Delete" class="delete" onclick="return confirm('Are you sure you want to remove this identity?');">
+				<input type="submit" value="Delete" class="delete" title="Delete this identity" onclick="return confirm('Are you sure you want to remove this identity?');">
 			</form>
 		</td>
 		<?php } ?>
