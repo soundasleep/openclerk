@@ -361,13 +361,13 @@ function average_currency_format_html($cmp, $n) {
 	if ($cmp > 1000) {
 		return number_format_html($n, 0);
 	} else if ($cmp > 100) {
-		return number_format_html($n, 1);
+		return number_format_html($n, 2);
 	} else if ($cmp > 1) {
 		return number_format_html($n, 4);
 	} else if ($cmp > 1e-2) {
-		return number_format_html($n, 4);
-	} else if ($cmp > 1e-4) {
 		return number_format_html($n, 6);
+	} else if ($cmp > 1e-4) {
+		return number_format_html($n, 8);
 	} else {
 		return number_format_html($n, 8);
 	}

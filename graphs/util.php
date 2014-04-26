@@ -140,11 +140,15 @@ function demo_scale($value) {
 
 // $arg0 is from historical_arg0
 function get_exchange_historical($arg0, $graph_type, $graph) {
-	if ($arg0['key'] == 'average' && !(isset($graph['arg0']) && $graph['arg0'])) {
-		return url_for('average#average_' . $arg0['pair'][0], array('currency1' => $arg0['pair'][0], 'currency2' => $arg0['pair'][1]));
-	} else {
-		return url_for('historical', array('id' => $arg0['key'] . '_' . $arg0['pair'][0] . $arg0['pair'][1] . '_daily', 'days' => 180));
-	}
+	return url_for('historical', array('id' => $arg0['key'] . '_' . $arg0['pair'][0] . $arg0['pair'][1] . '_daily', 'days' => 180));
+}
+
+function get_average_exchange_markets($arg0, $graph_type, $graph) {
+	return url_for('average#average_' . $arg0['currency1'], array('currency1' => $arg0['currency1'], 'currency2' => $arg0['currency2']));
+}
+
+function get_average_exchange_historical($arg0, $graph_type, $graph) {
+	return url_for('historical', array('id' => $arg0['key'] . '_' . $arg0['currency1'] . $arg0['currency2'] . '_daily', 'days' => 180));
 }
 
 /**

@@ -247,7 +247,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("kraken");
+	return array("kraken", "average");
 }
 
 function get_exchange_pairs() {

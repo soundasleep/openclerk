@@ -69,8 +69,8 @@ function graph_types_public($summaries = array()) {
 				'days' => true,
 				'technical' => true, /* allow technical indicators */
 				'delta' => true,	/* allow deltas */
-				'historical' => 'get_exchange_historical',
-				'historical_arg0' => array('key' => $key, 'pair' => $pair),
+				'historical' => 'get_average_exchange_historical',
+				'historical_arg0' => array('key' => $key, 'currency1' => $ticker['currency1'], 'currency2' => $ticker['currency2']),
 				'exchange' => $key,
 			);
 		}
@@ -90,8 +90,8 @@ function graph_types_public($summaries = array()) {
 				'days' => true,
 				'technical' => true, /* allow technical indicators */
 				'delta' => true,	/* allow deltas */
-				'historical' => 'get_exchange_historical',
-				'historical_arg0' => array('key' => $key, 'pair' => $pair),
+				'historical' => 'get_average_exchange_markets',
+				'historical_arg0' => array('key' => $key, 'currency1' => $ticker['currency1'], 'currency2' => $ticker['currency2']),
 				'exchange' => $key,
 			);
 		}
