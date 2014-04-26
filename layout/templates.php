@@ -257,8 +257,16 @@ function currency_format($currency_code, $n, $precision = 8 /* must be 8 for iss
 	return "<span class=\"" . strtolower($currency) . "_format currency_format\" title=\"" . number_format_autoprecision($n, 8) . " $currency\">" . number_format_precision($n, $precision) . " <span class=\"code\">$currency</span></span>";
 }
 
+/**
+ * Note that due to autoprecision this just makes a mess, there is no precision.
+ * Consider using {@link #number_format_precision_html()} instead.
+ */
 function number_format_html($n, $precision, $suffix = false) {
 	return "<span title=\"" . number_format_autoprecision($n, 8) . ($suffix ? $suffix : "") . "\">" . number_format_precision($n, $precision) . ($suffix ? $suffix : "") ."</span>";
+}
+
+function number_format_precision_html($n, $precision = 0, $suffix = false) {
+	return "<span title=\"" . number_format_autoprecision($n, 8) . ($suffix ? $suffix : "") . "\">" . number_format($n, $precision) . ($suffix ? $suffix : "") ."</span>";
 }
 
 function number_format_autoprecision_html($n, $suffix = false) {
