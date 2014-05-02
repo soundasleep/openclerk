@@ -162,6 +162,16 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 		fwrite($fp, "\n}\n");
 		fclose($fp);
 
+		// also .resjson for Lingohub (testing)
+		$fp = fopen(__DIR__ . "/../locale/template.resjson", 'w');
+		fwrite($fp, "{\n");
+		fwrite($fp, "  \"__comment\": " . json_encode("Generated language template file - do not modify directly"));
+		foreach ($found as $key) {
+			fwrite($fp, ",\n  " . json_encode($key) . ": " . json_encode($key));
+		}
+		fwrite($fp, "\n}\n");
+		fclose($fp);
+
 	}
 
 }
