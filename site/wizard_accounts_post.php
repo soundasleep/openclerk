@@ -250,7 +250,10 @@ if (require_post('test', false) && require_post('id', false)) {
 
 // process 'enable'
 if (require_post('enable', false) && require_post('id', false)) {
-	if ($account_data['disabled']) {
+	if (!can_user_add($user, $account_data['exchange'])) {
+		$errors[] = "Cannot enable " . $account_data['title'] . ": too many existing accounts.<br>" .
+				($user['is_premium'] ? "" : " To add more " . $account_data['titles'] . ", upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	} else if ($account_data['disabled']) {
 		$errors[] = "Cannot enable that account; that account type is disabled.";
 	} else {
 		// reset all failure fields

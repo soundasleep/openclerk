@@ -4,10 +4,16 @@
  * Various functionality related to premium accounts and limits.
  */
 
-$global_user_limits_summary = null;
+$global_user_limits_summary = array();
+
+/**
+ * Get a summary of how many accounts, graphs, pages etc the current user has.
+ * Does not include disabled accounts towards the limit (#217).
+ * May be cached per user.
+ */
 function user_limits_summary($user_id) {
 	global $global_user_limits_summary;
-	if ($global_user_limits_summary === null) {
+	if (!isset($global_user_limits_summary[$user_id])) {
 		$accounts = array();
 
 		foreach (account_data_grouped() as $group) {
@@ -20,7 +26,7 @@ function user_limits_summary($user_id) {
 					continue;
 				}
 
-				$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?" . (isset($data['query']) ? $data['query'] : ""));
+				$q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?" . ($data['failure'] ? " AND is_disabled=0" : "") . (isset($data['query']) ? $data['query'] : ""));
 				$q->execute(array($user_id));
 				$accounts[$key] = $q->fetch();
 				$accounts[$key] = $accounts[$key]['c'];
@@ -40,10 +46,10 @@ function user_limits_summary($user_id) {
 			}
 		}
 
-		$global_user_limits_summary = $accounts;
+		$global_user_limits_summary[$user_id] = $accounts;
 	}
 
-	return $global_user_limits_summary;
+	return $global_user_limits_summary[$user_id];
 }
 
 /**
