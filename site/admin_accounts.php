@@ -158,6 +158,11 @@ function get_error_class($n) {
 				echo "<input type=\"hidden\" name=\"enable\" value=\"" . htmlspecialchars($exchange) . "\">";
 				echo "<input type=\"submit\" value=\"Enable all\" onclick=\"return confirm('Are you sure you want to re-enable all failed accounts?');\">";
 				echo "</form>";
+
+				echo "<form action=\"" . htmlspecialchars(url_for('admin_accounts_message')) . "\" method=\"post\">";
+				echo "<input type=\"hidden\" name=\"exchange\" value=\"" . htmlspecialchars($exchange) . "\">";
+				echo "<input type=\"submit\" value=\"Message failed\">";
+				echo "</form>";
 			}
 			echo "</td>\n";
 			echo "</tr>";

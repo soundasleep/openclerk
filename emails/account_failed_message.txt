@@ -1,0 +1,15 @@
+Notification on Your Failing {$exchange} {$label}
+Hello {$name},
+
+One of your {$exchange} {$labels} ({$title}) configured in {$site_name}, that had been disabled temporarily due to repeated failures, has a new notification:
+
+  {$message}
+
+You can remove this {$label}, or add a new {$exchange} {$label} with different parameters, by visiting your {$site_name} accounts wizard:
+
+  {$url}
+
+Thanks for using {$site_name}!
+
+{$site_name}
+{$site_url}
