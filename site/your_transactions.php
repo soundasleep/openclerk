@@ -15,8 +15,6 @@ $user = get_user(user_id());
 
 $page_size = 50;
 
-page_header("Your Transactions", "page_your_transactions", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
-
 function get_exchange_or_currency_name($exchange) {
 	$account_data_grouped = account_data_grouped();
 	if (isset($account_data_grouped['Addresses'][$exchange])) {
@@ -102,9 +100,89 @@ if (!$page_args['show_automatic']) {
 	$extra_query .= " AND is_automatic=0";
 }
 
+if (require_get("csv", false) && $user['is_premium']) {
+	// select all transactions if CSV exporting
+	$page_args['skip'] = 0;
+	$page_size = 1e6;
+}
+
 $q = db()->prepare("SELECT * FROM transactions WHERE user_id=? $extra_query ORDER BY transaction_date_day DESC LIMIT " . $page_args['skip'] . ", $page_size");
 $q->execute(array_merge(array(user_id()), $extra_args));
 $transactions = $q->fetchAll();
+
+// export to CSV?
+if (require_get("csv", false)) {
+	if (!$user['is_premium']) {
+		$errors[] = t("Only :premium_users can export transactions to CSV.", array(
+				':premium_users' => "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">" . t("premium users") . "</a>",
+			));
+	} else {
+		require(__DIR__ . "/../inc/content_type/csv.php");		// to allow for appropriate headers etc
+
+		header("Content-Disposition: attachment;filename=transactions.csv");
+
+		// output transactions
+		echo csv_encode(array(
+			"Transaction ID",
+			"Date",
+			"Account ID",
+			"Account",
+			"Account title",
+			"Category",
+			"Description",
+			"Reference",
+			"Amount 1",
+			"Currency 1",
+			"Amount 2",
+			"Currency 2",
+		));
+
+		foreach ($transactions as $transaction) {
+			$account_data = get_account_data($transaction['exchange'], false);
+			$account_full = false;
+			if ($account_data) {
+				$q = db()->prepare("SELECT * FROM " . $account_data['table'] . " WHERE id=? LIMIT 1");
+				$q->execute(array($transaction['account_id']));
+				$account_full = $q->fetch();
+			}
+
+			if ($transaction['exchange'] == 'account') {
+				$account = "(finance account)";
+				$account_title = isset($finance_accounts[$transaction['account_id']]) ? $finance_accounts[$transaction['account_id']]['title'] : "(unknown)";
+			} else {
+				$account = get_exchange_or_currency_name($transaction['exchange']);
+				$account_title = false;
+				if (!$account_title && $account_full && isset($account_full['title']) && $account_full['title']) {
+					$account_title = $account_full['title'];
+				}
+				if (!$account_title && $account_full && isset($account_full['address']) && $account_full['address']) {
+					$account_title = $account_full['address'];
+				}
+
+			}
+
+			echo csv_encode(array(
+				$transaction['id'],
+				date("Y-m-d", strtotime($transaction['transaction_date'])),
+				$transaction['exchange'] . "-" . $transaction['account_id'],
+				$account,
+				$account_title,
+				isset($finance_categories[$transaction['category_id']]) ? $finance_categories[$transaction['category_id']]['title'] : "",
+				$transaction['is_automatic'] ? "(generated automatically)" : $transaction['description'],
+				$transaction['is_automatic'] ? $transaction['id'] : $transaction['reference'],
+				$transaction['value1'],
+				$transaction['currency1'],
+				$transaction['value2'],
+				$transaction['currency2'],
+			));
+		}
+
+		performance_metrics_page_end();
+		return;
+	}
+}
+
+page_header("Your Transactions", "page_your_transactions", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
 
 ?>
 
@@ -226,8 +304,9 @@ require(__DIR__ . "/_finance_pages.php");
 		<tr class="buttons">
 			<td colspan="2">
 				<input type="submit" value="Filter">
+				<input type="submit" name="csv" value="Export to CSV" class="premium">
 				<input type="hidden" name="filter" value="1">
-				<a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">Show All</a>
+				<a style="float:right;" href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">Clear Filters</a>
 			</td>
 		</tr>
 		</table>

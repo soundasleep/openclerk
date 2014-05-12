@@ -92,6 +92,11 @@
 		<td class="number premium"><?php echo number_format(get_premium_config("finance_categories_premium")); ?></td>
 	</tr>
 	<tr>
+		<th>Export transactions to CSV</th>
+		<td class="no">-</td>
+		<td class="yes premium">Y</td>
+	</tr>
+	<tr>
 		<th><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>">Live graph updates</a></th>
 		<td class="number"><?php echo plural(get_site_config('graph_refresh_free'), 'minute'); ?></td>
 		<td class="number premium"><?php echo plural(get_site_config('graph_refresh_premium'), 'minute'); ?></td>
