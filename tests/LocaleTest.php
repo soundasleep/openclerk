@@ -45,4 +45,18 @@ class LocaleTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	/**
+	 * Tests that all locales defined by {@link get_all_locales()} exist.
+	 */
+	function testAllLocales() {
+		foreach (get_all_locales() as $locale) {
+			if ($locale == 'en') {
+				continue;
+			}
+
+			$f = __DIR__ . "/../locale/" . $locale . ".php";
+			$this->assertTrue(file_exists($f), "Locale file " . $f . " should exist");
+		}
+	}
+
 }

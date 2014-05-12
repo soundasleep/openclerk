@@ -5,7 +5,7 @@ require_once(__DIR__ . "/../inc/global.php");
 /**
  * Tests related to the release quality of Openclerk - i.e. more like integration tests.
  */
-class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
+class ReleaseTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Check that each require(), require_once(), include() or include_once() within Openclerk
@@ -137,12 +137,12 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 			$input = file_get_contents($f);
 
 			$matches = false;
-			if (preg_match_all("#[ \t\n(]t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+)\\)#", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+)\\)#", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					$found[$match[2]] = $match[2];
 				}
 			}
-			if (preg_match_all("#[ \t\n(]t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+)\\)#", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+)\\)#", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					$found[$match[2]] = $match[2];
 				}
@@ -154,20 +154,17 @@ class ReleaseTestsTest extends PHPUnit_Framework_TestCase {
 
 		// write them out to a common file
 		$fp = fopen(__DIR__ . "/../locale/template.json", 'w');
-		fwrite($fp, "{\n");
-		fwrite($fp, "  \"__comment\": " . json_encode("Generated language template file - do not modify directly"));
+		fwrite($fp, "{");
+		// fwrite($fp, "  \"__comment\": " . json_encode("Generated language template file - do not modify directly"));
+		$first = true;
 		foreach ($found as $key) {
-			fwrite($fp, ",\n  " . json_encode($key) . ": " . json_encode($key));
+			if (!$first) {
+				fwrite($fp, ",");
+			}
+			$first = false;
+			fwrite($fp, "\n  " . json_encode($key) . ": " . json_encode($key));
 		}
 		fwrite($fp, "\n}\n");
-		fclose($fp);
-
-		// also .properties for Lingohub (testing)
-		$fp = fopen(__DIR__ . "/../locale/template.properties", 'w');
-		fwrite($fp, "# Generated language template file - do not modify directly\n\n");
-		foreach ($found as $key) {
-			fwrite($fp, properties_encode($key) . " = " . properties_encode($key) . "\n");
-		}
 		fclose($fp);
 
 	}

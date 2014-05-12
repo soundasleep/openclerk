@@ -17,12 +17,18 @@
 .locale-en {
   background: url('../../vendor/kwipi/famfamfam-flags/img/us.png') 2px 2px no-repeat;
 }
-.locale-meow {
+.locale-fr {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/fr.png') 2px 2px no-repeat;
+}
+.locale-lolcat {
   background: url('../img/meow.png') 2px 2px no-repeat;
 }
 select.locale-en {
   background: url('../../vendor/kwipi/famfamfam-flags/img/us.png') 4px 4px no-repeat;
 }
-select.locale-meow {
+select.locale-fr {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/fr.png') 4px 4px no-repeat;
+}
+select.locale-lolcat {
   background: url('../img/meow.png') 4px 4px no-repeat;
 }

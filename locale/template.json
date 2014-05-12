@@ -1,5 +1,4 @@
 {
-  "__comment": "Generated language template file - do not modify directly",
   "English": "English",
   "French": "French",
   "Invalid hash - please recheck the link in your e-mail.": "Invalid hash - please recheck the link in your e-mail.",
@@ -14,6 +13,7 @@
   "This e-mail address is already being used by another account for password login.": "This e-mail address is already being used by another account for password login.",
   "Those passwords do not match.": "Those passwords do not match.",
   "Updated password.": "Updated password.",
+  "Welcome to :name": "Welcome to :name",
   "You cannot use both OpenID and password at login.": "You cannot use both OpenID and password at login.",
   "You cannot use both OpenID and password at signup.": "You cannot use both OpenID and password at signup.",
   "You did not select the confirmation checkbox.": "You did not select the confirmation checkbox.",

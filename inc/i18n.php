@@ -28,15 +28,16 @@ function set_locale($locale) {
 function get_all_locales() {
 	return array(
 		'en',
-		'meow',
+		'fr',
+		'lolcat',
 	);
 }
 
 function get_locale_label($locale) {
 	switch ($locale) {
-		case "en":	return "English";
-		case "fr":	return "French";
-		case "meow": return "Lolcat";
+		case "en": return "English";
+		case "fr": return "French";
+		case "lolcat": return "Lolcat";
 
 		default:
 			throw new LocaleException("Unknown locale for label '$locale'");
@@ -80,9 +81,15 @@ function t_without_category($key = false, $args = array()) {
 	$locale = get_current_locale();
 
 	global $global_loaded_locales;
-	if (!isset($global_loaded_locales[$locale])) {
+	if ($locale != 'en' && !isset($global_loaded_locales[$locale])) {
 		$result = false;
 		if (!file_exists(__DIR__ . "/../locale/" . $locale . ".php")) {
+			if (!in_array($locale, get_all_locales()) && $locale != 'en') {
+				// reset back to 'en'
+				set_locale('en');
+				return t_without_category($key, $args);
+			}
+
 			throw new LocaleException("Could not load locale '$locale' data");
 		}
 		require(__DIR__ . "/../locale/" . $locale . ".php");
@@ -102,7 +109,7 @@ function t_without_category($key = false, $args = array()) {
 	}
 
 	if (!isset($global_loaded_locales[$locale][$key])) {
-		if (function_exists('missing_locale_string')) {
+		if ($locale != 'en' && function_exists('missing_locale_string')) {
 			missing_locale_string($key, $locale);
 		}
 		return strtr($key, $args);
@@ -110,3 +117,10 @@ function t_without_category($key = false, $args = array()) {
 	return strtr($global_loaded_locales[$locale][$key], $args);
 }
 
+/**
+ * Helper function for {@code htmlspecialchars(t(...))}.
+ * @see t()
+ */
+function ht($category, $key = false, $args = array()) {
+	return htmlspecialchars(t($category, $key, $args));
+}
