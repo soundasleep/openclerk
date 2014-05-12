@@ -82,8 +82,14 @@
 		<td class="number premium"><?php echo number_format(get_premium_config("summaries_premium")); ?> (hourly)</td>
 	</tr>
 	<tr>
-		<th><?php echo $welcome ? get_site_config('site_name') . " Finance" : '<a href="' . htmlspecialchars(url_for('your_transactions')) . '">' . get_site_config('site_name') . " Finance</a>"; ?></th>
-		<td colspan="2">Coming soon...</td>
+		<th><?php echo $welcome ? "Finance Accounts" : '<a href="' . htmlspecialchars(url_for('finance_accounts')) . '">Finance Accounts</a>'?></th>
+		<td class="number"><?php echo number_format(get_premium_config("finance_accounts_free")); ?></td>
+		<td class="number premium"><?php echo number_format(get_premium_config("finance_accounts_premium")); ?></td>
+	</tr>
+	<tr>
+		<th><?php echo $welcome ? "Finance Categories" : '<a href="' . htmlspecialchars(url_for('finance_categories')) . '">Finance Categories</a>'?></th>
+		<td class="number"><?php echo number_format(get_premium_config("finance_categories_free")); ?></td>
+		<td class="number premium"><?php echo number_format(get_premium_config("finance_categories_premium")); ?></td>
 	</tr>
 	<tr>
 		<th><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>">Live graph updates</a></th>

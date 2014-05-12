@@ -461,6 +461,14 @@ foreach ($identities as $identity) {
 	<th><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">Currencies</a>:</th>
 	<td><?php echo number_format($accounts['total_summaries']); ?> (out of <?php echo number_format(get_premium_value($user, 'summaries')); ?>)</td>
 </tr>
+<tr>
+	<th><a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">Finance Accounts</a>:</th>
+	<td><?php echo number_format($accounts['total_finance_accounts']); ?> (out of <?php echo number_format(get_premium_value($user, 'finance_accounts')); ?>)</td>
+</tr>
+<tr>
+	<th><a href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>">Finance Categories</a>:</th>
+	<td><?php echo number_format($accounts['total_finance_categories']); ?> (out of <?php echo number_format(get_premium_value($user, 'finance_categories')); ?>)</td>
+</tr>
 </table>
 
 <p>

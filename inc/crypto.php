@@ -726,6 +726,7 @@ function account_data_grouped() {
 		),
 		'Finance' => array(
 			'finance_accounts' => array('Finance account', 'label' => 'finance account', 'table' => 'finance_accounts', 'group' => 'finance_accounts'),
+			'finance_categories' => array('Finance category', 'label' => 'finance category', 'titles' => 'finance categories', 'table' => 'finance_categories', 'group' => 'finance_categories'),
 		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other', 'failure' => true),

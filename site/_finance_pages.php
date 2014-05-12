@@ -18,4 +18,13 @@
 		Accounts <span class="new">new</span>
 	</a></li>
 
+	<?php
+	$args = array();
+	if (require_get("demo", false)) {
+		$args['demo'] = require_get("demo");
+	} ?>
+	<li class="page_tabfinancecategories<?php if (isset($page_finance_categories) && $page_finance_categories) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('finance_categories', $args)); ?>">
+		Categories <span class="new">new</span>
+	</a></li>
+
 </ul>

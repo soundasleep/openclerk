@@ -328,7 +328,10 @@ function get_default_premium_config() {
 
 		// finance features
 		"finance_accounts_free" => 20,
-		"finance_accounts_premium" => 2,
+		"finance_accounts_premium" => 500,
+
+		"finance_categories_free" => 10,
+		"finance_categories_premium" => 100,
 	);
 
 }

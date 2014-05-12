@@ -124,7 +124,7 @@ foreach ($accounts as $account) {
 	</tr>
 <?php } ?>
 <?php if (!$accounts) { ?>
-	<tr><td colspan="4"><i>No accounts found.</td></tr>
+	<tr><td colspan="5"><i>No finance accounts found.</td></tr>
 <?php } ?>
 </tbody>
 </table>
@@ -141,8 +141,6 @@ $account = array(
 	'description' => require_get('description', ""),
 	'gst' => require_get('gst', ""),
 );
-
-$summaries = get_all_user_currencies();
 
 ?>
 

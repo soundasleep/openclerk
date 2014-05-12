@@ -4249,6 +4249,7 @@ CREATE TABLE finance_categories (
   created_at timestamp not null default current_timestamp,
 
   title varchar(255),
+  description varchar(255) null,
 
   INDEX(user_id)
 );

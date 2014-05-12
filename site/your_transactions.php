@@ -38,6 +38,13 @@ while ($fa = $q->fetch()) {
 	$finance_accounts[$fa['id']] = $fa;
 }
 
+$q = db()->prepare("SELECT * FROM finance_categories WHERE user_id=? ORDER BY title ASC");
+$q->execute(array(user_id()));
+$finance_categories = array();
+while ($fc = $q->fetch()) {
+	$finance_categories[$fc['id']] = $fc;
+}
+
 // get all possible exchanges and currencies
 $q = db()->prepare("SELECT currency1 AS currency FROM transactions WHERE user_id=? GROUP BY currency1 ORDER BY currency ASC");
 $q->execute(array(user_id()));
@@ -53,7 +60,8 @@ $page_args = array(
 	'skip' => max(0, (int) require_get("skip", 0)),
 	'exchange' => require_get('exchange', false),
 	'currency' => require_get('currency', false),
-	'account_id' => require_get('account_id', false),
+	'account_id' => require_get('account_id', ""),
+	'category_id' => require_get('category_id', ""),
 	'show_automatic' => require_get('show_automatic', require_get("filter", false) ? false : true),
 );
 
@@ -68,13 +76,18 @@ if ($page_args['exchange']) {
 
 if ($page_args['currency']) {
 	$extra_query .= " AND (currency1=? OR currency2=?)";
-	$extra_args[] = $page_args['currency'];
-	$extra_args[] = $page_args['currency'];
+	$extra_args[] = (string) $page_args['currency'];
+	$extra_args[] = (string) $page_args['currency'];
 }
 
-if ($page_args['account_id']) {
+if ($page_args['account_id'] !== "") {
 	$extra_query .= " AND account_id=?";
-	$extra_args[] = $page_args['account_id'];
+	$extra_args[] = (int) $page_args['account_id'];
+}
+
+if ($page_args['category_id'] !== "") {
+	$extra_query .= " AND category_id=?";
+	$extra_args[] = (int) $page_args['category_id'];
 }
 
 if (!$page_args['show_automatic']) {
@@ -165,6 +178,23 @@ require(__DIR__ . "/_finance_pages.php");
 			</td>
 		</tr>
 		<tr>
+			<th>Categories</th>
+			<td>
+				<select name="category_id" id="category_id_list">
+					<option value="" class="all">(all)</option>
+					<?php
+					foreach ($finance_categories as $category) {
+						$title = $category['title'];
+
+						echo "<option value=\"" . htmlspecialchars($category['id']) . "\"" .
+							(($page_args['category_id'] == $category['id']) ? " selected" : "") . ">" .
+							htmlspecialchars($title ? $title : "(untitled)") .
+							"</option>\n";
+					} ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
 			<th>Currency</th>
 			<td>
 				<select name="currency" id="currency_list">
@@ -227,6 +257,7 @@ require(__DIR__ . "/_finance_pages.php");
 		<th class="balance default_sort_down">Date</th>
 		<th class="">Account ID</th>
 		<th class="">Account</th>
+		<th class="">Category</th>
 		<th class="">Description</th>
 		<th class="">Reference</th>
 		<th class="number">Amount</th>
@@ -263,7 +294,13 @@ foreach ($transactions as $transaction) {
 			$url = url_for('your_transactions', array('exchange' => $transaction['exchange'], 'account_id' => $transaction['account_id']));
 			if ($transaction['exchange'] == 'account') {
 				$title = isset($finance_accounts[$transaction['account_id']]) ? $finance_accounts[$transaction['account_id']]['title'] : "(unknown)";
-				echo "<a href=\"" . htmlspecialchars($url) . "\">" . htmlspecialchars($title) . "</a>";
+				echo "<a href=\"" . htmlspecialchars($url) . "\">";
+				if (!$transaction['account_id']) {
+					echo t("(none)");
+				} else {
+					echo htmlspecialchars($title);
+				}
+				echo "</a>";
 			} else {
 				echo $url ? "<a href=\"" . htmlspecialchars($url) . "\">" : "";
 				echo get_exchange_or_currency_name($transaction['exchange']);
@@ -283,6 +320,14 @@ foreach ($transactions as $transaction) {
 			}
 			echo $url ? "</a>" : "";
 		 	?>
+		</td>
+		<td>
+			<?php
+			$url = url_for('your_transactions', array('exchange' => $transaction['exchange'], 'category_id' => $transaction['category_id']));
+			if (isset($finance_categories[$transaction['category_id']])) {
+				echo "<a href=\"" . htmlspecialchars($url) . "\">" . htmlspecialchars($finance_categories[$transaction['category_id']]['title']) . "</a>";
+			}
+			?>
 		</td>
 		<td>
 			<?php if ($transaction['is_automatic']) {
@@ -313,12 +358,12 @@ foreach ($transactions as $transaction) {
 <?php $last_date = $transaction_date;
 } ?>
 <?php if (!$transactions) { ?>
-	<tr><td colspan="7"><i>No transactions found.</td></tr>
+	<tr><td colspan="8"><i>No transactions found.</td></tr>
 <?php } ?>
 </tbody>
 <tfoot>
 	<tr>
-		<td class="buttons" colspan="7">
+		<td class="buttons" colspan="8">
 			<form action="<?php echo htmlspecialchars(url_for('your_transactions')); ?>" method="get">
 				<?php
 				$button_args = array('skip' => max(0, $page_args['skip'] - $page_size)) + $page_args;
