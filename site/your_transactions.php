@@ -606,11 +606,21 @@ foreach ($transactions as $transaction) {
 		<td class="number">
 			<?php
 			ksort($totals);
-			foreach ($totals as $currency => $value) { ?>
+			$totals_count = 0;
+			foreach ($totals as $currency => $value) {
+				$totals_count++;
+				if ($totals_count == 3) {
+					echo "<a class=\"collapse-link collapsed\">+</a><span class=\"collapse-target\" style=\"display:none;\">";
+				}
+				if ($totals_count > 1) {
+					echo "<br>";
+				}
+				?>
 				<span class="transaction_<?php echo htmlspecialchars($currency) . ($value < 0 ? " negative" : ""); ?>">
 					<?php echo currency_format($currency, $value, 8); ?>
-				</span><br>
-			<?php } ?>
+				</span>
+			<?php }
+			if ($totals_count > 3) echo "</span>"; ?>
 		</td>
 		<?php if ($page_args['include_rates']) { ?>
 		<td></td>
@@ -662,7 +672,7 @@ $summaries = get_all_user_currencies();
 <table class="add-transaction">
 <tr>
 	<th>Date:</th>
-	<td><input type="text" name="date" size="16" value="<?php echo htmlspecialchars($transaction['date']); ?>"></td>
+	<td><input type="text" name="date" size="16" value="<?php echo htmlspecialchars($transaction['date']); ?>"> <span class="required">*</span></td>
 </tr>
 <tr>
 	<th>Account:</th>
