@@ -1,11 +1,12 @@
 <?php
 
 require_once(__DIR__ . "/../inc/global.php");
+require_once(__DIR__ . "/OpenclerkTest.php");
 
 /**
  * Tests locale functionality.
  */
-class LocaleTest extends PHPUnit_Framework_TestCase {
+class LocaleTest extends OpenclerkTest {
 
 	/**
 	 * Tests {@link t()} functionality.
@@ -59,4 +60,53 @@ class LocaleTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	/**
+	 * Iterate through the site and find as many i18n strings as we can.
+	 * This assumes the whole site uses good code conventions: {@code $i . t("foo")} rather than {@code $i.t("foo")} etc.
+	 */
+	function testGeneratei18nStrings() {
+		$files = $this->recurseFindFiles(".", "");
+		$this->assertTrue(count($files) > 0);
+
+		$found = array();
+
+		foreach ($files as $f) {
+			// don't look within tests folders
+			if (strpos(str_replace("\\", "/", $f), "/tests/") !== false) {
+				continue;
+			}
+			$input = file_get_contents($f);
+
+			$matches = false;
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+?)\\)#", $input, $matches, PREG_SET_ORDER)) {
+				foreach ($matches as $match) {
+					$found[$match[2]] = $match[2];
+				}
+			}
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+?)\\)#", $input, $matches, PREG_SET_ORDER)) {
+				foreach ($matches as $match) {
+					$found[$match[2]] = $match[2];
+				}
+			}
+		}
+
+		$this->assertTrue(count($found) > 0);
+		sort($found);
+
+		// write them out to a common file
+		$fp = fopen(__DIR__ . "/../locale/template.json", 'w');
+		fwrite($fp, "{");
+		// fwrite($fp, "  \"__comment\": " . json_encode("Generated language template file - do not modify directly"));
+		$first = true;
+		foreach ($found as $key) {
+			if (!$first) {
+				fwrite($fp, ",");
+			}
+			$first = false;
+			fwrite($fp, "\n  " . json_encode($key) . ": " . json_encode($key));
+		}
+		fwrite($fp, "\n}\n");
+		fclose($fp);
+
+	}
 }

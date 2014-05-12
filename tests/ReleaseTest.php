@@ -1,11 +1,12 @@
 <?php
 
 require_once(__DIR__ . "/../inc/global.php");
+require_once(__DIR__ . "/OpenclerkTest.php");
 
 /**
  * Tests related to the release quality of Openclerk - i.e. more like integration tests.
  */
-class ReleaseTest extends PHPUnit_Framework_TestCase {
+class ReleaseTest extends OpenclerkTest {
 
 	/**
 	 * Check that each require(), require_once(), include() or include_once() within Openclerk
@@ -26,35 +27,6 @@ class ReleaseTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(array_equals(array(1, 2), array(2, 1)));
 		$this->assertFalse(array_equals(array(1, 2), array(1, 2, 3)));
-	}
-
-	function recurseFindFiles($dir, $name) {
-		$result = array();
-		if ($handle = opendir($dir)) {
-			while (false !== ($entry = readdir($handle))) {
-				if ($entry != "." && $entry != "..") {
-					if (substr(strtolower($entry), -4) == ".php") {
-						$result[] = $dir . "/" . $entry;
-					} else if (is_dir($dir . "/" . $entry)) {
-						if ($name == 'inc') {
-							// ignore subdirs of inc
-							continue;
-						}
-						if ($name == 'vendor') {
-							// ignore subdirs of vendor
-							continue;
-						}
-						if ($name == 'git') {
-							// ignore 'git' dir (temporarily)
-							continue;
-						}
-						$result = array_merge($result, $this->recurseFindFiles($dir . "/" . $entry, $entry));
-					}
-				}
-			}
-			closedir($handle);
-		}
-		return $result;
 	}
 
 	/**
@@ -118,55 +90,6 @@ class ReleaseTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, version_compare("0.12.1", "0.2"));
 		$this->assertEquals(1, version_compare("0.13", "0.12.1"));
 		$this->assertEquals(-1, version_compare("0.12.1", "0.13"));
-	}
-
-	/**
-	 * Iterate through the site and find as many i18n strings as we can.
-	 * This assumes the whole site uses good code conventions: {@code $i . t("foo")} rather than {@code $i.t("foo")} etc.
-	 */
-	function testGeneratei18nStrings() {
-		$files = $this->recurseFindFiles(".", "");
-		$this->assertTrue(count($files) > 0);
-
-		$found = array();
-
-		foreach ($files as $f) {
-			if (strpos(str_replace("\\", "/", $f), "/tests/") !== false) {
-				continue;
-			}
-			$input = file_get_contents($f);
-
-			$matches = false;
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+)\\)#", $input, $matches, PREG_SET_ORDER)) {
-				foreach ($matches as $match) {
-					$found[$match[2]] = $match[2];
-				}
-			}
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+)\\)#", $input, $matches, PREG_SET_ORDER)) {
-				foreach ($matches as $match) {
-					$found[$match[2]] = $match[2];
-				}
-			}
-		}
-
-		$this->assertTrue(count($found) > 0);
-		sort($found);
-
-		// write them out to a common file
-		$fp = fopen(__DIR__ . "/../locale/template.json", 'w');
-		fwrite($fp, "{");
-		// fwrite($fp, "  \"__comment\": " . json_encode("Generated language template file - do not modify directly"));
-		$first = true;
-		foreach ($found as $key) {
-			if (!$first) {
-				fwrite($fp, ",");
-			}
-			$first = false;
-			fwrite($fp, "\n  " . json_encode($key) . ": " . json_encode($key));
-		}
-		fwrite($fp, "\n}\n");
-		fclose($fp);
-
 	}
 
 }
