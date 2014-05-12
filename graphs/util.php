@@ -80,6 +80,10 @@ function get_all_offset_instances() {
 	return $global_all_offset_instances;
 }
 
+/**
+ * Return a list of summary keys for this user
+ * (e.g. 'summary_usd_bitstamp', 'summary_btc', ...)
+ */
 function get_all_summary_currencies() {
 	$summaries = get_all_summaries();
 	$result = array();
@@ -89,6 +93,14 @@ function get_all_summary_currencies() {
 		$result[$c] = $s['summary_type'];
 	}
 	return $result;
+}
+
+/**
+ * Like {@link #get_all_summary_currencies()}, but returns
+ * a list of currencies rather than summary keys.
+ */
+function get_all_user_currencies() {
+	return array_keys(get_all_summary_currencies());
 }
 
 function get_all_conversion_currencies() {

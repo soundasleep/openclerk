@@ -308,9 +308,9 @@ table.fancy.contact-table { margin-top: 10px; margin-bottom: 10px; }
 .currency_list li { line-height: 2em; }
 
 select.country { max-width: 240px; }
-.authentication-form { background: #222; border: 1px solid #333; border-radius: 16px; padding: 16px; margin: 10px auto 10px auto; max-width: 600px; }
-.authentication-form h2 { margin-top: 0; }
-.authentication-form th, .user-profile th { text-align: left; white-space: nowrap; width: 10%; vertical-align: top; line-height: 150%; min-width: 100px; }
+.authentication-form, .finance-form { background: #222; border: 1px solid #333; border-radius: 16px; padding: 16px; margin: 10px auto 10px auto; max-width: 600px; }
+.authentication-form h2, .finance-form h2 { margin-top: 0; }
+.authentication-form th, .user-profile th, .finance-form th { text-align: left; white-space: nowrap; width: 10%; vertical-align: top; line-height: 150%; min-width: 100px; }
 .authentication-form .login-with-openid th, .authentication-form .login-with-password th { padding-top: 5px; }
 .authentication-form .login-with-password td { padding-top: 2px; }
 .authentication-form .login-with-password input[type='submit'] { margin-top: 5px; padding: 2px 5px 2px 5px; }

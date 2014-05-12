@@ -4218,3 +4218,40 @@ ALTER TABLE transaction_creators ADD INDEX(is_address);
 -- stop NULLs getting in; if we have a transaction, it must have a currency and value (which may be 0) defined
 ALTER TABLE transactions MODIFY currency1 varchar(3) not null;
 ALTER TABLE transactions MODIFY value1 decimal(24,8) not null;
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.22 to 0.23
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+-- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
+DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
+
+DROP TABLE IF EXISTS finance_accounts;
+
+CREATE TABLE finance_accounts (
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+
+  title varchar(255) not null,
+
+  description varchar(255) null,
+  gst varchar(64) null,
+
+  INDEX(user_id)
+);
+
+DROP TABLE IF EXISTS finance_categories;
+
+CREATE TABLE finance_categories (
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+
+  title varchar(255),
+
+  INDEX(user_id)
+);
+
+ALTER TABLE transactions ADD category_id int null;
+

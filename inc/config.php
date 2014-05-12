@@ -325,6 +325,10 @@ function get_default_premium_config() {
 
 		"max_failures_free" => 5 * 5,			// remember a job executes up to 5 times
 		"max_failures_premium" => 20 * 5,		// increase this value (e.g. 10x) because premium users are exposed to more errors
+
+		// finance features
+		"finance_accounts_free" => 20,
+		"finance_accounts_premium" => 2,
 	);
 
 }
