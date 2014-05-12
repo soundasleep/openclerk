@@ -89,7 +89,7 @@ require(__DIR__ . "/_finance_pages.php");
 		<th class="default_sort_down">Title</th>
 		<th class="number">Transactions</th>
 		<th class="">Description</th>
-		<th class=""></th>
+		<th class="buttons"></th>
 	</tr>
 </thead>
 <tbody>
@@ -112,7 +112,7 @@ foreach ($categories as $category) {
 			?>
 		</td>
 		<td><?php echo htmlspecialchars($category['description']); ?></td>
-		<td>
+		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('finance_categories')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($category['id']); ?>">
 				<input type="submit" name="delete" value="Delete" class="delete" title="Delete this category" onclick="return confirm('Are you sure you want to delete this category?');">

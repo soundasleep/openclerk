@@ -349,7 +349,7 @@ foreach ($transactions as $transaction) {
 				<?php echo currency_format($transaction['currency1'], $transaction['value1'], 8); ?>
 			</span>
 		</td>
-		<td>
+		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('your_transactions#add_transaction')); ?>" method="get">
 				<input type="hidden" name="description" value="<?php echo htmlspecialchars($transaction['description']); ?>">
 				<input type="hidden" name="reference" value="<?php echo htmlspecialchars($transaction['reference']); ?>">

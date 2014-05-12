@@ -91,7 +91,7 @@ require(__DIR__ . "/_finance_pages.php");
 		<th class="number">Transactions</th>
 		<th class="">Description</th>
 		<th class="number">GST</th>
-		<th class=""></th>
+		<th class="buttons"></th>
 	</tr>
 </thead>
 <tbody>
@@ -115,7 +115,7 @@ foreach ($accounts as $account) {
 		</td>
 		<td><?php echo htmlspecialchars($account['description']); ?></td>
 		<td><?php echo htmlspecialchars($account['gst']); ?></td>
-		<td>
+		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($account['id']); ?>">
 				<input type="submit" name="delete" value="Delete" class="delete" title="Delete this account" onclick="return confirm('Are you sure you want to delete this account?');">

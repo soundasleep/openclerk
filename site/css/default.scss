@@ -327,6 +327,21 @@ select.country { max-width: 240px; }
 }
 
 .your-transactions form { display: inline-block; }
+.page_finance {
+  .your-accounts table.standard {
+    width: 80%;
+    margin: 15px auto;
+  }
+
+  table.standard {
+    thead, tbody {
+      tr.buttons, td.buttons {
+        width: 64px;
+        text-align: center;
+      }
+    }
+  }
+}
 
 .authentication-form button { margin-bottom: 5px; }
 .authentication-form button.openid { height: 32px; padding: 2px 5px 5px 5px; margin-right: 3px; }
