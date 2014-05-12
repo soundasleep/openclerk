@@ -442,7 +442,7 @@ $summaries = get_all_user_currencies();
 
 <form action="<?php echo htmlspecialchars(url_for('transaction_add')); ?>" method="post">
 <a name="add_transaction"></a>
-<table>
+<table class="add-transaction">
 <tr>
 	<th>Date:</th>
 	<td><input type="text" name="date" size="16" value="<?php echo htmlspecialchars($transaction['date']); ?>"></td>
@@ -462,7 +462,7 @@ $summaries = get_all_user_currencies();
 			?>
 		</select>
 
-		<a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">Add new account</a>
+		<a class="add-new" href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">Add new account</a>
 	</td>
 </tr>
 <tr>
@@ -480,7 +480,7 @@ $summaries = get_all_user_currencies();
 			?>
 		</select>
 
-		<a href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>">Add new category</a>
+		<a class="add-new" href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>">Add new category</a>
 	</td>
 </tr>
 <tr>
