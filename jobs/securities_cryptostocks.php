@@ -24,6 +24,7 @@ $data = crypto_json_decode($content);
 
 // we now have a new value
 $balance = $data['highest_bid'];
+if ($balance === "") $balance = 0;
 $currency = strtolower($data['currency']);
 
 // this lets us keep track of shares in currencies we don't support yet
