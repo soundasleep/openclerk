@@ -88,7 +88,7 @@ foreach ($stored as $date => $a) {
 		foreach ($b as $cur1 => $c) {
 			foreach ($c as $cur2 => $summary) {
 				$q = db_master()->prepare("INSERT INTO graph_data_ticker SET
-						exchange=:exchange, currency1=:currency1, currency2=:currency2, data_date=:data_date, samples=:samples,
+						exchange=:exchange, currency1=:currency1, currency2=:currency2, data_date=:data_date, samples=:samples, data_date_day=TO_DAYS(:data_date),
 						volume=:volume, last_trade_min=:min, last_trade_opening=:open, last_trade_closing=:close, last_trade_max=:max, bid=:bid, ask=:ask, last_trade_stdev=:stdev");
 				$q->execute(array(
 					'exchange' => $exchange,

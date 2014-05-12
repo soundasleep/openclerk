@@ -257,6 +257,17 @@ function currency_format($currency_code, $n, $precision = 8 /* must be 8 for iss
 	return "<span class=\"" . strtolower($currency) . "_format currency_format\" title=\"" . number_format_autoprecision($n, 8) . " $currency\">" . number_format_precision($n, $precision) . " <span class=\"code\">$currency</span></span>";
 }
 
+function rate_format($currency1, $currency2, $n, $precision = 8 /* must be 8 for issue #1 */) {
+	$currency1 = get_currency_abbr($currency1);
+	$currency2 = get_currency_abbr($currency2);
+
+	if (!is_numeric($n)) {
+		return "<span class=\"error\">" . $n . " $currency</span>";
+	}
+
+	return "<span class=\"rate_format currency_format\" title=\"" . number_format_autoprecision($n, 8) . " $currency1/$currency2\">" . number_format_precision($n, $precision) . " <span class=\"code\">$currency1/$currency2</span></span>";
+}
+
 /**
  * Note that due to autoprecision this just makes a mess, there is no precision.
  * Consider using {@link #number_format_precision_html()} instead.

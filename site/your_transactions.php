@@ -69,6 +69,7 @@ $page_args = array(
 	'account_id' => require_get('account_id', ""),
 	'category_id' => require_get('category_id', ""),
 	'show_automatic' => require_get('show_automatic', require_get("filter", false) ? false : true),
+	'include_rates' => require_get("include_rates", false),
 );
 
 // TODO implement filtering
@@ -106,9 +107,92 @@ if (require_get("csv", false) && $user['is_premium']) {
 	$page_size = 1e6;
 }
 
-$q = db()->prepare("SELECT * FROM transactions WHERE user_id=? $extra_query ORDER BY transaction_date_day DESC LIMIT " . $page_args['skip'] . ", $page_size");
+$q = db()->prepare("SELECT * FROM transactions WHERE user_id=? $extra_query ORDER BY transaction_date_day DESC, currency1 ASC, currency2 ASC LIMIT " . $page_args['skip'] . ", $page_size");
 $q->execute(array_merge(array(user_id()), $extra_args));
 $transactions = $q->fetchAll();
+
+$rates = array();
+
+foreach ($transactions as $id => $transaction) {
+	$account_data = get_account_data($transaction['exchange'], false);
+	$account_full = false;
+	if ($account_data) {
+		$q = db()->prepare("SELECT * FROM " . $account_data['table'] . " WHERE id=? LIMIT 1");
+		$q->execute(array($transaction['account_id']));
+		$account_full = $q->fetch();
+	}
+
+	if ($transaction['exchange'] == 'account') {
+		$account = "(finance account)";
+		$account_title = isset($finance_accounts[$transaction['account_id']]) ? $finance_accounts[$transaction['account_id']]['title'] : "(none)";
+	} else {
+		$account = get_exchange_or_currency_name($transaction['exchange']);
+		$account_title = false;
+		if (!$account_title && $account_full && isset($account_full['title']) && $account_full['title']) {
+			$account_title = $account_full['title'];
+		}
+		if (!$account_title && $account_full && isset($account_full['address']) && $account_full['address']) {
+			$account_title = $account_full['address'];
+		}
+	}
+
+	$transactions[$id]['exchange_name'] = $account;
+	$transactions[$id]['account_title'] = $account_title;
+
+	// get rates for that day
+	if ($page_args['include_rates']) {
+		foreach (array(1, 2) as $index) {
+			if ($transaction['currency' . $index] && $transaction['value' . $index]) {
+				if ($transaction['currency' . $index] == 'btc') {
+					$currency1 = 'usd';
+					$currency2 = 'btc';
+				} else if (is_fiat_currency($transaction['currency' . $index])) {
+					$currency1 = $transaction['currency' . $index];
+					$currency2 = 'btc';
+				} else {
+					$currency1 = 'btc';
+					$currency2 = $transaction['currency' . $index];
+				}
+				$exchange = 'average';
+
+				$key = $exchange . "_" . $currency1 . "_" . $currency2 . "_" . $transaction['transaction_date_day'];
+				if (!isset($rates[$key])) {
+
+					$args = array(
+						'transaction_date_day' => $transaction['transaction_date_day'],
+						'currency1' => $currency1,
+						'currency2' => $currency2,
+						'exchange' => $exchange,
+					);
+
+					// try recent data
+					$q = db()->prepare("SELECT * FROM ticker WHERE created_at_day=:transaction_date_day AND currency1=:currency1 AND currency2=:currency2 AND exchange=:exchange LIMIT 1");
+					$q->execute($args);
+					$rate = $q->fetch();
+
+					if (!$rate) {
+						// try historical data
+						$q = db()->prepare("SELECT * FROM graph_data_ticker WHERE data_date_day=:transaction_date_day AND currency1=:currency1 AND currency2=:currency2 AND exchange=:exchange LIMIT 1");
+						$q->execute($args);
+						$rate = $q->fetch();
+					}
+
+					if ($rate) {
+						$rates[$key] = $rate;
+					}
+				}
+
+				if (isset($rates[$key])) {
+					$transactions[$id]['rates' . $index . '_exchange'] = $exchange;
+					$transactions[$id]['rates' . $index . '_currency1'] = $currency1;
+					$transactions[$id]['rates' . $index . '_currency2'] = $currency2;
+					$transactions[$id]['rates' . $index . '_bid'] = $rates[$key]['bid'];
+					$transactions[$id]['rates' . $index . '_ask'] = $rates[$key]['ask'];
+				}
+			}
+		}
+	}
+}
 
 // export to CSV?
 if (require_get("csv", false)) {
@@ -117,12 +201,14 @@ if (require_get("csv", false)) {
 				':premium_users' => "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">" . t("premium users") . "</a>",
 			));
 	} else {
+		check_heavy_request();
+
 		require(__DIR__ . "/../inc/content_type/csv.php");		// to allow for appropriate headers etc
 
 		header("Content-Disposition: attachment;filename=transactions.csv");
 
 		// output transactions
-		echo csv_encode(array(
+		$header = array(
 			"Transaction ID",
 			"Date",
 			"Account ID",
@@ -135,38 +221,26 @@ if (require_get("csv", false)) {
 			"Currency 1",
 			"Amount 2",
 			"Currency 2",
-		));
+		);
+		if ($page_args['include_rates']) {
+			$header[] = "Amount 1 Daily Rate Exchange";
+			$header[] = "Amount 1 Daily Rate Currency 1";
+			$header[] = "Amount 1 Daily Rate Currency 2";
+			$header[] = "Amount 1 Daily Rate Bid";
+			$header[] = "Amount 2 Daily Rate Exchange";
+			$header[] = "Amount 2 Daily Rate Currency 1";
+			$header[] = "Amount 2 Daily Rate Currency 2";
+			$header[] = "Amount 2 Daily Rate Bid";
+		}
+		echo csv_encode($header);
 
 		foreach ($transactions as $transaction) {
-			$account_data = get_account_data($transaction['exchange'], false);
-			$account_full = false;
-			if ($account_data) {
-				$q = db()->prepare("SELECT * FROM " . $account_data['table'] . " WHERE id=? LIMIT 1");
-				$q->execute(array($transaction['account_id']));
-				$account_full = $q->fetch();
-			}
-
-			if ($transaction['exchange'] == 'account') {
-				$account = "(finance account)";
-				$account_title = isset($finance_accounts[$transaction['account_id']]) ? $finance_accounts[$transaction['account_id']]['title'] : "(unknown)";
-			} else {
-				$account = get_exchange_or_currency_name($transaction['exchange']);
-				$account_title = false;
-				if (!$account_title && $account_full && isset($account_full['title']) && $account_full['title']) {
-					$account_title = $account_full['title'];
-				}
-				if (!$account_title && $account_full && isset($account_full['address']) && $account_full['address']) {
-					$account_title = $account_full['address'];
-				}
-
-			}
-
-			echo csv_encode(array(
+			$row = array(
 				$transaction['id'],
 				date("Y-m-d", strtotime($transaction['transaction_date'])),
 				$transaction['exchange'] . "-" . $transaction['account_id'],
-				$account,
-				$account_title,
+				$transaction['exchange_name'],
+				$transaction['account_title'],
 				isset($finance_categories[$transaction['category_id']]) ? $finance_categories[$transaction['category_id']]['title'] : "",
 				$transaction['is_automatic'] ? "(generated automatically)" : $transaction['description'],
 				$transaction['is_automatic'] ? $transaction['id'] : $transaction['reference'],
@@ -174,7 +248,18 @@ if (require_get("csv", false)) {
 				$transaction['currency1'],
 				$transaction['value2'],
 				$transaction['currency2'],
-			));
+			);
+			if ($page_args['include_rates']) {
+				$row[] = isset($transaction['rates1_exchange']) ? $transaction['rates1_exchange'] : "";
+				$row[] = isset($transaction['rates1_currency1']) ? $transaction['rates1_currency1'] : "";
+				$row[] = isset($transaction['rates1_currency2']) ? $transaction['rates1_currency2'] : "";
+				$row[] = isset($transaction['rates1_bid']) ? $transaction['rates1_bid'] : "";
+				$row[] = isset($transaction['rates2_exchange']) ? $transaction['rates2_exchange'] : "";
+				$row[] = isset($transaction['rates2_currency1']) ? $transaction['rates2_currency1'] : "";
+				$row[] = isset($transaction['rates2_currency2']) ? $transaction['rates2_currency2'] : "";
+				$row[] = isset($transaction['rates2_bid']) ? $transaction['rates2_bid'] : "";
+			}
+			echo csv_encode($row);
 		}
 
 		performance_metrics_page_end();
@@ -301,6 +386,15 @@ require(__DIR__ . "/_finance_pages.php");
 				</label>
 			</td>
 		</tr>
+		<tr>
+			<th></th>
+			<td>
+				<label>
+				<input type="checkbox" name="include_rates" value="1"<?php echo $page_args['include_rates'] ? " checked" : ""; ?>>
+				Include daily exchange rates
+				</label>
+			</td>
+		</tr>
 		<tr class="buttons">
 			<td colspan="2">
 				<input type="submit" value="Filter">
@@ -348,6 +442,9 @@ require(__DIR__ . "/_finance_pages.php");
 		<th class="">Description</th>
 		<th class="">Reference</th>
 		<th class="number">Amount</th>
+		<?php if ($page_args['include_rates']) { ?>
+			<th class="rates">Daily Rates</th>
+		<?php } ?>
 		<th class="buttons"></th>
 	</tr>
 </thead>
@@ -381,33 +478,18 @@ foreach ($transactions as $transaction) {
 		<td>
 			<?php
 			$url = url_for('your_transactions', array('exchange' => $transaction['exchange'], 'account_id' => $transaction['account_id']));
+			echo "<a href=\"" . htmlspecialchars($url) . "\">";
+
 			if ($transaction['exchange'] == 'account') {
-				$title = isset($finance_accounts[$transaction['account_id']]) ? $finance_accounts[$transaction['account_id']]['title'] : "(unknown)";
-				echo "<a href=\"" . htmlspecialchars($url) . "\">";
-				if (!$transaction['account_id']) {
-					echo t("(none)");
-				} else {
-					echo htmlspecialchars($title);
-				}
-				echo "</a>";
+				echo $transaction['account_title'];
 			} else {
-				echo $url ? "<a href=\"" . htmlspecialchars($url) . "\">" : "";
-				echo get_exchange_or_currency_name($transaction['exchange']);
+				echo $transaction['exchange_name'];
 			}
 
-			$title = false;
-			if (!$title && $account_full && isset($account_full['title']) && $account_full['title']) {
-				$title = $account_full['title'];
+			if ($account && $transaction['exchange'] != 'account' && $transaction['account_title']) {
+				echo ": " . htmlspecialchars($transaction['account_title']);
 			}
-			if (!$title && $account_full && isset($account_full['address']) && $account_full['address']) {
-				$title = $account_full['address'];
-			}
-
-			if ($account && $title) {
-				echo ": ";
-				echo $title ? htmlspecialchars($title) : "<i>untitled</i>";
-			}
-			echo $url ? "</a>" : "";
+			echo "</a>";
 		 	?>
 		</td>
 		<td>
@@ -456,6 +538,25 @@ foreach ($transactions as $transaction) {
 			}
 			?>
 		</td>
+		<?php if ($page_args['include_rates']) { ?>
+		<td class="number rate">
+			<?php if (isset($transaction['rates1_bid'])) { ?>
+				<a href="<?php echo htmlspecialchars(url_for('average', array('currency1' => $transaction['rates1_currency1'], 'currency2' => $transaction['rates1_currency2']))); ?>">
+				<span class="transaction_rate">
+					<?php echo rate_format($transaction['rates1_currency1'], $transaction['rates1_currency2'], $transaction['rates1_bid'], 8); ?>
+				</span>
+				</a>
+			<?php } ?>
+			<?php if (isset($transaction['rates2_bid'])) { ?>
+				<br>
+				<a href="<?php echo htmlspecialchars(url_for('average', array('currency1' => $transaction['rates2_currency1'], 'currency2' => $transaction['rates2_currency2']))); ?>">
+				<span class="transaction_rate">
+					<?php echo rate_format($transaction['rates2_currency1'], $transaction['rates2_currency2'], $transaction['rates2_bid'], 8); ?>
+				</span>
+			</a>
+			<?php } ?>
+		</td>
+		<?php } ?>
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('your_transactions#add_transaction')); ?>" method="get">
 				<input type="hidden" name="description" value="<?php echo htmlspecialchars($transaction['description']); ?>">
@@ -484,7 +585,7 @@ foreach ($transactions as $transaction) {
 <?php $last_date = $transaction_date;
 } ?>
 <?php if (!$transactions) { ?>
-	<tr><td colspan="8"><i>No transactions found.</td></tr>
+	<tr><td colspan="<?php echo $page_args['include_rates'] ? 9 : 8; ?>"><i>No transactions found.</td></tr>
 <?php } ?>
 </tbody>
 <tfoot>
@@ -511,6 +612,9 @@ foreach ($transactions as $transaction) {
 				</span><br>
 			<?php } ?>
 		</td>
+		<?php if ($page_args['include_rates']) { ?>
+		<td></td>
+		<?php } ?>
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('your_transactions')); ?>" method="get">
 				<?php

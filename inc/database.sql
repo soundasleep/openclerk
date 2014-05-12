@@ -4256,3 +4256,6 @@ CREATE TABLE finance_categories (
 
 ALTER TABLE transactions ADD category_id int null;
 
+ALTER TABLE graph_data_ticker ADD data_date_day mediumint not null;
+UPDATE graph_data_ticker SET data_date_day=TO_DAYS(data_date);
+ALTER TABLE graph_data_ticker ADD INDEX(data_date_day);
