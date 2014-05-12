@@ -166,7 +166,7 @@ foreach ($transactions as $id => $transaction) {
 					);
 
 					// try recent data
-					$q = db()->prepare("SELECT * FROM ticker WHERE created_at_day=:transaction_date_day AND currency1=:currency1 AND currency2=:currency2 AND exchange=:exchange LIMIT 1");
+					$q = db()->prepare("SELECT * FROM ticker WHERE created_at_day=:transaction_date_day AND currency1=:currency1 AND currency2=:currency2 AND exchange=:exchange AND is_daily_data=1 LIMIT 1");
 					$q->execute($args);
 					$rate = $q->fetch();
 
@@ -631,7 +631,13 @@ foreach ($transactions as $transaction) {
 </div>
 
 <div class="finance-form">
-<h2>Add Manual Transaction</h2>
+<h2>Add Transaction</h2>
+
+<p>
+	Here you may add in a transaction for a different <a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">account</a>
+	or <a href="<?php echo htmlspecialchars(url_for('finance_category')); ?>">category</a> that cannot be
+	<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'transaction_creation'))); ?>">generated automatically</a>.
+</p>
 
 <?php
 
