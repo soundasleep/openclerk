@@ -26,14 +26,14 @@ foreach ($users as $user) {
 		if (!$has_identity) {
 
 			require(__DIR__ . "/../layout/templates.php");
-			page_header("Unsubscribe unsuccessful", "page_unsubscribe");
+			page_header(t("Unsubscribe unsuccessful"), "page_unsubscribe");
 
 			?>
-			<h1>Unsubscribe unsuccessful</h1>
+			<h1><?php echo ht("Unsubscribe unsuccessful"); ?></h1>
 
 			<p class="error">
-			Your e-mail address, <a href="mailto:<?php echo htmlspecialchars($email); ?>"><?php echo htmlspecialchars($email); ?></a>,
-			cannot be removed from this site, as this e-mail address is being used as login information for an account.
+				Your e-mail address, <a href="mailto:<?php echo htmlspecialchars($email); ?>"><?php echo htmlspecialchars($email); ?></a>,
+				cannot be removed from this site, as this e-mail address is being used as login information for an account.
 			</p>
 
 			<p>
@@ -54,10 +54,10 @@ $query = db()->prepare("UPDATE users SET email=NULL,updated_at=NOW() where email
 $query->execute(array($email));
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Unsubscribe", "page_unsubscribe");
+page_header(t("Unsubscribe"), "page_unsubscribe");
 
 ?>
-<h1>Unsubscribe</h1>
+<h1><?php echo ht("Unsubscribe"); ?></h1>
 
 <p class="success">
 Your e-mail address, <a href="mailto:<?php echo htmlspecialchars($email); ?>"><?php echo htmlspecialchars($email); ?></a>, has

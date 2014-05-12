@@ -7,7 +7,7 @@
 require(__DIR__ . "/../inc/global.php");
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Cryptocurrency Calculator", "page_calculator", array('js' => 'calculator'));
+page_header(t("Cryptocurrency Calculator"), "page_calculator", array('js' => 'calculator'));
 
 require_template("calculator");
 

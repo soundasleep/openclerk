@@ -1,11 +1,11 @@
 <li id="tab_profile_addpage_tab" style="display:none;">
 <div class="add_page">
-<h2>Add new page</h2>
+<h2><?php echo ht("Add new page"); ?></h2>
 
 <form action="<?php echo htmlspecialchars(url_for('profile_add_page')); ?>" method="post">
 <table class="form">
 <tr>
-	<th>Title:</th>
+	<th><?php echo ht("Title:"); ?></th>
 	<td><input name="title" maxlength="64"></td>
 </tr>
 <tr>
@@ -22,13 +22,13 @@
 <?php if ($pages && !$graph_page['is_managed']) { ?>
 <li id="tab_profile_deletepage_tab" style="display:none;">
 <div class="delete_page">
-<h2>Remove this page</h2>
+<h2><?php echo ht("Remove this page"); ?></h2>
 
 <form action="<?php echo htmlspecialchars(url_for('profile_remove_page')); ?>" method="post">
 <table class="form">
 <tr>
 	<th></th>
-	<td><label><input type="checkbox" name="confirm" value="1"> Remove this page</label></td>
+	<td><label><input type="checkbox" name="confirm" value="1"> <?php echo ht("Remove this page"); ?></label></td>
 </tr>
 <tr>
 	<td colspan="2" class="buttons">

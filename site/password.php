@@ -34,27 +34,27 @@ if ($email && $confirm) {
 				"url" => absolute_url(url_for("password_reset", array('email' => $email, 'hash' => $hash))),
 			));
 
-			$messages[] = "Further instructions to change your password have been sent to your e-mail address " . htmlspecialchars($email) . ".";
+			$messages[] = t("Further instructions to change your password have been sent to your e-mail address :email.", array(':email' => htmlspecialchars($email)));
 		} else {
-			$errors[] = "No such user account exists.";
+			$errors[] = t("No such user account exists.");
 		}
 	}
 }
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Reset Password", "page_password", array('js' => 'auth'));
+page_header(t("Reset Password"), "page_password", array('js' => 'auth'));
 
 ?>
 
 <?php require_template("password"); ?>
 
 <div class="authentication-form">
-<h2>Reset password</h2>
+<h2><?php echo ht("Reset password"); ?></h2>
 
 <form action="<?php echo htmlspecialchars(absolute_url(url_for('password'))); ?>" method="post">
 <table class="login_form">
 	<tr>
-		<th><label for="email">Email:</label></th>
+		<th><label for="email"><?php echo ht("E-mail:"); ?></label></th>
 		<td><input type="text" id="email" name="email" size="48" value="<?php echo htmlspecialchars($email); ?>" maxlength="255"></td>
 	</tr>
 	<tr>

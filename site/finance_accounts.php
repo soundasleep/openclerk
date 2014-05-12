@@ -57,7 +57,7 @@ if (require_post("title", false)) {
 	}
 }
 
-page_header("Your Finance Accounts", "page_finance_accounts", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
+page_header(t("Your Finance Accounts"), "page_finance_accounts", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
 
 $q = db()->prepare("SELECT * FROM finance_accounts WHERE user_id=?");
 $q->execute(array(user_id()));
@@ -132,7 +132,7 @@ foreach ($accounts as $account) {
 
 <div class="finance-form">
 
-<h2>Add Account</h2>
+<h2><?php echo ht("Add Account"); ?></h2>
 
 <?php
 
@@ -147,20 +147,20 @@ $account = array(
 <form action="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>" method="post">
 <table>
 <tr>
-	<th>Title:</th>
+	<th><?php echo ht("Title:"); ?></th>
 	<td><input type="text" name="title" size="32" value="<?php echo htmlspecialchars($account['title']); ?>"> <span class="required">*</span></td>
 </tr>
 <tr>
-	<th>Description:</th>
+	<th><?php echo ht("Description:"); ?></th>
 	<td><input type="text" name="description" size="64" value="<?php echo htmlspecialchars($account['description']); ?>"></td>
 </tr>
 <tr>
-	<th>GST number:</th>
+	<th><?php echo ht("GST number:"); ?></th>
 	<td><input type="text" name="gst" size="32" value="<?php echo htmlspecialchars($account['gst']); ?>"></td>
 </tr>
 <tr>
 	<td colspan="2" class="buttons">
-		<input type="submit" value="Add account">
+		<input type="submit" value="<?php echo ht("Add account"); ?>">
 	</td>
 </tr>
 </table>

@@ -10,7 +10,7 @@ require(__DIR__ . "/../inc/global.php");
 require_login();
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Add Accounts and Addresses", "page_wizard_accounts", array('js' => 'wizard', 'class' => 'page_accounts'));
+page_header(t("Add Accounts and Addresses"), "page_wizard_accounts", array('js' => 'wizard', 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -117,8 +117,8 @@ require_template("wizard_accounts");
 <div style="clear:both;"></div>
 
 <div class="wizard-buttons">
-<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">&lt; Previous</a>
-<a class="button submit" href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">Next &gt;</a>
+<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>"><?php echo ht("< Previous"); ?></a>
+<a class="button submit" href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>"><?php echo ht("Next >"); ?></a>
 </div>
 </div>
 

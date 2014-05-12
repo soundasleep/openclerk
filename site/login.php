@@ -10,13 +10,13 @@ $use_password = require_post("use_password", require_get("use_password", false))
 $email = $use_password ? trim(require_post("email", require_get("email", false))) : false;
 $password = $use_password ? require_post("password", require_get("password", false)) : false;
 if ($password && !is_string($password)) {
-	throw new Exception("Invalid password parameter");
+	throw new Exception(t("Invalid password parameter"));
 }
 $error = "";
 $logout = require_post("logout", require_get("logout", false));
 $openid = $use_password ? false : require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
 if ($openid && !is_string($openid)) {
-	throw new Exception("Invalid openid parameter");
+	throw new Exception(t("Invalid openid parameter"));
 }
 
 $messages = array();
@@ -38,11 +38,11 @@ try {
 		// disable autologin for this session
 		$_SESSION["autologin_disable"] = 1;
 
-		$messages[] = "Successfully logged out. You may login again here.";
+		$messages[] = t("Successfully logged out. You may login again here.");
 
 	} elseif ($openid && !require_get("pause", false)) {
 		if (!is_valid_url($openid)) {
-			throw new EscapedException("That is not a valid OpenID identity.");
+			throw new EscapedException(t("That is not a valid OpenID identity."));
 		}
 
 		require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
@@ -70,7 +70,7 @@ try {
 
 		} else if ($light->mode == 'cancel') {
 			// user has cancelled
-			throw new EscapedException("User has cancelled authentication.");
+			throw new EscapedException(t("User has cancelled authentication."));
 
 		} else {
 			// throws a BlockedException if this IP has requested this too many times recently
@@ -146,26 +146,26 @@ try {
 }
 
 if (require_get("need_admin", false)) {
-	$errors[] = "You need to be logged in as an administrator to do that.";
+	$errors[] = t("You need to be logged in as an administrator to do that.");
 }
 if ($destination && !require_get("pause", false)) {
-	$errors[] = "You need to be logged in to proceed.";
+	$errors[] = t("You need to be logged in to proceed.");
 }
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Login", "page_login", array('js' => 'auth'));
+page_header(t("Login"), "page_login", array('js' => 'auth'));
 
 ?>
 
 <?php require_template("login"); ?>
 
 <div class="authentication-form">
-<h2>Login</h2>
+<h2><?php echo ht("Login"); ?></h2>
 
 <form action="<?php echo htmlspecialchars(absolute_url(url_for('login'))); ?>" method="post">
 <table class="login_form">
 	<tr class="signup-with login-with-openid"<?php echo $use_password ? " style=\"display:none;\"" : ""; ?>>
-		<th>Login with:</th>
+		<th><?php echo ht("Login with:"); ?></th>
 		<td>
 			<input type="hidden" name="submit" value="1">
 
@@ -177,12 +177,12 @@ page_header("Login", "page_login", array('js' => 'auth'));
 			?>
 
 			<hr>
-			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</span></button>
+			<button id="openid" class="openid"><span class="openid openid_manual"><?php echo ht("OpenID..."); ?></span></button>
 
 			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Login" ? "" : "display:none;"; ?>">
 				<table>
 				<tr>
-					<th>OpenID URL:</th>
+					<th><?php echo ht("OpenID URL:"); ?></th>
 					<td>
 						<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
 						<input type="submit" name="submit" value="Login" id="openid_manual_submit">
@@ -195,32 +195,32 @@ page_header("Login", "page_login", array('js' => 'auth'));
 			</div>
 
 			<hr>
-			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => true))); ?>">Use a password instead</a>
+			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => true))); ?>"><?php echo ht("Use a password instead"); ?></a>
 		</td>
 	</tr>
 	<tr class="login-with-password"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>
-		<th><label for="password">E-mail:</label></th>
+		<th><label for="password"><?php echo ht("E-mail:"); ?></label></th>
 		<td>
 			<input type="text" id="email" name="email" size="48" value="<?php echo htmlspecialchars($email); ?>" maxlength="255">
 		</td>
 	</tr>
 	<tr class="login-with-password"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>
-		<th><label for="password">Password:</label></th>
+		<th><label for="password"><?php echo ht("Password:"); ?></label></th>
 		<td>
 			<input type="password" id="password" name="password" size="32" value="" maxlength="255">
 			<br>
 			<input type="submit" name="submit" value="Login" id="password_manual_submit">
 
-			<a class="forgotten-password" href="<?php echo htmlspecialchars(url_for('password', array('email' => $email))); ?>">Forgotten password?</a>
+			<a class="forgotten-password" href="<?php echo htmlspecialchars(url_for('password', array('email' => $email))); ?>"><?php echo ht("Forgotten password?"); ?></a>
 
 			<hr>
-			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>">Use OpenID instead</a>
+			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>"><?php echo ht("Use OpenID instead"); ?></a>
 
 		</td>
 	</tr>
 	<tr class="autologin">
 		<th></th>
-		<td><label><input type="checkbox" name="autologin" value="1"<?php echo $autologin ? " checked" : ""; ?>> Log in automatically</label></td>
+		<td><label><input type="checkbox" name="autologin" value="1"<?php echo $autologin ? " checked" : ""; ?>> <?php echo ht("Log in automatically"); ?></label></td>
 	</tr>
 </table>
 <input type="hidden" name="use_password" id="use_password" value="<?php echo $use_password ? 1 : 0; ?>">

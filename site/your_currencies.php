@@ -14,7 +14,7 @@ $user = get_user(user_id());
 
 require(__DIR__ . "/_profile_common.php");
 
-page_header("Your Currencies", "page_your_currencies", array('js' => array('accounts'), 'class' => 'report_page'));
+page_header(t("Your Currencies"), "page_your_currencies", array('js' => array('accounts'), 'class' => 'report_page'));
 
 // get all pages
 $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND is_removed=0 ORDER BY page_order ASC, id ASC");
@@ -147,7 +147,8 @@ foreach ($data as $exchange => $balance) {
 </table>
 
 		</li>
-		<?php 	$first_tab = false;
+		<?php
+		$first_tab = false;
 		} ?>
 
 		<?php if (!$balances) { ?>

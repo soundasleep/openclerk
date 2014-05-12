@@ -18,7 +18,7 @@ require(__DIR__ . "/../inc/global.php");
 require_login();
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Report Preferences", "page_wizard_reports", array('js' => array('wizard'), 'class' => 'page_accounts'));
+page_header(t("Report Preferences"), "page_wizard_reports", array('js' => array('wizard'), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -159,8 +159,8 @@ function print_graph_types($managed, $is_auto = false) {
 <div style="clear:both;"></div>
 
 <div class="wizard-buttons">
-<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">&lt; Previous</a>
-<input type="submit" name="submit" value="Next &gt;">
+<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("< Previous"); ?></a>
+<input type="submit" name="submit" value="<?php echo ht("Next >"); ?>">
 </div>
 </div>
 

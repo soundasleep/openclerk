@@ -7,7 +7,7 @@
 require(__DIR__ . "/../inc/global.php");
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("External API Status", "page_external");
+page_header(t("External API Status"), "page_external");
 
 $last_updated = false;
 $q = db()->prepare("SELECT * FROM external_status WHERE is_recent=1");
@@ -25,7 +25,7 @@ while ($e = $q->fetch()) {
 }
 
 ?>
-<h1>External API Status</h1>
+<h1><?php echo ht("External API Status"); ?></h1>
 
 <p>
 <?php echo htmlspecialchars(get_site_config('site_name')); ?> relies on the output of many external APIs.

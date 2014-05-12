@@ -34,10 +34,10 @@ $graph = array(
 	'no_technicals' => true,
 );
 
-page_header('External API Status: ' . htmlspecialchars($api_title), "page_external_historical", array('jsapi' => true));
+page_header(t("External API Status: :api_title", array(':api_title' => $api_title)), "page_external_historical", array('jsapi' => true));
 
 ?>
-	<h1>External API Status: <?php echo htmlspecialchars($api_title); ?></h1>
+	<h1><?php echo ht("External API Status: :api_title", array(':api_title' => $api_title)); ?></h1>
 
 	<p class="backlink">
 		<a href="<?php echo htmlspecialchars(url_for('external')); ?>">&lt; Back to External API Status</a>

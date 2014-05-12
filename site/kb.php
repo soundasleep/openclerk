@@ -6,7 +6,7 @@ require(__DIR__ . "/../layout/templates.php");
 
 $q = require_get("q");
 if (!is_string($q)) {
-	set_temporary_errors(array("Invalid article key."));
+	set_temporary_errors(array(t("Invalid article key.")));
 	redirect(url_for('help'));
 }
 
@@ -21,7 +21,7 @@ foreach ($knowledge as $label => $a) {
 	}
 }
 if (!$title) {
-	set_temporary_errors(array("No such knowledge base article '" . htmlspecialchars($q) . "'."));
+	set_temporary_errors(array(t("No such knowledge base article ':key'.", array(':key' => htmlspecialchars($q)))));
 	redirect(url_for('help'));
 }
 if (is_array($title)) {
@@ -30,7 +30,7 @@ if (is_array($title)) {
 	$q = 'inline';
 }
 
-page_header("Knowledge Base: " . $title, "page_kb");
+page_header(t("Knowledge Base: :title", array(":title" => $title)), "page_kb");
 
 require_template("kb_" . $q);
 

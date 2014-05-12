@@ -47,12 +47,12 @@ if (!isset($pairs[$currency1 . $currency2])) {
 	$currency2 = "btc";
 }
 
-page_header("Market Average: " . get_currency_name($currency1) . "/" . get_currency_name($currency2), "page_average", array('jsapi' => true));
+page_header(t("Market Average: :pair", array(':pair' => get_currency_name($currency1) . "/" . get_currency_name($currency2))), "page_average", array('jsapi' => true));
 $graph_id = 0;
 
 ?>
 
-<h1>Market Average: <?php echo get_currency_abbr($currency1); ?>/<?php echo get_currency_abbr($currency2); ?></h1>
+<h1><?php echo ht("Market Average: :pair", array(':pair' => get_currency_abbr($currency1) . "/" . get_currency_abbr($currency2))); ?></h1>
 
 <?php require_template("average"); ?>
 
@@ -100,7 +100,7 @@ foreach ($pairs as $pair) {
 ?>
 
 <div class="currencies">
-	<h2>Other market averages</h2>
+	<h2><?php echo ht("Other market averages"); ?></h2>
 
 	<div class="tabs" id="tabs_average">
 		<ul class="tab_list">

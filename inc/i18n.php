@@ -80,6 +80,9 @@ function t($category, $key = false, $args = array()) {
 function t_without_category($key = false, $args = array()) {
 	$locale = get_current_locale();
 
+	// remove any unnecessary whitespace in the key that won't be displayed
+	$key = preg_replace("/[\\s]{2,}/im", " ", $key);
+
 	global $global_loaded_locales;
 	if ($locale != 'en' && !isset($global_loaded_locales[$locale])) {
 		$result = false;

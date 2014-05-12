@@ -56,7 +56,7 @@ if (require_post("title", false)) {
 	}
 }
 
-page_header("Your Finance Categories", "page_finance_categories", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
+page_header(t("Your Finance Categories"), "page_finance_categories", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
 
 $q = db()->prepare("SELECT * FROM finance_categories WHERE user_id=?");
 $q->execute(array(user_id()));
@@ -129,7 +129,7 @@ foreach ($categories as $category) {
 
 <div class="finance-form">
 
-<h2>Add Category</h2>
+<h2><?php echo ht("Add Category"); ?></h2>
 
 <?php
 
@@ -143,16 +143,16 @@ $category = array(
 <form action="<?php echo htmlspecialchars(url_for('finance_categories')); ?>" method="post">
 <table>
 <tr>
-	<th>Title:</th>
+	<th><?php echo ht("Title:"); ?></th>
 	<td><input type="text" name="title" size="32" value="<?php echo htmlspecialchars($category['title']); ?>"> <span class="required">*</span></td>
 </tr>
 <tr>
-	<th>Description:</th>
+	<th><?php echo ht("Description:"); ?></th>
 	<td><input type="text" name="description" size="64" value="<?php echo htmlspecialchars($category['description']); ?>"></td>
 </tr>
 <tr>
 	<td colspan="2" class="buttons">
-		<input type="submit" value="Add category">
+		<input type="submit" value="<?php echo ht("Add category"); ?>">
 	</td>
 </tr>
 </table>

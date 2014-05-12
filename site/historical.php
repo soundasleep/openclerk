@@ -31,7 +31,8 @@ if ($id && isset($historical_graphs[$id])) {
 		$callback = $historical_graphs[$id]['title_callback'];
 		$title = $callback($id, $title);
 	}
-	page_header("Historical Data: " . $historical_graphs[$id]["heading"] . ($title ? ": " . $title : ""), "page_historical", array('jsapi' => true));
+	$heading = $historical_graphs[$id]["heading"] . ($title ? ": " . $title : "");
+	page_header(t("Historical Data: :heading", array(':heading' => $heading)), "page_historical", array('jsapi' => true));
 
 	$graph = array(
 		'graph_type' => $id,
@@ -67,7 +68,7 @@ if ($id && isset($historical_graphs[$id])) {
 
 	<table class="historical_selectors">
 	<tr>
-		<th>Days:</th>
+		<th><?php echo ht("Days:"); ?></th>
 		<td>
 	<?php
 	$day_print = array();
@@ -77,7 +78,7 @@ if ($id && isset($historical_graphs[$id])) {
 	echo implode(" | ", $day_print);
 	?>
 		</td>
-		<th>Show:</th>
+		<th><?php echo ht("Show:"); ?></th>
 		<td>
 	<?php
 	$delta_print = array();
@@ -100,11 +101,11 @@ if ($id && isset($historical_graphs[$id])) {
 
 	// we want to display a list of all possible graphs
 
-	page_header("Historical Data", "page_historical");
+	page_header(t("Historical Data"), "page_historical");
 
 	?>
 
-	<h1>Historical Data</h1>
+	<h1><?php echo ht("Historical Data"); ?></h1>
 
 	<div class="columns2">
 	<div class="column">

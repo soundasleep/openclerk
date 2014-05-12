@@ -65,26 +65,28 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <ul>
 	<li class="home"><a href="<?php echo url_for('index'); ?>"><?php echo htmlspecialchars(get_site_config('site_name')); ?></a></li>
 	<?php if (user_logged_in()) { ?>
-		<li class="profile"><a href="<?php echo url_for('profile'); ?>">Your Reports</a></li>
-		<li class="finance"><a href="<?php echo url_for('your_transactions'); ?>">Finance</a></li>
-		<li class="accounts"><a href="<?php echo url_for('wizard_currencies'); ?>">Configure Accounts</a></li>
-		<li class="user"><a href="<?php echo url_for('user'); ?>">User Profile</a></li>
-		<li class="logout"><a href="<?php echo url_for('login', array('logout' => 1)); ?>">Logout</a></li>
+		<li class="profile"><a href="<?php echo url_for('profile'); ?>"><?php echo ht("Your Reports"); ?></a></li>
+		<li class="finance"><a href="<?php echo url_for('your_transactions'); ?>"><?php echo ht("Finance"); ?></a></li>
+		<li class="accounts"><a href="<?php echo url_for('wizard_currencies'); ?>"><?php echo ht("Configure Accounts"); ?></a></li>
+		<li class="user"><a href="<?php echo url_for('user'); ?>"><?php echo ht("User Profile"); ?></a></li>
+		<li class="logout"><a href="<?php echo url_for('login', array('logout' => 1)); ?>"><?php echo ht("Logout"); ?></a></li>
 		<?php if (is_admin()) { ?>
-			<li class="admin"><a href="<?php echo url_for('admin'); ?>">Admin</a></li>
+			<li class="admin"><a href="<?php echo url_for('admin'); ?>"><?php echo ht("Admin"); ?></a></li>
 		<?php } ?>
 	<?php } else { ?>
-		<li class="signup"><a href="<?php echo url_for('signup'); ?>">Signup</a></li>
-		<li class="login"><a href="<?php echo url_for('login'); ?>">Login</a></li>
+		<li class="signup"><a href="<?php echo url_for('signup'); ?>"><?php echo ht("Signup"); ?></a></li>
+		<li class="login"><a href="<?php echo url_for('login'); ?>"><?php echo ht("Login"); ?></a></li>
 	<?php } ?>
-	<li class="premium"><a href="<?php echo url_for('premium'); ?>">Premium</a></li>
-	<li class="help"><a href="<?php echo url_for('help'); ?>">Help</a></li>
+	<li class="premium"><a href="<?php echo url_for('premium'); ?>"><?php echo ht("Premium"); ?></a></li>
+	<li class="help"><a href="<?php echo url_for('help'); ?>"><?php echo ht("Help"); ?></a></li>
 </ul>
 </div>
 
 <?php if (did_autologin()) { ?>
 <div id="autologin">
-	Automatically logged in. Hi, <a href="<?php echo url_for('user'); ?>" class="disabled"><?php echo $_SESSION["user_name"] ? htmlspecialchars($_SESSION["user_name"]) : "<i>anonymous</i>"; ?></a>! (<a href="<?php echo url_for('login', array('logout' => 1)); ?>">This isn't me.</a>)	<?php /* remove quoted string: '*/ ?>
+	<?php echo t("Automatically logged in. Hi, :user!", array(':user' => "<a href=\"" . url_for('user') . "\" class=\"disabled\">"
+		. ($_SESSION["user_name"] ? htmlspecialchars($_SESSION["user_name"]) : "<i>" . t("anonymous") . "</i>") . "</a>")); ?>
+	(<a href="<?php echo url_for('login', array('logout' => 1)); ?>"><?php echo ht("This isn't me."); ?></a>)
 </div>
 <?php } ?>
 
@@ -108,41 +110,41 @@ function page_footer() {
 	<ul class="footer_nav_list">
 		<li><span class="title"><?php echo htmlspecialchars(get_site_config('site_name')); ?></span>
 			<ul>
-				<li><a href="<?php echo htmlspecialchars(url_for('index')); ?>">About</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('premium')); ?>">Get Premium</a></li>
-				<li><a href="<?php echo htmlspecialchars(get_site_config('version_history_link')); ?>">Release History</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('index')); ?>"><?php echo ht("About"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('premium')); ?>"><?php echo ht("Get Premium"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(get_site_config('version_history_link')); ?>"><?php echo ht("Release History"); ?></a></li>
 				<li><a href="http://openclerk.org" target="_blank">Openclerk.org</a></li>
 			</ul>
 		</li>
-		<li><span class="title">Your Account</span>
+		<li><span class="title"><?php echo ht("Your Account"); ?></span>
 			<ul>
 				<?php if (user_logged_in()) { ?>
-				<li><a href="<?php echo htmlspecialchars(url_for('user')); ?>">User Profile</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">Currency Preferences</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Configure Accounts</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Your Reports</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('user')); ?>"><?php echo ht("User Profile"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>"><?php echo ht("Currency Preferences"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("Configure Accounts"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('profile')); ?>"><?php echo ht("Your Reports"); ?></a></li>
 				<?php } else { ?>
-				<li><a href="<?php echo htmlspecialchars(url_for('signup')); ?>">Signup</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('login')); ?>">Login</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('signup')); ?>"><?php echo ht("Signup"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('login')); ?>"><?php echo ht("Login"); ?></a></li>
 				<?php } ?>
 			</ul>
 		</li>
-		<li><span class="title">Tools</span>
+		<li><span class="title"><?php echo ht("Tools"); ?></span>
 			<ul>
-				<li><a href="<?php echo htmlspecialchars(url_for('historical')); ?>">Historical Data</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('average')); ?>">Market Averages</a> <span class="new">new</span></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>"><?php echo get_site_config('site_name'); ?> Finance</a> <span class="new">new</span></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('calculator')); ?>">Calculator</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('historical')); ?>"><?php echo ht("Historical Data"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('average')); ?>"><?php echo ht("Market Averages"); ?></a> <span class="new">new</span></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>"><?php echo ht(":site Finance", array(':site' => get_site_config('site_name'))); ?></a> <span class="new"><?php echo ht("new"); ?></span></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('calculator')); ?>"><?php echo ht("Calculator"); ?></a></li>
 			</ul>
 		</li>
-		<li><span class="title">Support</span>
+		<li><span class="title"><?php echo ht("Support"); ?></span>
 			<ul>
-				<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>">Help Centre</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>"><?php echo ht("Help Centre"); ?></a></li>
 				<?php if (get_site_config('forum_link')) { ?>
-				<li><a href="<?php echo htmlspecialchars(get_site_config('forum_link')); ?>" target="_blank">Forums</a></li>
+				<li><a href="<?php echo htmlspecialchars(get_site_config('forum_link')); ?>" target="_blank"><?php echo ht("Forums"); ?></a></li>
 				<?php } ?>
-				<li><a href="<?php echo htmlspecialchars(url_for('contact')); ?>">Contact Us</a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('external')); ?>">External API Status</a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('contact')); ?>"><?php echo ht("Contact Us"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('external')); ?>"><?php echo ht("External API Status"); ?></a></li>
 			</ul>
 		</li>
 	</ul>

@@ -118,15 +118,15 @@ $q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? ORDER BY url
 $q->execute(array(user_id()));
 $identities = $q->fetchAll();
 
-page_header("User Account", "page_user", array('js' => 'user'));
+page_header(t("User Account"), "page_user", array('js' => 'user'));
 
 ?>
 
 <?php if (!$user['email']) { ?>
 <div class="warning">
 <ul>
-	<li>Warning: Without a valid e-mail address specified in your contact details, you will not receive important announcements
-		and notifications about your accounts and user profile.</li>
+	<li><?php echo ht("Warning: Without a valid e-mail address specified in your contact details, you will not receive important announcements
+		and notifications about your accounts and user profile."); ?></li>
 </ul>
 </div>
 <?php } ?>
@@ -134,18 +134,19 @@ page_header("User Account", "page_user", array('js' => 'user'));
 <?php if (strtotime($user['created_at']) >= strtotime("-1 hour") || require_get("welcome", false)) { ?>
 <div class="success">
 <ul>
-	<li>Welcome to <?php echo htmlspecialchars(get_site_config('site_name')); ?>!</li>
-	<li>To get started, you should update your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">currency, accounts and reporting preferences</a>.</li>
+	<li><?php echo ht("Welcome to :site!", array(':site' => get_site_config('site_name'))); ?></li>
+	<li><?php echo ht("To get started, you should update your :preferences.", array(
+			':preferences' => "<a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">" . ht("currency, accounts and reporting preferences") . "</a>")); ?></li>
 </ul>
 </div>
 <?php } ?>
 
-<h1>Your <?php echo htmlspecialchars(get_site_config('site_name')); ?> User Account</h1>
+<h1><?php echo ht("Your :site User Account", array(':site' => get_site_config('site_name'))); ?></h1>
 
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_user_contact">Contact Details</li><li id="tab_user_password">Password</li><li id="tab_user_openid">Identities</li><li id="tab_user_premium">Premium</li><li id="tab_user_outstanding">Outstanding Payments</li><li id="tab_user_mailinglist">Mailing List</li>
+		<li id="tab_user_contact"><?php echo ht("Contact Details"); ?></li><li id="tab_user_password"><?php echo ht("Password"); ?></li><li id="tab_user_openid"><?php echo ht("Identities"); ?></li><li id="tab_user_premium"><?php echo ht("Premium"); ?></li><li id="tab_user_outstanding"><?php echo ht("Outstanding Payments"); ?></li><li id="tab_user_mailinglist"><?php echo ht("Mailing List"); ?></li>
 	</ul>
 
 	<ul class="tab_groups">
@@ -154,41 +155,41 @@ page_header("User Account", "page_user", array('js' => 'user'));
 <form action="<?php echo htmlspecialchars(url_for('user')); ?>" method="post">
 <table class="user-profile">
 <tr>
-	<th><label for="user_name">Name:</label></th>
+	<th><label for="user_name"><?php echo ht("Name:"); ?></label></th>
 	<td><input id="user_name" name="name" size="32" value="<?php echo htmlspecialchars(require_post("name", $user['name'] ? $user['name'] : false)); ?>" size="32" maxlength="64"></td>
 </tr>
 <tr>
-	<th><label for="user_email">E-mail:</label></th>
+	<th><label for="user_email"><?php echo ht("E-mail:"); ?></label></th>
 	<td><input id="user_email" name="email" size="48" value="<?php echo htmlspecialchars(require_post("email", $user['email'] ? $user['email'] : false)); ?>" size="32" maxlength="64"></td>
 </tr>
 <tr>
 	<th></th>
-	<td><label><input type="checkbox" name="disable_graph_refresh" value="1"<?php echo $user['disable_graph_refresh'] ? " checked" : ""; ?>> Disable automatic graph refresh</label></td>
+	<td><label><input type="checkbox" name="disable_graph_refresh" value="1"<?php echo $user['disable_graph_refresh'] ? " checked" : ""; ?>> <?php echo ht("Disable automatic graph refresh"); ?></label></td>
 </tr>
 <tr>
 	<th></th>
 	<td><label><input type="checkbox" name="subscribe" value="1"<?php echo $user['subscribe_announcements'] ? " checked" : ""; ?>> Subscribe to <a href="#user_mailinglist">site announcements</a></label></td>
 </tr>
 <tr>
-	<th>Account status:</th>
+	<th><?php echo ht("Account status:"); ?></th>
 	<td>
 		<a href="#user_premium"><?php if ($user['is_admin']) {
-			echo "Administrator";
+			echo ht("Administrator");
 		} else if ($user['is_system']) {
-			echo "System account";
+			echo ht("System account");
 		} else if ($user['is_premium']) {
-			echo "Premium account";
+			echo ht("Premium account");
 		} else {
-			echo "Free account";
+			echo ht("Free account");
 		} ?></a>
 	</td>
 </tr>
 <tr>
-	<th>Member since:</th>
+	<th><?php echo ht("Member since:"); ?></th>
 	<td><?php echo recent_format_html($user['created_at']); ?></td>
 </tr>
 <tr>
-	<th>Last login:</th>
+	<th><?php echo ht("Last login:"); ?></th>
 	<td><?php echo recent_format_html($user['last_login']); ?></td>
 </tr>
 <tr>
@@ -215,7 +216,7 @@ Looking for your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies
 
 <?php if (!$user['password_hash']) { ?>
 
-<h2>Enable e-mail/password login</h2>
+<h2><?php echo ht("Enable e-mail/password login"); ?></h2>
 
 <p>
 	You have not enabled e-mail/password login on your account.
@@ -247,30 +248,30 @@ if ($q->fetch()) {
 <?php } else { ?>
 
 <p class="show-password-form">
-	<a>Enable e-mail/password login on your account</a>
+	<a><?php echo ht("Enable e-mail/password login on your account"); ?></a>
 </p>
 
 <form action="<?php echo htmlspecialchars(url_for('set_password')); ?>" method="post" class="add-password-form" style="display:none;">
 <table class="user-profile">
 <tr>
-	<th>Email:</th>
+	<th><?php echo ht("E-mail:"); ?></th>
 	<td><?php echo htmlspecialchars($user['email']); ?></td>
 </tr>
 <tr>
-	<th><label for="password">Password:</label></th>
+	<th><label for="password"><?php echo ht("Password:"); ?></label></th>
 	<td>
 		<input type="password" id="password" name="password" size="32" value="" maxlength="255"> <span class="required">*</span>
 	</td>
 </tr>
 <tr>
-	<th><label for="password2">Repeat:</label></th>
+	<th><label for="password2"><?php echo ht("Repeat:"); ?></label></th>
 	<td>
 		<input type="password" id="password2" name="password2" size="32" value="" maxlength="255"> <span class="required">*</span>
 	</td>
 </tr>
 <tr>
 	<td colspan="2" class="buttons">
-		<input type="submit" value="Add password">
+		<input type="submit" value="<?php echo ht("Add password"); ?>">
 	</td>
 </tr>
 </table>
@@ -281,7 +282,7 @@ if ($q->fetch()) {
 
 <?php } else { ?>
 
-<h2>Change password</h2>
+<h2><?php echo ht("Change password"); ?></h2>
 
 <p>
 	Your password was last changed <?php echo recent_format_html($user['password_last_changed']); ?>.
@@ -290,24 +291,24 @@ if ($q->fetch()) {
 <form action="<?php echo htmlspecialchars(url_for('set_password')); ?>" method="post">
 <table class="user-profile">
 <tr>
-	<th>Email:</th>
+	<th><?php echo ht("E-mail:"); ?></th>
 	<td><?php echo htmlspecialchars($user['email']); ?></td>
 </tr>
 <tr>
-	<th><label for="password">Password:</label></th>
+	<th><label for="password"><?php echo ht("Password:"); ?></label></th>
 	<td>
 		<input type="password" id="password" name="password" size="32" value="" maxlength="255"> <span class="required">*</span>
 	</td>
 </tr>
 <tr>
-	<th><label for="password2">Repeat:</label></th>
+	<th><label for="password2"><?php echo ht("Repeat:"); ?></label></th>
 	<td>
 		<input type="password" id="password2" name="password2" size="32" value="" maxlength="255"> <span class="required">*</span>
 	</td>
 </tr>
 <tr>
 	<td colspan="2" class="buttons">
-		<input type="submit" value="Add password">
+		<input type="submit" value="<?php echo ht("Add password"); ?>">
 	</td>
 </tr>
 </table>
@@ -315,7 +316,7 @@ if ($q->fetch()) {
 
 <hr>
 
-<h2>Remove password login</h2>
+<h2><?php echo ht("Remove password login"); ?></h2>
 
 <p>
 	Once you have added at least one <a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">OpenID identity</a>
@@ -328,7 +329,7 @@ if ($q->fetch()) {
 <table class="user-profile">
 <tr>
 	<td>
-		<label><input type="checkbox" name="confirm" value="1"> Disable e-mail/password login</label>
+		<label><input type="checkbox" name="confirm" value="1"> <?php echo ht("Disable e-mail/password login"); ?></label>
 	</td>
 </tr>
 <tr>
@@ -353,19 +354,19 @@ if ($q->fetch()) {
 	</li>
 	<li id="tab_user_openid_tab" style="display:none;">
 
-<h2>Your OpenID Identites</h2>
+<h2><?php echo ht("Your OpenID Identites"); ?></h2>
 
 <table class="standard fancy openid_list">
 <thead>
 	<tr>
-		<th>Provider</th>
-		<th>Identity</th>
-		<th>Added</th>
+		<th><?php echo ht("Provider"); ?></th>
+		<th><?php echo ht("Identity"); ?></th>
+		<th><?php echo ht("Added"); ?></th>
 		<?php
 		/* only allow one identity to be removed */
 		if (count($identities) > 1) {
 		?>
-		<th>Delete</th>
+		<th><?php echo ht("Delete"); ?></th>
 		<?php } ?>
 	</tr>
 </thead>
@@ -401,14 +402,14 @@ foreach ($identities as $identity) {
 <?php } ?>
 <?php if (!$identities) { ?>
 	<tr>
-		<td colspan="3"><i>No OpenID identities defined.</i></td>
+		<td colspan="3"><i><?php echo ht("No OpenID identities defined."); ?></i></td>
 	</tr>
 <?php } ?>
 </tbody>
 <tfoot>
 	<tr>
 		<td colspan="<?php echo count($identities) > 1 ? 4 : 3; ?>" class="buttons">
-			<a href="<?php echo htmlspecialchars(url_for('openid_add')); ?>">Add another OpenID Identity</a>
+			<a href="<?php echo htmlspecialchars(url_for('openid_add')); ?>"><?php echo ht("Add another OpenID Identity"); ?></a>
 		</td>
 	</tr>
 </tfoot>
@@ -418,55 +419,55 @@ foreach ($identities as $identity) {
 	<li id="tab_user_premium_tab" style="display:none;">
 
 <div class="account_status">
-<h2>Account Status</h2>
+<h2><?php echo ht("Account Status"); ?></h2>
 
 <table class="fancy">
 <tr>
 	<th>Account status:</th>
 	<td>
 		<?php if ($user['is_admin']) {
-			echo "Administrator";
+			echo ht("Administrator");
 		} else if ($user['is_system']) {
-			echo "System account";
+			echo ht("System account");
 		} else if ($user['is_premium']) {
-			echo "Premium account";
+			echo ht("Premium account");
 		} else {
-			echo "Free account";
+			echo ht("Free account");
 		} ?>
 	</td>
 </tr>
 <?php if ($user['is_premium']) { ?>
 <tr>
-	<th>Expires in:</th>
+	<th><?php echo ht("Expires in:"); ?></th>
 	<td><?php echo recent_format_html($user['premium_expires'], " ago", "" /* no 'in the future' */); ?></td>
 </tr>
 <?php } ?>
 <tr>
-	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses')); ?>">Tracked addresses</a>:</th>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses')); ?>"><?php echo ht("Tracked addresses"); ?></a>:</th>
 	<td><?php echo number_format($accounts['total_addresses']); ?> (out of <?php echo number_format(get_premium_value($user, 'addresses')); ?>)</td>
 </tr>
 <tr>
-	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Tracked accounts</a>:</th>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("Tracked accounts"); ?></a>:</th>
 	<td><?php echo number_format($accounts['total_accounts']); ?> (out of <?php echo number_format(get_premium_value($user, 'accounts')); ?>)</td>
 </tr>
 <tr>
-	<th><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">Notifications</a>:</th>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>"><?php echo ht("Notifications"); ?></a>:</th>
 	<td><?php echo number_format($accounts['total_notifications']); ?> (out of <?php echo number_format(get_premium_value($user, 'notifications')); ?>)</td>
 </tr>
 <tr>
-	<th><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Summary pages</a>:</th>
+	<th><a href="<?php echo htmlspecialchars(url_for('profile')); ?>"><?php echo ht("Summary pages"); ?></a>:</th>
 	<td><?php echo number_format($accounts['total_graph_pages']); ?> (out of <?php echo number_format(get_premium_value($user, 'graph_pages')); ?>)</td>
 </tr>
 <tr>
-	<th><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">Currencies</a>:</th>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>"><?php echo ht("Currencies"); ?></a>:</th>
 	<td><?php echo number_format($accounts['total_summaries']); ?> (out of <?php echo number_format(get_premium_value($user, 'summaries')); ?>)</td>
 </tr>
 <tr>
-	<th><a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">Finance Accounts</a>:</th>
+	<th><a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>"><?php echo ht("Finance Accounts"); ?></a>:</th>
 	<td><?php echo number_format($accounts['total_finance_accounts']); ?> (out of <?php echo number_format(get_premium_value($user, 'finance_accounts')); ?>)</td>
 </tr>
 <tr>
-	<th><a href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>">Finance Categories</a>:</th>
+	<th><a href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>"><?php echo ht("Finance Categories"); ?></a>:</th>
 	<td><?php echo number_format($accounts['total_finance_categories']); ?> (out of <?php echo number_format(get_premium_value($user, 'finance_categories')); ?>)</td>
 </tr>
 </table>
@@ -492,18 +493,18 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 	<li id="tab_user_outstanding_tab" style="display:none;">
 
 <?php if ($outstanding) { ?>
-<h2>Outstanding Payments</h2>
+<h2><?php echo ht("Outstanding Payments"); ?></h2>
 
 <table class="standard fancy">
 <thead>
 	<tr>
-		<th>Currency</th>
-		<th>Premium</th>
-		<th>Address</th>
-		<th class="number">Due</th>
-		<th class="number">Balance</th>
-		<th>Since</th>
-		<th>Last checked</th>
+		<th><?php echo ht("Currency"); ?></th>
+		<th><?php echo ht("Premium"); ?></th>
+		<th><?php echo ht("Address"); ?></th>
+		<th class="number"><?php echo ht("Due"); ?></th>
+		<th class="number"><?php echo ht("Balance"); ?></th>
+		<th><?php echo ht("Since"); ?></th>
+		<th><?php echo ht("Last checked"); ?></th>
 	</tr>
 </thead>
 <tbody>
@@ -522,25 +523,25 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 </table>
 
 <p class="warning-inline">
-<b>NOTE:</b> Outstanding payments will be automatically cancelled after <?php echo plural(get_site_config('outstanding_abandon_days'), 'day'); ?>.
+<b><?php echo ht("NOTE:"); ?></b> Outstanding payments will be automatically cancelled after <?php echo plural(get_site_config('outstanding_abandon_days'), 'day'); ?>.
 </p>
 
 <?php } else { ?>
-	<p><i>No outstanding payments.</i></p>
+	<p><i><?php echo ht("No outstanding payments."); ?></i></p>
 <?php } ?>
 
 <?php if ($previous) { ?>
-<h2>Previous Payments</h2>
+<h2><?php echo ht("Previous Payments"); ?></h2>
 
 <table class="standard fancy">
 <thead>
 	<tr>
-		<th>Currency</th>
-		<th>Premium</th>
-		<th>Address</th>
-		<th class="number">Due</th>
-		<th class="number">Balance</th>
-		<th>Paid</th>
+		<th><?php echo ht("Currency"); ?></th>
+		<th><?php echo ht("Premium"); ?></th>
+		<th><?php echo ht("Address"); ?></th>
+		<th class="number"><?php echo ht("Due"); ?></th>
+		<th class="number"><?php echo ht("Balance"); ?></th>
+		<th><?php echo ht("Paid"); ?></th>
 	</tr>
 </thead>
 <tbody>
@@ -558,13 +559,13 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 </table>
 
 <?php } else { ?>
-	<p><i>No previous payments.</i></p>
+	<p><i><?php echo ht("No previous payments."); ?></i></p>
 <?php } ?>
 
 	</li>
 	<li id="tab_user_mailinglist_tab" style="display:none;">
 
-<h2>Subscribe to <?php echo htmlspecialchars(get_site_config('site_name')); ?> Announcements</h2>
+<h2><?php echo ht("Subscribe to :site Announcements", array(":site" => get_site_config('site_name'))); ?></h2>
 
 <p>
 	To keep up to date with news and service updates to <?php echo htmlspecialchars(get_site_config('site_name')); ?>, please subscribe to the
@@ -576,12 +577,12 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 	<div class="link">
 		<a href="https://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank"><img width="132" alt="Google Groups"
 		src="https://groups.google.com/groups/img/3nb/groups_bar.gif" height="26"></a>
-		<a href="https://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank" class="visit">Visit this group</a>
+		<a href="https://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>" target="_blank" class="visit"><?php echo ht("Visit this group"); ?></a>
 	</div>
 	<form action="https://groups.google.com/group/<?php echo htmlspecialchars(get_site_config('google_groups_announce')); ?>/boxsubscribe" target="_blank">
-	<label class="email">Email:
+	<label class="email"><?php echo ht("E-mail:"); ?>
 	<input name="email" type="text" size="32" value="<?php echo htmlspecialchars($user['email']); ?>" /></label>
-	<input value="Subscribe" name="sub" type="submit" />
+	<input value="<?php echo ht("Subscribe"); ?>" name="sub" type="submit" />
 	</form>
 </div>
 

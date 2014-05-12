@@ -99,11 +99,11 @@ if (require_post("months", false) || require_post("years", false)) {
 	}
 }
 
-page_header("Purchase Premium", "page_purchase", array('js' => 'purchase'));
+page_header(t("Purchase Premium"), "page_purchase", array('js' => 'purchase'));
 
 ?>
 
-<h1>Purchase Premium with <?php echo get_currency_name($currency); ?></h1>
+<h1><?php echo ht("Purchase Premium with :currency", array(':currency' => get_currency_name($currency))); ?></h1>
 
 <div class="columns2">
 <div class="column">

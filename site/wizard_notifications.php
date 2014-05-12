@@ -9,7 +9,7 @@ require(__DIR__ . "/../inc/global.php");
 require_login();
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Notification Preferences", "page_wizard_notifications", array('js' => array('wizard', 'notifications', 'accounts' /* for sorting */), 'class' => 'page_accounts'));
+page_header(t("Notification Preferences"), "page_wizard_notifications", array('js' => array('wizard', 'notifications', 'accounts' /* for sorting */), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -32,7 +32,7 @@ if (require_get("edit", false)) {
 	$q->execute(array(require_get("edit"), user_id()));
 	$instance = $q->fetch();
 	if (!$instance) {
-		$errors[] = "Could not find your notification " . htmlspecialchars(require_get("edit")) . " to edit.";
+		$errors[] = t("Could not find your notification :key to edit.", array(':key' => htmlspecialchars(require_get("edit"))));
 	}
 
 	switch ($instance['notification_type']) {
@@ -51,7 +51,7 @@ if (require_get("edit", false)) {
 			break;
 
 		default:
-			throw new Exception("Unknown notification type to edit '" . $instance['notification_type'] . "'");
+			throw new Exception(t("Unknown notification type to edit ':notification_type'"), array(':notification_type' => $instance['notification_type']));
 	}
 }
 
@@ -118,21 +118,21 @@ function get_supported_notifications() {
 </script>
 
 <?php if ($instance) { ?>
-<h2>Edit Notification</h2>
+<h2><?php echo ht("Edit Notification"); ?></h2>
 <?php } else { ?>
-<h2>Add New Notification</h2>
+<h2><?php echo ht("Add New Notification"); ?></h2>
 <?php } ?>
 
 <form action="<?php echo htmlspecialchars(url_for('wizard_notifications_post')); ?>" method="post">
 <table class="notification_template<?php echo $instance ? " selected" : ""; ?>">
 <tr>
 	<td>
-	<span class="email_notification">Please send me an e-mail when</span>
+	<span class="email_notification"><?php echo ht("Please send me an e-mail when"); ?></span>
 	<select id="notification_type" name="type">
-		<option value="ticker"<?php echo ($instance && $instance['notification_type'] == 'ticker') ? " selected" : ""; ?>>the exchange rate</option>
-		<option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('total')) == 'total' && substr($account['summary_type'], 0, strlen('totalmh_')) != 'totalmh_') ? " selected" : ""; ?>>my total</option>
-		<option value="summary_instance_total_hashrate"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') ? " selected" : ""; ?>>my total hashrate</option>
-		<option value="summary_instance_all2"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('all2')) == 'all2') ? " selected" : ""; ?>>my converted</option>
+		<option value="ticker"<?php echo ($instance && $instance['notification_type'] == 'ticker') ? " selected" : ""; ?>><?php echo ht("the exchange rate"); ?></option>
+		<option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('total')) == 'total' && substr($account['summary_type'], 0, strlen('totalmh_')) != 'totalmh_') ? " selected" : ""; ?>><?php echo ht("my total"); ?></option>
+		<option value="summary_instance_total_hashrate"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') ? " selected" : ""; ?>><?php echo ht("my total hashrate"); ?></option>
+		<option value="summary_instance_all2"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('all2')) == 'all2') ? " selected" : ""; ?>><?php echo ht("my converted"); ?></option>
 	</select>
 
 	<ul>
@@ -239,7 +239,7 @@ function get_supported_notifications() {
 
 <hr>
 
-<h2>Configured Notifications</h2>
+<h2><?php echo ht("Configured Notifications"); ?></h2>
 
 <span style="display:none;" id="sort_buttons_template">
 <!-- heading sort buttons -->
@@ -360,7 +360,7 @@ foreach ($notifications as $notification) {
 <div style="clear:both;"></div>
 
 <div class="wizard-buttons">
-<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">&lt; Previous</a>
+<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("< Previous"); ?></a>
 </div>
 </div>
 

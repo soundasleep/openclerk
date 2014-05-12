@@ -12,7 +12,7 @@ require(__DIR__ . "/../graphs/types.php");
 $messages = array();
 $errors = array();
 
-page_header("Premium Accounts", "page_premium");
+page_header(t("Premium Accounts"), "page_premium");
 
 ?>
 

@@ -12,7 +12,7 @@ require_login();
 require(__DIR__ . "/../graphs/util.php");
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Add Individual Securities", "page_wizard_accounts_individual_securities", array('js' => array('accounts', 'wizard'), 'class' => 'page_accounts wizard_page'));
+page_header(t("Add Individual Securities"), "page_wizard_accounts_individual_securities", array('js' => array('accounts', 'wizard'), 'class' => 'page_accounts wizard_page'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -34,7 +34,7 @@ require(__DIR__ . "/_wizard_accounts.php");
 ?>
 
 <div class="wizard-buttons">
-<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">&lt; Previous</a>
+<a class="button" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("< Previous"); ?></a>
 </div>
 </div>
 

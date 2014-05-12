@@ -267,7 +267,7 @@ if (require_get("csv", false)) {
 	}
 }
 
-page_header("Your Transactions", "page_your_transactions", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
+page_header(t("Your Transactions"), "page_your_transactions", array('js' => array('accounts', 'transactions'), 'class' => 'report_page page_finance'));
 
 ?>
 
@@ -282,7 +282,7 @@ require(__DIR__ . "/_finance_pages.php");
 
 <div class="transaction-introduction">
 	<div class="transaction-filter">
-		<h2>Filter Transactions</h2>
+		<h2><?php echo ht("Filter Transactions"); ?></h2>
 
 		<form action="<?php echo htmlspecialchars(url_for('your_transactions')); ?>" method="get">
 		<table class="standard">
@@ -597,7 +597,7 @@ foreach ($transactions as $transaction) {
 				foreach ($button_args as $key => $value) {
 					echo "<input type=\"hidden\" name=\"" . htmlspecialchars($key) . "\" value=\"" . htmlspecialchars($value) . "\">\n";
 				} ?>
-				<input type="submit" class="button-previous" value="&lt; Previous"<?php echo $page_args['skip'] > 0 ? "" : " disabled"; ?>>
+				<input type="submit" class="button-previous" value="<?php echo ht("< Previous"); ?>"<?php echo $page_args['skip'] > 0 ? "" : " disabled"; ?>>
 			</form>
 		</td>
 		<td colspan="5">
@@ -632,7 +632,7 @@ foreach ($transactions as $transaction) {
 				foreach ($button_args as $key => $value) {
 					echo "<input type=\"hidden\" name=\"" . htmlspecialchars($key) . "\" value=\"" . htmlspecialchars($value) . "\">\n";
 				} ?>
-				<input type="submit" class="button-next" value="Next &gt;"<?php echo count($transactions) == $page_size ? "" : " disabled"; ?>>
+				<input type="submit" class="button-next" value="<?php echo ht("Next >"); ?>"<?php echo count($transactions) == $page_size ? "" : " disabled"; ?>>
 			</form>
 		</td>
 	</tr>
@@ -641,7 +641,7 @@ foreach ($transactions as $transaction) {
 </div>
 
 <div class="finance-form">
-<h2>Add Transaction</h2>
+<h2><?php echo ht("Add Transaction"); ?></h2>
 
 <p>
 	Here you may add in a transaction for a different <a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">account</a>
@@ -671,11 +671,11 @@ $summaries = get_all_user_currencies();
 <a name="add_transaction"></a>
 <table class="add-transaction">
 <tr>
-	<th>Date:</th>
+	<th><?php echo ht("Date:"); ?></th>
 	<td><input type="text" name="date" size="16" value="<?php echo htmlspecialchars($transaction['date']); ?>"> <span class="required">*</span></td>
 </tr>
 <tr>
-	<th>Account:</th>
+	<th><?php echo ht("Account:"); ?></th>
 	<td>
 		<select name="account">
 			<?php
@@ -689,11 +689,11 @@ $summaries = get_all_user_currencies();
 			?>
 		</select>
 
-		<a class="add-new" href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">Add new account</a>
+		<a class="add-new" href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>"><?php echo ht("Add new account"); ?></a>
 	</td>
 </tr>
 <tr>
-	<th>Category:</th>
+	<th><?php echo ht("Category:"); ?></th>
 	<td>
 		<select name="category">
 			<?php
@@ -707,19 +707,19 @@ $summaries = get_all_user_currencies();
 			?>
 		</select>
 
-		<a class="add-new" href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>">Add new category</a>
+		<a class="add-new" href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>"><?php echo ht("Add new category"); ?></a>
 	</td>
 </tr>
 <tr>
-	<th>Description:</th>
+	<th><?php echo ht("Description:"); ?></th>
 	<td><input type="text" name="description" size="64" value="<?php echo htmlspecialchars($transaction['description']); ?>"></td>
 </tr>
 <tr>
-	<th>Reference:</th>
+	<th><?php echo ht("Reference:"); ?></th>
 	<td><input type="text" name="reference" size="16" value="<?php echo htmlspecialchars($transaction['reference']); ?>"></td>
 </tr>
 <tr>
-	<th>Amount 1:</th>
+	<th><?php echo ht("Amount 1:"); ?></th>
 	<td>
 		<input type="text" name="value1" size="16" value="<?php echo htmlspecialchars($transaction['value1']); ?>">
 
@@ -735,7 +735,7 @@ $summaries = get_all_user_currencies();
 	</td>
 </tr>
 <tr>
-	<th>Amount 2:</th>
+	<th><?php echo ht("Amount 2:"); ?></th>
 	<td>
 		<input type="text" name="value2" size="16" value="<?php echo htmlspecialchars($transaction['value2']); ?>">
 

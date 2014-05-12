@@ -7,11 +7,11 @@ $hash = require_post("hash", require_get("hash", false));
 
 $password = require_post("password", require_get("password", false));
 if ($password && !is_string($password)) {
-	throw new Exception("Invalid password parameter");
+	throw new Exception(t("Invalid password parameter"));
 }
 $password2 = require_post("password2", require_get("password2", false));
 if ($password2 && !is_string($password2)) {
-	throw new Exception("Invalid password2 parameter");
+	throw new Exception(t("Invalid repeated password parameter"));
 }
 
 $messages = array();
@@ -53,7 +53,7 @@ if ($email && $password) {
 			"name" => $user['name'] ? $user['name'] : $email,
 		));
 
-		$messages[] = "Password changed; you should now immediately login with this new password.";
+		$messages[] = t("Password changed; you should now immediately login with this new password.");
 
 		set_temporary_messages($messages);
 		set_temporary_errors($errors);
@@ -63,29 +63,29 @@ if ($email && $password) {
 }
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Change Password", "page_password_reset", array('js' => 'auth'));
+page_header(t("Change Password"), "page_password_reset", array('js' => 'auth'));
 
 ?>
 
 <?php require_template("password_reset"); ?>
 
 <div class="authentication-form">
-<h2>Change password</h2>
+<h2><?php echo ht("Change password"); ?></h2>
 
 <form action="<?php echo htmlspecialchars(url_for('password_reset')); ?>" method="post">
 <table class="login_form">
 <tr>
-	<th>Email:</th>
+	<th><?php echo ht("E-mail:"); ?></th>
 	<td><?php echo htmlspecialchars($email); ?></td>
 </tr>
 <tr>
-	<th><label for="password">Password:</label></th>
+	<th><label for="password"><?php echo ht("Password:"); ?></label></th>
 	<td>
 		<input type="password" id="password" name="password" size="32" value="" maxlength="255"> <span class="required">*</span>
 	</td>
 </tr>
 <tr>
-	<th><label for="password2">Repeat:</label></th>
+	<th><label for="password2"><?php echo ht("Repeat:"); ?></label></th>
 	<td>
 		<input type="password" id="password2" name="password2" size="32" value="" maxlength="255"> <span class="required">*</span>
 	</td>

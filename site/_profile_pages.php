@@ -15,7 +15,7 @@
 		$args['demo'] = require_get("demo");
 	} ?>
 	<li class="page_tabcurrencies<?php if (isset($your_currencies) && $your_currencies) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('your_currencies', $args)); ?>">
-		Your Currencies
+		<?php echo ht("Your Currencies"); ?>
 	</a></li>
 	<?php
 	$args = array();
@@ -23,7 +23,7 @@
 		$args['demo'] = require_get("demo");
 	} ?>
 	<li class="page_tabhashrates<?php if (isset($your_hashrates) && $your_hashrates) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('your_hashrates', $args)); ?>">
-		Your Hashrates
+		<?php echo ht("Your Hashrates"); ?>
 	</a></li>
 	<?php
 	$args = array('securities' => 1);
@@ -31,7 +31,7 @@
 		$args['demo'] = require_get("demo");
 	} ?>
 	<li class="page_tabsecurities<?php if (require_get("securities", false)) echo " page_current"; ?> premium"><a href="<?php echo htmlspecialchars(url_for('profile', $args)); ?>">
-		Your Securities (<?php echo number_format($securities_count); ?>)
+		<?php echo ht("Your Securities"); ?> (<?php echo number_format($securities_count); ?>)
 	</a></li>
 	<?php
 	$args = array();
@@ -39,6 +39,6 @@
 		$args['demo'] = require_get("demo");
 	} ?>
 	<li class="page_tabtransactions<?php if (isset($your_transactions) && $your_transactions) echo " page_current"; ?>"><a href="<?php echo htmlspecialchars(url_for('your_transactions', $args)); ?>">
-		Your Transactions <span class="new">new</span>
+		<?php echo ht("Your Transactions"); ?> <span class="new"><?php echo ht("new"); ?></span>
 	</a></li>
 </ul>

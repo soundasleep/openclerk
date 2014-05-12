@@ -89,19 +89,19 @@ try {
 }
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Add OpenID Identity", "page_openid_add", array('js' => 'auth'));
+page_header(t("Add OpenID Identity"), "page_openid_add", array('js' => 'auth'));
 
 ?>
 
 <?php require_template("openid_add"); ?>
 
 <div class="authentication-form">
-<h2>Add OpenID Identity</h2>
+<h2><?php echo ht("Add OpenID Identity"); ?></h2>
 
 <form action="<?php echo htmlspecialchars(absolute_url(url_for('openid_add'))); ?>" method="post">
 <table class="login_form">
 	<tr class="signup-with">
-		<th>Login with:</th>
+		<th><?php echo ht("Login with:"); ?></th>
 		<td>
 			<input type="hidden" name="submit" value="1">
 
@@ -113,12 +113,12 @@ page_header("Add OpenID Identity", "page_openid_add", array('js' => 'auth'));
 			?>
 
 			<hr>
-			<button id="openid" class="openid"><span class="openid openid_manual">OpenID...</a></button>
+			<button id="openid" class="openid"><span class="openid openid_manual"><?php echo ht("OpenID..."); ?></a></button>
 
 			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Login" ? "" : "display:none;"; ?>">
 			<table>
 			<tr>
-				<th>OpenID URL:</th>
+				<th><?php echo ht("OpenID URL:"); ?></th>
 				<td>
 					<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
 					<input type="submit" name="submit" value="Login" id="openid_manual_submit">

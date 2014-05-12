@@ -2,25 +2,25 @@
 <form action="<?php echo htmlspecialchars(url_for('profile_add_graph')); ?>" method="post">
 <table class="form">
 <tr>
-	<th>Category:</th>
+	<th><?php echo ht("Category:"); ?></th>
 	<td><select name="category" id="graph_category">
 		<option id="graph_category_template">Loading...</option>
 	</select></td>
 </tr>
 <tr>
-	<th>Graph type:</th>
+	<th><?php echo ht("Graph type:"); ?></th>
 	<td><select name="type" id="graph_type">
 		<option id="graph_type_template">Loading...</option>
 	</select></td>
 </tr>
 <tr id="add_graph_arg0" style="display:none;">
-	<th>Argument:</th>
+	<th><?php echo ht("Argument:"); ?></th>
 	<td><select name="arg0" id="graph_arg0">
 		<option value="" id="graph_arg0_template">Loading...</option>
 	</select></td>
 </tr>
 <tr id="add_graph_string0" style="display:none;">
-	<th>Argument:</th>
+	<th><?php echo ht("Argument:"); ?></th>
 	<td><input name="string0" id="graph_string0" size="32" maxlength="128" value="Loading..."></td>
 </tr>
 <?php
@@ -39,7 +39,7 @@ foreach ($size_options as $size_key => $size_value) { ?>
 </tr>
 <?php } ?>
 <tr id="add_graph_days" style="display:none;">
-	<th>Days:</th>
+	<th><?php echo ht("Days:"); ?></th>
 	<td><select name="days">
 <?php foreach (get_permitted_days() as $key => $days) { ?>
 		<option value="<?php echo htmlspecialchars($days['days']); ?>"<?php echo get_site_config('default_user_graph_days') == $days['days'] ? " selected" : ""; ?>><?php echo htmlspecialchars($days['title']); ?></option>
@@ -47,7 +47,7 @@ foreach ($size_options as $size_key => $size_value) { ?>
 	</select></td>
 </tr>
 <tr id="add_graph_delta" style="display:none;">
-	<th>Delta:</th>
+	<th><?php echo ht("Delta:"); ?></th>
 	<td><select name="delta">
 <?php foreach (get_permitted_deltas() as $key => $days) { ?>
 		<option value="<?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($days['description']); ?></option>
@@ -55,7 +55,7 @@ foreach ($size_options as $size_key => $size_value) { ?>
 	</select></td>
 </tr>
 <tr id="add_graph_technical" style="display:none;">
-	<th>Technical:</th>
+	<th><?php echo ht("Technical:"); ?></th>
 	<td><select name="technical" id="graph_technical">
 		<option value="">(none)</option>
 		<option id="graph_technical_template">Loading...</option>
@@ -68,7 +68,7 @@ foreach ($size_options as $size_key => $size_value) { ?>
 <tr id="add_graph_period" style="display:none;">
 	<th></th>
 	<td>
-		<label>Period: <input type="text" name="period" value="10" size="6"> days</label>
+		<label><?php echo ht("Period:"); ?> <input type="text" name="period" value="10" size="6"> days</label>
 	</td>
 </tr>
 <tr>
@@ -89,7 +89,7 @@ foreach ($size_options as $size_key => $size_value) { ?>
 </tr>
 </table>
 
-<div id="graph_description">Select an option</div>
+<div id="graph_description"><?php echo ht("Select an option"); ?></div>
 </form>
 </div>
 

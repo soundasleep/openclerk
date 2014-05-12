@@ -17,6 +17,7 @@ class LocaleTest extends OpenclerkTest {
 		$this->assertEquals(":hello :hi 2", t(":hi :hello 2", array(':hi' => ':hello', ':hello' => ':hi')));
 		$this->assertEquals("Hello :world 3", t("Hello :world 3", array(':meow' => ':world')));
 		$this->assertEquals("Hello :world 4", t("Hello :world 4"));
+		$this->assertEquals("Hello :world 5", t("Hello   :world \r\n 5"));
 
 		// these should all throw exceptions
 		try {
@@ -36,6 +37,7 @@ class LocaleTest extends OpenclerkTest {
 		$this->assertEquals(":hello :hi 2", t("test", ":hi :hello 2", array(':hi' => ':hello', ':hello' => ':hi')));
 		$this->assertEquals("Hello :world 3", t("test", "Hello :world 3", array(':meow' => ':world')));
 		$this->assertEquals("Hello :world 4", t("test", "Hello :world 4"));
+		$this->assertEquals("Hello :world 5", t("test", "Hello   :world \r\n 5"));
 
 		// these should all throw exceptions
 		try {
@@ -78,13 +80,17 @@ class LocaleTest extends OpenclerkTest {
 			$input = file_get_contents($f);
 
 			$matches = false;
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+?)\\)#", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+?)\\)#im", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
+					// remove whitespace that will never display
+					$match[2] = preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]);
 					$found[$match[2]] = $match[2];
 				}
 			}
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+?)\\)#", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+?)\\)#im", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
+					// remove whitespace that will never display
+					$match[2] = preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]);
 					$found[$match[2]] = $match[2];
 				}
 			}

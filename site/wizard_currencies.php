@@ -10,7 +10,7 @@ require(__DIR__ . "/../inc/global.php");
 require_login();
 
 require(__DIR__ . "/../layout/templates.php");
-page_header("Currency Preferences", "page_wizard_currencies", array('js' => array('wizard'), 'class' => 'page_accounts'));
+page_header(t("Currency Preferences"), "page_wizard_currencies", array('js' => array('wizard'), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
@@ -39,7 +39,7 @@ while ($s = $q->fetch()) {
 <form action="<?php echo htmlspecialchars(url_for('wizard_currencies_post')); ?>" method="post" class="wizard">
 
 <div class="cryptocurrencies">
-<h2>Cryptocurrencies</h2>
+<h2><?php echo ht("Cryptocurrencies"); ?></h2>
 
 <ul>
 <?php foreach ($cryptos as $c) { ?>
@@ -54,7 +54,7 @@ while ($s = $q->fetch()) {
 <hr>
 
 <div class="fiatcurrencies">
-<h2>Fiat currencies</h2>
+<h2><?php echo ht("Fiat currencies"); ?></h2>
 
 <ul>
 <?php foreach ($fiats as $c) {
@@ -72,11 +72,11 @@ while ($s = $q->fetch()) {
 		<input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo $selected ? " checked" : ""; ?> class="parent-currency">
 		<label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
 
-		<div class="exchange"><span class="exchange-text">Exchange: <?php echo htmlspecialchars(get_exchange_name(get_default_currency_exchange($c))); ?></span>
+		<div class="exchange"><span class="exchange-text"><?php echo ht("Exchange:"); ?> <?php echo htmlspecialchars(get_exchange_name(get_default_currency_exchange($c))); ?></span>
 			<a class="collapse-link collapsed">+</a>
 
 			<div class="collapse-target">
-			Instead of the default exchange, use the following exchanges:
+			<?php echo ht("Instead of the default exchange, use the following exchanges:"); ?>
 			<ul>
 			<?php foreach ($exchanges as $exchange => $key) {
 				?>
@@ -98,7 +98,7 @@ while ($s = $q->fetch()) {
 <hr>
 
 <div class="commoditycurrencies">
-<h2>Commodity currencies</h2>
+<h2><?php echo ht("Commodity currencies"); ?></h2>
 
 <ul>
 <?php foreach ($commodities as $c) { ?>
@@ -111,11 +111,11 @@ while ($s = $q->fetch()) {
 </div>
 
 <p class="warning-inline">
-<b>NOTE:</b> Removing a currency will also permanently remove any historical summary data for that currency.
+<b><?php echo ht("NOTE:") ;?></b> <?php echo ht("Removing a currency will also permanently remove any historical summary data for that currency."); ?>
 </p>
 
 <div class="wizard-buttons">
-<input type="submit" name="submit" value="Next &gt;">
+<input type="submit" name="submit" value="<?php echo ht("Next >"); ?>">
 </div>
 </form>
 

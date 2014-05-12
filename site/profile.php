@@ -36,14 +36,14 @@ if (get_site_config('timed_sql')) {
 }
 
 // a user might not have any pages displayed
-$page_title_prefix = "Your Reports: ";
+$page_title_prefix = t("Your Reports: ");
 $enable_editing_dialog = true;
 if ($pages) {
 	if (require_get("securities", false)) {
 		// displaying securities page?
 
 		$graphs = array();
-		$page_title = "Your Securities";
+		$page_title = t("Your Securities");
 		$page_id = "securities";
 		$page_title_prefix = "";
 		$enable_editing_dialog = false;
@@ -183,7 +183,7 @@ if ($pages) {
 
 <?php if ($enable_editing_dialog) { ?>
 <div class="enable_editing">
-	<label><input type="checkbox" id="enable_editing"<?php if ($enable_editing) echo " checked"; ?>> Enable layout editing</label>
+	<label><input type="checkbox" id="enable_editing"<?php if ($enable_editing) echo " checked"; ?>> <?php echo ht("Enable layout editing"); ?></label>
 </div>
 <?php } ?>
 
@@ -258,12 +258,12 @@ if (!$graphs) { ?>
 <?php } else {
 	/* no pages */
 
-	page_header("Your Reports", "page_profile", array('jsapi' => true, 'js' => 'profile', 'class' => 'report_page'));
+	page_header(t("Your Reports"), "page_profile", array('jsapi' => true, 'js' => 'profile', 'class' => 'report_page'));
 	?>
 
 <div class="message">
 <ul>
-	<li>You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.</li>
+	<li><?php echo ht("You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default."); ?></li>
 </ul>
 </div>
 
@@ -282,11 +282,11 @@ if (!$graphs) { ?>
 <?php require(__DIR__ . "/_profile_add_page.php"); ?>
 
 <li id="tab_profile_reset_tab" style="display:none;">
-<h2>Reset User Graphs</h2>
+<h2><?php echo ht("Reset User Graphs"); ?></h2>
 
 <p>
-	Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete
-	any historical summary data associated with this account.
+	<?php echo ht("Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete
+	any historical summary data associated with this account."); ?>
 </p>
 
 <form action="<?php echo htmlspecialchars(url_for('reset_graphs')); ?>" method="post">
@@ -294,7 +294,7 @@ if (!$graphs) { ?>
 <tr>
 	<td>
 	<label>
-		<input type="checkbox" name="confirm" value="1"> Reset all of my graphs and pages.
+		<input type="checkbox" name="confirm" value="1"> <?php echo ht("Reset all of my graphs and pages."); ?>
 	</label>
 	</td>
 </tr>
@@ -308,10 +308,10 @@ if (!$graphs) { ?>
 </li>
 <?php if (is_admin()) { ?>
 <li id="tab_profile_addall_tab" style="display:none;">
-<h2>Add All Graphs</h2>
+<h2><?php echo ht("Add All Graphs"); ?></h2>
 
 <p>
-	Using the button below, you can reset this page and add a collection of example graphs.
+	<?php echo ht("Using the button below, you can reset this page and add a collection of example graphs."); ?>
 </p>
 
 <form action="<?php echo htmlspecialchars(url_for('add_all_graphs')); ?>" method="post">
