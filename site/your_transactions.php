@@ -48,7 +48,15 @@ while ($fc = $q->fetch()) {
 // get all possible exchanges and currencies
 $q = db()->prepare("SELECT currency1 AS currency FROM transactions WHERE user_id=? GROUP BY currency1 ORDER BY currency ASC");
 $q->execute(array(user_id()));
-$currencies = $q->fetchAll();
+$currencies = array();
+while ($cur = $q->fetch()) {
+	$currencies[$cur['currency']] = $cur;
+}
+$q = db()->prepare("SELECT currency2 AS currency FROM transactions WHERE user_id=? AND NOT(ISNULL(currency2)) GROUP BY currency2 ORDER BY currency ASC");
+$q->execute(array(user_id()));
+while ($cur = $q->fetch()) {
+	$currencies[$cur['currency']] = $cur;
+}
 
 // get all possible transactions
 $q = db()->prepare("SELECT exchange, account_id FROM transactions WHERE user_id=? GROUP BY exchange,account_id ORDER BY exchange ASC ,account_id ASC");
@@ -344,10 +352,15 @@ foreach ($transactions as $transaction) {
 				echo htmlspecialchars($transaction['reference']);
 			} ?>
 		</td>
-		<td class="number<?php echo $transaction['value1'] < 0 ? " negative" : ""; ?>">
-			<span class="transaction_<?php echo htmlspecialchars($transaction['currency1']); ?>">
+		<td class="number">
+			<span class="transaction_<?php echo htmlspecialchars($transaction['currency1']) . ($transaction['value1'] < 0 ? " negative" : ""); ?>">
 				<?php echo currency_format($transaction['currency1'], $transaction['value1'], 8); ?>
 			</span>
+			<?php if ($transaction['value2']) { ?>
+				<br><span class="transaction_<?php echo htmlspecialchars($transaction['currency2']) . ($transaction['value2'] < 0 ? " negative" : ""); ?>">
+					<?php echo currency_format($transaction['currency2'], $transaction['value2'], 8); ?>
+				</span>
+			<?php } ?>
 		</td>
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('your_transactions#add_transaction')); ?>" method="get">
@@ -357,6 +370,8 @@ foreach ($transactions as $transaction) {
 				<input type="hidden" name="category" value="<?php echo htmlspecialchars($transaction['category_id']); ?>">
 				<input type="hidden" name="value1" value="<?php echo htmlspecialchars($transaction['value1']); ?>">
 				<input type="hidden" name="currency1" value="<?php echo htmlspecialchars($transaction['currency1']); ?>">
+				<input type="hidden" name="value2" value="<?php echo htmlspecialchars($transaction['value2']); ?>">
+				<input type="hidden" name="currency2" value="<?php echo htmlspecialchars($transaction['currency2']); ?>">
 				<input type="submit" name="copy" value="Copy" class="copy" title="Copy this transaction">
 				<?php foreach ($page_args as $key => $value) { ?>
 					<input type="hidden" name="<?php echo htmlspecialchars($key); ?>" value="<?php echo htmlspecialchars($value); ?>">
@@ -417,6 +432,8 @@ $transaction = array(
 	'reference' => require_get('reference', ""),
 	'value1' => require_get('value1', ""),
 	'currency1' => require_get('currency1', ""),
+	'value2' => require_get('value2', ""),
+	'currency2' => require_get('currency2', ""),
 );
 
 $summaries = get_all_user_currencies();
@@ -475,7 +492,7 @@ $summaries = get_all_user_currencies();
 	<td><input type="text" name="reference" size="16" value="<?php echo htmlspecialchars($transaction['reference']); ?>"></td>
 </tr>
 <tr>
-	<th>Amount:</th>
+	<th>Amount 1:</th>
 	<td>
 		<input type="text" name="value1" size="16" value="<?php echo htmlspecialchars($transaction['value1']); ?>">
 
@@ -483,6 +500,22 @@ $summaries = get_all_user_currencies();
 			<?php foreach (get_all_currencies() as $cur) {
 				if (in_array($cur, $summaries)) {
 					echo "<option value=\"" . $cur . "\"" . ($transaction['currency1'] == $cur ? " selected" : "") . ">" . get_currency_abbr($cur) . "</option>\n";
+				}
+			} ?>
+		</select>
+
+		<span class="required">*</span>
+	</td>
+</tr>
+<tr>
+	<th>Amount 2:</th>
+	<td>
+		<input type="text" name="value2" size="16" value="<?php echo htmlspecialchars($transaction['value2']); ?>">
+
+		<select name="currency2">
+			<?php foreach (get_all_currencies() as $cur) {
+				if (in_array($cur, $summaries)) {
+					echo "<option value=\"" . $cur . "\"" . ($transaction['currency2'] == $cur ? " selected" : "") . ">" . get_currency_abbr($cur) . "</option>\n";
 				}
 			} ?>
 		</select>
