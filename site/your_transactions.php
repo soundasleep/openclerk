@@ -240,7 +240,7 @@ require(__DIR__ . "/_finance_pages.php");
 	</p>
 
 	<p>
-		In the future, you will be able to edit or delete these transactions, create your own transactions, or export these transactions to CSV.
+		In the future, you will be able to export these transactions to CSV.
 		Future functionality will also become limited to <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium users</a>.
 	</p>
 </div>
