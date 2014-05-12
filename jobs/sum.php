@@ -34,6 +34,7 @@ foreach (get_all_currencies() as $cur) {
 			$q = db()->prepare("SELECT * FROM address_balances
 				JOIN addresses ON address_balances.address_id=addresses.id
 				WHERE address_balances.user_id=? AND is_recent=1 AND currency=?
+				AND created_at_day >= TO_DAYS(DATE_SUB(NOW(), INTERVAL 2 DAY))
 				GROUP BY address_id");	// group by address_id to prevent race conditions
 			$q->execute(array($job['user_id'], $cur));
 			$total_blockchain_balance = 0;
@@ -56,6 +57,7 @@ foreach (get_all_currencies() as $cur) {
 		// and the most recent exchange/API balances
 		$q = db()->prepare("SELECT * FROM balances
 			WHERE user_id=? AND is_recent=1 AND currency=?
+			AND created_at_day >= TO_DAYS(DATE_SUB(NOW(), INTERVAL 2 DAY))
 			GROUP BY exchange, account_id");	// group by exchange/account_id to prevent race conditions
 		$q->execute(array($job['user_id'], $cur));
 		while ($offset = $q->fetch()) { // we should only have one anyway
@@ -80,6 +82,7 @@ foreach (get_all_currencies() as $cur) {
 			// get the most recent exchange/API balances
 			$q = db()->prepare("SELECT * FROM hashrates
 				WHERE user_id=? AND is_recent=1 AND currency=?
+				AND created_at_day >= TO_DAYS(DATE_SUB(NOW(), INTERVAL 2 DAY))
 				GROUP BY exchange, account_id");	// group by exchange/account_id to prevent race conditions
 			$q->execute(array($job['user_id'], $cur));
 			while ($offset = $q->fetch()) { // we should only have one anyway
