@@ -32,7 +32,7 @@ function cryptotrade_query($key, $secret, $url, $nonce_multiplier = 1000) {
 	);
 
 	// our curl handle (initialize if required)
-	$ch = curl_init();
+	$ch = crypto_curl_init();
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Crypto-Trade PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
 	curl_setopt($ch, CURLOPT_URL, crypto_wrap_url($url));

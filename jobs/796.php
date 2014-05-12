@@ -37,7 +37,7 @@ function xchange796_query($appid, $apikey, $secretkey, $url) {
 	));
 
 	// our curl handle (initialize if required)
-	$ch = curl_init();
+	$ch = crypto_curl_init();
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; 796 PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
 	curl_setopt($ch, CURLOPT_URL, crypto_wrap_url($token_url));
@@ -65,7 +65,7 @@ function xchange796_query($appid, $apikey, $secretkey, $url) {
 	$destination_url = $url . "?access_token=" . $token;
 
 	// our curl handle (initialize if required)
-	$ch = curl_init();
+	$ch = crypto_curl_init();
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; 796 PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
 	curl_setopt($ch, CURLOPT_URL, crypto_wrap_url($destination_url));

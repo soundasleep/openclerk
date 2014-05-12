@@ -41,7 +41,7 @@ function coinbase_query($method, $account) {
 		// generate the POST data string
 		$post_data = http_build_query($req);
 
-		$ch = curl_init();
+		$ch = crypto_curl_init();
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Coinbase PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
 		curl_setopt($ch, CURLOPT_URL, crypto_wrap_url("https://coinbase.com/oauth/token"));

@@ -33,7 +33,7 @@ function bit2c_query($key, $secret, $path, array $req = array()) {
 	);
 
 	// our curl handle (initialize if required)
-	$ch = curl_init();
+	$ch = crypto_curl_init();
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Bit2c PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
 	curl_setopt($ch, CURLOPT_URL, crypto_wrap_url($path));
