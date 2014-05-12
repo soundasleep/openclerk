@@ -104,7 +104,7 @@ if (!$page_args['show_automatic']) {
 if (require_get("csv", false) && $user['is_premium']) {
 	// select all transactions if CSV exporting
 	$page_args['skip'] = 0;
-	$page_size = 1e6;
+	$page_size = 1e3;
 }
 
 $q = db()->prepare("SELECT * FROM transactions WHERE user_id=? $extra_query ORDER BY transaction_date_day DESC, currency1 ASC, currency2 ASC LIMIT " . $page_args['skip'] . ", $page_size");
