@@ -280,10 +280,11 @@ foreach ($transactions as $transaction) {
 	$transaction_date = date("Y-m-d", strtotime($transaction['transaction_date']));
 
 	?>
-	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
+	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; echo $transaction['id'] == require_get('highlight', 0) ? " selected" : ""; ?>">
 		<td class="<?php echo $last_date == $transaction_date ? "repeated_date" : ""; ?>">
 			<?php
 			echo "<span title=\"" . htmlspecialchars($transaction_date) . "\">" . ($transaction_date) . "</span>";
+			echo "<a name=\"transaction_" . htmlspecialchars($transaction['id']) . "\"></a>";
 			?>
 		</td>
 		<td>
@@ -349,8 +350,24 @@ foreach ($transactions as $transaction) {
 			</span>
 		</td>
 		<td>
+			<form action="<?php echo htmlspecialchars(url_for('your_transactions#add_transaction')); ?>" method="get">
+				<input type="hidden" name="description" value="<?php echo htmlspecialchars($transaction['description']); ?>">
+				<input type="hidden" name="reference" value="<?php echo htmlspecialchars($transaction['reference']); ?>">
+				<input type="hidden" name="account" value="<?php echo htmlspecialchars($transaction['account_id']); ?>">
+				<input type="hidden" name="category" value="<?php echo htmlspecialchars($transaction['category_id']); ?>">
+				<input type="hidden" name="value1" value="<?php echo htmlspecialchars($transaction['value1']); ?>">
+				<input type="hidden" name="currency1" value="<?php echo htmlspecialchars($transaction['currency1']); ?>">
+				<input type="submit" name="copy" value="Copy" class="copy" title="Copy this transaction">
+				<?php foreach ($page_args as $key => $value) { ?>
+					<input type="hidden" name="<?php echo htmlspecialchars($key); ?>" value="<?php echo htmlspecialchars($value); ?>">
+				<?php } ?>
+			</form>
+
 			<form action="<?php echo htmlspecialchars(url_for('transaction_delete')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($transaction['id']); ?>">
+				<?php foreach ($page_args as $key => $value) { ?>
+					<input type="hidden" name="page_args[<?php echo htmlspecialchars($key); ?>]" value="<?php echo htmlspecialchars($value); ?>">
+				<?php } ?>
 				<input type="submit" name="delete" value="Delete" class="delete" title="Delete this transaction" onclick="return confirm('Are you sure you want to delete this transaction?');">
 			</form>
 		</td>
@@ -473,6 +490,9 @@ $summaries = get_all_user_currencies();
 </tr>
 <tr>
 	<td colspan="2" class="buttons">
+		<?php foreach ($page_args as $key => $value) { ?>
+			<input type="hidden" name="page_args[<?php echo htmlspecialchars($key); ?>]" value="<?php echo htmlspecialchars($value); ?>">
+		<?php } ?>
 		<input type="submit" value="Add transaction">
 	</td>
 </tr>

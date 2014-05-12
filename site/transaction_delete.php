@@ -6,6 +6,7 @@ require(__DIR__ . "/../inc/global.php");
 require_login();
 
 $id = (int) require_post("id");
+$page_args = require_post("page_args", false);
 
 $messages = array();
 $errors = array();
@@ -18,4 +19,11 @@ $messages[] = t("Deleted transaction.");
 set_temporary_messages($messages);
 set_temporary_errors($errors);
 
-redirect(url_for('your_transactions'));
+$args = array();
+if (is_array($page_args)) {
+	foreach ($page_args as $key => $value) {
+		$args[$key] = $value;
+	}
+}
+
+redirect(url_for('your_transactions', $args));

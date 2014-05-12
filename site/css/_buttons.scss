@@ -7,7 +7,7 @@ $button-background: transparent;
 input[type=submit], button {
 
   // common button styles
-  &.reset, &.delete, &.test, &.enable, &.disable {
+  &.reset, &.delete, &.test, &.enable, &.disable, &.copy {
     display: inline-block;
     width: (16px+8px);
     height: (16px+8px);
@@ -31,6 +31,9 @@ input[type=submit], button {
   }
   &.delete {
     background: $button-background url('../img/nuvola/editdelete.png') 3px 3px no-repeat;
+  }
+  &.copy {
+    background: $button-background url('../img/nuvola/editcopy.png') 3px 3px no-repeat;
   }
   &.test {
     background: $button-background url('../img/nuvola/reload.png') 3px 3px no-repeat;

@@ -12,6 +12,7 @@ $description = (string) require_post("description", "");
 $reference = (string) require_post("reference", "");
 $value1 = (string) require_post("value1");
 $currency1 = (string) require_post("currency1");
+$page_args = require_post("page_args", false);
 
 $messages = array();
 $errors = array();
@@ -42,6 +43,7 @@ if (!$errors) {
 		'value1' => $value1,
 		'currency1' => $currency1,
 	));
+	$id = db()->lastInsertId();
 
 	$messages[] = t("Added transaction.");
 }
@@ -50,8 +52,14 @@ set_temporary_messages($messages);
 set_temporary_errors($errors);
 
 $args = array();
+if (is_array($page_args)) {
+	foreach ($page_args as $key => $value) {
+		$args[$key] = $value;
+	}
+}
+
 if ($errors) {
-	$args = array(
+	$args += array(
 		'date' => $date,
 		'account' => $account,
 		'category' => $category,
@@ -60,5 +68,8 @@ if ($errors) {
 		'value1' => $value1,
 		'currency1' => $currency1,
 	);
+	redirect(url_for("your_transactions", $args));
+} else {
+	$args['highlight'] = $id;
+	redirect(url_for('your_transactions#transaction_' . $id, $args));
 }
-redirect(url_for("your_transactions#add_transaction", $args));
