@@ -274,6 +274,7 @@ require(__DIR__ . "/_finance_pages.php");
 </thead>
 <tbody>
 <?php
+$totals = array();
 $count = 0;
 $last_date = 0;
 foreach ($transactions as $transaction) {
@@ -361,6 +362,20 @@ foreach ($transactions as $transaction) {
 					<?php echo currency_format($transaction['currency2'], $transaction['value2'], 8); ?>
 				</span>
 			<?php } ?>
+			<?php
+			if ($transaction['currency1']) {
+				if (!isset($totals[$transaction['currency1']])) {
+					$totals[$transaction['currency1']] = 0;
+				}
+				$totals[$transaction['currency1']] += $transaction['value1'];
+			}
+			if ($transaction['currency2']) {
+				if (!isset($totals[$transaction['currency2']])) {
+					$totals[$transaction['currency2']] = 0;
+				}
+				$totals[$transaction['currency2']] += $transaction['value2'];
+			}
+			?>
 		</td>
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('your_transactions#add_transaction')); ?>" method="get">
@@ -395,7 +410,7 @@ foreach ($transactions as $transaction) {
 </tbody>
 <tfoot>
 	<tr>
-		<td class="buttons" colspan="8">
+		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('your_transactions')); ?>" method="get">
 				<?php
 				$button_args = array('skip' => max(0, $page_args['skip'] - $page_size)) + $page_args;
@@ -404,7 +419,20 @@ foreach ($transactions as $transaction) {
 				} ?>
 				<input type="submit" class="button-previous" value="&lt; Previous"<?php echo $page_args['skip'] > 0 ? "" : " disabled"; ?>>
 			</form>
-
+		</td>
+		<td colspan="5">
+			<b>Subtotal</b>
+		</td>
+		<td class="number">
+			<?php
+			ksort($totals);
+			foreach ($totals as $currency => $value) { ?>
+				<span class="transaction_<?php echo htmlspecialchars($currency) . ($value < 0 ? " negative" : ""); ?>">
+					<?php echo currency_format($currency, $value, 8); ?>
+				</span><br>
+			<?php } ?>
+		</td>
+		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('your_transactions')); ?>" method="get">
 				<?php
 				$button_args = array('skip' => max(0, $page_args['skip'] + $page_size)) + $page_args;
