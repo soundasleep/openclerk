@@ -2,11 +2,11 @@
 
 /**
  * fr template file
- * Generated automatically from 'for_use_openclerk_templatejson_fr.json' at Mon, 12 May 2014 12:45:45 +1200
+ * Generated from 'for_use_openclerk_templatejson_fr.json' at Mon, 12 May 2014 13:46:18 +1200
  */
 
 $result = array(
-	"__comment" => "Generated language template file - do not modify directly",
+	"Beta" => "Beta",
 	"English" => "Anglais",
 	"French" => "Français",
 	"Invalid hash - please recheck the link in your e-mail." => "Invalid hash - please recheck the link in your e-mail.",
@@ -21,6 +21,7 @@ $result = array(
 	"This e-mail address is already being used by another account for password login." => "This e-mail address is already being used by another account for password login.",
 	"Those passwords do not match." => "Those passwords do not match.",
 	"Updated password." => "Updated password.",
+	"Welcome to :name" => "Bienvenue à :name",
 	"You cannot use both OpenID and password at login." => "You cannot use both OpenID and password at login.",
 	"You cannot use both OpenID and password at signup." => "You cannot use both OpenID and password at signup.",
 	"You did not select the confirmation checkbox." => "You did not select the confirmation checkbox.",
