@@ -3634,7 +3634,6 @@ ALTER TABLE accounts_individual_litecoininvest CONVERT TO CHARACTER SET utf8 COL
 ALTER TABLE accounts_justcoin CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE accounts_kattare CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE accounts_khore CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-ALTER TABLE accounts_kraken CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE accounts_lite_coinpool CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE accounts_litecoinglobal CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE accounts_litecoininvest CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -3721,7 +3720,6 @@ ALTER TABLE performance_reports CONVERT TO CHARACTER SET utf8 COLLATE utf8_unico
 ALTER TABLE ppcoin_blocks CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE premium_addresses CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE primecoin_blocks CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-ALTER TABLE remote_instances CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE reported_currencies CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE securities CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE securities_796 CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -3768,6 +3766,7 @@ CREATE TABLE accounts_kraken (
 
   INDEX(user_id), INDEX(last_queue), INDEX(is_disabled)
 );
+ALTER TABLE accounts_kraken CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 INSERT INTO exchanges SET name='kraken';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='kraken';
@@ -3783,7 +3782,6 @@ DELETE FROM hashrates WHERE exchange='ecoining_ppc' AND account_id NOT IN (SELEC
 DELETE FROM hashrates WHERE exchange='eligius' AND account_id NOT IN (SELECT id FROM accounts_eligius);
 DELETE FROM hashrates WHERE exchange='ghashio' AND account_id NOT IN (SELECT id FROM accounts_ghashio);
 DELETE FROM hashrates WHERE exchange='givemecoins' AND account_id NOT IN (SELECT id FROM accounts_givemecoins);
-DELETE FROM hashrates WHERE exchange='givemeltc' AND account_id NOT IN (SELECT id FROM accounts_givemeltc);
 DELETE FROM hashrates WHERE exchange='hashfaster_doge' AND account_id NOT IN (SELECT id FROM accounts_hashfaster_doge);
 DELETE FROM hashrates WHERE exchange='hashfaster_ftc' AND account_id NOT IN (SELECT id FROM accounts_hashfaster_ftc);
 DELETE FROM hashrates WHERE exchange='hashfaster_ltc' AND account_id NOT IN (SELECT id FROM accounts_hashfaster_ltc);
