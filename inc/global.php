@@ -632,6 +632,15 @@ function xmlescape($str) {
 }
 
 /**
+ * Return a string with all " characters encoded.
+ * {@code addslashes()} just quotes ALL special characters (including '), which is not suitable
+ * for encoding a PHP string.
+ */
+function phpescapestring($s) {
+	return str_replace("\"", "\\\"", $s);
+}
+
+/**
  * Display an XML error.
  */
 function display_xml_error($e) {

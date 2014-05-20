@@ -1,0 +1,244 @@
+'<currency>' is not a valid currency
+'<date>' is not a valid date
+<site> Finance
+< Previous
+A category with the title '<title>' already exists.
+About
+Account Status
+Account status:
+Account:
+Accounts
+Add Account
+Add Accounts and Addresses
+Add Addresses
+Add All Graphs
+Add Category
+Add Exchanges
+Add Individual Securities
+Add Mining Pools
+Add New Notification
+Add OpenID Identity
+Add Other Account
+Add Securities Exchanges
+Add Transaction
+Add account
+Add another OpenID Identity
+Add category
+Add new account
+Add new category
+Add new page
+Add password
+Added
+Added new finance account.
+Added new finance category.
+Added transaction.
+Address
+Admin
+Administrator
+Amount 1:
+Amount 2:
+An account with the title '<title>' already exists.
+Argument:
+Automatically logged in. Hi, <user>!
+Balance
+Beta
+Calculator
+Categories
+Category:
+Change Password
+Change password
+Commodity currencies
+Configure Accounts
+Configured Notifications
+Contact
+Contact Details
+Contact Us
+Could not find your notification <key> to edit.
+Country:
+Cryptocurrencies
+Cryptocurrency Calculator
+Currencies
+Currency
+Currency Preferences
+Date:
+Days:
+Delete
+Deleted finance account.
+Deleted finance category.
+Deleted transaction.
+Delta:
+Description:
+Disable automatic graph refresh
+Disable e-mail/password login
+Due
+E-mail:
+Edit Notification
+Enable e-mail/password login
+Enable e-mail/password login on your account
+Enable layout editing
+English
+Exchange:
+Expires in:
+External API Status
+External API Status: <api_title>
+Features
+Fiat currencies
+Filter Transactions
+Finance
+Finance Accounts
+Finance Categories
+Forgotten password?
+Forums
+Free account
+French
+Further instructions to change your password have been sent to your e-mail address <email>.
+GST number:
+Get Premium
+Graph type:
+Help
+Help Centre
+Historical Data
+Historical Data: <heading>
+Identities
+Identity
+Instead of the default exchange, use the following exchanges:
+Invalid OpenID parameter
+Invalid article key.
+Invalid hash - please recheck the link in your e-mail.
+Invalid openid parameter
+Invalid password parameter
+Invalid repeated password parameter
+Invalid username or password.
+Jobs at <site>
+Knowledge Base: <title>
+Last checked
+Last login:
+Log in automatically
+Login
+Login with:
+Logout
+Lolcat
+Mailing List
+Market Average: <pair>
+Market Averages
+Member since:
+NOTE:
+Name:
+New account creation successful.
+Next >
+No OpenID identities defined.
+No hash specified.
+No outstanding payments.
+No previous payments.
+No such knowledge base article '<key>'.
+No such user account exists.
+Not Found
+Notification Preferences
+Notifications
+OpenID URL:
+OpenID...
+Other market averages
+Outstanding Payments
+Paid
+Password
+Password changed; you should now immediately login with this new password.
+Password:
+Period:
+Please select a password between 6-255 characters long.
+Please send me an e-mail when
+Premium
+Premium Accounts
+Premium account
+Previous Payments
+Provider
+Purchase Premium
+Purchase Premium with <currency>
+Reference:
+Release History
+Remove password login
+Remove this page
+Removed password.
+Removing a currency will also permanently remove any historical summary data for that currency.
+Repeat:
+Report Preferences
+Reset Password
+Reset User Graphs
+Reset all of my graphs and pages.
+Reset password
+Screenshots
+Select an option
+Show:
+Signup
+Signup with:
+Since
+Subscribe
+Subscribe to <site> Announcements
+Subscribe to site announcements
+Successfully logged out. You may login again here.
+Summary pages
+Support
+System account
+Technical:
+Terms of Service
+That account has not requested a password reset.
+That e-mail address is already in use by another account using password login.
+That is not a valid OpenID identity.
+That is not a valid e-mail address.
+That resource could not be found.
+This e-mail address is already being used by another account for password login.
+This isn't me.
+Those passwords do not match.
+Title:
+To subscribe to site announcements, you must provide an e-mail address.
+Tools
+Tracked accounts
+Tracked addresses
+Unknown notification type to edit '<notification_type>'
+Unsubscribe
+Unsubscribe unsuccessful
+Updated password.
+Use OpenID instead
+Use a password instead
+User Account
+User Profile
+User has cancelled authentication.
+Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete any historical summary data associated with this account.
+Using the button below, you can reset this page and add a collection of example graphs.
+Visit this group
+Warning: Without a valid e-mail address specified in your contact details, you will not receive important announcements and notifications about your accounts and user profile.
+Welcome to <name>
+Welcome to <site>!
+You cannot use both OpenID and password at login.
+You cannot use both OpenID and password at signup.
+You did not select the confirmation checkbox.
+You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.
+You need to agree to the terms of service.
+You need to be logged in as an administrator to do that.
+You need to be logged in to proceed.
+You need to have added an e-mail address to your account before you can enable password login.
+You need to select a second currency in order to add a second transaction amount.
+You need to select your country.
+You need to select your e-mail address in order to use password login.
+You need to specify a transaction value.
+Your <site> User Account
+Your Account
+Your Currencies
+Your Finance Accounts
+Your Finance Categories
+Your Hashrates
+Your OpenID Identites
+Your Reports
+Your Reports: 
+Your Securities
+Your Transactions
+anonymous
+currency, accounts and reporting preferences
+finance accounts
+finance categories
+finance category
+my converted
+my total
+my total hashrate
+new
+premium users
+the exchange rate

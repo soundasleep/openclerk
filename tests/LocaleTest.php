@@ -114,5 +114,14 @@ class LocaleTest extends OpenclerkTest {
 		fwrite($fp, "\n}\n");
 		fclose($fp);
 
+		// write them out to a common file
+		$fp = fopen(__DIR__ . "/../locale/template.txt", 'w');
+		foreach ($found as $key) {
+			// we need to replace :placeholder with <placeholder>
+			$key = preg_replace("/:([a-z_]+)/i", "<\\1>", $key);
+			fwrite($fp, $key . "\n");
+		}
+		fclose($fp);
+
 	}
 }

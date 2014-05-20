@@ -4,6 +4,8 @@
  * Batch script to convert `translated/*_locale.json` into local `locale.php` includes.
  */
 
+require(__DIR__ . "/../inc/global.php");
+
 $dir = __DIR__ . "/translated/";
 if ($dh = opendir($dir)) {
 	while (($file = readdir($dh)) !== false) {
@@ -30,7 +32,7 @@ if ($dh = opendir($dir)) {
 			fwrite($fp, "<?php\n\n/**\n * $locale template file\n * Generated from '$file' at " . date('r') . "\n */\n\n");
 			fwrite($fp, '$' . "result = array(\n");
 			foreach ($json as $key => $value) {
-				fwrite($fp, "\t\"" . addslashes($key) . "\" => \"" . addslashes($value) . "\",\n");
+				fwrite($fp, "\t\"" . phpescapestring($key) . "\" => \"" . phpescapestring($value) . "\",\n");
 			}
 			fwrite($fp, ");\n");
 			fclose($fp);
