@@ -1,0 +1,245 @@
+﻿
+«<currency>» est pas une monnaie valide
+«<date>» n'est pas une date valide
+<site> Finances
+< Précédent
+Une catégorie avec le titre «<title>» existe déjà.
+A propos de
+Statut du compte
+Statut du compte:
+Compte:
+Comptabilité
+Ajouter un compte
+Ajouter des comptes et adresses
+Ajouter des adresses
+Ajouter tous les graphiques
+Ajouter Catégorie
+Ajouter échanges
+Ajouter Securities individuels
+Ajouter Piscines minières
+Ajouter une nouvelle notification
+Ajouter identité OpenID
+Ajouter un autre compte
+Ajouter aux Bourses
+Ajouter une Transaction
+Ajouter le compte
+Ajouter une autre identité OpenID
+Ajouter une catégorie
+Ajouter un nouveau compte
+Ajouter une nouvelle catégorie
+Ajouter nouvelle page
+Ajouter un mot de passe
+Ajouté
+Ajout d'un nouveau compte de financement.
+Ajout d'une nouvelle catégorie de financement.
+Ajouté transaction.
+Adresse 
+Administrateur
+Administrateur
+Montant 1:
+Montant 2:
+Un compte avec le titre «<title>» existe déjà.
+Argument:
+Automatiquement connecté po. Salut, <user>!
+Solde
+Beta
+Calculatrice
+Catégories
+Catégorie:
+Changer le mot de passe
+Changer le mot de passe
+Devises des matières premières
+Configurer des comptes
+Notifications configurés
+Contact
+Coordonnées
+Contactez-nous
+Impossible de trouver votre notification <key> à modifier.
+Pays:
+Cryptocurrencies
+Calculatrice de cryptocurrency
+Monnaies
+Monnaie
+Monnaie Préférences
+Date:
+Jours:
+Supprimer
+Compte de financement supprimé.
+Catégorie finance supprimé.
+Transaction supprimé.
+Delta:
+Description:
+Désactiver l'actualisation automatique de graphes
+Désactiver la connexion e-mail/password
+Dû
+E-mail:
+Modifier notification
+Activer une connexion e-mail/password
+Activer une connexion e-mail/password sur votre compte
+Activer l'édition de mise en page
+Anglais
+Bourse:
+Expire dans:
+API externe État
+API externe Statut: <api_title>
+Caractéristiques
+Monnaies Fiat
+Filtrer les transactions
+Financement
+Comptes des Finances
+Finance Catégories
+Mot de passe oublié?
+Forums
+Compte gratuit
+Français
+D'autres instructions pour changer votre mot de passe ont été envoyés à votre adresse e-mail <email>.
+Numéro de GST:
+Obtenir Premium
+Type de graphique:
+Aide
+Aide
+Données Historiques
+Données Historiques: <heading>
+Identités
+Identité
+Au lieu de l'échange par défaut, utilisez les échanges suivants:
+OpenID paramètre invalide
+Article de touche non valide.
+Hachage non valide - s'il vous plaît vérifier à nouveau le lien dans votre e-mail.
+Paramètre OpenID invalide
+Paramètre de mot de passe invalide
+Paramètre de mot de passe répétées invalide
+Nom d'utilisateur ou mot de passe incorrect.
+Offres d'emploi chez <site>
+Base de connaissances: <title>
+Dernière vérification
+Dernière connexion:
+Connexion automatique
+Connexion 
+Connectez-vous avec:
+Déconnexion
+Lolcat
+Liste d'envoi
+Moyenne du marché: <pair>
+Moyenne du marché
+Membre depuis:
+REMARQUE:
+Nom:
+Nouveau succès la création de compte.
+Suivant >
+Pas identités OpenID définis.
+Pas de hachage spécifiée.
+Pas de paiements en souffrance.
+Pas de paiements antérieurs.
+Aucune connaissance tel article de la base «<key>».
+Aucun compte d'utilisateur existe.
+Pas de résultats
+Préférences de notification
+Commentaires
+OpenID URL:
+OpenID...
+Autres moyennes du marché
+Paiements en suspens
+Payé
+Mot de passe
+Mot de passe modifié; vous devriez maintenant vous connecter immédiatement avec ce nouveau mot de passe.
+Mot de passe:
+Période:
+S'il vous plaît sélectionner un mot de passe entre 6-255 caractères.
+S'il vous plaît envoyez-moi un e-mail quand de
+Prime
+Comptes premium
+Compte Premium
+Paiements précédentes
+Fournisseur
+Achat premium
+Achat Premium avec <currency>
+Référence:
+Historique des versions
+Supprimer le mot de passe de connexion
+Enlever cette page
+Mot de passe retirée.
+Retrait d'une monnaie va également supprimer définitivement toutes les données de synthèse historique de cette monnaie.
+Répétez:
+Signaler Préférences
+Réinitialiser le mot de passe
+Réinitialiser utilisateur graphiques
+Réinitialiser tous mes graphiques et des pages.
+Réinitialiser le mot de passe
+Captures d'écran
+Sélectionner option
+Afficher:
+Inscription
+Inscription à:
+Depuis
+Abonnez-vous
+Abonnez-vous à <site> Annonces
+Abonnez-vous aux annonces du site
+Succès déconnecté. Vous pouvez vous connecter de nouveau ici.
+Les pages de résumé
+Positif
+Compte du système
+Technique:
+Conditions d'utilisation du service
+Ce compte n'a pas demandé une réinitialisation de mot de passe.
+Cette adresse e-mail est déjà utilisée par un autre compte en utilisant le mot de passe de connexion.
+Ce n'est pas une identité OpenID valide.
+Ce n'est pas une adresse e-mail valide.
+Cette ressource est introuvable.
+Cette adresse e-mail est déjà utilisée par un autre compte pour le mot de passe de connexion.
+Ce n'est pas moi.
+Ces mots de passe ne correspondent pas.
+Titre:
+Pour vous abonner aux annonces du site, vous devez fournir une adresse e-mail.
+Outils
+Comptes chenilles
+Adresses chenilles
+Inconnu type de notification à modifier «<notification_type>»
+Se désabonner
+Se désabonner échec
+Mise à jour le mot de passe.
+Utilisez OpenID place
+Utilisez un mot de passe à la place
+Compte d'utilisateur
+Profil d'utilisateur
+L'utilisateur a annulé l'authentification.
+En utilisant le bouton ci-dessous, vous pouvez réinitialiser la mise en page de graphiques et de toutes les pages de graphiques pour le site par défaut. Cette action est permanente, mais ne supprime pas les données sommaires historiques associés à ce compte.
+En utilisant le bouton ci-dessous, vous pouvez réinitialiser cette page et ajouter une collection d'exemples de graphes.
+Visitez ce groupe
+Avertissement: Sans une adresse e-mail valide spécifiée dans vos coordonnées, vous ne recevrez pas les avis et notifications importantes sur vos comptes et profil de l'utilisateur.
+Bienvenue à <name>
+Bienvenue à <site>!
+Vous ne pouvez pas utiliser OpenID et mot de passe lors de la connexion.
+Vous ne pouvez pas utiliser OpenID et mot de passe lors de leur inscription.
+Vous n'avez pas sélectionné la case de confirmation.
+Vous n'avez pas défini de pages du rapport - vous devez ajouter une nouvelle page, ou réinitialiser vos graphiques et des pages pour le site par défaut.
+Vous devez accepter les conditions de service.
+Vous devez être connecté en tant qu'administrateur pour le faire.
+Vous devez être connecté pour pouvoir accéder.
+Vous devez avoir ajouté une adresse e-mail à votre compte avant de pouvoir activer le mot de passe de connexion.
+Vous devez sélectionner une seconde monnaie, afin d'ajouter un deuxième montant de la transaction.
+Vous devez sélectionner votre pays.
+Vous devez sélectionner votre adresse e-mail afin de pouvoir utiliser le mot de passe de connexion.
+Vous devez spécifier une valeur de transaction.
+Votre Compte Utilisateur <site>
+Votre Compte
+Vos Devises
+Vos Comptes des Finances
+Vos Finance Catégories
+Vos Hashrates
+Vos Identités OpenID
+Vos Rapports
+Vos Rapports: 
+Vos Titres
+Vos Transactions
+anonymous
+devises, les comptes et préférences de rapport
+comptes financiers
+catégories de financement
+catégorie finance
+mon converti
+mon total
+mon hashrate totale
+nouveau
+utilisateurs premium
+le taux de change
