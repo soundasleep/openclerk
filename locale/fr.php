@@ -2,7 +2,7 @@
 
 /**
  * fr template file
- * Generated from 'locale_fr.txt' at Wed, 21 May 2014 20:59:30 +1200
+ * Generated from 'locale_fr.txt' at Wed, 21 May 2014 21:16:47 +1200
  */
 
 $result = array(

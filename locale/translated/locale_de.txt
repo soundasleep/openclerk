@@ -1,0 +1,976 @@
+﻿
+Veränderung in %
+% Erfolg
+'<address>' Ist keine gültige <title>.
+'<currency>' Ist keine gültige Währung
+'<date>' Ist kein gültiges Datum
+'<value>' Ist keine gültige <title> <label>.
+'<value>' Ist keine gültige <title> Titel.
+'<value>' Ist kein gültiger Zahlenwert für <currency>.
+(Kein <accounts> definiert.)
+(Keine Adressen definiert.)
+(Keine Grafiken noch in dieser Kategorie.)
+(Keine Meldungen festgelegt.)
+(Eine Adresse pro Zeile.)
+(vor allen Umbauten)
+(deaktiviert)
+(finanzierungsrechnung)
+(für den nächsten <hours>)
+(automatisch generiert)
+(keine vorherige E-Mail-Adresse)
+(keine)
+(optional)
+(entfernt)
+(wertpapiere)
+(untitled)
+(brieftasche)
+... und <dozens_more>
+<addresses> waren ungültig und wurden nicht aufgenommen.
+<cost1> pro Monat oder pro Jahr <cost2>
+<currency> mhash / s
+<currency> historischen MHash/s (grafik)
+<exchange> <currency> Sicherheitswert (grafik)
+<exchange> <pair> Datenaustausch
+<exchange> historischen <pair> (grafik)
+<exchange> historischen <pair> (marktdaten)
+<exchange> Sicherheit
+<number> (von <total>)
+<openid> ist oft viel sicherer als eine E-Mail und Passwort. Wenn Sie ein Passwort zu tun, stellen Sie bitte sicher, dass Sie dasselbe Kennwort auf anderen Webseiten cryptocurrency nicht verwenden.
+<pair> Stellen
+<pair> Gebot
+<percent> Anfragen erfolgreich
+<premium_user> Job Verzögerung
+<site_name> Eigenschaften
+<site_name> Finanzen
+<site_name> Finanzen verfolgen können <your_transactions> halten und ordnen diese Konten zu trennen, steuerliche oder buchhalterische Zwecke.
+<site_name> Finanzen verfolgen können <your_transactions> und gruppieren Sie sie in separate Finanzierungskategorien für Steuer-oder Rechnungslegungszwecken halten.
+<site_name> Screenshots
+<site_name> unterstützt auch die <currencies> Fiat-Währungen.
+<site_name> automatisch verwaltet Ihre Berichte auf der Grundlage Ihrer Währung, Adresse und Reporting-Einstellungen.
+<site_name> automatisch verwaltet Ihre Berichte auf der Grundlage Ihrer Währung, Adresse und Reporting-Einstellungen. Alternativ können Sie eine einfache Schnittstelle neue Diagrammtypen hinzufügen, konfigurieren Sie sie, und sie neu anzuordnen.
+<site_name> kann gegebenenfalls auch <notify_you>, wenn Sie Ihre Konten zu ändern. (Sie können diese Optionen später ändern, indem Sie auf den Link "Accounts konfigurieren" weiter oben.)
+<site_name> können automatisch Berichte personalisieren für Sie, oder Sie können die volle Kontrolle übernehmen und gestalten Sie Ihre eigenen Berichtsseiten mit eigenen Grafiken, Layouts und technische Indikatoren.
+<site_name> ist eine Web-Anwendung mit Funktionen, die Ihnen helfen, Ihre cryptocurrencies, Investitionen und Bergbau Hardware verfolgen verpackt; Märkte verstehen und zu analysieren; und fundierte Entscheidungen über Ihr Portfolio.
+<site_name> verfolgt Ihre cryptocurrencies, Beteiligungen und Aktien, die von regelmäßig Herunterladen Kontodaten von Konten, die Sie definieren. Sie können fünf verschiedene Arten von Konten hinzufügen, wie unten dargestellt. (Sie können diese Konten später ändern, indem Sie auf den Link "Accounts konfigurieren" weiter oben.)
+<site_name> können Sie den Überblick über Ihre cryptocurrencies, Bergleute, Beteiligungen und Aktien halten, und erzeugt regelmäßig Berichte über Ihr Portfolio.
+<site_name> beruht auf der Ausgabe von vielen externen APIs. Diese Seite zeigt den aktuellen Status von jedem dieser APIs, wie in den letzten <time> (<samples> Proben) gesammelt.
+<site_name> unterstützt eine breite Palette von Anwendungen und cryptocurrency wird regelmäßig mit neuen Diensten aktualisiert. Zum Beispiel <site_name> derzeit unterstützt:
+<time> vor
+<time> in der Zukunft
+< Zurück zur External-API-Status
+< Zurück zu Hilfe
+< Zurück zu den historischen Daten
+< Vorherige
+Ein <calculator> jede Währung in eine andere Währung umzurechnen, mit den neuesten Wechselkurse.
+Eine Kategorie mit dem titel '<title>' existiert bereits.
+Ein Liniendiagramm Anzeigen der historischen durchschnittlichen Markt Bid/Ask-Werte für <pair>.
+Ein Liniendiagramm Anzeige der historischen Bid/Ask-Werte für <pair> auf <exchange>.
+Ein Liniendiagramm Anzeige des historischen Gegenwert aller cryptocurrencies - und nicht die anderen Fiat-Währungen -, wenn sie sofort umgewandelt <title>.
+Ein Liniendiagramm Anzeige des historischen Gegenwert aller cryptocurrencies und Fiat-Währungen, wenn sie sofort umgewandelt <title> (wenn möglich).
+Ein Liniendiagramm Anzeige der historischen hashrate Summe alle Arbeitnehmer Bergbau <currency> über alle Bergbau Pools (in MHash/s).
+Ein Liniendiagramm Anzeige des historischen Status eines externen API, durch die Anzeige der Anteil des Nicht-Proben.
+Ein Liniendiagramm Anzeige der historischen Summe Ihrer <currency> (vor allen Umbauten).
+Ein Liniendiagramm Anzeige der historische Wert eines bestimmten <exchange> Sicherheit.
+Ein Liniendiagramm Anzeige des historischen Wert aller Währungen, wenn sie alle in BTC umgewandelt.
+Ein Liniendiagramm, die alle Quellen des Gesamt <currency> Bilanz (vor allen Umbauten).
+Eine Matrix Anzeige der aktuellen Geld / Brief aller Währungen und Börsen <interested_in>.
+Ein Kreisdiagramm, das alle Quellen des Gesamt <currency> Bilanz (vor allen Umbauten).
+Ein Kreisdiagramm, das die Gesamt proportional Wert aller Währungen, wenn sie alle in BTC umgewandelt.
+Ein einfacher gleitender Durchschnitt des Preises - oder Mittelpunkt zwischen Kaufen und Verkaufen - in den letzten Tagen <n>.
+Eine einfache Tabelle zeigt den aktuellen Bid/Ask-Preis auf <pair> <exchange>.
+Ein Flächendiagramm Anzeige des historischen Wert aller Währungen, wenn sie alle waren in BTC umgewandelt.
+Ein Flächendiagramm Anzeige der historische Wert Ihrer Gesamt <currency> Bilanz (vor allen Umbauten).
+Ein Flächendiagramm Anzeige der proportional historischen Wert aller Währungen, wenn sie alle in BTC umgewandelt.
+Ein Flächendiagramm Anzeige der proportional historischen Wert Ihrer Gesamt <currency> Bilanz (vor allen Umbauten).
+Eine Tabelle mit allen Ihren <currency> Bilanzen und der Gesamtbilanz (vor allen Umbauten).
+Eine Tabelle zeigt die aktuelle Summe aller Währungen (vor allen Umbauten), zusammen mit Textfelder auf Offset-Werte für jede Währung direkt.
+Eine Tabelle zeigt die aktuelle Summe aller Ihrer Währungen (vor allen Umbauten).
+Eine Tabelle mit den Gegenwert aller cryptocurrencies - aber nicht Fiat-Währungen -, wenn sie wurden sofort in andere cryptocurrencies umgewandelt.
+Eine Tabelle mit den Gegenwert aller cryptocurrencies und Fiat-Währungen, wenn sie sofort in die Fiat-Währungen umgewandelt. Cryptocurrencies über BTC umgewandelt.
+Eine Tabelle mit den Marktdaten verwendet, um die durchschnittliche Marktpreis für <pair> generieren.
+Eine breite Palette von cryptocurrencies und Fiat-Währungen ausgewählt werden; dies stellt sicher, dass Sie nur über Währungen informiert Sie tatsächlich interessiert sind
+Eine Vielzahl von Kontotypen werden unterstützt, mit mehr regelmäßig aufgenommen. Alle Kontotypen sind vollständig optional.
+Über uns
+Benutzerkonto
+Konto-ID
+Kontostatus:
+Konto-Typ
+Kontostand:
+Konto-Typen
+Konto:
+Konten
+In <an_account> hier nicht aufgeführt
+<titles> Hinzufügen
+Konto hinzufügen
+Konten hinzufügen und Adressen
+Adressen hinzufügen
+Alle hinzufügen Graphs
+Kategorie
+In Exchanges
+Grafik hinzufügen
+Hinzufügen einzelner Wertpapiere
+In Mining Pools
+Neue Meldung
+In OpenID Identität
+Weitere Konto hinzufügen
+Seite hinzufügen
+In Securities Exchanges
+Transaktions hinzufügen
+Konto hinzufügen
+Konten hinzufügen und Adressen
+Adresse hinzufügen
+Adressen hinzufügen
+Einen weiteren hinzufügen OpenID Identität
+Einen weiteren hinzufügen cryptocurrency...
+Einen weiteren hinzufügen Austausch...
+Fügen Sie ein weiteres Bergbau-Pool...
+Fügen Sie eine weitere Brieftasche...
+Kategorie
+Grafik hinzufügen
+Fügen Sie weitere Währungen
+Fügen Sie mehrere <titles>
+Neuen <title>
+Neues Konto hinzufügen
+Neue Kategorie
+In neuen Graphen
+Neue Seite hinzufügen
+Seite hinzufügen
+Kennwort hinzufügen
+Transaktion hinzufügen
+Hinzugefügte
+Hinzugefügt <added> und <removed> entfernt.
+Hinzugefügt <added>.
+Hinzugefügt <new> und aktualisierte <existing>.
+Hinzugefügt OpenID-Identität '<identity>' auf Ihr Konto.
+Hinzugefügt <heading> neue Grafik mit <technical>.
+Hinzugefügt neue <heading> Graphen.
+Hinzugefügt neue <title> <name>. Guthaben von diesem Konto wird in Kürze abrufbar.
+Hinzugefügt neue Adresse <address>. Guthaben von dieser Adresse wird in Kürze abrufbar.
+Hinzugefügt neue Finanzierungskonto.
+Hinzugefügt neue Finanz Kategorie.
+Hinzugefügt neue Grafikseite <title>.
+Hinzugefügt Transaktion.
+Hinzufügen von grafiken
+Adresse
+Adresse Salden
+Adressen
+Adressen können direkt von Ihrem lokalen BTC oder LTC Brieftaschen in <site_name> exportiert werden.
+Admin
+Verwalter
+Alle Salden <currency>
+Alle <currency> Salden (grafik)
+Alle <currency> Salden (proportional)
+Alle <currency> Salden (gestapelt)
+Alle Funktionen ...
+Alle Waagen (grafik)
+Alle Waagen (proportional)
+Alle Waagen (gestapelt)
+Alle Waagen (tabelle)
+Alle Währungen Wechselkurse (matrix)
+Alle Daten und Adressen sind schreibgeschützt, ist die <software> Open Source, und keine Passwörter gespeichert werden. Das bedeutet, Ihre Konten und Fonds werden immer sicher sein.
+Alle Börsen
+Alle Benutzer können auch auf eine "Deine Währungen" Bericht Seite und zeigt Ihre neuesten Salden für jede Währung; und ein "Ihr Hashrates" Bericht Seite und zeigt alle Ihre jüngsten hashrates.
+Zusammen mit generierten Bericht Seiten können auch <site_name> <notify_you> automatisch per E-Mail, wenn die Wechselkurse, Bergmann hashrates, oder dem Berichtswerte ändern. Zum Beispiel:
+Alternativ können Sie eine einfache Schnittstelle neue Diagrammtypen hinzufügen, konfigurieren Sie sie, und sie neu anzuordnen. Diagramme können auch zusammen in <pages> gruppiert werden (nur Premium-Benutzer).
+Betrag
+Anzahl 1:
+Anzahl 2:
+Ein Konto für die OpenID-Identität '<identity>' existiert bereits. Meinten Sie, <login>?
+Ein Konto mit dem Titel '<title>' existiert bereits.
+Android-App auf Google Spiel
+Ankündigungen
+Ankündigungen Mailing-Liste
+Sind Sie sicher, dass Sie dieses Konto löschen möchten?
+Sind Sie sicher, dass Sie diese Kategorie löschen wollen?
+Sind Sie sicher, dass Sie diese Adresse entfernen?
+Sind Sie sicher, dass Sie diese Identität entfernen?
+Sind Sie sicher, dass Sie diese Meldung entfernen?
+Argument:
+Als <user>, können Sie bis zu <accounts> definiert.
+Als <user>, müssen Sie eventuell bis zu <addresses> und <accounts> definiert.
+Als <user> können Sie bis zu <addresses> von <your_currencies> definiert haben.
+Als <user>, können Sie bis zu Pro Seite definiert <graphs>.
+Als <user>, können Sie bis zu <notifications> definiert.
+Als <user>, können Sie bis zu Konten definiert.
+Als <user>, sollte Ihre <titles> mindestens einmal <hours> <extra> aktualisiert werden.
+Als neues Mitglied, wird es dauern, <minutes> für Ihre <accounts> aktualisiert werden und Ihre ersten Berichte generiert werden.
+Als neues Mitglied, wird es dauern, bis für diese Grafik <hours> mit ersten Daten gefüllt werden.
+Als neues Mitglied wird Ihre Adressen und Konten häufiger (alle <frequency>) für die nächste <hours> aktualisiert werden.
+Frage
+Automatisch eingeloggt Hallo, <user>!
+Wählen Sie automatisch die besten Berichte für mich.
+Kontostand
+Waagen
+Beta
+Gebot
+Bollinger-Bänder
+CSV-Datei:
+Rechner
+Können Sie die Unterstützung für einen anderen cryptocurrency hinzufügen?
+Können Sie die Unterstützung für einen anderen Austausch/Bergbau Pool hinzufügen?
+Können Sie die Unterstützung für einen anderen Fiat-Währung hinzufügen?
+Abbrechen bearbeiten
+Kann nicht hinzugefügt <title>: zu viele bestehenden Konten.
+Kann ein neues Konto hinzufügen; dass Kontotyp ist deaktiviert.
+Zu viele vorhandenen Adressen: Kann Adresse nicht hinzufügen.
+Zu viele bestehenden Finance Kategorien: Können Finanz Kategorie hinzufügen.
+Kann nicht hinzugefügt Kurven Seite: zu viele bestehende Grafik-Seiten.
+Kann nicht hinzugefügt Grafik: zu viele bestehende Grafiken auf dieser Seite.
+Zu viele bestehende Benachrichtigungen: Kann Benachrichtigung nicht hinzufügen.
+Es kann keine <title> Test, weil Sie bereits eine Test <type> anhängig.
+Kann nicht aktiviert <title>: zu viele bestehenden Konten.
+Kann nicht ermöglichen, dass diese Rechnung; dass Kontotyp ist deaktiviert.
+Kann <id> Seite nicht gefunden
+Kann nicht entfernen, die OpenID Identität; mindestens eine Identität zu definieren.
+Kann diesen Job nicht testen; dass Kontotyp ist deaktiviert.
+Kann Bericht Vorlieben nicht aktualisieren: Dies würde zu viele Grafik-Seiten hinzufügen.
+Kann Bericht Vorlieben nicht aktualisieren: Dies würde zu viele Grafiken auf den verwalteten Grafik Seite hinzuzufügen.
+Kategorien
+Kategorie
+Kategorie:
+Wechseln
+Ändere Passwort
+Passwort ändern
+Chinesisch
+Filter löschen
+Klicken Sie auf die Schaltfläche "Exportieren" und speichern Sie diese CSV-Datei auf Ihren Computer.
+Rohstoffwährungen
+Zusammensetzung Graphen jeder Währung
+Konzepte
+Konfigurierbare
+Konfigurieren Sie Konten
+Konfigurieren Währungen
+Konfigurieren der E-Mail-Benachrichtigungen
+Konfiguriert Benachrichtigungen
+Kontakt
+Kontaktdaten
+Kontakt
+Weiter
+Konvertierte <title>
+<title> Historischen umbau (grafik)
+Konvertierte crypto
+Konvertierte fiat
+Kopieren
+Kopieren Sie diese Transaktion
+Konnte nicht hinzugefügt <addresses>: zu viele vorhandenen Adressen.
+Keine Kosten konnte nicht berechnet werden
+Keine Durchschnittsdaten konnte nicht gefunden werden
+Rate konnte nicht gefunden für <exchange>: <pair>
+Konnte nicht gefunden werden Ihre Meldung <key> zu bearbeiten.
+Könnte Ihr Profil nicht finden auf dem System. Sie müssen sich einloggen oder wieder anmelden.
+<currency> Adresse für den Kauf konnte nicht generiert werden; Bitte versuchen Sie es später noch einmal.
+Währungen konnte nicht aktualisiert werden: zu viele Währungen (<count> von maximal <maximum> ausgewählt).
+Land:
+Meldung anlegen
+Erstellt neue Benachrichtigung.
+Cryptocurrencies
+Cryptocurrency Rechner
+Cryptocurrency Adressen werden direkt in <site_name> hinzugefügt und Salden durch öffentliche APIs Explorer heruntergeladen.
+Cryptocurrency Adressen können manuell oder durch den Export von CSV-Dateien aus der Brieftasche Software und Salden durch öffentliche APIs Explorer heruntergeladen geliefert werden.
+Cryptocurrency Bergbau
+Währungen
+Währung
+Währungseinstellungen
+Währungsrechner
+Währungsrechner (Taschenrechner)
+Geldwechsel
+Geldwechsel (detailliert)
+Aktuelle Premium-Preise
+Derzeit unterstützt die <site_name> <currencies> cryptocurrencies.
+Tagespreise
+Daten mindestens alle aktualisiert
+Datum
+Datum:
+Tage:
+Löschen
+Löschen erzeugt historischen Transaktionen und neu starten
+Benutzerkonto löschen
+Benutzerkonto löschen, die Beseitigung aller historischen Daten
+Löschen Sie diese Adresse
+Löschen Sie diese Kategorie
+Löschen Sie diese Identität
+Löschen Sie diese Meldung
+Löschen Sie diese Transaktion
+Finanz-Konto gelöscht.
+Finanz Kategorie gelöscht.
+Gelöschte Benachrichtigung.
+Gelöschte Transaktion.
+Delta:
+Beschreibung
+Beschreibung:
+Haben Sie nicht zurückgesetzt Benutzer Grafiken und Seiten: Sie brauchen, um das Kontrollkästchen Bestätigung wählen.
+Deaktivieren
+Deaktivieren Sie die automatische Aktualisierungs Grafik
+Deaktivieren E-Mail/Passwort Login
+Deaktivieren Sie dieses Konto ab, und erhält historische Daten
+Deaktivieren Transaktion Generation für dieses Konto
+Deaktiviert
+Behinderten <title>.
+Behindertentransaktionserstellung für <title>.
+Zeigt eine Textzeile als Überschrift an einem bestimmten Ort. Fungiert auch als Zeilenumbruch. Wählen Sie "Aktivieren Layout bearbeiten", um es zu bewegen.
+Sie Diagramme Live-Update?
+Spenden
+Fällig
+E-Mail
+Email:
+Bearbeiten
+Benachrichtigung bearbeiten
+Bearbeiten Sie diese Benachrichtigung
+Herausgegeben <heading> Graph mit <technical>.
+Herausgegeben <heading> Graphen.
+Entweder Sie nicht aktiviert haben dieses Gleichgewicht oder Ihr Zusammenfassungen dieser Bilanz noch nicht durch <site_name> aktualisiert.
+Entweder Sie nicht aktiviert haben diese Währung, oder Ihr Zusammenfassungen für diese Währung noch nicht von <site_name> aktualisiert.
+Entweder haben Sie nicht angegeben haben keine Konten oder Adressen in <currency> oder diese Adressen und Konten wurden noch nicht von <site_name> aktualisiert.
+Entweder haben Sie nicht angegeben haben keine Konten oder Adressen oder diese Adressen und Konten wurden noch nicht von <site_name> aktualisiert.
+Aktivieren
+Aktivieren E-Mail/Passwort Login
+Aktivieren E-Mail/Passwort Login auf Ihr Konto
+Aktivieren Sie das Layout bearbeiten
+Aktiviert <title>.
+Aktiviert Transaktionserstellung für <title>.
+Englisch
+Equivalent BTC
+Equivalent BTC Salden (grafik)
+Equivalent BTC Salden (pie)
+Equivalent BTC Salden (proportional)
+Equivalent BTC Salden (gestapelt)
+Beispiel Überschrift
+Beispiel Berichte und Diagramme
+Beispiel: 
+Austausch
+Wechselkurs auf <exchange> für <pair>
+Exchange-Ticker
+Wechselgeldbörsen
+Exchange-, Bergbau-Pools, Wertpapieren und Fonds-Konten kann nur zugegriffen werden, wenn Sie eine Nur-Lese-Schlüssel auf der Website selbst aktiviert haben, und vorausgesetzt, dass die Schlüssel zu <site_name>. Bergbau hashrates für die meisten Pools können auch verfolgt und grafisch dargestellt werden. Hilfreiche Assistenten führen Sie durch die Schritte zum neuen Konten und-Adressen hinzufügen.
+Austausch:
+Umtausch
+Börsen verwendet:
+Börsen-, Bergbau-Pools und Sicherheits Austausch durch Nur-Lese-APIs verfolgt werden. Die Leistung der Hardware über Bergbau Bergbau-Pools wird auch verfolgt.
+Erweitern Sie alle Antworten
+Läuft ab in:
+Explorer
+Exponential Moving Average
+Export als CSV
+Exportgeschäfte nach CSV
+Externe API Status
+Externe API Status: <api_title>
+Externe API Status
+Externe API Status (grafik)
+Externe API:
+Häufig gestellte Fragen
+Merkmal
+Eigenschaften
+Fiat Währungen
+Filtern
+Filter Transaktionen
+Finanzen
+Finanzen Konten
+Finanzen Kategorien
+Passwort vergessen?
+Foren
+Kostenlose Konto
+Kostenlose Verzögerung
+Freie Benutzer Job Verzögerung
+Französisch
+Häufig Gestellte Fragen (FAQs)
+Weitere Anleitungen, um Ihr Passwort zu ändern haben, um Ihre E-Mail-Adresse <email> versendet.
+GST
+GST-Nummer:
+Allgemein
+Allgemeine Graphen
+Deutsch
+Holen Sie sich Premium
+Graph bewegt [<undo>]
+Graph entfernt [<undo>]
+Grafik wiederhergestellt [<undo>]
+Graph-Typ:
+Diagramme
+Graphs pro Berichtsseite
+Hashrate
+Hashrates
+Nachdem Probleme bei der Anmeldung? Bitte senden Sie uns <email> oder tweet <twitter>, und wir werden versuchen, die Dinge zu klären.
+Nachdem Probleme bei der Anmeldung? Bitte senden Sie uns <email> oder tweet <twitter>, und wir werden versuchen, die Dinge zu klären.
+Überschrift
+Hilfe
+Hilfe-Center
+Hier können Sie das Kennwort auf Ihrem <site_name> Konto zu aktualisieren.
+Hier können Sie in einer Transaktion für eine andere <account> oder <category>, die nicht <generated> werden können, hinzufügen.
+Versteckt
+Historisch
+Historische Daten
+Historische Daten: <heading>
+Historische konvertierten Wert
+Historische Währungswert
+Historische Daten, sowohl für Ihre Konten und beliebte cryptocurrency Austausch, auch auf Ihrer Übersichtsseiten enthalten sein.
+Historische Daten, sowohl für Ihre Konten, Börsen-und Wertpapier, kann in Ihrer generierten Berichte aufgenommen werden. Öffentliche historischen Daten ist auch über die <archive> verfügbar. Daten werden regelmäßig heruntergeladen, und in der Zukunft können in komplexeren Analyseberichte verwendet werden.
+Historische Wechselkurse
+Historische hashrates
+Historische Wertpapierhandelswerte
+Wie werden Diagramme automatisch verwaltet?
+Wie werden Transaktionen automatisch erstellt?
+Wie bekomme ich von Veränderungen in meinem hashrates benachrichtigt?
+Wie werde ich Änderungen in meinen Berichten mitgeteilt?
+Wie werde ich von Wechselkursänderungen informiert zu werden?
+Wie kann ich eine CSV-Datei <client> hochladen?
+Wie lade ich ein Bitcoin-Qt CSV-Datei?
+Wie lade ich ein Litecoin Qt-CSV-Datei?
+Wie automatische Benachrichtigungen zu arbeiten?
+Wie automatische Benachrichtigungen zu arbeiten?
+Riesig
+Ich stimme der <terms>
+Ich werde meine eigenen Grafiken und Seiten verwalten.
+Identitäten
+Identität
+Wenn Sie mit den Standard-Bitcoin-Qt-Client verwenden, können Sie die "Export"-Funktion des Client verwenden, um automatisch zu füllen Ihre Liste der BTC-Adressen mit Ihrem vorhandenen Adressetiketten. Alle ungültigen Adressen oder vervielfältigt werden übersprungen.
+Wenn Sie die Standard Litecoin Qt-Client verwenden, können Sie die "Export"-Funktion des Client verwenden, um automatisch zu füllen Ihre Liste der LTC-Adressen mit Ihrem vorhandenen Adressetiketten. Alle ungültigen Adressen oder vervielfältigt werden übersprungen.
+Wenn Sie versehentlich entfernt haben Sie Ihre E-Mail von Ihrem Konto, müssen Sie sich anmelden und <add_it_back>, um die E-Mail-Benachrichtigungen wieder aufzunehmen.
+Wenn Sie Probleme beim Aufstehen gesetzt haben, senden Sie uns bitte <email> oder tweet <twitter>.
+Wenn Ihr <site_name> Konto wurde mit einem E-Mail/Passwort Login gesichert wurde, können Sie dieses Formular verwenden, um das Passwort für Ihr Konto zurückzusetzen.
+Wenn Ihre Unterstützung Frage ist nicht in der <help> beantwortet, können Sie uns bitte unter:
+In der Zukunft, werden Sie in der Lage sein, diese Geschäfte CSV exportieren. Zukünftige Funktionalität wird auch begrenzt auf <premium_users> zu werden.
+Fügen automatische Transaktionen
+Fügen täglichen Wechselkurse
+Einzelne Wertpapiere
+Individuelle Sicherheit
+Einzeltitel
+Anstelle des Standard-Austausch, verwenden Sie die folgenden Börsen:
+Oberfläche
+Ungültige Parameter OpenID
+Ungültige Artikeltaste.
+Ungültige E-Mail.
+Ungültige Grafik-Management-Präferenz.
+Ungültige Hash - bitte überprüfen Sie den Link in Ihrer E-Mail.
+Ungültige Namen.
+Ungültige Parameter Openid
+Ungültige Kennwortparameter
+Ungültige Zeitraum Auswahl.
+Ungültige bevorzugten cryptocurrency.
+Ungültige bevorzugten Fiat-Währung.
+Ungültige wiederholte Kennwort-Parameter
+Ungültiger Benutzername oder ungültiges Passwort.
+Ist es sicher <site_name> eine Bitcoin-Qt CSV-Datei zur Verfügung stellen?
+Ist es sicher <site_name> eine Litecoin Qt-CSV-Datei zur Verfügung stellen?
+Italienisch
+Japanisch
+Arbeit
+Jobs bei <site_name>
+Knowledge Base: <title>
+Gross
+Größer
+Letzter Check
+Letzte Überprüfung
+Letzter Tag
+Letzte Stunde
+Letzter Login:
+Letzte Meldung
+Dernière mise à jour
+Letzte Woche
+Layout-Werkzeuge
+Erfahren Sie mehr
+Rechtswesen
+Zeilenumbruch
+Live-Grafik-Updates
+Lädt...
+Automatisch einloggen
+Anmelden
+Einloggen mit:
+Abmelden
+Lolcat
+Suchen Sie für Ihre <preferences>?
+Mailing-List
+Markt Durchschnitt: <pair>
+Marktdurchschnittswerte
+Massiv
+Mittel
+Mitglied seit:
+Mining Pool
+Mining Pools
+Mining Pool Brieftaschen
+Mining Pools
+Weitere Hilfe
+Multiplikator
+Muss jeder anmelden
+Meine umgewandelt <title>
+Meine bevorzugte cryptocurrency:
+Meine bevorzugte Fiat-Währung:
+Mein Gesamt <currency>
+Mein Gesamt <currency> hashrate
+HINWEIS:
+Netzwerkname:
+Niemals
+Neue Kontoerstellung erfolgreich.
+Nächste >
+Keine OpenID-Identität definiert.
+Kein Konto für den OpenID-Identität '<identity>' gefunden. Sie müssen möglicherweise <signup>.
+Keine Daten zum anzeigen.
+Keine Finanzkonten gefunden.
+Keine Finanz Kategorien gefunden.
+Keine Grafiken zur Anzeige! Vielleicht möchten Sie ein unten hinzufügen.
+Kein Hash angegeben.
+Keine ausstehenden Zahlungen.
+Keine früheren Zahlungen.
+Keine Wertpapiere zur Anzeige! Vielleicht möchten Sie Details über <your_securities> hinzufügen, wenn Sie welche haben.
+Keine solche externen API-Typ '<type>'.
+Keine solche Knowledge Base-Artikel '<key>.
+Gibt es keine solche Benutzerkonto.
+Keine Transaktionen gefunden.
+Kein Benutzer-ID <id> existiert.
+Keine
+Nicht gefunden
+Nicht erforderlich
+Benachrichtigung
+Benachrichtigungseinstellungen
+Benachrichtigungen
+Oder
+Digitaldruck
+Nach Informationen aus Ihren Konten heruntergeladen und in Berichten zusammengestellt, können Sie <reports> durch die Definition von Graphen und Seiten anzuzeigen. <site_name> automatisch diese Berichte verwalten für Sie, oder Sie können sich entscheiden, diese manuell zu definieren. (Sie können diese Konten später ändern, indem Sie auf den Link "Accounts konfigurieren" weiter oben.)
+Sobald diese CSV-Datei exportiert wurde, wählen Sie die Schaltfläche "Durchsuchen ..." auf der "Upload CSV" Vorsprung auf der <page> zu finden und laden Sie diese Datei in <site_name>.
+Wenn Sie für eine kostenlose <site_name> Konto <signed_up> haben, können Sie sich hier mit OpenID oder ein Passwort an.
+Sobald Sie eine Finanzierungskonto hinzugefügt haben, können Sie mit diesem Konto verbunden <add_remove>.
+Sobald Sie eine Finanz Kategorie hinzugefügt haben, können Sie mit dieser Kategorie verbundenen <add_remove>.
+Sobald Sie mindestens eine <identity> Ihrem Konto hinzugefügt haben, können Sie E-Mail/Passwort Login auf Ihr Konto zu deaktivieren, um die Sicherheit zu erhöhen. Sie werden dann zu Ihrem OpenID-Identität verwenden, um in Zukunft anmelden.
+Nachdem Sie einige Adressen oder Konten definiert haben, können Sie Ihre eigenen personalisierten Übersichtsseiten zu konstruieren, zeigt Informationen, die Sie für wichtig erachtet. Hilfreiche Berichte enthalten den Wert Ihrer Währung, wenn sie sofort in eine andere umgewandelt; die Verteilung Ihrer Währungswerte; und Wechselkursen.
+Nachdem Sie einige Adressen oder Konten definiert haben, können Sie Ihre eigenen personalisierten Übersichtsseiten zu konstruieren, zeigt Informationen, die Sie für wichtig erachtet. Diese Berichtsseiten bestehen aus Graphen hergestellt und sind hilfreich Berichte wie:
+Sobald Sie Ihre Bestellung abgegeben haben, wird ein <currency> Adresse für Ihre Zahlung erzeugt werden. Ihr Premium-Kauf wird abgeschlossen, sobald das Netzwerk <currency> bestätigt die Transaktion.
+Nur <premium_accounts> können stündlich Meldungen hinzufügen.
+Nur <premium_users> können Transaktionen in CSV exportieren.
+Öffnen Sie Ihre Bitcoin-Qt Client, und öffnen Sie die "Receive-Münzen"-Registerkarte.
+Öffnen Sie Ihre Litecoin Qt-Client, und öffnen Sie die "Receive-Münzen"-Registerkarte.
+OpenID URL:
+OpenID-Identität
+OpenID-Identität
+OpenID-Anmeldung
+OpenID Validierung nicht erfolgreich war: <cause>
+OpenID ...
+Andere 
+Weitere Konto
+Andere Konten
+Andere Marktdurchschnitt
+Ausstehende Abholungen/Kontaktaufnahme
+Ausstehende Zahlungen werden automatisch nach <days> abgebrochen werden.
+Bezahlt
+Passwort
+Das Passwort wurde geändert; Sie sollten jetzt sofort mit diesem neuen Passwort anmelden.
+Passwort:
+Anstehend
+Zeitraum
+Punkt:
+Bitte wählen Sie ein Passwort zwischen <min>-<max> Zeichen.
+Bitte senden Sie mir eine E-Mail, wenn
+Bitte versuchen Sie es erneut.
+Portfolio-Übersicht
+Portfolio Zusammenfassung (detailliert)
+Portugiesisch
+Einstellungen-Assistenten
+Bonus
+Premium Accounts
+Premium Account
+Premium-Verzögerung
+Premium-User
+Premium-Kunden können eine automatisch generierte Seite mit einer Liste aller ihrer Wertpapiere und deren aktuelle Marktwerte zugreifen. Premium-User können auch <pages> auf unterschiedliche Berichtsarten zu kategorisieren.
+Premium-Kunden können technische Indikatoren auf alle Diagramme, wie <example1>, <example2> und <example3> hinzufügen.
+Premium-Kunden können technische Indikatoren, um Graphen, wie <example1>, <example2> und <example3> hinzufügen.
+Premium-User können auch auf eine automatisch generierte Seite mit einer Liste aller ihrer Wertpapiere und ihre aktuellen Marktwerten.
+Prämien
+Vorherige Zahlungen
+Preis
+Priorität über die Nutzer kostenlos
+Datenschutzrichtlinien
+Anbieter
+Kaufen
+Premium-Kauf
+Kauf Premium mit <currency>
+Kauf Monate (<cost>/Monat)
+Kauf Jahre (<cost>/Jahr)
+Menge
+Eine neue Test <title> Warteschlange; Ergebnisse sollen in Kürze verfügbar sein.
+Wieder aktivieren, dieses Konto
+Referenzen
+Referenz:
+Relative Strength Index
+Lassen Geschichte
+Seite entfernen
+Kennwort entfernen
+Passwort entfernen Login
+Diese Seite entfernen
+<title> Entfernt.
+Entfernt OpenID-Identität '<identity>'.
+Entfernte Adresse <address>.
+Entfernt Passwort.
+Entfernen einer Währung werden auch alle historischen Zusammenfassungsdaten für diese Währung dauerhaft zu entfernen.
+Wiederholung:
+Bericht Einstellungen
+Reports DE
+Berichte Seiten
+Fordern Sie gleich einen Test dieses Konto
+Rücksetzen
+Passwort zurücksetzen
+Reset User Graphs
+Setzen Sie alle meine Grafiken und Seiten.
+Zurücksetzen Kurven Seite mit <graphs>.
+Grafiken und Seiten zurückstellen
+Zurücksetzen Graphen.
+Seite neu mit allen Grafiken
+Passwort zurücksetzen
+Transaktionen Reset für <title>; historische Transaktionen wird bald automatisch generiert werden.
+Russisch
+Sichere
+Speichern
+Mitteilung Speichern
+Screenshots
+Screenshots zum Hinzufügen von Konten
+Screenshots zum Hinzufügen von Adressen cryptocurrency
+Screenshots zur Konfiguration von Konten
+Screenshots cryptocurrency Auswahl
+Screenshots auf historischen Daten und Grafiken
+Screenshots, wie man Berichte und Diagramme konfigurieren
+Screenshots Berichte und Diagramme
+Wertpapiere
+Securities Exchange
+Securities Exchanges
+Wertpapiere und Beteiligungen
+Sicherheit
+Sicherheit Börsen
+Sicherheitswerte
+Sicherheit:
+Wählen Sie einen Austausch, um Hilfe anzuzeigen ...
+Option auswählen
+Wählen Sie Berichte basierend auf meinem Portfolio Vorlieben:
+<currency> Stellen versetzt <value>.
+Sendung
+Die Anmeldung für ein <site_name> Konto ist kostenlos und Augenblick, und keine persönlich identifizierbaren Informationen nicht erforderlich. Alles, was Sie brauchen, ist <openid>, wie die von <examples> oder andere, zur Verfügung gestellt. Dies bedeutet, dass <site_name> nicht mit Passwörtern umzugehen.
+Neu Anmeldung
+Anmelden für Freie
+Anmelden mit:
+Simple Moving Average
+Simple Moving Average
+Seit
+Schmal
+Aufsteigend
+Sortieren absteigend
+Quelle
+Spanisch
+Abonnieren
+Abonnieren Sie <announcements>
+Abonnieren Sie den Ankündigungen <site_name>
+Abonnieren Sie den Ort Ankündigungen
+Zwischensumme
+Erfolgreich abgemeldet. Sie können sich hier neu anmelden.
+Kurzfassung
+Zusammenfassung Berechnungen werden auch alle folgenden als <offsets> Währungswerte definiert.
+Zusammenfassung Seiten
+Unterstützung
+Unterstützung <site_name> und erhalten Sie Zugriff auf mehr Funktionen mit einem <premium_account>!
+Unterstützung <site_name> mit Premium-Accounts
+Unterstützte Adressen und Konten
+Unterstützte Adressen
+Unterstützte Austausch
+Unterstützte Bergbau-Pools
+Unterstützte Brieftaschen
+Unterstützt <currencies>.
+Systemkonto
+Technische Indikator Typen
+Technik:
+AGB und Nutzungsbedingungen
+Nutzungsbedingungen
+Testen
+Testing...
+Danke für die Unterstützung <site_name> mit <premium>!
+Danke für die Unterstützung <site_name>. Erweitern Sie Ihre bestehende <premium_account> hier:
+Das Konto ist nicht eine Kennwortrücksetz angefordert.
+Das E-Mail-Adresse wird bereits von einem anderen Konto mit Passwort einloggen.
+Das E-Mail-Adresse wird bereits von einem anderen Konto mit Passwort einloggen. Meinten Sie, <login>?
+Das ist keine gültige <title> <label>.
+Das ist keine gültige OpenID-Identität.
+Das ist keine gültige E-Mail-Adresse.
+Das ist nicht ein gültiger Titel.
+Das Ressource konnte nicht gefunden werden.
+Die Bitcoin-Qt Client nur exportieren Sie Ihren öffentlichen Bitcoin-Adressen. Diese Adressen können nur zur Adresse Salden abzurufen; es ist nicht möglich, Transaktionen über eine öffentliche Adresse durchzuführen.
+Die Litecoin-Qt-Client exportiert nur Ihren öffentlichen Litecoin-Adressen. Diese Adressen können nur zur Adresse Salden abzurufen; es ist nicht möglich, Transaktionen über eine öffentliche Adresse durchzuführen.
+Der kombinierte Wert aller fiat Ihres Währungen
+Es gibt noch keine historischen Daten für diese Statistik.
+Es gibt noch keine historischen Daten für diese externe API.
+Diese automatisierten Meldungen werden bis zu einmal pro Tag versendet (oder einmal pro Stunde für Premium Benutzer).
+Diese Diagramme sind derzeit <managed>.
+Diese Daten werden automatisch einmal pro Stunde (Stand <ago>) aktualisiert.
+Diese E-Mail-Adresse wird bereits von einem anderen Konto für Passwort-Login verwendet.
+Dieses Formular kann nicht verwendet werden, zurücksetzen oder ändern OpenID-Identität, die stattdessen durch Ihre <user_profile> müssen aktualisiert werden.
+Diese Grafik zeigt den Status des externen <api_title>, in Bezug darauf, wie viele Aufgaben erfolgreich waren (in Prozent).
+Dieses Diagramm ist nur für Administratoren.
+Dieser Graph dauern wird, bis zu <hours> mit kurzem hinzugefügt oder entfernt Konten aktualisiert werden.
+Dies ist ein Entwurf von einer Seite, die Ihnen erlaubt, die historischen Veränderungen, um Ihre verschiedenen Konten über die Zeit als tägliche Transaktionen automatisch generiert <site_name> sehen.
+Dies ist ein einfacher Taschenrechner, die Sie verwenden können, um eine Währung in eine andere Währung umzurechnen, mit der <recent_rates> wie <site_name> verfolgt.
+Das bin nicht ich.
+Diese Seite listet die aktuelle und historische Durchschnittspreis-Index, wie von Handelsvolumen gewichtet, aus der von <site_name> unterstützt <currency1>/<currency2> Austausch.
+Diese technische Analyse-Tool erfordert eine <premium_account>.
+Damit werden die folgenden Grafiken, basierend auf <currencies> und <accounts> anzuzeigen:
+Diese Passwörter stimmen nicht überein.
+Ticker-Instanzen
+Titel
+Titel:
+Um weitere Konten hinzufügen, aktualisieren Sie auf eine <premium_account>.
+Um weitere Adressen hinzuzufügen, ein Upgrade auf eine <premium_account>.
+Um weitere Währungen hinzuzufügen, ein Upgrade auf eine <premium_account>.
+Um weitere Finanz Kategorien hinzuzufügen, ein Upgrade auf eine <premium_account>.
+Um weitere Seiten hinzufügen Grafik, ein Upgrade auf eine <premium_account>.
+Um weitere Grafiken auf dem verwalteten Grafik Seite hinzuzufügen, ein Upgrade auf eine <premium_account>.
+Um weitere Grafiken auf dieser Seite hinzuzufügen, ein Upgrade auf eine <premium_account>.
+Um weitere Meldungen hinzu, ein Upgrade auf eine <premium_account>.
+Zum historischen Wert Graphen Ihre Wertpapiere anzuzeigen, bitte <upgrade>, oder fügen Sie sie als normal "Sicherheitswert" Graphen auf einer Ihrer anderen <reports>.
+Um zu beginnen, wählen Sie zunächst die Währungen, die Sie interessiert sind unten, und folgen Sie dann den Assistenten, die Ihre Adressen, Rechnungen und Berichte konfigurieren.
+Um zu beginnen, sollten Sie Ihren <preferences> aktualisieren.
+Um diese Grenzen zu erhöhen, kaufen Sie bitte eine <premium_account>.
+Um diese Grenze zu erhöhen, kaufen Sie bitte eine <premium_account>.
+Um diese Grenzen zu erhöhen, kaufen Sie bitte eine <premium_account>.
+Um auf dem Laufenden mit Nachrichten und Service-Updates immer auf dem <site_name> Sie bitte den Ankündigungen <site_name> Mailingliste unten abonnieren.
+Um einzelne Konten von Erzeugung Transaktionen zu verhindern, und deaktivieren Sie besuchen <your_accounts> Transaktion Generation.
+Um Kontodaten lesen, Ihre Konto-Provider anweisen, nur Lesezugriff über eine <api_key> ermöglichen und Ihnen die Schlüssel zu <site_name> bieten. Hilfreiche Assistenten führen Sie durch die Schritte zum neuen Konten und-Adressen hinzufügen.
+Um zur Website Ankündigungen abonnieren, müssen Sie für eine E-Mail-Adresse.
+Werkzeuge
+Gesamt
+Insgesamt <currency>
+Gesamtbilanz <currency> Zusammensetzung (pie)
+Insgesamt <currency> historischen (Grafik)
+Gesamtbilanz Zusammensetzung
+Gesamtguthaben
+Gesamtbilanzen (Tabelle)
+Insgesamt Guthaben bei Verschiebungen (Tabelle)
+Insgesamt konvertierte Kryptobilanzen (Tabelle)
+Insgesamt umgebauten Fiat-Salden (Tabelle)
+Spur Konten & Adressen
+Spur-Adressen
+Titel Börsen und Bergleute
+Raupen Konten
+Raupenkonten (<accounts>)
+Raupen Adressen
+Raupen Adressen (<currencies>)
+Transaktionen
+Nicht abgefangene Ausnahmen
+Unbekannt
+Unbekannt Währung oder keine Währung angegeben.
+Unbekannt Diagrammtyp <type>
+Unbekannt Benachrichtigungstyp zu '<notification_type>' bearbeiten
+Unbekannt Seite.
+Deabbonieren
+Abmeldung erfolglos
+Titellos
+Nicht verwendete Premium-Adressen
+Autualisierung
+Profil aktualisieren
+Update Titel
+Update-Offsets
+Aktualisiert <title> <label>.
+Aktualisiert <title> Titel.
+Aktualisiert Kontodaten.
+Aktualisiert Währungsverschiebungen.
+Aktualisiert bestehenden Benachrichtigung.
+Aktualisiert Graph Portfolio Vorlieben.
+Aktualisiert Diagrammbericht Management Präferenz.
+Aktualisiert Passwort.
+Aktualisiert bevorzugte Währung Vorlieben.
+Aktuallisierungen
+Upgrade auf eine <premium_account> mehr automatische Graphen zu ermöglichen.
+Galerie <client> CSV
+Galerie CSV
+Hochladen eines Bitcoin-Qt CSV-Datei
+Hochladen eines Litecoin Qt-CSV-Datei
+Verwenden Sie stattdessen OpenID
+Verwenden Sie ein Passwort, anstatt
+Benutzerkontensteuerung
+Benutzerprofil
+Benutzer Grafiken und Seiten erfolgreich zurückgesetzt.
+User hat die Authentifizierung abgebrochen.
+User
+Mit <exchange>
+Über die Schaltfläche unten, können Sie das Layout der Diagramme und Graphen allen Seiten auf der Website standardmäßig zurückgesetzt. Diese Aktion ist dauerhaft, aber keine historische Zusammenfassung Daten für dieses Konto nicht löschen.
+Über die Schaltfläche unten, können Sie diese Seite zurück und fügen Sie eine Sammlung von B. Grafiken.
+Wert
+Very Large
+Ansicht
+Berichte anzeigen
+Die historischen Daten
+Die historischen Transaktionen
+Screenshots auf die Personalisierung Ihrer Berichte
+Sehen Sie Ihre Berichte
+Besuchen Sie diese Gruppe
+Lautstärke
+Geldbörsen
+Achtung: Mit dieser Option wird Ihre aktuell definierten Berichte und Diagramme zurückgesetzt (Sie werden keine historischen Daten nicht verlieren).
+Achtung: Ohne Ihre Kontaktdaten angegeben gültige E-Mail-Adresse, erhalten Sie wichtige Mitteilungen und Benachrichtigungen über Ihre Konten und Benutzer-Profil erhalten.
+Willkommen auf <site_name>
+Willkommen auf <site_name>!
+Willkommen auf <site_name>! Um die Verfolgung Ihrer Investitionen und Adressen beginnen, wählen Sie bitte zuerst die Währungen, die Sie interessiert sind (Sie können diese Optionen später ändern, indem Sie auf den Link "Accounts konfigurieren" weiter oben.)
+Was sind cryptocurrencies?
+Was ist <site_name> Finanzen?
+Wenn Bitstamp USD/BTC um 10% in einem Tag
+Wenn Ihr BTC Saldo steigt
+Wenn Ihr LTC hashrate geht unter 100 KH/s
+Wenn Ihre Gesamtportfoliowert um 10% sinkt in einer Woche
+Mit einem <premium_account>, können Sie technischen Indikatoren auf historischen Wechsel-und Sicherheitsdaten, wie <example1>, <example2> und <example3> gelten.
+Sie haben bereits <outstanding> diesen Bedarf zu entrichten.
+Sie machen zu viele Anfragen auf einmal: bitte warten Sie mindestens <seconds>.
+Sie können auch <add_graphs>.
+Sie können auch eine Liste der <identities>.
+Sie können <site_name> durch den Kauf eines Premium-Account mit <currencies> Währungen unterstützen. Sie erhalten auch Zugang zu exklusiven Premium-only-Funktionalität, wie gewaltig erhöht Grenzwerte für die Anzahl der Adressen und Konten, die Sie auf einmal verfolgen und erweiterte Reporting-und Benachrichtigungsfunktionen. Ihre Arbeitsplätze und Berichte haben auch eine höhere Priorität als die Nutzer kostenlos.
+Sie können E-Mail/Passwort Login auf Ihr Konto nicht deaktivieren, bis Sie mindestens eine <identity> hinzufügen.
+Sie können E-Mail/Passwort Login nicht aktivieren, auf Ihrem Konto als diese E-Mail-Adresse wird bereits von einem anderen Konto für Passwort einloggen.
+Sie können E-Mail/Passwort Login nicht aktivieren, auf Ihrem Konto, wie Sie benötigen, um erste <add_email>.
+Sie können nicht entfernen Sie Ihre E-Mail-Adresse, bis Sie auf dieses Konto deaktiviert haben <password_login>.
+Sie können nicht sowohl OpenID und Passwort bei der Anmeldung.
+Sie können nicht sowohl OpenID und Passwort an Anmeldungen.
+Sie haben nicht das Kontrollkästchen Bestätigung.
+Sie haben noch keine definierten Berichtsseiten - Sie sollten eine neue Seite hinzufügen, oder setzen Sie Ihre Grafiken und Seiten auf der Website standardmäßig.
+Sie haben noch keine E-Mail/Passwort Login auf Ihr Konto aktiviert. Hinzufügen eines Passwort wird nicht die Sicherheit zu erhöhen, und Sie sollten auch weiterhin mit Ihren <identities> anmelden.
+Sie können, oder indem Sie die entsprechende Zahlungsoption unten kaufen oder verlängern Sie Ihre Premium-Account, indem Sie sich in Ihre <user_account>.
+Sie müssen einige Kontodaten für diese Graphen hinzufügen, um anzuzeigen.
+Sie müssen mit den Nutzungsbedingungen einverstanden.
+Sie müssen als Administrator angemeldet, das zu tun ist.
+Sie müssen in um fortzufahren eingeloggt sein.
+Sie müssen eine E-Mail-Adresse zu Ihrem Konto hinzugefügt haben, bevor Sie Passwort-Anmeldung zu ermöglichen.
+Sie müssen eine zweite Währung, um eine zweite Transaktion Betrag hinzufügen auswählen.
+Sie müssen mindestens <one_currency>, um verwaltet Grafiken auswählen.
+Sie müssen mindestens eine Kategorie von Graphen Portfolio Vorlieben auswählen.
+Sie müssen Ihr Land auszuwählen.
+Sie müssen Ihre E-Mail-Adresse, um Login-Passwort auswählen.
+Sie müssen sich ein Transaktionswert angeben.
+Sie werden von Hand in die <mailing_list> Kürze.
+Sie werden manuell von der <mailing_list> bald entfernt werden.
+Sie müssen auf dieses Konto, um <add_openid>, diese E-Mail-Adresse zu entfernen.
+Ihre <currency> Salden
+Ihre <currency> Bilanzen (Tabelle)
+Ihre <site_name> User Account
+Ihre <titles>
+Ihr Konto
+Ihre Währungen
+Ihre Finanzen Konten
+Ihre Finanzen Kategorien
+Ihre Hashrates
+Ihre OpenID Identités
+Ihre Berichte
+Ihre Berichte:
+Ihre Securities
+Ihre Transaktionen
+Ihr Konto wurde deaktiviert <ago> wegen Inaktivität; Ihr Konto ist nun wieder aktiviert, und Account-Daten werden bald wieder aktualisiert werden.
+Ihre E-Mail-Adresse, <email>, kann nicht von dieser Seite entfernt werden, da diese E-Mail-Adresse wird als Login-Daten für ein Konto verwendet.
+Ihre E-Mail-Adresse, <email>, wurde komplett von dieser Seite entfernt, und Sie werden keine Informationen oder Benachrichtigungen per E-Mail nicht mehr erhalten.
+Ihr Bergbau
+Ihr Passwort wurde zuletzt geänderten <ago>.
+Ihr Premium-Account ausläuft <time>.
+Ihr Premium-Kauf ist nun auf Zahlung anhängig - bitte hinterlegen <balance> in die Adress <address>. Sobald die <currency> Netzwerk hat die Transaktion (nach <confirmations> Blöcke) bestätigt, wird Ihr Konto mit Premium-Status angerechnet werden. Danke!
+Ihre Wertpapiere Berichte
+Ihre Zusammenfassungen
+Benutzerkonto.
+Konten
+Konten und-Adressen
+BTC-Adressen hinzufügen Seite
+LTC-Adressen hinzufügen Seite
+fügen Sie eine OpenID Identität
+fügen Sie ein E-Mail-Adresse
+hinzufügen und entfernen Transaktionen
+Graphen hinzufügen, basierend auf Ihren Vorlieben Portfolio
+fügen Sie Ihre E-Mail-Adresse zurück zu Ihrem Profil
+adresse
+adressen
+eine E-Mail
+Anonym
+Kategorie
+Benachrichtigung konfiguriert
+konfigurierten Benachrichtigungen
+Währungs-und Devisen Auswahl
+Währungs-und Devisen Auswahl
+Währung Präferenzen
+Währung, Konten und Reporting-Einstellungen
+tag
+tage
+ab
+verringert durch
+Dutzende mehr
+z.B.
+Beispiel Grafik
+Beispiel Graphen
+Wechselkurse
+vorhandene Adresse
+vorhandenen Adressen
+Finanzierungsrechnung
+Finanzkonten
+Finanz Kategorien
+Kategorie Finanzen
+für
+kostenloses Benutzer
+automatisch generiert
+Graph
+Graphen
+historische Datenarchiv
+geschichte
+stunde
+stunden
+steigt
+Erhöhungen
+Einzeltitel
+individuelle Sicherheit
+oberhalb
+unter
+loggen statt
+automatisch verwaltet
+auf der Grundlage Ihrer Präferenzen Portfolio verwaltet
+Maximum
+Min
+Minuten
+Minute
+Minuten
+Monat
+Monaten
+jüngsten Wechselkurse
+mein umgewandelt
+mein Gesamt
+mein Gesamt hashrate
+niemals
+Neu
+neue Adresse
+neue Adressen
+neuen Benutzer
+Keine Daten
+Keine
+benachrichtigen Sie
+jetzt
+an
+ein cryptocurrency
+ein Fiat-Währung
+ausstehenden Prämienzahlungen
+Passwort-Login
+angetrieben durch <openclerk>
+Premium-Account
+Premium-Accounts
+Premium Benutzer
+kaufen Sie einen Premium-Account
+Bericht Seiten
+Sek
+Sekunde
+Sekunden
+unterschrieben
+Anmeldung zuerst
+einfachen Taschenrechner
+der Wechselkurs
+der letzte Tag
+die letzte Stunde
+der letzte Monat
+die letzte Woche
+diese Berichte
+Ticker
+Rückgängig
+unbekannt
+untitled
+Benutzerkonto
+Benutzerprofil
+Portemonnaie
+innerhalb
+Jahr
+Jahre
+Sie interessiert sind
+Ihre Konten
+Ihre Konten-Assistent
+Ihre cryptocurrency Transaktionen
+Ihre Währungen
+Ihre aktuelle OpenID-Identität
+Ihr Premium-Account
+Ihre Wertpapiere
