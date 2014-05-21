@@ -67,8 +67,8 @@ if ($dh = opendir($dir)) {
 			fwrite($fp, "<?php\n\n/**\n * $locale template file\n * Generated from '$file' at " . date('r') . "\n */\n\n");
 			fwrite($fp, '$' . "result = array(\n");
 			for ($i = 0; $i < count($input); $i++) {
-				$input_replaced = preg_replace("/<([a-z_]+)>/i", ":\\1", $input[$i]);
-				$translation_replaced = preg_replace("/<([a-z_]+)>/i", ":\\1", $translated[$i]);
+				$input_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $input[$i]);
+				$translation_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $translated[$i]);
 				fwrite($fp, "\t\"" . phpescapestring($input_replaced) . "\" => \"" . phpescapestring($translation_replaced) . "\",\n");
 			}
 			fwrite($fp, ");\n");
@@ -79,8 +79,8 @@ if ($dh = opendir($dir)) {
 			// no UTF-8 header; json_encode will deal with UTF-8
 			fwrite($fp, "{");
 			for ($i = 0; $i < count($input); $i++) {
-				$input_replaced = preg_replace("/<([a-z_]+)>/i", ":\\1", $input[$i]);
-				$translation_replaced = preg_replace("/<([a-z_]+)>/i", ":\\1", $translated[$i]);
+				$input_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $input[$i]);
+				$translation_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $translated[$i]);
 				fwrite($fp, ($i == 0 ? "" : ",") . "\n\t" . json_encode($input_replaced) . ": " . json_encode($translation_replaced));
 			}
 			fwrite($fp, "\n}");

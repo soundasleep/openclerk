@@ -80,17 +80,17 @@ class LocaleTest extends OpenclerkTest {
 			$input = file_get_contents($f);
 
 			$matches = false;
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+?)\\)#im", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
-					$match[2] = preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]);
+					$match[2] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]));
 					$found[$match[2]] = $match[2];
 				}
 			}
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+?)\\)#im", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
-					$match[2] = preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]);
+					$match[2] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]));
 					$found[$match[2]] = $match[2];
 				}
 			}
@@ -118,7 +118,7 @@ class LocaleTest extends OpenclerkTest {
 		$fp = fopen(__DIR__ . "/../locale/template.txt", 'w');
 		foreach ($found as $key) {
 			// we need to replace :placeholder with <placeholder>
-			$key = preg_replace("/:([a-z_]+)/i", "<\\1>", $key);
+			$key = preg_replace("/:([a-z0-9_]+)/i", "<\\1>", $key);
 			fwrite($fp, $key . "\n");
 		}
 		fclose($fp);
