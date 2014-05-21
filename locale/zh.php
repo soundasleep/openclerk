@@ -2,7 +2,7 @@
 
 /**
  * zh template file
- * Generated from 'locale_zh.txt' at Wed, 21 May 2014 22:14:08 +1200
+ * Generated from 'locale_zh.txt' at Wed, 21 May 2014 22:41:33 +1200
  */
 
 $result = array(

@@ -238,7 +238,7 @@ Devises des matières premières
 Graphiques de la composition de chaque monnaie
 Les concepts
 Configurable
-Configurer des comptes
+Configurez
 Configurez devises
 Configurer les notifications par e-mail
 Notifications configurés

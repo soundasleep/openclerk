@@ -2,7 +2,7 @@
 
 /**
  * fr template file
- * Generated from 'locale_fr.txt' at Wed, 21 May 2014 22:14:08 +1200
+ * Generated from 'locale_fr.txt' at Wed, 21 May 2014 22:41:32 +1200
  */
 
 $result = array(
@@ -245,7 +245,7 @@ $result = array(
 	"Composition graphs of each currency" => "Graphiques de la composition de chaque monnaie",
 	"Concepts" => "Les concepts",
 	"Configurable" => "Configurable",
-	"Configure Accounts" => "Configurer des comptes",
+	"Configure Accounts" => "Configurez",
 	"Configure currencies" => "Configurez devises",
 	"Configure e-mail notifications" => "Configurer les notifications par e-mail",
 	"Configured Notifications" => "Notifications configurés",

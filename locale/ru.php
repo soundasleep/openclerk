@@ -2,7 +2,7 @@
 
 /**
  * ru template file
- * Generated from 'locale_ru.txt' at Wed, 21 May 2014 22:14:08 +1200
+ * Generated from 'locale_ru.txt' at Wed, 21 May 2014 22:41:32 +1200
  */
 
 $result = array(
@@ -245,7 +245,7 @@ $result = array(
 	"Composition graphs of each currency" => "Состав графики каждой валюте",
 	"Concepts" => "Понятия",
 	"Configurable" => "Конфигурируемый",
-	"Configure Accounts" => "Настройка учетных записей",
+	"Configure Accounts" => "конфигурировать",
 	"Configure currencies" => "Настройка валюты",
 	"Configure e-mail notifications" => "Настройка уведомлений по электронной почте",
 	"Configured Notifications" => "Настроенные Уведомления",
