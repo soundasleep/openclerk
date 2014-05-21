@@ -347,6 +347,7 @@ Exchanges, mining pools and security exchanges can be tracked through read-only 
 Expand all answers
 Expires in:
 Explorer
+Exponential Moving Average
 Export to CSV
 Export transactions to CSV
 External API Status
