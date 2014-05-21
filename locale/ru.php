@@ -2,7 +2,7 @@
 
 /**
  * ru template file
- * Generated from 'locale_ru.txt' at Wed, 21 May 2014 22:00:29 +1200
+ * Generated from 'locale_ru.txt' at Wed, 21 May 2014 22:14:08 +1200
  */
 
 $result = array(
