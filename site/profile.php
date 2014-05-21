@@ -36,7 +36,7 @@ if (get_site_config('timed_sql')) {
 }
 
 // a user might not have any pages displayed
-$page_title_prefix = t("Your Reports: ");
+$page_title_prefix = t("Your Reports:") . " ";
 $enable_editing_dialog = true;
 if ($pages) {
 	if (require_get("securities", false)) {

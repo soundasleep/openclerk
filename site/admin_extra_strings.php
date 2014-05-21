@@ -19,9 +19,6 @@ page_header("Extra Localisation Strings", "page_admin_extra_strings");
 <p class="backlink"><a href="<?php echo htmlspecialchars(url_for('admin')); ?>">&lt; Back to Site Status</a></p>
 
 <ul>
-	<li><?php echo ht("English"); ?></li>
-	<li><?php echo ht("French"); ?></li>
-	<li><?php echo ht("Lolcat"); ?></li>
 	<li>From account_data_grouped():
 	<ul>
 		<li><?php echo ht("Addresses"); ?></li>

@@ -66,24 +66,24 @@ class LocaleTest extends OpenclerkTest {
 	 * Tests the {@link plural()} function.
 	 */
 	function testPlural() {
-		$this->assertEquals("1 book", plural("book", 1));
-		$this->assertEquals("2 books", plural("book", 2));
-		$this->assertEquals("1 book", plural("book", "books", 1));
-		$this->assertEquals("9 books", plural("book", "books", 9));
-		$this->assertEquals("1,000 books", plural("book", "books", 1000));
-		$this->assertEquals("9 meow", plural("book", "meow", 9));
+		$this->assertEquals("1 account", plural("account", 1));
+		$this->assertEquals("2 accounts", plural("account", 2));
+		$this->assertEquals("1 account", plural("account", "accounts", 1));
+		$this->assertEquals("9 accounts", plural("account", "accounts", 9));
+		$this->assertEquals("1,000 accounts", plural("account", "accounts", 1000));
+		$this->assertEquals("9 addresses", plural("account", "addresses", 9));
 	}
 
 	/**
 	 * Tests the {@link plural()} function in the old calling style.
 	 */
 	function testPluralOld() {
-		$this->assertEquals("1 book", plural(1, "book"));
-		$this->assertEquals("2 books", plural(2, "book"));
-		$this->assertEquals("1 book", plural(1, "book", "books"));
-		$this->assertEquals("9 books", plural(9, "book", "books"));
-		$this->assertEquals("1,000 books", plural(1000, "book", "books"));
-		$this->assertEquals("9 meow", plural(9, "book", "meow"));
+		$this->assertEquals("1 account", plural(1, "account"));
+		$this->assertEquals("2 accounts", plural(2, "account"));
+		$this->assertEquals("1 account", plural(1, "account", "accounts"));
+		$this->assertEquals("9 accounts", plural(9, "account", "accounts"));
+		$this->assertEquals("1,000 accounts", plural(1000, "account", "accounts"));
+		$this->assertEquals("9 addresses", plural(9, "account", "addresses"));
 	}
 
 	/**

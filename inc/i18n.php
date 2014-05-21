@@ -27,17 +27,30 @@ function set_locale($locale) {
  */
 function get_all_locales() {
 	return array(
+		'de',
 		'en',
+		'es',
 		'fr',
-		'lolcat',
+		'jp',
+		'ru',
+		'pt',
+		'zh',
+		//'lolcat',
 	);
 }
 
 function get_locale_label($locale) {
 	switch ($locale) {
-		case "en": return "English";
-		case "fr": return "French";
-		case "lolcat": return "Lolcat";
+		case "de": return t("German");
+		case "en": return t("English");
+		case "es": return t("Spanish");
+		case "fr": return t("French");
+		case "jp": return t("Japanese");
+		case "it": return t("Italian");
+		case "ru": return t("Russian");
+		case "pt": return t("Portugese");
+		case "zh": return t("Chinese");
+		//case "lolcat": return t("Lolcat");
 
 		default:
 			throw new LocaleException("Unknown locale for label '$locale'");
@@ -93,10 +106,12 @@ function t_without_category($key = false, $args = array()) {
 				return t_without_category($key, $args);
 			}
 
+			set_locale('en');
 			throw new LocaleException("Could not load locale '$locale' data");
 		}
 		require(__DIR__ . "/../locale/" . $locale . ".php");
 		if (!$result) {
+			set_locale('en');
 			throw new LocaleException("Locale '$locale' did not load any data");
 		}
 		$global_loaded_locales[$locale] = $result;

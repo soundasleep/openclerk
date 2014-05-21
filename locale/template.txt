@@ -230,6 +230,7 @@ Category:
 Change
 Change Password
 Change password
+Chinese
 Clear Filters
 Click the "Export" button and save this CSV file to your computer.
 Commodity currencies
@@ -376,6 +377,7 @@ GST
 GST number:
 General
 General graphs
+German
 Get Premium
 Graph moved [<undo>]
 Graph removed [<undo>]
@@ -451,6 +453,8 @@ Invalid repeated password parameter
 Invalid username or password.
 Is it safe to provide <site_name> a Bitcoin-Qt CSV file?
 Is it safe to provide <site_name> a Litecoin-Qt CSV file?
+Italian
+Japanese
 Jobs
 Jobs at <site_name>
 Knowledge Base: <title>
@@ -559,6 +563,7 @@ Please send me an e-mail when
 Please try again.
 Portfolio summary
 Portfolio summary (detailed)
+Portugese
 Preferences Wizard
 Premium
 Premium Accounts
@@ -611,6 +616,7 @@ Reset graphs.
 Reset page with all graphs
 Reset password
 Reset transactions for <title>; historical transactions will soon be generated automatically.
+Russian
 Safe and secure
 Save
 Save Notification
@@ -646,6 +652,7 @@ Small
 Sort ascending
 Sort descending
 Source
+Spanish
 Subscribe
 Subscribe to <announcements>
 Subscribe to <site_name> Announcements
