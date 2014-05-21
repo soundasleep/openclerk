@@ -26,7 +26,7 @@
 			'url' => 'img/screenshots/profile_summary.png',
 			'text' => t("Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant. Helpful reports include the value of your currencies if immediately converted into another; the distribution of your currency values; and current exchange rates."),
 			'url2' => 'img/screenshots/technicals.png',
-			'text2' => t('Premium users can add technical indicators to graphs, such as :example1, :example2 and :example3.', array(':example1' => t("Simple Moving Average (SMA)"), ':example2' => t("Bollinger Bands (BOLL)"), ':example3' => t("Relative Strength Index (RSI)"))),
+			'text2' => t('Premium users can add technical indicators to graphs, such as :example1, :example2 and :example3.', array(':example1' => t("Simple Moving Average") . " (SMA)", ':example2' => t("Bollinger Bands") . " (BOLL)", ':example3' => t("Relative Strength Index") . " (RSI)")),
 			'url3' => 'img/screenshots/profile_securities.png',
 			'text3' => t('Premium users can also access an automatically-generated page listing all of their securities and their current market values.'),
 			'url4' => 'img/screenshots/your_currencies.png',

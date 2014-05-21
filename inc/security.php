@@ -72,7 +72,8 @@ function handle_post_login() {
 
 	// display warning if account was disabled
 	if ($user['is_disabled']) {
-		$messages[] = "Your account was disabled " . recent_format($user['disabled_at']) . " due to inactivity; your account is now re-enabled, and account data will be updated again soon.";
+		$messages[] = t("Your account was disabled :ago due to inactivity; your account is now re-enabled, and account data will be updated again soon.",
+			array(':ago' => recent_format($user['disabled_at'])));
 		$q = db()->prepare("UPDATE users SET is_disabled=0,logins_after_disabled=logins_after_disabled+1 WHERE id=?");
 		$q->execute(array($user['id']));
 	}
@@ -144,7 +145,8 @@ function try_autologin() {
 			if (!is_array($global_temporary_messages)) {
 				$global_temporary_messages = array();
 			}
-			$global_temporary_messages[] = "Your account was disabled " . recent_format($user['disabled_at']) . " due to inactivity; your account is now re-enabled, and account data will be updated again soon.";
+			$global_temporary_messages[] = t("Your account was disabled :ago due to inactivity; your account is now re-enabled, and account data will be updated again soon.",
+				array(':ago' => recent_format($user['disabled_at'])));
 		}
 
 		// handle post-login
@@ -267,7 +269,7 @@ function require_user($user) {
 		if (!$errors) {
 			$errors = array();
 		}
-		$errors[] = "Could not find your profile on the system. You will need to login or signup again.";
+		$errors[] = t("Could not find your profile on the system. You will need to login or signup again.");
 		set_temporary_errors($errors);
 		redirect(url_for('login'));
 	}

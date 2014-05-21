@@ -522,37 +522,51 @@ function array_equals($a, $b, $strict = false) {
 }
 
 function recent_format($date = null, $suffix = false, $future_suffix = false) {
-	if ($suffix === false) $suffix = " ago";
-	if ($future_suffix === false) $future_suffix = " in the future";
-
 	if ($date == null || $date == 0)
-		return "<em>never</em>";
+		return "<em>" . t("never") . "</em>";
 
 	if (!is_numeric($date))
 		$date = strtotime($date);
 
 	$secs = time() - $date;
-	if ($secs < 0)
-		return seconds_to_string(-$secs, $future_suffix);
-	else
-		return seconds_to_string($secs, $suffix);
+	if ($secs == 0) {
+		return "<em>" . ht("now") . "</em>";
+	} elseif ($secs < 0) {
+		if ($future_suffix === false) {
+			return t(":time in the future", array(':time' => seconds_to_string(-$secs)));
+		} else if ($future_suffix === "") {
+			return seconds_to_string(-$secs);
+		} else {
+			// this form shouldn't be used
+			return seconds_to_string(-$secs) . $future_suffix;
+		}
+	} else {
+		if ($suffix === false) {
+			return t(":time ago", array(':time' => seconds_to_string($secs)));
+		} else if ($future_suffix === "") {
+			return seconds_to_string($secs);
+		} else {
+			// this form shouldn't be used
+			return seconds_to_string($secs) . $suffix;
+		}
+	}
 }
 
-function seconds_to_string($secs, $suffix = " ago") {
+function seconds_to_string($secs) {
 	if ($secs == 0)
 		return "<em>" . ht("now") . "</em>";
 	else if ($secs < 60)
-		return plural("sec", "sec", ($secs)) . $suffix;
+		return plural("sec", "sec", ($secs));
 	else if ($secs < 60 * 60)
-		return plural("min", "min", ($secs / 60)) . $suffix;
+		return plural("min", "min", ($secs / 60));
 	else if ($secs < (60 * 60 * 24))
-		return plural("hour", "hours", ($secs / (60 * 60))) . $suffix;
+		return plural("hour", "hours", ($secs / (60 * 60)));
 	else if ($secs < (60 * 60 * 24 * 31))
-		return plural("day", "days", ($secs / (60 * 60 * 24))) . $suffix;
+		return plural("day", "days", ($secs / (60 * 60 * 24)));
 	else if (year_count($secs) < 1)
-		return plural("month", "months", ($secs / (60 * 60 * 24 * (365.242/12)))) . $suffix;
+		return plural("month", "months", (int) ($secs / (60 * 60 * 24 * (365.242/12))));
 	else
-		return plural("year", "years", (year_count($secs)), 1) . $suffix;
+		return plural("year", "years", (year_count($secs)), 1);
 }
 
 function recent_format_html($date, $suffix = false, $future_suffix = false) {
@@ -730,6 +744,13 @@ function url_add($url, $arguments) {
 		$url .= "#" . $hash;
 	}
 	return $url;
+}
+
+function link_to($url, $text = false) {
+	if ($text === false) {
+		return link_to($url, $url);
+	}
+	return "<a href=\"" . htmlspecialchars($url) . "\">" . htmlspecialchars($text) . "</a>";
 }
 
 /**

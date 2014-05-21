@@ -2263,7 +2263,7 @@ function reset_user_settings($user_id) {
 	$q = db()->prepare("INSERT INTO summaries SET user_id=?,summary_type=?");
 	$q->execute(array($user_id, 'summary_btc'));
 	$q = db()->prepare("INSERT INTO summaries SET user_id=?,summary_type=?");
-	$q->execute(array($user_id, 'summary_usd_mtgox'));
+	$q->execute(array($user_id, 'summary_usd_bitstamp'));
 
 	$q = db()->prepare("UPDATE users SET preferred_crypto=?, preferred_fiat=? WHERE id=?");
 	$q->execute(array('btc', 'usd', $user_id));

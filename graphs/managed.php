@@ -294,12 +294,12 @@ function get_all_user_account_instances($account_key) {
 
 function get_managed_graph_categories() {
 	return array(
-		'summary' => 'Portfolio summary',
-		'all_summary' => 'Portfolio summary (detailed)',
-		'currency' => 'Currency exchange',
-		'all_currency' => 'Currency exchange (detailed)',
-		// 'securities' => 'Securities and investments',
-		'mining' => 'Cryptocurrency mining',
+		'summary' => t('Portfolio summary'),
+		'all_summary' => t('Portfolio summary (detailed)'),
+		'currency' => t('Currency exchange'),
+		'all_currency' => t('Currency exchange (detailed)'),
+		// 'securities' => t('Securities and investments'),
+		'mining' => t('Cryptocurrency mining'),
 	);
 }
 
@@ -335,7 +335,7 @@ function update_user_managed_graphs($user) {
 	if (!$page) {
 		// insert a new page
 		$q = db()->prepare("INSERT INTO graph_pages SET user_id=?, title=?, is_managed=1");
-		$q->execute(array($user['id'], "Summary"));
+		$q->execute(array($user['id'], t("Summary")));
 		$page = array('id' => db()->lastInsertId());
 		if (is_admin()) {
 			$messages[] = "(admin) Added new graph_page " . htmlspecialchars($page['id']) . ".";
@@ -404,7 +404,15 @@ function update_user_managed_graphs($user) {
 	}
 
 	if (is_admin()) {
-		$messages[] = "Added " . plural("graph", $graphs_added) . ($graphs_deleted ? " and removed " . plural("graph", $graphs_deleted) : "") . ".";
+		$args = array(
+			':added' => plural("graph", $graphs_added),
+			':removed' => plural("graph", $graphs_deleted),
+		);
+		if ($graphs_deleted) {
+			$messages[] = t("Added :added and removed :removed.", $args);
+		} else {
+			$messages[] = t("Added :added.", $args);
+		}
 	}
 
 	// finally, update the needs_managed_update flag

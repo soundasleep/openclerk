@@ -312,16 +312,16 @@ function render_average_markets_table($graph, $tickers, $market_count) {
 		}
 	}
 	if (!$average) {
-		return render_text($graph, "Could not find any average data");
+		return render_text($graph, t("Could not find any average data"));
 	}
 
 	$volume_currency = $average['currency2'];
 
 	// generate the table of data
 	$head = array(array(
-		array('title' => 'Exchange'),
-		array('title' => 'Price', 'class' => 'number'),
-		array('title' => 'Volume', 'class' => 'number'),
+		array('title' => t('Exchange')),
+		array('title' => t('Price'), 'class' => 'number'),
+		array('title' => t('Volume'), 'class' => 'number'),
 	));
 	foreach ($tickers as $ticker) {
 		if ($ticker['exchange'] == "average") {

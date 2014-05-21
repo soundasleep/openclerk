@@ -543,10 +543,10 @@ foreach ($identities as $identity) {
 <?php
 	if (!$user['is_premium']) {
 		echo t("Support :site_name and get access to more features with a :premium_account!",
-			array('premium' => link_to(url_for('premium'), t("premium account"))));
+			array(':premium_account' => link_to(url_for('premium'), t("premium account"))));
 	} else {
 		echo t("Thank you for supporting :site_name. Extend your existing :premium_account here:",
-			array('premium' => link_to(url_for('premium'), t("premium account"))));
+			array(':premium_account' => link_to(url_for('premium'), t("premium account"))));
 	}
 ?>
 </p>

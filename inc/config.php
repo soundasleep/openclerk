@@ -100,6 +100,8 @@ function get_default_site_config() {
 		// debug control
 		"timed_sql" => false,
 		"timed_curl" => false,
+		"show_i18n" => false,				// shows all i18n keys as [key], only to admins
+		"log_missing_i18n" => false,		// log any missing i18n keys to uncaught_exceptions
 		"allow_fake_login" => false,		// see admin_login.php
 
 		// performance metrics control

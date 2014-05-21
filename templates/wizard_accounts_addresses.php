@@ -16,7 +16,7 @@ global $user;
 
 <p>
 <?php
-echo ht("As a :user, you may have up to :addresses of :your_currencies defined.",
+echo t("As a :user, you may have up to :addresses of :your_currencies defined.",
 	array(
 		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
 		':addresses' => plural("address", "addresses", get_premium_value($user, 'addresses')),

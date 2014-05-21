@@ -109,6 +109,9 @@ function t_without_category($key = false, $args = array()) {
 		if (is_numeric($k)) {
 			throw new LocaleException("Did not expect numeric key '$k'");
 		}
+		if (substr($k, 0, 1) !== ":") {
+			throw new LocaleException("Did not expect non-parameterised key '$k'");
+		}
 	}
 
 	// add default arguments
@@ -117,12 +120,20 @@ function t_without_category($key = false, $args = array()) {
 	}
 
 	if (!isset($global_loaded_locales[$locale][$key])) {
-		if ($locale != 'en' && function_exists('missing_locale_string')) {
+		if ($locale != 'en' && function_exists('missing_locale_string') && get_site_config("log_missing_i18n")) {
 			missing_locale_string($key, $locale);
 		}
-		return strtr($key, $args);
+		if (is_admin() && get_site_config('show_i18n')) {
+			return "[" . strtr($key, $args) . "]";
+		} else {
+			return strtr($key, $args);
+		}
 	}
-	return strtr($global_loaded_locales[$locale][$key], $args);
+	if (is_admin() && get_site_config('show_i18n')) {
+		return "[" . strtr($global_loaded_locales[$locale][$key], $args) . "]";
+	} else {
+		return strtr($global_loaded_locales[$locale][$key], $args);
+	}
 }
 
 /**

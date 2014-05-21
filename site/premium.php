@@ -24,7 +24,7 @@ require(__DIR__ . "/_premium_features.php");
 ?>
 
 <p>
-	<?php echo ht("You may purchase or extend your premium account by logging into your :user_account, or
+	<?php echo t("You may purchase or extend your premium account by logging into your :user_account, or
 	by selecting the appropriate payment option below.",
 		array(
 			':user_account' => link_to(url_for('user#user_premium'), t("user account")),

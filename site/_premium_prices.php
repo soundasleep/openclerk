@@ -8,15 +8,15 @@
 	<td class="prices">
 		<?php if (get_site_config('premium_' . $currency . '_discount')) { ?>
 		<div class="discounted"><?php
-		echo ht(":cost1 per month, or :cost2 per year", array(
-			'cost1' => currency_format($currency, get_site_config('premium_' . $currency . '_monthly')),
-			'cost2' => currency_format($currency, get_site_config('premium_' . $currency . '_yearly')),
+		echo t(":cost1 per month, or :cost2 per year", array(
+			':cost1' => currency_format($currency, get_site_config('premium_' . $currency . '_monthly')),
+			':cost2' => currency_format($currency, get_site_config('premium_' . $currency . '_yearly')),
 		)); ?></div>
 		<?php } ?>
 		<?php
-		echo ht(":cost1 per month, or :cost2 per year", array(
-			'cost1' => currency_format($currency, get_premium_price($currency, 'monthly')),
-			'cost2' => currency_format($currency, get_premium_price($currency, 'yearly')),
+		echo t(":cost1 per month, or :cost2 per year", array(
+			':cost1' => currency_format($currency, get_premium_price($currency, 'monthly')),
+			':cost2' => currency_format($currency, get_premium_price($currency, 'yearly')),
 		)); ?>
 	</td>
 	<td class="buttons">

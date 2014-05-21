@@ -205,9 +205,9 @@
 	<?php
 	echo ht("Premium users can add technical indicators to all graphs, such as :example1, :example2 and :example3.",
 		array(
-			":example1" => ht("Simple Moving Average (SMA)"),
-			":example2" => ht("Bollinger Bands (BOLL)"),
-			":example3" => ht("Relative Strength Index (RSI)"),
+			":example1" => t("Simple Moving Average") . " (SMA)",
+			":example2" => t("Bollinger Bands") . " (BOLL)",
+			":example3" => t("Relative Strength Index") . " (RSI)",
 		)); ?>
 </p>
 </div>

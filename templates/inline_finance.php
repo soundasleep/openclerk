@@ -14,7 +14,7 @@
 	<ul class="help_list">
 <?php
 $knowledge = get_knowledge_base();
-$a = $knowledge['Finance'];
+$a = $knowledge[t('Finance')];
 
 	foreach ($a as $key => $kb) {
 		$title = $kb;

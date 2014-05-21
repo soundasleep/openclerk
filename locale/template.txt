@@ -1,4 +1,5 @@
 % change
+% success
 '<address>' is not a valid <title>.
 '<currency>' is not a valid currency
 '<date>' is not a valid date
@@ -25,8 +26,17 @@
 ... and <dozens_more>
 <addresses> were invalid and were not added.
 <cost1> per month, or <cost2> per year
+<currency> MHash/s
+<currency> historical MHash/s (graph)
+<exchange> <currency> security value (graph)
+<exchange> <pair> exchange data
+<exchange> historical <pair> (graph)
+<exchange> historical <pair> (market data)
+<exchange> security
 <number> (out of <total>)
 <openid> is often much more secure than using an e-mail and password. If you do use a password, please make sure you do not use the same password on other cryptocurrency sites.
+<pair> Ask
+<pair> Bid
 <percent> requests successful
 <premium_user> job delay
 <site_name> Features
@@ -44,11 +54,39 @@
 <site_name> lets you keep track of your cryptocurrencies, miners, investments and equities, and generates regular reports of your portfolio.
 <site_name> relies on the output of many external APIs. This page lists the current status of each of these APIs, as collected over the last <time> (<samples> samples).
 <site_name> supports a wide range of cryptocurrency applications and is regularly updated with new services. For example <site_name> currently supports:
+<time> ago
+<time> in the future
 < Back to External API Status
 < Back to Help
 < Back to Historical Data
 < Previous
+A <calculator> to convert any currency into any other currency, using the most recent exchange rates.
 A category with the title '<title>' already exists.
+A line graph displaying the historical average market bid/ask values for <pair>.
+A line graph displaying the historical bid/ask values for <pair> on <exchange>.
+A line graph displaying the historical equivalent value of all cryptocurrencies - and not other fiat currencies - if they were immediately converted to <title>.
+A line graph displaying the historical equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted to <title> (where possible).
+A line graph displaying the historical hashrate sum of all workers mining <currency> across all mining pools (in MHash/s).
+A line graph displaying the historical status of an external API, by displaying the percentage of failing samples.
+A line graph displaying the historical sum of your <currency> (before any conversions).
+A line graph displaying the historical value of a particular <exchange> security.
+A line graph displaying the historical value of all currencies if they were all converted into BTC.
+A line graph representing all of the sources of your total <currency> balance (before any conversions).
+A matrix displaying the current bid/ask of all of the currencies and exchanges <interested_in>.
+A pie chart representing all of the sources of your total <currency> balance (before any conversions).
+A pie chart representing the overall proportional value of all currencies if they were all converted into BTC.
+A simple moving average of the price - or midpoint between buy and sell - over the last <n> days.
+A simple table displaying the current bid/ask <pair> price on <exchange>.
+A stacked area graph displaying the historical value of all currencies if they were all converted into BTC.
+A stacked area graph displaying the historical value of your total <currency> balance (before any conversions).
+A stacked area graph displaying the proportional historical value of all currencies if they were all converted into BTC.
+A stacked area graph displaying the proportional historical value of your total <currency> balance (before any conversions).
+A table displaying all of your <currency> balances and the total balance (before any conversions).
+A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.
+A table displaying the current sum of all your currencies (before any conversions).
+A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies - if they were immediately converted into other cryptocurrencies.
+A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.
+A table displaying the market data used to generate the average market price for <pair>.
 A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.
 A wide variety of account types are supported, with more being added regularly. All account types are completely optional.
 About
@@ -88,6 +126,7 @@ Add another mining pool...
 Add another wallet...
 Add category
 Add graph
+Add more currencies
 Add multiple <titles>
 Add new <title>
 Add new account
@@ -98,6 +137,8 @@ Add page
 Add password
 Add transaction
 Added
+Added <added> and removed <removed>.
+Added <added>.
 Added <new> and updated <existing>.
 Added OpenID identity '<identity>' to your account.
 Added new <heading> graph, with <technical>.
@@ -115,8 +156,18 @@ Addresses
 Addresses can be directly exported from your local BTC or LTC wallets into <site_name>.
 Admin
 Administrator
+All <currency> balances
+All <currency> balances (graph)
+All <currency> balances (proportional)
+All <currency> balances (stacked)
 All Features...
+All balances (graph)
+All balances (proportional)
+All balances (stacked)
+All balances (table)
+All currencies exchange rates (matrix)
 All data and addresses are read-only, the <software> is open source, and no passwords are stored. This means your accounts and funds will always be safe.
+All exchanges
 All users can also access a "Your Currencies" report page, displaying your most recent balances for each currency; and a "Your Hashrates" report page, displaying all of your most recent hashrates.
 Along with generated report pages, <site_name> can also automatically <notify_you> via e-mail when exchange rates, miner hashrates, or your report values change. For example:
 Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them. Graphs can also be grouped together into <pages> (premium users only).
@@ -142,13 +193,16 @@ As a <user>, you may have up to <notifications> defined.
 As a <user>, you may have up to accounts defined.
 As a <user>, your <titles> should be updated at least once every <hours><extra>.
 As a new user, it will take <minutes> for your <accounts> to be updated and your first reports to be generated.
+As a new user, it will take up to <hours> for this graph to be populated with initial data.
 As a new user, your addresses and accounts will be updated more frequently (every <frequency>) for the next <hours>.
+Ask
 Automatically logged in. Hi, <user>!
 Automatically select the best reports for me.
 Balance
 Balances
 Beta
-Bollinger Bands (BOLL)
+Bid
+Bollinger Bands
 CSV File:
 Calculator
 Can you add support for another cryptocurrency?
@@ -180,19 +234,28 @@ Clear Filters
 Click the "Export" button and save this CSV file to your computer.
 Commodity currencies
 Composition graphs of each currency
+Concepts
 Configurable
 Configure Accounts
+Configure currencies
 Configure e-mail notifications
 Configured Notifications
 Contact
 Contact Details
 Contact Us
 Continue
+Converted <title>
+Converted <title> historical (graph)
+Converted crypto
+Converted fiat
 Copy
 Copy this transaction
 Could not add <addresses>: too many existing addresses.
 Could not calculate any cost
+Could not find any average data
+Could not find rate for <exchange>: <pair>
 Could not find your notification <key> to edit.
+Could not find your profile on the system. You will need to login or signup again.
 Could not generate <currency> address for purchase; please try again later.
 Could not update currencies: too many currencies (<count> selected out of a maximum of <maximum>).
 Country:
@@ -202,9 +265,14 @@ Cryptocurrencies
 Cryptocurrency Calculator
 Cryptocurrency addresses are added directly into <site_name>, and balances downloaded through public explorer APIs.
 Cryptocurrency addresses can be supplied manually or by exporting CSV files from your wallet software, and balances downloaded through public explorer APIs.
+Cryptocurrency mining
 Currencies
 Currency
 Currency Preferences
+Currency converter
+Currency converter (calculator)
+Currency exchange
+Currency exchange (detailed)
 Current premium prices
 Currently <site_name> supports the <currencies> cryptocurrencies.
 Daily Rates
@@ -234,9 +302,12 @@ Disable automatic graph refresh
 Disable e-mail/password login
 Disable this account, preserving any historical data
 Disable transaction generation for this account
+Disabled
 Disabled <title>.
 Disabled transaction creation for <title>.
+Displays a line of text as a heading at a particular location. Also functions as a line break. Select 'Enable layout editing' to move it.'
 Do graphs live update?
+Donate
 Due
 E-mail
 E-mail:
@@ -245,6 +316,9 @@ Edit Notification
 Edit this notification
 Edited <heading> graph, with <technical>.
 Edited <heading> graph.
+Either you have not enabled this balance, or your summaries for this balance have not yet been updated by <site_name>.
+Either you have not enabled this currency, or your summaries for this currency have not yet been updated by <site_name>.
+Either you have not specified any accounts or addresses in <currency>, or these addresses and accounts have not yet been updated by <site_name>.
 Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by <site_name>.
 Enable
 Enable e-mail/password login
@@ -253,7 +327,14 @@ Enable layout editing
 Enabled <title>.
 Enabled transaction creation for <title>.
 English
+Equivalent BTC
+Equivalent BTC balances (graph)
+Equivalent BTC balances (pie)
+Equivalent BTC balances (proportional)
+Equivalent BTC balances (stacked)
+Example heading
 Example reports and graphs
+Example:
 Exchange
 Exchange rate on <exchange> for <pair>
 Exchange tickers
@@ -261,6 +342,7 @@ Exchange wallets
 Exchange, mining pools, securities and funds accounts can only be accessed once you have enabled a read-only key on the site itself, and provided that key to <site_name>. Mining hashrates for most pools can also be tracked and graphed. Helpful wizards guide you through the steps to add new accounts and addresses.
 Exchange:
 Exchanges
+Exchanges used:
 Exchanges, mining pools and security exchanges can be tracked through read-only APIs. The performance of mining hardware through mining pools is also tracked.
 Expand all answers
 Expires in:
@@ -270,6 +352,8 @@ Export transactions to CSV
 External API Status
 External API Status: <api_title>
 External API status
+External API status (graph)
+External API:
 FAQ
 Feature
 Features
@@ -282,12 +366,15 @@ Finance Categories
 Forgotten password?
 Forums
 Free account
+Free delay
 Free user job delay
 French
 Frequently Asked Questions
 Further instructions to change your password have been sent to your e-mail address <email>.
 GST
 GST number:
+General
+General graphs
 Get Premium
 Graph moved [<undo>]
 Graph removed [<undo>]
@@ -299,6 +386,7 @@ Hashrate
 Hashrates
 Having problems logging in? Please send us <email> or tweet <twitter>, and we'll try to sort things out.
 Having problems signing up? Please send us <email>	or tweet <twitter>, and we'll try to sort things out.
+Heading
 Help
 Help Centre
 Here you can update the password on your <site_name> account.
@@ -307,9 +395,12 @@ Hidden
 Historical
 Historical Data
 Historical Data: <heading>
+Historical converted value
+Historical currency value
 Historical data, both for your accounts and popular cryptocurrency exchanges, can also be included on your summary pages.
 Historical data, both for your accounts, exchanges and securities, can be included in your generated reports. Public historical data is also available through the <archive>. Data is downloaded regularly, and in the future can be used in more complex analytical reports.
 Historical exchange rates
+Historical hashrates
 Historical securities trading values
 How are graphs automatically managed?
 How are transactions automatically created?
@@ -343,6 +434,7 @@ Individual Securities
 Individual Security
 Individual securities
 Instead of the default exchange, use the following exchanges:
+Interface
 Invalid OpenID parameter
 Invalid article key.
 Invalid e-mail.
@@ -358,17 +450,23 @@ Invalid repeated password parameter
 Invalid username or password.
 Is it safe to provide <site_name> a Bitcoin-Qt CSV file?
 Is it safe to provide <site_name> a Litecoin-Qt CSV file?
+Jobs
 Jobs at <site_name>
 Knowledge Base: <title>
 Large
 Larger
 Last check
 Last checked
+Last day
+Last hour
 Last login:
 Last notification
 Last updated
+Last week
+Layout tools
 Learn more
 Legal
+Line break
 Live graph updates
 Loading...
 Log in automatically
@@ -388,7 +486,6 @@ Mining Pools
 Mining pool wallets
 Mining pools
 More help
-Moving Averages (SMA)
 Multiplier
 Must login every
 My converted <title>
@@ -403,6 +500,7 @@ New account creation successful.
 Next >
 No OpenID identities defined.
 No account for the OpenID identity '<identity>' were found. You may need to <signup>.
+No data to display.
 No finance accounts found.
 No finance categories found.
 No graphs to display! You might want to add one below.
@@ -422,6 +520,7 @@ Notification
 Notification Preferences
 Notifications
 OR
+Offset
 Once information from your accounts have been downloaded and compiled into reports, you may view <reports> by defining graphs and pages. <site_name> can automatically manage these reports for you, or you may opt to define these manually. (You can always change these accounts later, by selecting the "Configure Accounts" link above.)
 Once this CSV file has been exported, select the "Browse..." button on the "Upload CSV" tab on the <page> to locate and upload this file to <site_name>.
 Once you have <signed_up> for a free <site_name> account, you may login here using OpenID or a password.
@@ -451,21 +550,27 @@ Paid
 Password
 Password changed; you should now immediately login with this new password.
 Password:
+Pending
 Period
 Period:
 Please select a password between <min>-<max> characters long.
 Please send me an e-mail when
 Please try again.
+Portfolio summary
+Portfolio summary (detailed)
 Preferences Wizard
 Premium
 Premium Accounts
 Premium account
+Premium delay
 Premium user
 Premium users can access an automatically-generated page listing all of their securities and their current market values. Premium users can also create <pages> to categorise different report types.
 Premium users can add technical indicators to all graphs, such as <example1>, <example2> and <example3>.
 Premium users can add technical indicators to graphs, such as <example1>, <example2> and <example3>.
 Premium users can also access an automatically-generated page listing all of their securities and their current market values.
+Premiums
 Previous Payments
+Price
 Priority over free users
 Privacy Policy
 Provider
@@ -479,7 +584,7 @@ Queued up a new <title> test; results should be available shortly.
 Re-enable this account
 Reference
 Reference:
-Relative Strength Index (RSI)
+Relative Strength Index
 Release History
 Remove Page
 Remove password
@@ -519,8 +624,11 @@ Screenshots on reports and graphs
 Securities
 Securities Exchange
 Securities Exchanges
+Securities and investments
 Security
 Security exchanges
+Security values
+Security:
 Select an exchange to display help...
 Select an option
 Select reports based on my portfolio preferences:
@@ -530,7 +638,8 @@ Signing up for a <site_name> account is free and instant, and does not require a
 Signup
 Signup for Free
 Signup with:
-Simple Moving Average (SMA)
+Simple Moving Average
+Simple moving average
 Since
 Small
 Sort ascending
@@ -542,6 +651,7 @@ Subscribe to <site_name> Announcements
 Subscribe to site announcements
 Subtotal
 Successfully logged out. You may login again here.
+Summary
 Summary calculations will also include any currency values defined below as <offsets>.
 Summary pages
 Support
@@ -552,6 +662,7 @@ Supported addresses
 Supported exchanges
 Supported mining pools
 Supported wallets
+Supports <currencies>.
 System account
 Technical indicator types
 Technical:
@@ -572,12 +683,16 @@ That resource could not be found.
 The Bitcoin-Qt client will only export your public Bitcoin addresses. These addresses can only be used to retrieve address balances; it is not possible to perform transactions using a public address.
 The Litecoin-Qt client will only export your public Litecoin addresses. These addresses can only be used to retrieve address balances; it is not possible to perform transactions using a public address.
 The combined fiat value of all of your currencies
+There is not yet any historical data for these statistics.
+There is not yet any historical data for this external API.
 These automated notifications are sent out up to once per day (or once per hour for premium users).
 These graphs are currently <managed>.
 This data is refreshed automatically once per hour (last updated <ago>).
 This e-mail address is already being used by another account for password login.
 This form cannot be used to reset or change OpenID identities, which must instead be updated through your <user_profile>.
 This graph displays the status of the external <api_title>, in terms of how many tasks were successful (in percent).
+This graph is for administrators only.
+This graph will take up to <hours> to be updated with recently added or removed accounts.
 This is a draft version of a page which will allow you to see the historical changes to your various accounts over time as daily transactions, generated automatically by <site_name>.
 This is a simple calculator that you can use to convert one currency into another currency, using the <recent_rates> as tracked by <site_name>.
 This isn't me.
@@ -585,6 +700,7 @@ This page lists the most recent and historical average price index, as weighted 
 This technical analysis tool requires a <premium_account>.
 This will display the following graphs, based on <currencies> and <accounts>:
 Those passwords do not match.
+Ticker instances
 Title
 Title:
 To add more accounts, upgrade to a <premium_account>.
@@ -606,7 +722,16 @@ To prevent individual accounts from generating transactions, visit <your_account
 To read account data, you instruct your account provider to enable read-only access via an <api_key>, and you provide that key to <site_name>. Helpful wizards guide you through the steps to add new accounts and addresses.
 To subscribe to site announcements, you must provide an e-mail address.
 Tools
+Total
 Total <currency>
+Total <currency> balance composition (pie)
+Total <currency> historical (graph)
+Total balance composition
+Total balances
+Total balances (table)
+Total balances with offsets (table)
+Total converted crypto balances (table)
+Total converted fiat balances (table)
 Track accounts & addresses
 Track addresses
 Track exchanges and miners
@@ -615,13 +740,16 @@ Tracked accounts (<accounts>)
 Tracked addresses
 Tracked addresses (<currencies>)
 Transactions
+Uncaught exceptions
 Unknown
 Unknown currency or no currency specified.
+Unknown graph type <type>
 Unknown notification type to edit '<notification_type>'
 Unknown page.
 Unsubscribe
 Unsubscribe unsuccessful
 Untitled
+Unused premium addresses
 Update
 Update Profile
 Update Title
@@ -647,6 +775,7 @@ User Account
 User Profile
 User graphs and pages successfully reset.
 User has cancelled authentication.
+Users
 Using <exchange>
 Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete any historical summary data associated with this account.
 Using the button below, you can reset this page and add a collection of example graphs.
@@ -654,10 +783,12 @@ Value
 Very Large
 View
 View Reports
+View historical data
 View historical transactions
 View screenshots on personalising your reports
 View your Reports
 Visit this group
+Volume
 Wallets
 Warning: Selecting this option will reset your currently defined reports and graphs (you will not lose any historical data).
 Warning: Without a valid e-mail address specified in your contact details, you will not receive important announcements and notifications about your accounts and user profile.
@@ -672,6 +803,7 @@ When your LTC hashrate goes below 100 KH/s
 When your total portfolio value decreases by 10% in a week
 With a <premium_account>, you can apply technical indicators to historical exchange and security data, such as <example1>, <example2>, and <example3>.
 You already have <outstanding> that need to be paid.
+You are making too many requests at once: please wait at least <seconds>.
 You can also <add_graphs>.
 You can also see a list of <identities>.
 You can support <site_name> by purchasing a premium account with <currencies> currencies. You will also get access to exclusive, premium-only functionality such as vastly increased limits on the number of addresses and accounts you may track at once, and advanced reporting and notification functionality. Your jobs and reports will also have higher priority over free users.
@@ -685,6 +817,7 @@ You did not select the confirmation checkbox.
 You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.
 You have not enabled e-mail/password login on your account. Adding a password will not increase security, and you should continue to login with your <identities>.
 You may purchase or extend your premium account by logging into your <user_account>, or by selecting the appropriate payment option below.
+You need to add some account data for this graph to display.
 You need to agree to the terms of service.
 You need to be logged in as an administrator to do that.
 You need to be logged in to proceed.
@@ -698,6 +831,8 @@ You need to specify a transaction value.
 You will be added manually to the <mailing_list> soon.
 You will be removed manually from the <mailing_list> soon.
 You will need to <add_openid> to this account in order to remove this e-mail address.
+Your <currency> balances
+Your <currency> balances (table)
 Your <site_name> User Account
 Your <titles>
 Your Account
@@ -710,12 +845,15 @@ Your Reports
 Your Reports:
 Your Securities
 Your Transactions
+Your account was disabled <ago> due to inactivity; your account is now re-enabled, and account data will be updated again soon.
 Your e-mail address, <email>, cannot be removed from this site, as this e-mail address is being used as login information for an account.
 Your e-mail address, <email>, has been completely removed from this site, and you will no longer receive any information or notifications via e-mail.
+Your mining
 Your password was last changed <ago>.
 Your premium account expires in <time>.
 Your premium purchase is now pending on payment - please deposit <balance> into the address <address>. Once the <currency> network has confirmed the transaction (after <confirmations> blocks), your account will be credited with premium status. Thank you!
 Your securities reports
+Your summaries
 account
 accounts
 accounts and addresses
@@ -781,6 +919,7 @@ most recent exchange rates
 my converted
 my total
 my total hashrate
+never
 new
 new address
 new addresses
@@ -794,14 +933,18 @@ one cryptocurrency
 one fiat currency
 outstanding premium payments
 password login
+powered by <openclerk>
 premium account
 premium accounts
 premium users
 purchase a premium account
 report pages
 sec
+second
+seconds
 signed up
 signup first
+simple calculator
 the exchange rate
 the last day
 the last hour
@@ -818,6 +961,7 @@ wallet
 within
 year
 years
+you are interested in
 your accounts
 your accounts wizard
 your cryptocurrency transactions

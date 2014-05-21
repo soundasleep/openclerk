@@ -40,7 +40,7 @@ function render_graph($graph, $is_public = false) {
 	if (!isset($graph_types[$graph['graph_type']])) {
 		// let's not crash with an exception, let's just display an error
 		render_graph_controls($graph);
-		render_text($graph, "Unknown graph type " . htmlspecialchars($graph['graph_type']));
+		render_text($graph, t("Unknown graph type :type", array(':type' => htmlspecialchars($graph['graph_type']))));
 		echo "</div>";
 		// TODO this doesn't render the performance metrics etc below
 		log_uncaught_exception(new GraphException("Unknown graph type " . htmlspecialchars($graph['graph_type'])));
@@ -113,7 +113,7 @@ function render_graph($graph, $is_public = false) {
 
 	echo "<div class=\"graph_headings\">\n";
 	echo "<h2 class=\"graph_title\">\n";
-	if ($historical) echo "<a href=\"" . htmlspecialchars($historical) . "\" title=\"View historical data\">";
+	if ($historical) echo "<a href=\"" . htmlspecialchars($historical) . "\" title=\"" . ht("View historical data"). "\">";
 	echo htmlspecialchars(isset($graph_type['heading']) ? $graph_type['heading'] : $graph_type['title']);
 	if ($historical) echo "</a>";
 	echo "</h2>\n";
@@ -122,11 +122,11 @@ function render_graph($graph, $is_public = false) {
 		$user = get_user(user_id());
 		$plural_hours = plural("hour", user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours"));
 		if ($user['is_first_report_sent']) {
-			$title = "This graph will take up to " . $plural_hours . " to be updated with recently added or removed accounts.";
+			$title = t("This graph will take up to :hours to be updated with recently added or removed accounts.", array(':hours' => $plural_hours));
 		} else if ($user['has_added_account']) {
-			$title = "As a new user, it will take up to " . $plural_hours . " for this graph to be populated with initial data.";
+			$title = t("As a new user, it will take up to :hours for this graph to be populated with initial data.", array(':hours' => $plural_hours));
 		} else {
-			$title = "You need to add some account data for this graph to display.";
+			$title = t("You need to add some account data for this graph to display.");
 		}
 	}
 	echo "<span class=\"outofdate\" id=\"outofdate_" . htmlspecialchars($graph['id']) . "\" title=\"" . htmlspecialchars($title) . "\" style=\"display:none;\"></span>\n";
@@ -212,7 +212,7 @@ function render_graph($graph, $is_public = false) {
 		});
 		<?php } ?>
 		</script>
-		<div id="ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>"<?php echo get_dimensions($graph); ?>><span class="status_loading">Loading...</span></div>
+		<div id="ajax_graph_target_<?php echo htmlspecialchars($graph['id']); ?>"<?php echo get_dimensions($graph); ?>><span class="status_loading"><?php echo t("Loading..."); ?></span></div>
 		<?php
 
 	}
@@ -244,7 +244,7 @@ function render_graph_actual($graph, $is_public) {
 	$graph['technicals'] = load_technicals($graph, $is_public);
 	$graph['uses_summaries'] = isset($graph_type['uses_summaries']) && $graph_type['uses_summaries'];
 
-	$add_more_currencies = "<a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Add more currencies</a>";
+	$add_more_currencies = "<a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">" . ht("Add more currencies") . "</a>";
 
 	switch ($graph['graph_type']) {
 
@@ -293,8 +293,8 @@ function render_graph_actual($graph, $is_public) {
 			if (count($data) > 1) {
 				render_pie_chart($graph, $data, 'Currency', 'BTC');
 			} else {
-				render_text($graph, "Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by " . get_site_config('site_name') . ".
-					<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
+				render_text($graph, t("Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by :site_name.") .
+					"<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">" . ht("Add accounts and addresses") . "</a>");
 			}
 			break;
 
@@ -319,8 +319,8 @@ function render_graph_actual($graph, $is_public) {
 			$graph['last_updated'] = find_latest_created_at($rates['usdbtc']);
 
 			$data = array(
-				array('Bid', currency_format('usd', $rates['usdbtc']['bid'], 4)),
-				array('Ask', currency_format('usd', $rates['usdbtc']['ask'], 4)),
+				array(t('Bid'), currency_format('usd', $rates['usdbtc']['bid'], 4)),
+				array(t('Ask'), currency_format('usd', $rates['usdbtc']['ask'], 4)),
 			);
 
 			render_table_vertical($graph, $data);
@@ -399,7 +399,7 @@ function render_graph_actual($graph, $is_public) {
 
 			// create data
 			$data = array();
-			$data[] = array('Currency', 'Balance', 'Offset', 'Total');
+			$data[] = array(t('Currency'), t('Balance'), t('Offset'), t('Total'));
 			foreach ($currencies as $c) {
 				if (isset($summaries[$c])) {
 					$balance = demo_scale(isset($balances['total'.$c]) ? $balances['total'.$c]['balance'] : 0);
@@ -457,7 +457,7 @@ function render_graph_actual($graph, $is_public) {
 									$cell .= "</li>\n";
 									$graph['last_updated'] = max($graph['last_updated'], strtotime($ticker['created_at']));
 								} else {
-									$cell .= "<li class=\"warning\">Could not find rate for " . htmlspecialchars($exchange . ": " . $c1 . "/" . $c2) . "</li>\n";
+									$cell .= "<li class=\"warning\">" . t("Could not find rate for :exchange: :pair", array(':exchange' => $exchange, ':pair' => $c1 . "/" . $c2)) . "</li>\n";
 								}
 							}
 						}
@@ -747,7 +747,7 @@ function render_graph_actual($graph, $is_public) {
 
 							if ($data) {
 								if ($split[2] == "pie") {
-									render_pie_chart($graph, $data, 'Source', get_currency_abbr($currency));
+									render_pie_chart($graph, $data, t('Source'), get_currency_abbr($currency));
 								} else {
 									$table = array();
 									$sum = 0;
@@ -761,8 +761,8 @@ function render_graph_actual($graph, $is_public) {
 									render_table_vertical($graph, $table, $head);
 								}
 							} else {
-								render_text($graph, "Either you have not specified any accounts or addresses in " . get_currency_name($currency) . ", or these addresses and accounts have not yet been updated by " . get_site_config('site_name') . ".
-									<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">Add accounts and addresses</a>");
+								render_text($graph, t("Either you have not specified any accounts or addresses in :currency, or these addresses and accounts have not yet been updated by :site_name.", array(':currency' => get_currency_name($currency))) .
+									"<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">" . ht("Add accounts and addresses") . "</a>");
 							}
 							break 2;
 

@@ -328,10 +328,3 @@ function require_template($id) {
 		require(__DIR__ . "/../templates/" . $id . ".php");
 	}
 }
-
-function link_to($url, $text = false) {
-	if ($text === false) {
-		return link_to($url, $url);
-	}
-	return "<a href=\"" . htmlspecialchars($url) . "\">" . htmlspecialchars($text) . "</a>";
-}

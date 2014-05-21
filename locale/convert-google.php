@@ -69,6 +69,7 @@ if ($dh = opendir($dir)) {
 			for ($i = 0; $i < count($input); $i++) {
 				$input_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $input[$i]);
 				$translation_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $translated[$i]);
+				$translation_replaced = trim($translation_replaced);
 				fwrite($fp, "\t\"" . phpescapestring($input_replaced) . "\" => \"" . phpescapestring($translation_replaced) . "\",\n");
 			}
 			fwrite($fp, ");\n");
@@ -81,6 +82,7 @@ if ($dh = opendir($dir)) {
 			for ($i = 0; $i < count($input); $i++) {
 				$input_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $input[$i]);
 				$translation_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $translated[$i]);
+				$translation_replaced = trim($translation_replaced);
 				fwrite($fp, ($i == 0 ? "" : ",") . "\n\t" . json_encode($input_replaced) . ": " . json_encode($translation_replaced));
 			}
 			fwrite($fp, "\n}");

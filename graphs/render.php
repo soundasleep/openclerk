@@ -107,15 +107,15 @@ function calculate_technicals($graph, $data) {
 function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
 
 	$data = array();
-	$data[0] = array("Date",
+	$data[0] = array(t("Date"),
 		array(
-			'title' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2) . " Bid",
+			'title' => t(":pair Bid", array(':pair' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2))),
 			'line_width' => 2,
 			'color' => default_chart_color(0),
 		),
 		// put Ask second so that it is drawn over Bid (but using colour 0)
 		array(
-			'title' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2) . " Ask",
+			'title' => t(":pair Ask", array(':pair' => get_currency_abbr($cur1) . "/" . get_currency_abbr($cur2))),
 			'line_width' => 2,
 			'color' => default_chart_color(1),
 		),
@@ -326,7 +326,7 @@ function cmp_time_reverse($a, $b) {
 function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_title = false) {
 
 	$data = array();
-	$data[0] = array("Date",
+	$data[0] = array(t("Date"),
 		array(
 			'title' => $row_title ? $row_title : get_currency_abbr($currency),
 			'line_width' => 2,
@@ -379,8 +379,8 @@ function render_summary_graph($graph, $summary_type, $currency, $user_id, $row_t
 
 		render_linegraph_date($graph, array_values($data));
 	} else {
-		render_text($graph, "Either you have not enabled this currency, or your summaries for this currency have not yet been updated by " . get_site_config('site_name') . ".
-					<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
+		render_text($graph, t("Either you have not enabled this currency, or your summaries for this currency have not yet been updated by :site_name.") .
+				"<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">" . ht("Configure currencies") . "</a>");
 	}
 
 }
@@ -651,10 +651,10 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 		render_linegraph_date($graph, array_values($data), $stacked);
 	} else {
 		if ($user_id == get_site_config('system_user_id')) {
-			render_text($graph, "No data to display.");	// or Invalid balance type.
+			render_text($graph, t("No data to display."));	// or Invalid balance type.
 		} else {
-			render_text($graph, "Either you have not enabled this balance, or your summaries for this balance have not yet been updated by " . get_site_config('site_name') . ".
-						<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">Configure currencies</a>");
+			render_text($graph, t("Either you have not enabled this balance, or your summaries for this balance have not yet been updated by :site_name.") .
+					"<br><a class=\"add_accounts\" href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">" . ht("Configure currencies") . "</a>");
 		}
 	}
 
@@ -676,9 +676,9 @@ function render_external_graph($graph) {
 	$job_type = $graph['arg0_resolved'];
 
 	$data = array();
-	$data[0] = array("Date",
+	$data[0] = array(t("Date"),
 		array(
-			'title' => "% success",
+			'title' => t("% success"),
 			'line_width' => 2,
 			'color' => default_chart_color(0),
 			'min' => 0,
@@ -728,7 +728,7 @@ function render_external_graph($graph) {
 	if (count($data) > 1) {
 		render_linegraph_date($graph, array_values($data));
 	} else {
-		render_text($graph, "There is not yet any historical data for this external API.");
+		render_text($graph, t("There is not yet any historical data for this external API."));
 	}
 
 }
@@ -736,19 +736,19 @@ function render_external_graph($graph) {
 function render_site_statistics_queue($graph) {
 
 	if (!is_admin()) {
-		render_text("This graph is for administrators only.");
+		render_text(t("This graph is for administrators only."));
 		return;
 	}
 
 	$data = array();
-	$data[0] = array("Date",
+	$data[0] = array(t("Date"),
 		array(
-			'title' => " Free delay",
+			'title' => " " . t("Free delay"),
 			'line_width' => 2,
 			'color' => default_chart_color(0),
 		),
 		array(
-			'title' => " Premium delay",
+			'title' => " " . t("Premium delay"),
 			'line_width' => 2,
 			'color' => default_chart_color(1),
 		),
@@ -780,7 +780,7 @@ function render_site_statistics_queue($graph) {
 	if (count($data) > 1) {
 		render_linegraph_date($graph, array_values($data));
 	} else {
-		render_text($graph, "There is not yet any historical data for these statistics.");
+		render_text($graph, t("There is not yet any historical data for these statistics."));
 	}
 
 }
@@ -788,17 +788,17 @@ function render_site_statistics_queue($graph) {
 function render_site_admin_statistics($graph) {
 
 	if (!is_admin()) {
-		render_text("This graph is for administrators only.");
+		render_text(t("This graph is for administrators only."));
 		return;
 	}
 
 	$summary = array(
-		'users' => array('title' => 'Users', 'extra' => array('is_disabled=1' => 'Disabled')),
-		'addresses' => array('title' => 'Addresses'),
-		'jobs' => array('title' => 'Jobs', 'extra' => array('is_executed=0' => 'Pending')),
-		'outstanding_premiums' => array('title' => 'Premiums', 'extra' => array('is_paid=1' => 'Paid')),
-		'uncaught_exceptions' => array('title' => 'Uncaught exceptions'),
-		'ticker' => array('title' => 'Ticker instances'),
+		'users' => array('title' => t('Users'), 'extra' => array('is_disabled=1' => t('Disabled'))),
+		'addresses' => array('title' => t('Addresses')),
+		'jobs' => array('title' => t('Jobs'), 'extra' => array('is_executed=0' => t('Pending'))),
+		'outstanding_premiums' => array('title' => t('Premiums'), 'extra' => array('is_paid=1' => t('Paid'))),
+		'uncaught_exceptions' => array('title' => t('Uncaught exceptions')),
+		'ticker' => array('title' => t('Ticker instances')),
 	);
 	$result = array();
 	foreach ($summary as $key => $data) {
@@ -834,7 +834,7 @@ function render_site_admin_statistics($graph) {
 		$result[] = $row;
 	}
 
-	$row = array("Unused premium addresses");
+	$row = array(t("Unused premium addresses"));
 	$q = db()->prepare("SELECT currency, COUNT(*) AS c FROM premium_addresses WHERE is_used=0 GROUP BY currency");
 	$q->execute();
 	while ($c = $q->fetch()) {
@@ -846,10 +846,10 @@ function render_site_admin_statistics($graph) {
 
 	$head = array(array(
 		"",
-		array('title' => "Total", 'class' => 'number'),
-		array('title' => "Last week", 'class' => 'number'),
-		array('title' => "Last day", 'class' => 'number'),
-		array('title' => "Last hour", 'class' => 'number'),
+		array('title' => t("Total"), 'class' => 'number'),
+		array('title' => t("Last week"), 'class' => 'number'),
+		array('title' => t("Last day"), 'class' => 'number'),
+		array('title' => t("Last hour"), 'class' => 'number'),
 	));
 	$graph['last_updated'] = time();
 	return render_table_vertical($graph, $result, $head);
@@ -859,12 +859,12 @@ function render_site_admin_statistics($graph) {
 function render_site_statistics_system_load($graph, $type = "") {
 
 	if (!is_admin()) {
-		render_text("This graph is for administrators only.");
+		render_text(t("This graph is for administrators only."));
 		return;
 	}
 
 	$data = array();
-	$data[0] = array("Date",
+	$data[0] = array(t("Date"),
 		array(
 			'title' => " 1min",
 			'line_width' => 2,
@@ -909,7 +909,7 @@ function render_site_statistics_system_load($graph, $type = "") {
 	if (count($data) > 1) {
 		render_linegraph_date($graph, array_values($data));
 	} else {
-		render_text($graph, "There is not yet any historical data for these statistics.");
+		render_text($graph, t("There is not yet any historical data for these statistics."));
 	}
 
 }
@@ -917,7 +917,7 @@ function render_site_statistics_system_load($graph, $type = "") {
 function render_metrics_table($graph, $report_type, $report_table, $report_ref_table, $report_reference, $key, $key_title, $key_formatter = 'htmlspecialchars') {
 
 	if (!is_admin()) {
-		return render_text("This graph is for administrators only.");
+		return render_text(t("This graph is for administrators only."));
 	}
 
 	$q = db()->prepare("SELECT * FROM performance_reports WHERE report_type=? ORDER BY id DESC LIMIT 1");
@@ -973,7 +973,7 @@ function render_metrics_graph($graph, $report_type, $report_table, $report_ref_t
 	}
 
 	if (!is_admin()) {
-		return render_text("This graph is for administrators only.");
+		return render_text(t("This graph is for administrators only."));
 	}
 
 	$q = db()->prepare("SELECT * FROM performance_reports WHERE report_type=? ORDER BY id DESC LIMIT 30");
@@ -985,7 +985,7 @@ function render_metrics_graph($graph, $report_type, $report_table, $report_ref_t
 
 	// construct an array of (date => )
 	$data = array();
-	$data[0] = array("Date");
+	$data[0] = array(t("Date"));
 	$keys = array();
 	$graph['last_updated'] = 0;
 
@@ -1026,7 +1026,7 @@ function render_metrics_graph($graph, $report_type, $report_table, $report_ref_t
 	if (count($data) > 1) {
 		render_linegraph_date($graph, array_values($data));
 	} else {
-		render_text($graph, "There is not yet any historical data for these statistics.");
+		render_text($graph, t("There is not yet any historical data for these statistics."));
 	}
 
 }
