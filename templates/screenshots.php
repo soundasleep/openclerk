@@ -85,3 +85,13 @@ $(document).ready(function() {
 });
 </script>
 
+	<div class="screenshots_group">
+	<ul class="screenshots">
+	<?php if (user_logged_in()) { ?>
+		<li class="profile"><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">View your Reports</a></li>
+	<?php } else { ?>
+		<li class="signup"><a href="<?php echo htmlspecialchars(url_for('signup')); ?>">Signup for Free</a></li>
+	<?php } ?>
+		<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>">FAQ</a></li>
+	</ul>
+	</div>

@@ -6,8 +6,16 @@ global $user;
 <div class="success">
 <ul>
 	<li>Welcome to <?php echo htmlspecialchars(get_site_config('site_name')); ?>!</li>
+	<li>To get started, first select the currencies that you are interested in below, and then follow the wizards to configure your addresses, accounts and reports.</li>
+	<li>If you have any problems in getting set up, please send us <a href="<?php echo htmlspecialchars(url_add('mailto:' . get_site_config('site_email'), array('subject' => 'Problems Setting Up'))); ?>">an e-mail</a>
+		or tweet <a class="twitter" href="https://twitter.com/cryptfolio">@cryptfolio</a>.</li>
 </ul>
 </div>
+
+<?php /* trafficvance conversion tracking pixel for Dennis */ ?>
+<script type="text/javascript" src="http://tracking.trafficvance.com/?id=1G18D7G6C0EG334F874F&amp;fetch=0&amp;value=0">
+</script>
+<noscript><div style="display: inline;"><img height="1" width="1" style="border-style: none;" alt="" src="http://tracking.trafficvance.com/?id=1G18D7G6C0EG334F874F&amp;fetch=1&amp;value=0" /></div></noscript>
 <?php } ?>
 
 <div class="wizard-steps">
@@ -30,11 +38,11 @@ global $user;
 	later, by selecting the "Configure Accounts" link above.)
 </p>
 
-<p class="tip tip_float your_account_limits">
+<!--<p class="tip tip_float your_account_limits">-->
+<p>
 As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
 you may have up to <?php echo number_format(get_premium_value($user, 'summaries')); ?> currency and exchange selections.
 <?php if (!$user['is_premium']) { ?>
-<br>
 To increase this limit, please purchase a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>.
 <?php } ?>
 </p>
