@@ -63,6 +63,30 @@ class LocaleTest extends OpenclerkTest {
 	}
 
 	/**
+	 * Tests the {@link plural()} function.
+	 */
+	function testPlural() {
+		$this->assertEquals("1 book", plural("book", 1));
+		$this->assertEquals("2 books", plural("book", 2));
+		$this->assertEquals("1 book", plural("book", "books", 1));
+		$this->assertEquals("9 books", plural("book", "books", 9));
+		$this->assertEquals("1,000 books", plural("book", "books", 1000));
+		$this->assertEquals("9 meow", plural("book", "meow", 9));
+	}
+
+	/**
+	 * Tests the {@link plural()} function in the old calling style.
+	 */
+	function testPluralOld() {
+		$this->assertEquals("1 book", plural(1, "book"));
+		$this->assertEquals("2 books", plural(2, "book"));
+		$this->assertEquals("1 book", plural(1, "book", "books"));
+		$this->assertEquals("9 books", plural(9, "book", "books"));
+		$this->assertEquals("1,000 books", plural(1000, "book", "books"));
+		$this->assertEquals("9 meow", plural(9, "book", "meow"));
+	}
+
+	/**
 	 * Iterate through the site and find as many i18n strings as we can.
 	 * This assumes the whole site uses good code conventions: {@code $i . t("foo")} rather than {@code $i.t("foo")} etc.
 	 */
@@ -79,6 +103,7 @@ class LocaleTest extends OpenclerkTest {
 			}
 			$input = file_get_contents($f);
 
+			// find instances of t() and ht()
 			$matches = false;
 			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
@@ -91,6 +116,25 @@ class LocaleTest extends OpenclerkTest {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
 					$match[2] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]));
+					$found[$match[2]] = $match[2];
+				}
+			}
+
+			// find instances of plural()
+			if (preg_match_all("#[ \t\n(]plural\\(\"([^\"]+)\", [^\"].+?\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+				foreach ($matches as $match) {
+					// remove whitespace that will never display
+					$match[1] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[1]));
+					$found[$match[1]] = $match[1];
+					$found[$match[1] . "s"] = $match[1] . "s";
+				}
+			}
+			if (preg_match_all("#[ \t\n(]plural\\(\"([^\"]+)\", \"([^\"]+)\", [^\"].+?\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+				foreach ($matches as $match) {
+					// remove whitespace that will never display
+					$match[1] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[1]));
+					$match[2] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]));
+					$found[$match[1]] = $match[1];
 					$found[$match[2]] = $match[2];
 				}
 			}

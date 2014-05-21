@@ -20,7 +20,7 @@ global $user;
 echo ht("As a :user, you may have up to :accounts defined.",
 	array(
 		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
-		':accounts' => plural(get_premium_value($user, 'finance_categories'), "finance category", "finance categories"),
+		':accounts' => plural("finance category", "finance categories", get_premium_value($user, 'finance_categories')),
 	));
 echo "\n";
 if (!$user['is_premium']) {

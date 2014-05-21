@@ -555,15 +555,6 @@ function seconds_to_string($secs, $suffix = " ago") {
 		return plural(number_format(year_count($secs), 1), "year", "years") . $suffix;
 }
 
-function plural($n, $s, $ss = false) {
-	if ($ss === false) $ss = $s . "s";
-	if ($n == 1) {
-		return sprintf("%s %s", $n, $s);
-	} else {
-		return sprintf("%s %s", $n, $ss);
-	}
-}
-
 function recent_format_html($date, $suffix = false, $future_suffix = false) {
 	return '<span title="' . ($date ? htmlspecialchars(iso_date($date)) : "Never") . '">' . recent_format($date, $suffix, $future_suffix) . '</span>';
 }

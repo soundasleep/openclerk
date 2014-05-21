@@ -301,7 +301,10 @@ add and remove transactions
 anonymous
 currency, accounts and reporting preferences
 dozens more
+finance account
 finance accounts
+finance categories
+finance category
 free user
 historical data archive
 most recent exchange rates

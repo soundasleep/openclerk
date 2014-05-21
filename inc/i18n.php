@@ -132,3 +132,29 @@ function t_without_category($key = false, $args = array()) {
 function ht($category, $key = false, $args = array()) {
 	return htmlspecialchars(t($category, $key, $args));
 }
+
+/**
+ * Return the plural of something.
+ * e.g. plural('book', 1), plural('book', 'books', 1), plural('book', 1000)
+ */
+function plural($string, $strings, $number = false) {
+	// old format
+	if (is_numeric($string)) {
+		if ($number === false) {
+			return plural($strings, $strings . "s", $string);
+		} else {
+			return plural($strings, $number, $string);
+		}
+	}
+
+	// no second parameter provided
+	if ($number === false) {
+		return plural($string, $string . "s", $strings);
+	}
+
+	if ($number == 1) {
+		return sprintf("%s %s", number_format($number), t($string));
+	} else {
+		return sprintf("%s %s", number_format($number), t($strings));
+	}
+}
