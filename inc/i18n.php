@@ -90,11 +90,17 @@ function t($category, $key = false, $args = array()) {
 	}
 }
 
+function strip_i18n_key($key) {
+	$key = preg_replace("/[\r\n]+/im", " ", $key);
+	$key = preg_replace("/[\\s]{2,}/im", " ", $key);
+	return trim($key);
+}
+
 function t_without_category($key = false, $args = array()) {
 	$locale = get_current_locale();
 
 	// remove any unnecessary whitespace in the key that won't be displayed
-	$key = trim(preg_replace("/[\\s]{2,}/im", " ", $key));
+	$key = strip_i18n_key($key);
 
 	global $global_loaded_locales;
 	if ($locale != 'en' && !isset($global_loaded_locales[$locale])) {

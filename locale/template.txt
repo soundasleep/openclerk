@@ -420,12 +420,8 @@ I agree to the <terms>
 I will manage my own graphs and pages.
 Identities
 Identity
-If you are using the default Bitcoin-Qt client, you can
-use the "export" feature of the client to automatically populate your list of BTC addresses using your existing address labels.
-Any invalid or duplicated addresses will be skipped.
-If you are using the default Litecoin-Qt client, you can
-use the 'export' feature of the client to automatically populate your list of LTC addresses using your existing address labels.
-Any invalid or duplicated addresses will be skipped.
+If you are using the default Bitcoin-Qt client, you can use the "export" feature of the client to automatically populate your list of BTC addresses using your existing address labels. Any invalid or duplicated addresses will be skipped.
+If you are using the default Litecoin-Qt client, you can use the 'export' feature of the client to automatically populate your list of LTC addresses using your existing address labels. Any invalid or duplicated addresses will be skipped.
 If you have accidentally removed your e-mail from your account, you will need to login and <add_it_back>, in order to resume e-mail notifications.
 If you have any problems in getting set up, please send us <email> or tweet <twitter>.
 If your <site_name> account has been secured with an e-mail/password login, you may use this form to reset the password on your account.
