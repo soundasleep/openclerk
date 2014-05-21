@@ -83,6 +83,11 @@ function handle_post_login() {
 		$q->execute(array($user['id']));
 	}
 
+	// update locale
+	if ($user['locale']) {
+		set_locale($user['locale']);
+	}
+
 	// update login time
 	$query = db()->prepare("UPDATE users SET last_login=NOW(),is_disabled=0 WHERE id=?");
 	$query->execute(array($user["id"]));
