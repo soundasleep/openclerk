@@ -209,10 +209,10 @@ if (isset($_FILES['csv']) || require_post('addresses', false)) {
 
 	// update messages
 	if ($invalid_addresses) {
-		$errors[] = t(":addresses were invalid and were not added.", array(':addresses' => plural("address", $invalid_addresses)));
+		$errors[] = t(":addresses were invalid and were not added.", array(':addresses' => plural("address", "addresses", $invalid_addresses)));
 	}
 	if ($limited_addresses) {
-		$errors[] = t("Could not add :addresses: too many existing addresses.", array(':addresses' => plural("address", $limited_addresses))) .
+		$errors[] = t("Could not add :addresses: too many existing addresses.", array(':addresses' => plural("address", "addresses", $limited_addresses))) .
 				($user['is_premium'] ? "" : " " . t("To add more addresses, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 	}
 	$messages[] = t("Added :new and updated :existing.",
