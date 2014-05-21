@@ -105,14 +105,14 @@ class LocaleTest extends OpenclerkTest {
 
 			// find instances of t() and ht()
 			$matches = false;
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )\"([^\"]+)\"(|, .+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'],[ \t\n])\"([^\"]+)\"(|,[ \t\n].+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
 					$match[2] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]));
 					$found[$match[2]] = $match[2];
 				}
 			}
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'], )'([^']+)'(|, .+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'],[ \t\n])'([^']+)'(|,[ \t\n].+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
 					$match[2] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[2]));
@@ -121,7 +121,7 @@ class LocaleTest extends OpenclerkTest {
 			}
 
 			// find instances of plural()
-			if (preg_match_all("#[ \t\n(]plural\\(\"([^\"]+)\", [^\"].+?\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]plural\\(\"([^\"]+)\",[ \t\n][^\"].+?\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
 					$match[1] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[1]));
@@ -129,7 +129,7 @@ class LocaleTest extends OpenclerkTest {
 					$found[$match[1] . "s"] = $match[1] . "s";
 				}
 			}
-			if (preg_match_all("#[ \t\n(]plural\\(\"([^\"]+)\", \"([^\"]+)\", [^\"].+?\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(]plural\\(\"([^\"]+)\",[ \t\n]\"([^\"]+)\",[ \t\n][^\"].+?\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
 					$match[1] = trim(preg_replace("/[\\s\r\n]{2,}/im", " ", $match[1]));
