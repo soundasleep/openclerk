@@ -44,7 +44,7 @@ global $user;
 echo ht("As a :user, you may have up to :accounts defined.",
 	array(
 		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
-		':accounts' => plural(get_premium_value($user, 'summaries'), "currency and exchange selection"),
+		':accounts' => plural("currency and exchange selection", get_premium_value($user, 'summaries')),
 	));
 echo "\n";
 if (!$user['is_premium']) {

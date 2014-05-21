@@ -53,12 +53,16 @@ $account_data = null;
 <div class="page_accounts">
 
 <p>
-As a <?php echo $user['is_premium'] ? "premium user" : (user_is_new($user) ? "new user" : "<a href=\"" . htmlspecialchars(url_for('premium')) . "\">free user</a>"); ?>, your
-<?php echo $account_type['accounts']; ?> should be updated
-at least once every <?php echo plural(user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours"), 'hour');
-if (user_is_new($user) && !$user['is_premium']) echo " (for the next " . plural(
-	(int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60))
-	, "hour") . ")"; ?>.
+<?php
+$extra_hours = (int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60));
+echo t("As a :user, your :titles should be updated at least once every :hours:extra.",
+	array(
+		':user' => $user['is_premium'] ? ht("premium user") : (user_is_new($user) ? ht("new user") : link_to(url_for('premium'), t("free user"))),
+		':titles' => $account_type['accounts'],
+		':hours' => plural("hour", user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours")),
+		':extra' => (user_is_new($user) && !$user['is_premium']) ? " " . t("(for the next :hours)", array(':hours' => plural("hour", $extra_hours))) : "",
+	));
+?>
 </p>
 
 <h2>Your <?php echo htmlspecialchars($account_type['titles']); ?></h2>

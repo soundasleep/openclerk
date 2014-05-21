@@ -457,7 +457,7 @@ foreach ($addresses_data as $exchange => $currencies) {
 				added <a href="https://www.havelockinvestments.com">Havelock Investments</a> securities;
 				added <a href="http://www.mining-foreman.org">Mining Foreman</a> (LTC) mining pool;
 				added <a href="<?php echo htmlspecialchars(url_for('external')); ?>">external API graphs</a> and historical balances graphs;
-				inactive free accounts are now <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">disabled</a> after <?php echo plural(get_site_config('user_expiry_days'), 'day'); ?>.</dd>
+				inactive free accounts are now <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">disabled</a> after <?php echo plural("day", get_site_config('user_expiry_days')); ?>.</dd>
 
 				<dt>6 June</dt>
 				<dd>Added currency support for <span class="currency_name_aud" title="<?php echo htmlspecialchars(get_currency_name('aud')); ?>">AUD</span>;

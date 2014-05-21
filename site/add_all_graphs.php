@@ -61,6 +61,6 @@ foreach (graph_types() as $key => $graph_type) {
 }
 
 // redirect to this page
-$messages[] = "Reset graph page with " . plural($count, "example graph") . ".";
+$messages[] = "Reset graph page with " . plural("example graph", $count) . ".";
 
 redirect(url_for('profile', array('page' => $page_id)));

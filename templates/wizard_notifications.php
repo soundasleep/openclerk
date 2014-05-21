@@ -27,7 +27,7 @@ global $user;
 echo ht("As a :user, you may have up to :notifications defined.",
 	array(
 		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
-		':notifications' => plural(get_premium_value($user, 'notifications'), "configured notification"),
+		':notifications' => plural("configured notification", get_premium_value($user, 'notifications')),
 	));
 echo "\n";
 if (!$user['is_premium']) {

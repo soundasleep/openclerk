@@ -28,8 +28,8 @@ global $user;
 echo ht("As a :user, you may have up to :addresses and :accounts defined.",
 	array(
 		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
-		':addresses' => plural(get_premium_value($user, 'addresses'), "address", "addresses"),
-		':accounts' => plural(get_premium_value($user, 'accounts'), "account"),
+		':addresses' => plural("address", "addresses", get_premium_value($user, 'addresses')),
+		':accounts' => plural("account", get_premium_value($user, 'accounts')),
 	));
 echo "\n";
 if (!$user['is_premium']) {

@@ -19,7 +19,7 @@ global $user;
 echo ht("As a :user, you may have up to :addresses of :your_currencies defined.",
 	array(
 		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
-		':addresses' => plural(get_premium_value($user, 'addresses'), "address", "addresses"),
+		':addresses' => plural("address", "addresses", get_premium_value($user, 'addresses')),
 		':your_currencies' => link_to(url_for('wizard_currencies'), ht("your currencies")),
 	));
 echo "\n";

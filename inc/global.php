@@ -540,34 +540,34 @@ function recent_format($date = null, $suffix = false, $future_suffix = false) {
 
 function seconds_to_string($secs, $suffix = " ago") {
 	if ($secs == 0)
-		return "<em>now</em>";
+		return "<em>" . ht("now") . "</em>";
 	else if ($secs < 60)
-		return plural(number_format($secs), "sec", "sec") . $suffix;
+		return plural("sec", "sec", ($secs)) . $suffix;
 	else if ($secs < 60 * 60)
-		return plural(number_format($secs / 60), "min", "min") . $suffix;
+		return plural("min", "min", ($secs / 60)) . $suffix;
 	else if ($secs < (60 * 60 * 24))
-		return plural(number_format($secs / (60 * 60)), "hour", "hours") . $suffix;
+		return plural("hour", "hours", ($secs / (60 * 60))) . $suffix;
 	else if ($secs < (60 * 60 * 24 * 31))
-		return plural(number_format($secs / (60 * 60 * 24)), "day", "days") . $suffix;
+		return plural("day", "days", ($secs / (60 * 60 * 24))) . $suffix;
 	else if (year_count($secs) < 1)
-		return plural(number_format($secs / (60 * 60 * 24 * (365.242/12))), "month", "months") . $suffix;
+		return plural("month", "months", ($secs / (60 * 60 * 24 * (365.242/12)))) . $suffix;
 	else
-		return plural(number_format(year_count($secs), 1), "year", "years") . $suffix;
+		return plural("year", "years", (year_count($secs)), 1) . $suffix;
 }
 
 function recent_format_html($date, $suffix = false, $future_suffix = false) {
-	return '<span title="' . ($date ? htmlspecialchars(iso_date($date)) : "Never") . '">' . recent_format($date, $suffix, $future_suffix) . '</span>';
+	return '<span title="' . ($date ? htmlspecialchars(iso_date($date)) : ht("Never")) . '">' . recent_format($date, $suffix, $future_suffix) . '</span>';
 }
 
 function expected_delay_html($minutes) {
 	if ($minutes == 0) {
-		return "<i>none</i>";
+		return "<i>" . ht("none") . "</i>";
 	} else if ($minutes < 60) {
-		return "&lt; " . plural(ceil($minutes), "min");
+		return "&lt; " . plural("min", ceil($minutes));
 	} else if ($minutes < (60 * 60)) {
-		return "&lt; " . plural(ceil($minutes / 60), "hour");
+		return "&lt; " . plural("hour", ceil($minutes / 60));
 	} else {
-		return "&lt; " . plural(ceil($minutes / (60 * 60)), "day");
+		return "&lt; " . plural("day", ceil($minutes / (60 * 60)));
 	}
 }
 

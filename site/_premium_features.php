@@ -68,13 +68,13 @@
 	</tr>
 	<tr>
 		<th>Must login every</th>
-		<td class="number"><?php echo plural(get_site_config('user_expiry_days'), 'day'); ?></td>
+		<td class="number"><?php echo plural("day", get_site_config('user_expiry_days')); ?></td>
 		<td class="no premium">Not necessary</td>
 	</tr>
 	<tr>
 		<th>Data updated at least every</th>
-		<td class="number"><?php echo plural(get_site_config('refresh_queue_hours'), 'hour'); ?></td>
-		<td class="number premium"><?php echo plural(get_site_config('refresh_queue_hours_premium'), 'hour'); ?></td>
+		<td class="number"><?php echo plural("hour", get_site_config('refresh_queue_hours')); ?></td>
+		<td class="number premium"><?php echo plural("hour", get_site_config('refresh_queue_hours_premium')); ?></td>
 	</tr>
 	<tr>
 		<th><?php echo $welcome ? "Notifications" : '<a href="' . htmlspecialchars(url_for('wizard_notifications')) . '">Notifications</a>'?></th>
@@ -98,8 +98,8 @@
 	</tr>
 	<tr>
 		<th><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>">Live graph updates</a></th>
-		<td class="number"><?php echo plural(get_site_config('graph_refresh_free'), 'minute'); ?></td>
-		<td class="number premium"><?php echo plural(get_site_config('graph_refresh_premium'), 'minute'); ?></td>
+		<td class="number"><?php echo plural("minute", get_site_config('graph_refresh_free')); ?></td>
+		<td class="number premium"><?php echo plural("minute", get_site_config('graph_refresh_premium')); ?></td>
 	</tr>
 	<?php if ($welcome) { ?>
 	<tr class="payment">

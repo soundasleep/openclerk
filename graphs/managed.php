@@ -404,7 +404,7 @@ function update_user_managed_graphs($user) {
 	}
 
 	if (is_admin()) {
-		$messages[] = "Added " . plural($graphs_added, "graph") . ($graphs_deleted ? " and removed " . plural($graphs_deleted, "graph") : "") . ".";
+		$messages[] = "Added " . plural("graph", $graphs_added) . ($graphs_deleted ? " and removed " . plural("graph", $graphs_deleted) : "") . ".";
 	}
 
 	// finally, update the needs_managed_update flag

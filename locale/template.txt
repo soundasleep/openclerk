@@ -1,5 +1,6 @@
 '<currency>' is not a valid currency
 '<date>' is not a valid date
+(for the next <hours>)
 ... and <dozens_more>
 <site_name> Finance
 <site_name> Finance can keep track of <your_transactions> and assign them to separate accounts, for tax or accounting purposes.
@@ -154,6 +155,7 @@ Mining Pools
 Mining pools
 NOTE:
 Name:
+Never
 New account creation successful.
 Next >
 No OpenID identities defined.
@@ -297,25 +299,59 @@ Your Reports
 Your Reports:
 Your Securities
 Your Transactions
+account
+accounts
 add and remove transactions
+address
+addresses
 anonymous
+configured notification
+configured notifications
+currency and exchange selection
+currency and exchange selections
 currency, accounts and reporting preferences
+day
+days
 dozens more
+example graph
+example graphs
+existing address
+existing addresses
 finance account
 finance accounts
 finance categories
 finance category
 free user
+graph
+graphs
 historical data archive
+hour
+hours
+individual securities
+individual security
+min
+mins
+minute
+minutes
+month
+months
 most recent exchange rates
 my converted
 my total
 my total hashrate
 new
+new address
+new addresses
+new user
+none
 notify you
+now
 premium account
 premium user
 premium users
+sec
 the exchange rate
+year
+years
 your cryptocurrency transactions
 your currencies

@@ -24,8 +24,8 @@ if (get_site_config('new_user_premium_update_hours') && strtotime($user['created
 		}
 	} else {
 		$messages[] = "As a new user, your addresses and accounts will be updated more frequently
-			(every " . plural(get_site_config('refresh_queue_hours_premium'), 'hour') . ")
-			for the next " . plural((int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60)), "hour") . ".";
+			(every " . plural("hour", get_site_config('refresh_queue_hours_premium')) . ")
+			for the next " . plural("hour", (int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60))) . ".";
 	}
 }
 

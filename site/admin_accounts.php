@@ -50,7 +50,7 @@ if (require_post("enable", false)) {
 		$count++;
 	}
 
-	$messages[] = "Re-enabled " . plural($count, "account") . ".";
+	$messages[] = "Re-enabled " . plural("account", $count) . ".";
 }
 
 page_header("Admin: Accounts", "page_admin_accounts", array('js' => array('accounts')));

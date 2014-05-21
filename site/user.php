@@ -511,7 +511,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <?php $count = 0; foreach ($outstanding as $o) { ?>
 	<tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
 		<td><span class="currency_name_<?php echo htmlspecialchars($o['currency']); ?>"><?php echo htmlspecialchars(get_currency_name($o['currency'])); ?></span></td>
-		<td><?php echo $o['months'] ? plural($o['months'], "month") : ""; echo $o['years'] ? plural($o['years'], "year") : ""; ?></td>
+		<td><?php echo $o['months'] ? plural("month", $o['months']) : ""; echo $o['years'] ? plural("year", $o['years']) : ""; ?></td>
 		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
 		<td class="number"><?php echo currency_format($o['currency'], $o['balance']); ?></td>
 		<td class="number"><?php echo currency_format($o['currency'], $o['last_balance'] ? $o['last_balance'] : 0); ?></td>
@@ -523,7 +523,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 </table>
 
 <p class="warning-inline">
-<b><?php echo ht("NOTE:"); ?></b> Outstanding payments will be automatically cancelled after <?php echo plural(get_site_config('outstanding_abandon_days'), 'day'); ?>.
+<b><?php echo ht("NOTE:"); ?></b> Outstanding payments will be automatically cancelled after <?php echo plural("day", get_site_config('outstanding_abandon_days')); ?>.
 </p>
 
 <?php } else { ?>
@@ -548,7 +548,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <?php $count = 0; foreach ($previous as $o) { ?>
 	<tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
 		<td><span class="currency_name_<?php echo htmlspecialchars($o['currency']); ?>"><?php echo htmlspecialchars(get_currency_name($o['currency'])); ?></span></td>
-		<td><?php echo $o['months'] ? plural($o['months'], "month") : ""; echo $o['years'] ? plural($o['years'], "year") : ""; ?></td>
+		<td><?php echo $o['months'] ? plural("month", $o['months']) : ""; echo $o['years'] ? plural("year", $o['years']) : ""; ?></td>
 		<td><?php echo crypto_address($o['currency'], $o['address']); ?></td>
 		<td class="number"><?php echo currency_format($o['currency'], $o['balance']); ?></td>
 		<td class="number"><?php echo currency_format($o['currency'], $o['paid_balance']); ?></td>

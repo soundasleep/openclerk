@@ -137,24 +137,24 @@ function ht($category, $key = false, $args = array()) {
  * Return the plural of something.
  * e.g. plural('book', 1), plural('book', 'books', 1), plural('book', 1000)
  */
-function plural($string, $strings, $number = false) {
+function plural($string, $strings, $number = false, $decimals = 0) {
 	// old format
 	if (is_numeric($string)) {
 		if ($number === false) {
-			return plural($strings, $strings . "s", $string);
+			return plural($strings, $strings . "s", $string, $decimals);
 		} else {
-			return plural($strings, $number, $string);
+			return plural($strings, $number, $string, $decimals);
 		}
 	}
 
 	// no second parameter provided
 	if ($number === false) {
-		return plural($string, $string . "s", $strings);
+		return plural($string, $string . "s", $strings, $decimals);
 	}
 
 	if ($number == 1) {
-		return sprintf("%s %s", number_format($number), t($string));
+		return sprintf("%s %s", number_format($number, $decimals), t($string));
 	} else {
-		return sprintf("%s %s", number_format($number), t($strings));
+		return sprintf("%s %s", number_format($number, $decimals), t($strings));
 	}
 }

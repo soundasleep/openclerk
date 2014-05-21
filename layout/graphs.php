@@ -120,7 +120,7 @@ function render_graph($graph, $is_public = false) {
 	$title = "";
 	if (user_logged_in()) {
 		$user = get_user(user_id());
-		$plural_hours = plural(user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours"), 'hour');
+		$plural_hours = plural("hour", user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours"));
 		if ($user['is_first_report_sent']) {
 			$title = "This graph will take up to " . $plural_hours . " to be updated with recently added or removed accounts.";
 		} else if ($user['has_added_account']) {

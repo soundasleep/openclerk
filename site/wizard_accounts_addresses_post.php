@@ -200,8 +200,8 @@ if (isset($_FILES['csv']) || require_post('addresses', false)) {
 		$errors[] = "Could not add " . number_format($limited_addresses) . " addresses: too many existing addresses." .
 			($user['is_premium'] ? "" : " To add more addresses, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
 	}
-	$messages[] = "Added " . plural($new_addresses, "new address", "new addresses") . " and
-		updated " . plural($existing_addresses, "existing address", "existing addresses") . ".";
+	$messages[] = "Added " . plural("new address", "new addresses", $new_addresses) . " and
+		updated " . plural("existing address", "existing addresses", $existing_addresses) . ".";
 
 	// redirect to GET
 	set_temporary_messages($messages);

@@ -29,7 +29,7 @@ global $user;
 echo ht("As a :user, you may have up to :graphs per page defined.",
 	array(
 		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
-		':graphs' => plural(get_premium_value($user, 'graphs_per_page'), "graph"),
+		':graphs' => plural("graph", get_premium_value($user, 'graphs_per_page')),
 	));
 echo "\n";
 if (!$user['is_premium']) {

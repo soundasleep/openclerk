@@ -151,7 +151,7 @@ foreach ($knowledge as $label => $a) {
 	<dt>Why must free accounts log in every X days?</dt>
 	<dd>
 		Free users must log into <?php echo htmlspecialchars(get_site_config('site_name')); ?> every
-		<?php echo plural(get_site_config('user_expiry_days'), 'day'); ?> in order to keep their account active. This means that system
+		<?php echo plural("day", get_site_config('user_expiry_days')); ?> in order to keep their account active. This means that system
 		resources dedicated to free accounts can be optimised for only those users that are active.<br>
 		<br>
 		When a free account is disabled, historical account data and graphs will not be removed, but existing accounts and addresses will

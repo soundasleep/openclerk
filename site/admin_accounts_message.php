@@ -49,7 +49,7 @@ if ($exchange && $message) {
 		$count++;
 	}
 
-	$messages[] = "Sent messages to " . plural($count, "account") . ".";
+	$messages[] = "Sent messages to " . plural("account", $count) . ".";
 }
 
 page_header("Admin: Message Failed Accounts", "page_admin_accounts_message", array('js' => array('accounts')));

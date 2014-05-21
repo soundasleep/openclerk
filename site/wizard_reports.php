@@ -120,7 +120,7 @@ function print_graph_types($managed, $is_auto = false) {
 <ul class="report-types">
 
 	<li>
-		<label><input type="radio" name="preference" value="auto"<?php echo require_get("preference", $user['graph_managed_type']) == 'auto' ? ' checked' : ''; ?>> Automatically select the best reports for me. (<?php echo plural(count($auto_graphs), "graph"); ?>)</label>
+		<label><input type="radio" name="preference" value="auto"<?php echo require_get("preference", $user['graph_managed_type']) == 'auto' ? ' checked' : ''; ?>> Automatically select the best reports for me. (<?php echo plural("graph", count($auto_graphs)); ?>)</label>
 		<?php print_graph_types($auto_graphs, true /* is_auto */); ?>
 
 		<?php if ($user['graph_managed_type'] != 'auto') { ?>
@@ -144,7 +144,7 @@ function print_graph_types($managed, $is_auto = false) {
 			foreach (get_managed_graph_categories() as $key => $label) { ?>
 			<li>
 				<label><input type="checkbox" name="managed[]"
-					value="<?php echo htmlspecialchars($key); ?>"<?php echo isset($managed_preferences[$key]) ? " checked" : ""; ?>> <?php echo htmlspecialchars($label); ?> (<?php echo plural(count($managed_graphs[$key]), "graph"); ?>)</label>
+					value="<?php echo htmlspecialchars($key); ?>"<?php echo isset($managed_preferences[$key]) ? " checked" : ""; ?>> <?php echo htmlspecialchars($label); ?> (<?php echo plural("graph", count($managed_graphs[$key])); ?>)</label>
 				<?php print_graph_types($managed_graphs[$key]); ?>
 			<?php } ?>
 		</ul>
