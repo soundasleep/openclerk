@@ -52,7 +52,7 @@ if ($dh = opendir($dir)) {
 				if (preg_match_all("/<([a-z_]+)>/i", $input[$i], $placeholders, PREG_SET_ORDER)) {
 					foreach ($placeholders as $placeholder) {
 						if (strpos($translated[$i], "<" . $placeholder[1] . ">") === false) {
-							throw new Exception("Line " . ($i+1) . ": Expected <" . $placeholder[1] . "> in '" . trim($translated[$i]) . "'");
+							throw new Exception("Line " . ($i+1) . ": Expected <" . $placeholder[1] . "> in '" . trim($translated[$i]) . "' for '" . $input[$i] . "'");
 						}
 					}
 				}
