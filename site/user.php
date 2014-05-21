@@ -20,11 +20,12 @@ $email = trim(require_post("email", false));
 
 if ($name !== false && $email !== false) {
 	if ($name !== "" && !is_valid_name($name)) {
-		$errors[] = "Invalid name.";
+		$errors[] = t("Invalid name.");
 	} else if ($email !== "" && !is_valid_email($email)) {
-		$errors[] = "Invalid e-mail.";
+		$errors[] = t("Invalid e-mail.");
 	} else if (!$email && $user['password_hash']) {
-		$errors[] = "You cannot remove your e-mail address until you have disabled <a href=\"" . htmlspecialchars(url_for('user#user_password')) . "\">password login</a> on this account.";
+		$errors[] = t("You cannot remove your e-mail address until you have disabled :password_login on this account.",
+				array(':password_login' => link_to(url_for('user#user_password'), t("password login"))));
 	}
 
 	// check that there are no existing users with this e-mail address
@@ -45,7 +46,7 @@ if ($name !== false && $email !== false) {
 		// we can have any name
 		$q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=?,subscribe_announcements=?,disable_graph_refresh=? WHERE id=? LIMIT 1");
 		$q->execute(array($name, $email, $subscribe, $disable_graph_refresh, user_id()));
-		$messages[] = "Updated account details.";
+		$messages[] = t("Updated account details.");
 
 		// subscribe/unsubscribe
 		if ($subscribe != $user['subscribe_announcements'] || ($subscribe && $user['email'] != $email)) {
@@ -57,9 +58,15 @@ if ($name !== false && $email !== false) {
 				$q->execute(array($user['id'], $subscribe));
 
 				if ($subscribe) {
-					$messages[] = "You will be added manually to the <a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">Announcements Mailing List</a> soon.";
+					$messages[] = t("You will be added manually to the :mailing_list soon.",
+						array(
+							':mailing_list' => "<a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">" . t("Announcements Mailing List") . "</a>",
+						));
 				} else {
-					$messages[] = "You will be removed manually from the <a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">Announcements Mailing List</a> soon.";
+					$messages[] = t("You will be removed manually from the :mailing_list soon.",
+						array(
+							':mailing_list' => "<a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">" . t("Announcements Mailing List") . "</a>",
+						));
 				}
 			}
 		}
@@ -67,7 +74,7 @@ if ($name !== false && $email !== false) {
 		// try sending email
 		if ($email && $email != $old_email) {
 			send_email($email, $email, $old_email ? "change_email" : "new_email", array(
-				"old_email" => $old_email ? $old_email : "(no previous e-mail address)",
+				"old_email" => $old_email ? $old_email : t("(no previous e-mail address)"),
 				"email" => $email,
 				"url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),
 			));
@@ -102,10 +109,14 @@ if (require_get("new_purchase", false)) {
 		if ($p['id'] == require_get("new_purchase")) {
 			$qr_code = url_for('qr/' . $p['address']);
 			$messages[] = "<div class=\"inline_qr\"><img class=\"qr\" src=\"" . htmlspecialchars($qr_code) . "\">" .
-				"Your premium purchase is now pending on payment - please deposit " .
-				currency_format($p['currency'], $p['balance']) . " into the address " .
-				crypto_address($p['currency'], $p['address']) . ". Once the " .
-				get_currency_name($p['currency']) . " network has confirmed the transaction (after " . get_site_config($p['currency'] . '_confirmations') . " blocks), your account will be credited with premium status. Thank you!" .
+				t("Your premium purchase is now pending on payment - please deposit :balance into the address :address. Once the
+				:currency network has confirmed the transaction (after :confirmations blocks), your account will be credited with premium status. Thank you!",
+					array(
+						':balance' => currency_format($p['currency'], $p['balance']),
+						':address' => crypto_address($p['currency'], $p['address']),
+						':currency' => get_currency_name($p['currency']),
+						':confirmations' => get_site_config($p['currency'] . '_confirmations'),
+					)) .
 				"</div>";
 		}
 	}
@@ -168,19 +179,19 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
 </tr>
 <tr>
 	<th></th>
-	<td><label><input type="checkbox" name="subscribe" value="1"<?php echo $user['subscribe_announcements'] ? " checked" : ""; ?>> Subscribe to <a href="#user_mailinglist">site announcements</a></label></td>
+	<td><label><input type="checkbox" name="subscribe" value="1"<?php echo $user['subscribe_announcements'] ? " checked" : ""; ?>> <?php echo t("Subscribe to :announcements", array(':announcements' => link_to('#user_mailinglist', t("site announcements")))); ?></label></td>
 </tr>
 <tr>
 	<th><?php echo ht("Account status:"); ?></th>
 	<td>
 		<a href="#user_premium"><?php if ($user['is_admin']) {
-			echo ht("Administrator");
+			echo t("Administrator");
 		} else if ($user['is_system']) {
-			echo ht("System account");
+			echo t("System account");
 		} else if ($user['is_premium']) {
-			echo ht("Premium account");
+			echo t("Premium account");
 		} else {
-			echo ht("Free account");
+			echo t("Free account");
 		} ?></a>
 	</td>
 </tr>
@@ -194,7 +205,7 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
 </tr>
 <tr>
 	<td colspan="2" class="buttons">
-		<input type="submit" value="Update Profile">
+		<input type="submit" value="<?php echo ht("Update Profile"); ?>">
 	</td>
 </tr>
 </table>
@@ -202,16 +213,19 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
 
 <div style="margin-top: 1em;">
 <!-- TODO remove: added to help users adapt to new wizard_currencies -->
-Looking for your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">currency preferences</a>?
+<?php echo t("Looking for your :preferences?", array(':preferences' => link_to(url_for('wizard_currencies'), t("currency preferences")))); ?>
 </div>
 
 	</li>
 	<li id="tab_user_password_tab" style="display:none;">
 
 <div class="tip tip_float">
-	<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>">OpenID login</a>
-	is often much more secure than using an e-mail and password. If you do use a password, please
-	make sure you do not use the same password on other cryptocurrency sites.
+	<?php echo t(":openid is often much more secure than using an e-mail and password. If you do use a password, please
+	make sure you do not use the same password on other cryptocurrency sites.",
+		array(
+			':openid' => t("OpenID login"),
+		));
+	?>
 </div>
 
 <?php if (!$user['password_hash']) { ?>
@@ -219,16 +233,25 @@ Looking for your <a href="<?php echo htmlspecialchars(url_for('wizard_currencies
 <h2><?php echo ht("Enable e-mail/password login"); ?></h2>
 
 <p>
-	You have not enabled e-mail/password login on your account.
-	Adding a password will not increase security,
-	and you should continue to login with your <a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">OpenID identities</a>.
+	<?php
+	echo t("You have not enabled e-mail/password login on your account.
+			Adding a password will not increase security, and you should continue to login with your :identities.",
+		array(
+			':identities' => link_to(url_for('user#user_openid'), t("OpenID identities")),
+		));
+	?>
 </p>
 
 <?php if (!$user['email']) { ?>
 
 <p>
-	You cannot enable e-mail/password login on your account as
-	you first need to <a href="<?php echo htmlspecialchars(url_for('user#user_contact')); ?>">add an e-mail address</a>.
+	<?php
+	echo t("You cannot enable e-mail/password login on your account as
+			you first need to :add_email.",
+		array(
+			':add_email' => link_to(url_for('user#user_contact'), t("add an e-mail address")),
+		));
+	?>
 </p>
 
 <?php } else { ?>
@@ -241,8 +264,8 @@ if ($q->fetch()) {
 ?>
 
 <p>
-	You cannot enable e-mail/password login on your account as
-	this e-mail address is already in use by another account for password login.
+	<?php echo t("You cannot enable e-mail/password login on your account as
+			this e-mail address is already in use by another account for password login."); ?>
 </p>
 
 <?php } else { ?>
@@ -285,7 +308,7 @@ if ($q->fetch()) {
 <h2><?php echo ht("Change password"); ?></h2>
 
 <p>
-	Your password was last changed <?php echo recent_format_html($user['password_last_changed']); ?>.
+	<?php echo t("Your password was last changed :ago.", array(':ago' => recent_format_html($user['password_last_changed']))); ?>
 </p>
 
 <form action="<?php echo htmlspecialchars(url_for('set_password')); ?>" method="post">
@@ -319,9 +342,14 @@ if ($q->fetch()) {
 <h2><?php echo ht("Remove password login"); ?></h2>
 
 <p>
-	Once you have added at least one <a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">OpenID identity</a>
-	to your account, you can disable e-mail/password login on your account to increase security.
-	You will then have to use your OpenID identities to login in the future.
+	<?php
+	echo t("Once you have added at least one :identity
+			to your account, you can disable e-mail/password login on your account to increase security.
+			You will then have to use your OpenID identities to login in the future.",
+		array(
+			':identity' => link_to(url_for('user#user_openid'), t("OpenID identity")),
+		));
+	?>
 </p>
 
 <?php if ($identities) { ?>
@@ -334,7 +362,7 @@ if ($q->fetch()) {
 </tr>
 <tr>
 	<td class="buttons">
-		<input type="submit" value="Remove password">
+		<input type="submit" value="<?php echo ht("Remove password"); ?>">
 	</td>
 </tr>
 </table>
@@ -343,8 +371,12 @@ if ($q->fetch()) {
 <?php } else { ?>
 
 <p>
-	You cannot disable e-mail/password login on your account until you add at least one
-	<a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">OpenID identity</a>.
+	<?php
+	echo t("You cannot disable e-mail/password login on your account until you add at least one :identity.",
+		array(
+			':identity' => link_to(url_for('user#user_openid'), t("OpenID identity")),
+		));
+	?>
 </p>
 
 <?php } ?>
@@ -394,7 +426,7 @@ foreach ($identities as $identity) {
 		<td>
 			<form action="<?php echo htmlspecialchars(url_for('openid_delete')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($identity['id']); ?>">
-				<input type="submit" value="Delete" class="delete" title="Delete this identity" onclick="return confirm('Are you sure you want to remove this identity?');">
+				<input type="submit" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this identity"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this identity?"); ?>');">
 			</form>
 		</td>
 		<?php } ?>
@@ -423,7 +455,7 @@ foreach ($identities as $identity) {
 
 <table class="fancy">
 <tr>
-	<th>Account status:</th>
+	<th><?php echo ht("Account status:"); ?></th>
 	<td>
 		<?php if ($user['is_admin']) {
 			echo ht("Administrator");
@@ -444,46 +476,89 @@ foreach ($identities as $identity) {
 <?php } ?>
 <tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses')); ?>"><?php echo ht("Tracked addresses"); ?></a>:</th>
-	<td><?php echo number_format($accounts['total_addresses']); ?> (out of <?php echo number_format(get_premium_value($user, 'addresses')); ?>)</td>
+	<td><?php echo t(":number (out of :total)",
+		array(
+			':number' => number_format($accounts['total_addresses']),
+			':total' => number_format(get_premium_value($user, 'addresses')),
+		));
+		?></td>
 </tr>
 <tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("Tracked accounts"); ?></a>:</th>
-	<td><?php echo number_format($accounts['total_accounts']); ?> (out of <?php echo number_format(get_premium_value($user, 'accounts')); ?>)</td>
+	<td><?php echo t(":number (out of :total)",
+		array(
+			':number' => number_format($accounts['total_accounts']),
+			':total' => number_format(get_premium_value($user, 'accounts')),
+		));
+		?></td>
 </tr>
 <tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>"><?php echo ht("Notifications"); ?></a>:</th>
-	<td><?php echo number_format($accounts['total_notifications']); ?> (out of <?php echo number_format(get_premium_value($user, 'notifications')); ?>)</td>
+	<td><?php echo t(":number (out of :total)",
+		array(
+			':number' => number_format($accounts['total_notifications']),
+			':total' => number_format(get_premium_value($user, 'notifications')),
+		));
+		?></td>
 </tr>
 <tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('profile')); ?>"><?php echo ht("Summary pages"); ?></a>:</th>
-	<td><?php echo number_format($accounts['total_graph_pages']); ?> (out of <?php echo number_format(get_premium_value($user, 'graph_pages')); ?>)</td>
+	<td><?php echo t(":number (out of :total)",
+		array(
+			':number' => number_format($accounts['total_graph_pages']),
+			':total' => number_format(get_premium_value($user, 'graph_pages')),
+		));
+		?></td>
 </tr>
 <tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>"><?php echo ht("Currencies"); ?></a>:</th>
-	<td><?php echo number_format($accounts['total_summaries']); ?> (out of <?php echo number_format(get_premium_value($user, 'summaries')); ?>)</td>
+	<td><?php echo t(":number (out of :total)",
+		array(
+			':number' => number_format($accounts['total_summaries']),
+			':total' => number_format(get_premium_value($user, 'summaries')),
+		));
+		?></td>
 </tr>
 <tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>"><?php echo ht("Finance Accounts"); ?></a>:</th>
-	<td><?php echo number_format($accounts['total_finance_accounts']); ?> (out of <?php echo number_format(get_premium_value($user, 'finance_accounts')); ?>)</td>
+	<td><?php echo t(":number (out of :total)",
+		array(
+			':number' => number_format($accounts['total_finance_accounts']),
+			':total' => number_format(get_premium_value($user, 'finance_accounts')),
+		));
+		?></td>
 </tr>
 <tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>"><?php echo ht("Finance Categories"); ?></a>:</th>
-	<td><?php echo number_format($accounts['total_finance_categories']); ?> (out of <?php echo number_format(get_premium_value($user, 'finance_categories')); ?>)</td>
+	<td><?php echo t(":number (out of :total)",
+		array(
+			':number' => number_format($accounts['total_finance_categories']),
+			':total' => number_format(get_premium_value($user, 'finance_categories')),
+		));
+		?></td>
 </tr>
 </table>
 
 <p>
-<?php if (!$user['is_premium']) { ?>
-Support <?php echo htmlspecialchars(get_site_config('site_name')); ?> and get access to
-more features with a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>!
-<?php } else { ?>
-Thank you for supporting <?php echo htmlspecialchars(get_site_config('site_name')); ?>!
-Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a> here:
-<?php } ?>
+<?php
+	if (!$user['is_premium']) {
+		echo t("Support :site_name and get access to more features with a :premium_account!",
+			array('premium' => link_to(url_for('premium'), t("premium account"))));
+	} else {
+		echo t("Thank you for supporting :site_name. Extend your existing :premium_account here:",
+			array('premium' => link_to(url_for('premium'), t("premium account"))));
+	}
+?>
 </p>
 
 <?php if ($outstanding) { ?>
-<p><b>NOTE:</b> You already have <a href="<?php echo htmlspecialchars(url_for("user#user_outstanding")); ?>">outstanding premium payments</a> that need to be paid.</p>
+<p>
+	<b><?php echo ht("NOTE:"); ?></b>
+	<?php echo t("You already have :outstanding that need to be paid.",
+		array(
+			':outstanding' => link_to(url_for('user#user_outstanding'), t("outstanding premium payments")),
+		)); ?>
+</p>
 <?php } ?>
 
 <?php require(__DIR__ . "/_premium_prices.php"); ?>
@@ -523,7 +598,11 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 </table>
 
 <p class="warning-inline">
-<b><?php echo ht("NOTE:"); ?></b> Outstanding payments will be automatically cancelled after <?php echo plural("day", get_site_config('outstanding_abandon_days')); ?>.
+	<b><?php echo ht("NOTE:"); ?></b>
+	<?php echo t("Outstanding payments will be automatically cancelled after :days.",
+		array(
+			':days' => plural("day", get_site_config('outstanding_abandon_days')),
+		)); ?>
 </p>
 
 <?php } else { ?>
@@ -568,8 +647,8 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 <h2><?php echo ht("Subscribe to :site_name Announcements"); ?></h2>
 
 <p>
-	To keep up to date with news and service updates to <?php echo htmlspecialchars(get_site_config('site_name')); ?>, please subscribe to the
-	<?php echo htmlspecialchars(get_site_config('site_name')); ?> Announcements mailing list below.
+	<?php echo t("To keep up to date with news and service updates to :site_name, please subscribe to the
+	:site_name Announcements mailing list below."); ?>
 </p>
 
 <!-- from http://code.google.com/p/gdata-issues/issues/detail?id=27 -->

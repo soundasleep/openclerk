@@ -137,14 +137,14 @@ function get_supported_notifications() {
 
 	<ul>
 		<li class="exchanges">
-			on
+			<?php echo t("on"); ?>
 			<select id="notification_exchanges" name="exchange">
 				<?php foreach ($supported_notifications['exchanges'] as $exchange => $pairs) { ?>
 					<option value="<?php echo htmlspecialchars($exchange); ?>"<?php echo isset($account['exchange']) && $account['exchange'] == $exchange ? " selected" : ""; ?>><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></option>
 				<?php } ?>
 			</select>
 
-			for
+			<?php echo t("for"); ?>
 			<select id="notification_currencies" name="currencies">
 				<?php foreach ($supported_exchange_currencies as $key => $value) {
 					$selected = isset($account['currency1']) && isset($account['currency2']) && ($account['currency1'] . $account['currency2']) == $key; ?>
@@ -160,11 +160,11 @@ function get_supported_notifications() {
 					<option value="<?php echo htmlspecialchars($cur); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
 				<?php } ?>
 			</select>
-			(before any conversions)
+			<?php echo t("(before any conversions)"); ?>
 		</li>
 
 		<li class="total_hashrate_currencies" style="display:none;">
-			for
+			<?php echo t("for"); ?>
 			<select id="notification_total_hashrate_currencies" name="total_hashrate_currency">
 				<?php foreach ($supported_notifications['total_hashrate_currencies'] as $cur => $title) {
 					$selected = $account && $account['summary_type'] == 'totalmh_' . $cur; ?>
@@ -205,7 +205,7 @@ function get_supported_notifications() {
 		</li>
 
 		<li class="period">
-			within
+			<?php echo t("within"); ?>
 			<select id="notification_period" name="period">
 				<?php
 				foreach (get_permitted_notification_periods() as $key => $value) { ?>
@@ -227,10 +227,10 @@ function get_supported_notifications() {
 	<td class="buttons">
 		<?php if ($instance) { ?>
 		<input type="hidden" name="id" value="<?php echo htmlspecialchars($instance['id']); ?>">
-		<input type="submit" name="save" value="Save Notification" class="save">
-		<input type="submit" name="cancel" value="Cancel Edit" class="cancel">
+		<input type="submit" name="save" value="<?php echo ht("Save Notification"); ?>" class="save">
+		<input type="submit" name="cancel" value="<?php echo ht("Cancel Edit"); ?>" class="cancel">
 		<?php } else { ?>
-		<input type="submit" name="add" value="Create Notification" class="create">
+		<input type="submit" name="add" value="<?php echo ht("Create Notification"); ?>" class="create">
 		<?php } ?>
 	</td>
 </tr>
@@ -241,18 +241,15 @@ function get_supported_notifications() {
 
 <h2><?php echo ht("Configured Notifications"); ?></h2>
 
-<span style="display:none;" id="sort_buttons_template">
-<!-- heading sort buttons -->
-<span class="sort_up" title="Sort ascending">Asc</span><span class="sort_down" title="Sort descending">Desc</span>
-</span>
+<?php require(__DIR__ . "/_sort_buttons.php"); ?>
 
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th>Notification</th>
-		<th>Period</th>
-		<th>Last check</th>
-		<th>Last notification</th>
+		<th><?php echo t("Notification"); ?></th>
+		<th><?php echo t("Period"); ?></th>
+		<th><?php echo t("Last check"); ?></th>
+		<th><?php echo t("Last notification"); ?></th>
 		<th></th>
 	</tr>
 </thead>
@@ -269,8 +266,11 @@ foreach ($notifications as $notification) {
 				throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
 			}
 
-			$account_text = "Exchange rate on " . get_exchange_name($account['exchange']) . " for " .
-				get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']);
+			$account_text = t("Exchange rate on :exchange for :pair",
+				array(
+					':exchange' => get_exchange_name($account['exchange']),
+					':pair' => get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']),
+				));
 			$value_label = get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']);
 
 			break;
@@ -285,16 +285,16 @@ foreach ($notifications as $notification) {
 
 			if (substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') {
 				$currency = substr($account['summary_type'], strlen('totalmh_'));
-				$account_text = "My total " . get_currency_abbr($currency) . " hashrate";
+				$account_text = t("My total :currency hashrate", array(':currency' => get_currency_abbr($currency)));
 				$value_label = "MH/s";
 			} else if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
 				$currency = substr($account['summary_type'], strlen('total'));
-				$account_text = "My total " . get_currency_abbr($currency);
+				$account_text = t("My total :currency", array(':currency' => get_currency_abbr($currency)));
 				$value_label = get_currency_abbr($currency);
 			} else if (substr($account['summary_type'], 0, strlen('all2')) == 'all2') {
 				$summary_type = substr($account['summary_type'], strlen('all2'));
 				$summary_types = get_total_conversion_summary_types();
-				$account_text = "My converted " . $summary_types[$summary_type]['short_title'];
+				$account_text = t("My converted :title", array(':title' => $summary_types[$summary_type]['short_title']));
 				$value_label = get_currency_abbr($summary_types[$summary_type]['currency']);
 			} else {
 				$account_text = "unknown";
@@ -338,24 +338,24 @@ foreach ($notifications as $notification) {
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="get">
 				<input type="hidden" name="edit" value="<?php echo htmlspecialchars($notification['id']); ?>">
-				<input type="submit" value="Edit" class="edit" title="Edit this notification">
+				<input type="submit" value="<?php echo ht("Edit"); ?>" class="edit" title="<?php echo ht("Edit this notification"); ?>">
 			</form>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_notifications_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($notification['id']); ?>">
-				<input type="submit" name="delete" value="Delete" class="delete" title="Delete this notification" onclick="return confirm('Are you sure you want to remove this notification?');">
+				<input type="submit" name="delete" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this notification"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this notification?"); ?>');">
 			</form>
 		</td>
 	</tr>
 <?php } ?>
 <?php if (!$notifications) { ?>
 	<tr>
-		<td colspan="4"><i>(No notifications defined.)</i></td>
+		<td colspan="4"><i><?php echo t("(No notifications defined.)"); ?></i></td>
 	</tr>
 <?php } ?>
 </tbody>
 </table>
 
-<div class="help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>">How do automated notifications work?</a></div>
+<div class="help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>"><?php echo t("How do automated notifications work?"); ?></a></div>
 
 <div style="clear:both;"></div>
 

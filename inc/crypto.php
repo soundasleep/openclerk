@@ -725,8 +725,8 @@ function account_data_grouped() {
 			'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal', 'securities_table' => 'securities_litecoinglobal', 'failure' => true, 'disabled' => true),
 		),
 		'Finance' => array(
-			'finance_accounts' => array('Finance account', 'label' => 'finance account', 'table' => 'finance_accounts', 'group' => 'finance_accounts'),
-			'finance_categories' => array('Finance category', 'label' => 'finance category', 'titles' => 'finance categories', 'table' => 'finance_categories', 'group' => 'finance_categories'),
+			'finance_accounts' => array('title' => 'Finance account', 'label' => 'finance account', 'table' => 'finance_accounts', 'group' => 'finance_accounts'),
+			'finance_categories' => array('title' => 'Finance category', 'label' => 'finance category', 'titles' => 'finance categories', 'table' => 'finance_categories', 'group' => 'finance_categories'),
 		),
 		'Other' => array(
 			'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other', 'failure' => true),
@@ -968,10 +968,10 @@ function translate_external_api_group_to_suffix($group) {
 
 		case "Mining pool wallets":
 		case "Exchange wallets":
-			return " wallet";
+			return " " . t("wallet");
 
 		case "Exchange tickers":
-			return " ticker";
+			return " " . t("ticker");
 
 		case "Other":
 			return "";	// nothing
@@ -1872,8 +1872,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_litecoinglobal":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_litecoinglobal_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_litecoinglobal_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_litecoinglobal',
 			);
@@ -1881,8 +1881,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_btct":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_btct_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_btct_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_btct',
 			);
@@ -1890,8 +1890,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_bitfunder":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_bitfunder_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_bitfunder_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_bitfunder',
 			);
@@ -1899,8 +1899,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_cryptostocks":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_cryptostocks_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_cryptostocks_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_cryptostocks',
 			);
@@ -1908,8 +1908,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_havelock":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_havelock_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_havelock_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_havelock',
 			);
@@ -1917,8 +1917,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_crypto-trade":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_cryptotrade_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_cryptotrade_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_cryptotrade',
 			);
@@ -1926,8 +1926,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_796":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_796_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_796_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_796',
 			);
@@ -1935,8 +1935,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_litecoininvest":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_litecoininvest_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_litecoininvest_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_litecoininvest',
 			);
@@ -1944,8 +1944,8 @@ function get_accounts_wizard_config_basic($exchange) {
 		case "individual_btcinve":
 			return array(
 				'inputs' => array(
-					'quantity' => array('title' => 'Quantity', 'callback' => 'is_valid_quantity'),
-					'security_id' => array('title' => 'Security', 'dropdown' => 'dropdown_get_btcinve_securities', 'callback' => 'is_valid_id'),
+					'quantity' => array('title' => t('Quantity'), 'callback' => 'is_valid_quantity'),
+					'security_id' => array('title' => t('Security'), 'dropdown' => 'dropdown_get_btcinve_securities', 'callback' => 'is_valid_id'),
 				),
 				'table' => 'accounts_individual_btcinve',
 			);
@@ -1955,8 +1955,8 @@ function get_accounts_wizard_config_basic($exchange) {
 			return array(
 				'inputs' => array(
 					'api_url' => array('title' => 'URL', 'callback' => 'is_valid_generic_url', 'length' => 255),
-					'currency' => array('title' => 'Currency', 'dropdown' => 'dropdown_currency_list', 'callback' => 'is_valid_currency', 'style_prefix' => 'currency_name_'),
-					'multiplier' => array('title' => 'Multiplier', 'callback' => 'is_numeric', 'length' => 6, 'default' => 1, 'number' => true),
+					'currency' => array('title' => t('Currency'), 'dropdown' => 'dropdown_currency_list', 'callback' => 'is_valid_currency', 'style_prefix' => 'currency_name_'),
+					'multiplier' => array('title' => t('Multiplier'), 'callback' => 'is_numeric', 'length' => 6, 'default' => 1, 'number' => true),
 				),
 				'table' => 'accounts_generic',
 				'title' => 'Generic API',
@@ -1973,8 +1973,8 @@ function get_wizard_account_type($wizard) {
 		// this should only be used for transaction creators!
 		case "addresses":
 			$account_type = array(
-				'title' => 'Address',
-				'titles' => 'Addresses',
+				'title' => t('Address'),
+				'titles' => t('Addresses'),
 				'wizard' => 'addresses',
 				'transaction_creation' => true,
 			);
@@ -1983,8 +1983,8 @@ function get_wizard_account_type($wizard) {
 		// this should only be used for transaction creators!
 		case "notifications":
 			$account_type = array(
-				'title' => 'Notification',
-				'titles' => 'Notifications',
+				'title' => t('Notification'),
+				'titles' => t('Notifications'),
 				'wizard' => 'notifications',
 				'transaction_creation' => false,
 			);
@@ -1992,8 +1992,8 @@ function get_wizard_account_type($wizard) {
 
 		case "exchanges":
 			$account_type = array(
-				'title' => 'Exchange',
-				'titles' => 'Exchanges',
+				'title' => t('Exchange'),
+				'titles' => t('Exchanges'),
 				'wizard' => 'exchanges',
 				'hashrate' => false,
 				'url' => 'wizard_accounts_exchanges',
@@ -2005,8 +2005,8 @@ function get_wizard_account_type($wizard) {
 
 		case "pools":
 			$account_type = array(
-				'title' => 'Mining Pool',
-				'titles' => 'Mining Pools',
+				'title' => t('Mining Pool'),
+				'titles' => t('Mining Pools'),
 				'wizard' => 'pools',
 				'hashrate' => true,
 				'url' => 'wizard_accounts_pools',
@@ -2017,8 +2017,8 @@ function get_wizard_account_type($wizard) {
 
 		case "securities":
 			$account_type = array(
-				'title' => 'Securities Exchange',
-				'titles' => 'Securities Exchanges',
+				'title' => t('Securities Exchange'),
+				'titles' => t('Securities Exchanges'),
 				'wizard' => 'securities',
 				'hashrate' => false,
 				'url' => 'wizard_accounts_securities',
@@ -2028,14 +2028,14 @@ function get_wizard_account_type($wizard) {
 
 		case "individual":
 			$account_type = array(
-				'title' => 'Individual Security',
-				'titles' => 'Individual Securities',
+				'title' => t('Individual Security'),
+				'titles' => t('Individual Securities'),
 				'accounts' => 'securities',
 				'wizard' => 'individual',
 				'hashrate' => false,
 				'url' => 'wizard_accounts_individual_securities',
-				'first_heading' => 'Exchange',
-				'display_headings' => array('security' => 'Security', 'quantity' => 'Quantity'),
+				'first_heading' => t('Exchange'),
+				'display_headings' => array('security' => t('Security'), 'quantity' => t('Quantity')),
 				'display_callback' => 'get_individual_security_config',
 				'add_help' => 'add_service',
 				'a' => 'an',
@@ -2044,14 +2044,14 @@ function get_wizard_account_type($wizard) {
 
 		case "other":
 			$account_type = array(
-				'title' => 'Other Account',
-				'titles' => 'Other Accounts',
+				'title' => t('Other Account'),
+				'titles' => t('Other Accounts'),
 				'wizard' => 'other',
 				'hashrate' => false,
 				'url' => 'wizard_accounts_other',
 				'add_help' => 'add_service',
 				'a' => 'an',
-				'display_headings' => array('multiplier' => 'Multiplier'),
+				'display_headings' => array('multiplier' => t('Multiplier')),
 				'display_editable' => array('multiplier' => 'number_format_autoprecision'),
 				'transaction_creation' => true,
 			);
@@ -2189,29 +2189,29 @@ function get_permitted_days() {
 
 function get_permitted_notification_periods() {
 	return array(
-		'hour' => array('label' => 'the last hour', 'title' => 'hourly', 'interval' => 'INTERVAL 1 HOUR'),
-		'day' => array('label' => 'the last day', 'title' => 'daily', 'interval' => 'INTERVAL 1 DAY'),
-		'week' => array('label' => 'the last week', 'title' => 'weekly', 'interval' => 'INTERVAL 1 WEEK'),
-		'month' => array('label' => 'the last month', 'title' => 'monthly', 'interval' => 'INTERVAL 1 MONTH'),
+		'hour' => array('label' => t('the last hour'), 'title' => 'hourly', 'interval' => 'INTERVAL 1 HOUR'),
+		'day' => array('label' => t('the last day'), 'title' => 'daily', 'interval' => 'INTERVAL 1 DAY'),
+		'week' => array('label' => t('the last week'), 'title' => 'weekly', 'interval' => 'INTERVAL 1 WEEK'),
+		'month' => array('label' => t('the last month'), 'title' => 'monthly', 'interval' => 'INTERVAL 1 MONTH'),
 	);
 }
 
 function get_permitted_notification_conditions() {
 	return array(
-		'increases_by' => "increases by",
-		'increases' => "increases",
-		'above' => "is above",
-		'decreases_by' => "decreases by",
-		'decreases' => "decreases",
-		'below' => "is below",
+		'increases_by' => t("increases by"),
+		'increases' => t("increases"),
+		'above' => t("is above"),
+		'decreases_by' => t("decreases by"),
+		'decreases' => t("decreases"),
+		'below' => t("is below"),
 	);
 }
 
 function get_permitted_deltas() {
 	$permitted_days = array(
-		'' => array('title' => 'value', 'description' => 'None'),
-		'absolute' => array('title' => 'change', 'description' => 'Change'),
-		'percent' => array('title' => 'percent', 'description' => '% change'),
+		'' => array('title' => 'value', 'description' => t('None')),
+		'absolute' => array('title' => 'change', 'description' => t('Change')),
+		'percent' => array('title' => 'percent', 'description' => t('% change')),
 	);
 	return $permitted_days;
 }

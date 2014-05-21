@@ -1,109 +1,280 @@
+% change
+'<address>' is not a valid <title>.
 '<currency>' is not a valid currency
 '<date>' is not a valid date
+'<value>' is not a valid <title> <label>.
+'<value>' is not a valid <title> title.
+'<value>' is not a valid numeric value for <currency>.
+(No <accounts> defined.)
+(No addresses defined.)
+(No graphs yet in this category.)
+(No notifications defined.)
+(One address per line.)
+(before any conversions)
+(disabled)
+(finance account)
 (for the next <hours>)
+(generated automatically)
+(no previous e-mail address)
+(none)
+(optional)
+(removed)
+(securities)
+(untitled)
+(wallet)
 ... and <dozens_more>
+<addresses> were invalid and were not added.
+<cost1> per month, or <cost2> per year
+<number> (out of <total>)
+<openid> is often much more secure than using an e-mail and password. If you do use a password, please make sure you do not use the same password on other cryptocurrency sites.
+<percent> requests successful
+<premium_user> job delay
+<site_name> Features
 <site_name> Finance
 <site_name> Finance can keep track of <your_transactions> and assign them to separate accounts, for tax or accounting purposes.
 <site_name> Finance can keep track of <your_transactions> and group them into separate finance categories for tax or accounting purposes.
+<site_name> Screenshots
+<site_name> also supports the <currencies> fiat currencies.
+<site_name> automatically manages your reports based on your currency, address and reporting preferences.
 <site_name> automatically manages your reports based on your currency, address and reporting preferences. Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them.
+<site_name> can also optionally <notify_you> when your accounts change. (You can always change these options later, by selecting the "Configure Accounts" link above.)
+<site_name> can automatically personalise reports for you, or you can take full control and design your own report pages with custom graphs, layouts and technical indicators.
 <site_name> is a web application packed with features designed to help you track your cryptocurrencies, investments and mining hardware; understand and analyse markets; and make informed decisions about your portfolio.
+<site_name> keeps track of your cryptocurrencies, investments and equities by regularly downloading account details from accounts that you define. You can add five different types of accounts as illustrated below. (You can always change these accounts later, by selecting the "Configure Accounts" link above.)
+<site_name> lets you keep track of your cryptocurrencies, miners, investments and equities, and generates regular reports of your portfolio.
+<site_name> relies on the output of many external APIs. This page lists the current status of each of these APIs, as collected over the last <time> (<samples> samples).
 <site_name> supports a wide range of cryptocurrency applications and is regularly updated with new services. For example <site_name> currently supports:
+< Back to External API Status
+< Back to Help
+< Back to Historical Data
 < Previous
 A category with the title '<title>' already exists.
 A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.
-API key
+A wide variety of account types are supported, with more being added regularly. All account types are completely optional.
 About
+Account
+Account ID
 Account Status
+Account Type
 Account status:
+Account types
 Account:
 Accounts
+Add <an_account> not listed here
+Add <titles>
 Add Account
 Add Accounts and Addresses
 Add Addresses
 Add All Graphs
 Add Category
 Add Exchanges
+Add Graph
 Add Individual Securities
 Add Mining Pools
 Add New Notification
 Add OpenID Identity
 Add Other Account
+Add Page
 Add Securities Exchanges
 Add Transaction
 Add account
+Add accounts and addresses
+Add address
+Add addresses
 Add another OpenID Identity
 Add another cryptocurrency...
 Add another exchange...
 Add another mining pool...
 Add another wallet...
 Add category
+Add graph
+Add multiple <titles>
+Add new <title>
 Add new account
 Add new category
+Add new graph
 Add new page
+Add page
 Add password
+Add transaction
 Added
+Added <new> and updated <existing>.
+Added OpenID identity '<identity>' to your account.
+Added new <heading> graph, with <technical>.
+Added new <heading> graph.
+Added new <title> <name>. Balances from this account will be retrieved shortly.
+Added new address <address>. Balances from this address will be retrieved shortly.
 Added new finance account.
 Added new finance category.
+Added new graph page <title>.
 Added transaction.
+Adding graphs
 Address
+Address balances
 Addresses
+Addresses can be directly exported from your local BTC or LTC wallets into <site_name>.
 Admin
 Administrator
+All Features...
+All data and addresses are read-only, the <software> is open source, and no passwords are stored. This means your accounts and funds will always be safe.
+All users can also access a "Your Currencies" report page, displaying your most recent balances for each currency; and a "Your Hashrates" report page, displaying all of your most recent hashrates.
 Along with generated report pages, <site_name> can also automatically <notify_you> via e-mail when exchange rates, miner hashrates, or your report values change. For example:
+Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them. Graphs can also be grouped together into <pages> (premium users only).
+Amount
 Amount 1:
 Amount 2:
+An account for the OpenID identity '<identity>' already exists. Did you mean to <login>?
 An account with the title '<title>' already exists.
 Android app on Google Play
+Announcements
+Announcements Mailing List
+Are you sure you want to delete this account?
+Are you sure you want to delete this category?
+Are you sure you want to remove this address?
+Are you sure you want to remove this identity?
+Are you sure you want to remove this notification?
 Argument:
+As a <user>, you may have up to <accounts> defined.
+As a <user>, you may have up to <addresses> and <accounts> defined.
+As a <user>, you may have up to <addresses> of <your_currencies> defined.
+As a <user>, you may have up to <graphs> per page defined.
+As a <user>, you may have up to <notifications> defined.
+As a <user>, you may have up to accounts defined.
+As a <user>, your <titles> should be updated at least once every <hours><extra>.
+As a new user, it will take <minutes> for your <accounts> to be updated and your first reports to be generated.
+As a new user, your addresses and accounts will be updated more frequently (every <frequency>) for the next <hours>.
 Automatically logged in. Hi, <user>!
+Automatically select the best reports for me.
 Balance
+Balances
 Beta
 Bollinger Bands (BOLL)
+CSV File:
 Calculator
+Can you add support for another cryptocurrency?
+Can you add support for another exchange/mining pool?
+Can you add support for another fiat currency?
+Cancel Edit
+Cannot add <title>: too many existing accounts.
+Cannot add a new account; that account type is disabled.
+Cannot add address: too many existing addresses.
+Cannot add finance category: too many existing finance categories.
+Cannot add graph page: too many existing graph pages.
+Cannot add graph: too many existing graphs on this page.
+Cannot add notification: too many existing notifications.
+Cannot create a <title> test, because you already have a <type> test pending.
+Cannot enable <title>: too many existing accounts.
+Cannot enable that account; that account type is disabled.
+Cannot find page <id>
+Cannot remove that OpenID identity; at least one identity must be defined.
+Cannot test that job; that account type is disabled.
+Cannot update report preferences: this would add too many graph pages.
+Cannot update report preferences: this would add too many graphs to the managed graph page.
 Categories
+Category
 Category:
+Change
 Change Password
 Change password
+Clear Filters
+Click the "Export" button and save this CSV file to your computer.
 Commodity currencies
 Composition graphs of each currency
 Configurable
 Configure Accounts
+Configure e-mail notifications
 Configured Notifications
 Contact
 Contact Details
 Contact Us
+Continue
+Copy
+Copy this transaction
+Could not add <addresses>: too many existing addresses.
+Could not calculate any cost
 Could not find your notification <key> to edit.
+Could not generate <currency> address for purchase; please try again later.
+Could not update currencies: too many currencies (<count> selected out of a maximum of <maximum>).
 Country:
+Create Notification
+Created new notification.
 Cryptocurrencies
 Cryptocurrency Calculator
+Cryptocurrency addresses are added directly into <site_name>, and balances downloaded through public explorer APIs.
+Cryptocurrency addresses can be supplied manually or by exporting CSV files from your wallet software, and balances downloaded through public explorer APIs.
 Currencies
 Currency
 Currency Preferences
+Current premium prices
+Currently <site_name> supports the <currencies> cryptocurrencies.
+Daily Rates
+Data updated at least every
+Date
 Date:
 Days:
 Delete
+Delete generated historical transactions and start again
+Delete this account
+Delete this account, removing all historical data
+Delete this address
+Delete this category
+Delete this identity
+Delete this notification
+Delete this transaction
 Deleted finance account.
 Deleted finance category.
+Deleted notification.
 Deleted transaction.
 Delta:
+Description
 Description:
+Did not reset user graphs and pages: you need to select the confirmation checkbox.
+Disable
 Disable automatic graph refresh
 Disable e-mail/password login
+Disable this account, preserving any historical data
+Disable transaction generation for this account
+Disabled <title>.
+Disabled transaction creation for <title>.
+Do graphs live update?
 Due
+E-mail
 E-mail:
+Edit
 Edit Notification
+Edit this notification
+Edited <heading> graph, with <technical>.
+Edited <heading> graph.
+Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by <site_name>.
+Enable
 Enable e-mail/password login
 Enable e-mail/password login on your account
 Enable layout editing
+Enabled <title>.
+Enabled transaction creation for <title>.
 English
+Example reports and graphs
+Exchange
+Exchange rate on <exchange> for <pair>
+Exchange tickers
+Exchange wallets
+Exchange, mining pools, securities and funds accounts can only be accessed once you have enabled a read-only key on the site itself, and provided that key to <site_name>. Mining hashrates for most pools can also be tracked and graphed. Helpful wizards guide you through the steps to add new accounts and addresses.
 Exchange:
 Exchanges
+Exchanges, mining pools and security exchanges can be tracked through read-only APIs. The performance of mining hardware through mining pools is also tracked.
+Expand all answers
 Expires in:
 Explorer
+Export to CSV
+Export transactions to CSV
 External API Status
 External API Status: <api_title>
+External API status
+FAQ
+Feature
 Features
 Fiat currencies
+Filter
 Filter Transactions
 Finance
 Finance Accounts
@@ -111,184 +282,424 @@ Finance Categories
 Forgotten password?
 Forums
 Free account
+Free user job delay
 French
 Frequently Asked Questions
 Further instructions to change your password have been sent to your e-mail address <email>.
+GST
 GST number:
 Get Premium
+Graph moved [<undo>]
+Graph removed [<undo>]
+Graph restored [<undo>]
 Graph type:
+Graphs
+Graphs per report page
 Hashrate
+Hashrates
+Having problems logging in? Please send us <email> or tweet <twitter>, and we'll try to sort things out.
+Having problems signing up? Please send us <email>	or tweet <twitter>, and we'll try to sort things out.
 Help
 Help Centre
+Here you can update the password on your <site_name> account.
+Here you may add in a transaction for a different <account> or <category> that cannot be <generated>.
 Hidden
 Historical
 Historical Data
 Historical Data: <heading>
+Historical data, both for your accounts and popular cryptocurrency exchanges, can also be included on your summary pages.
+Historical data, both for your accounts, exchanges and securities, can be included in your generated reports. Public historical data is also available through the <archive>. Data is downloaded regularly, and in the future can be used in more complex analytical reports.
 Historical exchange rates
 Historical securities trading values
+How are graphs automatically managed?
+How are transactions automatically created?
+How do I get notified of changes in my hashrates?
+How do I get notified of changes in my reports?
+How do I get notified of exchange rate changes?
+How do I upload a <client> CSV file?
+How do I upload a Bitcoin-Qt CSV file?
+How do I upload a Litecoin-Qt CSV file?
+How do automated notifications work?
 How do automatic notifications work?
+Huge
+I agree to the <terms>
+I will manage my own graphs and pages.
 Identities
 Identity
+If you are using the default Bitcoin-Qt client, you can
+use the "export" feature of the client to automatically populate your list of BTC addresses using your existing address labels.
+Any invalid or duplicated addresses will be skipped.
+If you are using the default Litecoin-Qt client, you can
+use the 'export' feature of the client to automatically populate your list of LTC addresses using your existing address labels.
+Any invalid or duplicated addresses will be skipped.
+If you have accidentally removed your e-mail from your account, you will need to login and <add_it_back>, in order to resume e-mail notifications.
+If you have any problems in getting set up, please send us <email> or tweet <twitter>.
+If your <site_name> account has been secured with an e-mail/password login, you may use this form to reset the password on your account.
+If your support question is not answered in the <help>, you can contact us via:
+In the future, you will be able to export these transactions to CSV. Future functionality will also become limited to <premium_users>.
+Include automatic transactions
+Include daily exchange rates
 Individual Securities
+Individual Security
+Individual securities
 Instead of the default exchange, use the following exchanges:
 Invalid OpenID parameter
 Invalid article key.
+Invalid e-mail.
+Invalid graph management preference.
 Invalid hash - please recheck the link in your e-mail.
+Invalid name.
 Invalid openid parameter
 Invalid password parameter
+Invalid period selection.
+Invalid preferred cryptocurrency.
+Invalid preferred fiat currency.
 Invalid repeated password parameter
 Invalid username or password.
+Is it safe to provide <site_name> a Bitcoin-Qt CSV file?
+Is it safe to provide <site_name> a Litecoin-Qt CSV file?
 Jobs at <site_name>
 Knowledge Base: <title>
+Large
+Larger
+Last check
 Last checked
 Last login:
+Last notification
+Last updated
+Learn more
+Legal
+Live graph updates
+Loading...
 Log in automatically
 Login
 Login with:
 Logout
 Lolcat
+Looking for your <preferences>?
 Mailing List
 Market Average: <pair>
 Market Averages
+Massive
+Medium
 Member since:
+Mining Pool
 Mining Pools
+Mining pool wallets
 Mining pools
+More help
+Moving Averages (SMA)
+Multiplier
+Must login every
+My converted <title>
+My preferred cryptocurrency:
+My preferred fiat currency:
+My total <currency>
+My total <currency> hashrate
 NOTE:
 Name:
 Never
 New account creation successful.
 Next >
 No OpenID identities defined.
+No account for the OpenID identity '<identity>' were found. You may need to <signup>.
+No finance accounts found.
+No finance categories found.
+No graphs to display! You might want to add one below.
 No hash specified.
 No outstanding payments.
 No previous payments.
+No securities to display! You might want to add details about <your_securities>, if you have any.
+No such external API type '<type>'.
 No such knowledge base article '<key>'.
 No such user account exists.
+No transactions found.
+No user ID <id> exists.
+None
 Not Found
+Not necessary
+Notification
 Notification Preferences
 Notifications
+OR
+Once information from your accounts have been downloaded and compiled into reports, you may view <reports> by defining graphs and pages. <site_name> can automatically manage these reports for you, or you may opt to define these manually. (You can always change these accounts later, by selecting the "Configure Accounts" link above.)
+Once this CSV file has been exported, select the "Browse..." button on the "Upload CSV" tab on the <page> to locate and upload this file to <site_name>.
+Once you have <signed_up> for a free <site_name> account, you may login here using OpenID or a password.
+Once you have added a finance account, you can <add_remove> associated with this account.
+Once you have added a finance category, you can <add_remove> associated with this category.
+Once you have added at least one <identity> to your account, you can disable e-mail/password login on your account to increase security. You will then have to use your OpenID identities to login in the future.
+Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant. Helpful reports include the value of your currencies if immediately converted into another; the distribution of your currency values; and current exchange rates.
 Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant. These report pages are made up of graphs, and include helpful reports such as:
+Once you have submitted your order, a <currency> address will be generated for your payment. Your premium purchase will complete once the <currency> network confirms your transaction.
+Only <premium_accounts> can add hourly notifications.
 Only <premium_users> can export transactions to CSV.
+Open your Bitcoin-Qt client, and open the "Receive coins" tab.
+Open your Litecoin-Qt client, and open the "Receive coins" tab.
 OpenID URL:
+OpenID identities
+OpenID identity
+OpenID login
+OpenID validation was not successful: <cause>
 OpenID...
 Other
+Other Account
+Other Accounts
 Other market averages
 Outstanding Payments
+Outstanding payments will be automatically cancelled after <days>.
 Paid
 Password
 Password changed; you should now immediately login with this new password.
 Password:
+Period
 Period:
-Please select a password between 6-255 characters long.
+Please select a password between <min>-<max> characters long.
 Please send me an e-mail when
+Please try again.
+Preferences Wizard
 Premium
 Premium Accounts
 Premium account
+Premium user
 Premium users can access an automatically-generated page listing all of their securities and their current market values. Premium users can also create <pages> to categorise different report types.
+Premium users can add technical indicators to all graphs, such as <example1>, <example2> and <example3>.
+Premium users can add technical indicators to graphs, such as <example1>, <example2> and <example3>.
+Premium users can also access an automatically-generated page listing all of their securities and their current market values.
 Previous Payments
+Priority over free users
+Privacy Policy
 Provider
+Purchase
 Purchase Premium
 Purchase Premium with <currency>
+Purchase months (<cost>/month)
+Purchase years (<cost>/year)
+Quantity
+Queued up a new <title> test; results should be available shortly.
+Re-enable this account
+Reference
 Reference:
 Relative Strength Index (RSI)
 Release History
+Remove Page
+Remove password
 Remove password login
 Remove this page
+Removed <title>.
+Removed OpenID identity '<identity>'.
+Removed address <address>.
 Removed password.
 Removing a currency will also permanently remove any historical summary data for that currency.
 Repeat:
 Report Preferences
 Reports
+Reports pages
+Request an immediate test of this account
+Reset
 Reset Password
 Reset User Graphs
 Reset all of my graphs and pages.
+Reset graph page with <graphs>.
+Reset graphs and pages
+Reset graphs.
+Reset page with all graphs
 Reset password
+Reset transactions for <title>; historical transactions will soon be generated automatically.
+Safe and secure
+Save
+Save Notification
 Screenshots
+Screenshots on adding accounts
+Screenshots on adding cryptocurrency addresses
 Screenshots on configuring accounts
 Screenshots on cryptocurrency selection
 Screenshots on historical data and graphs
 Screenshots on how to configure reports and graphs
 Screenshots on reports and graphs
 Securities
+Securities Exchange
+Securities Exchanges
+Security
+Security exchanges
+Select an exchange to display help...
 Select an option
+Select reports based on my portfolio preferences:
+Set <currency> offset to <value>.
 Show:
+Signing up for a <site_name> account is free and instant, and does not require any personally identifiable information. All that you need is <openid>, such as those provided by <examples> or others. This means that <site_name> does not deal with any passwords.
 Signup
 Signup for Free
 Signup with:
 Simple Moving Average (SMA)
 Since
+Small
+Sort ascending
+Sort descending
 Source
 Subscribe
+Subscribe to <announcements>
 Subscribe to <site_name> Announcements
 Subscribe to site announcements
+Subtotal
 Successfully logged out. You may login again here.
+Summary calculations will also include any currency values defined below as <offsets>.
 Summary pages
 Support
+Support <site_name> and get access to more features with a <premium_account>!
+Support <site_name> with Premium Accounts
+Supported Addresses and Accounts
 Supported addresses
 Supported exchanges
 Supported mining pools
 Supported wallets
 System account
+Technical indicator types
 Technical:
+Terms and Conditions of Use
 Terms of Service
+Test
+Testing...
+Thank you for supporting <site_name> with <premium>!
+Thank you for supporting <site_name>. Extend your existing <premium_account> here:
 That account has not requested a password reset.
 That e-mail address is already in use by another account using password login.
+That e-mail address is already in use by another account using password login. Did you mean to <login>?
+That is not a valid <title> <label>.
 That is not a valid OpenID identity.
 That is not a valid e-mail address.
+That is not a valid title.
 That resource could not be found.
+The Bitcoin-Qt client will only export your public Bitcoin addresses. These addresses can only be used to retrieve address balances; it is not possible to perform transactions using a public address.
+The Litecoin-Qt client will only export your public Litecoin addresses. These addresses can only be used to retrieve address balances; it is not possible to perform transactions using a public address.
 The combined fiat value of all of your currencies
 These automated notifications are sent out up to once per day (or once per hour for premium users).
+These graphs are currently <managed>.
+This data is refreshed automatically once per hour (last updated <ago>).
 This e-mail address is already being used by another account for password login.
+This form cannot be used to reset or change OpenID identities, which must instead be updated through your <user_profile>.
+This graph displays the status of the external <api_title>, in terms of how many tasks were successful (in percent).
+This is a draft version of a page which will allow you to see the historical changes to your various accounts over time as daily transactions, generated automatically by <site_name>.
 This is a simple calculator that you can use to convert one currency into another currency, using the <recent_rates> as tracked by <site_name>.
 This isn't me.
 This page lists the most recent and historical average price index, as weighted by trade volume, from all of the <currency1>/<currency2> exchanges supported by <site_name>.
+This technical analysis tool requires a <premium_account>.
+This will display the following graphs, based on <currencies> and <accounts>:
 Those passwords do not match.
+Title
 Title:
+To add more accounts, upgrade to a <premium_account>.
+To add more addresses, upgrade to a <premium_account>.
+To add more currencies, upgrade to a <premium_account>.
+To add more finance categories, upgrade to a <premium_account>.
+To add more graph pages, upgrade to a <premium_account>.
+To add more graphs on the managed graph page, upgrade to a <premium_account>.
+To add more graphs on this page, upgrade to a <premium_account>.
+To add more notifications, upgrade to a <premium_account>.
+To display historical value graphs of your securities, please <upgrade>, or add them as normal "security value" graphs on one of your other <reports>.
+To get started, first select the currencies that you are interested in below, and then follow the wizards to configure your addresses, accounts and reports.
 To get started, you should update your <preferences>.
 To increase these limits, please purchase a <premium_account>.
 To increase this limit, please purchase a <premium_account>.
 To increase this limits, please purchase a <premium_account>.
+To keep up to date with news and service updates to <site_name>, please subscribe to the <site_name> Announcements mailing list below.
+To prevent individual accounts from generating transactions, visit <your_accounts> and disable transaction generation.
+To read account data, you instruct your account provider to enable read-only access via an <api_key>, and you provide that key to <site_name>. Helpful wizards guide you through the steps to add new accounts and addresses.
 To subscribe to site announcements, you must provide an e-mail address.
 Tools
+Total <currency>
 Track accounts & addresses
+Track addresses
+Track exchanges and miners
 Tracked accounts
+Tracked accounts (<accounts>)
 Tracked addresses
+Tracked addresses (<currencies>)
+Transactions
+Unknown
+Unknown currency or no currency specified.
 Unknown notification type to edit '<notification_type>'
+Unknown page.
 Unsubscribe
 Unsubscribe unsuccessful
+Untitled
+Update
+Update Profile
+Update Title
+Update offsets
+Updated <title> <label>.
+Updated <title> title.
+Updated account details.
+Updated currency offsets.
+Updated existing notification.
+Updated graph portfolio preferences.
+Updated graph report management preference.
 Updated password.
+Updated preferred currency preferences.
 Updates
+Upgrade to a <premium_account> to enable more automatic graphs.
+Upload <client> CSV
+Upload CSV
+Uploading a Bitcoin-Qt CSV file
+Uploading a Litecoin-Qt CSV file
 Use OpenID instead
 Use a password instead
 User Account
 User Profile
+User graphs and pages successfully reset.
 User has cancelled authentication.
+Using <exchange>
 Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete any historical summary data associated with this account.
 Using the button below, you can reset this page and add a collection of example graphs.
+Value
+Very Large
+View
+View Reports
+View historical transactions
+View screenshots on personalising your reports
 View your Reports
 Visit this group
 Wallets
+Warning: Selecting this option will reset your currently defined reports and graphs (you will not lose any historical data).
 Warning: Without a valid e-mail address specified in your contact details, you will not receive important announcements and notifications about your accounts and user profile.
 Welcome to <site_name>
 Welcome to <site_name>!
+Welcome to <site_name>! To begin tracking your investments and addresses, please first select the currencies that you are interested in. (You can always change these options later, by selecting the "Configure Accounts" link above.)
 What are cryptocurrencies?
+What is <site_name> Finance?
 When Bitstamp USD/BTC increases by 10% in a day
 When your BTC balance increases
 When your LTC hashrate goes below 100 KH/s
 When your total portfolio value decreases by 10% in a week
+With a <premium_account>, you can apply technical indicators to historical exchange and security data, such as <example1>, <example2>, and <example3>.
+You already have <outstanding> that need to be paid.
+You can also <add_graphs>.
+You can also see a list of <identities>.
+You can support <site_name> by purchasing a premium account with <currencies> currencies. You will also get access to exclusive, premium-only functionality such as vastly increased limits on the number of addresses and accounts you may track at once, and advanced reporting and notification functionality. Your jobs and reports will also have higher priority over free users.
+You cannot disable e-mail/password login on your account until you add at least one <identity>.
+You cannot enable e-mail/password login on your account as this e-mail address is already in use by another account for password login.
+You cannot enable e-mail/password login on your account as you first need to <add_email>.
+You cannot remove your e-mail address until you have disabled <password_login> on this account.
 You cannot use both OpenID and password at login.
 You cannot use both OpenID and password at signup.
 You did not select the confirmation checkbox.
 You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.
+You have not enabled e-mail/password login on your account. Adding a password will not increase security, and you should continue to login with your <identities>.
+You may purchase or extend your premium account by logging into your <user_account>, or by selecting the appropriate payment option below.
 You need to agree to the terms of service.
 You need to be logged in as an administrator to do that.
 You need to be logged in to proceed.
 You need to have added an e-mail address to your account before you can enable password login.
 You need to select a second currency in order to add a second transaction amount.
+You need to select at least <one_currency> in order to use managed graphs.
+You need to select at least one category of graph portfolio preferences.
 You need to select your country.
 You need to select your e-mail address in order to use password login.
 You need to specify a transaction value.
+You will be added manually to the <mailing_list> soon.
+You will be removed manually from the <mailing_list> soon.
+You will need to <add_openid> to this account in order to remove this e-mail address.
 Your <site_name> User Account
+Your <titles>
 Your Account
 Your Currencies
 Your Finance Accounts
@@ -299,36 +710,68 @@ Your Reports
 Your Reports:
 Your Securities
 Your Transactions
+Your e-mail address, <email>, cannot be removed from this site, as this e-mail address is being used as login information for an account.
+Your e-mail address, <email>, has been completely removed from this site, and you will no longer receive any information or notifications via e-mail.
+Your password was last changed <ago>.
+Your premium account expires in <time>.
+Your premium purchase is now pending on payment - please deposit <balance> into the address <address>. Once the <currency> network has confirmed the transaction (after <confirmations> blocks), your account will be credited with premium status. Thank you!
+Your securities reports
 account
 accounts
+accounts and addresses
+add BTC Addresses page
+add LTC Addresses page
+add an OpenID identity
+add an e-mail address
 add and remove transactions
+add graphs based on your portfolio preferences
+add your e-mail address back to your profile
 address
 addresses
+addresss
+an e-mail
 anonymous
+category
 configured notification
 configured notifications
 currency and exchange selection
 currency and exchange selections
+currency preferences
 currency, accounts and reporting preferences
 day
 days
+decreases
+decreases by
 dozens more
+e.g.
 example graph
 example graphs
+exchange rates
 existing address
 existing addresses
 finance account
 finance accounts
 finance categories
 finance category
+for
 free user
+generated automatically
 graph
 graphs
 historical data archive
+history
 hour
 hours
+increases
+increases by
 individual securities
 individual security
+is above
+is below
+login instead
+managed automatically
+managed based on your portfolio preferences
+maximum
 min
 mins
 minute
@@ -343,15 +786,43 @@ new
 new address
 new addresses
 new user
+no data
 none
 notify you
 now
+on
+one cryptocurrency
+one fiat currency
+outstanding premium payments
+password login
 premium account
-premium user
+premium accounts
 premium users
+purchase a premium account
+report pages
 sec
+signed up
+signup first
 the exchange rate
+the last day
+the last hour
+the last month
+the last week
+these reports
+ticker
+undo
+unknown
+untitled
+user account
+user profile
+wallet
+within
 year
 years
+your accounts
+your accounts wizard
 your cryptocurrency transactions
 your currencies
+your current OpenID identities
+your premium account
+your securities

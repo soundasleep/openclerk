@@ -22,7 +22,7 @@ if ($email && $password) {
 		$errors[] = t("No hash specified.");
 	}
 	if ($password && (strlen($password) < 6 || strlen($password) > 255)) {
-		$errors[] = t("Please select a password between 6-255 characters long.");
+		$errors[] = t("Please select a password between :min-:max characters long.", array(':min' => 6, ':max' => 255));
 	}
 	if ($password && $password != $password2) {
 		$errors[] = t("Those passwords do not match.");
@@ -92,7 +92,7 @@ page_header(t("Change Password"), "page_password_reset", array('js' => 'auth'));
 </tr>
 <tr>
 	<td colspan="2" class="buttons">
-		<input type="submit" value="Add password">
+		<input type="submit" value="<?php echo ht("Add password"); ?>">
 		<input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
 		<input type="hidden" name="hash" value="<?php echo htmlspecialchars($hash); ?>">
 	</td>

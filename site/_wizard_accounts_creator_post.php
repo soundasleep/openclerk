@@ -15,7 +15,7 @@ if (require_post('disable_creator', false) && require_post('id', false)) {
 		$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
 	}
 
-	$messages[] = "Disabled transaction creation for " . htmlspecialchars($account_data['title']) . ".";
+	$messages[] = t("Disabled transaction creation for :title.", array(':title' => $account_data['title']));
 
 	set_temporary_messages($messages);
 	redirect(url_for(require_post("callback")));
@@ -36,7 +36,7 @@ if (require_post('enable_creator', false) && require_post('id', false)) {
 		$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
 	}
 
-	$messages[] = "Enabled transaction creation for " . htmlspecialchars($account_data['title']) . ".";
+	$messages[] = t("Enabled transaction creation for :title.", array(':title' => $account_data['title']));
 
 	set_temporary_messages($messages);
 	redirect(url_for(require_post("callback")));
@@ -52,7 +52,7 @@ if (require_post('reset_creator', false) && require_post('id', false)) {
 	$q = db()->prepare("DELETE FROM transactions WHERE user_id=? AND exchange=? AND account_id=?");
 	$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
 
-	$messages[] = "Reset transactions for " . htmlspecialchars($account_data['title']) . "; historical transactions will soon be generated automatically.";
+	$messages[] = t("Reset transactions for :title; historical transactions will soon be generated automatically.", array(':title' => $account_data['title']));
 
 	set_temporary_messages($messages);
 	redirect(url_for(require_post("callback")));

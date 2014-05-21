@@ -28,8 +28,11 @@ while ($e = $q->fetch()) {
 <h1><?php echo ht("External API Status"); ?></h1>
 
 <p>
-<?php echo htmlspecialchars(get_site_config('site_name')); ?> relies on the output of many external APIs.
-This page lists the current status of each of these APIs, as collected over the last <?php echo recent_format($first_first, "", ""); ?> (<?php echo number_format($sample_size); ?> samples).
+<?php echo t(":site_name relies on the output of many external APIs.
+	This page lists the current status of each of these APIs, as collected over the last :time (:samples samples).", array(
+		':time' => recent_format($first_first, "", ""),
+		':samples' => number_format($sample_size),
+	)); ?>
 </p>
 
 <ul class="external_list">
@@ -56,21 +59,21 @@ function get_error_class($n) {
 }
 
 foreach ($external_apis as $group_name => $group) {
-	echo "<li><b>" . htmlspecialchars($group_name) . "</b><ul>\n";
+	echo "<li><b>" . ht($group_name) . "</b><ul>\n";
 	foreach ($group as $key => $title) {
 		if (!isset($external[$key]) && !is_admin()) {
 			continue;
 		}
 		echo "<li><span class=\"title\">" . $title . "</span> ";
 		if (isset($external[$key])) {
-			echo "<span class=\"status_percent " . get_error_class(($external[$key]['job_errors'] / $external[$key]['job_count']) * 100) . "\">";
-			echo "" . number_format((1 - ($external[$key]['job_errors'] / $external[$key]['job_count'])) * 100, 0) . "%";
-			echo "</span>";
-			echo " requests successful";
+			$percent = "<span class=\"status_percent " . get_error_class(($external[$key]['job_errors'] / $external[$key]['job_count']) * 100) . "\">" .
+				number_format((1 - ($external[$key]['job_errors'] / $external[$key]['job_count'])) * 100, 0) . "%" .
+				"</span>";
+			echo t(":percent requests successful", array(':percent' => $percent));
 		} else {
-			echo "<i class=\"no_data\">no data</i>";
+			echo "<i class=\"no_data\">" . t("no data") . "</i>";
 		}
-		echo " (<a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $key))) . "\">history</a>)";
+		echo " (<a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $key))) . "\">" . ht("history") . "</a>)";
 		echo "</li>\n";
 	}
 	if ($group_name == "Other") {
@@ -78,12 +81,12 @@ foreach ($external_apis as $group_name => $group) {
 		$q->execute();
 		$stats = $q->fetch();
 		if ($stats) {
-			echo "<li><span class=\"title\">Free user job delay</span> ";
+			echo "<li><span class=\"title\">" . t("Free user job delay") . "</span> ";
 			echo "<span class=\"status_percent " . get_error_class((($stats['free_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours') * 2)) * 100) . "\">";
 			echo expected_delay_html($stats['free_delay_minutes']);
 			echo "</span></li>\n";
 
-			echo "<li><span class=\"title\"><a href=\"" . htmlspecialchars(url_for('premium')) . "\">Premium user</a> job delay</span> ";
+			echo "<li><span class=\"title\">" . t(":premium_user job delay", array(':premium_user' => link_to(url_for('premium'), t("Premium user")))) . "</span> ";
 			echo "<span class=\"status_percent " . get_error_class((($stats['premium_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours_premium') * 2)) * 100) . "\">";
 			echo expected_delay_html($stats['premium_delay_minutes']);
 			echo "</span></li>\n";
@@ -95,7 +98,7 @@ foreach ($external_apis as $group_name => $group) {
 </ul>
 
 <p>
-This data is refreshed automatically once per hour (last updated <?php echo recent_format_html($last_updated); ?>).
+<?php echo t("This data is refreshed automatically once per hour (last updated :ago).", array(':ago' => recent_format_html($last_updated))); ?>
 </p>
 
 <?php

@@ -17,7 +17,7 @@ if (!$confirm) {
 $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND id=?");
 $q->execute(array(user_id(), $page_id));
 if (!$q->fetch()) {
-	throw new Exception("Cannot find page " . htmlspecialchars($page_id));
+	throw new Exception(t("Cannot find page :id", array(':id' => htmlspecialchars($page_id))));
 }
 
 // delete it by hiding it

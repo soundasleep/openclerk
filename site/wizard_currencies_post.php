@@ -65,8 +65,8 @@ $exchanges = array_unique($exchanges);
 
 // make sure this user can have this many summaries
 if (count($exchanges) > get_premium_value($user, 'summaries')) {
-	$errors[] = "Could not update currencies: too many currencies selected (" . number_format(count($exchanges)) . " selected out of a maximum of " . number_format(get_premium_value($user, 'summaries')) . ")." .
-			($user['is_premium'] ? "" : " To add more currencies, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	$errors[] = t("Could not update currencies: too many currencies (:count selected out of a maximum of :maximum).", array(':count' => number_format(count($exchanges)), ':maximum' => number_format(get_premium_value($user, 'summaries')))) .
+			($user['is_premium'] ? "" : " " . t("To add more currencies, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 	set_temporary_messages($messages);
 	set_temporary_errors($errors);
 	redirect(url_for('wizard_currencies'));	// go back

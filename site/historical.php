@@ -55,15 +55,22 @@ if ($id && isset($historical_graphs[$id])) {
 	?>
 	<?php if (!($user && $user['is_premium'])) { ?>
 	<div class="tip tip_float">
-		With a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>, you can apply technical
-		indicators to historical exchange and security data, such as Moving Averages (SMA), Bollinger Bands (BOLL), and Relative Strength Index (RSI).
+		<?php
+		echo ht("With a :premium_account, you can apply technical indicators to historical exchange and security data, such as :example1, :example2, and :example3.",
+			array(
+				':premium_account' => link_to(url_for('premium'), t('premium account')),
+				':example1' => t('Moving Averages (SMA)'),
+				':example2' => t('Bollinger Bands (BOLL)'),
+				':example3' => t('Relative Strength Index (RSI)'),
+			));
+		?>
 	</div>
 	<?php } ?>
 
-	<h1>Historical Data: <?php echo htmlspecialchars($historical_graphs[$id]["heading"]) . ($title ? ": " . htmlspecialchars($title) : ""); ?></h1>
+	<h1><?php echo ht("Historical Data: :heading", array(':heading' => htmlspecialchars($historical_graphs[$id]["heading"]) . ($title ? ": " . htmlspecialchars($title) : ""))); ?></h1>
 
 	<p class="backlink">
-	<a href="<?php echo htmlspecialchars(url_for('historical')); ?>">&lt; Back to Historical Data</a>
+	<a href="<?php echo htmlspecialchars(url_for('historical')); ?>"><?php echo ht("< Back to Historical Data"); ?></a>
 	</p>
 
 	<table class="historical_selectors">
@@ -171,7 +178,7 @@ if ($id && isset($historical_graphs[$id])) {
 				}
 				echo "</h2>\n<ul class=\"historical_graphs\">";
 				if ($graph_key == "external_historical") {
-					echo "<li><a href=\"" . htmlspecialchars(url_for('external')) . "\">External API status</a></li>";
+					echo "<li><a href=\"" . htmlspecialchars(url_for('external')) . "\">" . ht("External API status") . "</a></li>";
 				} else {
 					foreach ($values as $key => $security) {
 						$title = $security;

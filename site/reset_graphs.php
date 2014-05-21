@@ -9,9 +9,9 @@ $errors = array();
 if (require_post("confirm", false)) {
 	reset_user_graphs(user_id());
 
-	$messages[] = "User graphs and pages successfully reset.";
+	$messages[] = t("User graphs and pages successfully reset.");
 } else {
-	$errors[] = "Did not reset user graphs and pages: you need to select the confirmation checkbox.";
+	$errors[] = t("Did not reset user graphs and pages: you need to select the confirmation checkbox.");
 }
 
 set_temporary_messages($messages);

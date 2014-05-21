@@ -20,7 +20,7 @@ $errors = array();
 try {
 	if ($openid) {
 		if (!is_valid_url($openid)) {
-			throw new EscapedException("That is not a valid OpenID identity.");
+			throw new EscapedException(t("That is not a valid OpenID identity."));
 		}
 
 		require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
@@ -44,7 +44,7 @@ try {
 
 		} else if ($light->mode == 'cancel') {
 			// user has cancelled
-			throw new EscapedException("User has cancelled authentication.");
+			throw new EscapedException(t("User has cancelled authentication."));
 
 		} else {
 			// throws a BlockedException if this IP has requested this too many times recently
@@ -58,14 +58,18 @@ try {
 				$query->execute(array($light->identity));
 				if ($user = $query->fetch()) {
 					// a user already exists
-					throw new EscapedException("An account for the OpenID identity '" . htmlspecialchars($light->identity) . "' already exists. Did you mean to <a href=\"" . url_for('login', array('openid' => $openid)) . "\">login instead</a>?");
+					throw new EscapedException(t("An account for the OpenID identity ':identity' already exists. Did you mean to :login?",
+						array(
+							':identity' => htmlspecialchars($light->identity),
+							':login' => link_to(url_for('login', array('openid' => $openid)), t("login instead")),
+						)));
 				}
 
 				// we have successfully authenticated; add this as a new OpenID identity for this user
 				$q = db()->prepare("INSERT INTO openid_identities SET user_id=?,url=?");
 				$q->execute(array(user_id(), $light->identity));
 
-				$messages[] = "Added OpenID identity '" . htmlspecialchars($light->identity) . "' to your account.";
+				$messages[] = t("Added OpenID identity ':identity' to your account.", array(':identity' => htmlspecialchars($light->identity)));
 
 				// redirect
 				$destination = url_for('user#user_openid');
@@ -75,7 +79,7 @@ try {
 				redirect($destination);
 
 			} else {
-				throw new EscapedException("OpenID validation was not successful: " . ($light->validate_error ? htmlspecialchars($light->validate_error) : "Please try again."));
+				throw new EscapedException(t("OpenID validation was not successful: :cause", array(':cause' => $light->validate_error ? htmlspecialchars($light->validate_error) : t("Please try again."))));
 			}
 
 		}
@@ -121,7 +125,7 @@ page_header(t("Add OpenID Identity"), "page_openid_add", array('js' => 'auth'));
 				<th><?php echo ht("OpenID URL:"); ?></th>
 				<td>
 					<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
-					<input type="submit" name="submit" value="Login" id="openid_manual_submit">
+					<input type="submit" name="submit" value="<?php echo ht("Login"); ?>" id="openid_manual_submit">
 				</td>
 			</tr>
 			</table>

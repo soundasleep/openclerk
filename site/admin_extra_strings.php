@@ -34,6 +34,18 @@ page_header("Extra Localisation Strings", "page_admin_extra_strings");
 		<li><?php echo ht("Hidden"); ?></li>
 	</ul>
 	</li>
+	</li>
+	<li>From get_external_apis():
+	<ul>
+		<li><?php echo ht("Address balances"); ?></li>
+		<li><?php echo ht("Mining pool wallets"); ?></li>
+		<li><?php echo ht("Exchange wallets"); ?></li>
+		<li><?php echo ht("Exchange tickers"); ?></li>
+		<li><?php echo ht("Security exchanges"); ?></li>
+		<li><?php echo ht("Individual securities"); ?></li>
+		<li><?php echo ht("Other"); ?></li>
+	</ul>
+	</li>
 </ul>
 
 <?php

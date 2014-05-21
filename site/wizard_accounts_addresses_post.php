@@ -28,7 +28,7 @@ if (require_post("title", false) !== false && require_post("id", false)) {
 	} else {
 		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET title=? WHERE user_id=? AND id=?");
 		$q->execute(array($title, user_id(), $id));
-		$messages[] = "Updated " . htmlspecialchars($account_data['title']) . " title.";
+		$messages[] = t("Updated :title title.", array(':title' => htmlspecialchars($account_data['title'])));
 
 		// redirect to GET
 		set_temporary_messages($messages);
@@ -44,17 +44,29 @@ if (require_post("add", false) && require_post("address", false)) {
 
 	$callback = $account_data['callback'];
 	if (!$callback($address)) {
-		$errors[] = "'" . htmlspecialchars($address) . "' is not a valid " . htmlspecialchars($account_data['title']) . ".";
+		$errors[] = t("':address' is not a valid :title.",
+			array(
+				':address' => htmlspecialchars($address),
+				':title' => htmlspecialchars($account_data['title']),
+			));
 	} else if (!is_valid_title($title)) {
-		$errors[] = "'" . htmlspecialchars($title) . "' is not a valid " . htmlspecialchars($account_data['title']) . " title.";
+		$errors[] = t("':value' is not a valid :title title.",
+			array(
+				':value' => htmlspecialchars($title),
+				':title' => htmlspecialchars($account_data['title']),
+			));
 	} else if (!can_user_add($user, $account_data['premium_group'])) {
-		$errors[] = "Cannot add " . htmlspecialchars($account_data['title']) . ": too many existing addresses." .
-				($user['is_premium'] ? "" : " To add more addresses, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		$errors[] = t("Cannot add address: too many existing addresses.") .
+				($user['is_premium'] ? "" : " " . t("To add more addresses, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 	} else {
 		// we don't care if the address already exists
 		$q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, address=?, currency=?, title=?");
 		$q->execute(array(user_id(), $address, $account_data['currency'], $title));
-		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " " . crypto_address($account_data['currency'], $address) . ". Balances from this address will be retrieved shortly.";
+		$messages[] = t("Added new address :address. Balances from this address will be retrieved shortly.",
+			array(
+				':address' => crypto_address($account_data['currency'], $address),
+				':title' => htmlspecialchars($account_data['title']),
+			));
 
 		// update has_added_account
 		$q = db()->prepare("UPDATE users SET has_added_account=1,last_account_change=NOW() WHERE id=?");
@@ -80,7 +92,10 @@ if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM address_balances WHERE address_id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));
 
-	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . " " . ($address ? crypto_address($account_data['currency'], $address['address']) : " (removed)") . ".";
+	$messages[] = t("Removed address :address.",
+		array(
+			':address' => ($address ? crypto_address($account_data['currency'], $address['address']) : " " . t("(removed)")),
+		));
 
 	// redirect to GET
 	set_temporary_messages($messages);
@@ -194,14 +209,17 @@ if (isset($_FILES['csv']) || require_post('addresses', false)) {
 
 	// update messages
 	if ($invalid_addresses) {
-		$errors[] = number_format($invalid_addresses) . " addresses were invalid and were not added.";
+		$errors[] = t(":addresses were invalid and were not added.", array(':addresses' => plural("address", $invalid_addresses)));
 	}
 	if ($limited_addresses) {
-		$errors[] = "Could not add " . number_format($limited_addresses) . " addresses: too many existing addresses." .
-			($user['is_premium'] ? "" : " To add more addresses, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		$errors[] = t("Could not add :addresses: too many existing addresses.", array(':addresses' => plural("address", $limited_addresses))) .
+				($user['is_premium'] ? "" : " " . t("To add more addresses, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 	}
-	$messages[] = "Added " . plural("new address", "new addresses", $new_addresses) . " and
-		updated " . plural("existing address", "existing addresses", $existing_addresses) . ".";
+	$messages[] = t("Added :new and updated :existing.",
+		array(
+			':new' => plural("new address", "new addresses", $new_addresses),
+			':existing' => plural("existing address", "existing addresses", $existing_addresses),
+		));
 
 	// redirect to GET
 	set_temporary_messages($messages);

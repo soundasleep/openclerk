@@ -85,16 +85,20 @@ try {
 				$q = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
 				$q->execute(array($light->identity));
 				if (!($identity = $q->fetch())) {
-					throw new EscapedException("No account for the OpenID identity '" . htmlspecialchars($light->identity) . "' were found. You may need to <a href=\"" . url_for('signup', array('openid' => $openid)) . "\">signup first</a>.");
+					throw new EscapedException(t("No account for the OpenID identity ':identity' were found. You may need to :signup.",
+							array(
+								':identity' => htmlspecialchars($light->identity),
+								':signup' => link_to(url_for('signup', array('openid' => $openid)), t("signup first")),
+							)));
 				}
 
 				$user = get_user($identity['user_id']);
 				if (!$user) {
-					throw new EscapedException("No user ID " . htmlspecialchars($identity['user_id']) . " exists.");
+					throw new EscapedException(t("No user ID :id exists.", array(':id' => htmlspecialchars($identity['user_id']))));
 				}
 
 			} else {
-				throw new EscapedException("OpenID validation was not successful: " . ($light->validate_error ? htmlspecialchars($light->validate_error) : "Please try again."));
+				throw new EscapedException(t("OpenID validation was not successful: :cause", array(':cause' => $light->validate_error ? htmlspecialchars($light->validate_error) : t("Please try again."))));
 			}
 
 		}
@@ -185,7 +189,7 @@ page_header(t("Login"), "page_login", array('js' => 'auth'));
 					<th><?php echo ht("OpenID URL:"); ?></th>
 					<td>
 						<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
-						<input type="submit" name="submit" value="Login" id="openid_manual_submit">
+						<input type="submit" name="submit" value="<?php echo ht("Login"); ?>" id="openid_manual_submit">
 						<?php if ($destination) { ?>
 						<input type="hidden" name="destination" value="<?php echo htmlspecialchars($destination); ?>">
 						<?php } ?>
@@ -209,7 +213,7 @@ page_header(t("Login"), "page_login", array('js' => 'auth'));
 		<td>
 			<input type="password" id="password" name="password" size="32" value="" maxlength="255">
 			<br>
-			<input type="submit" name="submit" value="Login" id="password_manual_submit">
+			<input type="submit" name="submit" value="<?php echo ht("Login"); ?>" id="password_manual_submit">
 
 			<a class="forgotten-password" href="<?php echo htmlspecialchars(url_for('password', array('email' => $email))); ?>"><?php echo ht("Forgotten password?"); ?></a>
 

@@ -65,26 +65,23 @@ echo t("As a :user, your :titles should be updated at least once every :hours:ex
 ?>
 </p>
 
-<h2>Your <?php echo htmlspecialchars($account_type['titles']); ?></h2>
+<h2><?php echo t("Your :titles", array(':titles' => $account_type['titles'])); ?></h2>
 
-<span style="display:none;" id="sort_buttons_template">
-<!-- heading sort buttons -->
-<span class="sort_up" title="Sort ascending">Asc</span><span class="sort_down" title="Sort descending">Desc</span>
-</span>
+<?php require(__DIR__ . "/_sort_buttons.php"); ?>
 
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th><?php echo htmlspecialchars($account_type['first_heading']); ?></th>
-		<th>Title</th>
+		<th><?php echo $account_type['first_heading']; ?></th>
+		<th><?php echo ht("Title"); ?></th>
 		<?php foreach ($account_type['display_headings'] as $value) { ?>
 			<th><?php echo htmlspecialchars($value); ?></th>
 		<?php } ?>
-		<th>Added</th>
-		<th>Last checked</th>
-		<th>Balances</th>
-		<?php if ($account_type['hashrate']) { echo "<th>Hashrate</th>"; } ?>
-		<th>Transactions</th>
+		<th><?php echo ht("Added"); ?></th>
+		<th><?php echo ht("Last checked"); ?></th>
+		<th><?php echo ht("Balances"); ?></th>
+		<?php if ($account_type['hashrate']) { echo "<th>" . ht("Hashrate") . "</th>"; } ?>
+		<th><?php echo ht("Transactions"); ?></th>
 		<th class="buttons"></th>
 	</tr>
 </thead>
@@ -100,12 +97,12 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
 <div class="columns2">
 <div class="column">
 
-<h2>Add new <?php echo htmlspecialchars($account_type['title']); ?></h2>
+<h2><?php echo ht("Add new :title", array(':title' => $account_type['title'])); ?></h2>
 
 <form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" class="wizard-add-account">
 	<table class="standard" id="wizard_account_table">
 	<tr>
-		<th><label for="type"><?php echo htmlspecialchars($account_type['first_heading']); ?>:</label></th>
+		<th><label for="type"><?php echo ht($account_type['first_heading']); ?>:</label></th>
 		<td>
 			<select id="type" name="type">
 			<?php foreach ($add_types as $exchange) {
@@ -117,8 +114,8 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
 		</td>
 	</tr>
 	<tr>
-		<th><label for="title">Title:</label></th>
-		<td><input id="title" type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_get("title", "")); ?>"> (optional)</td>
+		<th><label for="title"><?php echo ht("Title:"); ?></label></th>
+		<td><input id="title" type="text" name="title" size="18" maxlength="64" value="<?php echo htmlspecialchars(require_get("title", "")); ?>"> <?php echo ht("(optional)"); ?></td>
 	</tr>
 	<tr id="add_account_template" style="display:none;">
 		<th><label for="ignored">Parameter:</label></th>
@@ -132,12 +129,12 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
 	</tr>
 	<tr class="buttons">
 		<td colspan="2" class="buttons">
-			<input type="submit" name="add" value="Add account" class="add">
+			<input type="submit" name="add" value="<?php echo ht("Add account"); ?>" class="add">
 			<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 
 			<?php if (isset($account_type['add_help'])) { ?>
 			<div class="help">
-				<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $account_type['add_help']))); ?>">Add <?php echo htmlspecialchars($account_type['a']); ?> <?php echo htmlspecialchars($account_type['title']); ?> not listed here</a>
+				<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $account_type['add_help']))); ?>"><?php echo ht("Add :an_account not listed here", array(':an_account' => htmlspecialchars($account_type['a']) . " " . htmlspecialchars($account_type['title']))); ?></a>
 			</div>
 			<?php } ?>
 		</td>
@@ -178,9 +175,9 @@ function previous_data() {
 
 </div>
 <div class="column">
-<h2>Help</h2>
+<h2><?php echo ht("Help"); ?></h2>
 
-<div id="accounts_help_target">Select an exchange to display help...</div>
+<div id="accounts_help_target"><?php echo ht("Select an exchange to display help..."); ?></div>
 
 </div>
 </div>
@@ -189,7 +186,7 @@ function previous_data() {
 <?php foreach ($add_types as $exchange) { ?>
 	<div id="accounts_help_<?php echo htmlspecialchars($exchange); ?>">
 	<?php require_template("inline_accounts_" . $exchange); ?>
-	<span class="more_help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $exchange))); ?>">More help</a></span>
+	<span class="more_help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $exchange))); ?>"><?php echo ht("More help"); ?></a></span>
 	</div>
 <?php } ?>
 </div>

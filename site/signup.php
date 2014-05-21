@@ -45,7 +45,7 @@ if ($openid || $password) {
 		$errors[] = t("You need to select your e-mail address in order to use password login.");
 	}
 	if ($password && (strlen($password) < 6 || strlen($password) > 255)) {
-		$errors[] = t("Please select a password between 6-255 characters long.");
+		$errors[] = t("Please select a password between :min-:max characters long.", array(':min' => 6, ':max' => 255));
 	}
 	if ($password && $password != $password2) {
 		$errors[] = t("Those passwords do not match.");
@@ -66,7 +66,9 @@ if ($openid || $password) {
 				$q->execute(array($email));
 
 				if ($q->fetch()) {
-					throw new EscapedException("That e-mail address is already in use by another account using password login. Did you mean to <a href=\"" . htmlspecialchars(url_for('login', array('use_password' => true, 'email' => $email))) . "\">login instead</a>?");
+					throw new EscapedException(t("That e-mail address is already in use by another account using password login. Did you mean to :login?",
+							array(':login' => link_to(url_for('login', array('use_password' => true, 'email' => $email)), t("login instead")),
+						)));
 				}
 
 			} else {
@@ -116,11 +118,15 @@ if ($openid || $password) {
 						$q = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
 						$q->execute(array($light->identity));
 						if ($identity = $q->fetch()) {
-							throw new EscapedException("An account for the OpenID identity '" . htmlspecialchars($light->identity) . "' already exists. Did you mean to <a href=\"" . url_for('login', array('openid' => $openid)) . "\">login instead</a>?");
+							throw new EscapedException(t("An account for the OpenID identity ':identity' already exists. Did you mean to :login?",
+								array(
+									':identity' => htmlspecialchars($light->identity),
+									':login' => link_to(url_for('login', array('openid' => $openid)), t("login instead")),
+								)));
 						}
 
 					} else {
-						throw new EscapedException("OpenID validation was not successful: " . ($light->validate_error ? htmlspecialchars($light->validate_error) : "Please try again."));
+						throw new EscapedException(t("OpenID validation was not successful: :cause", array(':cause' => $light->validate_error ? htmlspecialchars($light->validate_error) : t("Please try again."))));
 					}
 
 				}
@@ -152,7 +158,10 @@ if ($openid || $password) {
 			if ($subscribe) {
 				$q = db()->prepare("INSERT INTO pending_subscriptions SET user_id=?,created_at=NOW(),is_subscribe=1");
 				$q->execute(array($user['id']));
-				$messages[] = "You will be added manually to the <a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">Announcements Mailing List</a> soon.";
+				$messages[] = t("You will be added manually to the :mailing_list soon.",
+					array(
+						':mailing_list' => "<a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">" . t("Announcements Mailing List") . "</a>",
+					));
 			}
 
 			// try sending email
@@ -228,7 +237,7 @@ page_header(t("Signup"), "page_signup", array('js' => 'auth'));
 	</tr>
 	<tr>
 		<th></th>
-		<td><label><input type="checkbox" name="agree" value="1"<?php echo $agree ? " checked" : ""; ?>> I agree to the <a href="<?php echo htmlspecialchars(url_for('terms')); ?>" target="_blank">Terms of Service</a></label> <span class="required">*</span></td>
+		<td><label><input type="checkbox" name="agree" value="1"<?php echo $agree ? " checked" : ""; ?>> <?php echo t("I agree to the :terms", array(':terms' => '<a href="' . htmlspecialchars(url_for('terms')) . '" target="_blank">' . ht("Terms of Service") . "</a>")); ?></label> <span class="required">*</span></td>
 	</tr>
 	<tr>
 		<td colspan="2" class="hr"><hr></td>
@@ -254,7 +263,7 @@ page_header(t("Signup"), "page_signup", array('js' => 'auth'));
 					<th><?php echo ht("OpenID URL:"); ?></th>
 					<td>
 						<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
-						<input type="submit" name="submit" value="Signup" id="openid_manual_submit">
+						<input type="submit" name="submit" value="<?php echo ht("Signup"); ?>" id="openid_manual_submit">
 					</td>
 				</tr>
 				</table>
@@ -280,15 +289,18 @@ page_header(t("Signup"), "page_signup", array('js' => 'auth'));
 	<tr class="login-with-password"<?php echo !$use_password ? " style=\"display:none;\"" : ""; ?>>
 		<th></th>
 		<td>
-			<input type="submit" name="submit" value="Signup" id="password_manual_submit">
+			<input type="submit" name="submit" value="<?php echo ht("Signup"); ?>" id="password_manual_submit">
 
 			<hr>
 			<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>"><?php echo ht("Use OpenID instead"); ?></a>
 
 			<div class="tip">
-				<a class="password-openid-switch" href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => false))); ?>">OpenID login</a>
-				is often much more secure than using an e-mail and password. If you do use a password, please
-				make sure you do not use the same password on other cryptocurrency sites.
+				<?php echo t(":openid is often much more secure than using an e-mail and password. If you do use a password, please
+				make sure you do not use the same password on other cryptocurrency sites.",
+					array(
+						':openid' => '<a class="password-openid-switch" href="' . htmlspecialchars(url_for('signup', array('use_password' => false))) . '">' . ht("OpenID login") . '</a>',
+					));
+				?>
 			</div>
 
 		</td>

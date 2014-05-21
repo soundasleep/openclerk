@@ -1,5 +1,5 @@
-<h1>Change Password</h1>
+<h1><?php echo t("Change Password"); ?></h1>
 
 <p>
-	Here you can update the password on your <?php echo htmlspecialchars(get_site_config('site_name')); ?> account.
+	<?php echo t("Here you can update the password on your :site_name account."); ?>
 </p>

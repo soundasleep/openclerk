@@ -49,7 +49,7 @@ if (require_post("delete", false)) {
 	$q = db()->prepare("DELETE FROM notifications WHERE id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));
 
-	$messages[] = "Deleted notification.";
+	$messages[] = t("Deleted notification.");
 	set_temporary_messages($messages);
 	redirect(url_for('wizard_notifications'));
 
@@ -116,8 +116,8 @@ if (require_post("id", false)) {
 	}
 } else {
 	if (!can_user_add($user, 'notifications')) {
-		$errors[] = "Cannot add notification: too many existing notifications.<br>" .
-				($user['is_premium'] ? "" : " To add more notifications, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		$errors[] = t("Cannot add notification: too many existing notifications.") .
+				($user['is_premium'] ? "" : " " . t("To add more notifications, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 
 		set_temporary_errors($errors);
 		redirect(url_for('wizard_notifications'));
@@ -125,7 +125,10 @@ if (require_post("id", false)) {
 }
 
 if (require_post('period') == 'hour' && !$user['is_premium']) {
-	$errors[] = "Only <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium accounts</a> can add hourly notifications.";
+	$errors[] = t("Only :premium_accounts can add hourly notifications.",
+		array(
+			':premium_accounts' => link_to(url_for('premium'), t("premium accounts")),
+		));
 
 	set_temporary_errors($errors);
 	redirect(url_for('wizard_notifications'));
@@ -215,14 +218,14 @@ if (require_post("id", false)) {
 	$args += array('id' => $instance['id']);
 	$q->execute($args);
 
-	$messages[] = "Updated existing notification.";
+	$messages[] = t("Updated existing notification.");
 
 } else {
 	// create new
 	$q = db()->prepare("INSERT INTO notifications SET notification_type=:notification_type, trigger_condition=:trigger_condition, trigger_value=:trigger_value, is_percent=:is_percent, period=:period, type_id=:type_id, is_notified=0, user_id=:user_id");
 	$q->execute($args);
 
-	$messages[] = "Created new notification.";
+	$messages[] = t("Created new notification.");
 }
 
 // redirect

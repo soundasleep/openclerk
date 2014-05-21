@@ -23,7 +23,11 @@ foreach ($currencies as $c) {
 		// remove any commas
 		$value = number_unformat($value);
 		if (!is_numeric($value)) {
-			$errors[] = "'" . htmlspecialchars($value) . "' is not a valid numeric value for " . htmlspecialchars(get_currency_abbr($c)) . ".";
+			$errors[] = t("':value' is not a valid numeric value for :currency.",
+				array(
+					':value' => htmlspecialchars($value),
+					':currency' => get_currency_abbr($c),
+				));
 			continue;
 		}
 
@@ -62,7 +66,11 @@ foreach ($currencies as $c) {
 		));
 
 		if (!require_post("wizard", false)) {
-			$messages[] = "Set " . htmlspecialchars(get_currency_abbr($c)) . " offset to " . currency_format($c, $value, 8) . ".";
+			$messages[] = t("Set :currency offset to :value.",
+				array(
+					':currency' => get_currency_abbr($c),
+					':value' => currency_format($c, $value, 8),
+				));
 		}
 	}
 }
@@ -72,7 +80,7 @@ $q = db()->prepare("UPDATE users SET has_added_account=1,last_account_change=NOW
 $q->execute(array(user_id()));
 
 if (require_post("wizard", false)) {
-	$messages[] = "Updated currency offsets.";
+	$messages[] = t("Updated currency offsets.");
 }
 
 set_temporary_messages($messages);

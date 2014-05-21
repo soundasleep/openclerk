@@ -78,19 +78,16 @@ require(__DIR__ . "/_finance_pages.php");
 
 <?php require_template('finance_accounts'); ?>
 
-<span style="display:none;" id="sort_buttons_template">
-<!-- heading sort buttons -->
-<span class="sort_up" title="Sort ascending">Asc</span><span class="sort_down" title="Sort descending">Desc</span>
-</span>
+<?php require(__DIR__ . "/_sort_buttons.php"); ?>
 
 <div class="your-accounts">
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th class="default_sort_down">Title</th>
-		<th class="number">Transactions</th>
-		<th class="">Description</th>
-		<th class="number">GST</th>
+		<th class="default_sort_down"><?php echo ht("Title"); ?></th>
+		<th class="number"><?php echo ht("Transactions"); ?></th>
+		<th class=""><?php echo ht("Description"); ?></th>
+		<th class="number"><?php echo ht("GST"); ?></th>
 		<th class="buttons"></th>
 	</tr>
 </thead>
@@ -118,13 +115,13 @@ foreach ($accounts as $account) {
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($account['id']); ?>">
-				<input type="submit" name="delete" value="Delete" class="delete" title="Delete this account" onclick="return confirm('Are you sure you want to delete this account?');">
+				<input type="submit" name="delete" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this account"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to delete this account?"); ?>');">
 			</form>
 		</td>
 	</tr>
 <?php } ?>
 <?php if (!$accounts) { ?>
-	<tr><td colspan="5"><i>No finance accounts found.</td></tr>
+	<tr><td colspan="5"><i><?php echo ht("No finance accounts found."); ?></td></tr>
 <?php } ?>
 </tbody>
 </table>

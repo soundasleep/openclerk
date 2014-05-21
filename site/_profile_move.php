@@ -41,8 +41,9 @@ if (require_get("move_up", false)) {
 			}
 		}
 
-		if (!require_get('undo', false))
-			$messages[] = "Graph moved [<a href=\"" . htmlspecialchars(url_for('profile', array('page' => $graph['page_id'], 'move_down' => $graph['id'], 'undo' => 1))) . "\">undo</a>]";
+		if (!require_get('undo', false)) {
+			$messages[] = t("Graph moved [:undo]", array(':undo' => link_to(url_for('profile', array('page' => $graph['page_id'], 'move_down' => $graph['id'], 'undo' => 1)), t("undo"))));
+		}
 
 	} else {
 		throw new Exception("Could not find a graph ID " . htmlspecialchars($graph_id));
@@ -92,8 +93,9 @@ if (require_get("move_down", false)) {
 
 		}
 
-		if (!require_get('undo', false))
-			$messages[] = "Graph moved [<a href=\"" . htmlspecialchars(url_for('profile', array('page' => $graph['page_id'], 'move_up' => $graph['id'], 'undo' => 1))) . "\">undo</a>]";
+		if (!require_get('undo', false)) {
+			$messages[] = t("Graph moved [:undo]", array(':undo' => link_to(url_for('profile', array('page' => $graph['page_id'], 'move_up' => $graph['id'], 'undo' => 1)), t("undo"))));
+		}
 
 	} else {
 		throw new Exception("Could not find a graph ID " . htmlspecialchars($graph_id));
@@ -117,8 +119,9 @@ if (require_get("remove", false)) {
 		$q = db()->prepare("UPDATE graphs SET is_removed=1 WHERE id=? LIMIT 1");
 		$q->execute(array($graph['id']));
 
-		if (!require_get('undo', false))
-			$messages[] = "Graph removed [<a href=\"" . htmlspecialchars(url_for('profile', array('page' => $graph['page_id'], 'restore' => $graph['id'], 'undo' => 1))) . "\">undo</a>]";
+		if (!require_get('undo', false)) {
+			$messages[] = t("Graph removed [:undo]", array(':undo' => link_to(url_for('profile', array('page' => $graph['page_id'], 'restore' => $graph['id'], 'undo' => 1)), t("undo"))));
+		}
 	} else {
 		throw new Exception("Could not find a graph ID " . htmlspecialchars($graph_id));
 	}
@@ -141,8 +144,9 @@ if (require_get("restore", false)) {
 		$q = db()->prepare("UPDATE graphs SET is_removed=0 WHERE id=? LIMIT 1");
 		$q->execute(array($graph['id']));
 
-		if (!require_get('undo', false))
-			$messages[] = "Graph restored [<a href=\"" . htmlspecialchars(url_for('profile', array('page' => $graph['page_id'], 'remove' => $graph['id'], 'undo' => 1))) . "\">undo</a>]";
+		if (!require_get('undo', false)) {
+			$messages[] = t("Graph restored [:undo]", array(':undo' => link_to(url_for('profile', array('page' => $graph['page_id'], 'remove' => $graph['id'], 'undo' => 1)), t("undo"))));
+		}
 	} else {
 		throw new Exception("Could not find a graph ID " . htmlspecialchars($graph_id));
 	}

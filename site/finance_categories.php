@@ -40,8 +40,8 @@ if (require_post("title", false)) {
 	}
 
 	if (!can_user_add($user, "finance_categories")) {
-		$errors[] = "Cannot add finance category: too many existing finance categories." .
-				($user['is_premium'] ? "" : " To add more finance categories, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		$errors[] = t("Cannot add finance category: too many existing finance categories.") .
+				($user['is_premium'] ? "" : " " . t("To add more finance categories, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 	}
 
 	if (!$errors) {
@@ -77,18 +77,15 @@ require(__DIR__ . "/_finance_pages.php");
 
 <?php require_template('finance_categories'); ?>
 
-<span style="display:none;" id="sort_buttons_template">
-<!-- heading sort buttons -->
-<span class="sort_up" title="Sort ascending">Asc</span><span class="sort_down" title="Sort descending">Desc</span>
-</span>
+<?php require(__DIR__ . "/_sort_buttons.php"); ?>
 
 <div class="your-accounts">
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th class="default_sort_down">Title</th>
-		<th class="number">Transactions</th>
-		<th class="">Description</th>
+		<th class="default_sort_down"><?php echo t("Title"); ?></th>
+		<th class="number"><?php echo t("Transactions"); ?></th>
+		<th class=""><?php echo t("Description"); ?></th>
 		<th class="buttons"></th>
 	</tr>
 </thead>
@@ -115,13 +112,13 @@ foreach ($categories as $category) {
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('finance_categories')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($category['id']); ?>">
-				<input type="submit" name="delete" value="Delete" class="delete" title="Delete this category" onclick="return confirm('Are you sure you want to delete this category?');">
+				<input type="submit" name="delete" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this category"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to delete this category?"); ?>');">
 			</form>
 		</td>
 	</tr>
 <?php } ?>
 <?php if (!$categories) { ?>
-	<tr><td colspan="4"><i>No finance categories found.</td></tr>
+	<tr><td colspan="4"><i><?php echo ht("No finance categories found."); ?></td></tr>
 <?php } ?>
 </tbody>
 </table>

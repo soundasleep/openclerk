@@ -27,22 +27,24 @@ $categories = get_managed_graph_categories();
 
 // checks
 if ($preference == "managed" && !$managed) {
-	$errors[] = "You need to select at least one category of graph portfolio preferences.";
+	$errors[] = t("You need to select at least one category of graph portfolio preferences.");
 }
 if (!in_array($preferred_crypto, get_all_cryptocurrencies())) {
-	$errors[] = "Invalid preferred cryptocurrency.";
+	$errors[] = t("Invalid preferred cryptocurrency.");
 }
 if (!is_fiat_currency($preferred_fiat)) {
-	$errors[] = "Invalid preferred fiat currency.";
+	$errors[] = t("Invalid preferred fiat currency.");
 }
 if (!in_array($preference, array('auto', 'managed', 'none'))) {
-	$errors[] = "Invalid graph management preference.";
+	$errors[] = t("Invalid graph management preference.");
 }
 if ($preference != "none" && !$preferred_fiat) {
-	$errors[] = "You need to select at least <a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">one fiat currency</a> in order to use managed graphs.";
+	$errors[] = t("You need to select at least :one_currency in order to use managed graphs.",
+			array(':one_currency' => link_to(url_for('wizard_currencies'), t("one fiat currency"))));
 }
 if ($preference != "none" && !$preferred_crypto) {
-	$errors[] = "You need to select at least <a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">one fiat currency</a> in order to use managed graphs.";
+	$errors[] = t("You need to select at least :one_currency in order to use managed graphs.",
+			array(':one_currency' => link_to(url_for('wizard_currencies'), t("one cryptocurrency"))));
 }
 foreach ($managed as $m) {
 	if (!isset($categories[$m])) {
@@ -72,8 +74,8 @@ if ($preference != 'none') {
 	}
 
 	if (count($generated_graphs) > get_premium_value($user, 'graphs_per_page')) {
-		$errors[] = "Cannot update report preferences: this would add too many graphs to the managed graph page." .
-				($user['is_premium'] ? "" : " To add more graphs on the managed graph page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		$errors[] = t("Cannot update report preferences: this would add too many graphs to the managed graph page.") .
+				($user['is_premium'] ? "" : " " . t("To add more graphs on the managed graph page, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 		if (is_admin()) {
 			$errors[] = "(admin) " . print_r(array_keys($generated_graphs), true) . " (" . count($generated_graphs) . " > " . get_premium_value($user, 'graphs_per_page') . ")";
 		}
@@ -90,8 +92,8 @@ if ($preference != 'none') {
 	if (($count['c'] + 1) >= get_premium_value($user, 'graph_pages')) {
 		// unless we will be resetting any old pages anyway
 		if (get_premium_value($user, 'graph_pages') > 1) {
-			$errors[] = "Cannot update report preferences: this would add too many graph pages." .
-					($user['is_premium'] ? "" : " To add more graph pages, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+			$errors[] = t("Cannot update report preferences: this would add too many graph pages.") .
+					($user['is_premium'] ? "" : " " . t("To add more graph pages, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 		}
 	}
 }
@@ -115,11 +117,11 @@ if (!$errors) {
 
 	if ($user['preferred_crypto'] != $preferred_crypto || $user['preferred_fiat'] != $preferred_fiat) {
 		$update_needed = true;
-		$messages[] = "Updated preferred currency preferences.";
+		$messages[] = t("Updated preferred currency preferences.");
 	}
 
 	if ($user['graph_managed_type'] != $preference) {
-		$messages[] = "Updated graph report management preference.";
+		$messages[] = t("Updated graph report management preference.");
 	}
 
 	// save managed preferences
@@ -158,7 +160,7 @@ if (!$errors) {
 				$q->execute(array(user_id(), $key));
 			}
 
-			$messages[] = "Updated graph portfolio preferences.";
+			$messages[] = t("Updated graph portfolio preferences.");
 
 			$update_needed = true;
 		}
@@ -217,7 +219,7 @@ if (!$errors) {
 			$q = db()->prepare("DELETE FROM graph_pages WHERE user_id=? $query_extra");
 			$q->execute(array(user_id()));
 
-			$messages[] = "Reset graphs.";
+			$messages[] = t("Reset graphs.");
 		} else if ($update_needed) {
 			// $messages[] = "Updated graphs.";
 		}

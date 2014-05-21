@@ -123,7 +123,7 @@ foreach ($transactions as $id => $transaction) {
 	}
 
 	if ($transaction['exchange'] == 'account') {
-		$account = "(finance account)";
+		$account = t("(finance account)");
 		$account_title = isset($finance_accounts[$transaction['account_id']]) ? $finance_accounts[$transaction['account_id']]['title'] : "(none)";
 	} else {
 		$account = get_exchange_or_currency_name($transaction['exchange']);
@@ -287,7 +287,7 @@ require(__DIR__ . "/_finance_pages.php");
 		<form action="<?php echo htmlspecialchars(url_for('your_transactions')); ?>" method="get">
 		<table class="standard">
 		<tr>
-			<th>Account Type</th>
+			<th><?php echo t("Account Type"); ?></th>
 			<td>
 				<select name="exchange" id="exchange_list">
 					<option value="">(all)</option>
@@ -309,7 +309,7 @@ require(__DIR__ . "/_finance_pages.php");
 			</td>
 		</tr>
 		<tr>
-			<th>Account</th>
+			<th><?php echo t("Account"); ?></th>
 			<td>
 				<select name="account_id" id="account_id_list">
 					<option value="" class="all">(all)</option>
@@ -331,7 +331,7 @@ require(__DIR__ . "/_finance_pages.php");
 
 							echo "<option class=\"exchange-" . htmlspecialchars($account['exchange']) . "\" value=\"" . htmlspecialchars($account['account_id']) . "\"" .
 								(($page_args['account_id'] == $account['account_id'] && $page_args['exchange'] == $account['exchange']) ? " selected" : "") . ">" .
-								htmlspecialchars($title ? $title : "(untitled)") .
+								htmlspecialchars($title ? $title : t("(untitled)")) .
 								"</option>\n";
 						}
 					} ?>
@@ -342,14 +342,14 @@ require(__DIR__ . "/_finance_pages.php");
 
 						echo "<option class=\"exchange-account\" value=\"" . htmlspecialchars($account['id']) . "\"" .
 							(($page_args['account_id'] == $account['id'] && $page_args['exchange'] == "account") ? " selected" : "") . ">" .
-							htmlspecialchars($title ? $title : "(untitled)") .
+							htmlspecialchars($title ? $title : t("(untitled)")) .
 							"</option>\n";
 					} ?>
 				</select>
 			</td>
 		</tr>
 		<tr>
-			<th>Categories</th>
+			<th><?php echo t("Categories"); ?></th>
 			<td>
 				<select name="category_id" id="category_id_list">
 					<option value="" class="all">(all)</option>
@@ -359,14 +359,14 @@ require(__DIR__ . "/_finance_pages.php");
 
 						echo "<option value=\"" . htmlspecialchars($category['id']) . "\"" .
 							(($page_args['category_id'] == $category['id']) ? " selected" : "") . ">" .
-							htmlspecialchars($title ? $title : "(untitled)") .
+							htmlspecialchars($title ? $title : t("(untitled)")) .
 							"</option>\n";
 					} ?>
 				</select>
 			</td>
 		</tr>
 		<tr>
-			<th>Currency</th>
+			<th><?php echo t("Currency"); ?></th>
 			<td>
 				<select name="currency" id="currency_list">
 					<option value="">(all)</option>
@@ -382,7 +382,7 @@ require(__DIR__ . "/_finance_pages.php");
 			<td>
 				<label>
 				<input type="checkbox" name="show_automatic" value="1"<?php echo $page_args['show_automatic'] ? " checked" : ""; ?>>
-				Include automatic transactions
+				<?php echo t("Include automatic transactions"); ?>
 				</label>
 			</td>
 		</tr>
@@ -391,59 +391,56 @@ require(__DIR__ . "/_finance_pages.php");
 			<td>
 				<label>
 				<input type="checkbox" name="include_rates" value="1"<?php echo $page_args['include_rates'] ? " checked" : ""; ?>>
-				Include daily exchange rates
+				<?php echo t("Include daily exchange rates"); ?>
 				</label>
 			</td>
 		</tr>
 		<tr class="buttons">
 			<td colspan="2">
-				<input type="submit" value="Filter">
-				<input type="submit" name="csv" value="Export to CSV" class="premium">
+				<input type="submit" value="<?php echo ht("Filter"); ?>">
+				<input type="submit" name="csv" value="<?php echo ht("Export to CSV"); ?>" class="premium">
 				<input type="hidden" name="filter" value="1">
-				<a style="float:right;" href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">Clear Filters</a>
+				<a style="float:right;" href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>"><?php echo t("Clear Filters"); ?></a>
 			</td>
 		</tr>
 		</table>
 		</form>
 	</div>
 
-	<h1>Your Transactions</h1>
+	<h1><?php echo t("Your Transactions"); ?></h1>
 
 	<p>
-		This is a draft version of a page which will allow you to see the historical changes to your various accounts over time as daily transactions,
-		generated automatically by <?php echo htmlspecialchars(get_site_config('site_name')); ?>.
-		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'finance'))); ?>">Learn more</a>
+		<?php echo t("This is a draft version of a page which will allow you to see the historical changes to your various accounts over time as daily transactions,
+		generated automatically by :site_name."); ?>
+		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'finance'))); ?>"><?php echo t("Learn more"); ?></a>
 	</p>
 
 	<p>
-		To prevent individual accounts from generating transactions, visit <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts wizard</a>
-		and disable transaction generation.
+		<?php echo t("To prevent individual accounts from generating transactions, visit :your_accounts
+		and disable transaction generation.", array(':your_accounts' => link_to(url_for('wizard_accounts'), t("your accounts wizard")))); ?>
 	</p>
 
 	<p>
-		In the future, you will be able to export these transactions to CSV.
-		Future functionality will also become limited to <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium users</a>.
+		<?php echo t("In the future, you will be able to export these transactions to CSV.
+		Future functionality will also become limited to :premium_users.", array(':premium_users' => link_to(url_for('premium'), t("premium accounts")))); ?>
 	</p>
 </div>
 
-<span style="display:none;" id="sort_buttons_template">
-<!-- heading sort buttons -->
-<span class="sort_up" title="Sort ascending">Asc</span><span class="sort_down" title="Sort descending">Desc</span>
-</span>
+<?php require(__DIR__ . "/_sort_buttons.php"); ?>
 
 <div class="your-transactions">
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th class="balance default_sort_down">Date</th>
-		<th class="">Account ID</th>
-		<th class="">Account</th>
-		<th class="">Category</th>
-		<th class="">Description</th>
-		<th class="">Reference</th>
-		<th class="number">Amount</th>
+		<th class="balance default_sort_down"><?php echo t("Date"); ?></th>
+		<th class=""><?php echo t("Account ID"); ?></th>
+		<th class=""><?php echo t("Account"); ?></th>
+		<th class=""><?php echo t("Category"); ?></th>
+		<th class=""><?php echo t("Description"); ?></th>
+		<th class=""><?php echo t("Reference"); ?></th>
+		<th class="number"><?php echo t("Amount"); ?></th>
 		<?php if ($page_args['include_rates']) { ?>
-			<th class="rates">Daily Rates</th>
+			<th class="rates"><?php echo t("Daily Rates"); ?></th>
 		<?php } ?>
 		<th class="buttons"></th>
 	</tr>
@@ -502,7 +499,7 @@ foreach ($transactions as $transaction) {
 		</td>
 		<td>
 			<?php if ($transaction['is_automatic']) {
-				echo "(generated automatically)";
+				echo t("(generated automatically)");
 			} else {
 				echo htmlspecialchars($transaction['description']);
 			} ?>
@@ -567,7 +564,7 @@ foreach ($transactions as $transaction) {
 				<input type="hidden" name="currency1" value="<?php echo htmlspecialchars($transaction['currency1']); ?>">
 				<input type="hidden" name="value2" value="<?php echo htmlspecialchars($transaction['value2']); ?>">
 				<input type="hidden" name="currency2" value="<?php echo htmlspecialchars($transaction['currency2']); ?>">
-				<input type="submit" name="copy" value="Copy" class="copy" title="Copy this transaction">
+				<input type="submit" name="copy" value="<?php echo ht("Copy"); ?>" class="copy" title="<?php echo ht("Copy this transaction"); ?>">
 				<?php foreach ($page_args as $key => $value) { ?>
 					<input type="hidden" name="<?php echo htmlspecialchars($key); ?>" value="<?php echo htmlspecialchars($value); ?>">
 				<?php } ?>
@@ -578,14 +575,14 @@ foreach ($transactions as $transaction) {
 				<?php foreach ($page_args as $key => $value) { ?>
 					<input type="hidden" name="page_args[<?php echo htmlspecialchars($key); ?>]" value="<?php echo htmlspecialchars($value); ?>">
 				<?php } ?>
-				<input type="submit" name="delete" value="Delete" class="delete" title="Delete this transaction" onclick="return confirm('Are you sure you want to delete this transaction?');">
+				<input type="submit" name="delete" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this transaction"); ?>" onclick="return confirm('Are you sure you want to delete this transaction?');">
 			</form>
 		</td>
 	</tr>
 <?php $last_date = $transaction_date;
 } ?>
 <?php if (!$transactions) { ?>
-	<tr><td colspan="<?php echo $page_args['include_rates'] ? 9 : 8; ?>"><i>No transactions found.</td></tr>
+	<tr><td colspan="<?php echo $page_args['include_rates'] ? 9 : 8; ?>"><i><?php echo t("No transactions found."); ?></i></td></tr>
 <?php } ?>
 </tbody>
 <tfoot>
@@ -601,7 +598,7 @@ foreach ($transactions as $transaction) {
 			</form>
 		</td>
 		<td colspan="5">
-			<b>Subtotal</b>
+			<b><?php echo t("Subtotal"); ?></b>
 		</td>
 		<td class="number">
 			<?php
@@ -644,9 +641,14 @@ foreach ($transactions as $transaction) {
 <h2><?php echo ht("Add Transaction"); ?></h2>
 
 <p>
-	Here you may add in a transaction for a different <a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">account</a>
-	or <a href="<?php echo htmlspecialchars(url_for('finance_category')); ?>">category</a> that cannot be
-	<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'transaction_creation'))); ?>">generated automatically</a>.
+	<?php
+	echo t("Here you may add in a transaction for a different :account or :category that cannot be :generated.",
+		array(
+			':account' => link_to(url_for('finance_accounts'), t("account")),
+			':category' => link_to(url_for('finance_category'), t("category")),
+			':generated' => link_to(url_for('kb', array('q' => 'transaction_creation')), t("generated automatically")),
+		));
+	?>
 </p>
 
 <?php
@@ -671,18 +673,18 @@ $summaries = get_all_user_currencies();
 <a name="add_transaction"></a>
 <table class="add-transaction">
 <tr>
-	<th><?php echo ht("Date:"); ?></th>
+	<th><?php echo t("Date:"); ?></th>
 	<td><input type="text" name="date" size="16" value="<?php echo htmlspecialchars($transaction['date']); ?>"> <span class="required">*</span></td>
 </tr>
 <tr>
-	<th><?php echo ht("Account:"); ?></th>
+	<th><?php echo t("Account:"); ?></th>
 	<td>
 		<select name="account">
 			<?php
 			$q = db()->prepare("SELECT * FROM finance_accounts WHERE user_id=? ORDER BY title ASC");
 			$q->execute(array(user_id()));
 			$accounts = $q->fetchAll();
-			$accounts[] = array('id' => 0, 'title' => '(none)');
+			$accounts[] = array('id' => 0, 'title' => t('(none)'));
 			foreach ($accounts as $account) {
 				echo "<option value=\"" . $account['id'] . "\"" . ($transaction['account'] == $account['id'] ? " selected" : "") . ">" . htmlspecialchars($account['title']) . "</option>\n";
 			}
@@ -693,14 +695,14 @@ $summaries = get_all_user_currencies();
 	</td>
 </tr>
 <tr>
-	<th><?php echo ht("Category:"); ?></th>
+	<th><?php echo t("Category:"); ?></th>
 	<td>
 		<select name="category">
 			<?php
 			$q = db()->prepare("SELECT * FROM finance_categories WHERE user_id=? ORDER BY title ASC");
 			$q->execute(array(user_id()));
 			$categories = $q->fetchAll();
-			$categories[] = array('id' => 0, 'title' => '(none)');
+			$categories[] = array('id' => 0, 'title' => t('(none)'));
 			foreach ($categories as $category) {
 				echo "<option value=\"" . $category['id'] . "\"" . ($transaction['category'] == $category['id'] ? " selected" : "") . ">" . htmlspecialchars($category['title']) . "</option>\n";
 			}
@@ -711,15 +713,15 @@ $summaries = get_all_user_currencies();
 	</td>
 </tr>
 <tr>
-	<th><?php echo ht("Description:"); ?></th>
+	<th><?php echo t("Description:"); ?></th>
 	<td><input type="text" name="description" size="64" value="<?php echo htmlspecialchars($transaction['description']); ?>"></td>
 </tr>
 <tr>
-	<th><?php echo ht("Reference:"); ?></th>
+	<th><?php echo t("Reference:"); ?></th>
 	<td><input type="text" name="reference" size="16" value="<?php echo htmlspecialchars($transaction['reference']); ?>"></td>
 </tr>
 <tr>
-	<th><?php echo ht("Amount 1:"); ?></th>
+	<th><?php echo t("Amount 1:"); ?></th>
 	<td>
 		<input type="text" name="value1" size="16" value="<?php echo htmlspecialchars($transaction['value1']); ?>">
 
@@ -735,7 +737,7 @@ $summaries = get_all_user_currencies();
 	</td>
 </tr>
 <tr>
-	<th><?php echo ht("Amount 2:"); ?></th>
+	<th><?php echo t("Amount 2:"); ?></th>
 	<td>
 		<input type="text" name="value2" size="16" value="<?php echo htmlspecialchars($transaction['value2']); ?>">
 
@@ -753,7 +755,7 @@ $summaries = get_all_user_currencies();
 		<?php foreach ($page_args as $key => $value) { ?>
 			<input type="hidden" name="page_args[<?php echo htmlspecialchars($key); ?>]" value="<?php echo htmlspecialchars($value); ?>">
 		<?php } ?>
-		<input type="submit" value="Add transaction">
+		<input type="submit" value="<?php echo ht("Add transaction"); ?>">
 	</td>
 </tr>
 </table>

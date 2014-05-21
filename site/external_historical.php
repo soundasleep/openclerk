@@ -16,7 +16,7 @@ $type = require_get('type');
 
 $titles = get_external_apis_titles();
 if (!isset($titles[$type])) {
-	set_temporary_errors("No such external API type '" . htmlspecialchars($type) . "'");
+	set_temporary_errors(t("No such external API type ':type'.", array(':type' => htmlspecialchars($type))));
 	redirect(url_for('external'));
 }
 $api_title = $titles[$type];
@@ -40,13 +40,13 @@ page_header(t("External API Status: :api_title", array(':api_title' => $api_titl
 	<h1><?php echo ht("External API Status: :api_title", array(':api_title' => $api_title)); ?></h1>
 
 	<p class="backlink">
-		<a href="<?php echo htmlspecialchars(url_for('external')); ?>">&lt; Back to External API Status</a>
+		<a href="<?php echo htmlspecialchars(url_for('external')); ?>"><?php echo ht("< Back to External API Status"); ?></a>
 	</p>
 
 	<p>
 		<?php /* TODO maybe add a link here, e.g. [BTC-E] ticker. TODO 'premium' should be labelled internal, not external */ ?>
-		This graph displays the status of the external <?php echo htmlspecialchars($api_title); ?>, in terms of how many
-		tasks were successful (in percent).
+		<?php echo t("This graph displays the status of the external :api_title, in terms of how many
+		tasks were successful (in percent).", array(':api_title' => htmlspecialchars($api_title))); ?>
 	</p>
 
 	<div class="graph_collection">

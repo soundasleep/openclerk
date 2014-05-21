@@ -7,7 +7,7 @@ $hash = require_get("hash", false);
 
 // check hash
 if ($hash !== md5(get_site_config('unsubscribe_salt') . $email)) {
-	throw new Exception("Invalid hash - please recheck the link in your e-mail.");
+	throw new Exception(t("Invalid hash - please recheck the link in your e-mail."));
 }
 
 // if any accounts have a password enabled, they simply cannot unsubscribe until they have at least one
@@ -32,13 +32,21 @@ foreach ($users as $user) {
 			<h1><?php echo ht("Unsubscribe unsuccessful"); ?></h1>
 
 			<p class="error">
-				Your e-mail address, <a href="mailto:<?php echo htmlspecialchars($email); ?>"><?php echo htmlspecialchars($email); ?></a>,
-				cannot be removed from this site, as this e-mail address is being used as login information for an account.
+				<?php
+				echo t("Your e-mail address, :email, cannot be removed from this site, as this e-mail address is being used as login information for an account.",
+					array(
+						':email' => '<a href="mailto:' . htmlspecialchars($email) . '">' . htmlspecialchars($email) . '</a>',
+					));
+				?>
 			</p>
 
 			<p>
-				You will need to <a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">add an OpenID identity</a>
-				for this account in order to remove this e-mail address.
+				<?php
+				echo t("You will need to :add_openid to this account in order to remove this e-mail address.",
+					array(
+						':add_openid' => link_to(url_for('user#user_openid'), t("add an OpenID identity")),
+					));
+				?>
 			</p>
 
 			<?php
@@ -60,14 +68,21 @@ page_header(t("Unsubscribe"), "page_unsubscribe");
 <h1><?php echo ht("Unsubscribe"); ?></h1>
 
 <p class="success">
-Your e-mail address, <a href="mailto:<?php echo htmlspecialchars($email); ?>"><?php echo htmlspecialchars($email); ?></a>, has
-been completely removed from this site, and you will no longer receive any information or notifications via e-mail.
+	<?php
+	echo t("Your e-mail address, :email, has been completely removed from this site, and you will no longer receive any information or notifications via e-mail.",
+		array(
+			':email' => '<a href="mailto:' . htmlspecialchars($email) . '">' . htmlspecialchars($email) . '</a>',
+		));
+	?>
 </p>
 
 <p>
-If you have accidentally removed your e-mail from your account, you will need to login and
-<a href="<?php echo htmlspecialchars(url_for('user')); ?>">add your e-mail address back to your profile</a>, in order to
-resume e-mail notifications.
+	<?php
+	echo t("If you have accidentally removed your e-mail from your account, you will need to login and :add_it_back, in order to resume e-mail notifications.",
+		array(
+			':add_it_back' => link_to(url_for('user'), t("add your e-mail address back to your profile")),
+		));
+	?>
 </p>
 
 <?php

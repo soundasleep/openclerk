@@ -17,7 +17,7 @@ require_user($user);
 
 $currency = require_post("currency", require_get("currency", false));
 if (!$currency || !is_valid_currency($currency) || !in_array($currency, get_site_config('premium_currencies'))) {
-	$errors[] = "Unknown currency or no currency specified.";
+	$errors[] = t("Unknown currency or no currency specified.");
 	set_temporary_errors($errors);
 	redirect(url_for('premium'));
 }
@@ -30,7 +30,7 @@ if (require_post("months", false) || require_post("years", false)) {
 		$months = require_post("months", false);
 		$years = require_post("years", false);
 		if (!is_numeric($months) || !is_numeric($years) || !($months > 0 || $years > 0) || $months > 99 || $years > 99) {
-			throw new PurchaseException("Invalid period selection.");
+			throw new PurchaseException(t("Invalid period selection."));
 		}
 
 		$cost = 0;
@@ -41,7 +41,7 @@ if (require_post("months", false) || require_post("years", false)) {
 			$cost += wrap_number(get_premium_price($currency, 'yearly') * $years, 8);
 		}
 		if ($cost == 0) {
-			throw new PurchaseException("Could not calculate any cost");
+			throw new PurchaseException(t("Could not calculate any cost"));
 		}
 
 		// find an unused $currency address and register it to the system
@@ -49,7 +49,7 @@ if (require_post("months", false) || require_post("years", false)) {
 		$q->execute(array($currency));
 		$address = $q->fetch();
 		if (!$address) {
-			throw new PurchaseException("Could not generate " . get_currency_abbr($currency) . " address for purchase; please try again later.");
+			throw new PurchaseException(t("Could not generate :currency address for purchase; please try again later.", array(':currency' => get_currency_abbr($currency))));
 		}
 
 		// register it to the system as a normal blockchain address, but we need to get received rather than balance
@@ -110,28 +110,28 @@ page_header(t("Purchase Premium"), "page_purchase", array('js' => 'purchase'));
 <form action="<?php echo htmlspecialchars(url_for('purchase')); ?>" method="post">
 <table class="form fancy">
 <tr>
-	<th>Purchase months (<?php echo currency_format($currency, get_premium_price($currency, 'monthly')); ?>/month)</td>
+	<th><?php echo t("Purchase months (:cost/month)", array(':cost' => currency_format($currency, get_premium_price($currency, 'monthly')))); ?></td>
 	<td>
 		<select name="months" id="monthly">
 			<option value="0" selected></option>
 			<?php for ($i = 1; $i <= 11; $i++) {
-				echo "<option value=\"$i\">" . number_format($i) . " months: " . currency_format($currency, wrap_number(get_premium_price($currency, 'monthly') * $i, 8), 8) . "</option>\n";
+				echo "<option value=\"$i\">" . htmlspecialchars(plural("month", $i)) . " " . currency_format($currency, wrap_number(get_premium_price($currency, 'monthly') * $i, 8), 8) . "</option>\n";
 			} ?>
 		</select>
 	</td>
 </tr>
 <tr>
 	<th colspan="2" class="hr">
-		OR
+		<?php echo ht("OR"); ?>
 	</td>
 </tr>
 <tr>
-	<th>Purchase years (<?php echo currency_format($currency, get_premium_price($currency, 'yearly')); ?>/year)</td>
+	<th><?php echo t("Purchase years (:cost/year)", array(':cost' => currency_format($currency, get_premium_price($currency, 'yearly')))); ?></td>
 	<td>
 		<select name="years" id="yearly">
 			<option value="0" selected></option>
 			<?php for ($i = 1; $i <= 5; $i++) {
-				echo "<option value=\"$i\">" . number_format($i) . " years: " . currency_format($currency, wrap_number(get_premium_price($currency, 'yearly') * $i, 8), 8) . "</option>\n";
+				echo "<option value=\"$i\">" . htmlspecialchars(plural("year", $i)) . " " . currency_format($currency, wrap_number(get_premium_price($currency, 'yearly') * $i, 8), 8) . "</option>\n";
 			} ?>
 		</select>
 	</td>
@@ -149,8 +149,13 @@ page_header(t("Purchase Premium"), "page_purchase", array('js' => 'purchase'));
 <div class="column">
 
 <p>
-Once you have submitted your order, a <?php echo get_currency_name($currency); ?> address will be generated for your payment.
-Your premium purchase will complete once the <?php echo get_currency_name($currency); ?> network confirms your transaction.
+<?php
+echo ht("Once you have submitted your order, a :currency address will be generated for your payment.
+		Your premium purchase will complete once the :currency network confirms your transaction.",
+	array(
+		':currency' => get_currency_name($currency),
+	));
+?>
 </p>
 
 </div>

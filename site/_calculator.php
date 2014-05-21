@@ -34,7 +34,7 @@ $currency2 = require_get("currency2", "usd");
 </select>
 </span>
 
-<div class="using">Using <span id="exchange_text">no exchange</span></div>
+<div class="using"><?php echo t("Using :exchange", array(':exchange' => '<span id="exchange_text">' . t("no exchange") . '</span>')); ?></div>
 </div>
 
 <script type="text/javascript">

@@ -538,7 +538,7 @@ function render_sources_graph($graph, $sources, $args, $user_id, $get_heading_ti
 	$data = array();
 
 	// add headings after we know how many exchanges we've found
-	$first_heading = array('title' => "Date");
+	$first_heading = array('title' => t("Date"));
 	if ($make_proportional) {
 		$first_heading['min'] = 0;
 		$first_heading['max'] = 100;

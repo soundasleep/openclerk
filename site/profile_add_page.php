@@ -12,15 +12,15 @@ $title = require_post("title");
 
 $title = substr($title, 0, 64); // limit to 64 characters
 if (!$title) {
-	$title = "Untitled";
+	$title = t("Untitled");
 }
 
 $errors = array();
 $messages = array();
 // check premium account limits
 if (!can_user_add($user, 'graph_pages')) {
-	$errors[] = "Cannot add graph page: too many existing graph pages." .
-			($user['is_premium'] ? "" : " To add more graph pages, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+	$errors[] = t("Cannot add graph page: too many existing graph pages.") .
+			($user['is_premium'] ? "" : " " . t("To add more graph pages, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 	set_temporary_errors($errors);
 	redirect(url_for('profile', array('page' => require_post("page", ""))));
 }
@@ -40,7 +40,7 @@ $q->execute(array(
 	'page_order' => $new_order,
 ));
 $new_page_id = db()->lastInsertId();
-$messages[] = "Added new graph page " . ($title ? htmlspecialchars($title) : "<i>untitled</i>") . ".";
+$messages[] = t("Added new graph page :title.", array(':title' => htmlspecialchars($title)));
 
 // redirect
 set_temporary_messages($messages);

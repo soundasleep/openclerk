@@ -46,11 +46,19 @@ if (require_post("title", false) !== false && require_post("id", false)) {
 	$title = require_post("title");
 
 	if (!is_valid_title($title)) {
-		$errors[] = "'" . htmlspecialchars($title) . "' is not a valid " . htmlspecialchars($account_data['title']) . " title.";
+		$errors[] = t("':value' is not a valid :title title.",
+			array(
+				':value' => htmlspecialchars($title),
+				':title' => htmlspecialchars($account_data['title']),
+			));
 	} else {
 		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET title=? WHERE user_id=? AND id=?");
 		$q->execute(array($title, user_id(), $id));
-		$messages[] = "Updated " . htmlspecialchars($account_data['title']) . " title.";
+		$messages[] = t("Updated :title title.",
+			array(
+				':value' => htmlspecialchars($title),
+				':title' => htmlspecialchars($account_data['title']),
+			));
 
 		// redirect to GET
 		set_temporary_messages($messages);
@@ -88,11 +96,20 @@ if (require_post("key", false) !== false && require_post("id", false)) {
 	$callback = $config['inputs'][$key]['callback'];
 
 	if (!$callback($value)) {
-		$errors[] = "'" . htmlspecialchars($value) . "' is not a valid " . htmlspecialchars($account_data['title']) . " " . htmlspecialchars($config['inputs'][$key]['title']) . ".";
+		$errors[] = t("':value' is not a valid :title :label.",
+			array(
+				':value' => htmlspecialchars($value),
+				':title' => htmlspecialchars($account_data['title']),
+				':label' => htmlspecialchars($config['inputs'][$key]['title']),
+			));
 	} else {
 		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET " . $config['inputs'][$key]['key'] . "=? WHERE user_id=? AND id=?");
 		$q->execute(array($value, user_id(), $id));
-		$messages[] = "Updated " . htmlspecialchars($account_data['title']) . " " . htmlspecialchars($config['inputs'][$key]['title']) . ".";
+		$messages[] = t("Updated :title :label.",
+			array(
+				':title' => htmlspecialchars($account_data['title']),
+				':label' => htmlspecialchars($config['inputs'][$key]['title']),
+			));
 
 		// redirect to GET
 		set_temporary_messages($messages);
@@ -108,7 +125,11 @@ if (require_post("add", false)) {
 	foreach ($account_data['inputs'] as $key => $data) {
 		$callback = $data['callback'];
 		if (!$callback(require_post($key))) {
-			$errors[] = "That is not a valid " . htmlspecialchars($account_data['title']) . " " . $data['title'] . ".";
+			$errors[] = t("That is not a valid :title :label.",
+				array(
+					':title' => htmlspecialchars($account_data['title']),
+					':label' => htmlspecialchars($data['title']),
+				));
 			break;
 		} else {
 			$query .= ", $key=?";
@@ -116,14 +137,14 @@ if (require_post("add", false)) {
 		}
 	}
 	if ($account_data['disabled']) {
-		$errors[] = "Cannot add a new account; that account type is disabled.";
+		$errors[] = t("Cannot add a new account; that account type is disabled.");
 	}
 	if (!is_valid_title(require_post("title", false))) {
-		$errors[] = "That is not a valid title.";
+		$errors[] = t("That is not a valid title.");
 	}
 	if (!can_user_add($user, $account_data['exchange'])) {
-		$errors[] = "Cannot add " . $account_data['title'] . ": too many existing accounts.<br>" .
-				($user['is_premium'] ? "" : " To add more " . $account_data['titles'] . ", upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		$errors[] = t("Cannot add :title: too many existing accounts.", array(':title' => $account_data['title'])) .
+				($user['is_premium'] ? "" : " " . t("To add more accounts, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 	}
 	if (!$errors) {
 		$title = htmlspecialchars(require_post("title", ""));
@@ -151,8 +172,12 @@ if (require_post("add", false)) {
 		$full_args = array_join(array(user_id(), require_post("title", false)), $args);
 		$q->execute($full_args);
 		$id = db()->lastInsertId();
-		if (!$title) $title = "<i>(untitled)</i>";
-		$messages[] = "Added new " . htmlspecialchars($account_data['title']) . " <i>" . $title . "</i>. Balances from this account will be retrieved shortly.";
+		if (!$title) $title = "<i>" . t("(untitled)") . "</i>";
+		$messages[] = t("Added new :title :name. Balances from this account will be retrieved shortly.",
+			array(
+				':name' => "<i>" . htmlspecialchars($title) . "</i>",
+				':title' => htmlspecialchars($account_data['title']),
+			));
 
 		// create a test job for this new account
 		$q = db()->prepare("INSERT INTO jobs SET
@@ -179,7 +204,10 @@ if (require_post("disable", false) && require_post("id", false)) {
 	$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=1,is_disabled_manually=1 WHERE id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));
 
-	$messages[] = "Disabled " . htmlspecialchars($account_data['title']) . ".";
+	$messages[] = t("Disabled :title.",
+		array(
+			':title' => htmlspecialchars($account_data['title']),
+		));
 
 	// redirect to GET
 	set_temporary_errors($errors);
@@ -212,7 +240,10 @@ if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("UPDATE securities SET is_recent=0 WHERE user_id=? AND exchange=? AND account_id=?");
 	$q->execute(array(user_id(), $account_data['exchange'], require_post("id")));
 
-	$messages[] = "Removed " . htmlspecialchars($account_data['title']) . ".";
+	$messages[] = t("Removed :title.",
+		array(
+			':title' => htmlspecialchars($account_data['title']),
+		));
 
 	// redirect to GET
 	set_temporary_errors($errors);
@@ -227,9 +258,13 @@ if (require_post('test', false) && require_post('id', false)) {
 	$q->execute(array(user_id()));
 
 	if ($job = $q->fetch()) {
-		$errors[] = "Cannot create a " . htmlspecialchars($account_data['title']) . " test, because you already have a " . get_exchange_name($job['job_type']) . " test pending.";
+		$errors[] = t("Cannot create a :title test, because you already have a :type test pending.",
+			array(
+				':title' => htmlspecialchars($account_data['title']),
+				':type' => get_exchange_name($job['job_type']),
+			));
 	} else if ($account_data['disabled']) {
-		$errors[] = "Cannot test that job; that account type is disabled.";
+		$errors[] = t("Cannot test that job; that account type is disabled.");
 	} else {
 		$q = db()->prepare("INSERT INTO jobs SET
 			job_type=:job_type,
@@ -239,7 +274,10 @@ if (require_post('test', false) && require_post('id', false)) {
 			is_test_job=1");
 		$q->execute(array('job_type' => $account_data['exchange'], 'user_id' => user_id(), 'arg_id' => require_post('id'), 'priority' => get_site_config('job_test_priority')));
 
-		$messages[] = "Queued up " . htmlspecialchars($account_data['title']) . " test; results should be available shortly.";
+		$messages[] = t("Queued up a new :title test; results should be available shortly.",
+			array(
+				':title' => htmlspecialchars($account_data['title']),
+			));
 
 		set_temporary_messages($messages);
 		redirect(url_for(require_post("callback")));
@@ -251,16 +289,20 @@ if (require_post('test', false) && require_post('id', false)) {
 // process 'enable'
 if (require_post('enable', false) && require_post('id', false)) {
 	if (!can_user_add($user, $account_data['exchange'])) {
-		$errors[] = "Cannot enable " . $account_data['title'] . ": too many existing accounts.<br>" .
-				($user['is_premium'] ? "" : " To add more " . $account_data['titles'] . ", upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		$errors[] = t("Cannot enable :title: too many existing accounts.", array(':title' => $account_data['title'])) .
+				($user['is_premium'] ? "" : " " . t("To add more accounts, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 	} else if ($account_data['disabled']) {
-		$errors[] = "Cannot enable that account; that account type is disabled.";
+		$errors[] = t("Cannot enable that account; that account type is disabled.");
 	} else {
 		// reset all failure fields
 		$q = db()->prepare("UPDATE " . $account_data['table'] . " SET is_disabled=0,is_disabled_manually=0,first_failure=NULL,failures=0 WHERE id=? AND user_id=?");
 		$q->execute(array(require_post("id"), user_id()));
 
-		$messages[] = "Enabled " . htmlspecialchars($account_data['title']) . ".";
+		$messages[] = t("Enabled :title.",
+			array(
+				':title' => htmlspecialchars($account_data['title']),
+			));
+
 
 		set_temporary_messages($messages);
 		redirect(url_for(require_post("callback")));

@@ -19,13 +19,18 @@ if (get_site_config('new_user_premium_update_hours') && strtotime($user['created
 		$q->execute();
 		$stats = $q->fetch();
 		if ($stats) {
-			$messages[] = "As a new user, it will take " . expected_delay_html($stats['premium_delay_minutes']) . " for your <a href=\"" . htmlspecialchars(url_for('wizard_accounts')) . "\">accounts and addresses</a> to be updated and
-				your first reports to be generated.";
+			$messages[] = t("As a new user, it will take :minutes for your :accounts to be updated and
+				your first reports to be generated.", array(
+					':minutes' => expected_delay_html($stats['premium_delay_minutes']),
+					':accounts' => link_to(url_for('wizard_accounts'), ht("accounts and addresses")),
+				));
 		}
 	} else {
-		$messages[] = "As a new user, your addresses and accounts will be updated more frequently
-			(every " . plural("hour", get_site_config('refresh_queue_hours_premium')) . ")
-			for the next " . plural("hour", (int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60))) . ".";
+		$messages[] = t("As a new user, your addresses and accounts will be updated more frequently
+			(every :frequency) for the next :hours.", array(
+				':frequency' => plural("hour", get_site_config('refresh_queue_hours_premium')),
+				':hours' => plural("hour", (int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60))),
+			));
 	}
 }
 

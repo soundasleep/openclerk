@@ -151,14 +151,14 @@ if ($pages) {
 			}
 
 			if (!$is_mine) {
-				$errors[] = "Unknown page.";
+				$errors[] = t("Unknown page.");
 				set_temporary_messages($messages);
 				set_temporary_errors($errors);
 				redirect(url_for('profile'));	// redirect back to our home page
 			}
 		}
 
-		$page_title = "Unknown";
+		$page_title = t("Unknown");
 		foreach ($pages as $p) {
 			if ($p['id'] == $page_id) {
 				$page_title = $p['title'];
@@ -209,13 +209,20 @@ if (!$graphs) { ?>
 	<div class="graph_collection_empty">
 		<?php if (require_get("securities", false)) {
 			if (get_premium_value($user, 'your_securities')) {
-				echo "No securities to display! You might want to add details about <a href=\"" . htmlspecialchars(url_for('wizard_accounts_securities')) . "\">your securities exchanges</a>, if you have any.";
+				echo t("No securities to display! You might want to add details about :your_securities, if you have any.",
+					array(
+						':your_securities' => link_to(url_for('wizard_accounts_securities'), t("your securities")),
+					));
 			} else {
-				echo "To display historical value graphs of your securities, please <a href=\"" . htmlspecialchars(url_for('premium')) . "\">purchase a premium account</a>, or
-					add them as normal \"security value\" graphs on one of your other <a href=\"" . htmlspecialchars(url_for('profile')) . "\">report pages</a>.";
+				echo t('To display historical value graphs of your securities, please :upgrade, or add them as
+						normal "security value" graphs on one of your other :reports.',
+					array(
+						':upgrade' => link_to(url_for('premium'), t("purchase a premium account")),
+						':reports' => link_to(url_for('profile'), t("report pages")),
+					));
 			}
 		} else {
-			echo "No graphs to display! You might want to add one below.";
+			echo t("No graphs to display! You might want to add one below.");
 		} ?>
 	</div>
 
@@ -234,17 +241,17 @@ if (!$graphs) { ?>
 <div class="tabs" id="tabs_profile">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_profile_addgraph">Add Graph</li><li id="tab_profile_addpage">Add Page</li><?php if (!$graph_page['is_managed']) { ?><li id="tab_profile_deletepage">Remove Page</li><?php } ?><li id="tab_profile_reset">Reset</li><?php if (is_admin()) { ?><li id="tab_profile_addall">Add All Graphs</li><?php } ?>
+		<li id="tab_profile_addgraph"><?php echo t("Add Graph"); ?></li><li id="tab_profile_addpage"><?php echo t("Add Page"); ?></li><?php if (!$graph_page['is_managed']) { ?><li id="tab_profile_deletepage"><?php echo t("Remove Page"); ?></li><?php } ?><li id="tab_profile_reset"><?php echo t("Reset"); ?></li><?php if (is_admin()) { ?><li id="tab_profile_addall"><?php echo t("Add All Graphs"); ?></li><?php } ?>
 	</ul>
 
 	<ul class="tab_groups">
 		<li id="tab_profile_addgraph_tab">
 
 			<div class="add_graph">
-			<h2>Add new graph</h2>
+			<h2><?php echo t("Add new graph"); ?></h2>
 
 <?php if ($graph_page['is_managed'] && $user['graph_managed_type'] == 'auto') { ?>
-	<div>These graphs are currently <a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">managed automatically</a>.</div>
+	<div><?php echo t("These graphs are currently :managed.", array(':managed' => link_to(url_for('wizard_reports'), t("managed automatically")))); ?></div>
 <?php } else { ?>
 	<?php require(__DIR__ . "/_profile_add_graph.php"); ?>
 <?php } ?>
@@ -270,7 +277,7 @@ if (!$graphs) { ?>
 <div class="tabs" id="tabs_profile">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_profile_addpage">Add Page</li><li id="tab_profile_reset">Reset</li>
+		<li id="tab_profile_addpage"><?php echo t("Add Page"); ?></li><li id="tab_profile_reset"><?php echo t("Reset"); ?></li>
 	</ul>
 
 	<ul class="tab_groups">
@@ -300,7 +307,7 @@ if (!$graphs) { ?>
 </tr>
 <tr>
 	<td class="buttons">
-	<input type="submit" value="Reset graphs and pages">
+	<input type="submit" value="<?php echo ht("Reset graphs and pages"); ?>">
 	</td>
 </tr>
 </table>
@@ -316,7 +323,7 @@ if (!$graphs) { ?>
 
 <form action="<?php echo htmlspecialchars(url_for('add_all_graphs')); ?>" method="post">
 	<input type="hidden" name="page" value="<?php echo htmlspecialchars($page_id); ?>">
-	<input type="submit" value="Reset page with all graphs">
+	<input type="submit" value="<?php echo ht("Reset page with all graphs"); ?>">
 </form>
 </li>
 <?php } /* is_admin */ ?>

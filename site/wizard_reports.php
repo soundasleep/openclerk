@@ -57,7 +57,7 @@ require_template("wizard_reports");
 <form action="<?php echo htmlspecialchars(url_for('wizard_reports_post')); ?>" method="post">
 
 <ul class="currency-preferences">
-	<li>My preferred cryptocurrency:
+	<li><?php echo t("My preferred cryptocurrency:"); ?>
 		<select name="preferred_crypto">
 		<?php foreach (get_all_cryptocurrencies() as $c) {
 			if (isset($summaries[$c])) {
@@ -68,7 +68,7 @@ require_template("wizard_reports");
 		</select>
 	</li>
 
-	<li>My preferred fiat currency:
+	<li><?php echo t("My preferred fiat currency:"); ?>
 		<select name="preferred_fiat">
 		<?php foreach (get_all_currencies() as $c) {
 			if (in_array($c, get_all_cryptocurrencies()))
@@ -91,7 +91,13 @@ function print_graph_types($managed, $is_auto = false) {
 	<a class="collapse-link collapsed report-help">?</a>
 
 	<div class="collapse-target report-help-details">
-		This will display the following graphs, based on <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">your currencies</a> and <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts</a>:
+		<?php
+		echo t("This will display the following graphs, based on :currencies and :accounts:",
+			array(
+				':currencies' => link_to(url_for('wizard_currencies'), t("your currencies")),
+				':accounts' => link_to(url_for('wizard_accounts'), t("your accounts")),
+			));
+		?>
 		<ul class="managed-graphs">
 		<?php foreach ($managed as $graph_key => $graph_data) { ?>
 			<li><?php echo isset($graphs[$graph_key]) ? htmlspecialchars($graphs[$graph_key]['title']) : "<i>(Unknown graph '" . htmlspecialchars($graph_key) . "')</i>"; ?>
@@ -106,10 +112,10 @@ function print_graph_types($managed, $is_auto = false) {
 			} ?></li>
 		<?php } ?>
 		<?php if (!$managed) { ?>
-			<li><i>(No graphs yet in this category.)</i></li>
+			<li><i><?php echo t("(No graphs yet in this category.)"); ?></i></li>
 		<?php } ?>
 		<?php if ($is_auto && !$user['is_premium']) { ?>
-			<li>Upgrade to a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a> to enable more automatic graphs.</li>
+			<li><?php echo t("Upgrade to a :premium_account to enable more automatic graphs.", array(':premium_account' => link_to(url_for('premium'), t("premium account")))); ?></li>
 		<?php } ?>
 		</ul>
 	</div>
@@ -120,22 +126,22 @@ function print_graph_types($managed, $is_auto = false) {
 <ul class="report-types">
 
 	<li>
-		<label><input type="radio" name="preference" value="auto"<?php echo require_get("preference", $user['graph_managed_type']) == 'auto' ? ' checked' : ''; ?>> Automatically select the best reports for me. (<?php echo plural("graph", count($auto_graphs)); ?>)</label>
+		<label><input type="radio" name="preference" value="auto"<?php echo require_get("preference", $user['graph_managed_type']) == 'auto' ? ' checked' : ''; ?>> <?php echo t("Automatically select the best reports for me."); ?> (<?php echo plural("graph", count($auto_graphs)); ?>)</label>
 		<?php print_graph_types($auto_graphs, true /* is_auto */); ?>
 
 		<?php if ($user['graph_managed_type'] != 'auto') { ?>
 		<div class="reset-warning">
-		Warning: Selecting this option will reset your currently defined reports and graphs (you will not lose any historical data).
+		<?php echo t("Warning: Selecting this option will reset your currently defined reports and graphs (you will not lose any historical data)."); ?>
 		</div>
 		<?php } ?>
 	</li>
 
 	<li>
-		<label><input type="radio" name="preference" value="managed"<?php echo require_get("preference", $user['graph_managed_type']) == 'managed' ? ' checked' : ''; ?>> Select reports based on my portfolio preferences:</label>
+		<label><input type="radio" name="preference" value="managed"<?php echo require_get("preference", $user['graph_managed_type']) == 'managed' ? ' checked' : ''; ?>> <?php echo t("Select reports based on my portfolio preferences:"); ?></label>
 
 		<?php if ($user['graph_managed_type'] == 'none') { ?>
 		<div class="reset-warning">
-		Warning: Selecting this option will reset your currently defined reports and graphs (you will not lose any historical data).
+		<?php echo t("Warning: Selecting this option will reset your currently defined reports and graphs (you will not lose any historical data)."); ?>
 		</div>
 		<?php } ?>
 
@@ -151,7 +157,7 @@ function print_graph_types($managed, $is_auto = false) {
 	</li>
 
 	<li>
-		<label><input type="radio" name="preference" value="none"<?php echo require_get("preference", $user['graph_managed_type']) == 'none' ? ' checked' : ''; ?>> I will manage my own graphs and pages.</label>
+		<label><input type="radio" name="preference" value="none"<?php echo require_get("preference", $user['graph_managed_type']) == 'none' ? ' checked' : ''; ?>> <?php echo t("I will manage my own graphs and pages."); ?></label>
 	</li>
 
 </ul>

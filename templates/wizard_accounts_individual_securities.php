@@ -4,17 +4,17 @@ global $account_type;
 global $accounts;
 ?>
 <div class="wizard-steps">
-	<h2>Preferences Wizard</h2>
+	<h2><?php echo t("Preferences Wizard"); ?></h2>
 	<ul>
-		<li class="past"><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">Currencies</a></li>
-		<li class="current"><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Accounts</a></li>
-		<li class=""><a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>">Reports</a></li>
-		<li class=""><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">Your Reports</a></li>
+		<li class="past"><a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>"><?php echo t("Currencies"); ?></a></li>
+		<li class="current"><a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo t("Accounts"); ?></a></li>
+		<li class=""><a href="<?php echo htmlspecialchars(url_for('wizard_reports')); ?>"><?php echo t("Reports"); ?></a></li>
+		<li class=""><a href="<?php echo htmlspecialchars(url_for('profile')); ?>"><?php echo t("Your Reports"); ?></a></li>
 	</ul>
 </div>
 
 <div class="wizard-content">
-<h1>Add <?php echo $account_type['titles']; ?></h1>
+<h1><?php echo t("Add :titles", array(':titles' => $account_type['titles'])); ?></h1>
 
 <p>
 <?php

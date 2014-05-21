@@ -37,8 +37,8 @@ if (!$graph_id) {
 	$count = $count['c'];
 
 	if ($count >= get_premium_value($user, 'graphs_per_page')) {
-		$errors[] = "Cannot add graph: too many existing graphs on this page." .
-				($user['is_premium'] ? "" : " To add more graphs on this page, upgrade to a <a href=\"" . htmlspecialchars(url_for('premium')) . "\">premium account</a>.");
+		$errors[] = t("Cannot add graph: too many existing graphs on this page.") .
+				($user['is_premium'] ? "" : " " . t("To add more graphs on this page, upgrade to a :premium_account.", array(':premium_account' => link_to(url_for('premium'), t('premium account')))));
 		set_temporary_errors($errors);
 		redirect(url_for('profile', array('page' => $page_id)));
 	}
@@ -115,7 +115,7 @@ if (!isset($graph_types[$graph_type])) {
 
 	// technical graphs?
 	$technical = require_post("technical", false);
-	$message_extra = "";
+	$technical_added = false;
 	if ($technical) {
 		// make sure that we don't add technicals that are premium only
 		$graph_technical_types = graph_technical_types();
@@ -139,7 +139,7 @@ if (!isset($graph_types[$graph_type])) {
 				'type' => $technical,
 				'period' => min(get_site_config('technical_period_max'), max(1, (int) require_post("period", 0))),
 			));
-			$message_extra = ", with " . htmlspecialchars($graph_technical_types[$technical]['title']);
+			$technical_added = htmlspecialchars($graph_technical_types[$technical]['title']);
 		}
 	} else {
 		// otherwise, delete old technicals
@@ -149,7 +149,23 @@ if (!isset($graph_types[$graph_type])) {
 	}
 
 	// redirect
-	$messages[] = ($is_edit ? "Edited " : "Added new ") . $graph_types[$graph_type]['heading'] . " graph" . $message_extra . ".";
+	$args = array(
+		':heading' => $graph_types[$graph_type]['heading'],
+		':technical' => $technical_added,
+	);
+	if ($is_edit) {
+		if ($technical_added) {
+			$messages[] = t("Edited :heading graph, with :technical.");
+		} else {
+			$messages[] = t("Edited :heading graph.");
+		}
+	} else {
+		if ($technical_added) {
+			$messages[] = t("Added new :heading graph, with :technical.");
+		} else {
+			$messages[] = t("Added new :heading graph.");
+		}
+	}
 	set_temporary_messages($messages);
 	set_temporary_errors($errors);
 	redirect(url_for('profile', array('page' => $page_id, 'graph' => $graph_id)));

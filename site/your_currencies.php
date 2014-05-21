@@ -84,10 +84,7 @@ $your_currencies = true;
 require(__DIR__ . "/_profile_pages.php");
 ?>
 
-<span style="display:none;" id="sort_buttons_template">
-<!-- heading sort buttons -->
-<span class="sort_up" title="Sort ascending">Asc</span><span class="sort_down" title="Sort descending">Desc</span>
-</span>
+<?php require(__DIR__ . "/_sort_buttons.php"); ?>
 
 <div class="tabs" id="tabs_your_currencies">
 	<ul class="tab_list">
@@ -106,9 +103,9 @@ require(__DIR__ . "/_profile_pages.php");
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th class="source">Source</th>
-		<th class="updated">Last updated</th>
-		<th class="balance default_sort_down">Balance</th>
+		<th class="source"><?php echo t("Source"); ?></th>
+		<th class="updated"><?php echo t("Last updated"); ?></th>
+		<th class="balance default_sort_down"><?php echo t("Balance"); ?></th>
 	</tr>
 </thead>
 <tbody>
@@ -140,7 +137,7 @@ foreach ($data as $exchange => $balance) {
 </tbody>
 <tfoot>
 	<tr>
-		<th colspan="2">Total <?php echo htmlspecialchars(get_currency_name($currency)); ?></th>
+		<th colspan="2"><?php echo t("Total :currency", array(':currency' => get_currency_name($currency))); ?></th>
 		<th class="number"><?php echo currency_format($currency, $sum, 4); ?></th>
 	</tr>
 </tfoot>
@@ -153,8 +150,9 @@ foreach ($data as $exchange => $balance) {
 
 		<?php if (!$balances) { ?>
 		<li>
-		Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by <?php echo htmlspecialchars(get_site_config('site_name')); ?>.<br>
-		<a class="add_accounts" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">Add accounts and addresses</a>
+			<?php echo t("Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by :site_name."); ?>
+			<br>
+			<a class="add_accounts" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("Add accounts and addresses"); ?></a>
 		</li>
 		<?php } ?>
 	</ul>

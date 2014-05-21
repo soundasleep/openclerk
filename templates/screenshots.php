@@ -1,48 +1,48 @@
-<h1>Screenshots</h1>
+<h1><?php echo t("Screenshots"); ?></h1>
 
 <?php
 	$screens = array(
 		'user_currencies' => array(
-			'title' => 'Currencies',
+			'title' => t('Currencies'),
 			'url' => 'img/screenshots/wizard_currencies.png',
-			'text' => "A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.",
+			'text' => t("A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in."),
 		),
 		'accounts' => array(
-			'title' => 'Account types',
+			'title' => t('Account types'),
 			'url' => 'img/screenshots/wizard_accounts.png',
-			'text' => "A wide variety of account types are supported, with more being added regularly. All account types are completely optional.",
+			'text' => t("A wide variety of account types are supported, with more being added regularly. All account types are completely optional."),
 			'url2' => 'img/screenshots/wizard_accounts_securities.png',
-			'text2' => "Exchange, mining pools, securities and funds accounts can only be accessed once you have enabled a read-only key on the site itself, and provided that key to " . htmlspecialchars(get_site_config('site_name')) . ". Mining hashrates for most pools can also be tracked and graphed. Helpful wizards guide you through the steps to add new accounts and addresses.",
+			'text2' => t("Exchange, mining pools, securities and funds accounts can only be accessed once you have enabled a read-only key on the site itself, and provided that key to :site_name. Mining hashrates for most pools can also be tracked and graphed. Helpful wizards guide you through the steps to add new accounts and addresses."),
 		),
 		'litecoin' => array(
-			'title' => 'Addresses',
+			'title' => t('Addresses'),
 			'url' => 'img/screenshots/wizard_addresses.png',
-			'text' => "Cryptocurrency addresses are added directly into " . htmlspecialchars(get_site_config('site_name')) . ", and balances downloaded through public explorer APIs.",
+			'text' => t("Cryptocurrency addresses are added directly into :site_name, and balances downloaded through public explorer APIs."),
 			'url2' => 'img/screenshots/litecoinqt-export.png',
-			'text2' => 'Addresses can be directly exported from your local BTC or LTC wallets into '. htmlspecialchars(get_site_config('site_name')) . '.',
+			'text2' => t('Addresses can be directly exported from your local BTC or LTC wallets into :site_name.'),
 		),
 		'profile_summary' => array(
-			'title' => 'Graphs',
+			'title' => t('Graphs'),
 			'url' => 'img/screenshots/profile_summary.png',
-			'text' => "Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant. Helpful reports include the value of your currencies if immediately converted into another; the distribution of your currency values; and current exchange rates.",
+			'text' => t("Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant. Helpful reports include the value of your currencies if immediately converted into another; the distribution of your currency values; and current exchange rates."),
 			'url2' => 'img/screenshots/technicals.png',
-			'text2' => 'Premium users can add technical indicators to graphs, such as Simple Moving Average (SMA), Bollinger Bands (BOLL) and Relative Strength Index (RSI).',
+			'text2' => t('Premium users can add technical indicators to graphs, such as :example1, :example2 and :example3.', array(':example1' => t("Simple Moving Average (SMA)"), ':example2' => t("Bollinger Bands (BOLL)"), ':example3' => t("Relative Strength Index (RSI)"))),
 			'url3' => 'img/screenshots/profile_securities.png',
-			'text3' => 'Premium users can also access an automatically-generated page listing all of their securities and their current market values.',
+			'text3' => t('Premium users can also access an automatically-generated page listing all of their securities and their current market values.'),
 			'url4' => 'img/screenshots/your_currencies.png',
-			'text4' => 'All users can also access a "Your Currencies" report page, displaying your most recent balances for each currency;<br> and a "Your Hashrates" report page, displaying all of your most recent hashrates.',
+			'text4' => t('All users can also access a "Your Currencies" report page, displaying your most recent balances for each currency; and a "Your Hashrates" report page, displaying all of your most recent hashrates.'),
 		),
 		'profile_historical' => array(
-			'title' => 'Historical',
+			'title' => t('Historical'),
 			'url' => 'img/screenshots/profile_historical.png',
-			'text' => "Historical data, both for your accounts and popular cryptocurrency exchanges, can also be included on your summary pages.",
+			'text' => t("Historical data, both for your accounts and popular cryptocurrency exchanges, can also be included on your summary pages."),
 		),
 		'profile_addgraph' => array(
-			'title' => 'Adding graphs',
+			'title' => t('Adding graphs'),
 			'url' => 'img/screenshots/wizard_reports.png',
-			'text' => htmlspecialchars(get_site_config('site_name')) . " automatically manages your reports based on your currency, address and reporting preferences.",
+			'text' => t(":site_name automatically manages your reports based on your currency, address and reporting preferences."),
 			'url2' => 'img/screenshots/profile_addgraph.png',
-			'text2' => "Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them. Graphs can also be grouped together into <i>pages</i> (premium users only).",
+			'text2' => t("Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them. Graphs can also be grouped together into :pages (premium users only).", array(':pages' => "<i>" . t("pages") . "</i>")),
 		),
 
 	);
@@ -88,10 +88,10 @@ $(document).ready(function() {
 	<div class="screenshots_group">
 	<ul class="screenshots">
 	<?php if (user_logged_in()) { ?>
-		<li class="profile"><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">View your Reports</a></li>
+		<li class="profile"><a href="<?php echo htmlspecialchars(url_for('profile')); ?>"><?php echo t("View your Reports"); ?></a></li>
 	<?php } else { ?>
-		<li class="signup"><a href="<?php echo htmlspecialchars(url_for('signup')); ?>">Signup for Free</a></li>
+		<li class="signup"><a href="<?php echo htmlspecialchars(url_for('signup')); ?>"><?php echo t("Signup for Free"); ?></a></li>
 	<?php } ?>
-		<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>">FAQ</a></li>
+		<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>"><?php echo t("FAQ"); ?></a></li>
 	</ul>
 	</div>

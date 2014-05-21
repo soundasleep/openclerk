@@ -1,4 +1,4 @@
-<h1>Help Centre</h1>
+<h1><?php echo ht("Help Centre"); ?></h1>
 
 <?php
 $knowledge = get_knowledge_base();
@@ -7,8 +7,8 @@ foreach ($knowledge as $label => $a) {
 	echo "<h4>" . htmlspecialchars($label) . "</h4>\n\n";
 	echo "<ul class=\"help_list\">";
 	if ($label == 'Concepts') {
-		echo "<li><a href=\"" . htmlspecialchars(url_for('features')) . "\">" . htmlspecialchars(get_site_config('site_name')) . " Features</a></li>\n";
-		echo "<li><a href=\"" . htmlspecialchars(url_for('screenshots')) . "\">" . htmlspecialchars(get_site_config('site_name')) . " Screenshots</a></li>\n";
+		echo "<li><a href=\"" . htmlspecialchars(url_for('features')) . "\">" . ht(":site_name Features") . "</a></li>\n";
+		echo "<li><a href=\"" . htmlspecialchars(url_for('screenshots')) . "\">" . ht(":site_name Screenshots") . "</a></li>\n";
 	}
 	foreach ($a as $key => $kb) {
 		$title = $kb;
@@ -22,48 +22,47 @@ foreach ($knowledge as $label => $a) {
 }
 ?>
 
-<h4>Legal</h4>
+<h4><?php echo ht("Legal"); ?></h4>
 
 <ul class="help_list">
-	<li><a href="<?php echo htmlspecialchars(url_for('terms')); ?>">Terms and Conditions of Use</a></li>
-	<li><a href="<?php echo htmlspecialchars(url_for('terms#privacy')); ?>">Privacy Policy</a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for('terms')); ?>"><?php echo ht("Terms and Conditions of Use"); ?></a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for('terms#privacy')); ?>"><?php echo ht("Privacy Policy"); ?></a></li>
 </ul>
 
 <hr>
 
-<h2>Frequently Asked Questions</h2>
+<h2><?php echo ht("Frequently Asked Questions"); ?></h2>
 
 <div class="expand_all">
-<label><input type="checkbox" id="expand_all"> Expand all answers</input></label>
+<label><input type="checkbox" id="expand_all"> <?php echo ht("Expand all answers"); ?></input></label>
 </div>
 
 <dl class="help_list">
 	<dt>What are the risks of providing data to <?php echo htmlspecialchars(get_site_config('site_name')); ?>?</dt>
 	<dd>
+		Security is taken very seriously. This site has been designed to be as secure as possible:
 
-	Security is taken very seriously. This site has been designed to be as secure as possible:
+		<p>
+		<ul>
+			<li>No passwords are stored on this site - all authentication is performed via <a href="http://openid.net/get-an-openid/">OpenID</a>,
+			meaning you (or your ID provider) is responsible for authentication security.</li>
 
-	<p>
-	<ul>
-		<li>No passwords are stored on this site - all authentication is performed via <a href="http://openid.net/get-an-openid/">OpenID</a>,
-		meaning you (or your ID provider) is responsible for authentication security.</li>
+			<li>No funds are stored on this site either - all premium account payments are paid to wallets hosted in a different datacentre.</li>
 
-		<li>No funds are stored on this site either - all premium account payments are paid to wallets hosted in a different datacentre.</li>
+			<li>The underlying code base is also <a href="http://openclerk.org" target="_blank">open sourced</a> to help <a href="http://en.wikipedia.org/wiki/Open-source_software_security">reduce the likelihood</a> of security vunerabilities.</li>
 
-		<li>The underlying code base is also <a href="http://openclerk.org" target="_blank">open sourced</a> to help <a href="http://en.wikipedia.org/wiki/Open-source_software_security">reduce the likelihood</a> of security vunerabilities.</li>
+			<li>The only real risk of using <?php echo htmlspecialchars(get_site_config('site_name')); ?> is in the case of a major security breach,
+			where a third party is able to reduce your anonymity by seeing what accounts and addresses you hold.
+			Not supplying your name or e-mail address - which are both optional at signup - can reduce the impact of this scenario.</li>
 
-		<li>The only real risk of using <?php echo htmlspecialchars(get_site_config('site_name')); ?> is in the case of a major security breach,
-		where a third party is able to reduce your anonymity by seeing what accounts and addresses you hold.
-		Not supplying your name or e-mail address - which are both optional at signup - can reduce the impact of this scenario.</li>
+			<li>You can further reduce the impact of such a breach by inserting in false addresses, or only providing cold wallet addresses (for example) -
+			<?php echo htmlspecialchars(get_site_config('site_name')); ?> does not care if you actually control the addresses you provide.</li>
+		</ul>
+		</p>
 
-		<li>You can further reduce the impact of such a breach by inserting in false addresses, or only providing cold wallet addresses (for example) -
-		<?php echo htmlspecialchars(get_site_config('site_name')); ?> does not care if you actually control the addresses you provide.</li>
-	</ul>
-	</p>
-
-	That said, perfect security is impossible. If you feel uncomfortable with providing a third party site a list
-	of your addresses, you might not wish to use <?php echo htmlspecialchars(get_site_config('site_name')); ?>.
-	(You could also deploy your <a href="http://openclerk.org" target="_blank">own local copy</a>.)
+		That said, perfect security is impossible. If you feel uncomfortable with providing a third party site a list
+		of your addresses, you might not wish to use <?php echo htmlspecialchars(get_site_config('site_name')); ?>.
+		(You could also deploy your <a href="http://openclerk.org" target="_blank">own local copy</a>.)
 	</dd>
 
 	<dt>Can anyone ever access my funds?</dt>

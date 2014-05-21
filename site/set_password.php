@@ -12,7 +12,7 @@ $password = require_post("password", false);
 $password2 = require_post("password2", false);
 
 if ($password && (strlen($password) < 6 || strlen($password) > 255)) {
-	$errors[] = t("Please select a password between 6-255 characters long.");
+	$errors[] = t("Please select a password between :min-:max characters long.", array(':min' => 6, ':max' => 255));
 }
 if ($password && $password != $password2) {
 	$errors[] = t("Those passwords do not match.");

@@ -60,7 +60,7 @@ page_header(t("Reset Password"), "page_password", array('js' => 'auth'));
 	<tr>
 		<th></th>
 		<td>
-			<input type="submit" name="submit" value="Reset Password" id="password_manual_submit">
+			<input type="submit" name="submit" value="<?php echo ht("Reset Password"); ?>" id="password_manual_submit">
 		</td>
 	</tr>
 </table>
