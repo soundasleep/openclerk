@@ -3,31 +3,50 @@
  * Should only really use codes that are in use by the site...
  */
 
-.language-list {
-
-}
-
-
 .locale {
   padding-left: 20px;
   background-position: top left;
   background-repeat: no-repeat;
 }
 
+.locale-de {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/de.png') 2px 2px no-repeat;
+}
 .locale-en {
   background: url('../../vendor/kwipi/famfamfam-flags/img/gb.png') 2px 2px no-repeat;
 }
 .locale-fr {
   background: url('../../vendor/kwipi/famfamfam-flags/img/fr.png') 2px 2px no-repeat;
 }
+.locale-jp {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/jp.png') 2px 2px no-repeat;
+}
+.locale-ru {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/ru.png') 2px 2px no-repeat;
+}
+.locale-zh {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/cn.png') 2px 2px no-repeat;
+}
 .locale-lolcat {
   background: url('../img/meow.png') 2px 2px no-repeat;
+}
+select.locale-de {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/de.png') 4px 4px no-repeat;
 }
 select.locale-en {
   background: url('../../vendor/kwipi/famfamfam-flags/img/gb.png') 4px 4px no-repeat;
 }
 select.locale-fr {
   background: url('../../vendor/kwipi/famfamfam-flags/img/fr.png') 4px 4px no-repeat;
+}
+select.locale-jp {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/jp.png') 4px 4px no-repeat;
+}
+select.locale-ru {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/ru.png') 4px 4px no-repeat;
+}
+select.locale-zh {
+  background: url('../../vendor/kwipi/famfamfam-flags/img/cn.png') 4px 4px no-repeat;
 }
 select.locale-lolcat {
   background: url('../img/meow.png') 4px 4px no-repeat;

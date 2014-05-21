@@ -29,11 +29,11 @@ function get_all_locales() {
 	return array(
 		'de',
 		'en',
-		'es',
+		//'es',
 		'fr',
 		'jp',
 		'ru',
-		'pt',
+		//'pt',
 		'zh',
 		//'lolcat',
 	);
