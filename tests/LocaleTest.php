@@ -143,6 +143,13 @@ class LocaleTest extends OpenclerkTest {
 		$this->assertTrue(count($found) > 0);
 		sort($found);
 
+		// we can't have any keys that use HTML like <i>: conversion to/from google will mess them up into :i placeholders
+		foreach ($found as $value) {
+			if (preg_match("#</?[a-z]+>#im", $value)) {
+				throw new Exception("i18n key '" . $value . "' uses HTML, which is not allowed");
+			}
+		}
+
 		// write them out to a common file
 		$fp = fopen(__DIR__ . "/../locale/template.json", 'w');
 		fwrite($fp, "{");
