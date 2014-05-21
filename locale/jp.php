@@ -2,7 +2,7 @@
 
 /**
  * jp template file
- * Generated from 'locale_jp.txt' at Wed, 21 May 2014 21:44:42 +1200
+ * Generated from 'locale_jp.txt' at Wed, 21 May 2014 22:00:29 +1200
  */
 
 $result = array(
