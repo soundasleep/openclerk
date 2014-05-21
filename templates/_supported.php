@@ -1,13 +1,13 @@
 <div class="tabs" id="tabs_home">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_home_exchanges">Exchanges</li><li id="tab_home_pools">Mining Pools</li><li id="tab_home_wallets">Wallets</li><li id="tab_home_securities">Securities</li><li id="tab_home_addresses">Addresses</li><li id="tab_home_updates">Updates</li>
+		<li id="tab_home_exchanges"><?php echo ht("Exchanges"); ?></li><li id="tab_home_pools"><?php echo ht("Mining Pools"); ?></li><li id="tab_home_wallets"><?php echo ht("Wallets"); ?></li><li id="tab_home_securities"><?php echo ht("Securities"); ?></li><li id="tab_home_addresses"><?php echo ht("Addresses"); ?></li><li id="tab_home_updates"><?php echo ht("Updates"); ?></li>
 	</ul>
 
 	<ul class="tab_groups">
 		<li id="tab_home_exchanges_tab">
 
-<h2>Supported exchanges</h2>
+<h2><?php echo ht("Supported exchanges"); ?></h2>
 
 <?php
 $exchange_data = get_exchange_pairs();
@@ -20,7 +20,7 @@ $all_currencies = get_all_currencies();
 		<?php foreach ($all_currencies as $p) { ?>
 		<th class="currency">
 			<span class="currency_name_<?php echo htmlspecialchars($p); ?>" title="<?php echo htmlspecialchars(get_currency_name($p)); ?>"><?php echo htmlspecialchars(get_currency_abbr($p)); ?></span>
-			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">new</span>"; ?>
+			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">" . ht("new") . "</span>"; ?>
 		</th>
 		<?php } ?>
 	</tr>
@@ -30,7 +30,7 @@ $all_currencies = get_all_currencies();
 	<tr>
 		<td>
 			<?php echo htmlspecialchars(get_exchange_name($exchange)); ?>
-			<?php if (in_array($exchange, get_new_exchanges())) echo " <span class=\"new\">new</span>"; ?>
+			<?php if (in_array($exchange, get_new_exchanges())) echo " <span class=\"new\">" . ht("new") . "</span>"; ?>
 		</td>
 		<?php foreach ($all_currencies as $currency) {
 			$exchange_support = array();
@@ -50,14 +50,14 @@ $all_currencies = get_all_currencies();
 
 <div class="screenshots_group">
 <ul class="screenshots">
-	<li class="historical"><a href="<?php echo htmlspecialchars(url_for('historical')); ?>">Historical Data</a></li>
+	<li class="historical"><a href="<?php echo htmlspecialchars(url_for('historical')); ?>"><?php echo ht("Historical Data"); ?></a></li>
 </ul>
 </div>
 
 		</li>
 		<li id="tab_home_pools_tab" style="display:none;">
 
-<h2>Supported mining pools</h2>
+<h2><?php echo ht("Supported mining pools"); ?></h2>
 
 <?php
 $balances_data = get_supported_wallets_safe();
@@ -103,20 +103,20 @@ function sort_all_wallets($a, $b) {
 <table class="supported_wallets">
 <thead>
 	<tr>
-		<th>Source</th>
+		<th><?php echo ht("Source"); ?></th>
 		<?php foreach ($all_cryptocurrencies as $p) { ?>
 		<th class="currency">
 			<span class="currency_name_<?php echo htmlspecialchars($p); ?>" title="<?php echo htmlspecialchars(get_currency_name($p)); ?>"><?php echo htmlspecialchars(get_currency_abbr($p)); ?></span>
-			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">new</span>"; ?>
+			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">" . ht("new") . "</span>"; ?>
 		</th>
 		<?php } ?>
-		<th>Hashrate</th>
+		<th><?php echo ht("Hashrate"); ?></th>
 	</tr>
 </thead>
 <tbody>
 	<?php foreach ($all_mining_pools as $exchange => $currencies) { ?>
 	<tr>
-		<td><?php echo htmlspecialchars(get_exchange_name($exchange)); if (in_array($exchange, get_new_supported_wallets())) echo " <span class=\"new\">new</span>"; ?></td>
+		<td><?php echo htmlspecialchars(get_exchange_name($exchange)); if (in_array($exchange, get_new_supported_wallets())) echo " <span class=\"new\">" . ht("new") . "</span>"; ?></td>
 		<?php foreach ($all_cryptocurrencies as $p) { ?>
 		<?php echo in_array($p, $currencies) ? "<td class=\"yes\" title=\"" . htmlspecialchars(get_currency_abbr($p)) . "\">Y</td>" : "<td class=\"no\"></td>"; ?>
 		<?php } ?>
@@ -126,11 +126,11 @@ function sort_all_wallets($a, $b) {
 </tbody>
 <tfoot>
 	<tr>
-		<th>Source</th>
+		<th><?php echo ht("Source"); ?></th>
 		<?php foreach ($all_cryptocurrencies as $p) { ?>
 		<th class="currency">
 			<span class="currency_name_<?php echo htmlspecialchars($p); ?>" title="<?php echo htmlspecialchars(get_currency_name($p)); ?>"><?php echo htmlspecialchars(get_currency_abbr($p)); ?></span>
-			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">new</span>"; ?>
+			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">" . ht("new") . "</span>"; ?>
 		</th>
 		<?php } ?>
 		<th>Hashrate</th>
@@ -140,23 +140,23 @@ function sort_all_wallets($a, $b) {
 
 <div class="screenshots_group">
 <ul class="screenshots">
-	<li class="add_service"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_service'))); ?>">Add another mining pool...</a></li>
+	<li class="add_service"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_service'))); ?>"><?php echo ht("Add another mining pool..."); ?></a></li>
 </ul>
 </div>
 
 		</li>
 		<li id="tab_home_wallets_tab" style="display:none;">
 
-<h2>Supported wallets</h2>
+<h2><?php echo ht("Supported wallets"); ?></h2>
 
 <table class="supported_wallets">
 <thead>
 	<tr>
-		<th>Source</th>
+		<th><?php echo ht("Source"); ?></th>
 		<?php foreach ($all_currencies as $p) { ?>
 		<th class="currency">
 			<span class="currency_name_<?php echo htmlspecialchars($p); ?>" title="<?php echo htmlspecialchars(get_currency_name($p)); ?>"><?php echo htmlspecialchars(get_currency_abbr($p)); ?></span>
-			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">new</span>"; ?>
+			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">" . ht("new") . "</span>"; ?>
 		</th>
 		<?php } ?>
 	</tr>
@@ -164,7 +164,7 @@ function sort_all_wallets($a, $b) {
 <tbody>
 	<?php foreach ($all_wallets as $exchange => $currencies) { ?>
 	<tr>
-		<td><?php echo htmlspecialchars(get_exchange_name($exchange)); if (in_array($exchange, get_new_supported_wallets())) echo " <span class=\"new\">new</span>"; ?></td>
+		<td><?php echo htmlspecialchars(get_exchange_name($exchange)); if (in_array($exchange, get_new_supported_wallets())) echo " <span class=\"new\">" . ht("new") . "</span>"; ?></td>
 		<?php foreach ($all_currencies as $p) { ?>
 		<?php echo in_array($p, $currencies) ? "<td class=\"yes\" title=\"" . htmlspecialchars(get_currency_abbr($p)) . "\">Y</td>" : "<td class=\"no\"></td>"; ?>
 		<?php } ?>
@@ -173,11 +173,11 @@ function sort_all_wallets($a, $b) {
 </tbody>
 <tfoot>
 	<tr>
-		<th>Source</th>
+		<th><?php echo ht("Source"); ?></th>
 		<?php foreach ($all_currencies as $p) { ?>
 		<th class="currency">
 			<span class="currency_name_<?php echo htmlspecialchars($p); ?>" title="<?php echo htmlspecialchars(get_currency_name($p)); ?>"><?php echo htmlspecialchars(get_currency_abbr($p)); ?></span>
-			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">new</span>"; ?>
+			<?php if (in_array($p, get_new_supported_currencies())) echo " <span class=\"new\">" . ht("new"). "</span>"; ?>
 		</th>
 		<?php } ?>
 	</tr>
@@ -186,7 +186,7 @@ function sort_all_wallets($a, $b) {
 
 <div class="screenshots_group">
 <ul class="screenshots">
-	<li class="add_service"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_service'))); ?>">Add another wallet...</a></li>
+	<li class="add_service"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_service'))); ?>"><?php echo ht("Add another wallet..."); ?></a></li>
 </ul>
 </div>
 
@@ -219,7 +219,7 @@ foreach ($security_exchange_data as $exchange => $pairs) {
 <table class="supported_securities">
 <thead>
 	<tr>
-		<th>Securities</th>
+		<th><?php echo ht("Securities"); ?></th>
 		<?php foreach ($all_security_currencies as $p => $pairs) { ?>
 		<th><span class="currency_name_<?php echo htmlspecialchars($p); ?>"><?php echo htmlspecialchars(get_currency_abbr($p)); ?></span></th>
 		<?php } ?>
@@ -230,7 +230,7 @@ foreach ($security_exchange_data as $exchange => $pairs) {
 	<tr>
 		<td>
 			<?php echo htmlspecialchars(get_exchange_name($exchange)); ?>
-			<?php if (in_array($exchange, get_new_security_exchanges())) echo " <span class=\"new\">new</span>"; ?>
+			<?php if (in_array($exchange, get_new_security_exchanges())) echo " <span class=\"new\">" . ht("new") . "</span>"; ?>
 		</td>
 		<?php foreach ($all_security_currencies as $p) { ?>
 		<?php echo in_array($p, $pairs) ? "<td class=\"yes\">Y</td>" : "<td class=\"no\"></td>"; ?>
@@ -242,15 +242,15 @@ foreach ($security_exchange_data as $exchange => $pairs) {
 
 <div class="screenshots_group">
 <ul class="screenshots">
-	<li class="historical"><a href="<?php echo htmlspecialchars(url_for('historical')); ?>">Historical Data</a></li>
-	<li class="add_service"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_service'))); ?>">Add another exchange...</a></li>
+	<li class="historical"><a href="<?php echo htmlspecialchars(url_for('historical')); ?>"><?php echo ht("Historical Data"); ?></a></li>
+	<li class="add_service"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_service'))); ?>"><?php echo ht("Add another exchange..."); ?></a></li>
 </ul>
 </div>
 
 		</li>
 		<li id="tab_home_addresses_tab" style="display:none;">
 
-<h2>Supported addresses</h2>
+<h2><?php echo ht("Supported addresses"); ?></h2>
 
 <?php
 $addresses_data = get_blockchain_currencies();
@@ -267,8 +267,8 @@ foreach ($addresses_data as $exchange => $currencies) {
 <table class="supported_addresses">
 <thead>
 	<tr>
-		<th>Explorer</th>
-		<th>Currencies</th>
+		<th><?php echo ht("Explorer"); ?></th>
+		<th><?php echo ht("Currencies"); ?></th>
 	</tr>
 </thead>
 <tbody>
@@ -283,7 +283,7 @@ foreach ($addresses_data as $exchange => $currencies) {
 
 <div class="screenshots_group">
 <ul class="screenshots">
-	<li class="add_service"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_currency'))); ?>">Add another cryptocurrency...</a></li>
+	<li class="add_service"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_currency'))); ?>"><?php echo ht("Add another cryptocurrency..."); ?></a></li>
 </ul>
 </div>
 

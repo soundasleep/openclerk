@@ -1,19 +1,19 @@
 <div class="features-block" id="features_block_top">
 <div class="splash"></div>
-<h1>Features</h1>
+<h1><?php echo ht("Features"); ?></h1>
 
 <p>
-	<?php echo htmlspecialchars(get_site_config('site_name')); ?> is a web application packed with features
+	<?php echo ht(":site_name is a web application packed with features
 	designed to help you track your cryptocurrencies, investments and mining hardware; understand and analyse markets;
-	and make informed decisions about your portfolio.
+	and make informed decisions about your portfolio."); ?>
 </p>
 
 <div class="screenshots_group">
 <ul class="screenshots">
 <?php if (user_logged_in()) { ?>
-	<li class="profile"><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">View your Reports</a></li>
+	<li class="profile"><a href="<?php echo htmlspecialchars(url_for('profile')); ?>"><?php echo ht("View your Reports"); ?></a></li>
 <?php } else { ?>
-	<li class="signup"><a href="<?php echo htmlspecialchars(url_for('signup')); ?>">Signup for Free</a></li>
+	<li class="signup"><a href="<?php echo htmlspecialchars(url_for('signup')); ?>"><?php echo ht("Signup for Free"); ?></a></li>
 <?php } ?>
 </ul>
 </div>
@@ -22,22 +22,25 @@
 <hr>
 
 <div class="features-block feature-left" id="features_currencies">
-<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_user_currencies')); ?>" title="Screenshots on cryptocurrency selection"><div class="splash"></div></a>
-<h3>Cryptocurrencies</h3>
+<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_user_currencies')); ?>" title="<?php echo ht("Screenshots on cryptocurrency selection"); ?>"><div class="splash"></div></a>
+<h3><?php echo ht("Cryptocurrencies"); ?></h3>
 
 <p>
-	A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.
+	<?php echo ht("A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in."); ?>
 </p>
 
 <p>
-	Currently <?php echo htmlspecialchars(get_site_config('site_name')); ?> supports the <?php
+	<?php
 	$result = array();
 	foreach (get_all_cryptocurrencies() as $c) {
 		$result[] = "<span class=\"currency_name_" . htmlspecialchars($c) . "\">" . htmlspecialchars(get_currency_name($c)) . " (" . get_currency_abbr($c) . ")</span>" .
-			(in_array($c, get_new_supported_currencies()) ? " <span class=\"new\">new</span>" : "");
+			(in_array($c, get_new_supported_currencies()) ? " <span class=\"new\">" . ht("new") . "</span>" : "");
 	}
-	echo implode_english($result);
-	?> cryptocurrencies.
+	echo t("Currently :site_name supports the :currencies cryptocurrencies.",
+		array(
+			':currencies' => implode_english($result),
+		));
+	?>
 </p>
 
 <p>
@@ -45,38 +48,44 @@
 	$result = array();
 	foreach (get_all_fiat_currencies() as $c) {
 		$result[] = "<span class=\"currency_name_" . htmlspecialchars($c) . "\">" . htmlspecialchars(get_currency_abbr($c)) . "</span>" .
-			(in_array($c, get_new_supported_currencies()) ? " <span class=\"new\">new</span>" : "");
+			(in_array($c, get_new_supported_currencies()) ? " <span class=\"new\">" . ht("new") . "</span>" : "");
 	}
 	echo implode_english($result);
 	?> fiat currencies.
+	<?php
+	echo t(":site_name also supports the :currencies fiat currencies.",
+		array(
+			':currencies' => implode_english($result),
+		));
+	?>
 </p>
 
 <p>
-	<a href="<?php echo htmlspecialchars(url_for('kb?q=cryptocurrencies')); ?>">What are cryptocurrencies?</a>
+	<a href="<?php echo htmlspecialchars(url_for('kb?q=cryptocurrencies')); ?>"><?php echo ht("What are cryptocurrencies?"); ?></a>
 </p>
 </div>
 
 <hr>
 
 <div class="features-block feature-right" id="features_accounts">
-<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_accounts')); ?>" title="Screenshots on configuring accounts"><div class="splash"></div></a>
-<h3>Track accounts &amp; addresses</h3>
+<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_accounts')); ?>" title="<?php echo ht("Screenshots on configuring accounts"); ?>"><div class="splash"></div></a>
+<h3><?php echo ht("Track accounts & addresses"); ?></h3>
 
 <p>
-	<?php echo htmlspecialchars(get_site_config('site_name')); ?> supports a wide range of cryptocurrency applications
-	and is regularly updated with new services. For example <?php echo htmlspecialchars(get_site_config('site_name')); ?>
-	currently supports:
+	<?php echo ht(":site_name supports a wide range of cryptocurrency applications
+	and is regularly updated with new services. For example :site_name
+	currently supports:"); ?>
 </p>
 
 <p>
 	<dl>
 	<?php
 	foreach (account_data_grouped() as $category => $datas) {
-		if ($category == 'Hidden' || $category == 'Individual Securities') {
+		if ($category == 'Hidden' || $category == 'Individual Securities' || $category == 'Finance') {
 			continue;
 		}
 
-		echo "<dt>" . htmlspecialchars($category) . "</dt>\n";
+		echo "<dt>" . ht($category) . "</dt>\n";
 		$result = array();
 		foreach ($datas as $exchange => $data) {
 			if (isset($data['disabled']) && $data['disabled']) {
@@ -84,11 +93,11 @@
 				continue;
 			}
 			if ($category == 'Addresses') {
-				$result[] = $data['title'] . (in_array($data['currency'], get_new_supported_currencies()) ? " <span class=\"new\">new</span>" : "");
+				$result[] = $data['title'] . (in_array($data['currency'], get_new_supported_currencies()) ? " <span class=\"new\">" . ht("new") . "</span>" : "");
 			} else {
 				$new = in_array($exchange, get_new_security_exchanges()) || in_array($exchange, get_new_supported_wallets()) || in_array($exchange, get_new_exchanges());
 				$result[] = get_exchange_name($exchange)
-					. ($new ? " <span class=\"new\">new</span>" : "");
+					. ($new ? " <span class=\"new\">" . ht("new") . "</span>" : "");
 			}
 		}
 		$result = array_unique($result);	// remove duplicate titles such as Mining Foreman
@@ -100,28 +109,30 @@
 </p>
 
 <p>
-	To read account data, you instruct your account provider to enable read-only access via an <i>API key</i>, and you provide that key to <?php echo htmlspecialchars(get_site_config('site_name')); ?>. Helpful wizards guide you through the steps to add new accounts and addresses.
+	<?php echo t("To read account data, you instruct your account provider to enable read-only access via an :api_key,
+		and you provide that key to :site_name. Helpful wizards guide you through the steps to add new accounts and addresses.",
+		array(':api_key' => "<i>" . ht("API key") . "</i>")); ?>
 </p>
 </div>
 
 <hr>
 
 <div class="features-block feature-left" id="features_reports">
-<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>" title="Screenshots on reports and graphs"><div class="splash"></div></a>
-<h3>Reports</h3>
+<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>" title="<?php echo ht("Screenshots on reports and graphs"); ?>"><div class="splash"></div></a>
+<h3><?php echo ht("Reports"); ?></h3>
 
 <p>
-	Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant.
-	These report pages are made up of graphs, and include helpful reports such as:
+	<?php echo ht("Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant.
+	These report pages are made up of graphs, and include helpful reports such as:"); ?>
 </p>
 
 <p>
 	<ul>
-		<li>The combined fiat value of all of your currencies</li>
-		<li>Composition graphs of each currency</li>
-		<li>Historical securities trading values</li>
-		<li>Historical exchange rates</li>
-		<li>... and <a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>">dozens more</a></li>
+		<li><?php echo t("The combined fiat value of all of your currencies"); ?></li>
+		<li><?php echo t("Composition graphs of each currency"); ?></li>
+		<li><?php echo t("Historical securities trading values"); ?></li>
+		<li><?php echo t("Historical exchange rates"); ?></li>
+		<li><?php echo t("... and :dozens_more", array(':dozens_more' => link_to(url_for('screenshots#screenshots_profile_summary'), ht("dozens more")))); ?></li>
 	</ul>
 </p>
 
@@ -133,70 +144,82 @@
 <hr>
 
 <div class="features-block feature-right" id="features_configurable">
-<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_addgraph')); ?>" title="Screenshots on how to configure reports and graphs"><div class="splash"></div></a>
-<h3>Configurable</h3>
+<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_addgraph')); ?>" title="<?php echo ht("Screenshots on how to configure reports and graphs"); ?>"><div class="splash"></div></a>
+<h3><?php echo ht("Configurable"); ?></h3>
 
 <p>
-	<?php echo htmlspecialchars(get_site_config('site_name')); ?> automatically manages your reports based on your currency, address and reporting preferences.
-	Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them.
+	<?php echo ht(":site_name automatically manages your reports based on your currency, address and reporting preferences.
+	Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them."); ?>
 </p>
 
 <p>
-	Premium users can access an automatically-generated page listing all of their securities and their current market values. Premium users can also
-	create <i>pages</i> to categorise different report types.
+	<?php echo t("Premium users can access an automatically-generated page listing all of their securities and their current market values. Premium users can also
+	create :pages to categorise different report types.", array(':pages' => "<i>" . ht("pages") . "</i>")); ?>
 </p>
 </div>
 
 <hr>
 
 <div class="features-block feature-left" id="features_notifications">
-<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>" title="How do automatic notifications work?"><div class="splash"></div></a>
-<h3>Notifications <span class="new">new</span></h3>
+<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>" title="<?php echo ht("How do automatic notifications work?"); ?>"><div class="splash"></div></a>
+<h3><?php echo ht("Notifications"); ?> <span class="new"><?php echo ht("new"); ?></span></h3>
 
 <p>
-	Along with generated report pages, <?php echo htmlspecialchars(get_site_config('site_name')); ?> can also automatically
-	<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>">notify you</a> via e-mail when exchange rates, miner hashrates, or your report values change. For example:
+	<?php echo t("
+	Along with generated report pages, :site_name can also automatically
+	:notify_you  via e-mail when exchange rates, miner hashrates, or your report values change. For example:
+	", array(":notify_you" => link_to(url_for('kb', array('q' => 'notifications')), ht("notify you")))); ?>
 </p>
 
 <p>
 	<ul>
-		<li>When Bitstamp USD/BTC increases by 10% in a day</li>
-		<li>When your LTC hashrate goes below 100 KH/s</li>
-		<li>When your BTC balance increases</li>
-		<li>When your total portfolio value decreases by 10% in a week</li>
+		<li><?php echo ht("When Bitstamp USD/BTC increases by 10% in a day"); ?></li>
+		<li><?php echo ht("When your LTC hashrate goes below 100 KH/s"); ?></li>
+		<li><?php echo ht("When your BTC balance increases"); ?></li>
+		<li><?php echo ht("When your total portfolio value decreases by 10% in a week"); ?></li>
 	</ul>
 </p>
 
 <p>
-	These automated notifications are sent out up to once per day (or once per hour for premium users).
+	<?php echo ht("These automated notifications are sent out up to once per day (or once per hour for premium users)."); ?>
 </p>
 </div>
 
 <hr>
 
 <div class="features-block feature-right" id="features_historical">
-<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_historical')); ?>" title="Screenshots on historical data and graphs"><div class="splash"></div></a>
-<h3>Historical</h3>
+<a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_historical')); ?>" title="<?php echo ht("Screenshots on historical data and graphs"); ?>"><div class="splash"></div></a>
+<h3><?php echo ht("Historical"); ?></h3>
 
 <p>
+	<?php echo t("
 	Historical data, both for your accounts, exchanges and securities, can be included in your generated reports.
-	Public historical data is also available through the <a href="<?php echo htmlspecialchars(url_for('historical')); ?>">historical data archive</a>.
-	Data is downloaded regularly, and in the future can be used in more complex analytical reports.
+	Public historical data is also available through the :archive.
+	Data is downloaded regularly, and in the future can be used in more complex analytical reports.",
+	array(
+		":archive" => link_to(url_for('historical'), ht("historical data archive")),
+	)); ?>
 </p>
 
 <p>
-	Premium users can add technical indicators to all graphs, such as Simple Moving Average (SMA), Bollinger Bands (BOLL) and Relative Strength Index (RSI).
+	<?php
+	echo ht("Premium users can add technical indicators to all graphs, such as :example1, :example2 and :example3.",
+		array(
+			":example1" => ht("Simple Moving Average (SMA)"),
+			":example2" => ht("Bollinger Bands (BOLL)"),
+			":example3" => ht("Relative Strength Index (RSI)"),
+		)); ?>
 </p>
 </div>
 
 <div class="screenshots_group">
 <ul class="screenshots">
 <?php if (user_logged_in()) { ?>
-	<li class="profile"><a href="<?php echo htmlspecialchars(url_for('profile')); ?>">View your Reports</a></li>
+	<li class="profile"><a href="<?php echo htmlspecialchars(url_for('profile')); ?>"><?php echo ht("View your Reports"); ?></a></li>
 <?php } else { ?>
-	<li class="signup"><a href="<?php echo htmlspecialchars(url_for('signup')); ?>">Signup for Free</a></li>
+	<li class="signup"><a href="<?php echo htmlspecialchars(url_for('signup')); ?>"><?php echo ht("Signup for Free"); ?></a></li>
 <?php } ?>
-	<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>">Frequently Asked Questions</a></li>
+	<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>"><?php echo ht("Frequently Asked Questions"); ?></a></li>
 </ul>
 </div>
 

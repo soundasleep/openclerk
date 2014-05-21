@@ -130,7 +130,7 @@ if ($id && isset($historical_graphs[$id])) {
 		if (!isset($def['arg0']) && substr($graph_key, -strlen("_daily")) == "_daily") {
 			echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180))) . "\">" . htmlspecialchars($def['title']) . "</a>";
 			if (in_array(str_replace("_daily", "", $graph_key), get_new_exchange_pairs()) || in_array($def['exchange'], get_new_exchanges())) {
-				echo " <span class=\"new\">new</span>";
+				echo " <span class=\"new\">" . ht("new") . "</span>";
 			}
 			echo "</li>\n";
 		}
@@ -167,7 +167,7 @@ if ($id && isset($historical_graphs[$id])) {
 			if ($values) {
 				echo "<h2>" . htmlspecialchars($def['heading']);
 				if ($bits[0] == "securities" && in_array($security_type, get_new_security_exchanges())) {
-					echo " <span class=\"new\">new</span>";
+					echo " <span class=\"new\">" . ht("new") . "</span>";
 				}
 				echo "</h2>\n<ul class=\"historical_graphs\">";
 				if ($graph_key == "external_historical") {
@@ -182,7 +182,7 @@ if ($id && isset($historical_graphs[$id])) {
 						echo "<li><a href=\"" . htmlspecialchars(url_for('historical', array('id' => $graph_key, 'days' => 180, 'name' => $security))) . "\">" . htmlspecialchars($title) . "</a>";
 						// is this new?
 						if ($bits[0] == "securities" && isset($new_securities[$security])) {
-							echo " <span class=\"new\">new</span>";
+							echo " <span class=\"new\">" . ht("new") . "</span>";
 						}
 						echo "</li>\n";
 					}

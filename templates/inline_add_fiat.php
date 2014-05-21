@@ -11,7 +11,7 @@
 	$result = array();
 	foreach (get_all_fiat_currencies() as $c) {
 		$result[] = "<span class=\"currency_name_" . htmlspecialchars($c) . "\">" . htmlspecialchars(get_currency_name($c)) . "</span>" .
-			(in_array($c, get_new_supported_currencies()) ? " <span class=\"new\">new</span>" : "");
+			(in_array($c, get_new_supported_currencies()) ? " <span class=\"new\">" . ht("new") . "</span>" : "");
 	}
 	echo implode_english($result);
 	?> fiat currencies.

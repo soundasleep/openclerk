@@ -23,10 +23,15 @@ global $user;
 
 <!--<p class="tip tip_float your_account_limits">-->
 <p>
-As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
-you may have up to <?php echo plural(get_premium_value($user, 'notifications'), 'configured notification'); ?>.
-<?php if (!$user['is_premium']) { ?>
-
-To increase this limit, please purchase a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>.
-<?php } ?>
+<?php
+echo ht("As a :user, you may have up to :notifications defined.",
+	array(
+		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
+		':notifications' => plural(get_premium_value($user, 'notifications'), "configured notification"),
+	));
+echo "\n";
+if (!$user['is_premium']) {
+	echo t("To increase this limit, please purchase a :premium_account.", array(':premium_account' => link_to(url_for('premium'), ht("premium account"))));
+}
+?>
 </p>

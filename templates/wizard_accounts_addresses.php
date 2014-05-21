@@ -15,9 +15,16 @@ global $user;
 <h1>Add Addresses</h1>
 
 <p>
-As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
-you may have up to <?php echo number_format(get_premium_value($user, 'addresses')); ?> addresses of <a href="<?php echo htmlspecialchars(url_for('wizard_currencies')); ?>">your currencies</a> defined.
-<?php if (!$user['is_premium']) { ?>
-To increase this limit, please purchase a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>.
-<?php } ?>
+<?php
+echo ht("As a :user, you may have up to :addresses of :your_currencies defined.",
+	array(
+		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
+		':addresses' => plural(get_premium_value($user, 'addresses'), "address", "addresses"),
+		':your_currencies' => link_to(url_for('wizard_currencies'), ht("your currencies")),
+	));
+echo "\n";
+if (!$user['is_premium']) {
+	echo t("To increase this limit, please purchase a :premium_account.", array(':premium_account' => link_to(url_for('premium'), ht("premium account"))));
+}
+?>
 </p>

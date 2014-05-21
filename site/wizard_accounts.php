@@ -77,7 +77,7 @@ require_template("wizard_accounts");
 		<li><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">Notifications
 			<?php if ($accounts['wizard_notifications']) { ?><span class="count">(<?php echo number_format($accounts['wizard_notifications']); ?>)<?php } ?></a>
 			<ul>
-				<li>e.g. Hashrates, exchange rates <span class="new">new</span></li>
+				<li>e.g. Hashrates, exchange rates <span class="new"><?php echo ht("new"); ?></span></li>
 			</ul>
 		</li>
 

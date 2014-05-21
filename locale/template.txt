@@ -1,8 +1,16 @@
 '<currency>' is not a valid currency
 '<date>' is not a valid date
-<site> Finance
+... and <dozens_more>
+<site_name> Finance
+<site_name> Finance can keep track of <your_transactions> and assign them to separate accounts, for tax or accounting purposes.
+<site_name> Finance can keep track of <your_transactions> and group them into separate finance categories for tax or accounting purposes.
+<site_name> automatically manages your reports based on your currency, address and reporting preferences. Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them.
+<site_name> is a web application packed with features designed to help you track your cryptocurrencies, investments and mining hardware; understand and analyse markets; and make informed decisions about your portfolio.
+<site_name> supports a wide range of cryptocurrency applications and is regularly updated with new services. For example <site_name> currently supports:
 < Previous
 A category with the title '<title>' already exists.
+A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.
+API key
 About
 Account Status
 Account status:
@@ -23,6 +31,10 @@ Add Securities Exchanges
 Add Transaction
 Add account
 Add another OpenID Identity
+Add another cryptocurrency...
+Add another exchange...
+Add another mining pool...
+Add another wallet...
 Add category
 Add new account
 Add new category
@@ -33,21 +45,27 @@ Added new finance account.
 Added new finance category.
 Added transaction.
 Address
+Addresses
 Admin
 Administrator
+Along with generated report pages, <site_name> can also automatically <notify_you> via e-mail when exchange rates, miner hashrates, or your report values change. For example:
 Amount 1:
 Amount 2:
 An account with the title '<title>' already exists.
+Android app on Google Play
 Argument:
 Automatically logged in. Hi, <user>!
 Balance
 Beta
+Bollinger Bands (BOLL)
 Calculator
 Categories
 Category:
 Change Password
 Change password
 Commodity currencies
+Composition graphs of each currency
+Configurable
 Configure Accounts
 Configured Notifications
 Contact
@@ -78,7 +96,9 @@ Enable e-mail/password login on your account
 Enable layout editing
 English
 Exchange:
+Exchanges
 Expires in:
+Explorer
 External API Status
 External API Status: <api_title>
 Features
@@ -91,16 +111,24 @@ Forgotten password?
 Forums
 Free account
 French
+Frequently Asked Questions
 Further instructions to change your password have been sent to your e-mail address <email>.
 GST number:
 Get Premium
 Graph type:
+Hashrate
 Help
 Help Centre
+Hidden
+Historical
 Historical Data
 Historical Data: <heading>
+Historical exchange rates
+Historical securities trading values
+How do automatic notifications work?
 Identities
 Identity
+Individual Securities
 Instead of the default exchange, use the following exchanges:
 Invalid OpenID parameter
 Invalid article key.
@@ -109,7 +137,7 @@ Invalid openid parameter
 Invalid password parameter
 Invalid repeated password parameter
 Invalid username or password.
-Jobs at <site>
+Jobs at <site_name>
 Knowledge Base: <title>
 Last checked
 Last login:
@@ -122,6 +150,8 @@ Mailing List
 Market Average: <pair>
 Market Averages
 Member since:
+Mining Pools
+Mining pools
 NOTE:
 Name:
 New account creation successful.
@@ -135,8 +165,11 @@ No such user account exists.
 Not Found
 Notification Preferences
 Notifications
+Once you have defined some addresses or accounts, you can construct your own personalised summary pages, displaying any information you deem relevant. These report pages are made up of graphs, and include helpful reports such as:
+Only <premium_users> can export transactions to CSV.
 OpenID URL:
 OpenID...
+Other
 Other market averages
 Outstanding Payments
 Paid
@@ -149,11 +182,13 @@ Please send me an e-mail when
 Premium
 Premium Accounts
 Premium account
+Premium users can access an automatically-generated page listing all of their securities and their current market values. Premium users can also create <pages> to categorise different report types.
 Previous Payments
 Provider
 Purchase Premium
 Purchase Premium with <currency>
 Reference:
+Relative Strength Index (RSI)
 Release History
 Remove password login
 Remove this page
@@ -161,22 +196,36 @@ Removed password.
 Removing a currency will also permanently remove any historical summary data for that currency.
 Repeat:
 Report Preferences
+Reports
 Reset Password
 Reset User Graphs
 Reset all of my graphs and pages.
 Reset password
 Screenshots
+Screenshots on configuring accounts
+Screenshots on cryptocurrency selection
+Screenshots on historical data and graphs
+Screenshots on how to configure reports and graphs
+Screenshots on reports and graphs
+Securities
 Select an option
 Show:
 Signup
+Signup for Free
 Signup with:
+Simple Moving Average (SMA)
 Since
+Source
 Subscribe
-Subscribe to <site> Announcements
+Subscribe to <site_name> Announcements
 Subscribe to site announcements
 Successfully logged out. You may login again here.
 Summary pages
 Support
+Supported addresses
+Supported exchanges
+Supported mining pools
+Supported wallets
 System account
 Technical:
 Terms of Service
@@ -185,18 +234,28 @@ That e-mail address is already in use by another account using password login.
 That is not a valid OpenID identity.
 That is not a valid e-mail address.
 That resource could not be found.
+The combined fiat value of all of your currencies
+These automated notifications are sent out up to once per day (or once per hour for premium users).
 This e-mail address is already being used by another account for password login.
+This is a simple calculator that you can use to convert one currency into another currency, using the <recent_rates> as tracked by <site_name>.
 This isn't me.
+This page lists the most recent and historical average price index, as weighted by trade volume, from all of the <currency1>/<currency2> exchanges supported by <site_name>.
 Those passwords do not match.
 Title:
+To get started, you should update your <preferences>.
+To increase these limits, please purchase a <premium_account>.
+To increase this limit, please purchase a <premium_account>.
+To increase this limits, please purchase a <premium_account>.
 To subscribe to site announcements, you must provide an e-mail address.
 Tools
+Track accounts & addresses
 Tracked accounts
 Tracked addresses
 Unknown notification type to edit '<notification_type>'
 Unsubscribe
 Unsubscribe unsuccessful
 Updated password.
+Updates
 Use OpenID instead
 Use a password instead
 User Account
@@ -204,10 +263,17 @@ User Profile
 User has cancelled authentication.
 Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete any historical summary data associated with this account.
 Using the button below, you can reset this page and add a collection of example graphs.
+View your Reports
 Visit this group
+Wallets
 Warning: Without a valid e-mail address specified in your contact details, you will not receive important announcements and notifications about your accounts and user profile.
-Welcome to <name>
-Welcome to <site>!
+Welcome to <site_name>
+Welcome to <site_name>!
+What are cryptocurrencies?
+When Bitstamp USD/BTC increases by 10% in a day
+When your BTC balance increases
+When your LTC hashrate goes below 100 KH/s
+When your total portfolio value decreases by 10% in a week
 You cannot use both OpenID and password at login.
 You cannot use both OpenID and password at signup.
 You did not select the confirmation checkbox.
@@ -220,7 +286,7 @@ You need to select a second currency in order to add a second transaction amount
 You need to select your country.
 You need to select your e-mail address in order to use password login.
 You need to specify a transaction value.
-Your <site> User Account
+Your <site_name> User Account
 Your Account
 Your Currencies
 Your Finance Accounts
@@ -228,17 +294,25 @@ Your Finance Categories
 Your Hashrates
 Your OpenID Identites
 Your Reports
-Your Reports: 
+Your Reports:
 Your Securities
 Your Transactions
+add and remove transactions
 anonymous
 currency, accounts and reporting preferences
+dozens more
 finance accounts
-finance categories
-finance category
+free user
+historical data archive
+most recent exchange rates
 my converted
 my total
 my total hashrate
 new
+notify you
+premium account
+premium user
 premium users
 the exchange rate
+your cryptocurrency transactions
+your currencies

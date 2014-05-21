@@ -133,7 +133,7 @@ function page_footer() {
 			<ul>
 				<li><a href="<?php echo htmlspecialchars(url_for('historical')); ?>"><?php echo ht("Historical Data"); ?></a></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('average')); ?>"><?php echo ht("Market Averages"); ?></a> <span class="new">new</span></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>"><?php echo ht(":site Finance", array(':site' => get_site_config('site_name'))); ?></a> <span class="new"><?php echo ht("new"); ?></span></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>"><?php echo ht(":site_name Finance"); ?></a> <span class="new"><?php echo ht("new"); ?></span></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('calculator')); ?>"><?php echo ht("Calculator"); ?></a></li>
 			</ul>
 		</li>

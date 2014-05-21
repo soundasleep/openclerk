@@ -111,6 +111,11 @@ function t_without_category($key = false, $args = array()) {
 		}
 	}
 
+	// add default arguments
+	if (!isset($args[':site_name'])) {
+		$args[':site_name'] = get_site_config('site_name');
+	}
+
 	if (!isset($global_loaded_locales[$locale][$key])) {
 		if ($locale != 'en' && function_exists('missing_locale_string')) {
 			missing_locale_string($key, $locale);

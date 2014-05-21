@@ -1,6 +1,10 @@
-<h1>Cryptocurrency Calculator</h1>
+<h1><?php echo ht("Cryptocurrency Calculator"); ?></h1>
 
 <p>
+	<?php echo t("
 	This is a simple calculator that you can use to convert one currency into another currency,
-	using the <a href="<?php echo htmlspecialchars(url_for('historical')); ?>">most recent exchange rates</a> as tracked by <?php echo htmlspecialchars(get_site_config('site_name')); ?>.
+	using the :recent_rates as tracked by :site_name.
+	", array(
+		":recent_rates" => link_to(url_for('historical'), t("most recent exchange rates")),
+	)); ?>
 </p>

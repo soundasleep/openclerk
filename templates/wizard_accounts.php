@@ -24,9 +24,16 @@ global $user;
 
 <!--<p class="tip tip_float your_account_limits">-->
 <p>
-As a <?php echo $user['is_premium'] ? "premium" : "free"; ?> user,
-you may have up to <?php echo number_format(get_premium_value($user, 'addresses')); ?> addresses and <?php echo number_format(get_premium_value($user, 'addresses')); ?> accounts defined.
-<?php if (!$user['is_premium']) { ?>
-To increase these limits, please purchase a <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium account</a>.
-<?php } ?>
+<?php
+echo ht("As a :user, you may have up to :addresses and :accounts defined.",
+	array(
+		':user' => $user['is_premium'] ? ht("premium user") : ht("free user"),
+		':addresses' => plural(get_premium_value($user, 'addresses'), "address", "addresses"),
+		':accounts' => plural(get_premium_value($user, 'accounts'), "account"),
+	));
+echo "\n";
+if (!$user['is_premium']) {
+	echo t("To increase these limits, please purchase a :premium_account.", array(':premium_account' => link_to(url_for('premium'), ht("premium account"))));
+}
+?>
 </p>

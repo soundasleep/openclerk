@@ -134,14 +134,14 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
 <?php if (strtotime($user['created_at']) >= strtotime("-1 hour") || require_get("welcome", false)) { ?>
 <div class="success">
 <ul>
-	<li><?php echo ht("Welcome to :site!", array(':site' => get_site_config('site_name'))); ?></li>
+	<li><?php echo ht("Welcome to :site_name!"); ?></li>
 	<li><?php echo ht("To get started, you should update your :preferences.", array(
 			':preferences' => "<a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">" . ht("currency, accounts and reporting preferences") . "</a>")); ?></li>
 </ul>
 </div>
 <?php } ?>
 
-<h1><?php echo ht("Your :site User Account", array(':site' => get_site_config('site_name'))); ?></h1>
+<h1><?php echo ht("Your :site_name User Account"); ?></h1>
 
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
@@ -565,7 +565,7 @@ Extend your <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premiu
 	</li>
 	<li id="tab_user_mailinglist_tab" style="display:none;">
 
-<h2><?php echo ht("Subscribe to :site Announcements", array(":site" => get_site_config('site_name'))); ?></h2>
+<h2><?php echo ht("Subscribe to :site_name Announcements"); ?></h2>
 
 <p>
 	To keep up to date with news and service updates to <?php echo htmlspecialchars(get_site_config('site_name')); ?>, please subscribe to the

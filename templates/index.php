@@ -1,7 +1,7 @@
 <div class="home-block" id="home_block_top">
 <a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>" title="Screenshots"><div class="splash"></div></a>
 
-<h1><?php echo ht("Welcome to :name", array(":name" => get_site_config('site_name'))); ?> <small class="beta"><?php echo ht("Beta"); ?></small></h1>
+<h1><?php echo ht("Welcome to :site_name"); ?> <small class="beta"><?php echo ht("Beta"); ?></small></h1>
 
 <p>
 	<?php echo htmlspecialchars(get_site_config('site_name')); ?> lets you keep track of your cryptocurrencies, miners, investments and equities, and generates regular reports of your portfolio.
@@ -46,7 +46,7 @@
 	</p>
 
 	<p>
-		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>">Configure e-mail notifications</a> <span class="new">new</span>
+		<a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>">Configure e-mail notifications</a> <span class="new"><?php echo ht("new"); ?></span>
 	</p>
 </div>
 

@@ -37,7 +37,7 @@ $a = $knowledge['Notifications'];
 			// inline help
 			$title = $kb['title'];
 		}
-		echo "<li><a href=\"" . htmlspecialchars(url_for('kb', array('q' => $key))) . "\">" . htmlspecialchars($title) . "</a>" . ((is_array($kb) && isset($kb['new']) && $kb['new']) ? " <span class=\"new\">new</span>" : "") . "</li>\n";
+		echo "<li><a href=\"" . htmlspecialchars(url_for('kb', array('q' => $key))) . "\">" . htmlspecialchars($title) . "</a>" . ((is_array($kb) && isset($kb['new']) && $kb['new']) ? " <span class=\"new\">" . ht("new") . "</span>" : "") . "</li>\n";
 	}
 ?>
 	</ul>

@@ -16,7 +16,7 @@ foreach ($knowledge as $label => $a) {
 			// inline help
 			$title = $kb['title'];
 		}
-		echo "<li><a href=\"" . htmlspecialchars(url_for('kb', array('q' => $key))) . "\">" . htmlspecialchars($title) . "</a>" . ((is_array($kb) && isset($kb['new']) && $kb['new']) ? " <span class=\"new\">new</span>" : "") . "</li>\n";
+		echo "<li><a href=\"" . htmlspecialchars(url_for('kb', array('q' => $key))) . "\">" . htmlspecialchars($title) . "</a>" . ((is_array($kb) && isset($kb['new']) && $kb['new']) ? " <span class=\"new\">" . ht("new") . "</span>" : "") . "</li>\n";
 	}
 	echo "</ul>";
 }
@@ -85,7 +85,7 @@ foreach ($knowledge as $label => $a) {
 	</dd>
 
 	<?php /* issue #22: so that I remember the difference between bid/ask and sell/buy */ ?>
-	<dt>What does bid and ask mean? <span class="new">new</span></dt>
+	<dt>What does bid and ask mean? <span class="new"><?php echo ht("new"); ?></span></dt>
 	<dd>
 		The <em>bid price</em> is the highest price that a buyer is willing to pay;
 		the <em>ask price</em> is the lowest price that a seller is willing to accept.
