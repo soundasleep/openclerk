@@ -14,7 +14,7 @@ $errors = array();
 
 page_header("Admin: Jobs Distribution", "page_admin_jobs_distribution");
 
-$q = db()->prepare("SELECT COUNT(*) AS c, SUM(is_error) AS errors, SUM(execution_count) AS execs, AVG(priority) AS priority, job_type FROM (SELECT * FROM jobs WHERE is_executed=1 ORDER BY id DESC LIMIT " . ((int) require_get("n", 1000)) . ") AS j GROUP BY job_type ORDER BY c DESC");
+$q = db()->prepare("SELECT COUNT(*) AS c, SUM(is_error) AS errors, SUM(execution_count) AS execs, AVG(priority) AS priority, job_type FROM (SELECT * FROM jobs WHERE is_executed=1 ORDER BY id DESC LIMIT " . ((int) require_get("n", 4000)) . ") AS j GROUP BY job_type ORDER BY c DESC");
 $q->execute();
 $jobs = $q->fetchAll();
 

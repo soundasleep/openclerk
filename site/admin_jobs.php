@@ -39,7 +39,7 @@ page_header("Admin: Jobs Status", "page_admin_jobs");
 	$order_by = require_get("oldest", false) ? "created_at ASC, priority ASC, id ASC" : "priority ASC, id ASC";
 	$q = db()->prepare("SELECT jobs.*, users.email FROM jobs
 		LEFT JOIN users ON jobs.user_id=users.id
-		WHERE is_executed=0 ORDER BY $order_by LIMIT 20");
+		WHERE is_executed=0 ORDER BY $order_by LIMIT 50");
 	$q->execute();
 	while ($job = $q->fetch()) { ?>
 	<tr>
