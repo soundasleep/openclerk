@@ -25,6 +25,7 @@ $account_data = array('exchange_name' => get_exchange_name('multipool'));
 	<li>Your <?php echo $account_data['exchange_name']; ?> API keys will <i>never</i> be displayed on the <?php echo htmlspecialchars(get_site_config('site_name')); ?>
 		site, even if you have logged in.</li>
 
-	<li>At the time of writing, it is not possible to change or reset your <?php echo $account_data['exchange_name']; ?> API key.</li>
+	<li>Through the <?php echo $account_data['exchange_name']; ?> interface you can revoke an API key&apos;s access at any time by creating a new API key.<br>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/multipool_delete.png')); ?>"></li>
 </ul>
 </div>
