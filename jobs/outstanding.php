@@ -215,6 +215,30 @@ if (!$balance) {
 
 			}
 
+		} else if ($balance['balance'] > $address['last_balance']) {
+			// issue #231: have we made a new payment since we looked last?
+
+			// send a reminder
+			if ($user['email']) {
+				send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_further", array(
+					"name" => ($user['name'] ? $user['name'] : $user['email']),
+					"amount" => number_format_autoprecision($address['balance']),
+					"received" => number_format_autoprecision($balance['balance']),
+					"difference" => number_format_autoprecision($balance['balance'] - $address['last_balance']),
+					"currency" => get_currency_abbr($address['currency']),
+					"currency_name" => get_currency_name($address['currency']),
+					"address" => $address['address'],
+					"explorer" => get_site_config($address['currency'] . '_address_url'),
+					"url" => absolute_url(url_for("user#user_outstanding")),
+					"reminder" => $reminder,
+					"cancelled" => $cancelled,
+				));
+				crypto_log("Sent e-mail to " . htmlspecialchars($user['email']) . ".");
+			}
+
+			$q = db()->prepare("UPDATE outstanding_premiums SET last_balance=? WHERE id=?");
+			$q->execute(array($balance['balance'], $address['id']));
+			crypto_log("Sent received payment message on outstanding premium payment.");
 		}
 
 	}

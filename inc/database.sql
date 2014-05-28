@@ -4361,3 +4361,8 @@ CREATE TABLE accounts_anxpro (
 
 INSERT INTO exchanges SET name='anxpro';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='anxpro';
+
+-- issue #231: send emails on partial premium payment
+ALTER TABLE outstanding_premiums ADD last_balance DECIMAL(24, 8) null;
+UPDATE outstanding_premiums SET last_balance=paid_balance;
+
