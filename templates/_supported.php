@@ -291,6 +291,11 @@ foreach ($addresses_data as $exchange => $currencies) {
 		<li id="tab_home_updates_tab" style="display:none;">
 
 			<dl>
+				<dt>28 May</dt>
+				<dd>
+				Added <a href="https://www.bitmarket.pl/">BitMarket.Pl</a> exchange.
+				</dd>
+
 				<dt>21 May</dt>
 				<dd>
 				Added initial site translations into German, French, Japanese, Russian and Chinese (Simplified) languages;
