@@ -5,7 +5,7 @@ One of your {$exchange} {$labels} ({$title}) configured in {$site_name}, that ha
 
   {$message}
 
-You can remove this {$label}, or add a new {$exchange} {$label} with different parameters, by visiting your {$site_name} accounts wizard:
+You can remove or disable this {$label}, or add a new {$exchange} {$label} with different parameters, by visiting your {$site_name} accounts wizard:
 
   {$url}
 

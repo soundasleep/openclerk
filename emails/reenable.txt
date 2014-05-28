@@ -5,7 +5,7 @@ One of your {$exchange} {$labels} ({$title}) configured in {$site_name}, that ha
 
 This may be because {$site_name} has updated how it queries {$exchange} {$labels}, or {$exchange} is no longer down.
 
-You can remove this {$label} by visiting your {$site_name} accounts wizard:
+You can remove or disable this {$label} by visiting your {$site_name} accounts wizard:
 
   {$url}
 
