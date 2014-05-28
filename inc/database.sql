@@ -4360,3 +4360,4 @@ CREATE TABLE accounts_anxpro (
 );
 
 INSERT INTO exchanges SET name='anxpro';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='anxpro';

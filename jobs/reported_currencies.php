@@ -73,6 +73,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/mintpal.php");
 		break;
 
+	case "anxpro":
+		require(__DIR__ . "/reported_currencies/anxpro.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange to report currencies " . $exchange['name']);
 		break;

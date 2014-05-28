@@ -228,6 +228,8 @@ function get_default_site_config() {
 		"blockchain_api_key" => false,		// if you have one, optional
 		"bitmarket_pl_example_api_key" => '...',
 		"bitmarket_pl_example_api_secret" => '...',
+		"anxpro_example_api_key" => '...',
+		"anxpro_example_api_secret" => '...',
 
 		// premium properties
 		"premium_currencies" => array('btc', 'ltc'),
