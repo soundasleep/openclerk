@@ -822,6 +822,7 @@
   "You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.": "You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.",
   "You have not enabled e-mail\/password login on your account. Adding a password will not increase security, and you should continue to login with your :identities.": "You have not enabled e-mail\/password login on your account. Adding a password will not increase security, and you should continue to login with your :identities.",
   "You may purchase or extend your premium account by logging into your :user_account, or by selecting the appropriate payment option below.": "You may purchase or extend your premium account by logging into your :user_account, or by selecting the appropriate payment option below.",
+  "You must select the ':label' checkbox to add a :title.": "You must select the ':label' checkbox to add a :title.",
   "You need to add some account data for this graph to display.": "You need to add some account data for this graph to display.",
   "You need to agree to the terms of service.": "You need to agree to the terms of service.",
   "You need to be logged in as an administrator to do that.": "You need to be logged in as an administrator to do that.",
