@@ -31,11 +31,11 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>CoinJar (<a href="https://support.coinjar.com/discussions/suggestions/271-read-only-api-access">requested</a>)</li>
 	<li>Coinotron (on development list)</li>
 	<li>CoinEX (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/37">#37</a>)</li>
+	<li>coinmine.pw (<a href="http://www.coinmine.pw/api-information.php">PayAPI</a> is not safe &ndash; <a href="http://redmine.jevon.org/issues/106">#106</a>)</li>
 </ul>
 </div>
 <div class="column">
 <ul>
-	<li>coinmine.pw (<a href="http://www.coinmine.pw/api-information.php">PayAPI</a> is not safe &ndash; <a href="http://redmine.jevon.org/issues/106">#106</a>)</li>
 	<li>Coin.Mx</li>
 	<li>Coins-E</li>
 	<li>fast-pool.com</li>
