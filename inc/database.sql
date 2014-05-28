@@ -4317,3 +4317,23 @@ UPDATE exchanges SET track_reported_currencies=1 WHERE name='poloniex';
 -- issue #214: add MintPal exchange
 INSERT INTO exchanges SET name='mintpal';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='mintpal';
+
+-- issue #219: add MuPool.com mining pool
+DROP TABLE IF EXISTS accounts_mupool;
+
+CREATE TABLE accounts_mupool (
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
+
+  title varchar(255),
+  api_key varchar(255) not null,
+
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
+  is_disabled_manually tinyint not null default 0,
+
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
+);

@@ -157,6 +157,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_cryptotroll_doge', 'type' => 'cryptotroll_doge', 'failure' => true),
 	array('table' => 'accounts_bitmarket_pl', 'type' => 'bitmarket_pl', 'failure' => true),
 	array('table' => 'accounts_poloniex', 'type' => 'poloniex', 'failure' => true),
+	array('table' => 'accounts_mupool', 'type' => 'mupool', 'failure' => true),
 
 	array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1', 'user_id' => get_site_config('system_user_id')),
 

@@ -128,6 +128,7 @@ function get_default_site_config() {
 		"sleep_kraken_ticker" => 1,
 		"sleep_bitmarket_pl_ticker" => 5,
 		"sleep_givemecoins" => 0,
+		"sleep_mupool_balance" => 5,
 		"max_job_executions" => 5,	// if a job fails to run more than this number of times, then explicitly mark it as failed
 		"throttle_btcguild" => 30,	// only execute this job once every X seconds
 		"throttle_blockchain" => 5,

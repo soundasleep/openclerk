@@ -563,6 +563,10 @@ try {
 			require(__DIR__ . "/../jobs/poloniex.php");
 			break;
 
+		case "mupool":
+			require(__DIR__ . "/../jobs/mupool.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");

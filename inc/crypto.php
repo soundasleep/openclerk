@@ -234,6 +234,7 @@ function get_all_exchanges() {
 		"bitmarket_pl" => "BitMarket.pl",
 		"poloniex" => "Poloniex",
 		"mintpal" => "MintPal",
+		"mupool" => "MuPool",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -406,6 +407,7 @@ function get_supported_wallets() {
 		"miningforeman" => array('ltc', 'ftc', 'hash'),
 		"miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),		// and LOTS more; used in jobs/miningpoolco.php
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),		// and LOTS more; used in jobs/multipool.php
+		"mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
 		"nut2pools" => array('ftc', 'hash'),
 		"ozcoin" => array('ltc', 'btc', 'hash'),
 		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc'),		// and LOTS more; used in jobs/poloniex.php
@@ -668,6 +670,7 @@ function account_data_grouped() {
 			'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman'),
 			'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'mupool' => array('table' => 'accounts_mupool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'nut2pools_ftc' => array('table' => 'accounts_nut2pools_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'nut2pools'),
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
@@ -862,6 +865,7 @@ function get_external_apis() {
 			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 			'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
 			'multipool' => '<a href="https://multipool.us/">Multipool</a>',
+			'mupool' => '<a href="https://mupool.com/">MuPool</a>',
 			'nut2pools_ftc' => '<a href="https://ftc.nut2pools.com/">Nut2Pools</a> (FTC)',
 			'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
 			'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
@@ -1657,6 +1661,15 @@ function get_accounts_wizard_config_basic($exchange) {
 				'table' => 'accounts_cryptotroll_doge',
 				'title' => 'Cryptotroll DOGE account',
 				'title_key' => 'cryptotroll',
+			);
+
+		case "mupool":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
+				),
+				'table' => 'accounts_mupool',
+				'khash' => true,
 			);
 
 		// --- exchanges ---

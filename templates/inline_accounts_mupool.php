@@ -1,5 +1,5 @@
 <?php
-$account_data = array('exchange_name' => get_exchange_name('nut2pools_ftc') . " FTC");
+$account_data = array('exchange_name' => get_exchange_name('mupool'));
 ?>
 
 <div class="instructions_add">
@@ -7,11 +7,11 @@ $account_data = array('exchange_name' => get_exchange_name('nut2pools_ftc') . " 
 
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account
-		and visit your <a href="https://ftc.nut2pools.com/index.php?page=account&amp;action=edit">Edit Account page</a>.<br>
-		<img src="<?php echo htmlspecialchars(url_for('img/accounts/nut2pools_ftc1.png')); ?>"></li>
+		and visit your <a href="https://mupool.com/index.php?page=account&amp;action=edit">Edit Account page</a>.<br>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/mupool1.png')); ?>"></li>
 
 	<li>Copy and paste your <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".<br>
-		<img src="<?php echo htmlspecialchars(url_for('img/accounts/nut2pools_ftc2.png')); ?>"></li>
+		<img src="<?php echo htmlspecialchars(url_for('img/accounts/mupool2.png')); ?>"></li>
 </ol>
 </div>
 
