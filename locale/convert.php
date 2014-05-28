@@ -6,11 +6,13 @@
 
 require(__DIR__ . "/../inc/global.php");
 
+$languages = explode(",", isset($argv[1]) ? $argv[1] : "");
+
 $dir = __DIR__ . "/translated/";
 if ($dh = opendir($dir)) {
 	while (($file = readdir($dh)) !== false) {
 		$matches = false;
-		if (preg_match("/_([a-z@]+).json$/i", $file, $matches)) {
+		if (preg_match("/_([a-z@]+).json$/i", $file, $matches) && !preg_match("/^locale_/i", $file)) {
 			$locale = $matches[1];
 
 			// switch over specific locales
@@ -18,6 +20,11 @@ if ($dh = opendir($dir)) {
 				case "en@lolcat":
 					$locale = "lolcat";
 					continue;
+			}
+
+			if ($languages && !in_array($locale, $languages)) {
+				echo "skipping locale $locale\n";
+				continue;
 			}
 
 			echo $dir . $file . " -> " . $locale . "\n";
