@@ -17,6 +17,7 @@ if (!$account) {
 require(__DIR__ . "/_cexio.php");
 
 $balance = cexio_query($account['api_key'], $account['api_username'], $account['api_secret'], "https://cex.io/api/ghash.io/hashrate");
+crypto_log(print_r($balance, true));
 
 if (isset($balance['error'])) {
 	if ($balance['error'] == "Permission denied") {
@@ -34,4 +35,5 @@ $hashrate = $balance['last5m'];
 
 insert_new_hashrate($job, $account, $exchange, 'btc', $hashrate /* mhash */);
 insert_new_hashrate($job, $account, $exchange, 'nmc', $hashrate /* mhash */);
-// TODO support IXC, DVC hashrates
+insert_new_hashrate($job, $account, $exchange, 'ixc', $hashrate /* mhash */);
+// TODO support DVC hashrates
