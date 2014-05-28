@@ -127,6 +127,17 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
 			<option id="option_template"></option>
 		</select></td>
 	</tr>
+	<tr id="add_account_template_checkbox" style="display:none;">
+		<th></th>
+		<td>
+			<input id="ignored" type="checkbox" name="ignored" value="1">
+			<label for="ignored">Parameter</label>
+		</td>
+	</tr>
+	<tr id="add_account_unsafe_template" style="display:none;" class="unsafe-text">
+		<th></th>
+		<td><strong><?php echo t("NOTE:"); ?></strong> <label>Warning</label></td>
+	</tr>
 	<tr class="buttons">
 		<td colspan="2" class="buttons">
 			<input type="submit" name="add" value="<?php echo ht("Add account"); ?>" class="add">
@@ -155,6 +166,9 @@ function available_exchanges() {
 			$callback = $input['dropdown'];
 			echo ", 'dropdown' : " . json_encode($callback());
 		}
+		if (isset($input['checkbox']) && $input['checkbox']) {
+			echo ", 'checkbox' : " . json_encode(true);
+		}
 		if (isset($input['style_prefix']) && $input['style_prefix']) {
 			echo ", 'style_prefix' : " . json_encode($input['style_prefix']);
 		}
@@ -163,7 +177,10 @@ function available_exchanges() {
 		}
 		echo ", 'length' : " . json_encode(isset($input['length']) ? $input['length'] : 64) . "},";
 	}
-	echo "],";
+	echo "]";
+	if (isset($config['unsafe']) && $config['unsafe']) {
+		echo ", 'unsafe': " . json_encode($config['unsafe']);
+	}
 	echo "},\n";
 } ?>
 	];

@@ -293,7 +293,7 @@ foreach ($addresses_data as $exchange => $currencies) {
 			<dl>
 				<dt>28 May</dt>
 				<dd>
-				Added <a href="https://www.bitmarket.pl/">BitMarket.Pl</a> exchange.
+				Added <a href="https://www.bitmarket.pl/">BitMarket.pl</a> exchange.
 				</dd>
 
 				<dt>21 May</dt>

@@ -124,16 +124,25 @@ if (require_post("add", false)) {
 	$args = array();
 	foreach ($account_data['inputs'] as $key => $data) {
 		$callback = $data['callback'];
-		if (!$callback(require_post($key))) {
-			$errors[] = t("That is not a valid :title :label.",
-				array(
-					':title' => htmlspecialchars($account_data['title']),
-					':label' => htmlspecialchars($data['title']),
-				));
+		$value = (isset($data['checkbox']) && $data['checkbox']) ? require_post($key, false) : require_post($key);
+		if (!$callback($value)) {
+			if (isset($data['checkbox']) && $data['checkbox']) {
+				$errors[] = t("You must select the ':label' checkbox to add a :title.",
+					array(
+						':title' => htmlspecialchars($account_data['title']),
+						':label' => htmlspecialchars($data['title']),
+					));
+			} else {
+				$errors[] = t("That is not a valid :title :label.",
+					array(
+						':title' => htmlspecialchars($account_data['title']),
+						':label' => htmlspecialchars($data['title']),
+					));
+			}
 			break;
 		} else {
 			$query .= ", $key=?";
-			$args[] = require_post($key);
+			$args[] = $value;
 		}
 	}
 	if ($account_data['disabled']) {

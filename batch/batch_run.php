@@ -559,6 +559,10 @@ try {
 			require(__DIR__ . "/../jobs/bitmarket_pl.php");
 			break;
 
+		case "poloniex":
+			require(__DIR__ . "/../jobs/poloniex.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");

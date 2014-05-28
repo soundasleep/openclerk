@@ -232,6 +232,7 @@ function get_all_exchanges() {
 		"cryptotroll" => "Cryptotroll",
 		"cryptotroll_doge" => "Cryptotroll",
 		"bitmarket_pl" => "BitMarket.pl",
+		"poloniex" => "Poloniex",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -248,7 +249,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("bitmarket_pl");
+	return array("bitmarket_pl", "poloniex");
 }
 
 function get_exchange_pairs() {
@@ -283,6 +284,8 @@ function get_exchange_pairs() {
 				array('krw', 'xrp'),
 				array('usd', 'dog'), array('usd', 'xrp')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
+		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
+				array('btc', 'wdc'), array('btc', 'ppc')),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils')),
 		"vaultofsatoshi" => array(
@@ -304,6 +307,13 @@ function get_new_exchange_pairs() {
 		"bitmarket_pl_plnltc",
 		"bitmarket_pl_plndog",
 		"bitmarket_pl_plnppc",
+		"poloniex_btcdog",
+		"poloniex_btcltc",
+		"poloniex_btcvtc",
+		"poloniex_btcxpm",
+		"poloniex_btcnmc",
+		"poloniex_btcwdc",
+		"poloniex_btcppc",
 	);
 }
 
@@ -392,6 +402,7 @@ function get_supported_wallets() {
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),		// and LOTS more; used in jobs/multipool.php
 		"nut2pools" => array('ftc', 'hash'),
 		"ozcoin" => array('ltc', 'btc', 'hash'),
+		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm'),		// and LOTS more; used in jobs/poloniex.php
 		"poolx" => array('ltc', 'hash'),
 		"rapidhash" => array('dog', 'vtc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
@@ -683,6 +694,7 @@ function account_data_grouped() {
 			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'kraken' => array('table' => 'accounts_kraken', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'poloniex' => array('table' => 'accounts_poloniex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 		),
@@ -881,6 +893,7 @@ function get_external_apis() {
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
 			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
+			'poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
 			'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
 			'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
 		),
@@ -1792,6 +1805,17 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitmarket_pl_apisecret', 'length' => 128),
 				),
 				'table' => 'accounts_bitmarket_pl',
+			);
+
+		case "poloniex":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_poloniex_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_poloniex_apisecret', 'length' => 128),
+					'accept' => array('title' => 'I accept that this API is unsafe', 'checkbox' => true, 'callback' => 'number_format'),
+				),
+				'unsafe' => "A Poloniex API key allows trading, but does not allow withdrawl.",
+				'table' => 'accounts_poloniex',
 			);
 
 		// --- securities ---
@@ -2796,6 +2820,16 @@ function is_valid_bitmarket_pl_apikey($key) {
 function is_valid_bitmarket_pl_apisecret($key) {
 	// looks like a 32 character hex string
 	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_poloniex_apikey($key) {
+	// looks like 4 sets of 8 characters
+	return preg_match("#^[A-Z0-9]{8}-[A-Z0-9]{8}-[A-Z0-9]{8}-[A-Z0-9]{8}+$#", $key);
+}
+
+function is_valid_poloniex_apisecret($key) {
+	// looks like a 128 character hex string
+	return strlen($key) == 128 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
