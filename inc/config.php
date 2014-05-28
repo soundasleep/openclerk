@@ -243,6 +243,7 @@ function get_default_site_config() {
 		"premium_welcome" => false,		// redirect to the welcome page 'welcome' for premium users
 		"new_user_premium_update_hours" => 24,	// how many hours to give a new user premium-level updates, or false for none
 		"user_expiry_days" => 30,		// a free user must login every X days to prevent account being disabled
+		"taxable_countries" => array(),		// a list of country codes to calculate 'taxable income' on /admin_financial
 
 		// archive settings
 		"archive_ticker_data" => "-31 days",
