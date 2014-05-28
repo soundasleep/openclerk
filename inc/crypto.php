@@ -233,6 +233,7 @@ function get_all_exchanges() {
 		"cryptotroll_doge" => "Cryptotroll",
 		"bitmarket_pl" => "BitMarket.pl",
 		"poloniex" => "Poloniex",
+		"mintpal" => "MintPal",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -283,6 +284,7 @@ function get_exchange_pairs() {
 				array('eur', 'dog'), array('eur', 'xrp'),
 				array('krw', 'xrp'),
 				array('usd', 'dog'), array('usd', 'xrp')),
+		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'ixc')),		// also pts, mmc, ...
@@ -315,6 +317,9 @@ function get_new_exchange_pairs() {
 		"poloniex_btcwdc",
 		"poloniex_btcppc",
 		"poloniex_btcixc",
+		"mintpal_btcltc",
+		"mintpal_btcdog",
+		"mintpal_btcvtc",
 	);
 }
 
@@ -910,7 +915,9 @@ function get_external_apis() {
 			'ticker_coins-e' => '<a href="https://www.coins-e.com">Coins-E</a>',
 			'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'ticker_kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
+			'ticker_mintpal' => '<a href="https://www.mintpal.com/">MintPal</a>',
 			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
+			'ticker_poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
 			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
 			'ticker_vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
 			'ticker_virtex' => '<a href="https://www.cavirtex.com/">VirtEx</a>',

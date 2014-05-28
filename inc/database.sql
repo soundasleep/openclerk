@@ -4313,3 +4313,7 @@ CREATE TABLE accounts_poloniex (
 
 INSERT INTO exchanges SET name='poloniex';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='poloniex';
+
+-- issue #214: add MintPal exchange
+INSERT INTO exchanges SET name='mintpal';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='mintpal';
