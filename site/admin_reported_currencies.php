@@ -28,8 +28,8 @@ page_header("Reported Currencies", "page_reported_currencies");
 $matrix = array();
 
 // create a matrix of exchanges to currencies
-$q = db()->prepare("SELECT * FROM exchanges ORDER BY name ASC");
-$q->execute();
+$q = db()->prepare("SELECT * FROM exchanges WHERE name <> ? ORDER BY name ASC");
+$q->execute(array('average'));
 $exchanges = $q->fetchAll();
 $all_currencies = array();
 foreach ($exchanges as $i => $exchange) {
