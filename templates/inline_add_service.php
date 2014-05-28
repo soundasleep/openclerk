@@ -26,7 +26,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>Bitfinex</li>
 	<li>Bitcoin China</li>
 	<li>Blockchain.info Wallet (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/195">#195</a>)</li>
-	<li>BTER</li>
+	<li>BTER (<a href="http://redmine.jevon.org/issues/237">#237</a>)</li>
 	<li>CampBX (read-only API <a href="https://bitcointalk.org/index.php?topic=192423.msg2868088#msg2868088">"coming in September"</a>)</li>
 	<li>CoinJar (<a href="https://support.coinjar.com/discussions/suggestions/271-read-only-api-access">requested</a>)</li>
 	<li>Coinotron (on development list)</li>
