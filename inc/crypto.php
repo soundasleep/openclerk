@@ -285,7 +285,7 @@ function get_exchange_pairs() {
 				array('usd', 'dog'), array('usd', 'xrp')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
-				array('btc', 'wdc'), array('btc', 'ppc')),		// also pts, mmc, ...
+				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'ixc')),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils')),
 		"vaultofsatoshi" => array(
@@ -314,6 +314,7 @@ function get_new_exchange_pairs() {
 		"poloniex_btcnmc",
 		"poloniex_btcwdc",
 		"poloniex_btcppc",
+		"poloniex_btcixc",
 	);
 }
 
@@ -402,7 +403,7 @@ function get_supported_wallets() {
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),		// and LOTS more; used in jobs/multipool.php
 		"nut2pools" => array('ftc', 'hash'),
 		"ozcoin" => array('ltc', 'btc', 'hash'),
-		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm'),		// and LOTS more; used in jobs/poloniex.php
+		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc'),		// and LOTS more; used in jobs/poloniex.php
 		"poolx" => array('ltc', 'hash'),
 		"rapidhash" => array('dog', 'vtc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),

@@ -65,6 +65,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/bitmarket_pl.php");
 		break;
 
+	case "poloniex":
+		require(__DIR__ . "/reported_currencies/poloniex.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange to report currencies " . $exchange['name']);
 		break;

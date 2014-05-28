@@ -4312,3 +4312,4 @@ CREATE TABLE accounts_poloniex (
 );
 
 INSERT INTO exchanges SET name='poloniex';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='poloniex';
