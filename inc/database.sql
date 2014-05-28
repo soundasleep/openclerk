@@ -4285,3 +4285,5 @@ CREATE TABLE accounts_bitmarket_pl (
 
   INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
+
+INSERT INTO exchanges SET name='bitmarket_pl';

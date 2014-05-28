@@ -888,6 +888,7 @@ function get_external_apis() {
 		"Exchange tickers" => array(
 			'ticker_bitnz' => '<a href="http://bitnz.com">BitNZ</a>',
 			'ticker_bitcurex' => '<a href="https://bitcurex.com/">Bitcurex</a>',
+			'ticker_bitmarket_pl' => '<a href="https://www.bitmarket.pl/">BitMarket.pl</a>',
 			'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
 			'ticker_btcchina' => '<a href="https://btcchina.com">BTC China</a>',
 			'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',

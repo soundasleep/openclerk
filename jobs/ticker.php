@@ -89,6 +89,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/kraken.php");
 		break;
 
+	case "bitmarket_pl":
+		require(__DIR__ . "/ticker/bitmarket_pl.php");
+		break;
+
 	case "average":
 		require(__DIR__ . "/ticker/average.php");
 		break;
