@@ -4310,3 +4310,5 @@ CREATE TABLE accounts_poloniex (
 
   INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
+
+INSERT INTO exchanges SET name='poloniex';
