@@ -4287,3 +4287,4 @@ CREATE TABLE accounts_bitmarket_pl (
 );
 
 INSERT INTO exchanges SET name='bitmarket_pl';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='bitmarket_pl';
