@@ -215,7 +215,7 @@ if (!$balance) {
 
 			}
 
-		} else if ($balance['balance'] > $address['last_balance']) {
+		} else if ($balance['balance'] >= 0 && $balance['balance'] > $address['last_balance']) {
 			// issue #231: have we made a new payment since we looked last?
 
 			// send a reminder
