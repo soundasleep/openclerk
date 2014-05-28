@@ -231,6 +231,7 @@ function get_all_exchanges() {
 		"rapidhash_vtc" => "RapidHash",
 		"cryptotroll" => "Cryptotroll",
 		"cryptotroll_doge" => "Cryptotroll",
+		"bitmarket_pl" => "BitMarket.pl",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -247,7 +248,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("kraken", "average");
+	return array("bitmarket_pl");
 }
 
 function get_exchange_pairs() {
@@ -255,6 +256,7 @@ function get_exchange_pairs() {
 		// should be in alphabetical order
 		"bit2c" => array(array('ils', 'btc'), array('ils', 'ltc'), array('btc', 'ltc')),
 		"bitcurex" => array(array('pln', 'btc'), array('eur', 'btc')),
+		"bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
 		"bitnz" => array(array('nzd', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
 		"btcchina" => array(array('cny', 'btc')),
@@ -298,30 +300,10 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"kraken_ltcdog",
-		"kraken_ltcxrp",
-		"kraken_eurltc",
-		"kraken_krwltc",
-		"kraken_usdltc",
-		"kraken_nmcdog",
-		"kraken_nmcxrp",
-		"kraken_eurnmc",
-		"kraken_krwnmc",
-		"kraken_usdnmc",
-		"kraken_btcltc",
-		"kraken_btcnmc",
-		"kraken_btcdog",
-		"kraken_btcxrp",
-		"kraken_eurbtc",
-		"kraken_krwbtc",
-		"kraken_usdbtc",
-		"kraken_eurdog",
-		"kraken_eurxrp",
-		"kraken_krwxrp",
-		"kraken_usddog",
-		"kraken_usdxrp",
-		"coinbase_ilsbtc",
-		"coinbase_krwbtc",
+		"bitmarket_pl_plnbtc",
+		"bitmarket_pl_plnltc",
+		"bitmarket_pl_plndog",
+		"bitmarket_pl_plnppc",
 	);
 }
 
@@ -368,6 +350,7 @@ function get_supported_wallets() {
 		"bit2c" => array('btc', 'ltc', 'ils'),
 		"bitcurex_eur" => array('btc', 'eur'),
 		"bitcurex_pln" => array('btc', 'pln'),
+		"bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
@@ -442,7 +425,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("kraken", "rapidhash", "rapidhash_doge", "rapidhash_vtc", "cryptotroll", "cryptotroll_doge");
+	return array("bitmarket_pl");
 }
 
 function get_summary_types() {
@@ -690,6 +673,7 @@ function account_data_grouped() {
 			'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'bitmarket_pl' => array('table' => 'accounts_bitmarket_pl', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -883,6 +867,7 @@ function get_external_apis() {
 			'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
 			'bitcurex_eur' => '<a href="https://eur.bitcurex.com/">Bitcurex EUR</a>',
 			'bitcurex_pln' => '<a href="https://pln.bitcurex.com/">Bitcurex PLN</a>',
+			'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'btcinve' => '<a href="https://btcinve.com">BTCInve</a>',
@@ -1797,6 +1782,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_kraken_apisecret', 'length' => 128),
 				),
 				'table' => 'accounts_kraken',
+			);
+
+		case "bitmarket_pl":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitmarket_pl_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitmarket_pl_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_bitmarket_pl',
 			);
 
 		// --- securities ---
@@ -2791,6 +2785,16 @@ function is_valid_kraken_apikey($key) {
 
 function is_valid_kraken_apisecret($key) {
 	return strlen($key) > 64 && strlen($key) < 128 && preg_match("#^[a-zA-Z0-9=/+]+$#", $key);
+}
+
+function is_valid_bitmarket_pl_apikey($key) {
+	// looks like a 32 character hex string
+	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_bitmarket_pl_apisecret($key) {
+	// looks like a 32 character hex string
+	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

@@ -555,6 +555,10 @@ try {
 			require(__DIR__ . "/../jobs/cryptotroll_doge.php");
 			break;
 
+		case "bitmarket_pl":
+			require(__DIR__ . "/../jobs/bitmarket_pl.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");

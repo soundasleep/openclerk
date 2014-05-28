@@ -155,6 +155,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_rapidhash_doge', 'type' => 'rapidhash_doge', 'failure' => true),
 	array('table' => 'accounts_rapidhash_vtc', 'type' => 'rapidhash_vtc', 'failure' => true),
 	array('table' => 'accounts_cryptotroll_doge', 'type' => 'cryptotroll_doge', 'failure' => true),
+	array('table' => 'accounts_bitmarket_pl', 'type' => 'bitmarket_pl', 'failure' => true),
 
 	array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1', 'user_id' => get_site_config('system_user_id')),
 
