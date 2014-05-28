@@ -106,13 +106,17 @@ function get_error_class($n) {
 			if ($data['failure']) {
 				$q = db()->prepare("SELECT COUNT(*) AS s, SUM(t.is_disabled) AS disabled, SUM(t.is_disabled_manually) AS manually_disabled, MAX(t.last_queue) AS lq FROM " . $data['table'] . " AS t
 					LEFT JOIN users ON t.user_id=users.id
-					WHERE users.is_disabled=0");
+					WHERE users.is_disabled=0"
+					. ((isset($data['query']) && $data['query']) ? " " . $data['query'] : ""));
 			} else if ($data['job']) {
 				$q = db()->prepare("SELECT COUNT(*) AS s, 0 AS disabled, 0 AS manually_disabled, MAX(t.last_queue) AS lq FROM " . $data['table'] . " AS t
 					LEFT JOIN users ON t.user_id=users.id
-					WHERE users.is_disabled=0");
+					WHERE users.is_disabled=0"
+					. ((isset($data['query']) && $data['query']) ? " " . $data['query'] : ""));
 			} else {
-				$q = db()->prepare("SELECT COUNT(*) AS s, 0 AS disabled, 0 AS manually_disabled, NULL AS lq FROM " . $data['table'] . " AS t");
+				$q = db()->prepare("SELECT COUNT(*) AS s, 0 AS disabled, 0 AS manually_disabled, NULL AS lq FROM " . $data['table'] . " AS t
+					WHERE 1"
+					. ((isset($data['query']) && $data['query']) ? " " . $data['query'] : ""));
 			}
 			$q->execute();
 			$summary = $q->fetch();
