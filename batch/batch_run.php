@@ -567,6 +567,10 @@ try {
 			require(__DIR__ . "/../jobs/mupool.php");
 			break;
 
+		case "anxpro":
+			require(__DIR__ . "/../jobs/anxpro.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");

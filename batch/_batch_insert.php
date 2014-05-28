@@ -193,7 +193,7 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 		throw new Exception("Invalid parameter: currency2 '" . htmlspecialchars($cur2) . "'");
 	}
 
-	crypto_log($exchange['name'] . " rate for $cur1/$cur2: " . $values['last_trade'] . " (" . $values['bid'] . "/" . $values['ask'] . ")");
+	crypto_log($exchange['name'] . " rate for $cur1/$cur2: " . $values['last_trade'] . " (" . $values['bid'] . "/" . $values['ask'] . ") [" . $values['volume'] . "]");
 	if ($values['bid'] > $values['ask']) {
 		crypto_log("<strong>WARNING:</strong> bid > ask");
 	}

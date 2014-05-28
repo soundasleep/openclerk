@@ -293,7 +293,7 @@ foreach ($addresses_data as $exchange => $currencies) {
 			<dl>
 				<dt>28 May</dt>
 				<dd>
-				Added <a href="https://www.bitmarket.pl/">BitMarket.pl</a> and <a href="https://www.poloniex.com/">Poloniex</a> exchanges;
+				Added <a href="https://anxpro.com/">ANXPRO</a>, <a href="https://www.bitmarket.pl/">BitMarket.pl</a>, <a href="https://www.poloniex.com/">Poloniex</a> exchanges;
 				updated <a href="https://cex.io/">CEX.io</a> supported currencies;
 				added <a href="https://mupool.com/">MuPool</a> mining pool.
 				</dd>

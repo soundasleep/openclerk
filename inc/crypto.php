@@ -235,6 +235,7 @@ function get_all_exchanges() {
 		"poloniex" => "Poloniex",
 		"mintpal" => "MintPal",
 		"mupool" => "MuPool",
+		"anxpro" => "ANXPRO",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -257,6 +258,18 @@ function get_new_exchanges() {
 function get_exchange_pairs() {
 	return array(
 		// should be in alphabetical order
+		"anxpro" => array(
+			array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('gbp', 'btc'), array('nzd', 'btc'),
+			array('usd', 'ltc'), array('eur', 'ltc'), array('aud', 'ltc'), array('gbp', 'ltc'), array('nzd', 'ltc'),
+			array('usd', 'ppc'), array('eur', 'ppc'), array('aud', 'ppc'), array('gbp', 'ppc'), array('nzd', 'ppc'),
+			array('usd', 'nmc'), array('eur', 'nmc'), array('aud', 'nmc'), array('gbp', 'nmc'), array('nzd', 'nmc'),
+			array('usd', 'dog'), array('eur', 'dog'), array('aud', 'dog'), array('gbp', 'dog'), array('nzd', 'dog'),
+			// also hkd, sgd, jpy, chf
+			array('btc', 'ltc'),
+			array('btc', 'ppc'), array('ltc', 'ppc'),
+			array('btc', 'nmc'), array('ltc', 'nmc'),
+			array('btc', 'dog'),
+		),
 		"bit2c" => array(array('ils', 'btc'), array('ils', 'ltc'), array('btc', 'ltc')),
 		"bitcurex" => array(array('pln', 'btc'), array('eur', 'btc')),
 		"bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
@@ -321,6 +334,37 @@ function get_new_exchange_pairs() {
 		"mintpal_btcltc",
 		"mintpal_btcdog",
 		"mintpal_btcvtc",
+		"anxpro_usdbtc",
+		"anxpro_eurbtc",
+		"anxpro_audbtc",
+		"anxpro_gbpbtc",
+		"anxpro_nzdbtc",
+		"anxpro_usdltc",
+		"anxpro_eurltc",
+		"anxpro_audltc",
+		"anxpro_gbpltc",
+		"anxpro_nzdltc",
+		"anxpro_usdppc",
+		"anxpro_eurppc",
+		"anxpro_audppc",
+		"anxpro_gbpppc",
+		"anxpro_nzdppc",
+		"anxpro_usdnmc",
+		"anxpro_eurnmc",
+		"anxpro_audnmc",
+		"anxpro_gbpnmc",
+		"anxpro_nzdnmc",
+		"anxpro_usddog",
+		"anxpro_eurdog",
+		"anxpro_auddog",
+		"anxpro_gbpdog",
+		"anxpro_nzddog",
+		"anxpro_btcltc",
+		"anxpro_btcppc",
+		"anxpro_ltcppc",
+		"anxpro_btcnmc",
+		"anxpro_ltcnmc",
+		"anxpro_btcdog",
 	);
 }
 
@@ -362,6 +406,7 @@ function get_supported_wallets() {
 		// alphabetically sorted, except for generic
 		"50btc" => array('btc', 'hash'),
 		"796" => array('btc', 'ltc', 'usd'),
+		"anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),		// also hkd, sgd, jpy, chf
 		"beeeeer" => array('xpm'),
 		"bips" => array('btc', 'usd'),
 		"bit2c" => array('btc', 'ltc', 'ils'),
@@ -444,7 +489,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("bitmarket_pl");
+	return array("bitmarket_pl", "mupool", "poloniex", "anxpro");
 }
 
 function get_summary_types() {
@@ -689,6 +734,7 @@ function account_data_grouped() {
 			'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
+			'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
 			'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -885,6 +931,7 @@ function get_external_apis() {
 		),
 
 		"Exchange wallets" => array(
+			'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
 			'bips' => '<a href="https://bips.me">BIPS</a>',
 			'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
 			'bitcurex_eur' => '<a href="https://eur.bitcurex.com/">Bitcurex EUR</a>',
@@ -909,6 +956,7 @@ function get_external_apis() {
 		),
 
 		"Exchange tickers" => array(
+			'ticker_anxpro' => '<a href="https://anxpro.com/">ANXPRO</a>',
 			'ticker_bitnz' => '<a href="http://bitnz.com">BitNZ</a>',
 			'ticker_bitcurex' => '<a href="https://bitcurex.com/">Bitcurex</a>',
 			'ticker_bitmarket_pl' => '<a href="https://www.bitmarket.pl/">BitMarket.pl</a>',
@@ -1837,6 +1885,15 @@ function get_accounts_wizard_config_basic($exchange) {
 				),
 				'unsafe' => "A Poloniex API key allows trading, but does not allow withdrawl.",
 				'table' => 'accounts_poloniex',
+			);
+
+		case "anxpro":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'Key', 'callback' => 'is_valid_anxpro_apikey'),
+					'api_secret' => array('title' => 'Secret', 'callback' => 'is_valid_anxpro_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_anxpro',
 			);
 
 		// --- securities ---
@@ -2851,6 +2908,16 @@ function is_valid_poloniex_apikey($key) {
 function is_valid_poloniex_apisecret($key) {
 	// looks like a 128 character hex string
 	return strlen($key) == 128 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_anxpro_apikey($key) {
+	// not sure what the format should be
+	return strlen($key) == 36 && preg_match("#^[a-z0-9\-]+$#", $key);
+}
+
+function is_valid_anxpro_apisecret($key) {
+	// not sure what the format should be, looks to be similar to base64 encoding
+	return strlen($key) > 36 && preg_match('#^[A-Za-z0-9/\\+=]+$#', $key);
 }
 
 function is_valid_currency($c) {
