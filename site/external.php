@@ -82,12 +82,12 @@ foreach ($external_apis as $group_name => $group) {
 		$stats = $q->fetch();
 		if ($stats) {
 			echo "<li><span class=\"title\">" . t("Free user job delay") . "</span> ";
-			echo "<span class=\"status_percent " . get_error_class((($stats['free_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours') * 2)) * 100) . "\">";
+			echo "<span class=\"status_percent " . get_error_class((($stats['free_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours') * 3)) * 100) . "\">";
 			echo expected_delay_html($stats['free_delay_minutes']);
 			echo "</span></li>\n";
 
 			echo "<li><span class=\"title\">" . t(":premium_user job delay", array(':premium_user' => link_to(url_for('premium'), t("Premium user")))) . "</span> ";
-			echo "<span class=\"status_percent " . get_error_class((($stats['premium_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours_premium') * 2)) * 100) . "\">";
+			echo "<span class=\"status_percent " . get_error_class((($stats['premium_delay_minutes'] / 60) / (get_site_config('refresh_queue_hours_premium') * 3)) * 100) . "\">";
 			echo expected_delay_html($stats['premium_delay_minutes']);
 			echo "</span></li>\n";
 		}
