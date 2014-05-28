@@ -80,6 +80,18 @@ foreach (get_site_config('premium_currencies') as $cur) {
 		'callback' => 'number_format_autoprecision',
 	);
 }
+if (get_site_config('taxable_countries')) {
+	$list = "('" . implode("', '", get_site_config('taxable_countries')) . "')";
+	foreach (get_site_config('premium_currencies') as $cur) {
+		$queries["Taxable income (" . get_currency_abbr($cur) . ")"] = array(
+			'query' => "SELECT IFNULL(SUM(paid_balance), 0) AS c FROM outstanding_premiums
+				JOIN premium_addresses ON outstanding_premiums.premium_address_id=premium_addresses.id
+				LEFT JOIN users ON outstanding_premiums.user_id = users.id
+				WHERE is_paid=1 AND (outstanding_premiums.created_at >= :start AND outstanding_premiums.created_at <= :end) AND currency='" . $cur . "' AND users.country IN $list",
+			'callback' => 'number_format_autoprecision',
+		);
+	}
+}
 foreach ($queries as $query_title => $query) {
 	echo "<tr>\n";
 	echo "<th>" . htmlspecialchars($query_title) . "</th>\n";
