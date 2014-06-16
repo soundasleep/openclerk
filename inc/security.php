@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+header('X-Frame-Options: SAMEORIGIN');		// prevent clickhacking
 
 /**
  * Track user referer for new users at signup. This persists across requests.
