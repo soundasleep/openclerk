@@ -468,7 +468,7 @@ function get_supported_wallets() {
 		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc'),		// used in jobs/vircurex.php
 		"wemineftc" => array('ftc', 'hash'),
 		"wemineltc" => array('ltc', 'hash'),
-		"ypool" => array('ftc', 'xpm', 'dog'),	// also pts
+		"ypool" => array('ltc', 'xpm', 'dog'),	// also pts
 		"generic" => get_all_currencies(),
 	);
 }
