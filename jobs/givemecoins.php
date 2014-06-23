@@ -20,8 +20,8 @@ if (get_site_config('sleep_givemecoins')) {
 
 {
 	$exchange = "givemecoins";
-	$url = "https://give-me-coins.com/pool/api-btc?api_key=";
-	$currency = 'btc';
+	$url = "https://give-me-coins.com/pool/api-vtc?api_key=";
+	$currency = 'vtc';
 	$table = "accounts_givemecoins";
 
 	require(__DIR__ . "/_mmcfe_pool.php");

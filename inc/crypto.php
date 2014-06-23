@@ -435,7 +435,7 @@ function get_supported_wallets() {
 		"eligius" => array('btc', 'hash'),		// BTC is paid directly to BTC address but also stored temporarily
 		"elitistjerks" => array('ltc', 'hash'),
 		"ghashio" => array('hash'),		// we only use ghash.io for hashrates
-		"givemecoins" => array('ltc', 'btc', 'ftc', 'hash'),
+		"givemecoins" => array('ltc', 'vtc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
 		"hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
 		"hypernova" => array('ltc', 'hash'),
