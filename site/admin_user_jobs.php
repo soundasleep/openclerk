@@ -18,7 +18,7 @@ page_header("Admin: Users Recent Jobs", "page_admin_user_jobs", array('js' => ar
 $user = get_user(require_get("id"));
 
 // get recent jobs
-$q = db()->prepare("SELECT * FROM jobs WHERE user_id=? ORDER BY id DESC LIMIT 200");
+$q = db()->prepare("SELECT * FROM jobs WHERE user_id=? ORDER BY id DESC LIMIT 500");
 $q->execute(array($user['id']));
 $jobs = $q->fetchAll();
 
