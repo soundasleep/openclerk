@@ -965,6 +965,7 @@ function get_external_apis() {
 			'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
 			'ticker_coins-e' => '<a href="https://www.coins-e.com">Coins-E</a>',
+			'ticker_cryptsy' => '<a href="https://www.cryptsy.com/">Cryptsy</a>',
 			'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'ticker_kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
 			'ticker_mintpal' => '<a href="https://www.mintpal.com/">MintPal</a>',
