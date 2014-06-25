@@ -20,10 +20,15 @@
   }
 
   .transaction-introduction {
-    max-width: 60%;
+    max-width: 80%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
+
+    @media all and (max-width: $tablet) {
+      max-width: 100%;
+    }
+
   }
 
   tfoot td.buttons form {
@@ -43,7 +48,7 @@
   }
 
   .transaction-filter {
-    width: 40%;
+    max-width: 50%;
   }
 
   .transaction-filter .help {

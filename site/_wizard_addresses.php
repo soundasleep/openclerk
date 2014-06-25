@@ -32,13 +32,13 @@ $accounts = $q->fetchAll();
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th><?php echo ht("Title"); ?></th>
-		<th><?php echo ht("Address"); ?></th>
-		<th><?php echo ht("Added"); ?></th>
-		<th class="job_status"><?php echo ht("Last checked"); ?></th>
-		<th><?php echo ht("Balance"); ?></th>
-		<th><?php echo ht("Transactions"); ?></th>
-		<th></th>
+		<th class="title"><?php echo ht("Title"); ?></th>
+		<th class="address"><?php echo ht("Address"); ?></th>
+		<th class="added"><?php echo ht("Added"); ?></th>
+		<th class="job_status"><?php echo ht("Checked"); ?></th>
+		<th class="balance"><?php echo ht("Balance"); ?></th>
+		<th class="transactions"><?php echo ht("Transactions"); ?></th>
+		<th class="buttons"></th>
 	</tr>
 </thead>
 <tbody>
@@ -72,8 +72,8 @@ foreach ($accounts as $a) {
 			<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 			</form>
 		</td>
-		<td><?php echo crypto_address($account_data['currency'], $a['address']); ?></td>
-		<td><?php echo recent_format_html($a['created_at']); ?></td>
+		<td class="address"><?php echo crypto_address($account_data['currency'], $a['address']); ?></td>
+		<td class="added"><?php echo recent_format_html($a['created_at']); ?></td>
 		<td class="job_status <?php if ($job) { echo $job['is_error'] ? "job_error" : "job_success"; } ?>">
 			<?php echo recent_format_html($last_updated); ?>
 			<?php if ($job && $job['message']) { ?>
@@ -91,7 +91,7 @@ foreach ($accounts as $a) {
 		$q->execute(array(user_id(), $account_data['job_type'], $a['id']));
 		$transaction_count = $q->fetch();
 		?>
-		<td class="buttons">
+		<td class="buttons transactions">
 			<?php if ($enabled) { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
@@ -118,7 +118,7 @@ foreach ($accounts as $a) {
 				(<?php echo number_format($transaction_count['c']); ?>)
 			</span>
 		</td>
-		<td>
+		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">

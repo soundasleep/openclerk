@@ -72,16 +72,16 @@ echo t("As a :user, your :titles should be updated at least once every :hours:ex
 <table class="standard standard_account_list">
 <thead>
 	<tr>
-		<th><?php echo $account_type['first_heading']; ?></th>
-		<th><?php echo ht("Title"); ?></th>
+		<th class="type"><?php echo $account_type['first_heading']; ?></th>
+		<th class="title"><?php echo ht("Title"); ?></th>
 		<?php foreach ($account_type['display_headings'] as $value) { ?>
-			<th><?php echo htmlspecialchars($value); ?></th>
+			<th class="headings"><?php echo htmlspecialchars($value); ?></th>
 		<?php } ?>
-		<th><?php echo ht("Added"); ?></th>
-		<th><?php echo ht("Last checked"); ?></th>
-		<th><?php echo ht("Balances"); ?></th>
-		<?php if ($account_type['hashrate']) { echo "<th>" . ht("Hashrate") . "</th>"; } ?>
-		<th><?php echo ht("Transactions"); ?></th>
+		<th class="added"><?php echo ht("Added"); ?></th>
+		<th class="last_checked"><?php echo ht("Checked"); ?></th>
+		<th class="balances"><?php echo ht("Balances"); ?></th>
+		<?php if ($account_type['hashrate']) { echo "<th class=\"hashrate\">" . ht("Hashrate") . "</th>"; } ?>
+		<th class="transactions"><?php echo ht("Transactions"); ?></th>
 		<th class="buttons"></th>
 	</tr>
 </thead>

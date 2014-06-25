@@ -73,7 +73,7 @@ foreach ($accounts as $a) {
 <?php if (!isset($is_in_callback)) { ?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; echo $is_disabled ? " disabled": ""; ?>" id="<?php echo htmlspecialchars($row_element_id); ?>">
 <?php } ?>
-		<td><?php echo htmlspecialchars(get_exchange_name($a['exchange']) . (isset($account_type_data['suffix']) ? $account_type_data['suffix'] : "")); ?></td>
+		<td class="type"><?php echo htmlspecialchars(get_exchange_name($a['exchange']) . (isset($account_type_data['suffix']) ? $account_type_data['suffix'] : "")); ?></td>
 		<td id="account<?php echo htmlspecialchars($a['id']); ?>" class="title">
 			<span title="Title"><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>" . ht("untitled") . "</i>"; ?></span>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
@@ -88,7 +88,7 @@ foreach ($accounts as $a) {
 			<td><?php echo $value; ?></td>
 		<?php } ?>
 		<?php foreach ($account_type['display_editable'] as $key => $callback) { ?>
-		<td id="account<?php echo htmlspecialchars($a['id'] . "_" . $key); ?>" class="title">
+		<td id="account<?php echo htmlspecialchars($a['id'] . "_" . $key); ?>" class="title headings">
 			<span title="<?php echo htmlspecialchars($account_type['display_headings'][$key]); ?>"><?php echo $callback($a[$key]); ?></span>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
 			<input type="text" name="value" value="<?php echo htmlspecialchars($callback($a[$key])); ?>">
@@ -100,8 +100,8 @@ foreach ($accounts as $a) {
 			</form>
 		</td>
 		<?php } ?>
-		<td><?php echo recent_format_html($a['created_at']); ?></td>
-		<td<?php if ($job) echo " class=\"" . ($job['is_error'] ? "job_error" : "job_success") . "\""; ?>>
+		<td class="added"><?php echo recent_format_html($a['created_at']); ?></td>
+		<td class="last_checked <?php if ($job) echo ($job['is_error'] ? "job_error" : "job_success"); ?>">
 			<?php echo recent_format_html($last_updated); ?>
 			<?php if (isset($job['message']) && $job['message']) { ?>
 			: <?php echo htmlspecialchars($job['message']); ?>
@@ -135,7 +135,7 @@ foreach ($accounts as $a) {
 		<?php if ($account_type['hashrate']) {
 			$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
 			$q->execute(array($a['exchange'], $a['id'], $a['user_id']));
-			echo "<td class=\"balances\">";
+			echo "<td class=\"balances hashrate\">";
 			if ($mhash = $q->fetch()) {
 				echo $mhash['mhash'] ? (!(isset($a['khash']) && $a['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
 			} else {
@@ -153,7 +153,7 @@ foreach ($accounts as $a) {
 		$q->execute(array(user_id(), $a['exchange'], $a['id']));
 		$transaction_count = $q->fetch();
 		?>
-		<td class="buttons">
+		<td class="buttons transactions">
 			<?php if ($enabled) { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
