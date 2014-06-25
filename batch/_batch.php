@@ -149,6 +149,9 @@ function crypto_check_response($string, $message = false) {
 	if (strpos(strtolower($string), "502 bad gateway") !== false) {
 		throw new ExternalAPIException("Bad gateway" . ($message ? " $message" : ""));
 	}
+	if (strpos(strtolower($string), "503 service unavailable") !== false) {
+		throw new ExternalAPIException("Service unavailable" . ($message ? " $message" : ""));
+	}
 	if (strpos(strtolower($string), "connection timed out") !== false) {
 		throw new ExternalAPIException("Connection timed out" . ($message ? " $message" : ""));
 	}
