@@ -26,10 +26,13 @@ $rates_list = array(
 	array('cur1' => 'btc', 'cur2' => 'hbn'),
 	// currencies not yet exposed to users or public
 	array('cur1' => 'btc', 'cur2' => 'mnc'),
+	// currently USD currencies are broken
+	/*
 	array('cur1' => 'usd', 'cur2' => 'btc'),
 	array('cur1' => 'usd', 'cur2' => 'ftc'),
 	array('cur1' => 'usd', 'cur2' => 'ltc'),
 	array('cur1' => 'usd', 'cur2' => 'dog'),
+	*/
 	// lots of others
 );
 

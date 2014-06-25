@@ -166,7 +166,7 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 
 	// sanity and quality checks
 	if (!isset($values['last_trade'])) {
-		throw new Exception("No last_trade specified");	// need at least this
+		throw new Exception("No last_trade specified for $cur1/$cur2 on $exchange");	// need at least this
 	}
 	if (isset($values['sell'])) {
 		throw new Exception("Invalid parameter: sell (should be bid)");
