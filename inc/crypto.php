@@ -286,7 +286,7 @@ function get_exchange_pairs() {
 				array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
 		"cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('nmc', 'ghs')),
 		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'), array('cny', 'btc'),
-				array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc')),
+				array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc'), array('sgd', 'btc')),
 		"coins-e" => array(array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'),
 				array('ltc', 'xpm'), array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'), array('btc', 'wdc'),
 				array('btc', 'nvc'), array('btc', 'dgc')),
@@ -308,7 +308,7 @@ function get_exchange_pairs() {
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'ixc')),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
-				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils')),
+				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils'), array('usd', 'sgd')),
 		"vaultofsatoshi" => array(
 				array('usd', 'btc'), array('usd', 'ltc'), array('usd', 'ppc'), array('usd', 'dog'), array('usd', 'ftc'), array('usd', 'xpm'), array('usd', 'vtc'),
 				array('cad', 'btc'), array('cad', 'ltc'), array('cad', 'ppc'), array('cad', 'dog'), array('cad', 'ftc'), array('cad', 'xpm'), array('cad', 'vtc'),
@@ -331,6 +331,8 @@ function get_new_exchange_pairs() {
 		"anxpro_sgdltc",
 		"anxpro_sgdnmc",
 		"anxpro_sgddog",
+		"coinbase_sgdbtc",
+		"themoneyconverter_usdsgd",
 	);
 }
 

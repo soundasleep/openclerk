@@ -33,6 +33,7 @@ $feeds = array(
 		array('usd', 'nzd'),
 		array('usd', 'cny'),
 		array('usd', 'pln'),
+		array('usd', 'sgd'),
 	),
 	// TODO maybe remove this and switch existing tickers over in database
 	// RUB is the correct code for Russian Ruble, not RUR (thanks, BTC-e): http://en.wikipedia.org/wiki/Ruble
