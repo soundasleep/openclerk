@@ -134,8 +134,20 @@ h3 { font-size: 90%; }
 .tabs { clear: both; }
 .tabs .tab_list { margin: 0; padding: 5px; padding-bottom: 0; }
 .tabs .tab_list li:hover { text-decoration: underline; }
-.tabs .tab_list > ul, .tabs .tab_list > li { margin: 0; padding: 0; list-style: none; }
-.tabs .tab_list > li { display: inline-block; min-width: 120px; border: 1px outset #ccc; margin: 0; border-bottom: none; padding: 5px; cursor: pointer; }
+.tabs .tab_list > ul, .tabs .tab_list > li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tabs .tab_list > li {
+  display: inline-block;
+  min-width: 120px;
+  border: 1px outset #ccc;
+  margin: 0;
+  margin-bottom: -1px;    // hides the bottom border without removing it completely
+  padding: 5px;
+  cursor: pointer;
+}
 .tabs .tab_groups .tab_open { min-height: 160px; }
 .tabs .tab_groups .tab_open h1, .tabs .tab_groups .tab_open h2 { margin-top: 0; }
 .tabs .tab_groups { border: 1px outset #ccc; margin: 0; padding: 10px; list-style: none; background: #222; }
