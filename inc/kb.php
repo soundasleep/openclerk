@@ -16,6 +16,7 @@ function get_knowledge_base() {
 	$kb = array(
 		t('Concepts') => array(
 			'cryptocurrencies' => array('title' => t("What are cryptocurrencies?"), 'inline' => 'inline_cryptocurrencies'),
+			'versions' => array('title' => t(":site_name Version History"), 'inline' => 'inline_versions', 'new' => true),
 		),
 		t('Interface') => array(
 			'bitcoin_csv' => t("How do I upload a Bitcoin-Qt CSV file?"),

@@ -121,17 +121,15 @@ function page_footer() {
 		<li><span class="title"><?php echo ht("Tools"); ?></span>
 			<ul>
 				<li><a href="<?php echo htmlspecialchars(url_for('historical')); ?>"><?php echo ht("Historical Data"); ?></a></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('average')); ?>"><?php echo ht("Market Averages"); ?></a> <span class="new">new</span></li>
-				<li><a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>"><?php echo ht(":site_name Finance"); ?></a> <span class="new"><?php echo ht("new"); ?></span></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('average')); ?>"><?php echo ht("Market Averages"); ?></a></li>
+				<li><a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>"><?php echo ht(":site_name Finance"); ?></a></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('calculator')); ?>"><?php echo ht("Calculator"); ?></a></li>
 			</ul>
 		</li>
 		<li><span class="title"><?php echo ht("Support"); ?></span>
 			<ul>
 				<li><a href="<?php echo htmlspecialchars(url_for('help')); ?>"><?php echo ht("Help Centre"); ?></a></li>
-				<?php if (get_site_config('forum_link')) { ?>
-				<li><a href="<?php echo htmlspecialchars(get_site_config('forum_link')); ?>" target="_blank"><?php echo ht("Forums"); ?></a></li>
-				<?php } ?>
+				<li><a href="<?php echo htmlspecialchars(get_site_config('blog_link')); ?>" target="_blank"><?php echo ht("Blog"); ?></a> <span class="new"><?php echo ht("new"); ?></span></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('contact')); ?>"><?php echo ht("Contact Us"); ?></a></li>
 				<li><a href="<?php echo htmlspecialchars(url_for('external')); ?>"><?php echo ht("External API Status"); ?></a></li>
 			</ul>
