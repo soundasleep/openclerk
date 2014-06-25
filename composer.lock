@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2204e66c0da73ec81d625376e796933d",
+    "hash": "790ca22c7ae9091b980e13edbc648e48",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -86,12 +86,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "c2395a5bb6a77afd4fb3b2b649c6ef5b47740ba3"
+                "reference": "022382c9bf970409dae5c3e7d248b38e2e2f9b74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/c2395a5bb6a77afd4fb3b2b649c6ef5b47740ba3",
-                "reference": "c2395a5bb6a77afd4fb3b2b649c6ef5b47740ba3",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/022382c9bf970409dae5c3e7d248b38e2e2f9b74",
+                "reference": "022382c9bf970409dae5c3e7d248b38e2e2f9b74",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
             },
             "require-dev": {
                 "phpdocumentor/phpdocumentor": "*",
-                "phpunit/phpunit": "4.0.*"
+                "phpunit/phpunit": "4.1.*"
             },
             "type": "library",
             "autoload": {
@@ -131,20 +131,20 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2014-05-06 13:44:45"
+            "time": "2014-06-13 09:18:30"
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.6",
+            "version": "2.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "bccecf50645068b44f49a84009e2a0499a500b99"
+                "reference": "58401826c8cfc8fd689b60026e91c337df374bca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/bccecf50645068b44f49a84009e2a0499a500b99",
-                "reference": "bccecf50645068b44f49a84009e2a0499a500b99",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/58401826c8cfc8fd689b60026e91c337df374bca",
+                "reference": "58401826c8cfc8fd689b60026e91c337df374bca",
                 "shasum": ""
             },
             "require": {
@@ -196,7 +196,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-04-30 09:01:21"
+            "time": "2014-05-26 14:55:24"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -458,16 +458,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.0.5",
+            "version": "2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "3697daa12ab57b2bfc27b734ab963142f27b9159"
+                "reference": "a01285d0b705af5963367451088508b6d4e417f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/3697daa12ab57b2bfc27b734ab963142f27b9159",
-                "reference": "3697daa12ab57b2bfc27b734ab963142f27b9159",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/a01285d0b705af5963367451088508b6d4e417f2",
+                "reference": "a01285d0b705af5963367451088508b6d4e417f2",
                 "shasum": ""
             },
             "require": {
@@ -511,7 +511,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2014-04-16 14:50:10"
+            "time": "2014-06-07 16:22:54"
         },
         {
             "name": "sebastian/diff",
@@ -770,16 +770,16 @@
         },
         {
             "name": "soundasleep/spritify",
-            "version": "0.2.1",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/spritify.git",
-                "reference": "87a5b19e4938f25126259f1ef7fb2eeec0cf7a47"
+                "reference": "5504b97017a76df23334c346984ae856665f52ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/87a5b19e4938f25126259f1ef7fb2eeec0cf7a47",
-                "reference": "87a5b19e4938f25126259f1ef7fb2eeec0cf7a47",
+                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/5504b97017a76df23334c346984ae856665f52ea",
+                "reference": "5504b97017a76df23334c346984ae856665f52ea",
                 "shasum": ""
             },
             "require": {
@@ -804,24 +804,24 @@
                 "spritesheet"
             ],
             "support": {
-                "source": "https://github.com/soundasleep/spritify/tree/0.2.1",
+                "source": "https://github.com/soundasleep/spritify/tree/0.3.0",
                 "issues": "https://github.com/soundasleep/spritify/issues"
             },
-            "time": "2014-04-18 09:12:40"
+            "time": "2014-06-25 04:20:41"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.4.4",
+            "version": "v2.5.0",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "65539ecde838f9c0d18b006b2101e3deb4b5c9ff"
+                "reference": "b4b09c68ec2f2727574544ef0173684281a5033c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/65539ecde838f9c0d18b006b2101e3deb4b5c9ff",
-                "reference": "65539ecde838f9c0d18b006b2101e3deb4b5c9ff",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b4b09c68ec2f2727574544ef0173684281a5033c",
+                "reference": "b4b09c68ec2f2727574544ef0173684281a5033c",
                 "shasum": ""
             },
             "require": {
@@ -830,7 +830,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -856,7 +856,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-18 20:37:09"
+            "time": "2014-05-16 14:25:18"
         }
     ],
     "packages-dev": [
