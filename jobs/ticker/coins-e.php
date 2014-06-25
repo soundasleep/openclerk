@@ -6,9 +6,6 @@
 
 $rates_list = array(
 	// not all coins are tracked
-	array('btc', 'xpm'),
-	array('btc', 'trc'),
-	array('btc', 'wdc'),
 	array('btc', 'dog'),
 	array('btc', 'mec'),
 	array('btc', 'ftc'),
@@ -17,8 +14,6 @@ $rates_list = array(
 	array('btc', 'qrk'),
 	array('btc', 'nvc'),
 	array('btc', 'dgc'),
-
-	array('ltc', 'xpm'),
 
 	array('xpm', 'ppc'),
 );
