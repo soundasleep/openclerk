@@ -14,7 +14,12 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://lc.ozcoin.net/api.php?api_key=" . $account['api_key'])));
+// strip out any invalid HTML
+// "Headers and client library minor version mismatch. Headers:50535 Library:100011"
+$contents = crypto_get_contents(crypto_wrap_url("https://lc.ozcoin.net/api.php?api_key=" . $account['api_key']));
+$contents = preg_replace("#<br />.+<br />#ims", "", $contents);
+
+$data = crypto_json_decode($contents);
 
 if (isset($data['error'])) {
 	throw new ExternalAPIException($data['error']);
