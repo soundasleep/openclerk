@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Get Digitalcoin balance (NVC).
- * Since this isn't based off Abe, we scrape HTML instead (ergh).
+ * Get Digitalcoin balance (DGC).
+ * Uses blockr.io API (issue #240).
+ * Blockr.io API supports confirmations without having to rely on block count!
  */
 
 $currency = "dgc";
-require(__DIR__ . "/_cryptocoinexplorer.php");
+$confirmations = get_site_config('dgc_confirmations');
 
+require(__DIR__ . "/_blockr.php");
