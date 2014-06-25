@@ -18,10 +18,11 @@ crypto_log("Current time: " . date('r'));
 // calculate statistics
 $data = array();
 {
-	$q = db()->prepare("SELECT COUNT(*) AS c FROM users");
+	$q = db()->prepare("SELECT COUNT(*) AS c, SUM(emails_sent) AS e FROM users");
 	$q->execute();
 	$c = $q->fetch();
 	$data['total_users'] = $c['c'];
+	$data['total_emails_sent'] = $c['e'];
 }
 {
 	$q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE is_disabled=1");
@@ -202,6 +203,7 @@ $q = db()->prepare("INSERT INTO site_statistics SET
 	total_users = :total_users,
 	disabled_users = :disabled_users,
 	premium_users = :premium_users,
+	total_emails_sent = :total_emails_sent,
 
 	free_delay_minutes = :free_delay_minutes,
 	premium_delay_minutes = :premium_delay_minutes,

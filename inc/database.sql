@@ -4381,3 +4381,4 @@ INSERT INTO exchanges SET name='itbit';
 
 -- issue #126: keep track of number of emails sent
 ALTER TABLE users ADD emails_sent int not null default 0;
+ALTER TABLE site_statistics ADD total_emails_sent int;
