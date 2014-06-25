@@ -653,6 +653,10 @@ try {
 			require(__DIR__ . "/../jobs/disable.php");
 			break;
 
+		case "delete_user":
+			require(__DIR__ . "/../jobs/delete_user.php");
+			break;
+
 		default:
 			// issue #12: unsafe accounts
 			if (get_site_config('allow_unsafe')) {
