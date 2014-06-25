@@ -11,9 +11,25 @@
     z-index: 2;
 }
 #navigation ul { margin: 0; padding: 0; }
-#navigation li { list-style: none; display: inline; display: inline-block; padding: 4px 10px 4px 8px; border: 1px solid #543; border-radius: 4px; background: #321; margin: 0 2px 0 2px; box-shadow: 2px 2px 2px rgba(0,0,0,0.3); }
+#navigation li {
+  list-style: none;
+  display: inline;
+  display: inline-block;
+  padding: 4px 10px 4px 8px;
+  border: 1px solid #543;
+  border-radius: 4px;
+  background: #321;
+  margin: 0 2px 0 2px;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+}
+
 #navigation li + li { margin-left: 5px; }
-#navigation li a { text-decoration: none; padding-left: 21px; display: inline-block; min-height: 16px; }
+#navigation li a {
+  text-decoration: none;
+  padding-left: 21px;
+  display: inline-block;
+  min-height: 16px;
+}
 .screenshots_group li.signup a, .screenshots_group li.profile a, .screenshots_group li.historical a { text-decoration: none; padding-left: 23px; display: inline-block; min-height: 16px; }
 #navigation li a:hover { text-decoration: hover; }
 
@@ -81,4 +97,37 @@
   background-color: #111;
   color: #999;
   max-width: 130px;
+}
+
+@media all and (max-width: $tablet) {
+  body {
+    margin: 0;
+
+    #navigation {
+      margin-top: 0;
+
+      // we can hide some links
+      .premium, .help {
+        display: none;
+      }
+
+      li {
+        vertical-align: top;
+        min-height: 21px;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 6px;
+        padding-right: 6px;
+
+        &.home, &.finance, &.accounts, &.user, &.logout, &.admin {
+          a {
+            padding-left: 16px;
+          }
+          .text {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }
