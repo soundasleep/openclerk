@@ -186,10 +186,8 @@ function get_default_site_config() {
 		// not implemented yet!
 		// "dgc_block_url" => "http://dgc.cryptocoinexplorer.com/chain/Digitalcoin/q/getblockcount",
 		"dgc_block_url_html" => "http://dgc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
-		"wdc_address_url" => "http://wdc.cryptocoinexplorer.com/address/",
-		// not implemented yet!
-		// "wdc_block_url" => "http://wdc.cryptocoinexplorer.com/chain/Worldcoin/q/getblockcount",
-		"wdc_block_url_html" => "http://wdc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
+		"wdc_address_url" => "http://www.worldcoinexplorer.com/api/address/",
+		"wdc_block_url" => "http://www.worldcoinexplorer.com/api/coindetails",
 		"ixc_address_url" => "http://block.al.tcoin.info/address/",
 		"ixc_block_url" => "http://block.al.tcoin.info/chain/Ixcoin/q/getblockcount",
 		"vtc_address_url" => "http://vertexplorer.com/address/",
@@ -210,7 +208,7 @@ function get_default_site_config() {
 		// "xrp_confirmations" => 6, -- not supported!
 		"nmc_confirmations" => 6,
 		"dgc_confirmations" => 6,
-		"wdc_confirmations" => 6,
+		// "wdc_confirmations" => 6, -- not supported! #238
 		"ixc_confirmations" => 6,
 		// "vtc_confirmations" => 6, -- not supported
 		"net_confirmations" => 6,
