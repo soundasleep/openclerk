@@ -263,14 +263,14 @@ function get_exchange_pairs() {
 	return array(
 		// should be in alphabetical order
 		"anxpro" => array(
-			array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('gbp', 'btc'), array('nzd', 'btc'),
-			array('usd', 'ltc'), array('eur', 'ltc'), array('aud', 'ltc'), array('gbp', 'ltc'), array('nzd', 'ltc'),
-			array('usd', 'ppc'), array('eur', 'ppc'), array('aud', 'ppc'), array('gbp', 'ppc'), array('nzd', 'ppc'),
-			array('usd', 'nmc'), array('eur', 'nmc'), array('aud', 'nmc'), array('gbp', 'nmc'), array('nzd', 'nmc'),
-			array('usd', 'dog'), array('eur', 'dog'), array('aud', 'dog'), array('gbp', 'dog'), array('nzd', 'dog'),
-			// also hkd, sgd, jpy, chf
+			array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('gbp', 'btc'), array('nzd', 'btc'), array('sgd', 'btc'),
+			array('usd', 'ltc'), array('eur', 'ltc'), array('aud', 'ltc'), array('gbp', 'ltc'), array('nzd', 'ltc'), array('sgd', 'ltc'),
+			// array('usd', 'ppc'), array('eur', 'ppc'), array('aud', 'ppc'), array('gbp', 'ppc'), array('nzd', 'ppc'), array('sgd', 'ppc'),
+			array('usd', 'nmc'), array('eur', 'nmc'), array('aud', 'nmc'), array('gbp', 'nmc'), array('nzd', 'nmc'), array('sgd', 'nmc'),
+			array('usd', 'dog'), array('eur', 'dog'), array('aud', 'dog'), array('gbp', 'dog'), array('nzd', 'dog'), array('sgd', 'dog'),
+			// also hkd, jpy, chf
 			array('btc', 'ltc'),
-			array('btc', 'ppc'), array('ltc', 'ppc'),
+			// array('btc', 'ppc'), array('ltc', 'ppc'),
 			array('btc', 'nmc'), array('ltc', 'nmc'),
 			array('btc', 'dog'),
 		),
@@ -327,6 +327,10 @@ function get_new_exchange_pairs() {
 		"itbit_usdbtc",
 		"itbit_eurbtc",
 		"itbit_sgdbtc",
+		"anxpro_sgdbtc",
+		"anxpro_sgdltc",
+		"anxpro_sgdnmc",
+		"anxpro_sgddog",
 	);
 }
 

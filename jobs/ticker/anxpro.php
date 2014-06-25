@@ -32,8 +32,12 @@ foreach ($get_exchange_pairs['anxpro'] as $pair) {
 		throw new ExternalAPIException("No $currency1/$currency2 ($key) last rate for $exchange_name");
 	}
 
-	if (!$rates['data']['buy']['value'] && !$rates['data']['sell']['value']) {
-		crypto_log("Ignoring pair $key: bid/ask is zero");
+	if (!$rates['data']['buy']['value']) {
+		crypto_log("Ignoring pair $key: bid is zero");
+		continue;
+	}
+	if (!$rates['data']['sell']['value']) {
+		crypto_log("Ignoring pair $key: ask is zero");
 		continue;
 	}
 
