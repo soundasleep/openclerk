@@ -8,7 +8,7 @@
 function get_all_currencies() {
 	return array(
 		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn",
-		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw",
+		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd",
 		"ghs",
 	);
 }
@@ -23,7 +23,7 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("krw");
+	return array("sgd");
 }
 
 function get_all_cryptocurrencies() {
@@ -76,6 +76,7 @@ function get_currency_name($n) {
 		case "gbp":	return "Pound sterling";
 		case "ils":	return "Israeli new shekel";
 		case "krw": return "South Korean won";
+		case "sgd": return "Singapore dollar";
 
 		case "ghs": return "CEX.io GHS";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
@@ -238,6 +239,7 @@ function get_all_exchanges() {
 		"mintpal" => "MintPal",
 		"mupool" => "MuPool",
 		"anxpro" => "ANXPRO",
+		"itbit" => "itBit",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -300,6 +302,7 @@ function get_exchange_pairs() {
 				array('eur', 'dog'), array('eur', 'xrp'),
 				array('krw', 'xrp'),
 				array('usd', 'dog'), array('usd', 'xrp')),
+		"itbit" => array(array('usd', 'btc'), array('eur', 'btc'), array('sgd', 'btc')),
 		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
@@ -321,52 +324,9 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"bitmarket_pl_plnbtc",
-		"bitmarket_pl_plnltc",
-		"bitmarket_pl_plndog",
-		"bitmarket_pl_plnppc",
-		"poloniex_btcdog",
-		"poloniex_btcltc",
-		"poloniex_btcvtc",
-		"poloniex_btcxpm",
-		"poloniex_btcnmc",
-		"poloniex_btcwdc",
-		"poloniex_btcppc",
-		"poloniex_btcixc",
-		"mintpal_btcltc",
-		"mintpal_btcdog",
-		"mintpal_btcvtc",
-		"anxpro_usdbtc",
-		"anxpro_eurbtc",
-		"anxpro_audbtc",
-		"anxpro_gbpbtc",
-		"anxpro_nzdbtc",
-		"anxpro_usdltc",
-		"anxpro_eurltc",
-		"anxpro_audltc",
-		"anxpro_gbpltc",
-		"anxpro_nzdltc",
-		"anxpro_usdppc",
-		"anxpro_eurppc",
-		"anxpro_audppc",
-		"anxpro_gbpppc",
-		"anxpro_nzdppc",
-		"anxpro_usdnmc",
-		"anxpro_eurnmc",
-		"anxpro_audnmc",
-		"anxpro_gbpnmc",
-		"anxpro_nzdnmc",
-		"anxpro_usddog",
-		"anxpro_eurdog",
-		"anxpro_auddog",
-		"anxpro_gbpdog",
-		"anxpro_nzddog",
-		"anxpro_btcltc",
-		"anxpro_btcppc",
-		"anxpro_ltcppc",
-		"anxpro_btcnmc",
-		"anxpro_ltcnmc",
-		"anxpro_btcdog",
+		"itbit_usdbtc",
+		"itbit_eurbtc",
+		"itbit_sgdbtc",
 	);
 }
 
@@ -584,6 +544,7 @@ function get_default_currency_exchange($c) {
 		case "pln": return "bitcurex";
 		case "ils": return "bit2c";
 		case "krw": return "kraken";
+		case "sgd": return "itbit";
 		// commodities
 		case "ghs": return "cexio";
 		default: throw new Exception("Unknown currency to exchange into: $c");
@@ -970,6 +931,7 @@ function get_external_apis() {
 			'ticker_cryptsy' => '<a href="https://www.cryptsy.com/">Cryptsy</a>',
 			'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'ticker_kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
+			'ticker_itbit' => '<a href="https://www.itbit.com/">itBit</a>',
 			'ticker_mintpal' => '<a href="https://www.mintpal.com/">MintPal</a>',
 			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'ticker_poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',

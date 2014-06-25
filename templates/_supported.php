@@ -293,7 +293,9 @@ foreach ($addresses_data as $exchange => $currencies) {
 			<dl>
 				<dt>25 June</dt>
 				<dd>
-				Changed <span class="currency_name_ppc">PPC</a> and <span class="currency_name_dgc">DGC</a> addresses to use <a href="http://blockr.io/">Blockr.io</a>;
+				Added currency support for <span class="currency_name_sgd" title="<?php echo htmlspecialchars(get_currency_name('sgd')); ?>">SGD</span>;
+				added <a href="https://www.itbit.com/">itBit</a> exchange ticker;
+				changed <span class="currency_name_ppc">PPC</a> and <span class="currency_name_dgc">DGC</a> addresses to use <a href="http://blockr.io/">Blockr.io</a>;
 				changed <span class="currency_name_wdc">WDC</a> addresses to use <a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>;
 				site design is now slightly more responsive;
 				user accounts can now be <a href="<?php echo htmlspecialchars(url_for('user#user_delete')); ?>">deleted</a>.
