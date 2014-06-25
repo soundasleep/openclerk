@@ -295,6 +295,7 @@ foreach ($addresses_data as $exchange => $currencies) {
 				<dd>
 				Changed <span class="currency_name_ppc">PPC</a> and <span class="currency_name_dgc">DGC</a> addresses to use <a href="http://blockr.io/">Blockr.io</a>;
 				changed <span class="currency_name_wdc">WDC</a> addresses to use <a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>;
+				site design is now slightly more responsive;
 				user accounts can now be <a href="<?php echo htmlspecialchars(url_for('user#user_delete')); ?>">deleted</a>.
 				</dd>
 
