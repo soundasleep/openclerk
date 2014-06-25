@@ -17,7 +17,7 @@ if ($user['email']) {
 	$q = db()->prepare("UPDATE users SET updated_at=NOW(),is_reminder_sent=1,reminder_sent=NOW() WHERE id=? LIMIT 1");
 	$q->execute(array($user['id']));
 
-	send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "expiring", array(
+	send_user_email($user, "expiring", array(
 		"name" => ($user['name'] ? $user['name'] : $user['email']),
 		"expires" => iso_date($user['premium_expires']),
 		"expires_text" => recent_format($user['premium_expires'], false, ""),

@@ -48,6 +48,9 @@ if ($name !== false && $email !== false) {
 		$q->execute(array($name, $email, $subscribe, $disable_graph_refresh, user_id()));
 		$messages[] = t("Updated account details.");
 
+		$user['email'] = $email;
+		$user['name'] = $name;
+
 		// subscribe/unsubscribe
 		if ($subscribe != $user['subscribe_announcements'] || ($subscribe && $user['email'] != $email)) {
 			$q = db()->prepare("DELETE FROM pending_subscriptions WHERE user_id=?");
@@ -73,7 +76,7 @@ if ($name !== false && $email !== false) {
 
 		// try sending email
 		if ($email && $email != $old_email) {
-			send_email($email, $email, $old_email ? "change_email" : "new_email", array(
+			send_user_email($user, $old_email ? "change_email" : "new_email", array(
 				"old_email" => $old_email ? $old_email : t("(no previous e-mail address)"),
 				"email" => $email,
 				"url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),

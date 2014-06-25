@@ -80,7 +80,7 @@ if (!$balance) {
 
 		// try sending email, if an email address has been registered
 		if ($user['email']) {
-			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_payment", array(
+			send_user_email($user, "purchase_payment", array(
 				"name" => ($user['name'] ? $user['name'] : $user['email']),
 				"amount" => number_format_autoprecision($balance['balance']),
 				"received" => number_format_autoprecision($balance['balance']),
@@ -141,7 +141,7 @@ if (!$balance) {
 					crypto_log("Updated old jobs to new priority");
 
 					if ($user['email']) {
-						send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_partial", array(
+						send_user_email($user, "purchase_partial", array(
 							"name" => ($user['name'] ? $user['name'] : $user['email']),
 							"amount" => number_format_autoprecision($address['balance']),
 							"received" => number_format_autoprecision($balance['balance']),
@@ -170,7 +170,7 @@ if (!$balance) {
 					$q->execute(array($address['premium_address_id']));
 
 					if ($user['email']) {
-						send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_cancelled", array(
+						send_user_email($user, "purchase_cancelled", array(
 							"name" => ($user['name'] ? $user['name'] : $user['email']),
 							"amount" => number_format_autoprecision($address['balance']),
 							"received" => number_format_autoprecision($balance['balance']),
@@ -192,7 +192,7 @@ if (!$balance) {
 				if (!$address['last_reminder'] || strtotime($address['last_reminder'] . " +" . get_site_config('outstanding_reminder_hours') . " hour") < time()) {
 					// send a reminder
 					if ($user['email']) {
-						send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_reminder", array(
+						send_user_email($user, "purchase_reminder", array(
 							"name" => ($user['name'] ? $user['name'] : $user['email']),
 							"amount" => number_format_autoprecision($address['balance']),
 							"received" => number_format_autoprecision($balance['balance']),
@@ -220,7 +220,7 @@ if (!$balance) {
 
 			// send a reminder
 			if ($user['email']) {
-				send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase_further", array(
+				send_user_email($user, "purchase_further", array(
 					"name" => ($user['name'] ? $user['name'] : $user['email']),
 					"amount" => number_format_autoprecision($address['balance']),
 					"received" => number_format_autoprecision($balance['balance']),

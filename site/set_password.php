@@ -37,7 +37,7 @@ if (!$errors) {
 
 	$name = $user['name'] ? $user['name'] : $user['email'];
 	$email = $user['email'];
-	send_email($email, $name, $user['password_hash'] ? "password_changed" : "password_added", array(
+	send_user_email($user, $user['password_hash'] ? "password_changed" : "password_added", array(
 		"email" => $email,
 		"name" => $name,
 	));

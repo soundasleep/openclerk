@@ -48,7 +48,7 @@ if ($email && $password) {
 		$password_hash = md5(get_site_config('password_salt') . $password);
 		$q->execute(array($password_hash, $user['id']));
 
-		send_email($email, $email, "password_reset_complete", array(
+		send_user_email($user, "password_reset_complete", array(
 			"email" => $email,
 			"name" => $user['name'] ? $user['name'] : $email,
 		));

@@ -79,7 +79,7 @@ if (require_post("months", false) || require_post("years", false)) {
 
 		// try sending email, if an email address has been registered
 		if ($user['email']) {
-			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "purchase", array(
+			send_user_email($user, "purchase", array(
 				"name" => ($user['name'] ? $user['name'] : $user['email']),
 				"amount" => number_format_autoprecision($cost),
 				"currency" => get_currency_abbr($currency),

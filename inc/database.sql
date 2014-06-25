@@ -4376,5 +4376,8 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 ALTER TABLE users ADD is_deleted tinyint not null default 0;
 ALTER TABLE users ADD requested_delete_at timestamp null;
 
-# issue #199: add itBit exchange
+-- issue #199: add itBit exchange
 INSERT INTO exchanges SET name='itbit';
+
+-- issue #126: keep track of number of emails sent
+ALTER TABLE users ADD emails_sent int not null default 0;

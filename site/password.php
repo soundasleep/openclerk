@@ -27,7 +27,7 @@ if ($email && $confirm) {
 			$user = get_user($user['id']);
 			$hash = md5(get_site_config('password_reset_salt') . $email . ":" . strtotime($user['last_password_reset']));
 
-			send_email($email, $email, "password_reset", array(
+			send_user_email($user, "password_reset", array(
 				"email" => $email,
 				"name" => $user['name'] ? $user['name'] : $email,
 				"ip" => user_ip(),

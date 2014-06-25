@@ -733,7 +733,7 @@ if ($account_data && $account_data['failure']) {
 				$q->execute(array($job['arg_id']));
 
 				if ($user['email'] && !$account['is_disabled'] /* don't send the same email multiple times */) {
-					send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "failure", array(
+					send_user_email($user, "failure", array(
 						"name" => ($user['name'] ? $user['name'] : $user['email']),
 						"exchange" => get_exchange_name($account_data['exchange']),
 						"label" => $account_data['label'],

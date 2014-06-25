@@ -166,7 +166,7 @@ if ($openid || $password) {
 
 			// try sending email
 			if ($email) {
-				send_email($email, $email, "signup", array(
+				send_user_email($user, "signup", array(
 					"email" => $email,
 					"name" => $name ? $name : $email,
 					"announcements" => "http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')),

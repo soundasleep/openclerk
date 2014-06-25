@@ -22,7 +22,7 @@ if (!$errors) {
 
 	$name = $user['name'] ? $user['name'] : $user['email'];
 	$email = $user['email'];
-	send_email($email, $name, "password_removed", array(
+	send_user_email($user, "password_removed", array(
 		"email" => $email,
 		"name" => $name,
 		"url" => absolute_url(url_for("user#user_openid")),

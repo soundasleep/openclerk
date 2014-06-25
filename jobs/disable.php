@@ -23,7 +23,7 @@ $q->execute(array($user['id']));
 // construct email
 if ($user['email']) {
 	$disables_at = strtotime(($user['last_login'] ? $user['last_login'] : $user['created_at']) . " +" . get_site_config('user_expiry_days') . " day");
-	send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "disable", array(
+	send_user_email($user, "disable", array(
 		"name" => ($user['name'] ? $user['name'] : $user['email']),
 		"days" => number_format(get_site_config('user_expiry_days')),
 		"disables" => iso_date($disables_at),

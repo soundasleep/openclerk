@@ -30,7 +30,7 @@ if ($disables_at > time()) {
 
 	// construct email
 	if ($user['email']) {
-		send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "disable_warning", array(
+		send_user_email($user, "disable_warning", array(
 			"name" => ($user['name'] ? $user['name'] : $user['email']),
 			"days" => number_format(get_site_config('user_expiry_days')),
 			"disables" => iso_date($disables_at),

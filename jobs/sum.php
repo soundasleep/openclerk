@@ -301,7 +301,7 @@ if (!$user['is_first_report_sent']) {
 
 		// send email
 		if ($user['email']) {
-			send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "first_report", array(
+			send_user_email($user, "first_report", array(
 				"name" => ($user['name'] ? $user['name'] : $user['email']),
 				"url" => absolute_url(url_for("profile")),
 				"login" => absolute_url(url_for("login")),

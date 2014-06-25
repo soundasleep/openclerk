@@ -189,7 +189,7 @@ if ($should_notify) {
 				throw new JobException("Unknown notification type for email '" . $notification['notification_type'] . "'");
 		}
 
-		send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), $email_template, $args);
+		send_user_email($user, $email_template, $args);
 		crypto_log("Sent notification e-mail to " . htmlspecialchars($user['email']) . ".");
 
 		// update user stats

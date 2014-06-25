@@ -19,7 +19,7 @@ crypto_log("Disabled premium status on user " . $user['id'] . ".");
 
 // construct email, but only if we haven't already sent an email out
 if ($user['email'] && $was_premium) {
-	send_email($user['email'], ($user['name'] ? $user['name'] : $user['email']), "expire", array(
+	send_user_email($user, "expire", array(
 		"name" => ($user['name'] ? $user['name'] : $user['email']),
 		"expires" => iso_date($user['premium_expires']),
 		"expires_text" => recent_format($user['premium_expires'], false, ""),

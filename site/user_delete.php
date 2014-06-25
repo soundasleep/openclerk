@@ -29,7 +29,7 @@ if (!$errors) {
 	$name = $user['name'] ? $user['name'] : $user['email'];
 	$email = $user['email'];
 	if ($email) {
-		send_email($email, $name, "deleted", array(
+		send_user_email($user, "deleted", array(
 			"email" => $email,
 			"name" => $name,
 			"url" => absolute_url(url_for("signup")),

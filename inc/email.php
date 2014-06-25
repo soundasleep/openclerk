@@ -34,3 +34,20 @@ function send_email($to_email, $to_name, $template_id, $args = array()) {
 
 	// TODO maybe insert key into database
 }
+
+/**
+ * Wraps sending e-mails for a particular e-mail, so we can
+ * - keep track of emails sent
+ * - set locales eventually
+ */
+function send_user_email($user, $template_id, $args = array()) {
+	$email = $user['email'];
+	$name = $user['name'] ? $user['name'] : $user['email'];
+
+	send_email($email, $name, $template_id, $args);
+
+	if (isset($user['id'])) {
+		$q = db()->prepare("UPDATE users SET emails_sent=emails_sent+1 WHERE id=?");
+		$q->execute(array($user['id']));
+	}
+}

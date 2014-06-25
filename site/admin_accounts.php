@@ -35,7 +35,9 @@ if (require_post("enable", false)) {
 		// email the user if their account is not disabled
 		if (!$account['user_is_disabled']) {
 			if ($account['email']) {
-				send_email($account['email'], ($account['users_name'] ? $account['users_name'] : $account['email']), "reenable", array(
+				$user_temp = array('email' => $account['email'], 'name' => $account['users_name']);
+
+				send_user_email($user_temp, "reenable", array(
 					"name" => ($account['users_name'] ? $account['users_name'] : $account['email']),
 					"exchange" => get_exchange_name($exchange),
 					"label" => $account_data['label'],

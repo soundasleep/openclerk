@@ -33,7 +33,9 @@ if ($exchange && $message) {
 		// email the user if their account is not disabled
 		if (!$account['user_is_disabled']) {
 			if ($account['email']) {
-				send_email($account['email'], ($account['users_name'] ? $account['users_name'] : $account['email']), "account_failed_message", array(
+				$user_temp = array('email' => $account['email'], 'name' => $account['users_name']);
+
+				send_user_email($user_temp, "account_failed_message", array(
 					"name" => ($account['users_name'] ? $account['users_name'] : $account['email']),
 					"exchange" => get_exchange_name($exchange),
 					"message" => $message,
