@@ -291,6 +291,12 @@ foreach ($addresses_data as $exchange => $currencies) {
 		<li id="tab_home_updates_tab" style="display:none;">
 
 			<dl>
+				<dt>25 June</dt>
+				<dd>
+				Changed <span class="currency_name_ppc">PPC</a> and <span class="currency_name_dgc">DGC</a> addresses to use <a href="http://blockr.io/">Blockr.io</a>;
+				changed <span class="currency_name_wdc">WDC</a> addresses to use <a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>.
+				</dd>
+
 				<dt>28 May</dt>
 				<dd>
 				Added <a href="https://anxpro.com/">ANXPRO</a>, <a href="https://www.bitmarket.pl/">BitMarket.pl</a>, <a href="https://www.poloniex.com/">Poloniex</a> exchanges;
