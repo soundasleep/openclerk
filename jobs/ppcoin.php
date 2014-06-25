@@ -2,20 +2,11 @@
 
 /**
  * PPCoin Search job (PPC).
- * The Feathercoin Search (through Abe) does not provide an expressive enough API
- * for things like /address/x/balance?confirmations=6
- * So, we need to emulate this by periodically querying Explorer for the current block number,
- * and HTML parsing /address pages for transactions, and reversing any transactions within
- * a block number less than the current block number (minus some number).
- * We can go zero-confirmations for users, but for payment we need to have confirmations.
+ * Uses blockr.io API (issue #240).
+ * Blockr.io API supports confirmations without having to rely on block count!
  */
 
-$abe_data = array(
-	'currency' => 'ppc',
-	'block_table' => 'ppcoin_blocks',
-	'block_job' => 'ppcoin_block',
-	'explorer_url' => get_site_config('ppc_address_url'),
-	'confirmations' => get_site_config('ppc_confirmations'),
-);
+$currency = "ppc";
+$confirmations = get_site_config('ppc_confirmations');
 
-require(__DIR__ . "/_abe_blockchain.php");
+require(__DIR__ . "/_blockr.php");
