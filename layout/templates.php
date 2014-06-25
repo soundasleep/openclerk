@@ -50,17 +50,6 @@ function page_header($page_title, $page_id = false, $options = array()) {
 
 <?php require_template("templates_header"); ?>
 
-<form action="<?php echo htmlspecialchars(url_for('set_locale')); ?>" method="post" id="locale_selector">
-	<select class="language-list locale locale-<?php echo htmlspecialchars(get_current_locale()); ?>" name="locale">
-	<?php foreach (get_all_locales() as $locale) {
-		$selected = get_current_locale() == $locale;
-		echo "<option value=\"" . htmlspecialchars($locale) . "\" class=\"locale locale-" . htmlspecialchars($locale) . "\"" . ($selected ? " selected" : "") . ">" . htmlspecialchars(get_locale_label($locale)) . "</option>\n";
-	}
-	?>
-	</select>
-	<input type="hidden" name="redirect" value="<?php echo htmlspecialchars(url_for(request_url_relative(), $_GET)); ?>">
-</form>
-
 <div id="navigation">
 <ul>
 	<li class="home"><a href="<?php echo url_for('index'); ?>" title="<?php echo htmlspecialchars(get_site_config('site_name')); ?>"><span class="text"><?php echo htmlspecialchars(get_site_config('site_name')); ?></span></a></li>
@@ -152,6 +141,7 @@ function page_footer() {
 	<div id="copyright">
 		<?php require_template("templates_copyright"); ?>
 	</div>
+
 </div>
 <?php if (!(has_required_admin() || defined('BATCH_SCRIPT'))) { ?>
 <script type="text/javascript">
