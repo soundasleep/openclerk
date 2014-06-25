@@ -44,6 +44,7 @@
 <site_name> Finance can keep track of <your_transactions> and assign them to separate accounts, for tax or accounting purposes.
 <site_name> Finance can keep track of <your_transactions> and group them into separate finance categories for tax or accounting purposes.
 <site_name> Screenshots
+<site_name> Version History
 <site_name> also supports the <currencies> fiat currencies.
 <site_name> automatically manages your reports based on your currency, address and reporting preferences.
 <site_name> automatically manages your reports based on your currency, address and reporting preferences. Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them.
@@ -181,6 +182,7 @@ Announcements
 Announcements Mailing List
 Are you sure you want to delete this account?
 Are you sure you want to delete this category?
+Are you sure you want to delete your account? This action is not reversible.
 Are you sure you want to remove this address?
 Are you sure you want to remove this identity?
 Are you sure you want to remove this notification?
@@ -202,12 +204,14 @@ Balance
 Balances
 Beta
 Bid
+Blog
 Bollinger Bands
 CSV File:
 Calculator
 Can you add support for another cryptocurrency?
 Can you add support for another exchange/mining pool?
 Can you add support for another fiat currency?
+Can you tell us why you are deleting your account?
 Cancel Edit
 Cannot add <title>: too many existing accounts.
 Cannot add a new account; that account type is disabled.
@@ -230,6 +234,7 @@ Category:
 Change
 Change Password
 Change password
+Checked
 Chinese
 Clear Filters
 Click the "Export" button and save this CSV file to your computer.
@@ -237,6 +242,7 @@ Commodity currencies
 Composition graphs of each currency
 Concepts
 Configurable
+Configure
 Configure Accounts
 Configure currencies
 Configure e-mail notifications
@@ -282,6 +288,7 @@ Date
 Date:
 Days:
 Delete
+Delete Account
 Delete generated historical transactions and start again
 Delete this account
 Delete this account, removing all historical data
@@ -290,6 +297,7 @@ Delete this category
 Delete this identity
 Delete this notification
 Delete this transaction
+Delete your account
 Deleted finance account.
 Deleted finance category.
 Deleted notification.
@@ -366,7 +374,6 @@ Finance
 Finance Accounts
 Finance Categories
 Forgotten password?
-Forums
 Free account
 Free delay
 Free user job delay
@@ -557,6 +564,7 @@ Period:
 Please select a password between <min>-<max> characters long.
 Please send me an e-mail when
 Please try again.
+Please type in '<text>'.
 Portfolio summary
 Portfolio summary (detailed)
 Portugese
@@ -744,6 +752,7 @@ Tracked accounts (<accounts>)
 Tracked addresses
 Tracked addresses (<currencies>)
 Transactions
+Type in '<text>':
 Uncaught exceptions
 Unknown
 Unknown currency or no currency specified.
@@ -820,6 +829,7 @@ You cannot use both OpenID and password at signup.
 You did not select the confirmation checkbox.
 You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.
 You have not enabled e-mail/password login on your account. Adding a password will not increase security, and you should continue to login with your <identities>.
+You may permanently delete your <site_name> account and associated data by submitting the form below. You will be logged out and all of your historical data will be removed.
 You may purchase or extend your premium account by logging into your <user_account>, or by selecting the appropriate payment option below.
 You must select the '<label>' checkbox to add a <title>.
 You need to add some account data for this graph to display.
@@ -859,6 +869,7 @@ Your premium account expires in <time>.
 Your premium purchase is now pending on payment - please deposit <balance> into the address <address>. Once the <currency> network has confirmed the transaction (after <confirmations> blocks), your account will be credited with premium status. Thank you!
 Your securities reports
 Your summaries
+Your user account will shortly be deleted. You may sign up again here.
 account
 accounts
 accounts and addresses
