@@ -66,7 +66,7 @@ module.exports = (grunt) ->
 
       config:
         files: 'config/site/img/config/**'
-        tasks: ['copy:configImages', 'copy:configFavicon']
+        tasks: ['copy:configImages', 'copy:configFavicon', 'bgShell:spritifyDefault', 'custom']
 
 
   grunt.loadNpmTasks 'grunt-bg-shell'

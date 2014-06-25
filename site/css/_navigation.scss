@@ -46,7 +46,7 @@
     font-weight: bold; color: white;
 }
 
-#navigation li.home a { background: url('../img/nuvola/kfm_home.png') 0 2px no-repeat; }
+#navigation li.home a { background: url('../img/openclerk16.png') 0 2px no-repeat; }
 .screenshots_group li.signup a { background: url('../img/nuvola/kgpg_sign.png') 0 3px no-repeat; }
 #navigation li.signup a { background: url('../img/nuvola/kgpg_sign.png') 0 2px no-repeat; }
 #navigation li.login a { background: url('../img/nuvola/password.png') 0 2px no-repeat; }
@@ -99,6 +99,14 @@
   max-width: 130px;
 }
 
+#navigation {
+  .responsive-text {
+    display: none;
+  }
+}
+
+#copyright { line-height: 2em; }
+
 @media all and (max-width: $tablet) {
   body {
     margin: 0;
@@ -107,7 +115,7 @@
       margin-top: 0;
 
       // we can hide some links
-      .premium, .help {
+      .premium, .help, .finance {
         display: none;
       }
 
@@ -119,15 +127,27 @@
         padding-left: 6px;
         padding-right: 6px;
 
-        &.home, &.finance, &.accounts, &.user, &.logout, &.admin {
+        &.home, &.finance, &.profile, &.accounts, &.user, &.logout, &.admin {
           a {
             padding-left: 16px;
+            min-height: 18px;
+            margin-bottom: -2px;
           }
           .text {
             display: none;
           }
         }
       }
+
+      .responsive-text {
+        display: inline;
+        padding-left: 4px;
+      }
     }
+  }
+
+  #locale_selector {
+    // not currently possible to change locale on mobile
+    display: none;
   }
 }
