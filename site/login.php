@@ -30,13 +30,7 @@ try {
 	}
 
 	if ($logout) {
-		$_SESSION["user_id"] = "";
-		$_SESSION["user_key"] = "";
-		unset($_SESSION["user_id"]);
-		unset($_SESSION["user_key"]);
-
-		// disable autologin for this session
-		$_SESSION["autologin_disable"] = 1;
+		user_logout();
 
 		$messages[] = t("Successfully logged out. You may login again here.");
 

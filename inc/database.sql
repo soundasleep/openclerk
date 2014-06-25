@@ -4366,3 +4366,12 @@ UPDATE exchanges SET track_reported_currencies=1 WHERE name='anxpro';
 ALTER TABLE outstanding_premiums ADD last_balance DECIMAL(24, 8) null;
 UPDATE outstanding_premiums SET last_balance=paid_balance;
 
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.25 to 0.26
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+-- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
+DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
+
+ALTER TABLE users ADD is_deleted tinyint not null default 0;
+ALTER TABLE users ADD requested_delete_at timestamp null;

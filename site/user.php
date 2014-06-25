@@ -146,7 +146,7 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
 <div class="success">
 <ul>
 	<li><?php echo ht("Welcome to :site_name!"); ?></li>
-	<li><?php echo ht("To get started, you should update your :preferences.", array(
+	<li><?php echo t("To get started, you should update your :preferences.", array(
 			':preferences' => "<a href=\"" . htmlspecialchars(url_for('wizard_currencies')) . "\">" . ht("currency, accounts and reporting preferences") . "</a>")); ?></li>
 </ul>
 </div>
@@ -157,7 +157,7 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
 <div class="tabs" id="tabs_user">
 	<ul class="tab_list">
 		<?php /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */ ?>
-		<li id="tab_user_contact"><?php echo ht("Contact Details"); ?></li><li id="tab_user_password"><?php echo ht("Password"); ?></li><li id="tab_user_openid"><?php echo ht("Identities"); ?></li><li id="tab_user_premium"><?php echo ht("Premium"); ?></li><li id="tab_user_outstanding"><?php echo ht("Outstanding Payments"); ?></li><li id="tab_user_mailinglist"><?php echo ht("Mailing List"); ?></li>
+		<li id="tab_user_contact"><?php echo ht("Contact Details"); ?></li><li id="tab_user_password"><?php echo ht("Password"); ?></li><li id="tab_user_openid"><?php echo ht("Identities"); ?></li><li id="tab_user_premium"><?php echo ht("Premium"); ?></li><li id="tab_user_outstanding"><?php echo ht("Outstanding Payments"); ?></li><li id="tab_user_mailinglist"><?php echo ht("Mailing List"); ?></li><li id="tab_user_delete"><?php echo ht("Delete Account"); ?></li>
 	</ul>
 
 	<ul class="tab_groups">
@@ -664,6 +664,49 @@ foreach ($identities as $identity) {
 	<input value="<?php echo ht("Subscribe"); ?>" name="sub" type="submit" />
 	</form>
 </div>
+
+	</li>
+	<li id="tab_user_delete_tab" style="display:none;">
+
+<h2><?php echo ht("Delete Account"); ?></h2>
+
+<p>
+	<?php echo t("You may permanently delete your :site_name account and associated data by submitting the form below. You will be logged out and all of your
+	historical data will be removed."); ?>
+</p>
+
+<form action="<?php echo htmlspecialchars(url_for('user_delete')); ?>" method="post">
+<table class="user-profile">
+<tr>
+	<th><label for="confirm_text"><?php echo ht("Type in ':text':", array(':text' => "confirm")); ?></label></th>
+	<td>
+		<input type="text" id="confirm_text" name="confirm_text" size="32" value="" maxlength="255"> <span class="required">*</span>
+	</td>
+</tr>
+<tr>
+	<th colspan="2"><label for="reason"><?php echo ht("Can you tell us why you are deleting your account?"); ?></label></th>
+</tr>
+<tr>
+	<th></th>
+	<td>
+		<textarea name="reason" id="reason" cols="40" rows="5"></textarea>
+	</td>
+</tr>
+<tr>
+	<td colspan="2" class="buttons">
+	<?php
+	if ($user['is_admin']) {
+	?>
+		You cannot delete your account as you are an administrator.
+	<?php
+	} else {
+	?>
+		<input type="submit" value="<?php echo ht("Delete your account"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to delete your account? This action is not reversible."); ?>');">
+	<?php } ?>
+	</td>
+</tr>
+</table>
+</form>
 
 	</li>
 </ul>

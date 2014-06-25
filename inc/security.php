@@ -224,6 +224,21 @@ function require_login() {
 	}
 }
 
+/**
+ * Log out the current user.
+ * Also disables autologin for this session.
+ */
+function user_logout() {
+	$_SESSION["user_id"] = "";
+	$_SESSION["user_key"] = "";
+	unset($_SESSION["user_id"]);
+	unset($_SESSION["user_key"]);
+
+	// disable autologin for this session
+	$_SESSION["autologin_disable"] = 1;
+
+}
+
 $global_is_admin = null;
 /**
  * Is the current user an administrator?

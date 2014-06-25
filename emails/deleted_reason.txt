@@ -1,0 +1,13 @@
+Someone Deleted their {$site_name} Account
+Hello {$email},
+
+A user has deleted their {$site_name} account, with the following reason:
+
+  {$reason}
+
+User details:
+
+{$user}
+
+{$site_name}
+{$site_url}
