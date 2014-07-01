@@ -405,13 +405,18 @@ function log_uncaught_exception($e, $extra_args = array(), $extra_query = "") {
 		line_number=?,
 		raw=?,
 		created_at=NOW() $extra_query");
+	try {
+		$serialized = serialize($e);
+	} catch (Exception $e) {
+		$serialized = $e->getMessage() . ": " . print_r($e, true);
+	}
 	$q->execute(array_join(array(
 		// clamp messages to 255 characters
 		mb_substr($e->getMessage(), 0, 255),
 		mb_substr($e->getPrevious() ? $e->getPrevious()->getMessage() : "", 0, 255),
 		mb_substr($e->getFile(), 0, 255),
 		$e->getLine(),
-		mb_substr(serialize($e), 0, 65535),
+		mb_substr($serialized, 0, 65535),
 	), $extra_args));
 }
 
