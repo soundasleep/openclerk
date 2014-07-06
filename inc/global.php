@@ -34,15 +34,19 @@ if (isset($_COOKIE["locale"]) && !isset($_SESSION["locale"]) && in_array($_COOKI
  * ({@code get_site_config('database_slave')}),
  * without having to change instances of {@code db()->prepare($query)} throughout the site.
  *
+ * <p>
  * Otherwise this function should be functionally identical to
  * {@code db()->prepare($query)}.
+ *
+ * <p>
+ * We can force the master database to be used by setting the define {@code USE_MASTER_DB}.
  */
 class ReplicatedDbWrapper {
 	// necessary to emulate lastInsertId()
 	var $last_db;
 
 	public function prepare($query) {
-		if (get_site_config('database_slave') && !ReplicatedDbWrapper::isWriteQuery($query)) {
+		if (get_site_config('database_slave') && !ReplicatedDbWrapper::isWriteQuery($query) && !defined('USE_MASTER_DB')) {
 			if (get_site_config('timed_sql')) {
 				global $global_timed_sql;
 				$global_timed_sql['slave']++;

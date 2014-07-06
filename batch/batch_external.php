@@ -7,6 +7,8 @@
  *   $key/1 required the automated key
  */
 
+define('USE_MASTER_DB', true);		// always use the master database for selects!
+
 require(__DIR__ . "/../inc/global.php");
 require(__DIR__ . "/_batch.php");
 
