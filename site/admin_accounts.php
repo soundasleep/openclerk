@@ -175,6 +175,55 @@ function get_error_class($n) {
 		}
 	}
 ?>
+	<tr><th colspan="7">Tickers</th></tr>
+<?php
+	$q = db()->prepare("SELECT * FROM exchanges ORDER BY name ASC");
+	$q->execute();
+	$tickers = $q->fetchAll();
+	foreach ($tickers as $ticker) {
+		echo "<tr><td>" . htmlspecialchars(get_exchange_name($ticker['name'])) . "</td>\n";
+		// no accounts use this
+
+		// executing this in two queries is faster than going ORDER BY is_error DESC
+		$q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 AND is_error=1 AND arg_id=? LIMIT 1");
+		$q->execute(array('ticker', $ticker['id']));
+		$job = $q->fetch();
+		if (!$job) {
+			// if there are no failing jobs, just select any one
+			$q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 AND arg_id=? LIMIT 1");
+			$q->execute(array('ticker', $ticker['id']));
+			$job = $q->fetch();
+		}
+
+		echo "<td></td>";
+		echo "<td></td>";
+		echo "<td></td>";
+
+		echo "<td>" . recent_format_html($job['executed_at']) . "</td>\n";
+		?>
+		<td class="number">
+			<?php if ($job) { ?>
+			<a href="<?php echo htmlspecialchars(url_for('admin_run_job', array('job_id' => $job['id'], 'force' => true))); ?>"><?php echo number_format($job['id']); ?></a>
+			<?php } ?>
+		</td>
+		<?php
+		echo "<td><a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $exchange))) . "\">Graph</a></td>";
+		echo "<td class=\"buttons\">";
+		if ($data['failure'] && $summary['disabled'] > 0) {
+			echo "<form action=\"" . htmlspecialchars(url_for('admin_accounts')) . "\" method=\"post\">";
+			echo "<input type=\"hidden\" name=\"enable\" value=\"" . htmlspecialchars($exchange) . "\">";
+			echo "<input type=\"submit\" value=\"Enable all\" onclick=\"return confirm('Are you sure you want to re-enable all failed accounts?');\">";
+			echo "</form>";
+
+			echo "<form action=\"" . htmlspecialchars(url_for('admin_accounts_message')) . "\" method=\"post\">";
+			echo "<input type=\"hidden\" name=\"exchange\" value=\"" . htmlspecialchars($exchange) . "\">";
+			echo "<input type=\"submit\" value=\"Message failed\">";
+			echo "</form>";
+		}
+		echo "</td>\n";
+		echo "</tr>";
+	}
+?>
 </tbody>
 </table>
 
