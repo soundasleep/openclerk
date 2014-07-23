@@ -9,6 +9,8 @@
 require(__DIR__ . "/../inc/global.php");
 require_login();
 
+define('USE_MASTER_DB', true);		// always use the master database for selects!
+
 require(__DIR__ . "/../graphs/util.php");
 
 require(__DIR__ . "/../layout/templates.php");
