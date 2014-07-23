@@ -4382,3 +4382,15 @@ INSERT INTO exchanges SET name='itbit';
 -- issue #126: keep track of number of emails sent
 ALTER TABLE users ADD emails_sent int not null default 0;
 ALTER TABLE site_statistics ADD total_emails_sent int;
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.26 to 0.27
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+-- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
+DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
+
+-- disable Mining Foreman accounts
+UPDATE accounts_miningforeman SET is_disabled=1;
+UPDATE accounts_miningforeman_ftc SET is_disabled=1;
+

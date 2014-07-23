@@ -100,8 +100,6 @@ $standard_jobs = array(
 	array('table' => 'accounts_btcguild', 'type' => 'btcguild', 'failure' => true),
 	array('table' => 'accounts_hypernova', 'type' => 'hypernova', 'failure' => true),
 	array('table' => 'accounts_ltcmineru', 'type' => 'ltcmineru', 'failure' => true),
-	array('table' => 'accounts_miningforeman', 'type' => 'miningforeman', 'failure' => true),
-	array('table' => 'accounts_miningforeman_ftc', 'type' => 'miningforeman_ftc', 'failure' => true),
 	array('table' => 'accounts_havelock', 'type' => 'havelock', 'failure' => true),
 	array('table' => 'securities_havelock', 'type' => 'securities_havelock', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
 	array('table' => 'accounts_bitminter', 'type' => 'bitminter', 'failure' => true),

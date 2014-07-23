@@ -1,4 +1,9 @@
 
+<dt>24 July</dt>
+<dd>
+	Disabled <a href="http://mining-foreman.org">Mining Foreman</a> (LTC and FTC) mining pool.
+</dd>
+
 <dt>25 June</dt>
 <dd>
 Added currency support for <span class="currency_name_sgd" title="<?php echo htmlspecialchars(get_currency_name('sgd')); ?>">SGD</span>;

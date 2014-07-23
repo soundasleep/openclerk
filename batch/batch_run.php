@@ -336,14 +336,6 @@ try {
 			require(__DIR__ . "/../jobs/ltcmineru.php");
 			break;
 
-		case "miningforeman":
-			require(__DIR__ . "/../jobs/miningforeman.php");
-			break;
-
-		case "miningforeman_ftc":
-			require(__DIR__ . "/../jobs/miningforeman_ftc.php");
-			break;
-
 		case "havelock":
 			require(__DIR__ . "/../jobs/havelock.php");
 			break;
