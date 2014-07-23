@@ -182,15 +182,23 @@ $(document).ready(function() {
 });
 
 var callback_intervals = {};
+var pending_urls = {};
 
 /**
  * Callback function to initialise a "waiting..." icon on something that's being tested, and
  * polls the site to find out the result
  */
 function initialise_wizard_test_callback(element, url) {
+  if (typeof pending_urls[url] != 'undefined') {
+    // we're already waiting for this URL
+    return;
+  }
+  pending_urls[url] = true;
+
   callback_intervals[url] = window.setInterval(function() {
     $.ajax(url, {
       'success': function(data, status, xhr) {
+        delete pending_urls[url];
         $(element).html(data);
         // once the test has succeeded, stop requesting the same content over and over
         if (data.indexOf('successful test') >= 0) {
