@@ -23,18 +23,18 @@ class NotificationJobTest extends AbstractEmulatedJobTest {
 				'bid' => 95,
 			),
 			array(
-				'exchange' => get_default_currency_exchange('eur'),
-				'currency1' => 'eur',
-				'currency2' => 'btc',
-				'last_trade' => 200,
-				'ask' => 205,
-				'bid' => 195,
+				'exchange' => get_default_currency_exchange('dog'),
+				'currency1' => 'btc',
+				'currency2' => 'dog',
+				'last_trade' => 3e-7,
+				'ask' => 3.2e-7,
+				'bid' => 2.8e-7,
 			),
 		);
 	}
 
 	/**
-	 * Test a USD/BTC exchange increase.
+	 * Test a USD/BTC exchange increase notification
 	 */
 	function testIncrease() {
 		// create a notification
@@ -60,6 +60,63 @@ class NotificationJobTest extends AbstractEmulatedJobTest {
 		$this->assertHasLine("The exchange rate on $exchange_name for USD/BTC has increased, from 90 USD/BTC to 100 USD/BTC (11.111%), in the last hour.", $mails[0]);
 
 	}
+
+	/**
+	 * Test a USD/BTC exchange increase notification,
+	 * if the rate didn't actually increase.
+	 */
+	function testNop() {
+		// create a notification
+		$id = $this->createNotificationTicker($this->user, array(
+				'exchange' => get_default_currency_exchange('usd'),
+				'currency1' => 'usd',
+				'currency2' => 'btc',
+			));
+		$arg_id = $this->createNotification($this->user, array(
+				'last_value' => 100,
+				'notification_type' => 'ticker',
+				'type_id' => $id,
+				'trigger_condition' => 'increases',
+				'trigger_value' => 1,
+				'is_percent' => 0
+			));
+
+		// execute the job
+		$this->executeJob($this->user, $arg_id);
+		$mails = $this->getMails();
+		$this->assertEquals(0, count($mails));
+
+	}
+
+	/**
+	 * Test a BTC/DOGE exchange increase notification, particularly the precision.
+	 * Issue #257
+	 */
+	function testDogecoin() {
+		// create a notification
+		$id = $this->createNotificationTicker($this->user, array(
+				'exchange' => get_default_currency_exchange('dog'),
+				'currency1' => 'btc',
+				'currency2' => 'dog',
+			));
+		$arg_id = $this->createNotification($this->user, array(
+				'last_value' => 2e-7,
+				'notification_type' => 'ticker',
+				'type_id' => $id,
+				'trigger_condition' => 'increases',
+				'trigger_value' => 1,
+				'is_percent' => 0
+			));
+
+		// execute the job
+		$this->executeJob($this->user, $arg_id);
+		$mails = $this->getMails();
+		$this->assertEquals(1, count($mails));
+		$exchange_name = get_exchange_name(get_default_currency_exchange('dog'));
+		$this->assertHasLine("The exchange rate on $exchange_name for BTC/DOGE has increased, from 0.00000020 BTC/DOGE to 0.00000030 BTC/DOGE (50%), in the last hour.", $mails[0]);
+
+	}
+
 	function createNotificationTicker($user, $parameters) {
 		$user['user_id'] = $user['id'];
 		$q = db()->prepare("INSERT INTO notifications_ticker SET

@@ -114,11 +114,11 @@ if ($should_notify) {
 			break;
 
 		case "increases_by":
-			$change_text = "increased by at least " . number_format_autoprecision($notification['trigger_value']) . ($notification['is_percent'] ? '%' : (" " . $value_label));
+			$change_text = "increased by at least " . number_format_human($notification['trigger_value']) . ($notification['is_percent'] ? '%' : (" " . $value_label));
 			break;
 
 		case "above":
-			$change_text = "is above " . number_format_autoprecision($notification['trigger_value']) . " " . $value_label;
+			$change_text = "is above " . number_format_human($notification['trigger_value']) . " " . $value_label;
 			break;
 
 		case "decreases":
@@ -126,11 +126,11 @@ if ($should_notify) {
 			break;
 
 		case "decreases_by":
-			$change_text = "decreased by at least " . number_format_autoprecision($notification['trigger_value']) . ($notification['is_percent'] ? '%' : (" " . $value_label));
+			$change_text = "decreased by at least " . number_format_human($notification['trigger_value']) . ($notification['is_percent'] ? '%' : (" " . $value_label));
 			break;
 
 		case "below":
-			$change_text = "decreased below " . number_format_autoprecision($notification['trigger_value']) . " " . $value_label;
+			$change_text = "decreased below " . number_format_human($notification['trigger_value']) . " " . $value_label;
 			break;
 
 		default:
@@ -143,11 +143,11 @@ if ($should_notify) {
 			"name" => ($user['name'] ? $user['name'] : $user['email']),
 			"url" => absolute_url(url_for('wizard_notifications')),
 			"profile" => absolute_url(url_for('profile')),
-			"last_value" => number_format_autoprecision($notification['last_value'], 3),
-			"current_value" => number_format_autoprecision($current_value, 3),
+			"last_value" => number_format_human($notification['last_value']),
+			"current_value" => number_format_human($current_value),
 			"value_label" => $value_label,
-			"value_delta" => number_format_autoprecision($value_delta, 3),
-			"percent" => $percent === null ? "infinite%" : number_format_autoprecision($percent * 100, 3),
+			"value_delta" => number_format_human($value_delta),
+			"percent" => $percent === null ? "infinite%" : number_format_human($percent * 100, -1),
 			"change_text" => $change_text,
 			"period" => $notification['period'],
 		);
