@@ -4417,3 +4417,28 @@ CREATE TABLE accounts_bittrex (
 
 INSERT INTO exchanges SET name='bittrex';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='bittrex';
+
+-- issue #264: allow users to vote for new coins
+DROP TABLE IF EXISTS vote_coins;
+CREATE TABLE vote_coins (
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+
+  last_updated timestamp,
+  total_votes float,
+  total_users int,
+
+  code varchar(32),
+  title varchar(255)
+);
+
+DROP TABLE IF EXISTS vote_coins_votes;
+CREATE TABLE vote_coins_votes (
+  id int not null auto_increment primary key,
+  user_id int not null,
+  coin_id int not null,
+  created_at timestamp not null default current_timestamp,
+
+  INDEX(user_id), INDEX(coin_id)
+);
+

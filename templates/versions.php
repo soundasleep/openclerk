@@ -2,6 +2,7 @@
 <dt>24 July</dt>
 <dd>
 	Added <a href="https://bittrex.com/">Bittrex</a> exchange;
+	you can now <a href="<?php echo htmlspecialchars(url_for('vote_coins')); ?>">vote for new currencies</a> to be added with your <?php echo get_site_config('site_name'); ?> account;
 	disabled <a href="http://mining-foreman.org">Mining Foreman</a> (LTC and FTC) mining pool.
 </dd>
 

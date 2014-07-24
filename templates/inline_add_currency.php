@@ -43,7 +43,9 @@ Cryptocurrencies that do <em>not</em> have a suitable explorer API yet at the ti
 <h2>Requesting a new cryptocurrency</h2>
 
 <p>
-	If you would like Openclerk to support a new cryptocurrency, please let us know through one of the following methods:
+	If you would like Openclerk to support a new cryptocurrency,
+	you can now <a href="<?php echo htmlspecialchars(url_for('vote_coins')); ?>">vote on currencies to be added</a> with your <?php echo get_site_config('site_name'); ?> account <span class="new">new</span>.
+	Or you can let us know through one of the following methods:
 </p>
 
 <?php require_template('inline_contact'); ?>

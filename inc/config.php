@@ -237,6 +237,7 @@ function get_default_site_config() {
 		"premium_reminder_days" => 7,	// when premium will expire in X days, send a reminder email
 		"outstanding_reminder_hours" => 24,		// when a payment is outstanding, send a reminder every X hours
 		"outstanding_abandon_days" => 7,		// when a payment is outstanding, abandon it after X days
+		"premium_user_votes" => 10,		// how many extra votes do premium users get?
 
 		"premium_btc_discount" => 0, // in %, e.g. 1=100%
 		"premium_ltc_discount" => 0, // in %

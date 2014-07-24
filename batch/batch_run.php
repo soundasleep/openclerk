@@ -616,6 +616,10 @@ try {
 			require(__DIR__ . "/../jobs/version_check.php");
 			break;
 
+		case "vote_coins":
+			require(__DIR__ . "/../jobs/vote_coins.php");
+			break;
+
 		// transaction jobs
 		case "transaction_creator":
 			require(__DIR__ . "/../jobs/transaction_creator.php");

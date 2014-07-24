@@ -39,5 +39,6 @@
 </p>
 
 <p>
-	Support for additional cryptocurrencies will be <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_currency'))); ?>">added in the future</a>.
+	Support for additional cryptocurrencies will be <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'add_currency'))); ?>">added in the future</a>,
+	and you can <a href="<?php echo htmlspecialchars(url_for('vote_coins')); ?>">vote on currencies to be added</a> with your <?php echo get_site_config('site_name'); ?> account <span class="new">new</span>.
 </p>
