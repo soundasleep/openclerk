@@ -58,37 +58,38 @@ $currencies = array();
 foreach ($currencies1 as $cur) {
 	$currencies[$cur] = ($cur == 'btc' ? 1e8 : 1e5 /* assumed */);
 }
-$bit2c_info = bit2c_query($account['api_key'], $account['api_secret'], 'https://www.bit2c.co.il/Account/Balance');
+$bit2c_info = bit2c_query($account['api_key'], $account['api_secret'], 'https://www.bit2c.co.il/Account/Balance/v2');
+crypto_log(print_r($bit2c_info, true));
 if (isset($bit2c_info['error'])) {
 	throw new ExternalAPIException("API returned error: '" . $bit2c_info['error'] . "'");
 }
 
-if (!isset($bit2c_info['BalanceBTC'])) {
+if (!isset($bit2c_info['BTC'])) {
 	crypto_log("No $exchange balance for 'BTC'");
 	continue;
 }
 else {
-	$b = $bit2c_info['BalanceBTC'];
+	$b = $bit2c_info['BTC'];
 	crypto_log($exchange . " balance for btc: " . $b);
 	insert_new_balance($job, $account, $exchange, 'btc', $b);
 }
 
-if (!isset($bit2c_info['BalanceLTC'])) {
+if (!isset($bit2c_info['LTC'])) {
 	crypto_log("No $exchange balance for 'LTC'");
 	continue;
 }
 else {
-	$b = $bit2c_info['BalanceLTC'];
+	$b = $bit2c_info['LTC'];
 	crypto_log($exchange . " balance for ltc: " . $b);
 	insert_new_balance($job, $account, $exchange, 'ltc', $b);
 }
 
-if (!isset($bit2c_info['BalanceNIS'])) {
+if (!isset($bit2c_info['NIS'])) {
 	crypto_log("No $exchange balance for 'ILS'");
 	continue;
 }
 else {
-	$b = $bit2c_info['BalanceNIS'];
+	$b = $bit2c_info['NIS'];
 	crypto_log($exchange . " balance for ils: " . $b);
 	insert_new_balance($job, $account, $exchange, 'ils', $b);
 }
