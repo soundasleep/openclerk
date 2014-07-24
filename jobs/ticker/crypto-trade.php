@@ -39,7 +39,7 @@ foreach ($rates_list as $rl) {
 	}
 	$first = false;
 
-	$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://crypto-trade.com/api/1/ticker/" . $cur2 . "_" . $cur1)));
+	$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://crypto-trade.com/api/1/ticker/" . strtolower(get_currency_abbr($cur2)) . "_" . strtolower(get_currency_abbr($cur1)))));
 
 	if (!isset($rates['data']['last'])) {
 		if (isset($rates['error'])) {
@@ -49,11 +49,12 @@ foreach ($rates_list as $rl) {
 		throw new ExternalAPIException("No $cur1/$cur2 rate for $exchange_name");
 	}
 
+	crypto_log(print_r($rates, true));
 	insert_new_ticker($job, $exchange, strtolower($cur1), strtolower($cur2), array(
 		"last_trade" => $rates['data']['last'],
 		"bid" => $rates['data']['max_bid'],
 		"ask" => $rates['data']['min_ask'],
-		"volume" => $rates['data']['vol_' . $cur2],
+		"volume" => $rates['data']['vol_' . get_currency_abbr($cur2)],
 		// ignoring low, high
 	));
 
