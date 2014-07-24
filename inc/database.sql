@@ -4416,3 +4416,4 @@ CREATE TABLE accounts_bittrex (
 );
 
 INSERT INTO exchanges SET name='bittrex';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='bittrex';

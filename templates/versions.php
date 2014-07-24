@@ -1,7 +1,8 @@
 
 <dt>24 July</dt>
 <dd>
-	Disabled <a href="http://mining-foreman.org">Mining Foreman</a> (LTC and FTC) mining pool.
+	Added <a href="https://bittrex.com/">Bittrex</a> exchange;
+	disabled <a href="http://mining-foreman.org">Mining Foreman</a> (LTC and FTC) mining pool.
 </dd>
 
 <dt>25 June</dt>
