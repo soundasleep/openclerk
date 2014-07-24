@@ -32,7 +32,7 @@ function send_email($to_email, $to_name, $template_id, $args = array()) {
 	// may throw MailerException
 	global $__mock_mailer;
 	if (isset($__mock_mailer)) {
-		$__mock_mailer($to_email, $to_name, $subject, $template);
+		call_user_func($__mock_mailer, $to_email, $to_name, $subject, $template);
 	} else {
 		phpmailer($to_email, $to_name, $subject, $template);
 	}
