@@ -181,7 +181,7 @@ if (require_post("add", false)) {
 		$full_args = array_join(array(user_id(), require_post("title", false)), $args);
 		$q->execute($full_args);
 		$id = db()->lastInsertId();
-		if (!$title) $title = "<i>" . t("(untitled)") . "</i>";
+		if (!$title) $title = t("(untitled)");
 		$messages[] = t("Added new :title :name. Balances from this account will be retrieved shortly.",
 			array(
 				':name' => "<i>" . htmlspecialchars($title) . "</i>",
