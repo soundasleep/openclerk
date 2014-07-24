@@ -62,6 +62,34 @@ class NotificationJobTest extends AbstractEmulatedJobTest {
 	}
 
 	/**
+	 * Test a USD/BTC exchange increase notification, above a value
+	 */
+	function testIncreaseAbove() {
+		// create a notification
+		$id = $this->createNotificationTicker($this->user, array(
+				'exchange' => get_default_currency_exchange('usd'),
+				'currency1' => 'usd',
+				'currency2' => 'btc',
+			));
+		$arg_id = $this->createNotification($this->user, array(
+				'last_value' => 90,
+				'notification_type' => 'ticker',
+				'type_id' => $id,
+				'trigger_condition' => 'above',
+				'trigger_value' => 95,
+				'is_percent' => 0
+			));
+
+		// execute the job
+		$this->executeJob($this->user, $arg_id);
+		$mails = $this->getMails();
+		$this->assertEquals(1, count($mails));
+		$exchange_name = get_exchange_name(get_default_currency_exchange('usd'));
+		$this->assertHasLine("The exchange rate on $exchange_name for USD/BTC has increased above 95 USD/BTC, from 90 USD/BTC to 100 USD/BTC (11.111%), in the last hour.", $mails[0]);
+
+	}
+
+	/**
 	 * Test a USD/BTC exchange increase notification,
 	 * if the rate didn't actually increase.
 	 */

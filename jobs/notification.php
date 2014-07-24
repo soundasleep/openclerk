@@ -118,7 +118,7 @@ if ($should_notify) {
 			break;
 
 		case "above":
-			$change_text = "is above " . number_format_human($notification['trigger_value']) . " " . $value_label;
+			$change_text = "increased above " . number_format_human($notification['trigger_value']) . " " . $value_label;
 			break;
 
 		case "decreases":
