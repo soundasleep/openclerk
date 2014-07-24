@@ -4442,3 +4442,16 @@ CREATE TABLE vote_coins_votes (
   INDEX(user_id), INDEX(coin_id)
 );
 
+-- issue #158: add Blackcoin BC cryptocurrency
+DROP TABLE IF EXISTS blackcoin_blocks;
+
+CREATE TABLE blackcoin_blocks (
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+
+  blockcount int not null,
+
+  is_recent tinyint not null default 0,
+
+  INDEX(is_recent)
+);

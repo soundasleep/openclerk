@@ -7,7 +7,7 @@
 
 function get_all_currencies() {
 	return array(
-		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn",
+		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */,
 		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd",
 		"ghs",
 	);
@@ -23,11 +23,11 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("sgd");
+	return array("bc1");
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1");
 }
 
 function get_all_commodity_currencies() {
@@ -43,7 +43,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1");
 }
 
 function get_currency_name($n) {
@@ -65,6 +65,7 @@ function get_currency_name($n) {
 		case "vtc": return "Vertcoin";
 		case "net": return "Netcoin";
 		case "hbn": return "Hobonickels";
+		case "bc1": return "Blackcoin";
 
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
@@ -85,6 +86,7 @@ function get_currency_name($n) {
 
 function get_currency_abbr($c) {
 	if ($c == "dog") return "DOGE";
+	if ($c == "bc1") return "BC";
 	return strtoupper($c);
 }
 
@@ -93,6 +95,7 @@ function get_currency_abbr($c) {
  */
 function get_currency_key($c) {
 	if (strtolower($c) == "doge") return "dog";
+	if (strtolower($c) == "bc") return "bc1";
 	return strtolower($c);
 }
 
@@ -113,6 +116,7 @@ function get_blockchain_currencies() {
 		"Netcoin Explorer" => array('net'),
 		"162.217.249.198" => array('hbn'),
 		"Novacoin Explorer" => array('nvc'),
+		"BlackChain" => array('bc1'),
 	);
 }
 
@@ -540,6 +544,7 @@ function get_default_currency_exchange($c) {
 		case "vtc": return "cryptsy";
 		case "net": return "cryptsy";
 		case "hbn": return "cryptsy";
+		case "bc1": return "cryptsy";
 		// fiats
 		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
@@ -652,6 +657,7 @@ function account_data_grouped() {
 			'vertcoin' => array('title' => 'VTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'vtc\'', 'wizard' => 'addresses', 'currency' => 'vtc'),
 			'netcoin' => array('title' => 'NET addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'net\'', 'wizard' => 'addresses', 'currency' => 'net'),
 			'hobonickels' => array('title' => 'HBN addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'hbn\'', 'wizard' => 'addresses', 'currency' => 'hbn'),
+			'blackcoin' => array('title' => 'BC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'bc1\'', 'wizard' => 'addresses', 'currency' => 'b1'),
 		),
 		'Mining pools' => array(
 			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -849,6 +855,8 @@ function get_external_apis() {
 			'netcoin_block' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a> (block count)',
 			'hobonickels' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a>',
 			'hobonickels_block' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a> (block count)',
+			'blackcoin' => '<a href="http://blackcha.in/">BlackChain</a>',
+			'blackcoin_block' => '<a href="http://blackcha.in/">BlackChain</a> (block count)',
 		),
 
 		"Mining pool wallets" => array(
@@ -1221,6 +1229,18 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_hbn_address',
 				'job_type' => 'hobonickels',
 				'client' => get_currency_name('hbn'),
+			);
+
+		case "bc1":
+			return array(
+				'premium_group' => 'blackcoin',
+				'title' => 'BC address',
+				'titles' => 'BC addresses',
+				'table' => 'addresses',
+				'currency' => 'bc1',
+				'callback' => 'is_valid_bc1_address',
+				'job_type' => 'blackcoin',
+				'client' => get_currency_name('bc1'),
 			);
 
 		default:
@@ -2572,6 +2592,15 @@ function is_valid_net_address($address) {
 function is_valid_hbn_address($address) {
 	// based on is_valid_btc_address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "E" || substr($address, 0, 1) == "F")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_bc1_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "B")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}
