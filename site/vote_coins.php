@@ -82,7 +82,7 @@ page_header(t("Coin Voting"), "page_vote_coins", array('js' => array('accounts')
 	<tr>
 		<td class=""><?php echo htmlspecialchars($coin['code']); ?></td>
 		<td class=""><?php echo htmlspecialchars($coin['title']); ?></td>
-		<td class="number"><?php echo number_format($coin['total_votes']); ?></td>
+		<td class="number"><?php echo number_format($coin['total_votes'] * get_site_config('vote_coins_multiplier')); ?></td>
 		<td class="number"><?php echo number_format($coin['total_users']); ?></td>
 		<?php if (user_logged_in()) { ?>
 		<td class="buttons">

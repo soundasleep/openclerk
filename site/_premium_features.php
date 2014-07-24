@@ -97,6 +97,11 @@
 		<td class="yes premium">Y</td>
 	</tr>
 	<tr>
+		<th><a href="<?php echo htmlspecialchars(url_for('vote_coins')); ?>"><?php echo t("New currency votes"); ?></a></th>
+		<td class="number"><?php echo plural("vote", 1 * get_site_config('vote_coins_multiplier')); ?></td>
+		<td class="number premium"><?php echo plural("vote", get_site_config('premium_user_votes') * get_site_config('vote_coins_multiplier')); ?></td>
+	</tr>
+	<tr>
 		<th><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>"><?php echo t("Live graph updates"); ?></a></th>
 		<td class="number"><?php echo plural("minute", get_site_config('graph_refresh_free')); ?></td>
 		<td class="number premium"><?php echo plural("minute", get_site_config('graph_refresh_premium')); ?></td>

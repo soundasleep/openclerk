@@ -93,6 +93,7 @@ function get_default_site_config() {
 		"autologin_cookie_seconds" => 60 * 60 * 24 * 30,
 		"external_sample_size" => 10000,	// what is the max number of jobs to sample when updating the external API page?
 		"default_cache_seconds" => 60 * 60 * 24 * 7,		// allow things to be cached for up to a week by default
+		"vote_coins_multiplier" => 10,		// voting multiplier
 
 		// issue #12: allow unsafe accounts?
 		'allow_unsafe' => false,
