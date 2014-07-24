@@ -184,9 +184,9 @@ function plural($string, $strings, $number = false, $decimals = 0) {
 		return plural($string, $string . "s", $strings, $decimals);
 	}
 
-	if ($number == 1) {
-		return sprintf("%s %s", number_format($number, $decimals), t($string));
+	if (floor($number) == 1) {
+		return sprintf("%s %s", number_format(floor($number), $decimals), t($string));
 	} else {
-		return sprintf("%s %s", number_format($number, $decimals), t($strings));
+		return sprintf("%s %s", number_format(floor($number), $decimals), t($strings));
 	}
 }
