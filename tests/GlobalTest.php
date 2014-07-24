@@ -62,4 +62,22 @@ class GlobalTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(is_valid_url($e), $e . " should not be valid");
 	}
 
+	/**
+	 * Basic tests for {@link #url_add()}.
+	 */
+	function testUrlAdd() {
+		$this->assertEquals("url", url_add('url', array()));
+		$this->assertEquals("url?key=bar", url_add('url', array('key' => 'bar')));
+		$this->assertEquals("url?key=bar&bar=foo", url_add('url', array('key' => 'bar', 'bar' => 'foo')));
+	}
+
+	/**
+	 * Basic tests for {@link #url_add()} using absolute URLs.
+	 */
+	function testUrlAddAbsolute() {
+		$this->assertEquals("http://openclerk.org/url", url_add('http://openclerk.org/url', array()));
+		$this->assertEquals("http://openclerk.org/url?key=bar", url_add('http://openclerk.org/url', array('key' => 'bar')));
+		$this->assertEquals("http://openclerk.org/url?key=bar&bar=foo", url_add('http://openclerk.org/url', array('key' => 'bar', 'bar' => 'foo')));
+	}
+
 }
