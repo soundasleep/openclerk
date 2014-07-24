@@ -4394,3 +4394,23 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 UPDATE accounts_miningforeman SET is_disabled=1;
 UPDATE accounts_miningforeman_ftc SET is_disabled=1;
 
+-- issue #171: add Bittrex exchange
+DROP TABLE IF EXISTS accounts_bittrex;
+
+CREATE TABLE accounts_bittrex (
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
+
+  title varchar(255),
+  api_key varchar(255) not null,
+  api_secret varchar(255) not null,
+
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
+  is_disabled_manually tinyint not null default 0,
+
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
+);

@@ -564,6 +564,10 @@ try {
 			require(__DIR__ . "/../jobs/anxpro.php");
 			break;
 
+		case "bittrex":
+			require(__DIR__ . "/../jobs/bittrex.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");

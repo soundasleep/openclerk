@@ -240,6 +240,7 @@ function get_all_exchanges() {
 		"mupool" => "MuPool",
 		"anxpro" => "ANXPRO",
 		"itbit" => "itBit",
+		"bittrex" => "Bittrex",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -256,7 +257,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("bitmarket_pl", "poloniex");
+	return array("bittrex");
 }
 
 function get_exchange_pairs() {
@@ -383,6 +384,7 @@ function get_supported_wallets() {
 		"bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
+		"bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'ftc'),	// and others, used in jobs/bittrex.php
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btcinve" => array('btc'),
@@ -710,6 +712,7 @@ function account_data_grouped() {
 			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitmarket_pl' => array('table' => 'accounts_bitmarket_pl', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'bittrex' => array('table' => 'accounts_bittrex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -907,6 +910,7 @@ function get_external_apis() {
 			'bitcurex_pln' => '<a href="https://pln.bitcurex.com/">Bitcurex PLN</a>',
 			'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
+			'bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'btcinve' => '<a href="https://btcinve.com">BTCInve</a>',
 			'cexio' => '<a href="https://cex.io">CEX.io</a>',
@@ -1865,6 +1869,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'Secret', 'callback' => 'is_valid_anxpro_apisecret', 'length' => 128),
 				),
 				'table' => 'accounts_anxpro',
+			);
+
+		case "bittrex":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bittrex_apikey'),
+					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bittrex_apisecret', 'length' => 128),
+				),
+				'table' => 'accounts_bittrex',
 			);
 
 		// --- securities ---
@@ -2889,6 +2902,16 @@ function is_valid_anxpro_apikey($key) {
 function is_valid_anxpro_apisecret($key) {
 	// not sure what the format should be, looks to be similar to base64 encoding
 	return strlen($key) > 36 && preg_match('#^[A-Za-z0-9/\\+=]+$#', $key);
+}
+
+function is_valid_bittrex_apisecret($key) {
+	// looks like a 32 character hex string
+	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_bittrex_apikey($key) {
+	// looks like a 32 character hex string
+	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
