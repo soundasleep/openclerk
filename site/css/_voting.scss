@@ -1,0 +1,9 @@
+#page_vote_coins {
+  tr.voted-coin {
+    background: #363;
+
+    &.odd {
+      background: darken(#363, 10%);
+    }
+  }
+}

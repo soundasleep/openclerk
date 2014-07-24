@@ -79,7 +79,7 @@ page_header(t("Coin Voting"), "page_vote_coins", array('js' => array('accounts')
 </thead>
 <tbody>
 	<?php foreach ($coins as $coin) { ?>
-	<tr>
+	<tr class="<?php echo in_array($coin['id'], $my_coins) ? "voted-coin" : ""; ?>">
 		<td class=""><?php echo htmlspecialchars($coin['code']); ?></td>
 		<td class=""><?php echo htmlspecialchars($coin['title']); ?></td>
 		<td class="number"><?php echo number_format($coin['total_votes'] * get_site_config('vote_coins_multiplier')); ?></td>
