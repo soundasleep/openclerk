@@ -26,6 +26,7 @@ while ($coin = $q->fetch()) {
 	$last_calculated = max($last_calculated, $coin['last_updated']);
 }
 
+$my_coins = array();
 if (user_logged_in()) {
 	// perform post logic
 	if (require_post("update_votes", false)) {
