@@ -23,6 +23,8 @@ if (!$address) {
 $html = crypto_get_contents(crypto_wrap_url($abe_data['explorer_url'] . urlencode($address['address'])));
 $html = preg_replace("#[\n\t]+#", "", $html);
 $html = preg_replace("#</tr>#", "</tr>\n", $html);
+$html = preg_replace("#<td[^>]+?>#", "<td>", $html);
+$html = preg_replace("#<tr[^>]+?>#", "<tr>", $html);
 
 if ($address['is_received']) {
 	crypto_log("We are looking for received balance.");
@@ -91,9 +93,9 @@ if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |
 
 	} else {
 		if ($abe_data['currency'] == 'dog') {
-				crypto_log("DOGE currency had no transactions: this is OK");
+			crypto_log("DOGE currency had no transactions: this is OK");
 		} else {
-				throw new ExternalAPIException("Could not find any transactions on page");
+			throw new ExternalAPIException("Could not find any transactions on page");
 		}
 	}
 } else if (strpos($html, "Address not seen on the network.") !== false) {
