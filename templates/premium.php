@@ -6,7 +6,7 @@
 	<div class="success success_float">
 		<?php echo t("Thank you for supporting :site_name with :premium!", array(':premium' => link_to(url_for('user#user_premium'), ht("your premium account")))); ?>
 		<br>
-		<?php echo t("Your premium account expires in :time.", array(":time" => recent_format_html($user['premium_expires'], " ago", "" /* no 'in the future' */))); ?>.
+		<?php echo t("Your premium account expires in :time.", array(":time" => recent_format_html($user['premium_expires'], " ago", "" /* no 'in the future' */))); ?>
 	</div>
 <?php }
 } ?>
