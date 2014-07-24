@@ -109,6 +109,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/itbit.php");
 		break;
 
+	case "bittrex":
+		require(__DIR__ . "/ticker/bittrex.php");
+		break;
+
 	case "average":
 		require(__DIR__ . "/ticker/average.php");
 		break;

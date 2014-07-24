@@ -280,6 +280,7 @@ function get_exchange_pairs() {
 		"bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
 		"bitnz" => array(array('nzd', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
+		"bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'), array('btc', 'ppc'), array('btc', 'ftc')),	// and others
 		"btcchina" => array(array('cny', 'btc')),
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
 				array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'),
@@ -325,15 +326,11 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"itbit_usdbtc",
-		"itbit_eurbtc",
-		"itbit_sgdbtc",
-		"anxpro_sgdbtc",
-		"anxpro_sgdltc",
-		"anxpro_sgdnmc",
-		"anxpro_sgddog",
-		"coinbase_sgdbtc",
-		"themoneyconverter_usdsgd",
+		"bittrex_btcltc",
+		"bittrex_btcdog",
+		"bittrex_btcvtc",
+		"bittrex_btcppc",
+		"bittrex_btcftc",
 	);
 }
 
@@ -934,6 +931,7 @@ function get_external_apis() {
 			'ticker_bitcurex' => '<a href="https://bitcurex.com/">Bitcurex</a>',
 			'ticker_bitmarket_pl' => '<a href="https://www.bitmarket.pl/">BitMarket.pl</a>',
 			'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
+			'ticker_bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
 			'ticker_btcchina' => '<a href="https://btcchina.com">BTC China</a>',
 			'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
 			'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
