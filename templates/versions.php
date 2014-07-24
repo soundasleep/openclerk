@@ -1,17 +1,24 @@
 
 <dt>24 July</dt>
 <dd>
-	Added <a href="https://bittrex.com/">Bittrex</a> exchange;
-	you can now <a href="<?php echo htmlspecialchars(url_for('vote_coins')); ?>">vote for new currencies</a> to be added with your <?php echo get_site_config('site_name'); ?> account;
-	disabled <a href="http://mining-foreman.org">Mining Foreman</a> (LTC and FTC) mining pool.
+	Added currency support for <a href="http://www.blackcoin.co/" class="currency_name_bc1">Blackcoin</a>;
+	added <a href="https://bittrex.com/">Bittrex</a> exchange;
+	you can now <a href="<?php echo htmlspecialchars(url_for('vote_coins')); ?>">vote for new currencies</a> to be added;
+	changed <span class="currency_name_nmc">NMC</span> addresses to use <a href="http://namecha.in/">Namecha.in</a>;
+	changed <span class="currency_name_nvc">NVC</span> addresses to use <a href="https://explorer.novaco.in/">Novacoin explorer</a>;
+	<span class="currency_name_xrp">Ripple</span> addresses will now also fetch non-XRP balances;
+	improved notifications for <span class="currency_name_doge">DOGE</span> balances;
+	disabled <a href="http://mining-foreman.org">Mining Foreman</a> mining pool;
+	fixed <span class="currency_name_ixc">IXC</span> addresses not updating;
+	updated icons in <a href="https://play.google.com/store/apps/details?id=com.cryptfolio.calculator">Crypto Converter</a> Android app.
 </dd>
 
 <dt>25 June</dt>
 <dd>
 Added currency support for <span class="currency_name_sgd" title="<?php echo htmlspecialchars(get_currency_name('sgd')); ?>">SGD</span>;
 added <a href="https://www.itbit.com/">itBit</a> exchange ticker;
-changed <span class="currency_name_ppc">PPC</a> and <span class="currency_name_dgc">DGC</a> addresses to use <a href="http://blockr.io/">Blockr.io</a>;
-changed <span class="currency_name_wdc">WDC</a> addresses to use <a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>;
+changed <span class="currency_name_ppc">PPC</span> and <span class="currency_name_dgc">DGC</span> addresses to use <a href="http://blockr.io/">Blockr.io</a>;
+changed <span class="currency_name_wdc">WDC</span> addresses to use <a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>;
 site design is now slightly more responsive;
 user accounts can now be <a href="<?php echo htmlspecialchars(url_for('user#user_delete')); ?>">deleted</a>;
 created the <a href="http://blog.cryptfolio.com">CryptFolio blog</a>.
@@ -64,12 +71,5 @@ and <span class="currency_name_ils" title="<?php echo htmlspecialchars(get_curre
 added <a href="https://www.bit2c.co.il/">Bit2c</a> exchange;
 added <a href="https://www.scryptguild.com/">ScryptGuild</a> mining pool;
 enabled a number of exchange currency pairs.</dd>
-
-<dt>21 March</dt>
-<dd>Added currency support for <a href="http://digitalcoin.co/en/" class="currency_name_dgc">Digitalcoin</a> and <a href="http://www.worldcoinalliance.net/" class="currency_name_wdc">Worldcoin</a>;
-added <a href="https://www.cryptsy.com">Cryptsy</a> accounts;
-added <a href="http://shibepool.com/">Shibe Pool</a>, <a href="http://dgc.cryptopools.com/">CryptoPools DGC</a> and <a href="https://wdc.d2.cc/">d2 WDC</a> mining pools;
-disabled <a href="https://www.litecoinglobal.com/">Litecoin Global</a> and <a href="https://www.btct.co/">BTC Trading Co.</a> security exchanges;
-disabled <a href="http://meg.smalltimeminer.com/">Small Time Miner Megacoin</a> mining pool.</dd>
 
 <!-- more are in versions_old -->

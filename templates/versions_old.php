@@ -1,4 +1,11 @@
 
+<dt>21 March</dt>
+<dd>Added currency support for <a href="http://digitalcoin.co/en/" class="currency_name_dgc">Digitalcoin</a> and <a href="http://www.worldcoinalliance.net/" class="currency_name_wdc">Worldcoin</a>;
+added <a href="https://www.cryptsy.com">Cryptsy</a> accounts;
+added <a href="http://shibepool.com/">Shibe Pool</a>, <a href="http://dgc.cryptopools.com/">CryptoPools DGC</a> and <a href="https://wdc.d2.cc/">d2 WDC</a> mining pools;
+disabled <a href="https://www.litecoinglobal.com/">Litecoin Global</a> and <a href="https://www.btct.co/">BTC Trading Co.</a> security exchanges;
+disabled <a href="http://meg.smalltimeminer.com/">Small Time Miner Megacoin</a> mining pool.</dd>
+
 <dt>27 February</dt>
 <dd>Released the <a href="https://play.google.com/store/apps/details?id=com.cryptfolio.calculator">Crypto Converter</a> Android app,
 based on the <a href="<?php echo htmlspecialchars(url_for('calculator')); ?>"><?php echo htmlspecialchars(get_site_config('site_name')); ?> calculator</a>.</dd>
