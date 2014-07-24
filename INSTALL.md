@@ -40,6 +40,14 @@ To install Openclerk:
 
     grunt build
 
+1. Or, if you are building through Jenkins, use these commands:
+
+    npm install
+    composer install
+    mysql -u root --password=password < config/reset_clerk_database.sql
+    mysql -u clerk --password=password clerk < inc/database.sql
+    grunt test        # JUnit output is in tests/report.xml
+
 1. Update `site/.htaccess` mod_rewrite rules if you are not running within a
    `/clerk` subfolder
 
