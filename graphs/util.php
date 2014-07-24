@@ -22,17 +22,7 @@ function find_latest_created_at($a, $prefix = false) {
 
 // a simple alias
 function graph_number_format($n) {
-	if (abs($n) < 1e-4) {
-		return number_format_autoprecision($n, 8, '.', '');
-	} else if (abs($n) < 1e-2) {
-		return number_format_autoprecision($n, 6, '.', '');
-	} else if (abs($n) < 1e4) {
-		return number_format_autoprecision($n, 4, '.', '');
-	} else if (abs($n) < 1e6) {
-		return number_format_autoprecision($n, 2, '.', '');
-	} else {
-		return number_format_autoprecision($n, 0, '.', '');
-	}
+	return number_format_human($n);
 }
 
 // cached

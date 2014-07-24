@@ -80,4 +80,37 @@ class GlobalTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("http://openclerk.org/url?key=bar&bar=foo", url_add('http://openclerk.org/url', array('key' => 'bar', 'bar' => 'foo')));
 	}
 
+	function testNumberFormatPrecision() {
+		$this->assertSame("1", number_format_precision("1.000", 0));
+		$this->assertSame("1", number_format_precision("1.100", 0));
+		$this->assertSame("0", number_format_precision("0.010", 0));
+		$this->assertSame("0", number_format_precision("0.011", 0));
+		$this->assertSame("0", number_format_precision("0.0110001", 0));
+	}
+
+	function testNumberFormatAutoprecision() {
+		$this->assertSame("1", number_format_autoprecision("1.000"));
+		$this->assertSame("1.1", number_format_autoprecision("1.100"));
+		$this->assertSame("0.01", number_format_autoprecision("0.010"));
+		$this->assertSame("0.011", number_format_autoprecision("0.011"));
+		$this->assertSame("0.01100010", number_format_autoprecision("0.0110001"));
+
+		$this->assertSame("1", number_format_autoprecision("1.000", 2));
+		$this->assertSame("1.10", number_format_autoprecision("1.100", 2));
+		$this->assertSame("0.01", number_format_autoprecision("0.010", 2));
+		$this->assertSame("0.01", number_format_autoprecision("0.011", 2));
+		$this->assertSame("0.01", number_format_autoprecision("0.0110001", 2));
+	}
+
+	function testNumberFormatHuman() {
+		$this->assertSame("1", number_format_human("1.000"));
+		$this->assertSame("1.1", number_format_human("1.100"));
+		$this->assertSame("0.01", number_format_human("0.010"));
+		$this->assertSame("0.0110", number_format_human("0.011"));
+		$this->assertSame("0.0110", number_format_human("0.0110001"));
+		$this->assertSame("0.00001", number_format_human("0.00001"));
+		$this->assertSame("0.000001", number_format_human("0.000001"));
+		$this->assertSame("0.00000010", number_format_human("0.0000001"));
+	}
+
 }

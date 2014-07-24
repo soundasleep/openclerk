@@ -851,6 +851,10 @@ function number_format_precision($n, $precision) {
 	return number_format_autoprecision($n, $precision);
 }
 
+/**
+ * Format a number to the lowest precision that's necessary, to a maximum of the
+ * given precision.
+ */
 function number_format_autoprecision($n, $precision = 8, $dec_point = ".", $thousands_sep = ",") {
 	// find the lowest precision that we need
 	for ($i = 0; $i < $precision - 1; $i++) {
@@ -861,6 +865,23 @@ function number_format_autoprecision($n, $precision = 8, $dec_point = ".", $thou
 	}
 
 	return number_format($n, $precision, $dec_point, $thousands_sep);
+}
+
+/**
+ * Format a number to a human readable amount of precision.
+ */
+function number_format_human($n, $extra_precision = 0) {
+	if (abs($n) < 1e-4) {
+		return number_format_autoprecision($n, 8 + $extra_precision, '.', '');
+	} else if (abs($n) < 1e-2) {
+		return number_format_autoprecision($n, 6 + $extra_precision, '.', '');
+	} else if (abs($n) < 1e4) {
+		return number_format_autoprecision($n, 4 + $extra_precision, '.', '');
+	} else if (abs($n) < 1e6) {
+		return number_format_autoprecision($n, 2 + $extra_precision, '.', '');
+	} else {
+		return number_format_autoprecision($n, 0 + $extra_precision, '.', '');
+	}
 }
 
 // remove any commas; intended to be reverse of number_format()
