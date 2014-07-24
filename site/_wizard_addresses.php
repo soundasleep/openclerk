@@ -80,7 +80,18 @@ foreach ($accounts as $a) {
 			: <?php echo htmlspecialchars($job['message']); ?>
 			<?php } ?>
 		</td>
-		<td class="balances"><?php echo $a['balance'] === null ? "-" : currency_format($account_data['currency'], $a['balance']); ?></td>
+		<td class="balances"><ul><?php
+			echo "<li>";
+			echo $a['balance'] === null ? "-" : currency_format($account_data['currency'], $a['balance']);
+			echo "</li>";
+			if ($account_data['currency'] == 'xrp') {
+				$q = db()->prepare("SELECT * FROM balances WHERE is_recent=1 AND exchange=? AND account_id=?");
+				$q->execute(array('ripple', $a['id']));
+				while ($ripple_balance = $q->fetch()) {
+					echo "<li>" . currency_format($ripple_balance['currency'], $ripple_balance['balance']) . "</li>";
+				}
+			}
+			?></td>
 		<?php
 		$q = db()->prepare("SELECT * FROM transaction_creators WHERE exchange=? AND account_id=?");
 		$q->execute(array($account_data['job_type'], $a['id']));

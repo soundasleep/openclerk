@@ -69,3 +69,31 @@ $divisor = 1e6;		// divide by 1e8 to get xrp balance
 crypto_log("Ripple balance for " . htmlspecialchars($address['address']) . ": " . ($balance / $divisor));
 
 insert_new_address_balance($job, $address, $balance / $divisor);
+
+// now look for other currencies (#242)
+$input = array(
+	"method" => "account_lines",
+	"params" => array(
+		array(
+			"account" => $address['address'],
+		),
+	),
+);
+
+$lines = ripple_query($url, $input);
+crypto_log(print_r($lines, true));
+
+foreach ($lines['result']['lines'] as $line) {
+	$cur = get_currency_key($line['currency']);
+	if (in_array($cur, get_all_currencies())) {
+		$balance = $line['balance'];
+		$divisor = 1;
+
+		crypto_log("Ripple ledger balance for " . htmlspecialchars($address['address']) . ": " . ($balance / $divisor) . " $cur");
+
+		insert_new_balance($job, $address, 'ripple', $cur, $balance);
+	} else {
+		crypto_log("Cannot support reported Ripple currency $cur");
+	}
+}
+

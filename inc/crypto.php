@@ -242,6 +242,7 @@ function get_all_exchanges() {
 		"anxpro" => "ANXPRO",
 		"itbit" => "itBit",
 		"bittrex" => "Bittrex",
+		"ripple" => "Ripple",		// other ledger balances in Ripple accounts are stored as account balances
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",

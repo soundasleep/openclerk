@@ -92,6 +92,12 @@ if (require_post("delete", false) && require_post("id", false)) {
 	$q = db()->prepare("DELETE FROM address_balances WHERE address_id=? AND user_id=?");
 	$q->execute(array(require_post("id"), user_id()));
 
+	// if this is ripple, also delete old ripple account balances that may be connected
+	if ($account_data['currency'] == 'xrp') {
+		$q = db()->prepare("DELETE FROM balances WHERE exchange=? AND account_id=? AND user_id=?");
+		$q->execute(array('ripple', require_post("id"), user_id()));
+	}
+
 	$messages[] = t("Removed address :address.",
 		array(
 			':address' => ($address ? crypto_address($account_data['currency'], $address['address']) : " " . t("(removed)")),
