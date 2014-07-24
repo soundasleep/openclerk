@@ -6,13 +6,7 @@
  */
 
 // get the most recent value
-$q = db()->prepare("SELECT * FROM ticker_recent WHERE exchange=:exchange AND currency1=:currency1 AND currency2=:currency2 LIMIT 1");
-$q->execute(array(
-	"exchange" => $account['exchange'],
-	"currency1" => $account['currency1'],
-	"currency2" => $account['currency2'],
-));
-$ticker = $q->fetch();
+$ticker = get_latest_ticker($account['exchange'], $account['currency1'], $account['currency2']);
 if (!$ticker) {
 	// TODO maybe support failing for notifications, to disable notifications for e.g. accounts that no longer exist?
 	// probably better to make sure that we can never *have* a referenced account that never exists

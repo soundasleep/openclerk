@@ -30,7 +30,12 @@ function send_email($to_email, $to_name, $template_id, $args = array()) {
 
 	// now send the email
 	// may throw MailerException
-	phpmailer($to_email, $to_name, $subject, $template);
+	global $__mock_mailer;
+	if (isset($__mock_mailer)) {
+		$__mock_mailer($to_email, $to_name, $subject, $template);
+	} else {
+		phpmailer($to_email, $to_name, $subject, $template);
+	}
 
 	// TODO maybe insert key into database
 }
