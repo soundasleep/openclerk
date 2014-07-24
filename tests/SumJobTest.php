@@ -1,15 +1,18 @@
 <?php
 
 require_once(__DIR__ . "/../inc/global.php");
+require_once(__DIR__ . "/AbstractEmulatedJobTest.php");
 
 /**
  * Issue #112: tests to make sure that the sum job is considering all currencies correctly.
  * It's pretty important to test this functionality, because it is so critical to the
  * correct operation of the site.
  */
-class SumJobTest extends PHPUnit_Framework_TestCase {
+class SumJobTest extends AbstractEmulatedJobTest {
 
-	var $user;
+	function getJobType() {
+		return "sum";
+	}
 
 	function getRates() {
 		return array(
@@ -30,16 +33,6 @@ class SumJobTest extends PHPUnit_Framework_TestCase {
 				'bid' => 195,
 			),
 		);
-	}
-
-	function setUp() {
-		// first create a new user
-		$this->user = $this->createNewUser();
-	}
-
-	function tearDown() {
-		// finally, delete everything related to this user
-		$this->deleteUser($this->user);
 	}
 
 	/**
@@ -105,19 +98,6 @@ class SumJobTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(abs($delta) <= $expected / 1e6, "Expected [$currency] conversion to be [$expected], was [" . $values[$currency] . "]");
 	}
 
-	function createNewUser() {
-		$q = db()->prepare("INSERT INTO users SET name=:name, email=:email, country=:country, user_ip=:ip, is_first_report_sent=1");
-		$q->execute(array(
-			'name' => 'Test user ' . date('r'),
-			'email' => 'test@openiaml.org',
-			'country' => 'NZ',
-			'ip' => '',
-		));
-		$user_id = db()->lastInsertId();
-
-		return get_user($user_id);
-	}
-
 	function createAccountBalance($user, $exchange, $currency, $balance) {
 		$q = db()->prepare("INSERT INTO balances SET user_id=:user, exchange=:exchange, balance=:balance, currency=:currency, account_id=0, is_recent=1, created_at_day=TO_DAYS(NOW())");
 		$q->execute(array(
@@ -129,16 +109,6 @@ class SumJobTest extends PHPUnit_Framework_TestCase {
 	}
 
 	function executeSum($user, $currencies) {
-		// insert in the mock rates
-		$rates = $this->getRates();
-
-		// by using _latest_ticker we get free mocking, we don't have to insert
-		// things into the database, and we don't have to delete them later
-		// since they are only local to this scope
-		foreach ($rates as $ticker) {
-			set_latest_ticker($ticker);
-		}
-
 		// insert in summary currencies
 		$summary_map = array();
 		foreach ($currencies as $cur) {
@@ -146,16 +116,7 @@ class SumJobTest extends PHPUnit_Framework_TestCase {
 			$q->execute(array($user['id'], 'summary_' . $cur . (is_fiat_currency($cur) ? '_' . get_default_currency_exchange($cur) : '')));
 		}
 
-		// now execute the job
-		$q = db()->prepare("INSERT INTO jobs SET user_id=?,job_type=?");
-		$q->execute(array($user['id'], 'sum'));
-		$job_id = db()->lastInsertId();
-		$q = db()->prepare("SELECT * FROM jobs WHERE id=?");
-		$q->execute(array($job_id));
-		$job = $q->fetch();
-
-		require_once(__DIR__ . "/../batch/_batch_insert.php");
-		require(__DIR__ . "/../jobs/sum.php");
+		$this->executeJob($user, -1);
 
 		// now, find all summary_instances
 		$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND is_recent=1");
@@ -167,29 +128,4 @@ class SumJobTest extends PHPUnit_Framework_TestCase {
 		return $result;
 	}
 
-	function deleteUser($user) {
-		$q = db()->prepare("DELETE FROM users WHERE id=?");
-		$q->execute(array($user['id']));
-
-		$q = db()->prepare("DELETE FROM summaries WHERE user_id=?");
-		$q->execute(array($user['id']));
-
-		$q = db()->prepare("DELETE FROM summary_instances WHERE user_id=?");
-		$q->execute(array($user['id']));
-
-		$q = db()->prepare("DELETE FROM jobs WHERE user_id=?");
-		$q->execute(array($user['id']));
-
-		$q = db()->prepare("DELETE FROM balances WHERE user_id=?");
-		$q->execute(array($user['id']));
-
-	}
-
-}
-
-// mock methods
-function crypto_log($m) {
-	if (!defined('NO_OUTPUT')) {
-		echo "<!-- " . $m . " -->\n";
-	}
 }
