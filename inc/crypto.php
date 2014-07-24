@@ -100,7 +100,7 @@ function get_blockchain_currencies() {
 	return array(
 		"Blockchain.info" => array('btc'),
 		"Litecoin Explorer" => array('ltc'),
-		"CryptoCoin Explorer" => array('nvc', 'xpm', 'trc'),
+		"CryptoCoin Explorer" => array('xpm', 'trc'),
 		"Blockr.io" => array('ppc', 'dgc'),
 		"Feathercoin Search" => array('ftc'),
 		"DogeChain" => array('dog'),
@@ -112,6 +112,7 @@ function get_blockchain_currencies() {
 		"VERTExplorer" => array('vtc'),
 		"Netcoin Explorer" => array('net'),
 		"162.217.249.198" => array('hbn'),
+		"Novacoin Explorer" => array('nvc'),
 	);
 }
 
@@ -823,8 +824,8 @@ function get_external_apis() {
 			'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC block count)',
 			'ppcoin' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
 			'ppcoin_block' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC block count)',
-			'novacoin' => '<a href="http://nvc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (NVC)',
-			'novacoin_block' => '<a href="http://nvc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (NVC block count)',
+			'novacoin' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
+			'novacoin_block' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a> (block count)',
 			'primecoin' => '<a href="http://xpm.cryptocoinexplorer.com/">CryptoCoin explorer</a> (XPM)',
 			'primecoin_block' => '<a href="http://xpm.cryptocoinexplorer.com/">CryptoCoin explorer</a> (XPM block count)',
 			'terracoin' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',

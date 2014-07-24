@@ -164,10 +164,10 @@ function get_default_site_config() {
 		"ftc_block_url" => "http://explorer.feathercoin.com/chain/Feathercoin/q/getblockcount",
 		"ppc_address_url" => "http://ppc.blockr.io/api/v1/address/info/",
 		"ppc_block_url" => "http://ppc.blockr.io/api/v1/block/info/last",
-		"nvc_address_url" => "http://nvc.cryptocoinexplorer.com/address/",
+		"nvc_address_url" => "https://explorer.novaco.in/address/",
 		// not implemented yet!
 		// "nvc_block_url" => "http://nvc.cryptocoinexplorer.com/chain/Novacoin/q/getblockcount",
-		"nvc_block_url_html" => "http://nvc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
+		"nvc_block_url_html" => "https://explorer.novaco.in/",		// for obtaining block count manually
 		"xpm_address_url" => "http://xpm.cryptocoinexplorer.com/address/",
 		// not implemented yet!
 		// "xpm_block_url" => "http://xpm.cryptocoinexplorer.com/chain/Primecoin/q/getblockcount",
