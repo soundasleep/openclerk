@@ -594,7 +594,7 @@ foreach ($identities as $identity) {
 		<td class="number"><?php echo currency_format($o['currency'], $o['balance']); ?></td>
 		<td class="number"><?php echo currency_format($o['currency'], $o['last_balance'] ? $o['last_balance'] : 0); ?></td>
 		<td><?php echo recent_format_html($o['created_at']); ?></td>
-		<td><?php echo recent_format_html($o['last_check']); ?></td>
+		<td><?php echo $o['last_check'] ? recent_format_html($o['last_check']) : "<i>" . ht("Just now") . "</i>"; ?></td>
 	</tr>
 <?php } ?>
 </tbody>
