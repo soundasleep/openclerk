@@ -57,7 +57,7 @@ if (isset($info['error']) && preg_match("/nonce value is too big/", $info['error
 if (isset($info['error'])) {
 	throw new ExternalAPIException(htmlspecialchars($info['error']));
 }
-if (isset($info['status']) && $info['status'] == 'error']) {
+if (isset($info['status']) && $info['status'] == 'error') {
 	if (isset($info['message'])) {
 		throw new ExternalAPIException(htmlspecialchars($info['message']));
 	} else {
