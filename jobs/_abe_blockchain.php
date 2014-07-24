@@ -90,11 +90,11 @@ if (!$address['is_received'] && preg_match('#(<p>|<tr><th>|<tr><td>)Balance:?( |
 		crypto_log("Confirmed received after " . $abe_data['confirmations'] . " confirmations: " . $balance);
 
 	} else {
-                if ($abe_data['currency'] == 'dog') {
-                        crypto_log("DOGE currency had no transactions: this is OK");
-                } else {
-                        throw new ExternalAPIException("Could not find any transactions on page");
-                }
+		if ($abe_data['currency'] == 'dog') {
+				crypto_log("DOGE currency had no transactions: this is OK");
+		} else {
+				throw new ExternalAPIException("Could not find any transactions on page");
+		}
 	}
 } else if (strpos($html, "Address not seen on the network.") !== false) {
 	// the address is valid, it just doesn't have a balance
