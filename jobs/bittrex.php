@@ -46,7 +46,7 @@ function bittrex_query($key, $secret, $path, array $req = array()) {
 }
 
 // returns eurs, btcs, address
-$info = bittrex_query($account['api_key'], $account['api_secret'], 'https://bittrex.com/api/v1/account/getbalances');
+$info = bittrex_query($account['api_key'], $account['api_secret'], 'https://bittrex.com/api/v1.1/account/getbalances');
 crypto_log(print_r($info, true));
 
 if (!$info['success']) {
