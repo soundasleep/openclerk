@@ -24,6 +24,7 @@ $rates_list = array(
 	array('cur1' => 'ltc', 'cur2' => 'net'),
 	array('cur1' => 'btc', 'cur2' => 'ixc'),
 	array('cur1' => 'btc', 'cur2' => 'hbn'),
+	array('cur1' => 'btc', 'cur2' => 'bc1'),
 	// currencies not yet exposed to users or public
 	array('cur1' => 'btc', 'cur2' => 'mnc'),
 	// currently USD currencies are broken

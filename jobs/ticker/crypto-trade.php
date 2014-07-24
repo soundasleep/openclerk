@@ -23,6 +23,7 @@ $rates_list = array(
 	array('btc', 'dvc'),
 	array('btc', 'wdc'),
 	array('btc', 'dgc'),
+	array('btc', 'bc1'),
 );
 
 // tickers...
