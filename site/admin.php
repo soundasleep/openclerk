@@ -137,7 +137,7 @@ $graph = array(
 		<th><?php echo htmlspecialchars($key); ?></th>
 		<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>">
 			<?php if ($key == "created_at") {
-				echo recent_format_html($value)
+				echo recent_format_html($value);
 			} else if (is_numeric($value)) {
 				echo number_format($value, $dp);
 			} else {
