@@ -57,6 +57,8 @@ if (!$info['success']) {
 	}
 }
 
+$found_currencies = array();
+
 $get_supported_wallets = get_supported_wallets();
 $currencies = $get_supported_wallets['bittrex'];
 foreach ($info['result'] as $row) {
@@ -71,6 +73,17 @@ foreach ($info['result'] as $row) {
 			crypto_log($exchange . " balance for " . $currency . ": " . $balance);
 			insert_new_balance($job, $account, $exchange, $currency, $balance);
 
+			$found_currencies[] = $currency;
 		}
 	}
 }
+
+// disable all other balances that were not reported
+foreach ($currencies as $currency) {
+	if (!in_array($currency, $found_currencies)) {
+		crypto_log("Found no $exchange balance for $currency");
+
+		insert_new_balance($job, $account, $exchange, $currency, 0);
+	}
+}
+
