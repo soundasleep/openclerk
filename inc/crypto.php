@@ -286,7 +286,7 @@ function get_exchange_pairs() {
 		"bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
 		"bitnz" => array(array('nzd', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
-		"bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'bc1')),	// and others
+		"bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'), array('btc', 'ppc'), array('btc', 'bc1')),	// and others
 		"btcchina" => array(array('cny', 'btc')),
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
 				array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'),
@@ -338,7 +338,6 @@ function get_new_exchange_pairs() {
 		"bittrex_btcdog",
 		"bittrex_btcvtc",
 		"bittrex_btcppc",
-		"bittrex_btcftc",
 		"bittrex_btcbc1",
 		"coins-e_btcbc1",
 		"crypto-trade_btcbc1",
@@ -398,7 +397,7 @@ function get_supported_wallets() {
 		"bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
-		"bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'ftc', 'bc1'),	// and others, used in jobs/bittrex.php
+		"bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1'),	// and others, used in jobs/bittrex.php
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btcinve" => array('btc'),
