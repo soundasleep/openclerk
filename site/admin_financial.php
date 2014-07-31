@@ -16,13 +16,24 @@ page_header("Admin: Financial Report", "page_admin_jobs");
 
 $total_months = 6;
 $months = array();
+$y = date('Y');
+$m = date('m');
+// subtract $total_months
+$m -= ($total_months - 1);
+if ($m < 1) {
+	$m += 12;
+	$y--;
+}
 for ($i = $total_months - 1; $i >= 0; $i--) {
-	$y = date('Y', strtotime('-' . $i . ' months'));
-	$m = date('m', strtotime('-' . $i . ' months'));
 	$months[] = array(
 		'start' => sprintf("%04d-%02d-01", $y, $m) . ' 00:00:00',
 		'end' => date('Y-m-d', strtotime(sprintf('%04d-%02d-01', $m == 12 ? $y + 1 : $y, $m == 12 ? 1 : $m + 1) . " -1 day")) . ' 23:59:59',
 	);
+	$m++;
+	if ($m > 12) {
+		$m -= 12;
+		$y++;
+	}
 }
 ?>
 
