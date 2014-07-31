@@ -133,6 +133,8 @@ $account_data_grouped['Instances'] = array(
 	'securities_litecoinglobal' => array('title' => 'Litecoinglobal securities', 'table' => 'securities_litecoinglobal'),
 	'securities_havelock' => array('title' => 'Havelock securities', 'table' => 'securities_havelock'),
 	'securities_bitfunder' => array('title' => 'BitFunder securities', 'table' => 'securities_bitfunder'),
+	'transactions_manual' => array('title' => 'Transactions (manual)', 'table' => 'transactions', 'query' => ' AND is_automatic=0'),
+	'transactions_automatic' => array('title' => 'Transactions (automatic)', 'table' => 'transactions', 'query' => ' AND is_automatic=1'),
 	'jobs' => array('title' => 'Jobs', 'table' => 'jobs'),
 	'exceptions' => array('title' => 'Uncaught exceptions', 'table' => 'uncaught_exceptions'),
 	'archived_ticker' => array('title' => 'Archived ticker instances', 'table' => 'graph_data_ticker'),
