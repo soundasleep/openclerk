@@ -857,6 +857,10 @@ function number_format_precision($n, $precision) {
  * given precision.
  */
 function number_format_autoprecision($n, $precision = 8, $dec_point = ".", $thousands_sep = ",") {
+	if (!is_numeric($n) && is_localhost()) {
+		throw new Exception("'$n' is not numeric");
+	}
+
 	// find the lowest precision that we need
 	for ($i = 0; $i < $precision - 1; $i++) {
 		if (number_format($n, (int) $i, ".", "") == $n) {
