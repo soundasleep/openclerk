@@ -32,9 +32,11 @@ function api_v1_graphs($graph) {
 
 	// 3. add technicals as necessary
 	// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
-	$technicals = calculate_technicals($graph, $data['data'], $data['columns'], false /* ignore_first_row */);
-	$data['columns'] = $technicals['headings'];
-	$data['data'] = $technicals['data'];
+	if ($renderer->canHaveTechnicals()) {
+		$technicals = calculate_technicals($graph, $data['data'], $data['columns'], false /* ignore_first_row */);
+		$data['columns'] = $technicals['headings'];
+		$data['data'] = $technicals['data'];
+	}
 
 	// 4. discard early data
 	$data['data'] = discard_early_data($data['data'], $graph['days']);
@@ -43,7 +45,17 @@ function api_v1_graphs($graph) {
 	$result['columns'] = $data['columns'];
 	$result['data'] = $data['data'];
 
-	$result['type'] = 'linechart';
+	// clean up columns
+	foreach ($result['columns'] as $key => $value) {
+		$result['columns'][$key]['technical'] = isset($result['columns'][$key]['technical']) && $result['columns'][$key]['technical'] ? true : false;
+		if ($result['columns'][$key]['technical']) {
+			if (!isset($result['columns'][$key]['type'])) {
+				$result['columns'][$key]['type'] = 'number';
+			}
+		}
+	}
+
+	$result['type'] = $renderer->getChartType();
 
 	// 5. construct heading and links
 	$result['heading'] = array(
@@ -52,21 +64,38 @@ function api_v1_graphs($graph) {
 		'title' => $renderer->getLabel(),
 	);
 
-	// 6. construct subheading and revise last_updated
-	$result['subheading'] = format_subheading_values_objects($graph, $data['data'], $data['columns']);
-	$result['lastUpdated'] = recent_format_html($data['last_updated']);
+	if (isset($data['h1'])) {
+		$result['h1'] = $data['h1'];
+	}
+	if (isset($data['h2'])) {
+		$result['h2'] = $data['h2'];
+	}
 
+	// 6. construct subheading and revise last_updated
+	if ($renderer->hasSubheading()) {
+		$result['subheading'] = format_subheading_values_objects($graph, $data['data'], $data['columns']);
+	}
+
+	$result['lastUpdated'] = recent_format_html($data['last_updated']);
 	$result['timestamp'] = iso_date();
+	$result['classes'] = $renderer->getClasses();
 
 	if (is_localhost()) {
 		$result['_debug'] = $graph;
 		$result['_debug']['data_discarded'] = $original_count - $after_discard_count;
 	}
 
-	// make sure that all data is numeric
+	// make sure that all 'number'-typed data is numeric
 	foreach ($result['data'] as $i => $row) {
 		foreach ($row as $key => $value) {
-			$result['data'][$i][$key] = (double) $value;
+			$column = $result['columns'][$key + 1 /* first heading is key */];
+			if ($column['type'] == 'number') {
+				$result['data'][$i][$key] = (double) $value;
+
+				if (is_localhost()) {
+					$result['_debug']['number_formatted'] = true;
+				}
+			}
 		}
 	}
 
@@ -130,12 +159,21 @@ function construct_graph_renderer($graph_type) {
 	$bits = explode("_", $graph_type);
 	if (count($bits) == 3) {
 		$all_exchanges = get_all_exchanges();
-		if ($bits[2] == "daily" && strlen($bits[1]) == 6 && isset($all_exchanges[$bits[0]])) {
+		$cur1 = false;
+		$cur2 = false;
+		if (strlen($bits[1]) == 6) {
 			$cur1 = substr($bits[1], 0, 3);
 			$cur2 = substr($bits[1], 3);
-			if (in_array($cur1, get_all_currencies()) && in_array($cur2, get_all_currencies())) {
-				return new GraphRenderer_Ticker($bits[0], $cur1, $cur2);
-			}
+			$cur1 = in_array($cur1, get_all_currencies()) ? $cur1 : false;
+			$cur2 = in_array($cur1, get_all_currencies()) ? $cur2 : false;
+		}
+
+		if ($bits[2] == "daily" && $cur1 && $cur2 && isset($all_exchanges[$bits[0]])) {
+			return new GraphRenderer_Ticker($bits[0], $cur1, $cur2);
+		}
+
+		if ($bits[2] == "markets" && $cur1 && $cur2 && $bits[0] == "average") {
+			return new GraphRenderer_AverageMarketData($cur1, $cur2);
 		}
 	}
 

@@ -30,16 +30,27 @@
 
     .graph {
       margin-left: 20px;
+
+      &.graph_average {
+        .overflow_wrapper {
+          height: 87%;
+        }
+
+        .graph_headings {
+          height: 3.9em;
+
+          h1 {
+            margin-top: 5px;
+          }
+          h2 {
+            margin-top: 11px;
+          }
+          .last-updated {
+            display: none;
+          }
+        }
+      }
     }
-  }
-
-  .graph_average {
-      position: relative;
-      top: -1.5em;
-  }
-
-  .graph_collection .market-data .graph .graph_average .overflow_wrapper {
-    height: 87%;
   }
 }
 

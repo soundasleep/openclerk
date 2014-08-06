@@ -55,18 +55,24 @@
       if graph.technical_type?
         url += "&technical=" + graph.technical_type + "&technical_period=" + graph.technical_period
 
+      element = $("#" + graph.target)
+      throw new Error("No target " + graph.target + " found") unless element.length == 1
+      graph.element = element[0]
+
       queue_ajax_request url,
         dataType: 'json'
         success: (data, text, xhr) ->
           if not data.success? or !data.success
-            Graphs.text graph,
+            Graphs.text graph.element, graph,
               text: "Could not load graph data: Invalid response"
             throw new Error("Could not load graph data from " + url)
             return
 
           switch data.type
             when "linechart"
-              Graphs.linechart graph, data
+              Graphs.linechart graph.element, graph, data
+            when "vertical"
+              Graphs.vertical graph.element, graph, data
             else
               throw new Error("Could not render graph type " + data.type)
 
@@ -82,7 +88,7 @@
           try
             console.log "trying to parse JSON"
             parsed = JSON.parse(xhr.responseText)
-            Graphs.text graph,
+            Graphs.text graph.element, graph,
               text: parsed.message
             return
           catch e
@@ -95,7 +101,7 @@
     @collection[graph.target] = graph
 
     # create HTML elements as necessary, and reconfigure the DOM
-    $(document).ready ->
+    $(document).ready =>
       target = $("#" + graph.target)
       throw new Error("Could not find graph target " + graph.target) unless target.length > 0
       $(target[0]).width(graph.computedWidth)
@@ -117,17 +123,13 @@
   ###
    # Render linecharts.
   ###
-  linechart: (graph, result) ->
-    target = $("#" + graph.target)
-    throw new Error("No target " + graph.target + " found") unless target.length == 1
-    target = target[0]
-
+  linechart: (target, graph, result) ->
     table = new google.visualization.DataTable()
     series = []
     i = 0
     for column in result.columns
       column.lineWidth = 2 if not column.lineWidth?
-      if column.technical?
+      if column.technical
         column.type = "number"
         column.lineWidth = 1
 
@@ -177,6 +179,72 @@
     console.log "formatted data is ", formatted_data
     chart.draw(table, options)
 
+    Graphs.renderHeadings target, graph, result
+
+  ###
+   # Render a vertical graph.
+  ###
+  vertical: (target, graph, result) ->
+    # create new elements
+    throw new Error("Could not find #graph_table_template to clone") unless $("#graph_table_template").length > 0
+    clone = $("#graph_table_template").clone()
+    $(clone).attr('id', '')
+    # $(clone).find(".graph-target").width(graph.graphWidth)
+    # $(clone).find(".graph-target").height(graph.graphHeight)
+
+    thead = document.createElement('thead')
+    tr = document.createElement('tr')
+    i = 0
+    for column in result.columns
+      if i > 0
+        th = document.createElement('th')
+        $(th).html(Locale.formatTemplate(column.title, column.args))
+        $(th).addClass(column.type)
+        $(tr).append(th)
+      i++
+
+    $(thead).append(tr)
+    $(clone).find('table').append(thead)
+
+    tbody = document.createElement('tbody')
+    for key, value of result.data
+      tr = document.createElement('tr')
+      i = 0
+      for v in value
+        td = document.createElement(if result.columns[i + 1].heading? then 'th' else 'td')
+        $(td).html(v)
+        $(td).addClass(result.columns[i + 1].type)
+        $(tr).append(td)
+        i++
+
+      $(tbody).append(tr)
+
+    $(clone).find('table').append(tbody)
+
+    $(target).find(".status_loading").remove()
+
+    $(target).find(".graph-target").append(clone)
+    clone.show()
+
+    Graphs.renderHeadings target, graph, result
+
+  ###
+   # Render simple text.
+  ###
+  text: (target, graph, result) ->
+    throw new Error("No text defined in result") unless result.text?
+
+    targetDiv = $(target).find(".graph-target .status_loading")
+    throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
+
+    $(targetDiv).text(result.text)
+    $(targetDiv).addClass('error-message')
+
+  renderHeadings: (target, graph, result) ->
+    # add classses, if provided
+    if result.classes
+      $(target).addClass(result.classes)
+
     # also render subheadings
     heading = $(target).find(".graph_title a")
     heading.html(result.heading.label)
@@ -185,26 +253,27 @@
 
     # TODO outdated graph logic
 
-    $(target).find(".subheading").html(result.subheading)
-    $(target).find(".last-updated").html(result.lastUpdated)
+    if result.subheading
+      $(target).find(".subheading").html(result.subheading)
+    else
+      $(target).find(".subheading").hide()
+
+    if result.lastUpdated
+      $(target).find(".last-updated").html(result.lastUpdated)
+    else
+      $(target).find(".last-updated").hide()
+
+    if result.h1
+      $(target).find(".h1").html(result.h1)
+    else
+      $(target).find(".h1").hide()
+
+    if result.h2
+      $(target).find(".h2").html(result.h2)
+    else
+      $(target).find(".h2").hide()
 
     $(target).find(".admin-stats").html(result.time + " ms")
-
-  ###
-   # Render simple text.
-  ###
-  text: (graph, result) ->
-    target = $("#" + graph.target)
-    throw new Error("No target " + graph.target + " found") unless target.length == 1
-    target = target[0]
-
-    throw new Error("No text defined in result") unless result.text?
-
-    targetDiv = $(target).find(".graph-target .status_loading")
-    throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
-
-    $(targetDiv).text(result.text)
-    $(targetDiv).addClass('error-message')
 
   # TODO fill up with chart colours
   chartColours: [

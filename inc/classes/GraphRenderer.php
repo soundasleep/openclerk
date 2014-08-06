@@ -29,4 +29,32 @@ abstract class GraphRenderer {
 		return false;
 	}
 
+	/**
+	 * Does this graph have a subheading? By default, returns {@code true}.
+	 */
+	function hasSubheading() {
+		return true;
+	}
+
+	/**
+	 * What type of chart is this rendered as?
+	 * By default, returns {@code linechart}.
+	 */
+	function getChartType() {
+		return "linechart";
+	}
+
+	/**
+	 * Can this graph have technicals?
+	 * If this returns {@code true}, then the resulting data will always be sorted.
+	 * By default, returns {@code true}.
+	 */
+	function canHaveTechnicals() {
+		return true;
+	}
+
+	function getClasses() {
+		return "";
+	}
+
 }

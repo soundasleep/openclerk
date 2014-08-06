@@ -329,6 +329,9 @@ function format_subheading_values_objects($graph, $data, $headings, $suffix = fa
 		throw new GraphException("'$array' is not an array");
 	}
 	foreach ($array as $key => $value) {
+		if (!is_numeric($value)) {
+			throw new GraphException("Cannot format subheading value '$value': is not numeric");
+		}
 		$array[$key] = number_format_html($value, 4, $suffix);
 	}
 	return implode(" / ", $array);

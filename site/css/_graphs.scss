@@ -33,7 +33,7 @@
 .graph_collection .graph .rate_matrix { list-style: none; margin: 0; padding: 0; }
 .graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
 
-.graph_collection .graph .graph_average {
+.graph_collection .graph.graph_average {
   h1, h2 {
     text-align: center;
     margin-top: 0;
