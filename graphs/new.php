@@ -36,6 +36,7 @@ function new_render_graph($graph) {
 			<span class="subheading"></span>
 			<span class="last-updated"></span>
 			<div class="graph-target"><span class="status_loading">Loading...</span></div>
+			<div class="admin-stats-wrapper hide-admin"><span class="admin-stats render_time"></span></div>
 		</div>
 		<?php
 	}

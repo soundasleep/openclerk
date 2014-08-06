@@ -188,6 +188,8 @@
     $(target).find(".subheading").html(result.subheading)
     $(target).find(".last-updated").html(result.lastUpdated)
 
+    $(target).find(".admin-stats").html(result.time + " ms")
+
   ###
    # Render simple text.
   ###

@@ -7,6 +7,8 @@ require(__DIR__ . "/../../../inc/global.php");
 require(__DIR__ . "/../../../inc/cache.php");
 
 function api_v1_graphs($graph) {
+	$start_time = microtime(true);
+
 	$result = array();
 	$result['success'] = true;
 
@@ -67,6 +69,10 @@ function api_v1_graphs($graph) {
 			$result['data'][$i][$key] = (double) $value;
 		}
 	}
+
+	$end_time = microtime(true);
+	$time_diff = ($end_time - $start_time) * 1000;
+	$result['time'] = graph_number_format($time_diff);
 
 	// 7. return data
 	return json_encode($result);

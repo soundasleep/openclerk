@@ -10,6 +10,9 @@ function page_header($page_title, $page_id = false, $options = array()) {
 		$html_classes[] = "body_admin";
 	}
 	$html_classes[] = get_site_config('site_id');
+	if (is_admin()) {
+		$html_classes[] = "is_admin";
+	}
 
 ?>
 <!DOCTYPE HTML>

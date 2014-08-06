@@ -180,81 +180,8 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 /* maybe move following into user-only css */
 
 .page_list .page_current { font-weight: bold; }
-.graph_collection .graph, .graph_collection .graph_collection_empty, .graph_collection .graph_collection_screenshot { float: left; border: 1px solid #333; margin: 5px; padding: 5px; overflow: auto; }
 .screenshot_image { height: 245px; }
-.graph_collection .graph_collection_empty { width: 220px; height: 220px; padding: 20px; font-style: italic; color: #666; }
-.graph_collection .graph h2, .graph_collection .graph h3 { margin: 5px; }
-.graph_collection .graph .overflow_wrapper { overflow: auto; width: 100%; height: 100%; clear: none; }
-.graph_collection .graph table.standard { width: 100%; }
-.graph_collection .graph table.standard th { min-width: 1px; }
-.graph_collection .graph .last_updated, .graph_collection .graph .last-updated { float: right; text-align: right; color: #333; font-size: 80%; background: #111; margin-top: 10px; margin-right: 5px; }
-.graph_collection .graph .outofdate {
-  background: url('../img/nuvola/messagebox_info.png') top left no-repeat;
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  cursor: pointer;
-  margin-right: 5px;
-  vertical-align: text-bottom;
-}
-.graph_collection .graph .graph_text {
-  margin: 10px;
-}
-.graph_collection .graph .add_accounts {
-  margin-top: 5px;
-  display: inline-block;
-}
-.graph_collection .graph .graph_headings { height: 2em; width: 100%; overflow: hidden; }
-.graph_collection .graph .render_time { display: inline-block; float: right; color: #333; font-size: 80%; z-index: 1; /* float over graph */ top: -1.25em; }
-.graph_collection .graph .graph_title a { color: white; text-decoration: none; }
-.graph_collection .graph .subheading { color: #777; display: inline-block; font-size: 90%; }
-.graph_collection .graph .graph_title a:hover { color: white; text-decoration: underline; }
-.graph_collection .graph h2 { display: inline-block; }
 
-.graph_collection .graph .rate_matrix { list-style: none; margin: 0; padding: 0; }
-.graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
-
-.graph_collection .graph .graph_average {
-  h1, h2 {
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 0;
-    display: block;
-  }
-  h1 {
-    height: 20%;
-  }
-  h2 {
-    height: 10%;
-    font-weight: normal;
-    font-size: 90%;
-    color: #ccc;
-    margin-bottom: 10px;
-  }
-  .overflow_wrapper {
-    height: 70%;
-  }
-}
-
-.graph_collection ul.graph_controls {
-  list-style: none;
-  margin: 5px;
-  padding: 10px;
-  position: absolute;
-  border: 1px solid #fff;
-  background: #000;
-  background-color: rgba(0,0,0,0.9);
-  z-index: 5;
-}
-.graph_collection ul.graph_controls li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-}
-.graph_collection ul.graph_controls li + li:before {
-  content: ' - ';
-}
 .editing_enabled .graph { min-height: 80px; min-width: 245px; } /* make it easier to edit small graphs; editing graphs should now cover at least the edit controls */
 
 #page_profile .add_graph { clear: both; }
@@ -406,9 +333,20 @@ button .openid, .openid_list .openid { padding-left: 20px; line-height: 20px; }
   dd, dt { margin-bottom: 0.5em; line-height: 150%; }
 }
 
+.hide-admin {
+  display: none;
+}
+.is_admin {
+  .hide-admin {
+    display: block;
+  }
+}
+
 @import "buttons";
 
 @import "locale";
+
+@import "graphs";
 
 // pages
 @import "average";
