@@ -49,8 +49,9 @@ function new_render_graph($graph) {
 	$graph['graphHeight'] = get_site_config('default_graph_height') * $graph['height'];
 	$graph['computedHeight'] = $graph['graphHeight'] + 30;
 
+	// 'overflow: hidden;' is to fix a Chrome rendering bug
 	?>
-		<div id="<?php echo htmlspecialchars($graph_id); ?>" class="graph"></div>
+		<div id="<?php echo htmlspecialchars($graph_id); ?>" class="graph" style="overflow: hidden;"></div>
 		<script type="text/javascript">
 			Graphs.render(<?php echo json_encode($graph); ?>);
 		</script>
