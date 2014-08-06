@@ -92,14 +92,18 @@ $config = array(
 );
 $hash = substr(implode(',', $config), 0, 32);
 
+// limit 'days' parameter as necessary
+$get_permitted_days = get_permitted_days();
+if (!isset($get_permitted_days[$config['days']])) {
+	throw new GraphException("Invalid days '" . $config['days'] . "'");
+}
+
 // and then restructure as necessary away from hash
 $config['graph_type'] = require_get('graph_type');
 $config['hash'] = $hash;
 if ($config['technical']) {
 	$config['technicals'] = array(array('technical_type' => $config['technical'], 'technical_period' => $config['technical_period']));
 }
-
-// TODO limit 'days' parameter as necessary
 
 $seconds = 60;
 allow_cache($seconds);		// allow local cache for up to 60 seconds

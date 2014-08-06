@@ -43,11 +43,11 @@ function new_render_graph($graph) {
 	$graph_id = "graph_" . rand(0,0xffff);
 	$graph['target'] = $graph_id;
 
-	// TODO work these out properly
-	$graph['computedWidth'] = 880;
-	$graph['graphWidth'] = 880;
-	$graph['computedHeight'] = 470;
-	$graph['graphHeight'] = 440;
+	$graph['graphWidth'] = get_site_config('default_graph_width') * $graph['width'];
+	$graph['computedWidth'] = $graph['graphWidth'];
+	$graph['graphHeight'] = get_site_config('default_graph_height') * $graph['height'];
+	$graph['computedHeight'] = $graph['graphHeight'] + 30;
+
 	?>
 		<div id="<?php echo htmlspecialchars($graph_id); ?>" class="graph"></div>
 		<script type="text/javascript">
