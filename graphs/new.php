@@ -2,7 +2,7 @@
 
 /**
  * How the new graph render code works:
- * {@link new_render_graph()} generates the HTML on the page necessary to render the graph;
+ * {@link render_graph_new()} generates the HTML on the page necessary to render the graph;
  * which uses graphs.js
  * which uses AJAX to load data, and timeouts to reload graphs
  * which then call the site API to load graph data
@@ -25,7 +25,7 @@
  *		'no_technicals' => true,
  *	);
  */
-function new_render_graph($graph) {
+function render_graph_new($graph) {
 	global $_rendered_graph_contents;
 	if (!$_rendered_graph_contents) {
 		?>
@@ -59,3 +59,5 @@ function new_render_graph($graph) {
 }
 
 $_rendered_graph_contents = false;
+
+class NoGraphRendererException extends GraphException { }

@@ -72,7 +72,7 @@ $graph_id = 0;
 			"arg0" => true,
 		);
 	?>
-	<?php render_graph($graph, true /* is public */); ?>
+	<?php render_graph_new($graph, true /* is public */); ?>
 	</div>
 
 	<?php
@@ -89,7 +89,7 @@ $graph_id = 0;
 			"arg0" => true,
 		);
 	?>
-	<?php render_graph($graph, true /* is public */); ?>
+	<?php render_graph_new($graph, true /* is public */); ?>
 </div>
 
 <?php

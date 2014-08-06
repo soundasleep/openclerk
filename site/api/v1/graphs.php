@@ -78,10 +78,8 @@ function api_v1_graphs($graph) {
 	return json_encode($result);
 }
 
-require(__DIR__ . "/../../../graphs/util.php");
-require(__DIR__ . "/../../../graphs/render.php");
-require(__DIR__ . "/../../../graphs/types.php");
 require(__DIR__ . "/../../../layout/templates.php");
+require(__DIR__ . "/../../../layout/graphs.php");
 
 $graph_type = require_get("graph_type");
 
@@ -117,15 +115,12 @@ echo compile_cached('api/rates/' . $graph_type, $hash /* hash */, $seconds /* ca
 
 performance_metrics_page_end();
 
-class NoGraphRendererException extends GraphException { }
-
 /**
  * Helper function to mark strings that need to be translated on the client-side.
  */
 function ct($s) {
 	return $s;
 }
-
 
 /**
  * Helper function that converts a {@code graph_type} to a GraphRenderer

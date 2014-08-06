@@ -32,7 +32,7 @@ if ($id && isset($historical_graphs[$id])) {
 		$title = $callback($id, $title);
 	}
 	$heading = $historical_graphs[$id]["heading"] . ($title ? ": " . $title : "");
-	page_header(t("Historical Data: :heading", array(':heading' => $heading)), "page_historical", array('jsapi' => true, 'js' => 'graphs'));
+	page_header(t("Historical Data: :heading", array(':heading' => $heading)), "page_historical", array('jsapi' => true));
 
 	$graph = array(
 		'graph_type' => $id,
@@ -104,7 +104,7 @@ if ($id && isset($historical_graphs[$id])) {
 	</table>
 
 	<div class="graph_collection">
-		<?php new_render_graph($graph); ?>
+		<?php render_graph_new($graph); ?>
 	</div>
 
 	<?php
