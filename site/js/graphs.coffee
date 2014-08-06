@@ -223,6 +223,7 @@
 
     $(target).find(".status_loading").remove()
 
+    $(target).find(".graph-target").empty()
     $(target).find(".graph-target").append(clone)
     clone.show()
 

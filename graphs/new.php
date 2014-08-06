@@ -31,13 +31,13 @@ function render_graph_new($graph) {
 		?>
 		<div id="graph_contents_template" style="display:none;">
 			<div class="graph_headings">
-				<span class="last-updated"></span>
 				<h1 class="h1"></h1>
 				<h2 class="h2"></h2>
 				<h2 class="graph_title">
 					<a href=""></a>
 				</h2>
 				<span class="subheading"></span>
+				<span class="last-updated"></span>
 			</div>
 			<div class="graph-target"><span class="status_loading">Loading...</span></div>
 			<div class="admin-stats-wrapper hide-admin"><span class="admin-stats render_time"></span></div>
