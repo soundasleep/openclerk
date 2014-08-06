@@ -43,7 +43,7 @@ class ReleaseTest extends OpenclerkTest {
 					$path = $matches[3];
 
 					// ignore '/head-compiled.html'
-					if ($path == "/head-compiled.html") {
+					if ($path == "/../site/head-compiled.html") {
 						continue;
 					}
 
