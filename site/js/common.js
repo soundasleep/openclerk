@@ -93,8 +93,8 @@ var max_ajax_requests = 10;
  * Instead of $.ajax(url, obj), use queue_ajax_request(url, obj).
  * Up to 5 requests will be sent simultaneously.
  */
-function queue_ajax_request(url, obj) {
-  queued_ajax_requests.push({'url': url, 'obj': obj});
+function queue_ajax_request(url, obj, dataType) {
+  queued_ajax_requests.push({'url': url, 'obj': obj, 'dataType': dataType});
   execute_queued_ajax_request();
 }
 
@@ -119,7 +119,8 @@ function execute_queued_ajax_request() {
         obj.obj.error(xhr, text, error);
         pending_ajax_requests--;
         execute_queued_ajax_request();  // maybe execute the next queued one
-      }
+      },
+      'dataType': obj.dataType
     });
   }
 }

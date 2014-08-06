@@ -52,8 +52,11 @@
             "&no_technicals=" + graph.no_technicals
 
       queue_ajax_request url,
+        dataType: 'json'
         success: (data, text, xhr) ->
           if not data.success? or !data.success
+            Graphs.text graph,
+              text: "Could not load graph data: Invalid response"
             throw new Error("Could not load graph data from " + url)
             return
 
@@ -67,9 +70,22 @@
           window.setTimeout(graph.callback, 60000)
 
         error: (xhr, text, error) ->
-          console.log if xhr.responseJSON? then xhr.responseJson else xhr.responseText
-          console.error error
           window.setTimeout(graph.callback, 60000)
+          console.log if xhr.responseJSON? then xhr.responseJSON else xhr.responseText
+          console.error error
+
+          # try load the JSON anyway
+          try
+            console.log "trying to parse JSON"
+            parsed = JSON.parse(xhr.responseText)
+            Graphs.text graph,
+              text: parsed.message
+            return
+          catch e
+            console.log e
+
+          Graphs.text graph,
+            text: error
 
     # save this graphuration for later
     @collection[graph.target] = graph
@@ -94,6 +110,9 @@
       # once the elements are ready, lets go
       graph.callback()
 
+  ###
+   # Render linecharts.
+  ###
   linechart: (graph, result) ->
     target = $("#" + graph.target)
     throw new Error("No target " + graph.target + " found") unless target.length == 1
@@ -159,6 +178,22 @@
 
     $(target).find(".subheading").html(result.subheading)
     $(target).find(".last-updated").html(result.lastUpdated)
+
+  ###
+   # Render simple text.
+  ###
+  text: (graph, result) ->
+    target = $("#" + graph.target)
+    throw new Error("No target " + graph.target + " found") unless target.length == 1
+    target = target[0]
+
+    throw new Error("No text defined in result") unless result.text?
+
+    targetDiv = $(target).find(".graph-target .status_loading")
+    throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
+
+    $(targetDiv).text(result.text)
+    $(targetDiv).addClass('error-message')
 
   # TODO fill up with chart colours
   chartColours: ['#3366cc', '#dc3912']

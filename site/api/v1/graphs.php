@@ -15,12 +15,18 @@ function api_v1_graphs($graph) {
 	 * 2. apply deltas as necessary
 	 * 3. add technicals as necessary
 	 * 4. strip dates outside of the requested ?days parameter (e.g. from extra_days)
-	 * 5. construct subheading and revise last_updated
-	 * 6. return data
+	 * 5. construct heading and links
+	 * 6. construct subheading and revise last_updated
+	 * 7. return data
 	 * that is, deltas and technicals are done on the server-side; not the client-side.
 	 */
 	$renderer = construct_graph_renderer($graph['graph_type']);
 	$data = $renderer->getData($graph['days']);
+	$original_count = count($data['data']);
+
+	// 4. discard early data
+	$data['data'] = discard_early_data($data['data'], $graph['days']);
+	$after_discard_count = count($data['data']);
 
 	$result['columns'] = $data['columns'];
 	$result['data'] = $data['data'];
@@ -28,22 +34,27 @@ function api_v1_graphs($graph) {
 	$result['type'] = 'linechart';
 
 	$result['heading'] = array(
-		'label' => 'BitNZ NZD/BTC',
-		'url' => 'historical?id=bitnz_nzdbtc_daily&amp;days=180',
-		'title' => 'View historical data',
+		'label' => $renderer->getTitle(),
+		'url' => $renderer->getURL(),
+		'title' => $renderer->getLabel(),
 	);
-	$result['subheading'] = '<span title="710">710</span> / <span title="720.9">720.9</span>';
-	$result['lastUpdated'] = "<span title=\"2014-07-24T11:43:55+12:00\">13 days ago</span>";
+
+	// 5. construct subheading and revise last_updated
+	$result['subheading'] = format_subheading_values_objects($graph, $data['data'], $data['columns']);
+	$result['lastUpdated'] = recent_format_html($data['last_updated']);
 
 	$result['timestamp'] = iso_date();
 	$result['success'] = true;
 
 	$result['_debug'] = $graph;
+	$result['_debug']['data_discarded'] = $original_count - $after_discard_count;
 
 	return json_encode($result);
 }
 
 require(__DIR__ . "/../../../graphs/util.php");
+require(__DIR__ . "/../../../graphs/render.php");
+require(__DIR__ . "/../../../layout/templates.php");
 
 $graph_type = require_get("graph_type");
 
@@ -59,8 +70,9 @@ $config['graph_type'] = require_get('graph_type');
 
 // TODO limit 'days' parameter as necessary
 
-allow_cache(60);		// allow local cache for up to 60 seconds
-echo compile_cached('api/rates/' . $graph_type, $hash /* hash */, 60 /* cached up to seconds */, 'api_v1_graphs', array($config));
+$seconds = 1;
+allow_cache($seconds);		// allow local cache for up to 60 seconds
+echo compile_cached('api/rates/' . $graph_type, $hash /* hash */, $seconds /* cached up to seconds */, 'api_v1_graphs', array($config));
 
 performance_metrics_page_end();
 
@@ -69,10 +81,19 @@ performance_metrics_page_end();
  * object, which we can then use to get raw graph data and format it as necessary.
  */
 function construct_graph_renderer($graph_type) {
-	switch ($graph_type) {
-		case "bitnz_nzdbtc_daily":
-			return new GraphRenderer_Ticker("bitnz", "nzd", "btc");
+	$bits = explode("_", $graph_type);
+	if (count($bits) == 3) {
+		$all_exchanges = get_all_exchanges();
+		if ($bits[2] == "daily" && strlen($bits[1]) == 6 && isset($all_exchanges[$bits[0]])) {
+			$cur1 = substr($bits[1], 0, 3);
+			$cur2 = substr($bits[1], 3);
+			if (in_array($cur1, get_all_currencies()) && in_array($cur2, get_all_currencies())) {
+				return new GraphRenderer_Ticker($bits[0], $cur1, $cur2);
+			}
+		}
+	}
 
+	switch ($graph_type) {
 		default:
 			throw new GraphException("Unknown graph to render '$graph_type'");
 	}
@@ -84,6 +105,28 @@ abstract class GraphRenderer {
 	 * @return an array of (columns => [column], data => [(date, value)], last_updated => (date or false))
 	 */
 	abstract function getData($days);
+
+	/**
+	 * Get the title of this graph
+	 */
+	abstract function getTitle();
+
+	/**
+	 * Get the URL that the title of this graph should link to, or {@code false} if it
+	 * should not link anywhere
+	 */
+	function getURL() {
+		return false;
+	}
+
+	/**
+	 * Get the label that should be associated with the {@link #getURL()}, or
+	 * {@code false} if there shouldn't be any.
+	 * Should be wrapped in {@link ct()}.
+	 */
+	function getLabel() {
+		return false;
+	}
 
 }
 
@@ -104,6 +147,18 @@ class GraphRenderer_Ticker extends GraphRenderer {
 		$this->exchange = $exchange;
 		$this->currency1 = $currency1;
 		$this->currency2 = $currency2;
+	}
+
+	public function getTitle() {
+		return get_exchange_name($this->exchange) . " " . get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2);
+	}
+
+	public function getURL() {
+		return url_for('historical', array('id' => $this->exchange . '_' . $this->currency1 . $this->currency2 . '_daily'));
+	}
+
+	public function getLabel() {
+		return ct("View historical data");
 	}
 
 	public function getData($days) {
@@ -152,6 +207,9 @@ class GraphRenderer_Ticker extends GraphRenderer {
 				$last_updated = max($last_updated, strtotime($ticker['created_at']));
 			}
 		}
+
+		// sort by key, but we only want values
+		uksort($data, 'cmp_time_reverse');
 
 		return array(
 			'columns' => $columns,

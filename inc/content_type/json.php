@@ -9,7 +9,8 @@ function my_content_type_exception_handler($e) {
 		// only display trace locally
 		$message .= "\nTrace:" . print_exception_trace_js($e);
 	}
-	echo "alert(" . json_encode($message) . ");";
+	$result = array('success' => false, 'message' => $message);
+	echo json_encode($result);
 }
 
 function print_exception_trace_js($e) {

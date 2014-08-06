@@ -274,6 +274,34 @@ function format_subheading_values($graph, $input, $suffix = false) {
 	return implode(" / ", $array);
 }
 
+/**
+ * Get the most recent data values, strip out any dates and technical indicator
+ * values, and return a HTML string that can be used to show the most recent
+ * data for this graph.
+ * Uses $data and $headings objects, rather than an array of (headings, data)
+ */
+function format_subheading_values_objects($graph, $data, $headings, $suffix = false) {
+	$array = $data;
+	$array = array_pop($array);	// array_slice returns an array(array(...))
+	// array[0] is always the date; the remaining values are the formatted data
+	// remove any data that is a Date heading or a technical value
+	foreach ($headings as $key => $heading) {
+		if (isset($heading['technical']) && $heading['technical']) {
+			unset($array[$key]);
+		}
+	}
+	if (!$array) {
+		return "";
+	}
+	if ($graph['delta'] == 'percent') {
+		$suffix .= '%';
+	}
+	foreach ($array as $key => $value) {
+		$array[$key] = number_format_html($value, 4, $suffix);
+	}
+	return implode(" / ", $array);
+}
+
 
 /**
  * Same as format_subheading_values(), but sum all values together.
