@@ -1,3 +1,16 @@
+@Locale =
+  ###
+   # Client-side equivalent of {@link t()} function, but allows us to load locale strings
+   # on the client directly.
+  ###
+  formatTemplate: (template, args) ->
+    # load the template if it exists
+    template = if LocaleStrings[template]? then LocaleStrings[template] else template
+
+    for key, value of args
+      template = template.replace(":" + key, value)
+    return template
+
 @Graphs =
   collection: {}
 
@@ -40,6 +53,10 @@
 
       queue_ajax_request url,
         success: (data, text, xhr) ->
+          if not data.success? or !data.success
+            throw new Error("Could not load graph data from " + url)
+            return
+
           switch data.type
             when "linechart"
               Graphs.linechart graph, data
@@ -47,14 +64,12 @@
               throw new Error("Could not render graph type " + data.type)
 
           console.log(data)
-          # $("#" + graph.target).html(data)
-          # window.setTimeout(graph.callback, 60000)
+          window.setTimeout(graph.callback, 60000)
 
         error: (xhr, text, error) ->
           console.log if xhr.responseJSON? then xhr.responseJson else xhr.responseText
           console.error error
-          # $("#" + graph.target).html(xhr.responseText)
-          # window.setTimeout(graph.callback, 60000)
+          window.setTimeout(graph.callback, 60000)
 
     # save this graphuration for later
     @collection[graph.target] = graph
@@ -93,7 +108,7 @@
           lineWidth: 2
           color: @getChartColour(i)
       i++
-      table.addColumn column.type, column.title
+      table.addColumn column.type, Locale.formatTemplate(column.title, column.args)
 
     formatted_data = []
     for key, value of result.data

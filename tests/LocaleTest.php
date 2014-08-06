@@ -105,14 +105,14 @@ class LocaleTest extends OpenclerkTest {
 
 			// find instances of t() and ht()
 			$matches = false;
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'],[ \t\n])\"([^\"]+)\"(|,[ \t\n].+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(][hc]?t\\((|['\"][^\"]+[\"'],[ \t\n])\"([^\"]+)\"(|,[ \t\n].+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
 					$match[2] = strip_i18n_key($match[2]);
 					$found[$match[2]] = $match[2];
 				}
 			}
-			if (preg_match_all("#[ \t\n(]h?t\\((|['\"][^\"]+[\"'],[ \t\n])'([^']+)'(|,[ \t\n].+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+			if (preg_match_all("#[ \t\n(][hc]?t\\((|['\"][^\"]+[\"'],[ \t\n])'([^']+)'(|,[ \t\n].+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 					// remove whitespace that will never display
 					$match[2] = strip_i18n_key($match[2]);
@@ -175,4 +175,50 @@ class LocaleTest extends OpenclerkTest {
 		fclose($fp);
 
 	}
+
+	/**
+	 * Iterate through the site and find as many i18n strings as we can, that are used on the client side (with 'ct()').
+	 * Saves the result to {@code locale/client.json} as a list of keys.
+	 * This assumes the whole site uses good code conventions: {@code $i . t("foo")} rather than {@code $i.t("foo")} etc.
+	 */
+	function testGeneratei18nStringsForClient() {
+		$files = $this->recurseFindFiles(".", "");
+		$this->assertTrue(count($files) > 0);
+
+		$found = array();
+
+		foreach ($files as $f) {
+			// don't look within tests folders
+			if (strpos(str_replace("\\", "/", $f), "/tests/") !== false) {
+				continue;
+			}
+			$input = file_get_contents($f);
+
+			// find instances of t() and ht()
+			$matches = false;
+			if (preg_match_all("#[ \t\n(]ct\\((|['\"][^\"]+[\"'],[ \t\n])\"([^\"]+)\"(|,[ \t\n].+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+				foreach ($matches as $match) {
+					// remove whitespace that will never display
+					$match[2] = strip_i18n_key($match[2]);
+					$found[$match[2]] = $match[2];
+				}
+			}
+			if (preg_match_all("#[ \t\n(]ct\\((|['\"][^\"]+[\"'],[ \t\n])'([^']+)'(|,[ \t\n].+?)\\)#ims", $input, $matches, PREG_SET_ORDER)) {
+				foreach ($matches as $match) {
+					// remove whitespace that will never display
+					$match[2] = strip_i18n_key($match[2]);
+					$found[$match[2]] = $match[2];
+				}
+			}
+		}
+
+		$this->assertTrue(count($found) > 0);
+		sort($found);
+
+		// write them out to a common file
+		$fp = fopen(__DIR__ . "/../locale/client.json", 'w');
+		fwrite($fp, json_encode(array_values($found), JSON_PRETTY_PRINT));
+		fclose($fp);
+	}
+
 }

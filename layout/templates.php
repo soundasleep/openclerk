@@ -28,6 +28,7 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <?php } ?>
     <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/jquery-1.9.1.min.js')); ?>"></script>
     <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/common.js' . '?' . get_site_config('openclerk_version'))); ?>"></script>
+    <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/locale/' . get_current_locale() . '.js?' . get_site_config('openclerk_version'))); ?>"></script>
     <?php if (isset($options['jsapi']) && $options['jsapi']) { ?>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <?php } ?>

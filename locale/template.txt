@@ -511,6 +511,7 @@ NOTE:
 Name:
 Never
 New account creation successful.
+New currency votes
 Next >
 No OpenID identities defined.
 No account for the OpenID identity '<identity>' were found. You may need to <signup>.
@@ -989,7 +990,9 @@ unknown
 untitled
 user account
 user profile
+vote
 vote for new currencies
+votes
 wallet
 within
 year

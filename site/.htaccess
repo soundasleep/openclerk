@@ -30,6 +30,7 @@ RewriteRule ^login/$        $1         [R,QSA]
 RewriteRule ^profile/$        $1         [R,QSA]
 
 RewriteRule ^js/add_graph.js$ js/add_graph.js.php [L,QSA]
+RewriteRule ^js/locale/([0-9a-z_]+).js$ js/locale.js.php?locale=$1 [L,QSA]
 
 RewriteRule ^api/([0-9a-z_]+)/([0-9a-z_]+).json$	api/$1/$2.php		[L,QSA]
 
