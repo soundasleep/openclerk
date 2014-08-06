@@ -256,7 +256,7 @@ function get_default_site_config() {
 		"archive_balances_data" => "-31 days",
 
 		// custom template settings
-		"default_css" => "default.css",
+		"default_css" => "styles/default.css",
 		"custom_css" => false,
 		"forum_link" => "http://bitcointalk.org/",
 		"blog_link" => "http://blog.cryptfolio.com/",
