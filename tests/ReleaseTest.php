@@ -42,6 +42,11 @@ class ReleaseTest extends OpenclerkTest {
 				foreach ($matches_array as $matches) {
 					$path = $matches[3];
 
+					// ignore '/head-compiled.html'
+					if ($path == "/head-compiled.html") {
+						continue;
+					}
+
 					// path should start with /
 					$this->assertTrue(substr($path, 0, 1) == "/", "Included path '$path' in '$f' did not start with /");
 
