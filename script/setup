@@ -1,0 +1,137 @@
+#!/bin/sh
+
+# Exit from the script if any statement not in a conditional returns non-true
+set -e
+
+db_name=clerk
+db_user=clerk
+db_pass=clerk
+
+indented() {
+  sed 's/^/    /'
+}
+
+failed() {
+  echo
+  echo "  ! Your system is NOT ready for openclerk."
+  echo "    Refer to INSTALL.md for more notes."
+  exit 1
+}
+
+php_major_version() {
+  php --version | grep -Eow '^PHP [0-9]+' | awk '{ print $2 }'
+}
+
+mysql_minor_version() {
+  mysql --version | grep -Eow 'Distrib [0-9]+\.[0-9]+' | awk '{ print $2 }'
+}
+
+if test $(which git)
+then
+  echo "  + Git found."
+else
+  echo "==> You need to install Git."
+  echo "    http://git-scm.com/"
+  failed
+fi
+
+if test $(mysql_minor_version) == 5.1 || test $(mysql_minor_version) == 5.5
+then
+  echo "  + MySQL found."
+else
+  echo "==> You need to install MySQL 5.1+ or 5.5+"
+  echo "    http://php.net/manual/en/install.php"
+  echo "    (It often comes with Apache.)"
+  failed
+fi
+
+if test $(php_major_version) == 5
+then
+  echo "  + PHP found."
+else
+  echo "==> You need to install PHP 5+."
+  echo "    http://php.net/manual/en/install.php"
+  echo "    (It often comes with Apache.)"
+  failed
+fi
+
+if test $(which composer)
+then
+  echo "  + Composer found."
+else
+  echo "==> You need to install Composer in your PATH (e.g. /usr/local/bin)."
+  echo "    https://getcomposer.org/"
+  failed
+fi
+
+echo "==> Installing PHP dependencies..."
+composer install | indented
+
+if test $(which node)
+then
+  echo "  + Node found."
+else
+  echo "==> You need to install Node.js."
+  echo "    http://nodejs.org/"
+  failed
+fi
+
+if test $(which grunt)
+then
+  echo "  + Grunt found."
+else
+  echo "==> You need to install Grunt globally."
+  echo "    npm install -g grunt-cli"
+  failed
+fi
+
+echo "==> Installing Node dependencies..."
+npm install | indented
+
+if test $(which ruby)
+then
+  echo "  + Ruby found."
+else
+  echo "==> You need to install Ruby."
+  echo "    RVM is good place to start: https://rvm.io/"
+  failed
+fi
+
+if test $(which bundler)
+then
+  echo "  + Bundler found."
+else
+  echo "==> You need to install Bundler."
+  echo "    gem install bundler"
+  failed
+fi
+
+echo "==> Installing Ruby dependencies..."
+bundle install | indented
+
+echo "==> Building with Grunt..."
+grunt build | indented
+
+cat <<footer
+==> Great! You're almost there.
+
+    MANUAL STEPS REQUIRED
+
+    Add openclerk to Apache under a /clerk directory.
+
+    Create a MySQL database:
+
+      mysqladmin -u root -p create $db_name
+
+    Create a user:
+
+      mysql -u root -p -e "CREATE USER '$db_user'@'localhost' IDENTIFIED BY '$db_pass'"
+      mysql -u root -p -e "GRANT ALL ON $db_name.* TO '$db_user'@'localhost'"
+
+    Set up the database schema:
+
+      mysql -u root -p clerk < inc/database.sql
+
+    Customise settings in inc/config.php.
+
+footer
