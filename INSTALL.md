@@ -49,18 +49,19 @@ To install Openclerk:
         grunt test # JUnit output is in tests/report.xml
 
 4. Configure Apache to serve both openclerk and `node_modules/` through the parent
-   directory, as necessary:
+   directory, as necessary: (serving `node_modules/` is not necessary if you are building
+   the site through `grunt build`)
 
-        Alias "/clerk" "/var/www/my.openclerk.org/site"
-        <Directory "/var/www/my.openclerk.org/site">
+        Alias "/clerk/js/node_modules" "/var/www/my.openclerk.org/node_modules"
+        <Directory "/var/www/my.openclerk.org/node_modules">
            Options Indexes FollowSymLinks
            DirectoryIndex index.html index.php default.html default.php
            AllowOverride All
            Allow from All
         </Directory>
 
-        Alias "/node_modules" "/var/www/my.openclerk.org/node_modules"
-        <Directory "/var/www/my.openclerk.org/node_modules">
+        Alias "/clerk" "/var/www/my.openclerk.org/site"
+        <Directory "/var/www/my.openclerk.org/site">
            Options Indexes FollowSymLinks
            DirectoryIndex index.html index.php default.html default.php
            AllowOverride All

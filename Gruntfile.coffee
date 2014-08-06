@@ -6,7 +6,8 @@ module.exports = (grunt) ->
       tmp: ['.tmp']
       configImages: ['site/img/config/']
       compiledScripts: ['site/scripts']
-      compiledHead: ['layout/head-compiled.html']
+      compiledHead: ['site/head-compiled.html']
+      copiedNodeModulesJs: ['site/js/node_modules/']
 
     phpunit:
       unit:
@@ -65,7 +66,15 @@ module.exports = (grunt) ->
 
       head:
         src: 'layout/head.html'
-        dest: 'layout/head-compiled.html'
+        dest: 'site/head-compiled.html'
+
+      nodeModulesJs:
+        files: [{
+          expand: true
+          cwd: 'node_modules/'
+          src: ['**/*.js']
+          dest: 'site/js/node_modules/'
+        }]
 
     bgShell:
       # TODO add a grunt-spritify npm task to wrap this
@@ -78,12 +87,12 @@ module.exports = (grunt) ->
         fail: true
 
     useminPrepare:
-      html: 'layout/head-compiled.html'
+      html: 'site/head-compiled.html'
       options:
         dest: 'site/scripts/'
 
     usemin:
-      html: ['layout/head-compiled.html']
+      html: ['site/head-compiled.html']
       options:
         dest: 'site/scripts/'
         blockReplacements:
@@ -121,6 +130,7 @@ module.exports = (grunt) ->
     'copy:sourceFavicon',
     'copy:configImages',
     'copy:head',
+    'copy:nodeModulesJs',
     'useminPrepare',
     'concat',
     'uglify',

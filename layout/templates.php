@@ -49,8 +49,8 @@ function page_header($page_title, $page_id = false, $options = array()) {
     } ?>
 	<?php require_template("templates_head"); ?>
 	<?php
-	if (file_exists(__DIR__ . "/head-compiled.html")) {
-		require(__DIR__ . "/head-compiled.html");
+	if (file_exists(__DIR__ . "/../site/head-compiled.html")) {
+		require(__DIR__ . "/../site/head-compiled.html");
 	} else {
 		require(__DIR__ . "/head.html");
 	}
