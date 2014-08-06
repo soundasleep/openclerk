@@ -187,7 +187,7 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 .graph_collection .graph .overflow_wrapper { overflow: auto; width: 100%; height: 100%; clear: none; }
 .graph_collection .graph table.standard { width: 100%; }
 .graph_collection .graph table.standard th { min-width: 1px; }
-.graph_collection .graph .last_updated { float: right; text-align: right; color: #333; font-size: 80%; background: #111; margin-top: 10px; margin-right: 5px; }
+.graph_collection .graph .last_updated, .graph_collection .graph .last-updated { float: right; text-align: right; color: #333; font-size: 80%; background: #111; margin-top: 10px; margin-right: 5px; }
 .graph_collection .graph .outofdate {
   background: url('../img/nuvola/messagebox_info.png') top left no-repeat;
   width: 16px;

@@ -33,6 +33,8 @@ RewriteRule ^js/add_graph.js$ js/add_graph.js.php [L,QSA]
 
 RewriteRule ^api/([0-9a-z_]+)/([0-9a-z_]+).json$	api/$1/$2.php		[L,QSA]
 
+RewriteRule ^api/([0-9a-z_]+)/graphs/([0-9a-z_]+)(|.json)$	api/$1/graphs.php?graph_type=$2		[L,QSA]
+
 RewriteRule ^qr/([0-9a-zA-Z_]+)$	img/qr/qr.php?code=$1	[L,QSA]
 
 # This rewrites /foo to /foo.php

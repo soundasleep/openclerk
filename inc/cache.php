@@ -13,8 +13,9 @@ class CacheException extends Exception { }
  * @param $hash must be <32 chars
  * @param $age the maximum age for the cache in seconds
  * @param $callback the function which will generate the content if the cache is invalidated or missing
+ * @param $args the arguments to pass to the callback, if any
  */
-function compile_cached($key, $hash, $age, $callback) {
+function compile_cached($key, $hash, $age, $callback, $args = array()) {
 	if (strlen($hash) > 255) {
 		throw new CacheException("Cannot cache with a key longer than 255 characters");
 	}
@@ -27,7 +28,7 @@ function compile_cached($key, $hash, $age, $callback) {
 	if ($cache = $q->fetch()) {
 		$result = $cache['content'];
 	} else {
-		$result = $callback();
+		$result = call_user_func_array($callback, $args);
 		$q = db()->prepare("DELETE FROM cached_strings WHERE cache_key=? AND cache_hash=?");
 		$q->execute(array($key, $hash));
 
