@@ -196,8 +196,9 @@ function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
  * Calculate deltas on this graph if the graph has defined a delta property.
  * Returns the updated data array.
  * $graph['delta'] = ('', 'percent', 'absolute')
+ * @param $ignore_first_row if true (default), do not apply delta to first row of data
  */
-function calculate_graph_deltas($graph, $data) {
+function calculate_graph_deltas($graph, $data, $ignore_first_row = true) {
 	// calculate deltas
 	if ($graph['delta']) {
 		// keep in mind that this data is in arbitrary order, i.e. (2013, 2012, 2011) not (2011, 2012, 2013)
@@ -219,7 +220,7 @@ function calculate_graph_deltas($graph, $data) {
 			} else {
 				$this_row = array();
 				foreach ($row as $k => $v) {
-					if ($k === 0) {
+					if ($k === 0 && $ignore_first_row) {
 						// keep the date label
 						$this_row[$k] = $v;
 					} else if (isset($previous[$k])) {

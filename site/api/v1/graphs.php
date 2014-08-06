@@ -8,6 +8,7 @@ require(__DIR__ . "/../../../inc/cache.php");
 
 function api_v1_graphs($graph) {
 	$result = array();
+	$result['success'] = true;
 
 	/**
 	 * Graph rendering goes like this:
@@ -24,6 +25,9 @@ function api_v1_graphs($graph) {
 	$data = $renderer->getData($graph['days']);
 	$original_count = count($data['data']);
 
+	// 2. apply deltas as necessary
+	$data['data'] = calculate_graph_deltas($graph, $data['data'], false /* ignore_first_row */);
+
 	// 4. discard early data
 	$data['data'] = discard_early_data($data['data'], $graph['days']);
 	$after_discard_count = count($data['data']);
@@ -33,22 +37,30 @@ function api_v1_graphs($graph) {
 
 	$result['type'] = 'linechart';
 
+	// 5. construct heading and links
 	$result['heading'] = array(
 		'label' => $renderer->getTitle(),
 		'url' => $renderer->getURL(),
 		'title' => $renderer->getLabel(),
 	);
 
-	// 5. construct subheading and revise last_updated
+	// 6. construct subheading and revise last_updated
 	$result['subheading'] = format_subheading_values_objects($graph, $data['data'], $data['columns']);
 	$result['lastUpdated'] = recent_format_html($data['last_updated']);
 
 	$result['timestamp'] = iso_date();
-	$result['success'] = true;
 
 	$result['_debug'] = $graph;
 	$result['_debug']['data_discarded'] = $original_count - $after_discard_count;
 
+	// make sure that all data is numeric
+	foreach ($result['data'] as $i => $row) {
+		foreach ($row as $key => $value) {
+			$result['data'][$i][$key] = (double) $value;
+		}
+	}
+
+	// 7. return data
 	return json_encode($result);
 }
 
@@ -201,8 +213,8 @@ class GraphRenderer_Ticker extends GraphRenderer {
 			while ($ticker = $q->fetch()) {
 				$data_key = date('Y-m-d', strtotime($ticker[$source['key']]));
 				$data[$data_key] = array(
-					(double) graph_number_format($ticker['bid']),
-					(double) graph_number_format($ticker['ask']),
+					graph_number_format($ticker['bid']),
+					graph_number_format($ticker['ask']),
 				);
 				$last_updated = max($last_updated, strtotime($ticker['created_at']));
 			}
