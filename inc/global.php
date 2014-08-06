@@ -385,7 +385,7 @@ function my_exception_handler($e) {
 		my_content_type_exception_handler($e);
 	} else {
 		echo "Error: " . htmlspecialchars($e->getMessage());
-		if ($_SERVER['SERVER_NAME'] === 'localhost') {
+		if (is_localhost()) {
 			// only display trace locally
 			echo "<br>Trace:";
 			print_exception_trace($e);
@@ -924,6 +924,11 @@ class ServiceException extends Exception { }
 class WebException extends Exception { }
 
 class IllegalArgumentException extends Exception { }
+
+function is_localhost() {
+	return $_SERVER['SERVER_NAME'] === "localhost" ||
+		$_SERVER['SERVER_NAME'] === "localhost.openclerk.org";
+}
 
 function set_temporary_messages($m) {
 	if ($m === null) {

@@ -5,11 +5,11 @@ header("Content-Type: application/json");
 
 function my_content_type_exception_handler($e) {
 	$message = "Error: " . htmlspecialchars($e->getMessage());
-	if ($_SERVER['SERVER_NAME'] === 'localhost') {
-		// only display trace locally
-		$message .= "\nTrace:" . print_exception_trace_js($e);
-	}
 	$result = array('success' => false, 'message' => $message);
+	if (is_localhost()) {
+		// only display trace locally
+		$result['trace'] = print_exception_trace_js($e);
+	}
 	echo json_encode($result);
 }
 
@@ -20,17 +20,17 @@ function print_exception_trace_js($e) {
 	if (!($e instanceof Exception)) {
 		return "Not exception: " . get_class($e) . ": " . print_r($e, true) . "";
 	}
-	$string = "";
-	$string .= $e->getMessage() . " (" . get_class($e) . ")\n";
-	$string .= "* " . $e->getFile() . "#" . $e->getLine() . "\n";
+	$result = array();
+	$result['message'] = $e->getMessage();
+	$result['class'] = get_class($e);
+	$result['file'] = $e->getFile();
+	$result['line'] = $e->getLine();
+	$result['trace'] = array();
 	foreach ($e->getTrace() as $e2) {
-		$string .= "  * " . $e2['file'] . "#" . $e2['line'] . ": " . $e2['function'] . (isset($e2['args']) ? format_args_list($e2['args']) : "") . "\n";
+		$result['trace'][] = (isset($e2['file']) ? $e2['file'] : '(unknown)') . "#" . (isset($e2['line']) ? $e2['line'] : '(unknown)') . ": " . $e2['function'] . (isset($e2['args']) ? format_args_list($e2['args']) : "");
 	}
 	if ($e->getPrevious()) {
-		$string .= "Caused by:";
-		$string .= print_exception_trace($e->getPrevious());
-		$string .= "\n";
+		$result['cause'] = print_exception_trace_js($e->getPrevious());
 	}
-	$string .= "\n";
-	return $string;
+	return $result;
 }

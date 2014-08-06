@@ -5,7 +5,7 @@ header("Content-Type: application/javascript");
 
 function my_content_type_exception_handler($e) {
 	$message = "Error: " . htmlspecialchars($e->getMessage());
-	if ($_SERVER['SERVER_NAME'] === 'localhost') {
+	if (is_localhost()) {
 		// only display trace locally
 		$message .= "\nTrace:" . print_exception_trace_js($e);
 	}
