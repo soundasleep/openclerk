@@ -5,6 +5,9 @@ require(__DIR__ . "/../graphs/types.php");
 require(__DIR__ . "/../graphs/render.php");
 require(__DIR__ . "/../graphs/output.php");
 
+// new graph functionality
+require(__DIR__ . "/../graphs/new.php");
+
 /**
  * Load technicals information for a graph; returns an array
  * (which is intended to be inserted as 'technicals' back into the $graph).
