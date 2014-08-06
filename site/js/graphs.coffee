@@ -47,9 +47,13 @@
 
       url = "api/v1/graphs/" + graph.graph_type + "?days=" + graph.days +
             "&height=" + graph.height + "&width=" + graph.width +
-            "&delta=" + graph.delta + "&arg0=" + graph.arg0 +
-            "&arg0_resolved=" + graph.arg0_resolved + "&id=" + graph.id +
-            "&no_technicals=" + graph.no_technicals
+            "&delta=" + graph.delta
+      if graph.arg0?
+        url += "&arg0=" + graph.arg0
+      if graph.arg0_resolved?
+        url += "&arg0_resolved=" + graph.arg0_resolved
+      if graph.technical_type?
+        url += "&technical=" + graph.technical_type + "&technical_period=" + graph.technical_period
 
       queue_ajax_request url,
         dataType: 'json'
@@ -122,9 +126,14 @@
     series = []
     i = 0
     for column in result.columns
+      column.lineWidth = 2 if not column.lineWidth?
+      if column.technical?
+        column.type = "number"
+        column.lineWidth = 1
+
       if i > 0
         series.push
-          lineWidth: 2
+          lineWidth: column.lineWidth
           color: @getChartColour(i)
       i++
       table.addColumn column.type, Locale.formatTemplate(column.title, column.args)
@@ -196,7 +205,28 @@
     $(targetDiv).addClass('error-message')
 
   # TODO fill up with chart colours
-  chartColours: ['#3366cc', '#dc3912']
+  chartColours: [
+    "#3366cc",
+    "#dc3912",
+    "#ff9900",
+    "#109618",
+    "#990099",
+    "#3b3eac",
+    "#0099c6",
+    "#dd4477",
+    "#66aa00",
+    "#b82e2e",
+    "#316395",
+    "#994499",
+    "#22aa99",
+    "#aaaa11",
+    "#6633cc",
+    "#e67300",
+    "#8b0707",
+    "#329262",
+    "#5574a6",
+    "#3b3eac",
+  ]
 
   getChartColour: (i) ->
     throw new Error("Out of bounds colour") unless i <= @chartColours.length

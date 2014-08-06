@@ -47,6 +47,11 @@ if ($id && isset($historical_graphs[$id])) {
 		'no_technicals' => true,
 	);
 
+	// TODO just testing graph rendering with technicals
+	$graph['no_technicals'] = false;
+	$graph['technical_type'] = 'sma';
+	$graph['technical_period'] = 30;
+
 	$extra_args = $name ? array("name" => $name) : array();
 	$extra_args['id'] = $id;
 	$extra_args['days'] = $days;

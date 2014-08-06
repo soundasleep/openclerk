@@ -16,31 +16,46 @@ function extra_days_necessary($graph) {
 	return $count;
 }
 
-function calculate_technicals($graph, $data) {
+/**
+ * Apply graph technicals based on $graph['technicals'] - which is an array
+ * of (technical_type, technical_period).
+ *
+ * @param $use_headings actual headings to use, or false (default) to load it from the $data; returns array(data, headings) instead of just data
+ * @param $ignore_first_row if true (default), ignore the first row of rendered data
+ */
+function calculate_technicals($graph, $data, $use_headings = false, $ignore_first_row = true) {
 	$days = get_graph_days($graph);
-	$original_rows = count($data[0]);
-
-	if (count($data) <= 1) {
-		throw new GraphException("Cannot calculate technicals for graph '" . htmlspecialchars($graph['graph_type']) . "' with no data");
+	if (!$use_headings) {
+		$headings = $data[0];
+		if (count($data) <= 1) {
+			throw new GraphException("Cannot calculate technicals for graph '" . htmlspecialchars($graph['graph_type']) . "' with no data");
+		}
+	} else {
+		$headings = $use_headings;
+		if (count($data) <= 0) {
+			throw new GraphException("Cannot calculate technicals for graph '" . htmlspecialchars($graph['graph_type']) . "' with no data");
+		}
 	}
+	$original_rows = count($headings);
 
 	// need to sort data by date
 	ksort($data);
 
+	$new_headings = array();
 	if (isset($graph['technicals'])) {
 		$graph_technical_types = graph_technical_types();
 		foreach ($graph['technicals'] as $t) {
 			$i = -1;
 			foreach ($data as $label => $row) {
 				$i++;
-				if ($i == 0) continue;	// skip heading row
+				if ($i == 0 && $ignore_first_row) continue;	// skip heading row
 				if ($i < count($data) - $days - 1) continue;	// skip period data that isn't displayed
 
 				// we now actually calculate data
 				switch ($t['technical_type']) {
 					case "sma":
 						// simple moving average
-						$headings = array(array(
+						$new_headings = array(array(
 							'title' => "SMA (" . number_format($t['technical_period']) . ")",
 							'line_width' => 1,
 							'color' => default_chart_color(2),
@@ -64,7 +79,7 @@ function calculate_technicals($graph, $data) {
 							// a premium graph technical type, defined elsewhere
 							// should return array('headings' => array, 'data' => array) for each row
 							$result = $graph_technical_types[$t['technical_type']]['callback']($graph, $t, $label, $data);
-							$headings = $result['headings'];
+							$new_headings = $result['headings'];
 							foreach ($result['data'] as $value) {
 								$data[$label][] = $value;
 							}
@@ -75,33 +90,46 @@ function calculate_technicals($graph, $data) {
 						}
 				}
 			}
+		}
 
-			// add headings
-			foreach ($headings as $h) {
+		// add headings
+		foreach ($new_headings as $h) {
+			if ($use_headings) {
+				$headings[] = $h;
+			} else {
 				$data[0][] = $h;
 			}
 		}
 	}
 
-	// move the first $original_rows to the end, so they are displayed on top
-	if (count($data[0]) != $original_rows) {
-		$data_new = array();
-		foreach ($data as $label => $row) {
-			$r = array();
-			$row_values = array_values($row);		// get rid of any associative indexes
-			$r[] = $row_values[0];	// keep date row
-			for ($j = $original_rows; $j < count($row_values); $j++) {
-				$r[] = $row_values[$j];
+	if ($use_headings) {
+		// (new behaviour, not implemented yet)
+		return array(
+			'headings' => $headings,
+			'data' => $data,
+		);
+	} else {
+		// move the first $original_rows to the end, so they are displayed on top
+		// (original behaviour)
+		if (count($headings) != $original_rows) {
+			$data_new = array();
+			foreach ($data as $label => $row) {
+				$r = array();
+				$row_values = array_values($row);		// get rid of any associative indexes
+				$r[] = $row_values[0];	// keep date row
+				for ($j = $original_rows; $j < count($row_values); $j++) {
+					$r[] = $row_values[$j];
+				}
+				for ($j = 1; $j < $original_rows; $j++) {
+					$r[] = $row_values[$j];
+				}
+				$data_new[$label] = $r;
 			}
-			for ($j = 1; $j < $original_rows; $j++) {
-				$r[] = $row_values[$j];
-			}
-			$data_new[$label] = $r;
+			$data = $data_new;
 		}
-		$data = $data_new;
-	}
 
-	return $data;
+		return $data;
+	}
 }
 
 function render_ticker_graph($graph, $exchange, $cur1, $cur2) {
@@ -296,6 +324,9 @@ function format_subheading_values_objects($graph, $data, $headings, $suffix = fa
 	}
 	if ($graph['delta'] == 'percent') {
 		$suffix .= '%';
+	}
+	if (!is_array($array)) {
+		throw new GraphException("'$array' is not an array");
 	}
 	foreach ($array as $key => $value) {
 		$array[$key] = number_format_html($value, 4, $suffix);

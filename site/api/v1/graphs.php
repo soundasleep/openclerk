@@ -28,6 +28,12 @@ function api_v1_graphs($graph) {
 	// 2. apply deltas as necessary
 	$data['data'] = calculate_graph_deltas($graph, $data['data'], false /* ignore_first_row */);
 
+	// 3. add technicals as necessary
+	// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
+	$technicals = calculate_technicals($graph, $data['data'], $data['columns'], false /* ignore_first_row */);
+	$data['columns'] = $technicals['headings'];
+	$data['data'] = $technicals['data'];
+
 	// 4. discard early data
 	$data['data'] = discard_early_data($data['data'], $graph['days']);
 	$after_discard_count = count($data['data']);
@@ -50,8 +56,10 @@ function api_v1_graphs($graph) {
 
 	$result['timestamp'] = iso_date();
 
-	$result['_debug'] = $graph;
-	$result['_debug']['data_discarded'] = $original_count - $after_discard_count;
+	if (is_localhost()) {
+		$result['_debug'] = $graph;
+		$result['_debug']['data_discarded'] = $original_count - $after_discard_count;
+	}
 
 	// make sure that all data is numeric
 	foreach ($result['data'] as $i => $row) {
@@ -66,23 +74,34 @@ function api_v1_graphs($graph) {
 
 require(__DIR__ . "/../../../graphs/util.php");
 require(__DIR__ . "/../../../graphs/render.php");
+require(__DIR__ . "/../../../graphs/types.php");
 require(__DIR__ . "/../../../layout/templates.php");
 
 $graph_type = require_get("graph_type");
 
+// load graph data, which is also used to construct the hash
 $config = array(
 	'days' => require_get("days"),
-	'delta' => require_get("delta"),
-	'arg0' => require_get('arg0'),
-	'arg0_resolved' => require_get('arg0_resolved'),
-	// TODO technicals, which will need to be part of the hash too
+	'delta' => require_get("delta", false),
+	'arg0' => require_get('arg0', false),
+	'arg0_resolved' => require_get('arg0_resolved', false),
+	// in this interface, we only support rendering one technical on one graph
+	// (although the technicals interface supports multiple)
+	'technical' => require_get('technical', false),
+	'technical_period' => require_get('technical_period', false),
 );
-$hash = substr(implode(':', $config), 0, 32);
+$hash = substr(implode(',', $config), 0, 32);
+
+// and then restructure as necessary away from hash
 $config['graph_type'] = require_get('graph_type');
+$config['hash'] = $hash;
+if ($config['technical']) {
+	$config['technicals'] = array(array('technical_type' => $config['technical'], 'technical_period' => $config['technical_period']));
+}
 
 // TODO limit 'days' parameter as necessary
 
-$seconds = 1;
+$seconds = 60;
 allow_cache($seconds);		// allow local cache for up to 60 seconds
 echo compile_cached('api/rates/' . $graph_type, $hash /* hash */, $seconds /* cached up to seconds */, 'api_v1_graphs', array($config));
 
@@ -166,7 +185,10 @@ class GraphRenderer_Ticker extends GraphRenderer {
 	}
 
 	public function getURL() {
-		return url_for('historical', array('id' => $this->exchange . '_' . $this->currency1 . $this->currency2 . '_daily'));
+		return url_for('historical', array(
+			'id' => $this->exchange . '_' . $this->currency1 . $this->currency2 . '_daily',
+			'days' => 180,
+		));
 	}
 
 	public function getLabel() {
