@@ -91,7 +91,7 @@ class LocaleTest extends OpenclerkTest {
 	 * This assumes the whole site uses good code conventions: {@code $i . t("foo")} rather than {@code $i.t("foo")} etc.
 	 */
 	function testGeneratei18nStrings() {
-		$files = $this->recurseFindFiles(".", "");
+		$files = $this->findFiles();
 		$this->assertTrue(count($files) > 0);
 
 		$found = array();
@@ -182,7 +182,7 @@ class LocaleTest extends OpenclerkTest {
 	 * This assumes the whole site uses good code conventions: {@code $i . t("foo")} rather than {@code $i.t("foo")} etc.
 	 */
 	function testGeneratei18nStringsForClient() {
-		$files = $this->recurseFindFiles(".", "");
+		$files = $this->findFiles();
 		$this->assertTrue(count($files) > 0);
 
 		$found = array();
@@ -212,12 +212,22 @@ class LocaleTest extends OpenclerkTest {
 			}
 		}
 
-		$this->assertTrue(count($found) > 0);
+		$this->assertTrue(count($found) > 0, "Should find more than 0 ct() instances");
 		sort($found);
 
 		// write them out to a common file
 		$fp = fopen(__DIR__ . "/../locale/client.json", 'w');
-		fwrite($fp, json_encode(array_values($found), JSON_PRETTY_PRINT));
+		fwrite($fp, "[");
+		// fwrite($fp, "  \"__comment\": " . json_encode("Generated language template file - do not modify directly"));
+		$first = true;
+		foreach ($found as $key) {
+			if (!$first) {
+				fwrite($fp, ",");
+			}
+			$first = false;
+			fwrite($fp, "\n  " . json_encode($key));
+		}
+		fwrite($fp, "\n]\n");
 		fclose($fp);
 	}
 

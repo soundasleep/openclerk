@@ -1,5 +1,6 @@
 [
-    ":pair Ask",
-    ":pair Bid",
-    "Date"
+  ":pair Ask",
+  ":pair Bid",
+  "Date",
+  "View historical data"
 ]
