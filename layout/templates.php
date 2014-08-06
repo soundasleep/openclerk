@@ -44,6 +44,13 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <?php }
     } ?>
 	<?php require_template("templates_head"); ?>
+	<?php
+	if (file_exists(__DIR__ . "/head-compiled.html")) {
+		require(__DIR__ . "/head-compiled.html");
+	} else {
+		require(__DIR__ . "/head.html");
+	}
+	?>
 </head>
 <body<?php if ($page_id) echo ' id="' . $page_id . '"'; ?><?php if (isset($options['class'])) echo " class=\"" . htmlspecialchars($options['class']) . "\""; ?>>
 <div class="body_wrapper">

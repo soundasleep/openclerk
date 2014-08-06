@@ -3,7 +3,10 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON('package.json')
 
     clean:
+      tmp: ['.tmp']
       configImages: ['site/img/config/']
+      compiledScripts: ['site/scripts']
+      compiledHead: ['layout/head-compiled.html']
 
     phpunit:
       unit:
@@ -60,6 +63,10 @@ module.exports = (grunt) ->
         src: 'config/site/img/favicon.ico',
         dest: 'site/favicon.ico'
 
+      head:
+        src: 'layout/head.html'
+        dest: 'layout/head-compiled.html'
+
     bgShell:
       # TODO add a grunt-spritify npm task to wrap this
       spritifyDefault:
@@ -69,6 +76,19 @@ module.exports = (grunt) ->
       spritifyCustom:
         cmd: 'php -f vendor/soundasleep/spritify/spritify.php -- --input site/styles/custom.css --png ../img/custom-sprites.png --output site/styles/custom.css'
         fail: true
+
+    useminPrepare:
+      html: 'layout/head-compiled.html'
+      options:
+        dest: 'site/scripts/'
+
+    usemin:
+      html: ['layout/head-compiled.html']
+      options:
+        dest: 'site/scripts/'
+        blockReplacements:
+          js: (block) ->
+            return '<script src="scripts/' + block.dest + "<?php echo '?' . get_site_config('openclerk_version'); ?>" + '"></script>'
 
     watch:
       styles:
@@ -86,10 +106,13 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-bg-shell'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-sass'
+  grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-phpunit'
+  grunt.loadNpmTasks 'grunt-usemin'
 
   grunt.registerTask 'test', "Run tests", ['phpunit']
 
@@ -97,6 +120,11 @@ module.exports = (grunt) ->
     'clean',
     'copy:sourceFavicon',
     'copy:configImages',
+    'copy:head',
+    'useminPrepare',
+    'concat',
+    'uglify',
+    'usemin',
     'sass',
     'coffee',
     'bgShell:spritifyDefault',
@@ -104,7 +132,18 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask 'serve', [
-    'build',
+    'clean',
+    'copy:sourceFavicon',
+    'copy:configImages',
+    # 'copy:head',
+    # 'useminPrepare',
+    # 'concat',
+    # 'uglify',
+    # 'usemin',
+    'sass',
+    'coffee',
+    'bgShell:spritifyDefault',
+    'custom'
     'watch'
   ]
 

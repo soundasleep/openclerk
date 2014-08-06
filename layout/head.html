@@ -1,0 +1,12 @@
+<!-- build:js components.js -->
+<!--
+	We concatenate and uglify (minify) all the necessary scripts through a couple of steps:
+
+	1. copy head.html to head-compiled.html
+	2. use usemin, concat and uglify to do all the hard work
+	3. include head-compiled.html if it's built (only through `grunt build`)
+
+	However this means that we need to also serve node_modules/ locally, for development purposes.
+-->
+<script src="../node_modules/moment/moment.js"></script>
+<!-- endbuild -->
