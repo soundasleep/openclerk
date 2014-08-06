@@ -4,6 +4,7 @@
 require(__DIR__ . (disabled) "/locale.php");
 require(__DIR__ . (disabled) "/standard.php");
 */
+require(__DIR__ . "/classes.php");
 require(__DIR__ . "/config.php");
 define('LIGHTOPENID_TIMEOUT', get_site_config('get_openid_timeout') * 1000);
 
