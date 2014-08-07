@@ -23,105 +23,117 @@
 
   render: (graph) ->
     throw new Error("No target set") unless graph.target
-    throw new Error("No days set") unless graph.days
 
-    google.load("visualization", "1", {packages: ["corechart"]});
-
-    graph.callback = ->
-      ###
-      url = "graph_public?graph_type=" + graph.graph_type + "&days=" + graph.days +
-            "&height=" + graph.height + "&width=" + graph.width +
-            "&delta=" + graph.delta + "&arg0=" + graph.arg0 +
-            "&arg0_resolved=" + graph.arg0_resolved + "&id=" + graph.id +
-            "&no_technicals=" + graph.no_technicals
-
-      queue_ajax_request url,
-        success: (data, text, xhr) ->
-          $("#" + graph.target).html(data)
-          window.setTimeout(graph.callback, 60000)
-
-        error: (xhr, text, error) ->
-          $("#" + graph.target).html(xhr.responseText)
-          window.setTimeout(graph.callback, 60000)
-      ###
-
-      url = "api/v1/graphs/" + graph.graph_type + "?days=" + graph.days
-      if graph.delta?
-        url += "&delta=" + graph.delta
-      if graph.arg0?
-        url += "&arg0=" + graph.arg0
-      if graph.arg0_resolved?
-        url += "&arg0_resolved=" + graph.arg0_resolved
-      if graph.technical_type?
-        url += "&technical=" + graph.technical_type + "&technical_period=" + graph.technical_period
-
+    try
       element = $("#" + graph.target)
       throw new Error("No target " + graph.target + " found") unless element.length == 1
       graph.element = element[0]
 
-      queue_ajax_request url,
-        dataType: 'json'
-        success: (data, text, xhr) ->
-          if not data.success? or !data.success
-            Graphs.text graph.element, graph,
-              text: "Could not load graph data: Invalid response"
-            throw new Error("Could not load graph data from " + url)
-            return
+      google.load("visualization", "1", {packages: ["corechart"]});
 
-          switch data.type
-            when "linechart"
-              Graphs.linechart graph.element, graph, data
-            when "vertical"
-              Graphs.vertical graph.element, graph, data
-            else
-              throw new Error("Could not render graph type " + data.type)
+      graph.callback = ->
+        ###
+        url = "graph_public?graph_type=" + graph.graph_type + "&days=" + graph.days +
+              "&height=" + graph.height + "&width=" + graph.width +
+              "&delta=" + graph.delta + "&arg0=" + graph.arg0 +
+              "&arg0_resolved=" + graph.arg0_resolved + "&id=" + graph.id +
+              "&no_technicals=" + graph.no_technicals
 
-          window.setTimeout(graph.callback, 60000)
+        queue_ajax_request url,
+          success: (data, text, xhr) ->
+            $("#" + graph.target).html(data)
+            window.setTimeout(graph.callback, 60000)
 
-        error: (xhr, text, error) ->
-          window.setTimeout(graph.callback, 60000)
-          console.log if xhr.responseJSON? then xhr.responseJSON else xhr.responseText
-          console.error error
+          error: (xhr, text, error) ->
+            $("#" + graph.target).html(xhr.responseText)
+            window.setTimeout(graph.callback, 60000)
+        ###
 
-          # try load the JSON anyway
-          try
-            parsed = JSON.parse(xhr.responseText)
-            Graphs.text graph.element, graph,
-              text: parsed.message
-            return
-          catch e
-            console.log e
-
+        if not graph.days?
           Graphs.text graph.element, graph,
-            text: error.message
+            text: "No days specified"
+          return
 
-    # save this graphuration for later
-    @collection[graph.target] = graph
+        url = "api/v1/graphs/" + graph.graph_type + "?days=" + graph.days
+        if graph.delta?
+          url += "&delta=" + graph.delta
+        if graph.arg0?
+          url += "&arg0=" + graph.arg0
+        if graph.arg0_resolved?
+          url += "&arg0_resolved=" + graph.arg0_resolved
+        if graph.technical_type?
+          url += "&technical=" + graph.technical_type + "&technical_period=" + graph.technical_period
+        if graph.user_id?
+          url += "&user_id=" + graph.user_id + "&user_hash=" + graph.user_hash
 
-    # create HTML elements as necessary, and reconfigure the DOM
-    $(document).ready =>
-      target = $("#" + graph.target)
-      throw new Error("Could not find graph target " + graph.target) unless target.length > 0
-      $(target[0]).width(graph.computedWidth)
-      $(target[0]).height(graph.computedHeight)
+        queue_ajax_request url,
+          dataType: 'json'
+          success: (data, text, xhr) ->
+            if not data.success? or !data.success
+              Graphs.text graph.element, graph,
+                text: "Could not load graph data: Invalid response"
+              throw new Error("Could not load graph data from " + url)
+              return
 
-      # create new elements
-      throw new Error("Could not find #graph_contents_template to clone") unless $("#graph_contents_template").length > 0
-      clone = $("#graph_contents_template").clone()
-      $(clone).attr('id', '')
-      $(clone).find(".graph-target").width(graph.graphWidth)
-      $(clone).find(".graph-target").height(graph.graphHeight)
+            switch data.type
+              when "linechart"
+                Graphs.linechart graph.element, graph, data
+              when "vertical"
+                Graphs.vertical graph.element, graph, data
+              else
+                throw new Error("Could not render graph type " + data.type)
 
-      $(target).append(clone)
-      clone.show()
+            window.setTimeout(graph.callback, 60000)
 
-      # once the elements are ready, lets go
-      graph.callback()
+          error: (xhr, text, error) ->
+            window.setTimeout(graph.callback, 60000)
+            console.log if xhr.responseJSON? then xhr.responseJSON else xhr.responseText
+            console.error error
+
+            # try load the JSON anyway
+            try
+              parsed = JSON.parse(xhr.responseText)
+              Graphs.text graph.element, graph,
+                text: parsed.message
+              return
+            catch e
+              console.log e
+
+            Graphs.text graph.element, graph,
+              text: error.message
+
+      # save this graphuration for later
+      @collection[graph.target] = graph
+
+      # create HTML elements as necessary, and reconfigure the DOM
+      $(document).ready =>
+        target = $("#" + graph.target)
+        throw new Error("Could not find graph target " + graph.target) unless target.length > 0
+        $(target[0]).width(graph.computedWidth)
+        $(target[0]).height(graph.computedHeight)
+
+        # create new elements
+        throw new Error("Could not find #graph_contents_template to clone") unless $("#graph_contents_template").length > 0
+        clone = $("#graph_contents_template").clone()
+        $(clone).attr('id', '')
+        $(clone).find(".graph-target").width(graph.graphWidth)
+        $(clone).find(".graph-target").height(graph.graphHeight)
+
+        $(target).append(clone)
+        clone.show()
+
+        # once the elements are ready, lets go
+        graph.ready = true
+        graph.callback()
+
+    catch error
+      console.error error
 
   ###
    # Render linecharts.
   ###
   linechart: (target, graph, result) ->
+    throw new Error("Graph has not been initialised") unless graph.ready?
     table = new google.visualization.DataTable()
     series = []
     i = 0
@@ -183,6 +195,7 @@
   vertical: (target, graph, result) ->
     # create new elements
     throw new Error("Could not find #graph_table_template to clone") unless $("#graph_table_template").length > 0
+    throw new Error("Graph has not been initialised") unless graph.ready?
     clone = $("#graph_table_template").clone()
     $(clone).attr('id', '')
     # $(clone).find(".graph-target").width(graph.graphWidth)
@@ -230,6 +243,7 @@
   ###
   text: (target, graph, result) ->
     throw new Error("No text defined in result") unless result.text?
+    throw new Error("Graph has not been initialised") unless graph.ready?
 
     targetDiv = $(target).find(".graph-target .status_loading")
     throw new Error("Could not find graph within " + target) unless targetDiv.length == 1

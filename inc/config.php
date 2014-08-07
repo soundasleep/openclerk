@@ -75,6 +75,7 @@ function get_default_site_config() {
 		"password_salt" => "abc123",
 		"password_reset_salt" => "abc456",
 		"unsubscribe_salt" => "123abc",
+		"user_graph_hash_salt" => "456789",
 		"google_analytics_account" => "UA-12345678-1",	// _setAccount
 		"google_analytics_domain" => "example.com",	// _setDomainName
 

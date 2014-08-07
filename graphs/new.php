@@ -11,8 +11,7 @@
 
 /**
  * Render the HTML on the page necessary for rendering a graph to the user.
- * @param graph
- *	$graph = array(
+ * @param $graph = array(
  *		'graph_type' => $id,
  *		'width' => 8,
  *		'height' => 4,
@@ -24,8 +23,10 @@
  *		'public' => true,
  *		'no_technicals' => true,
  *	);
+ * @param $include_user_hash if true, include user_id and user_hash in the graph data, necessary for
+ *				graphs that require user authentication; default is false
  */
-function render_graph_new($graph) {
+function render_graph_new($graph, $include_user_hash = false) {
 	global $_rendered_graph_contents;
 	if (!$_rendered_graph_contents) {
 		?>
@@ -57,6 +58,13 @@ function render_graph_new($graph) {
 	$graph['graphHeight'] = get_site_config('default_graph_height') * $graph['height'];
 	$graph['computedHeight'] = $graph['graphHeight'] + 30;
 
+	// if we are logged in, also provide the user ID and computed user hash, to verify that we can
+	// correctly access this graph (also means that we don't have to initialise sessions on the API)
+	if ($include_user_hash && user_logged_in()) {
+		$graph['user_id'] = user_id();
+		$graph['user_hash'] = compute_user_graph_hash(get_user(user_id()));
+	}
+
 	// 'overflow: hidden;' is to fix a Chrome rendering bug
 	?>
 		<div id="<?php echo htmlspecialchars($graph_id); ?>" class="graph" style="overflow: hidden;"></div>
@@ -69,3 +77,8 @@ function render_graph_new($graph) {
 $_rendered_graph_contents = false;
 
 class NoGraphRendererException extends GraphException { }
+class RenderGraphException extends GraphException { }
+
+function compute_user_graph_hash($user) {
+	return md5(get_site_config('user_graph_hash_salt') . ":" . $user['id'] . ":" . $user['last_login']);
+}

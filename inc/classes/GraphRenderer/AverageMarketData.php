@@ -1,30 +1,5 @@
 <?php
 
-/*
-// average market prices
-if (substr($graph['graph_type'], -strlen("_markets")) == "_markets") {
-	$split = explode("_", $graph['graph_type']);
-	if (count($split) == 3 && strlen($split[1]) == 6) {
-		// if this is an average graph, go straight away
-		if ($split[0] == "average") {
-			// we won't check pairs, we just won't get any data
-			$currency1 = substr($split[1], 0, 3);
-			$currency2 = substr($split[1], 3);
-			$q = db()->prepare("SELECT * FROM ticker_recent WHERE currency1=? AND currency2=? ORDER BY volume DESC");
-			$q->execute(array($currency1, $currency2));
-			$tickers = $q->fetchAll();
-
-			$q = db()->prepare("SELECT * FROM average_market_count WHERE currency1=? AND currency2=?");
-			$q->execute(array($currency1, $currency2));
-			$market_count = $q->fetch();
-
-			render_average_markets_table($graph, $tickers, $market_count);
-			break;
-		}
-	}
-}
-*/
-
 class GraphRenderer_AverageMarketData extends GraphRenderer {
 
 	var $currency1;
@@ -134,18 +109,6 @@ class GraphRenderer_AverageMarketData extends GraphRenderer {
 						currency_format($average['currency1'], $average['last_trade']),
 			'h2' => "(" . number_format($average['volume']). " " . get_currency_abbr($volume_currency) . " total volume)",
 		);
-
-/*
-?>
-<div class="graph_average">
-	<h1><?php echo get_currency_abbr($average['currency1']) . "/" . get_currency_abbr($average['currency2']); ?>:
-		<?php echo currency_format($average['currency1'], $average['last_trade']); ?></h1>
-	<h2>(<?php echo number_format($average['volume']); ?> <?php echo get_currency_abbr($volume_currency); ?> total volume)</h2>
-
-	<?php render_table_vertical($graph, $data, $head); ?>
-</div>
-
-*/
 
 	}
 

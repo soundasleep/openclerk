@@ -14,6 +14,7 @@ function api_v1_graphs($graph) {
 
 	/**
 	 * Graph rendering goes like this:
+	 * 0. check graph rendering permissions
 	 * 1. get raw graph data (from a {@link GraphRenderer} through {@link construct_graph_renderer()})
 	 * 2. apply deltas as necessary
 	 * 3. add technicals as necessary
@@ -24,6 +25,33 @@ function api_v1_graphs($graph) {
 	 * that is, deltas and technicals are done on the server-side; not the client-side.
 	 */
 	$renderer = construct_graph_renderer($graph['graph_type'], $graph['arg0'], $graph['arg0_resolved']);
+
+	// 0. check graph rendering permissions
+	if ($renderer->requiresUser()) {
+		if (!isset($graph['user_id']) || !$graph['user_id']) {
+			throw new GraphException("No user specified for authenticated graph");
+		}
+		if (!isset($graph['user_hash']) || !$graph['user_hash']) {
+			throw new GraphException("No user hash specified for authenticated graph");
+		}
+
+		$user = get_user($graph['user_id']);
+		if (!$user) {
+			throw new GraphException("No such user found");
+		}
+		$expected_hash = compute_user_graph_hash($user);
+		if ($graph['user_hash'] !== $expected_hash) {
+			throw new GraphException("Mismatched user hash");
+		}
+
+		if ($renderer->requiresAdmin()) {
+			if (!$user['is_admin']) {
+				throw new GraphException("Graph requires administrator privileges");
+			}
+		}
+	}
+
+	// 1. get raw graph data
 	$data = $renderer->getData($graph['days']);
 	$original_count = count($data['data']);
 
@@ -118,6 +146,8 @@ $config = array(
 	'delta' => require_get("delta", false),
 	'arg0' => require_get('arg0', false),
 	'arg0_resolved' => require_get('arg0_resolved', false),
+	'user_id' => require_get('user_id', false),
+	'user_hash' => require_get('user_hash', false),
 	// in this interface, we only support rendering one technical on one graph
 	// (although the technicals interface supports multiple)
 	'technical' => require_get('technical', false),
@@ -180,6 +210,9 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 	switch ($graph_type) {
 		case "external_historical":
 			return new GraphRenderer_ExternalHistorical($arg0_resolved);
+
+		case "admin_statistics":
+			return new GraphRenderer_AdminStatistics();
 
 		default:
 			throw new NoGraphRendererException("Unknown graph to render '$graph_type'");

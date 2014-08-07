@@ -57,4 +57,20 @@ abstract class GraphRenderer {
 		return "";
 	}
 
+	/**
+	 * Does rendering this graph require a user?
+	 * By default, returns {@code false}.
+	 */
+	function requiresUser() {
+		return $this->requiresAdmin();
+	}
+
+	/**
+	 * Does rendering this graph require an admin user?
+	 * By default, returns {@code false}.
+	 */
+	function requiresAdmin() {
+		return false;
+	}
+
 }
