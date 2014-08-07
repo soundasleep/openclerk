@@ -179,6 +179,7 @@ performance_metrics_page_end();
  * Helper function to mark strings that need to be translated on the client-side.
  */
 function ct($s) {
+	// do not do any translation here - we have to do it on the client side!
 	return $s;
 }
 
@@ -205,6 +206,14 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 
 		if ($bits[2] == "markets" && $cur1 && $cur2 && $bits[0] == "average") {
 			return new GraphRenderer_AverageMarketData($cur1, $cur2);
+		}
+	}
+
+	if (count($bits) >= 2 && $bits[0] == "metrics") {
+		$possible = GraphRenderer_AdminMetrics::getMetrics();
+		$bits_two = explode("_", $graph_type, 2);
+		if (isset($possible[$bits_two[1]])) {
+			return new GraphRenderer_AdminMetrics($bits_two[1]);
 		}
 	}
 

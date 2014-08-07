@@ -164,6 +164,9 @@
 
     formatted_data = []
     for key, value of result.data
+      if value.length != result.columns.length
+        console.log "row: ", value, " columns: ", result.columns
+        throw new Error("Row '" + key + "' did not have exactly " + result.columns.length + " columns")
       row = []
       row.push moment(key).toDate()
       for v in value
@@ -187,11 +190,15 @@
           color: 'white'
       series: series
       chartArea:
-        width: '90%'
-        height: '85%'
+        width: '80%'
+        height: '75%'
         top: 20
-        left: 60 # reduce padding
+        left: Math.min(60, 30 * graph.width) # reduce padding
       backgroundColor: '#111'
+
+    if graph.width >= 8
+      options.chartArea.width = '90%'
+      options.chartArea.height = '85%'
 
     # draw the chart
     targetDiv = $(target).find(".graph-target")
@@ -323,5 +330,4 @@
   ]
 
   getChartColour: (i) ->
-    throw new Error("Out of bounds colour") unless i <= @chartColours.length
-    return @chartColours[i]
+    return @chartColours[i % @chartColours.length]
