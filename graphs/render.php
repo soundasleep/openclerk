@@ -349,7 +349,12 @@ function format_subheading_values_objects($graph, $data, $headings, $suffix = fa
 		if (!is_numeric($value)) {
 			throw new GraphException("Cannot format subheading value '$value': is not numeric");
 		}
-		$array[$key] = number_format_html($value, 4, $suffix);
+		$this_suffix = $suffix;
+		if ($headings[$key]['type'] == "percent") {
+			$this_suffix .= "%";
+		}
+
+		$array[$key] = number_format_html($value, 4, $this_suffix);
 	}
 	return implode(" / ", $array);
 }

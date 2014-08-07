@@ -1,6 +1,6 @@
 <?php
 
-class GraphRenderer_Ticker extends GraphRenderer {
+class GraphRenderer_Ticker extends GraphRenderer_AbstractTicker {
 
 	var $exchange;
 	var $currency1;
@@ -27,23 +27,29 @@ class GraphRenderer_Ticker extends GraphRenderer {
 		return ct("View historical data");
 	}
 
-	public function getData($days) {
+	/**
+	 * @return an array of columns e.g. (type, title, args)
+	 */
+	function getTickerColumns() {
+
+		$args = array('pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2));
 		$columns = array();
-
-		$key_column = array('type' => 'date', 'title' => ct("Date"));
-		$columns[] = array('type' => 'number', 'title' => ct(":pair Bid"), 'args' => array('pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2)));
-		$columns[] = array('type' => 'number', 'title' => ct(":pair Ask"), 'args' => array('pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2)));
-
 		if ($this->exchange == 'themoneyconverter' || $this->exchange == "coinbase") {
 			// hack fix because TheMoneyConverter and Coinbase only have last_trade
-			// TODO this should maybe be in a separate class, e.g. BidAskTicker and LastTradeTicker
-			throw new GraphException("Cannot support themoneyconverter or coinbase yet");
+			$columns[] = array('type' => 'number', 'title' => ct(":pair"), 'args' => $args);
+		} else {
+			$columns[] = array('type' => 'number', 'title' => ct(":pair Bid"), 'args' => $args);
+			$columns[] = array('type' => 'number', 'title' => ct(":pair Ask"), 'args' => $args);
 		}
+		return $columns;
+	}
 
-		// TODO extra_days_necessary
-		$extra_days = 10;
-
-		$sources = array(
+	/**
+	 * The sources must return 'created_at' column as well, for last_updated
+	 * @return an array of queries e.g. (query, key = created_at/data_date)
+	 */
+	function getTickerSources($days, $extra_days) {
+		return array(
 			// cannot use 'LIMIT :limit'; PDO escapes :limit into string, MySQL cannot handle or cast string LIMITs
 			// first get summarised data
 			array('query' => "SELECT * FROM graph_data_ticker WHERE exchange=:exchange AND
@@ -52,38 +58,37 @@ class GraphRenderer_Ticker extends GraphRenderer {
 			array('query' => "SELECT * FROM ticker WHERE is_daily_data=1 AND exchange=:exchange AND
 				currency1=:currency1 AND currency2=:currency2 ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at'),
 		);
+	}
 
-		$args = array(
+	/**
+	 * @return an array of arguments passed to each {@link #getTickerSources()}
+	 */
+	function getTickerArgs() {
+		return array(
 			'exchange' => $this->exchange,
 			'currency1' => $this->currency1,
 			'currency2' => $this->currency2,
 		);
+	}
 
-		$data = array();
-		$last_updated = false;
-		foreach ($sources as $source) {
-			$q = db()->prepare($source['query']);
-			$q->execute($args);
-			while ($ticker = $q->fetch()) {
-				$data_key = date('Y-m-d', strtotime($ticker[$source['key']]));
-				$data[$data_key] = array(
-					graph_number_format($ticker['bid']),
-					graph_number_format($ticker['ask']),
-				);
-				$last_updated = max($last_updated, strtotime($ticker['created_at']));
+	/**
+	 * @return an array of 1..2 values of the values for the particular row,
+	 * 			maybe formatted with {@link #graph_number_format()}.
+	 */
+	function getTickerData($row) {
+		if ($this->exchange == 'themoneyconverter' || $this->exchange == "coinbase") {
+			// last_trade is in ticker; last_trade_closing is in graph_data_ticker
+			if (isset($row['last_trade'])) {
+				return array(graph_number_format($row['last_trade']));
+			} else {
+				return array(graph_number_format($row['last_trade_closing']));
 			}
+		} else {
+			return array(
+				graph_number_format($row['bid']),
+				graph_number_format($row['ask']),
+			);
 		}
-
-		// sort by key, but we only want values
-		uksort($data, 'cmp_time_reverse');
-
-		return array(
-			'key' => $key_column,
-			'columns' => $columns,
-			'data' => $data,
-			'last_updated' => $last_updated,
-		);
-
 	}
 
 }

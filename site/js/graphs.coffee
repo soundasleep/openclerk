@@ -149,15 +149,18 @@
     i = 0
     for column in result.columns
       column.lineWidth = 2 if not column.lineWidth?
+      type = column.type
       if column.technical
-        column.type = "number"
+        type = "number"
         column.lineWidth = 1
+      if column.type == "percent"
+        type = "number"
 
       series.push
         lineWidth: column.lineWidth
         color: @getChartColour(i)
       i++
-      table.addColumn column.type, Locale.formatTemplate(column.title, column.args)
+      table.addColumn type, Locale.formatTemplate(column.title, column.args)
 
     formatted_data = []
     for key, value of result.data

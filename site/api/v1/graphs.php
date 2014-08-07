@@ -118,7 +118,7 @@ function api_v1_graphs($graph) {
 	foreach ($result['data'] as $i => $row) {
 		foreach ($row as $key => $value) {
 			$column = $result['columns'][$key];
-			if ($column['type'] == 'number') {
+			if ($column['type'] == 'number' || $column['type'] == "percent") {
 				$result['data'][$i][$key] = (double) $value;
 
 				if (is_localhost()) {

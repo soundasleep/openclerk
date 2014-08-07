@@ -68,7 +68,7 @@ $graph = array(
 	'width' => 6,
 	'height' => 4,
 	'page_order' => 0,
-	// 'days' => 30,
+	'days' => 45,
 	'delta' => '',
 	'id' => 1,
 	'public' => true,
@@ -77,7 +77,7 @@ $graph = array(
 ?>
 
 	<div class="graph_collection" style="float: right; width: 60%;">
-		<?php render_graph($graph, true /* is not actually public, but the graph logic will take care of this */); ?>
+		<?php render_graph_new($graph, true /* user_hash */); ?>
 	</div>
 
 <table class="standard">
