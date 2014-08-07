@@ -146,6 +146,7 @@
     table.addColumn column.type, Locale.formatTemplate(column.title, column.args)
 
     series = []
+    vAxes = []
     i = 0
     for column in result.columns
       column.lineWidth = 2 if not column.lineWidth?
@@ -161,6 +162,12 @@
         color: @getChartColour(i)
       i++
       table.addColumn type, Locale.formatTemplate(column.title, column.args)
+
+      # set up vertical axes as necessary
+      if column.min? and column.max?
+        vAxes.push
+          minValue: column.min
+          maxValue: column.max
 
     formatted_data = []
     for key, value of result.data
@@ -195,6 +202,7 @@
         top: 20
         left: Math.min(60, 30 * graph.width) # reduce padding
       backgroundColor: '#111'
+      vAxes: vAxes
 
     if graph.width >= 8
       options.chartArea.width = '90%'

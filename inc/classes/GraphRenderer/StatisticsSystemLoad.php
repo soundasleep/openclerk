@@ -30,9 +30,9 @@ class GraphRenderer_StatisticsSystemLoad extends GraphRenderer_AbstractTicker {
 	 */
 	function getTickerColumns() {
 		$columns = array();
-		$columns[] = array('type' => 'number', 'title' => ct("1 min"), 'min' => 0);
-		$columns[] = array('type' => 'number', 'title' => ct("5 min"), 'min' => 0);
-		$columns[] = array('type' => 'number', 'title' => ct("15 min"), 'min' => 0);
+		$columns[] = array('type' => 'number', 'title' => ct("1 min"), 'min' => 0, 'max' => 5);
+		$columns[] = array('type' => 'number', 'title' => ct("5 min"), 'min' => 0, 'max' => 5);
+		$columns[] = array('type' => 'number', 'title' => ct("15 min"), 'min' => 0, 'max' => 5);
 		return $columns;
 	}
 
