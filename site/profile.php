@@ -198,7 +198,12 @@ if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { 
 <div style="clear:both;">
 <div class="graph_controls">
 <?php } ?>
+<?php if (require_get("new_graphs", false)) { ?>
+	<!-- TODO we need to load technical data for each user graph -->
+	<?php render_graph_new($graph, true /* TODO we should not force user data unless we actually need it */); ?>
+<?php } else { ?>
 	<?php render_graph($graph, isset($graph['public']) && $graph['public']); ?>
+<?php } ?>
 <?php if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { ?>
 </div>
 </div>
