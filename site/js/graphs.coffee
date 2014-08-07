@@ -31,7 +31,7 @@
 
       google.load("visualization", "1", {packages: ["corechart"]});
 
-      graph.callback = ->
+      graph.callback = (noTimeout) =>
         ###
         url = "graph_public?graph_type=" + graph.graph_type + "&days=" + graph.days +
               "&height=" + graph.height + "&width=" + graph.width +
@@ -66,9 +66,15 @@
         if graph.user_id?
           url += "&user_id=" + graph.user_id + "&user_hash=" + graph.user_hash
 
+        # TODO premium and free graph update limits
+        window.setTimeout(graph.callback, 60000) unless noTimeout
+
         queue_ajax_request url,
           dataType: 'json'
-          success: (data, text, xhr) ->
+          success: (data, text, xhr) =>
+            graph = @collection[graph.target]
+            graph.hasTimeout = false
+
             try
               if not data.success? or !data.success
                 throw new Error("Could not load graph data: Invalid response")
@@ -85,10 +91,10 @@
                 text: error.message
               console.error error
 
-            window.setTimeout(graph.callback, 60000)
+          error: (xhr, text, error) =>
+            graph = @collection[graph.target]
+            graph.hasTimeout = false
 
-          error: (xhr, text, error) ->
-            window.setTimeout(graph.callback, 60000)
             console.log if xhr.responseJSON? then xhr.responseJSON else xhr.responseText
             console.error error
 
@@ -126,7 +132,7 @@
 
         # let users refresh the graph manually by clicking on the last-updated link
         $(target).find(".last-updated").click =>
-          graph.callback()
+          graph.callback(true)    # do not set up a new timeout
 
         # once the elements are ready, lets go
         graph.ready = true
