@@ -52,7 +52,10 @@ function page_header($page_title, $page_id = false, $options = array()) {
 	if (file_exists(__DIR__ . "/../site/head-compiled.html")) {
 		require(__DIR__ . "/../site/head-compiled.html");
 	} else {
-		require(__DIR__ . "/head.html");
+		// fix relative paths
+		$input = file_get_contents(__DIR__ . "/head.html");
+		$input = str_replace("src=\"", "src=\"" . htmlspecialchars(calculate_relative_path()), $input);
+		echo $input;
 	}
 	?>
 </head>

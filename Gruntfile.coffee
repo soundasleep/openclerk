@@ -97,7 +97,7 @@ module.exports = (grunt) ->
         dest: 'site/scripts/'
         blockReplacements:
           js: (block) ->
-            return '<script src="scripts/' + block.dest + "<?php echo '?' . get_site_config('openclerk_version'); ?>" + '"></script>'
+            return '<script src="<?php echo htmlspecialchars(calculate_relative_path()); ?>scripts/' + block.dest + "<?php echo '?' . get_site_config('openclerk_version'); ?>" + '"></script>'
 
     watch:
       styles:
