@@ -36,8 +36,8 @@ class GraphRenderer_AdminMetrics extends GraphRenderer {
 			'slow_jobs_database_graph' => array(
 				'report_type' => 'jobs_slow',
 				'report_table' => 'performance_report_slow_jobs',
-				'key_prefix' => 'job',
-				'key' => 'job_database',
+				'key' => 'job_type',
+				'actual_value_key' => 'job_database',
 				'title' => ct("Slowest jobs database time (ms)"),
 				'label' => t("Slowest jobs database time (graph)"),
 				'description' => t("The time spent in the database on the slowest jobs represented as a graph over time."),
