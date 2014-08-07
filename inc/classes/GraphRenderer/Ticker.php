@@ -30,7 +30,7 @@ class GraphRenderer_Ticker extends GraphRenderer {
 	public function getData($days) {
 		$columns = array();
 
-		$columns[] = array('type' => 'date', 'title' => ct("Date"));
+		$key_column = array('type' => 'date', 'title' => ct("Date"));
 		$columns[] = array('type' => 'number', 'title' => ct(":pair Bid"), 'args' => array('pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2)));
 		$columns[] = array('type' => 'number', 'title' => ct(":pair Ask"), 'args' => array('pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2)));
 
@@ -78,6 +78,7 @@ class GraphRenderer_Ticker extends GraphRenderer {
 		uksort($data, 'cmp_time_reverse');
 
 		return array(
+			'key' => $key_column,
 			'columns' => $columns,
 			'data' => $data,
 			'last_updated' => $last_updated,

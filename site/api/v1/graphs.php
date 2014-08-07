@@ -71,6 +71,7 @@ function api_v1_graphs($graph) {
 	$after_discard_count = count($data['data']);
 
 	$result['columns'] = $data['columns'];
+	$result['key'] = $data['key'];
 	$result['data'] = $data['data'];
 
 	// clean up columns
@@ -116,7 +117,7 @@ function api_v1_graphs($graph) {
 	// make sure that all 'number'-typed data is numeric
 	foreach ($result['data'] as $i => $row) {
 		foreach ($row as $key => $value) {
-			$column = $result['columns'][$key + 1 /* first heading is key */];
+			$column = $result['columns'][$key];
 			if ($column['type'] == 'number') {
 				$result['data'][$i][$key] = (double) $value;
 

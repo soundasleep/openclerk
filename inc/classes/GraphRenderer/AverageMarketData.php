@@ -53,7 +53,7 @@ class GraphRenderer_AverageMarketData extends GraphRenderer {
 	public function getData($days) {
 		$columns = array();
 
-		$columns[] = array('type' => 'string', 'title' => ct("Exchange"));
+		$key_column = array('type' => 'string', 'title' => ct("Key"));
 		$columns[] = array('type' => 'string', 'title' => ct("Exchange"), 'heading' => true);
 		$columns[] = array('type' => 'string', 'title' => ct("Pair"));
 		$columns[] = array('type' => 'string', 'title' => ct("Volume"));
@@ -100,6 +100,7 @@ class GraphRenderer_AverageMarketData extends GraphRenderer {
 		$last_updated = $average['created_at'];
 
 		return array(
+			'key' => $key_column,
 			'columns' => $columns,
 			'data' => $data,
 			'last_updated' => $last_updated,

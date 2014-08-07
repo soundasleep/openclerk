@@ -69,19 +69,21 @@
         queue_ajax_request url,
           dataType: 'json'
           success: (data, text, xhr) ->
-            if not data.success? or !data.success
-              Graphs.text graph.element, graph,
-                text: "Could not load graph data: Invalid response"
-              throw new Error("Could not load graph data from " + url)
-              return
+            try
+              if not data.success? or !data.success
+                throw new Error("Could not load graph data: Invalid response")
 
-            switch data.type
-              when "linechart"
-                Graphs.linechart graph.element, graph, data
-              when "vertical"
-                Graphs.vertical graph.element, graph, data
-              else
-                throw new Error("Could not render graph type " + data.type)
+              switch data.type
+                when "linechart"
+                  Graphs.linechart graph.element, graph, data
+                when "vertical"
+                  Graphs.vertical graph.element, graph, data
+                else
+                  throw new Error("Could not render graph type " + data.type)
+            catch error
+              Graphs.text graph.element, graph,
+                text: error.message
+              console.error error
 
             window.setTimeout(graph.callback, 60000)
 
@@ -134,7 +136,15 @@
   ###
   linechart: (target, graph, result) ->
     throw new Error("Graph has not been initialised") unless graph.ready?
+    throw new Error("Data has no columns") unless result.columns?
+    throw new Error("Data has no key") unless result.key?
+
     table = new google.visualization.DataTable()
+
+    # add the key column as a column for the DataTable
+    column = result.key
+    table.addColumn column.type, Locale.formatTemplate(column.title, column.args)
+
     series = []
     i = 0
     for column in result.columns
@@ -143,10 +153,9 @@
         column.type = "number"
         column.lineWidth = 1
 
-      if i > 0
-        series.push
-          lineWidth: column.lineWidth
-          color: @getChartColour(i)
+      series.push
+        lineWidth: column.lineWidth
+        color: @getChartColour(i)
       i++
       table.addColumn column.type, Locale.formatTemplate(column.title, column.args)
 
@@ -193,9 +202,13 @@
    # Render a vertical graph.
   ###
   vertical: (target, graph, result) ->
+    throw new Error("Graph has not been initialised") unless graph.ready?
+    throw new Error("Data has no columns") unless result.columns?
+    throw new Error("Data has no key") unless result.key?
+    console.log "rendering ", result
+
     # create new elements
     throw new Error("Could not find #graph_table_template to clone") unless $("#graph_table_template").length > 0
-    throw new Error("Graph has not been initialised") unless graph.ready?
     clone = $("#graph_table_template").clone()
     $(clone).attr('id', '')
     # $(clone).find(".graph-target").width(graph.graphWidth)
@@ -203,14 +216,11 @@
 
     thead = document.createElement('thead')
     tr = document.createElement('tr')
-    i = 0
     for column in result.columns
-      if i > 0
-        th = document.createElement('th')
-        $(th).html(Locale.formatTemplate(column.title, column.args))
-        $(th).addClass(column.type)
-        $(tr).append(th)
-      i++
+      th = document.createElement('th')
+      $(th).html(Locale.formatTemplate(column.title, column.args))
+      $(th).addClass(column.type)
+      $(tr).append(th)
 
     $(thead).append(tr)
     $(clone).find('table').append(thead)
@@ -220,9 +230,9 @@
       tr = document.createElement('tr')
       i = 0
       for v in value
-        td = document.createElement(if result.columns[i + 1].heading? then 'th' else 'td')
+        td = document.createElement(if result.columns[i].heading? then 'th' else 'td')
         $(td).html(v)
-        $(td).addClass(result.columns[i + 1].type)
+        $(td).addClass(result.columns[i].type)
         $(tr).append(td)
         i++
 
@@ -311,4 +321,4 @@
 
   getChartColour: (i) ->
     throw new Error("Out of bounds colour") unless i <= @chartColours.length
-    return @chartColours[i - 1]
+    return @chartColours[i]

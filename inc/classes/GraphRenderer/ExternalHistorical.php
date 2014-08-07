@@ -45,7 +45,7 @@ class GraphRenderer_ExternalHistorical extends GraphRenderer {
 
 		$columns = array();
 
-		$columns[] = array('type' => 'date', 'title' => ct("Date"));
+		$key_column = array('type' => 'date', 'title' => ct("Date"));
 		$columns[] = array('type' => 'number', 'title' => ct(":% success"), 'min' => 0, 'max' => 100);
 
 		// TODO extra_days_necessary
@@ -82,6 +82,7 @@ class GraphRenderer_ExternalHistorical extends GraphRenderer {
 		uksort($data, 'cmp_time_reverse');
 
 		return array(
+			'key' => $key_column,
 			'columns' => $columns,
 			'data' => $data,
 			'last_updated' => $last_updated,

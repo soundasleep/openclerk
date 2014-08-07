@@ -36,7 +36,7 @@ class GraphRenderer_AdminStatistics extends GraphRenderer {
 	public function getData($days) {
 		$columns = array();
 
-		$columns[] = array('type' => 'string', 'title' => ct("Key"));
+		$key_column = array('type' => 'string', 'title' => ct("Key"));
 		$columns[] = array('type' => 'string', 'title' => ct("Title"), 'heading' => true);
 		$columns[] = array('type' => 'string align-right', 'title' => ct("Total"));
 		$columns[] = array('type' => 'string align-right', 'title' => ct("Last week"));
@@ -87,7 +87,7 @@ class GraphRenderer_AdminStatistics extends GraphRenderer {
 			$result[$key] = $row;
 		}
 
-		$row = array(t("Unused premium addresses"));
+		$row = array(ct("Unused premium addresses"));
 		$q = db()->prepare("SELECT currency, COUNT(*) AS c FROM premium_addresses WHERE is_used=0 GROUP BY currency");
 		$q->execute();
 		while ($c = $q->fetch()) {
@@ -96,6 +96,7 @@ class GraphRenderer_AdminStatistics extends GraphRenderer {
 		$result['unused_premium_addresses'] = $row;
 
 		return array(
+			'key' => $key_column,
 			'columns' => $columns,
 			'data' => $result,
 			'last_updated' => $last_updated,
