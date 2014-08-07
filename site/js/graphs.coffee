@@ -72,9 +72,6 @@
         queue_ajax_request url,
           dataType: 'json'
           success: (data, text, xhr) =>
-            graph = @collection[graph.target]
-            graph.hasTimeout = false
-
             try
               if not data.success? or !data.success
                 throw new Error("Could not load graph data: Invalid response")
@@ -92,9 +89,6 @@
               console.error error
 
           error: (xhr, text, error) =>
-            graph = @collection[graph.target]
-            graph.hasTimeout = false
-
             console.log if xhr.responseJSON? then xhr.responseJSON else xhr.responseText
             console.error error
 
