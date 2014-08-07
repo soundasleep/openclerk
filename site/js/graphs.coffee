@@ -23,7 +23,7 @@
 
   render: (graph) ->
     throw new Error("No target set") unless graph.target
-    console.log "rendering graph ", graph
+    throw new Error("No days set") unless graph.days
 
     google.load("visualization", "1", {packages: ["corechart"]});
 
@@ -45,9 +45,9 @@
           window.setTimeout(graph.callback, 60000)
       ###
 
-      url = "api/v1/graphs/" + graph.graph_type + "?days=" + graph.days +
-            "&height=" + graph.height + "&width=" + graph.width +
-            "&delta=" + graph.delta
+      url = "api/v1/graphs/" + graph.graph_type + "?days=" + graph.days
+      if graph.delta?
+        url += "&delta=" + graph.delta
       if graph.arg0?
         url += "&arg0=" + graph.arg0
       if graph.arg0_resolved?
@@ -76,7 +76,6 @@
             else
               throw new Error("Could not render graph type " + data.type)
 
-          console.log(data)
           window.setTimeout(graph.callback, 60000)
 
         error: (xhr, text, error) ->
@@ -86,7 +85,6 @@
 
           # try load the JSON anyway
           try
-            console.log "trying to parse JSON"
             parsed = JSON.parse(xhr.responseText)
             Graphs.text graph.element, graph,
               text: parsed.message
@@ -94,8 +92,8 @@
           catch e
             console.log e
 
-          Graphs.text graph,
-            text: error
+          Graphs.text graph.element, graph,
+            text: error.message
 
     # save this graphuration for later
     @collection[graph.target] = graph
@@ -175,8 +173,6 @@
     targetDiv = $(target).find(".graph-target")
     throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
     chart = new google.visualization.LineChart(targetDiv[0])
-    console.log table
-    console.log "formatted data is ", formatted_data
     chart.draw(table, options)
 
     Graphs.renderHeadings target, graph, result
@@ -276,7 +272,6 @@
 
     $(target).find(".admin-stats").html(result.time + " ms")
 
-  # TODO fill up with chart colours
   chartColours: [
     "#3366cc",
     "#dc3912",

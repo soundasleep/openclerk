@@ -26,7 +26,7 @@ $graph = array(
 	'width' => 8,
 	'height' => 4,
 	'page_order' => 0,
-	// 'days' => 30,
+	'days' => 45,
 	'delta' => '',
 	'id' => 0,
 	'arg0_resolved' => $type,
@@ -50,7 +50,7 @@ page_header(t("External API Status: :api_title", array(':api_title' => $api_titl
 	</p>
 
 	<div class="graph_collection">
-		<?php render_graph($graph, true /* is public */); ?>
+		<?php render_graph_new($graph); ?>
 	</div>
 <?php
 

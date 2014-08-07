@@ -23,7 +23,7 @@ function api_v1_graphs($graph) {
 	 * 7. return data
 	 * that is, deltas and technicals are done on the server-side; not the client-side.
 	 */
-	$renderer = construct_graph_renderer($graph['graph_type']);
+	$renderer = construct_graph_renderer($graph['graph_type'], $graph['arg0'], $graph['arg0_resolved']);
 	$data = $renderer->getData($graph['days']);
 	$original_count = count($data['data']);
 
@@ -155,7 +155,7 @@ function ct($s) {
  * Helper function that converts a {@code graph_type} to a GraphRenderer
  * object, which we can then use to get raw graph data and format it as necessary.
  */
-function construct_graph_renderer($graph_type) {
+function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 	$bits = explode("_", $graph_type);
 	if (count($bits) == 3) {
 		$all_exchanges = get_all_exchanges();
@@ -178,6 +178,9 @@ function construct_graph_renderer($graph_type) {
 	}
 
 	switch ($graph_type) {
+		case "external_historical":
+			return new GraphRenderer_ExternalHistorical($arg0_resolved);
+
 		default:
 			throw new NoGraphRendererException("Unknown graph to render '$graph_type'");
 	}
