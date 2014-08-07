@@ -215,6 +215,9 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 		case "admin_statistics":
 			return new GraphRenderer_AdminStatistics();
 
+		case "statistics_queue":
+			return new GraphRenderer_StatisticsQueue();
+
 		default:
 			throw new NoGraphRendererException("Unknown graph to render '$graph_type'");
 	}

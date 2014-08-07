@@ -31,6 +31,14 @@ abstract class GraphRenderer_AbstractTicker extends GraphRenderer {
 	 */
 	abstract function getTickerData($row);
 
+	/**
+	 * @return true if data should be limited to days, or false if it can have any resolution.
+	 *			defaults to false
+	 */
+	public function isDaily() {
+		return false;
+	}
+
 	public function getData($days) {
 		$columns = array();
 
@@ -51,7 +59,7 @@ abstract class GraphRenderer_AbstractTicker extends GraphRenderer {
 			$q = db()->prepare($source['query']);
 			$q->execute($args);
 			while ($ticker = $q->fetch()) {
-				$data_key = date('Y-m-d', strtotime($ticker[$source['key']]));
+				$data_key = date($this->isDaily() ? 'Y-m-d' : 'Y-m-d H:i:s', strtotime($ticker[$source['key']]));
 				$data[$data_key] = $this->getTickerData($ticker);
 				$last_updated = max($last_updated, strtotime($ticker['created_at']));
 			}
