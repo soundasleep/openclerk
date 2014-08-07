@@ -2,6 +2,10 @@
 
 abstract class GraphRenderer {
 
+	function __construct() {
+		// does nothing
+	}
+
 	/**
 	 * @return an array of (columns => [column], data => [(date, value)], last_updated => (date or false))
 	 */

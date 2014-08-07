@@ -7,6 +7,7 @@ class GraphRenderer_ExternalHistorical extends GraphRenderer_AbstractTicker {
 	var $currency2;
 
 	public function __construct($job_type = false, $arg0 = false) {
+		parent::__construct();
 		$this->job_type = $job_type;
 		$this->arg0 = $arg0;
 

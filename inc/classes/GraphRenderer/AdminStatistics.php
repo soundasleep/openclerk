@@ -3,7 +3,7 @@
 class GraphRenderer_AdminStatistics extends GraphRenderer {
 
 	public function __construct() {
-		// empty
+		parent::__construct();
 	}
 
 	public function requiresAdmin() {

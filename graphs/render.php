@@ -47,7 +47,7 @@ function calculate_technicals($graph, $data, $use_headings = false, $ignore_firs
 		// we fix the data here so we can continue to use old technical code silently
 		// TODO this is a temporary fix until all code is using use_headings, and we can update all
 		// other technicals code correctly
-		if ($use_headings) {
+		if (!$ignore_first_row) {
 			foreach ($data as $key => $row) {
 				array_unshift($data[$key], "inserted temporary value");
 			}
@@ -103,7 +103,7 @@ function calculate_technicals($graph, $data, $use_headings = false, $ignore_firs
 		}
 
 		// TODO ... and then we get rid of the unnecessary labels
-		if ($use_headings) {
+		if (!$ignore_first_row) {
 			foreach ($data as $key => $row) {
 				array_shift($data[$key]);
 			}

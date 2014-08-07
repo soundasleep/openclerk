@@ -9,6 +9,14 @@
  */
 abstract class GraphRenderer_AbstractTicker extends GraphRenderer {
 
+	function __construct() {
+		if (!$this->isDaily() && $this->canHaveTechnicals()) {
+			// basically this is because all of the technicals assume data keys are in Y-m-d format
+			// so if we aren't providing daily data, technicals will fall apart
+			throw new GraphException("A graph that isn't daily cannot also have technicals applied");
+		}
+	}
+
 	/**
 	 * @return an array of columns e.g. (type, title, args)
 	 */
@@ -33,10 +41,10 @@ abstract class GraphRenderer_AbstractTicker extends GraphRenderer {
 
 	/**
 	 * @return true if data should be limited to days, or false if it can have any resolution.
-	 *			defaults to false
+	 *			defaults to true
 	 */
 	public function isDaily() {
-		return false;
+		return true;
 	}
 
 	public function getData($days) {

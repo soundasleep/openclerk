@@ -3,7 +3,7 @@
 class GraphRenderer_StatisticsQueue extends GraphRenderer_AbstractTicker {
 
 	public function __construct() {
-		// empty
+		parent::__construct();
 	}
 
 	public function getTitle() {

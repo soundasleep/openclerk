@@ -6,6 +6,7 @@ class GraphRenderer_AverageMarketData extends GraphRenderer {
 	var $currency2;
 
 	public function __construct($currency1, $currency2) {
+		parent::__construct();
 		$this->currency1 = $currency1;
 		$this->currency2 = $currency2;
 	}

@@ -7,6 +7,7 @@ class GraphRenderer_Ticker extends GraphRenderer_AbstractTicker {
 	var $currency2;
 
 	public function __construct($exchange, $currency1, $currency2) {
+		parent::__construct();
 		$this->exchange = $exchange;
 		$this->currency1 = $currency1;
 		$this->currency2 = $currency2;

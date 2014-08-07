@@ -109,6 +109,7 @@ class GraphRenderer_AdminMetrics extends GraphRenderer {
 	var $title;
 
 	public function __construct($key) {
+		parent::__construct();
 		$data = GraphRenderer_AdminMetrics::getMetrics();
 		if (!isset($data[$key])) {
 			throw new GraphException("Could not find any key '$key' in available metrics");
