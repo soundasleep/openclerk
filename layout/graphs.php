@@ -534,16 +534,8 @@ function render_graph_actual($graph, $is_public) {
 			render_site_statistics_system_load($graph, "db_");
 			break;
 
-		case "metrics_db_slow_queries":
-			render_metrics_db_slow_queries($graph);
-			break;
-
 		case "metrics_db_slow_queries_graph":
 			render_metrics_db_slow_queries_graph($graph);
-			break;
-
-		case "metrics_curl_slow_urls":
-			render_metrics_curl_slow_urls($graph);
 			break;
 
 		case "metrics_curl_slow_urls_graph":

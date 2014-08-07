@@ -999,54 +999,6 @@ function render_site_statistics_system_load($graph, $type = "") {
 
 }
 
-function render_metrics_table($graph, $report_type, $report_table, $report_ref_table, $report_reference, $key, $key_title, $key_formatter = 'htmlspecialchars') {
-
-	if (!is_admin()) {
-		return render_text(t("This graph is for administrators only."));
-	}
-
-	$q = db()->prepare("SELECT * FROM performance_reports WHERE report_type=? ORDER BY id DESC LIMIT 1");
-	$q->execute(array($report_type));
-	$report = $q->fetch();
-	if (!$report) {
-		return render_text($graph, "No report $report_type found.");
-	}
-
-	// get all queries
-	$q = db()->prepare("SELECT * FROM $report_table AS r
-			JOIN $report_ref_table AS q ON r.$report_reference=q.id
-			JOIN performance_metrics_pages AS p ON r.page_id=p.id
-			WHERE report_id=?");
-	$q->execute(array($report['id']));
-	$data = array();
-	while ($query = $q->fetch()) {
-		$data[] = array(
-			$key_formatter($query[$key]),
-			number_format($query[$key . '_count']),
-			number_format($query[$key . '_time'] / $query[$key . '_count']),
-			"<a href=\"" . url_for($query['script_name']) . "\">" . $query['script_name'] . "</a>",
-		);
-	}
-
-	$head = array(array(
-		$key_title,
-		"Count",
-		"Average (ms)",
-		"Sample script",
-	));
-	$graph['last_updated'] = $report['created_at'];
-	return render_table_vertical($graph, $data, $head);
-
-}
-
-function render_metrics_db_slow_queries($graph) {
-	return render_metrics_table($graph, 'db_slow_queries', 'performance_report_slow_queries', 'performance_metrics_queries', 'query_id', 'query', 'Query', 'htmlspecialchars');
-}
-
-function render_metrics_curl_slow_urls($graph) {
-	return render_metrics_table($graph, 'curl_slow_urls', 'performance_report_slow_urls', 'performance_metrics_urls', 'url_id', 'url', 'URL', 'link_to');
-}
-
 /**
  * @param $report_ref_table can be null
  * @param $report_reference can be null
