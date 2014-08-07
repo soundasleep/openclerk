@@ -857,7 +857,7 @@ function number_format_precision($n, $precision) {
  * given precision.
  */
 function number_format_autoprecision($n, $precision = 8, $dec_point = ".", $thousands_sep = ",") {
-	if (!is_numeric($n) && is_localhost()) {
+	if (!is_numeric($n) && $n /* anything falsey is okay to be numeric */ && is_localhost()) {
 		throw new Exception("'$n' is not numeric");
 	}
 
