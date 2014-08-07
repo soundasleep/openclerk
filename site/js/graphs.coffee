@@ -124,6 +124,10 @@
         $(target).append(clone)
         clone.show()
 
+        # let users refresh the graph manually by clicking on the last-updated link
+        $(target).find(".last-updated").click =>
+          graph.callback()
+
         # once the elements are ready, lets go
         graph.ready = true
         graph.callback()
