@@ -43,6 +43,16 @@ function calculate_technicals($graph, $data, $use_headings = false, $ignore_firs
 
 	$new_headings = array();
 	if (isset($graph['technicals'])) {
+		// if we have headings, then data that was in [1] and [2] are actually in [0] and [1];
+		// we fix the data here so we can continue to use old technical code silently
+		// TODO this is a temporary fix until all code is using use_headings, and we can update all
+		// other technicals code correctly
+		if ($use_headings) {
+			foreach ($data as $key => $row) {
+				array_unshift($data[$key], "inserted temporary value");
+			}
+		}
+
 		$graph_technical_types = graph_technical_types();
 		foreach ($graph['technicals'] as $t) {
 			$i = -1;
@@ -89,6 +99,13 @@ function calculate_technicals($graph, $data, $use_headings = false, $ignore_firs
 							throw new GraphException("Unknown technical type '" . $t['technical_type'] . "'");
 						}
 				}
+			}
+		}
+
+		// TODO ... and then we get rid of the unnecessary labels
+		if ($use_headings) {
+			foreach ($data as $key => $row) {
+				array_shift($data[$key]);
 			}
 		}
 
