@@ -356,6 +356,10 @@ function format_subheading_values_objects($graph, $data, $headings, $suffix = fa
 
 		$array[$key] = number_format_html($value, 4, $this_suffix);
 	}
+	if (count($array) > 3) {
+		// only return the first three
+		$array = array_slice($array, 0, 3);
+	}
 	return implode(" / ", $array);
 }
 
