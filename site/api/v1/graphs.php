@@ -227,6 +227,12 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 		case "statistics_queue":
 			return new GraphRenderer_StatisticsQueue();
 
+		case "statistics_system_load":
+			return new GraphRenderer_StatisticsSystemLoad("");
+
+		case "statistics_db_system_load":
+			return new GraphRenderer_StatisticsSystemLoad("db_");
+
 		default:
 			throw new NoGraphRendererException("Unknown graph to render '$graph_type'");
 	}
