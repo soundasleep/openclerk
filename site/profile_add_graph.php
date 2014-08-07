@@ -155,15 +155,15 @@ if (!isset($graph_types[$graph_type])) {
 	);
 	if ($is_edit) {
 		if ($technical_added) {
-			$messages[] = t("Edited :heading graph, with :technical.");
+			$messages[] = t("Edited :heading graph, with :technical.", $args);
 		} else {
-			$messages[] = t("Edited :heading graph.");
+			$messages[] = t("Edited :heading graph.", $args);
 		}
 	} else {
 		if ($technical_added) {
-			$messages[] = t("Added new :heading graph, with :technical.");
+			$messages[] = t("Added new :heading graph, with :technical.", $args);
 		} else {
-			$messages[] = t("Added new :heading graph.");
+			$messages[] = t("Added new :heading graph.", $args);
 		}
 	}
 	set_temporary_messages($messages);
