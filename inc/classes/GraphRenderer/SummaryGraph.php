@@ -29,6 +29,14 @@ class GraphRenderer_SummaryGraph extends GraphRenderer_AbstractTicker {
 		);
 	}
 
+	public function getData($days) {
+		$result = parent::getData($days);
+		if (!$result['data']) {
+			throw new NoDataGraphException_AddCurrencies();
+		}
+		return $result;
+	}
+
 	/**
 	 * @return an array of columns e.g. (type, title, args)
 	 */

@@ -143,14 +143,7 @@ abstract class GraphRenderer_AbstractCompositionGraph extends GraphRenderer {
 		// we can only sort if we actually have data
 		if (count($keys) == 0) {
 			// bail early
-			return array(
-				'key' => $key_column,
-				'columns' => $columns,
-				'data' => $data,
-				'last_updated' => $last_updated,
-
-				// there isn't any total
-			);
+			throw new NoDataGraphException_AddCurrencies();
 		}
 
 		$last_row = $data[$keys[count($keys)-1]];

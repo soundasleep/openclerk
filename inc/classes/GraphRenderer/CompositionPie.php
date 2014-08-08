@@ -100,10 +100,13 @@ class GraphRenderer_CompositionPie extends GraphRenderer {
 			}
 		}
 
+		// return a more helpful message if there is no data
+		if (!$data) {
+			throw new NoDataGraphException_AddAccountsAddresses();
+		}
+
 		// sort data by balance
 		$data = array(get_currency_abbr($this->currency) => $data);
-
-		// TODO table case
 
 		return array(
 			'key' => $key_column,

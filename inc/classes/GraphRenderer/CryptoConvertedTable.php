@@ -74,6 +74,9 @@ class GraphRenderer_CryptoConvertedTable extends GraphRenderer {
 
 			// display 'add more currencies' text
 			'add_more_currencies' => true,
+
+			// do not render a header
+			'no_header' => true,
 		);
 
 	}

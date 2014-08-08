@@ -60,7 +60,7 @@ function render_graph_new($graph, $include_user_hash = false) {
 			<div class="graph_extra extra" style="display:none;"><a href="#"></a></span></div>
 			<div class="admin-stats-wrapper hide-admin"><span class="admin-stats render_time"></span></div>
 		</div>
-		<div id="graph_table_template" class="overflow_wrapper" style="display:none;">
+		<div id="graph_table_template" class="overflow_wrapper extra-text-container" style="display:none;">
 			<table class="standard graph_table">
 			</table>
 		</div>
@@ -129,6 +129,9 @@ $_rendered_graph_contents = false;
 
 class NoGraphRendererException extends GraphException { }
 class RenderGraphException extends GraphException { }
+
+class NoDataGraphException_AddAccountsAddresses extends GraphException { }
+class NoDataGraphException_AddCurrencies extends GraphException { }
 
 function compute_user_graph_hash($user) {
 	return md5(get_site_config('user_graph_hash_salt') . ":" . $user['id'] . ":" . $user['last_login']);

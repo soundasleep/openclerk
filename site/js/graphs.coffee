@@ -252,7 +252,6 @@
 
     # draw the chart
     targetDiv = $(target).find(".graph-target")
-    console.log "options ", options
     throw new Error("Could not find graph within " + target + ": " + targetDiv.length) unless targetDiv.length == 1
     if stacked
       chart = new google.visualization.AreaChart(targetDiv[0])
@@ -331,7 +330,6 @@
     throw new Error("Graph has not been initialised") unless graph.ready?
     throw new Error("Data has no columns") unless result.columns?
     throw new Error("Data has no key") unless result.key?
-    console.log "rendering ", result
 
     # create new elements
     throw new Error("Could not find #graph_table_template to clone") unless $("#graph_table_template").length > 0
@@ -400,8 +398,20 @@
     targetDiv = $(target).find(".graph-target")
     throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
 
-    $(targetDiv).text(Locale.formatTemplate("No data to display."))
-    $(targetDiv).addClass('no-data graph_text')
+    # delete any existing divs
+    targetDiv.find(".no-data").remove()
+    targetDiv.height('')
+
+    e = document.createElement('div')
+    $(e).addClass('no-data graph_text extra-text-container')
+
+    if result.text
+      $(e).text(Locale.formatTemplate(result.text, result.args))
+    else
+      $(e).text(Locale.formatTemplate("No data to display."))
+    $(targetDiv).append(e)
+    $(e).show()
+    $(targetDiv).find(".status_loading").remove()
 
     Graphs.renderHeadings target, graph, result
 
@@ -450,18 +460,19 @@
     else
       $(target).find(".outofdate").hide()
 
+    $(target).find(".extra-text-container .extra").remove()
     if result.extra
       extra = $(target).find(".extra").clone()
       a = $(extra).find("a")
       a.html(Locale.formatTemplate(result.extra.label, result.extra.args))
       a.attr('href', result.extra.href)
       a.addClass(result.extra.classes)
-      $(target).find(".overflow_wrapper").append(extra)
+      $(target).find(".extra-text-container").append(extra)
       extra.show()
     else
       $(target).find(".extra").hide()
 
-    $(target).find(".admin-stats").html(result.time + " ms")
+    $(target).find(".admin-stats").html(result.graph_type + " " + result.time + " ms")
 
   chartColours: [
     "#3366cc",

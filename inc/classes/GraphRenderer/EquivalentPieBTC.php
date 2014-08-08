@@ -67,6 +67,11 @@ class GraphRenderer_EquivalentPieBTC extends GraphRenderer {
 			}
 		}
 
+		// display a helpful message if there's no data
+		if (!$data) {
+			throw new NoDataGraphException_AddAccountsAddresses();
+		}
+
 		// sort data by balance
 		arsort($data);
 		$data = array(get_currency_abbr('btc') => $data);

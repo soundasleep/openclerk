@@ -74,6 +74,9 @@ class GraphRenderer_BalancesTable extends GraphRenderer {
 
 			// display 'add more currencies' text
 			'add_more_currencies' => true,
+
+			// hide header
+			'no_header' => true,
 		);
 
 	}

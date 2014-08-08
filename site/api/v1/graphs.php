@@ -72,43 +72,59 @@ function api_v1_graphs($graph) {
 	}
 
 	// 1. get raw graph data
-	$data = $renderer->getData($graph['days']);
-	$original_count = count($data['data']);
+	try {
+		$data = $renderer->getData($graph['days']);
+		$original_count = count($data['data']);
 
-	$result['type'] = $renderer->getChartType();
+		$result['type'] = $renderer->getChartType();
 
-	// 2. apply deltas as necessary
-	$data['data'] = calculate_graph_deltas($graph, $data['data'], false /* ignore_first_row */);
+		// 2. apply deltas as necessary
+		$data['data'] = calculate_graph_deltas($graph, $data['data'], false /* ignore_first_row */);
 
-	// if there is no data, bail out early
-	if (count($data['data']) == 0) {
-		$result['type'] = 'nodata';
-	} else if ($renderer->canHaveTechnicals()) {
-		// 3. add technicals as necessary
-		// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
-		$technicals = calculate_technicals($graph, $data['data'], $data['columns'], false /* ignore_first_row */);
-		$data['columns'] = $technicals['headings'];
-		$data['data'] = $technicals['data'];
-	}
+		// if there is no data, bail out early
+		if (count($data['data']) == 0) {
+			$result['type'] = 'nodata';
+		} else if ($renderer->canHaveTechnicals()) {
+			// 3. add technicals as necessary
+			// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
+			$technicals = calculate_technicals($graph, $data['data'], $data['columns'], false /* ignore_first_row */);
+			$data['columns'] = $technicals['headings'];
+			$data['data'] = $technicals['data'];
+		}
 
-	// 4. discard early data
-	if ($renderer->usesDays()) {
-		$data['data'] = discard_early_data($data['data'], $graph['days']);
-		$after_discard_count = count($data['data']);
-	}
+		// 4. discard early data
+		if ($renderer->usesDays()) {
+			$data['data'] = discard_early_data($data['data'], $graph['days']);
+			$after_discard_count = count($data['data']);
+		}
 
-	$result['columns'] = $data['columns'];
-	$result['key'] = $data['key'];
-	$result['data'] = $data['data'];
+		$result['columns'] = $data['columns'];
+		$result['key'] = $data['key'];
+		$result['data'] = $data['data'];
 
-	// clean up columns
-	foreach ($result['columns'] as $key => $value) {
-		$result['columns'][$key]['technical'] = isset($result['columns'][$key]['technical']) && $result['columns'][$key]['technical'] ? true : false;
-		if ($result['columns'][$key]['technical']) {
-			if (!isset($result['columns'][$key]['type'])) {
-				$result['columns'][$key]['type'] = 'number';
+		// clean up columns
+		foreach ($result['columns'] as $key => $value) {
+			$result['columns'][$key]['technical'] = isset($result['columns'][$key]['technical']) && $result['columns'][$key]['technical'] ? true : false;
+			if ($result['columns'][$key]['technical']) {
+				if (!isset($result['columns'][$key]['type'])) {
+					$result['columns'][$key]['type'] = 'number';
+				}
 			}
 		}
+	} catch (NoDataGraphException_AddAccountsAddresses $e) {
+		$result['type'] = 'nodata';
+		$result['text'] = ct("Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by :site_name.");
+		$result['args'] = array(':site_name' => get_site_config('site_name'));
+		$result['data'] = array();
+		$data['last_updated'] = false;
+		$data['add_accounts_addresses'] = true;
+	} catch (NoDataGraphException_AddCurrencies $e) {
+		$result['type'] = 'nodata';
+		$result['text'] = ct("Either you have not enabled this currency, or your summaries for this currency have not yet been updated by :site_name.");
+		$result['args'] = array(':site_name' => get_site_config('site_name'));
+		$result['data'] = array();
+		$data['last_updated'] = false;
+		$data['add_more_currencies'] = true;
 	}
 
 	// 5. construct heading and links
@@ -129,8 +145,8 @@ function api_v1_graphs($graph) {
 		$result['noHeader'] = $data['no_header'];
 	}
 
-	// 6. construct subheading and revise last_updated
-	if ($renderer->hasSubheading()) {
+	// 6. construct subheading and revise last_updated\
+	if ($result['type'] != 'nodata' && $renderer->hasSubheading()) {
 		$suffix = "";
 		if ($graph['delta'] == 'percent') {
 			$suffix .= '%';
@@ -159,6 +175,7 @@ function api_v1_graphs($graph) {
 	$result['lastUpdated'] = recent_format_html($data['last_updated']);
 	$result['timestamp'] = iso_date();
 	$result['classes'] = $renderer->getClasses();
+	$result['graph_type'] = $graph['graph_type'];
 
 	if (is_localhost()) {
 		$result['_debug'] = $graph;
@@ -199,6 +216,14 @@ function api_v1_graphs($graph) {
 			'classes' => 'add_accounts',
 			'href' => url_for('wizard_currencies'),
 			'label' => ct("Add more currencies"),
+			'args' => array(),
+		);
+	}
+	if (isset($data['add_accounts_addresses'])) {
+		$result['extra'] = array(
+			'classes' => 'add_accounts',
+			'href' => url_for('wizard_accounts'),
+			'label' => ct("Add accounts and addresses"),
 			'args' => array(),
 		);
 	}
