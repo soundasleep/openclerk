@@ -62,9 +62,6 @@ class GraphRenderer_BalancesTable extends GraphRenderer {
 			}
 		}
 
-		// TODO add 'add more currencies' text to graph
-		// $graph["extra"] = $add_more_currencies;
-
 		return array(
 			'key' => $key_column,
 			'columns' => $columns,

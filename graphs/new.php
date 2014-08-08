@@ -167,6 +167,9 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 		case "balances_table":
 			return new GraphRenderer_BalancesTable();
 
+		case "ticker_matrix":
+			return new GraphRenderer_TickerMatrix();
+
 		case "external_historical":
 			return new GraphRenderer_ExternalHistorical($arg0_resolved);
 
