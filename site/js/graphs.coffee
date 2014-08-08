@@ -190,10 +190,14 @@
       if column.type == "percent"
         type = "number"
 
-      series.push
+      seriesItem =
         lineWidth: column.lineWidth
         color: @getChartColour(if column.color? then column.color else i)
-      i++
+
+      if column.axis?
+        seriesItem.targetAxisIndex = i
+
+      series.push seriesItem
       table.addColumn type, Locale.formatTemplate(column.title, column.args)
 
       # set up vertical axes as necessary
@@ -201,6 +205,10 @@
         vAxes.push
           minValue: column.min
           maxValue: column.max
+      else
+        vAxes.push {}
+
+      i++
 
     formatted_data = []
     for key, value of result.data
@@ -244,6 +252,7 @@
 
     # draw the chart
     targetDiv = $(target).find(".graph-target")
+    console.log "options ", options
     throw new Error("Could not find graph within " + target + ": " + targetDiv.length) unless targetDiv.length == 1
     if stacked
       chart = new google.visualization.AreaChart(targetDiv[0])

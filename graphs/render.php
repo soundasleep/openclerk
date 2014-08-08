@@ -68,7 +68,7 @@ function calculate_technicals($graph, $data, $use_headings = false, $ignore_firs
 						$new_headings = array(array(
 							'title' => "SMA (" . number_format($t['technical_period']) . ")",
 							'line_width' => 1,
-							'color' => default_chart_color(2),
+							'color' => default_technical_colour_index(),
 							'technical' => true,
 						));
 

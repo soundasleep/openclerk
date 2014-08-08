@@ -135,6 +135,14 @@ function compute_user_graph_hash($user) {
 }
 
 /**
+ * Out of the colour indexes, what should technicals start colouring as?
+ * e.g. don't use index 0 or 1 since these may be used for bid/ask prices
+ */
+function default_technical_colour_index() {
+	return 2;
+}
+
+/**
  * Helper function that converts a {@code graph_type} to a GraphRenderer
  * object, which we can then use to get raw graph data and format it as necessary.
  */
