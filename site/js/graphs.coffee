@@ -161,6 +161,13 @@
         else
           editLink.remove()
 
+        if graph.move_up_link?
+          $(target).find(".graph_controls .move_up a").attr('href', graph.move_up_link)
+        if graph.move_down_link?
+          $(target).find(".graph_controls .move_down a").attr('href', graph.move_down_link)
+        if graph.remove_link?
+          $(target).find(".graph_controls .remove a").attr('href', graph.remove_link)
+
         closeLink = $(target).find(".graph_edit_controls .close")
         closeLink.click =>
           hideGraphProperty this, graph.id

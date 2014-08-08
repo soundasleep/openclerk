@@ -56,15 +56,9 @@ function render_graph_new($graph, $include_user_hash = false) {
 				<span class="subheading"></span>
 				<span class="last-updated"></span>
 				<ul class="graph_controls">
-					<li class="move_up"><a href="<?php echo htmlspecialchars(url_for('profile', array(
-						'page' => $graph['page_id'],
-						'move_up' => $graph['id']))); ?>"><?php echo ht("Move up"); ?></a></li>
-					<li class="move_down"><a href="<?php echo htmlspecialchars(url_for('profile', array(
-						'page' => $graph['page_id'],
-						'move_down' => $graph['id']))); ?>"><?php echo ht("Move down"); ?></a></li>
-					<li class="remove"><a href="<?php echo htmlspecialchars(url_for('profile', array(
-						'page' => $graph['page_id'],
-						'remove' => $graph['id']))); ?>"><?php echo ht("Remove"); ?></a></li>
+					<li class="move_up"><a><?php echo ht("Move up"); ?></a></li>
+					<li class="move_down"><a><?php echo ht("Move down"); ?></a></li>
+					<li class="remove"><a><?php echo ht("Remove"); ?></a></li>
 					<li class="edit"><a><?php echo ht("Edit"); ?></a></li>
 				</ul>
 				<div class="edit_target" style="display:none;">
@@ -87,6 +81,17 @@ function render_graph_new($graph, $include_user_hash = false) {
 	if (user_logged_in()) {
 		$user = get_user(user_id());
 		$graph['can_be_edited'] = !($user['graph_managed_type'] == 'auto' && isset($graph['is_managed']) && $graph['is_managed']);
+	}
+	if (isset($graph['page_id']) && isset($graph['id'])) {
+		$graph['move_up_link'] = url_for('profile', array(
+				'page' => $graph['page_id'],
+				'move_up' => $graph['id']));
+		$graph['move_down_link'] = url_for('profile', array(
+				'page' => $graph['page_id'],
+				'move_down' => $graph['id']));
+		$graph['remove_link'] = url_for('profile', array(
+				'page' => $graph['page_id'],
+				'remove' => $graph['id']));
 	}
 
 	if (isset($graph['id']) && $graph['id']) {
