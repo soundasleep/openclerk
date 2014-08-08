@@ -239,6 +239,7 @@ function api_v1_graphs($graph) {
 	$end_time = microtime(true);
 	$time_diff = ($end_time - $start_time) * 1000;
 	$result['time'] = (double) number_format_autoprecision($time_diff, 1, '.', '');
+	$result['hash'] = $graph['hash'];
 
 	// 7. return data
 	return json_encode($result);
@@ -255,12 +256,13 @@ $config = array(
 	'delta' => require_get("delta", false),
 	'arg0' => require_get('arg0', false),
 	'arg0_resolved' => require_get('arg0_resolved', false),
-	'user_id' => require_get('user_id', false),
-	'user_hash' => require_get('user_hash', false),
 	// in this interface, we only support rendering one technical on one graph
 	// (although the technicals interface supports multiple)
 	'technical_type' => require_get('technical_type', false),
 	'technical_period' => require_get('technical_period', false),
+	// we put user_hash at the end so we don't get messed up technicals on graphs of the same type and page
+	'user_id' => require_get('user_id', false),
+	'user_hash' => require_get('user_hash', false),
 );
 if (!$config['days']) {
 	$config['days'] = 45;	// default
