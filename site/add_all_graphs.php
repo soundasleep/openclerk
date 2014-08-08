@@ -28,7 +28,7 @@ $q->execute(array($page_id));
 // now go through all graphs
 $count = 0;
 foreach (graph_types() as $key => $graph_type) {
-	if (isset($graph_type['category']) && $graph_type['category']) {
+	if ((isset($graph_type['category']) && $graph_type['category']) || (isset($graph_type['subcategory']) && $graph_type['subcategory'])) {
 		// add a new heading
 		$graph = array(
 			'page_id' => $page_id,
@@ -37,7 +37,7 @@ foreach (graph_types() as $key => $graph_type) {
 			'width' => 1,
 			'height' => 1,
 			'page_order' => $count,
-			'days' => 0,
+			'days' => 45,
 			'string0' => "Category: " . $graph_type['title'],
 		);
 	} else {
@@ -48,7 +48,7 @@ foreach (graph_types() as $key => $graph_type) {
 			'width' => isset($graph_type['default_width']) ? $graph_type['default_width'] : get_site_config('default_user_graph_width'),
 			'height' => isset($graph_type['default_height']) ? $graph_type['default_height'] : get_site_config('default_user_graph_height'),
 			'page_order' => $count,
-			'days' => 0,
+			'days' => 45,
 			'string0' => '',
 		);
 	}

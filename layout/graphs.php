@@ -546,24 +546,24 @@ function render_graph_actual($graph, $is_public) {
 			render_metrics_slow_jobs_graph($graph);
 			break;
 
-		case "metrics_slow_jobs_database_graph":
-			render_metrics_slow_jobs_database_graph($graph);
+		case "metrics_slow_jobs_db_graph":
+			render_metrics_slow_jobs_db_graph($graph);
 			break;
 
 		case "metrics_slow_pages_graph":
 			render_metrics_slow_pages_graph($graph);
 			break;
 
-		case "metrics_slow_pages_database_graph":
-			render_metrics_slow_pages_database_graph($graph);
+		case "metrics_slow_pages_db_graph":
+			render_metrics_slow_pages_db_graph($graph);
 			break;
 
 		case "metrics_slow_graphs_graph":
 			render_metrics_slow_graphs_graph($graph);
 			break;
 
-		case "metrics_slow_graphs_database_graph":
-			render_metrics_slow_graphs_database_graph($graph);
+		case "metrics_slow_graphs_db_graph":
+			render_metrics_slow_graphs_db_graph($graph);
 			break;
 
 		case "metrics_slow_graphs_count_graph":

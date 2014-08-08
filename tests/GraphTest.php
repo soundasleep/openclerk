@@ -22,7 +22,7 @@ class GraphTestsTest extends PHPUnit_Framework_TestCase {
 	 */
 	function testAllGraphsHaveHeadings() {
 		// we need to login because private graphs require summary currencies
-		$_SESSION["user_id"] = 200;
+		$_SESSION["user_id"] = 101;
 		$_SESSION["user_name"] = "Testing user";
 		$_SESSION["user_key"] = "testing-key";
 		global $global_user_logged_in;
@@ -37,6 +37,31 @@ class GraphTestsTest extends PHPUnit_Framework_TestCase {
 			} else {
 				$this->assertNotEmpty(isset($type['heading']), "Graph $key has no heading");
 				$this->assertNotEmpty($type['heading'], "Graph $key has an empty heading");
+			}
+		}
+	}
+
+	/**
+	 * Currently the type of `graph_type` in the `graphs` database table
+	 * is limited to varchar(32); we check that all defined graph types, that
+	 * are not categories or subcategories, are within this limit.
+	 */
+	function testAllGraphsHaveShortNames() {
+		// we need to login because private graphs require summary currencies
+		$_SESSION["user_id"] = 101;
+		$_SESSION["user_name"] = "Testing user";
+		$_SESSION["user_key"] = "testing-key";
+		global $global_user_logged_in;
+		$global_user_logged_in = true;
+
+		$graphs = graph_types();
+		foreach ($graphs as $key => $type) {
+			if (isset($type['category']) && $type['category']) {
+				// ignore
+			} else if (isset($type['subcategory']) && $type['subcategory']) {
+				// ignore
+			} else {
+				$this->assertLessThan(32, strlen($key), "Graph key '$key' should be less than 32 characters long");
 			}
 		}
 	}

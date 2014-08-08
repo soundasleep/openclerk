@@ -72,7 +72,7 @@ $graph_count = 0;
 
 	<?php
 	$graph = array(
-		'graph_type' => 'metrics_slow_jobs_database_graph',
+		'graph_type' => 'metrics_slow_jobs_db_graph',
 		'width' => 4,
 		'height' => 2,
 		'page_order' => 0,
@@ -102,7 +102,7 @@ $graph_count = 0;
 
 	<?php
 	$graph = array(
-		'graph_type' => 'metrics_slow_pages_database_graph',
+		'graph_type' => 'metrics_slow_pages_db_graph',
 		'width' => 4,
 		'height' => 2,
 		'page_order' => 0,
@@ -132,7 +132,7 @@ $graph_count = 0;
 
 	<?php
 	$graph = array(
-		'graph_type' => 'metrics_slow_graphs_database_graph',
+		'graph_type' => 'metrics_slow_graphs_db_graph',
 		'width' => 4,
 		'height' => 2,
 		'page_order' => 0,

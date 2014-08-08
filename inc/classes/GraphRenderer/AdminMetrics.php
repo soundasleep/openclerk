@@ -33,7 +33,7 @@ class GraphRenderer_AdminMetrics extends GraphRenderer {
 				'label' => t("Slowest jobs (graph)"),
 				'description' => t("The slowest jobs represented as a graph over time."),
 			),
-			'slow_jobs_database_graph' => array(
+			'slow_jobs_db_graph' => array(
 				'report_type' => 'jobs_slow',
 				'report_table' => 'performance_report_slow_jobs',
 				'key' => 'job_type',
@@ -51,7 +51,7 @@ class GraphRenderer_AdminMetrics extends GraphRenderer {
 				'label' => t("Slowest pages (graph)"),
 				'description' => t("The slowest pages represented as a graph over time."),
 			),
-			'slow_pages_database_graph' => array(
+			'slow_pages_db_graph' => array(
 				'report_type' => 'pages_slow',
 				'report_table' => 'performance_report_slow_pages',
 				'key' => 'script_name',
@@ -69,7 +69,7 @@ class GraphRenderer_AdminMetrics extends GraphRenderer {
 				'label' => t("Slowest graphs (graph)"),
 				'description' => t("The slowest graphs represented as a graph over time."),
 			),
-			'slow_graphs_database_graph' => array(
+			'slow_graphs_db_graph' => array(
 				'report_type' => 'graphs_slow',
 				'report_table' => 'performance_report_slow_graphs',
 				'key' => 'graph_type',

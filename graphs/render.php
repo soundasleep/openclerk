@@ -1084,7 +1084,7 @@ function render_metrics_slow_jobs_graph($graph) {
 	return render_metrics_graph($graph, 'jobs_slow', 'performance_report_slow_jobs', null, null, 'job', 'job_type');
 }
 
-function render_metrics_slow_jobs_database_graph($graph) {
+function render_metrics_slow_jobs_db_graph($graph) {
 	return render_metrics_graph($graph, 'jobs_slow', 'performance_report_slow_jobs', null, null, null, 'job_type', 'job_database');
 }
 
@@ -1092,7 +1092,7 @@ function render_metrics_slow_pages_graph($graph) {
 	return render_metrics_graph($graph, 'pages_slow', 'performance_report_slow_pages', null, null, 'page', 'script_name');
 }
 
-function render_metrics_slow_pages_database_graph($graph) {
+function render_metrics_slow_pages_db_graph($graph) {
 	return render_metrics_graph($graph, 'pages_slow', 'performance_report_slow_pages', null, null, null, 'script_name', 'page_database');
 }
 
@@ -1100,7 +1100,7 @@ function render_metrics_slow_graphs_graph($graph) {
 	return render_metrics_graph($graph, 'graphs_slow', 'performance_report_slow_graphs', null, null, 'graph', 'graph_type');
 }
 
-function render_metrics_slow_graphs_database_graph($graph) {
+function render_metrics_slow_graphs_db_graph($graph) {
 	return render_metrics_graph($graph, 'graphs_slow', 'performance_report_slow_graphs', null, null, null, 'graph_type', 'graph_database');
 }
 
