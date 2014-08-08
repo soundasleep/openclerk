@@ -32,7 +32,7 @@ class GraphRenderer_CompositionTable extends GraphRenderer_CompositionPie {
 
 		$columns = array();
 
-		$columns[] = array('type' => 'string', 'title' => ct("Total :currency"), 'args' => array(':currency' => get_currency_abbr($this->currency)));
+		$columns[] = array('type' => 'string', 'title' => ct("Total :currency"), 'args' => array(':currency' => get_currency_abbr($this->currency)), 'heading' => true);
 
 		$data = array();
 		$total = 0;
