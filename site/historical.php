@@ -56,7 +56,7 @@ if ($id && isset($historical_graphs[$id])) {
 	<?php if (!($user && $user['is_premium'])) { ?>
 	<div class="tip tip_float">
 		<?php
-		echo ht("With a :premium_account, you can apply technical indicators to historical exchange and security data, such as :example1, :example2, and :example3.",
+		echo t("With a :premium_account, you can apply technical indicators to historical exchange and security data, such as :example1, :example2, and :example3.",
 			array(
 				':premium_account' => link_to(url_for('premium'), t('premium account')),
 				':example1' => t('Simple Moving Average') . ' (SMA)',
