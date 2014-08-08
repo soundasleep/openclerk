@@ -17,6 +17,10 @@ class GraphRenderer_BalancesTable extends GraphRenderer {
 		return ct("Total balances");
 	}
 
+	function usesSummaries() {
+		return true;
+	}
+
 	public function canHaveTechnicals() {
 		// do not try to calculate technicals; this also resorts the data by first key
 		return false;

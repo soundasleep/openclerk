@@ -30,6 +30,10 @@ class GraphRenderer_EquivalentPieBTC extends GraphRenderer {
 		return false;
 	}
 
+	function usesSummaries() {
+		return true;
+	}
+
 	public function getData($days) {
 
 		$key_column = array('type' => 'string', 'title' => ct("Currency"));

@@ -16,6 +16,10 @@ class GraphRenderer_CompositionPie extends GraphRenderer {
 		return true;
 	}
 
+	function usesSummaries() {
+		return true;
+	}
+
 	public function getTitle() {
 		return ct("Total :currency");
 	}

@@ -30,6 +30,20 @@
 function render_graph_new($graph, $include_user_hash = false) {
 	global $_rendered_graph_contents;
 	if (!$_rendered_graph_contents) {
+		// calculate the relevant text for outofdate indicators
+		$title = "";
+		if (user_logged_in()) {
+			$user = get_user(user_id());
+			$plural_hours = plural("hour", user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours"));
+			if ($user['is_first_report_sent']) {
+				$title = t("This graph will take up to :hours to be updated with recently added or removed accounts.", array(':hours' => $plural_hours));
+			} else if ($user['has_added_account']) {
+				$title = t("As a new user, it will take up to :hours for this graph to be populated with initial data.", array(':hours' => $plural_hours));
+			} else {
+				$title = t("You need to add some account data for this graph to display.");
+			}
+		}
+
 		?>
 		<div id="graph_contents_template" style="display:none;">
 			<div class="graph_headings">
@@ -38,6 +52,7 @@ function render_graph_new($graph, $include_user_hash = false) {
 				<h2 class="graph_title">
 					<a href=""></a>
 				</h2>
+				<span class="outofdate" style="display:none;" title="<?php echo htmlspecialchars($title); ?>"></span>
 				<span class="subheading"></span>
 				<span class="last-updated"></span>
 			</div>

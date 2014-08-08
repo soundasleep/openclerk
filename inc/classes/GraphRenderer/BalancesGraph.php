@@ -17,6 +17,10 @@ class GraphRenderer_BalancesGraph extends GraphRenderer_AbstractTicker {
 		return true;
 	}
 
+	function usesSummaries() {
+		return true;
+	}
+
 	public function getTitle() {
 		return ct(":exchange");
 	}

@@ -433,6 +433,11 @@
     else
       $(target).find(".h2").hide()
 
+    if result.outofdate
+      $(target).find(".outofdate").show()
+    else
+      $(target).find(".outofdate").hide()
+
     if result.extra
       extra = $(target).find(".extra").clone()
       a = $(extra).find("a")

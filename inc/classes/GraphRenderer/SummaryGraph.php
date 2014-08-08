@@ -15,6 +15,10 @@ class GraphRenderer_SummaryGraph extends GraphRenderer_AbstractTicker {
 		return true;
 	}
 
+	function usesSummaries() {
+		return true;
+	}
+
 	public function getTitle() {
 		return ct("Total :currency");
 	}

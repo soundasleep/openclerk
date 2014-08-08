@@ -108,6 +108,14 @@ abstract class GraphRenderer {
 		return true;
 	}
 
+	/**
+	 * Does this graph use summaries which may be out of date for a user?
+	 * By default, returns {@code false}.
+	 */
+	function usesSummaries() {
+		return false;
+	}
+
 	var $user_id = null;
 
 	function setUser($user_id) {

@@ -16,6 +16,10 @@ class GraphRenderer_BtcEquivalentGraph extends GraphRenderer_AbstractComposition
 		);
 	}
 
+	function usesSummaries() {
+		return true;
+	}
+
 	public function hasSubheading() {
 		return true;
 	}

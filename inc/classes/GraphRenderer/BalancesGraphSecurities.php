@@ -6,6 +6,10 @@ class GraphRenderer_BalancesGraphSecurities extends GraphRenderer_BalancesGraph 
 		return false;
 	}
 
+	function usesSummaries() {
+		return false;
+	}
+
 	public function getUser() {
 		return get_site_config('system_user_id');
 	}

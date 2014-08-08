@@ -200,6 +200,14 @@ function api_v1_graphs($graph) {
 		);
 	}
 
+	// 7. calculate if the graph data may be out of date
+	if ($renderer->requiresUser() && $renderer->getUser()) {
+		$user = get_user($renderer->getUser());
+		if ($user && $renderer->usesSummaries() && (!$user['has_added_account'] || !$user['is_first_report_sent'] || strtotime($user['last_account_change']) > strtotime($user['last_sum_job']))) {
+			$result['outofdate'] = true;
+		}
+	}
+
 	$end_time = microtime(true);
 	$time_diff = ($end_time - $start_time) * 1000;
 	$result['time'] = (double) number_format_autoprecision($time_diff, 1, '.', '');

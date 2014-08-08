@@ -13,6 +13,10 @@ abstract class GraphRenderer_AbstractCompositionGraph extends GraphRenderer {
 		return true;
 	}
 
+	function usesSummaries() {
+		return true;
+	}
+
 	/**
 	 * @return true if data should be limited to days, or false if it can have any resolution.
 	 *			defaults to true

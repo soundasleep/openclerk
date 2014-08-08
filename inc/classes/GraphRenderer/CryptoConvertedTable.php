@@ -17,6 +17,10 @@ class GraphRenderer_CryptoConvertedTable extends GraphRenderer {
 		return ct("Converted crypto");
 	}
 
+	function usesSummaries() {
+		return true;
+	}
+
 	public function canHaveTechnicals() {
 		// do not try to calculate technicals; this also resorts the data by first key
 		return false;
