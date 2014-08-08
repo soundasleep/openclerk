@@ -379,21 +379,25 @@
 
     if result.subheading
       $(target).find(".subheading").html(result.subheading)
+      $(target).find(".subheading").show()
     else
       $(target).find(".subheading").hide()
 
     if result.lastUpdated
       $(target).find(".last-updated").html(result.lastUpdated)
+      $(target).find(".last-updated").show()
     else
       $(target).find(".last-updated").hide()
 
     if result.h1
       $(target).find(".h1").html(result.h1)
+      $(target).find(".h1").show()
     else
       $(target).find(".h1").hide()
 
     if result.h2
       $(target).find(".h2").html(result.h2)
+      $(target).find(".h2").show()
     else
       $(target).find(".h2").hide()
 

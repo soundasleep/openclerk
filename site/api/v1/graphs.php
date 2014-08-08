@@ -122,24 +122,28 @@ function api_v1_graphs($graph) {
 
 	// 6. construct subheading and revise last_updated
 	if ($renderer->hasSubheading()) {
-		if ($result['type'] == 'piechart') {
-			// sum up the first row and use that as a total
-			if (count($data['data']) != 1) {
-				throw new GraphException("Expected one row of data for a piechart, got " . count($data['data']));
-			}
-			$sum = 0;
-			foreach ($data['data'] as $ignored => $row) {
-				foreach ($row as $value) {
-					$sum += $value;
-				}
-			}
-			$suffix = "";
-			if ($graph['delta'] == 'percent') {
-				$suffix .= '%';
-			}
-			$result['subheading'] = number_format_html($sum, 4, $suffix);
+		$suffix = "";
+		if ($graph['delta'] == 'percent') {
+			$suffix .= '%';
+		}
+		if ($renderer->getCustomSubheading() !== false) {
+			$result['subheading'] = number_format_html($renderer->getCustomSubheading(), 4, $suffix);
 		} else {
-			$result['subheading'] = format_subheading_values_objects($graph, $data['data'], $data['columns']);
+			if ($result['type'] == 'piechart') {
+				// sum up the first row and use that as a total
+				if (count($data['data']) != 1) {
+					throw new GraphException("Expected one row of data for a piechart, got " . count($data['data']));
+				}
+				$sum = 0;
+				foreach ($data['data'] as $ignored => $row) {
+					foreach ($row as $value) {
+						$sum += $value;
+					}
+				}
+				$result['subheading'] = number_format_html($sum, 4, $suffix);
+			} else {
+				$result['subheading'] = format_subheading_values_objects($graph, $data['data'], $data['columns']);
+			}
 		}
 	}
 

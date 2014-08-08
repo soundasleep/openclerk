@@ -44,9 +44,21 @@ abstract class GraphRenderer {
 
 	/**
 	 * Does this graph have a subheading? By default, returns {@code true}.
+	 * @see #getCustomSubheading()
 	 */
 	function hasSubheading() {
 		return true;
+	}
+
+	/**
+	 * Calculate the custom subheading value for this graph, or {@code false} if
+	 * this graph does not have a custom subheading defined (and subheadings calculated
+	 * through {@link #hasSubheading()} will use default sum/array logic).
+	 * By default, returns {@code false}.
+	 * @see #hasSubheading()
+	 */
+	function getCustomSubheading() {
+		return false;
 	}
 
 	/**

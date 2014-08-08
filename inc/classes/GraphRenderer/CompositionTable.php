@@ -19,9 +19,10 @@ class GraphRenderer_CompositionTable extends GraphRenderer_CompositionPie {
 		return "vertical";
 	}
 
-	public function hasSubheading() {
-		// do not try to calculate subheadings!
-		return false;
+	var $total;
+
+	public function getCustomSubheading() {
+		return $this->total;
 	}
 
 	/**
@@ -48,6 +49,9 @@ class GraphRenderer_CompositionTable extends GraphRenderer_CompositionPie {
 
 		// 'Total BTC' column
 		$columns[] = array('type' => 'string', 'title' => currency_format($this->currency, $total, 4));
+
+		// save for later
+		$this->total = $total;
 
 		return array(
 			'key' => $original['key'],
