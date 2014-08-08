@@ -66,7 +66,7 @@
         if graph.arg0_resolved?
           url += "&arg0_resolved=" + graph.arg0_resolved
         if graph.technical_type?
-          url += "&technical=" + graph.technical_type + "&technical_period=" + graph.technical_period
+          url += "&technical_type=" + graph.technical_type + "&technical_period=" + graph.technical_period
         if graph.user_id?
           url += "&user_id=" + graph.user_id + "&user_hash=" + graph.user_hash
         if noTimeout

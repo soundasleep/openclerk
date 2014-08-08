@@ -64,7 +64,10 @@ function api_v1_graphs($graph) {
 		// 0.5 limit 'days' parameter as necessary
 		$get_permitted_days = get_permitted_days();
 		if (!isset($get_permitted_days[$graph['days']])) {
-			throw new GraphException("Invalid days '" . $graph['days'] . "' for graph that requires days");
+			// exception TODO get rid of 'days' from get_permitted_days()
+			if ($graph['days'] != 366) {
+				throw new GraphException("Invalid days '" . $graph['days'] . "' for graph that requires days");
+			}
 		}
 	}
 
@@ -217,7 +220,7 @@ $config = array(
 	'user_hash' => require_get('user_hash', false),
 	// in this interface, we only support rendering one technical on one graph
 	// (although the technicals interface supports multiple)
-	'technical' => require_get('technical', false),
+	'technical_type' => require_get('technical_type', false),
 	'technical_period' => require_get('technical_period', false),
 );
 $hash = substr(implode(',', $config), 0, 32);
@@ -225,8 +228,8 @@ $hash = substr(implode(',', $config), 0, 32);
 // and then restructure as necessary away from hash
 $config['graph_type'] = require_get('graph_type');
 $config['hash'] = $hash;
-if ($config['technical']) {
-	$config['technicals'] = array(array('technical_type' => $config['technical'], 'technical_period' => $config['technical_period']));
+if ($config['technical_type']) {
+	$config['technicals'] = array(array('technical_type' => $config['technical_type'], 'technical_period' => $config['technical_period']));
 }
 
 $seconds = require_get("no_cache", false) ? 0 : 60;

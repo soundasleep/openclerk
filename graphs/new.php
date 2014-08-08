@@ -11,6 +11,7 @@
 
 /**
  * Render the HTML on the page necessary for rendering a graph to the user.
+ *
  * @param $graph = array(
  *		'graph_type' => $id,
  *		'width' => 8,

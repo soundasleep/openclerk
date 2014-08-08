@@ -2293,7 +2293,7 @@ function get_permitted_days() {
 		'45' => array('title' => '45 days', 'days' => 45),
 		'90' => array('title' => '90 days', 'days' => 90),
 		'180' => array('title' => '180 days', 'days' => 180),
-		'year' => array('title' => '1 year', 'days' => 366),
+		'year' => array('title' => '1 year', 'days' => 366),		// TODO get rid of 'year', use 366 instead!
 	);
 	return $permitted_days;
 }
