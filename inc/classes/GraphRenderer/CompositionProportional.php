@@ -9,11 +9,11 @@ class GraphRenderer_CompositionProportional extends GraphRenderer_CompositionGra
 	public function getData($days) {
 		$original = parent::getData($days);
 
-		// TODO make all columns min..max = 0..100
-
 		// relabel all columns to also have ' %' suffix
 		foreach ($original['columns'] as $i => $column) {
 			$original['columns'][$i]['title'] .= " %";
+			$original['columns'][$i]['min'] = 0;
+			$original['columns'][$i]['max'] = 100;
 		}
 
 		// reformat data to be proportional

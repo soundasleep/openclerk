@@ -40,7 +40,6 @@ class GraphRenderer_CompositionGraph extends GraphRenderer {
 		$columns = array();
 
 		// TODO
-		$make_proportional = false;
 		$get_heading_title = 'get_exchange_name';
 
 		$key_column = array('type' => 'date', 'title' => ct("Date"));
@@ -129,11 +128,6 @@ class GraphRenderer_CompositionGraph extends GraphRenderer {
 
 		// add headings after we know how many exchanges we've found
 		$first_heading = array('title' => t("Date"));
-		if ($make_proportional) {
-			throw new GraphException("Proportional graphs are not supported yet");
-			$first_heading['min'] = 0;
-			$first_heading['max'] = 100;
-		}
 		$headings = array($first_heading);
 		$i = 0;
 		// sort them so they're always in the same order
@@ -170,33 +164,6 @@ class GraphRenderer_CompositionGraph extends GraphRenderer {
 				$data[$date] = $row;
 				$previous_row = $row;
 			}
-		}
-
-		// make proportional?
-		if ($make_proportional) {
-			throw new GraphException("Proportional graphs are not supported yet");
-			$data_temp = array();
-			foreach ($data as $row => $columns) {
-				$row_temp = array();
-				if ($row == 0) {
-					foreach ($columns as $key => $value) {
-						if ($key !== 0) {
-							$value['title'] .= " %";
-						}
-						$row_temp[$key] = $value;
-					}
-				} else {
-					$total = 0;
-					foreach ($columns as $key => $value) {
-						$total += ($key === 0) ? 0 : $value;
-					}
-					foreach ($columns as $key => $value) {
-						$row_temp[$key] = ($key === 0) ? $value : graph_number_format($total == 0 ? 0 /* prevent div/0 */ : ($value / $total) * 100);
-					}
-				}
-				$data_temp[$row] = $row_temp;
-			}
-			$data = $data_temp;
 		}
 
 		// sort each row by the biggest value in the most recent data
