@@ -1,4 +1,21 @@
+# Ignore temporary files
 .sass-cache
 .tmp
-layout/head-compiled.html
-site/styles
+
+# Ignore compiled head
+site/head-compiled.html
+
+# Ignore compiled stylesheets
+site/styles/
+
+# Ignore package-managed libraries
+vendor/
+
+# Ignore generated favicon
+site/favicon.ico
+
+# Ignore generated sprites
+site/img/default-sprites.png
+
+# Ignore compiled scripts
+site/scripts
