@@ -83,6 +83,13 @@
 .graph_collection ul.graph_controls li + li:before {
   content: ' - ';
 }
+.graph_collection {
+  ul.graph_controls, ul.graph_edit_controls {
+    a {
+      cursor: pointer;
+    }
+  }
+}
 
 .graph {
   .admin-stats-wrapper {

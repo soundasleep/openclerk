@@ -154,13 +154,16 @@
 
         editLink = $(target).find(".graph_controls .edit")
         graph.type = graph.graph_type
-        console.log graph
         if graph.can_be_edited
           editLink.click =>
             editGraphProperty this, graph.id, graph
             return false
         else
           editLink.remove()
+
+        closeLink = $(target).find(".graph_edit_controls .close")
+        closeLink.click =>
+          hideGraphProperty this, graph.id
 
         # once the elements are ready, lets go
         graph.ready = true
