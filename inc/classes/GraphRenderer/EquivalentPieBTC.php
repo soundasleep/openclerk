@@ -57,7 +57,7 @@ class GraphRenderer_EquivalentPieBTC extends GraphRenderer {
 
 		// sort data by balance
 		arsort($data);
-		$data = array($data);
+		$data = array(get_currency_abbr('btc') => $data);
 
 		return array(
 			'key' => $key_column,

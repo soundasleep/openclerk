@@ -254,15 +254,28 @@
         column = result.columns[i]
         array.push [column.title, n]
 
-    console.log "arrayToDataTable ", array
-    table = google.visualization.arrayToDataTable(array)
+    # we need to sort in descending order, ignoring the key
+    clone = array.slice(1)
+    clone = clone.sort (a, b) ->
+      return b[1] - a[1]
+    clone.unshift array[0]
+
+    table = google.visualization.arrayToDataTable(clone)
 
     # initialise colours
-    colours = []
+    coloursHash = {}
     i = 0
     for column in result.columns
-      colours.push @getChartColour(i)
+      coloursHash[column.title] = @getChartColour(i)
       i++
+
+    # we need to resort colours too, based on how we've sorted
+    # the data previously
+    colours = []
+    for row in clone
+      for key, value of coloursHash
+        if key == row[0]
+          colours.push value
 
     options =
       legend:
