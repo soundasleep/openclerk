@@ -8,7 +8,7 @@
     template = if LocaleStrings[template]? then LocaleStrings[template] else template
 
     for key, value of args
-      template = template.replace(":" + key, value)
+      template = template.replace(key, value)
     return template
 
 @Graphs =
@@ -31,6 +31,10 @@
 
       google.load("visualization", "1", {packages: ["corechart"]});
 
+      ###
+       # @param noTimeout boolean if true, do not set up another window.setTimeout;
+       #        also tries to force a cache bust
+      ###
       graph.callback = (noTimeout) =>
         ###
         url = "graph_public?graph_type=" + graph.graph_type + "&days=" + graph.days +
@@ -65,6 +69,8 @@
           url += "&technical=" + graph.technical_type + "&technical_period=" + graph.technical_period
         if graph.user_id?
           url += "&user_id=" + graph.user_id + "&user_hash=" + graph.user_hash
+        if noTimeout
+          url += "&no_cache=" + new Date().valueOf()
 
         # TODO premium and free graph update limits
         window.setTimeout(graph.callback, 60000) unless noTimeout
@@ -81,6 +87,8 @@
                   Graphs.linechart graph.element, graph, data
                 when "vertical"
                   Graphs.vertical graph.element, graph, data
+                when "piechart"
+                  Graphs.piechart graph.element, graph, data
                 else
                   throw new Error("Could not render graph type " + data.type)
             catch error
@@ -126,6 +134,10 @@
 
         # let users refresh the graph manually by clicking on the last-updated link
         $(target).find(".last-updated").click =>
+          graph.callback(true)    # do not set up a new timeout
+
+        # or by clicking on the loading text
+        $(target).find(".status_loading").click =>
           graph.callback(true)    # do not set up a new timeout
 
         # once the elements are ready, lets go
@@ -221,6 +233,55 @@
     Graphs.renderHeadings target, graph, result
 
   ###
+   # Render piecharts.
+  ###
+  piechart: (target, graph, result) ->
+    throw new Error("Graph has not been initialised") unless graph.ready?
+    throw new Error("Data has no columns") unless result.columns?
+    throw new Error("Data has no key") unless result.key?
+
+    # initialise data
+    array = []
+
+    for key, value of result.data
+      if array.length > 0
+        throw new Error("Can only render a piechart with one row of data")
+
+      # initialise the first column e.g. ['Currency', 'BTC']
+      array.push [result.key.title, key]
+
+      for i, n of value
+        column = result.columns[i]
+        array.push [column.title, n]
+
+    console.log "arrayToDataTable ", array
+    table = google.visualization.arrayToDataTable(array)
+
+    # initialise colours
+    colours = []
+    i = 0
+    for column in result.columns
+      colours.push @getChartColour(i)
+      i++
+
+    options =
+      legend:
+        position: 'none'
+      chartArea:
+        width: '75%'
+        height: '75%'
+      backgroundColor: '#111'
+      colors: colours
+
+    # draw the chart
+    targetDiv = $(target).find(".graph-target")
+    throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
+    chart = new google.visualization.PieChart(targetDiv[0])
+    chart.draw(table, options)
+
+    Graphs.renderHeadings target, graph, result
+
+  ###
    # Render a vertical graph.
   ###
   vertical: (target, graph, result) ->
@@ -290,7 +351,7 @@
 
     # also render subheadings
     heading = $(target).find(".graph_title a")
-    heading.html(result.heading.label)
+    heading.html(Locale.formatTemplate(result.heading.label, result.heading.args))
     heading.attr('href', result.heading.url)
     heading.attr('title', result.heading.title)
 

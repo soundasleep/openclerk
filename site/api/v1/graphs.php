@@ -89,6 +89,7 @@ function api_v1_graphs($graph) {
 	// 5. construct heading and links
 	$result['heading'] = array(
 		'label' => $renderer->getTitle(),
+		'args' => $renderer->getTitleArgs(),
 		'url' => $renderer->getURL(),
 		'title' => $renderer->getLabel(),
 	);
@@ -169,7 +170,7 @@ if ($config['technical']) {
 	$config['technicals'] = array(array('technical_type' => $config['technical'], 'technical_period' => $config['technical_period']));
 }
 
-$seconds = 60;
+$seconds = require_get("no_cache", false) ? 0 : 60;
 allow_cache($seconds);		// allow local cache for up to 60 seconds
 echo compile_cached('api/rates/' . $graph_type, $hash /* hash */, $seconds /* cached up to seconds */, 'api_v1_graphs', array($config));
 

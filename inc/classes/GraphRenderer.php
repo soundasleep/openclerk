@@ -13,8 +13,17 @@ abstract class GraphRenderer {
 
 	/**
 	 * Get the title of this graph
+	 * @see #getTitleArgs()
 	 */
 	abstract function getTitle();
+
+	/**
+	 * Get any localisation (i18n) string arguments for the title given in {@link #getTitle()}.
+	 * By default, returns an empty array.
+	 */
+	function getTitleArgs() {
+		return array();
+	}
 
 	/**
 	 * Get the URL that the title of this graph should link to, or {@code false} if it

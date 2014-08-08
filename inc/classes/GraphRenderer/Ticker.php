@@ -14,7 +14,14 @@ class GraphRenderer_Ticker extends GraphRenderer_AbstractTicker {
 	}
 
 	public function getTitle() {
-		return get_exchange_name($this->exchange) . " " . get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2);
+		return ct(":exchange :pair");
+	}
+
+	public function getTitleArgs() {
+		return array(
+			':exchange' => get_exchange_name($this->exchange),
+			':pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2),
+		);
 	}
 
 	public function getURL() {

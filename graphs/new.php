@@ -118,6 +118,9 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 	}
 
 	switch ($graph_type) {
+		case "btc_equivalent":
+			return new GraphRenderer_EquivalentPieBTC();
+
 		case "external_historical":
 			return new GraphRenderer_ExternalHistorical($arg0_resolved);
 

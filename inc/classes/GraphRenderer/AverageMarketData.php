@@ -16,6 +16,7 @@ class GraphRenderer_AverageMarketData extends GraphRenderer {
 	}
 
 	public function getTitleArgs() {
+		$pp = get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2);
 		return array(
 			':exchange' => get_exchange_name("average"),
 			':pair' => $pp,
