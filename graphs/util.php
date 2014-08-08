@@ -34,7 +34,7 @@ $global_all_summary_instances = array();
  * Cached per user.
  */
 function get_all_summary_instances($user_id = false) {
-	if (!$user_id) {
+	if ($user_id === false) {
 		$user_id = user_id();
 	}
 
@@ -50,42 +50,60 @@ function get_all_summary_instances($user_id = false) {
 	return $global_all_summary_instances[$user_id];
 }
 
-// cached
-$global_all_summaries = null;
-function get_all_summaries() {
+$global_all_summaries = array();
+
+/**
+ * Get all summaries for the given user, or the current user (through
+ * {@link #user_id()}).
+ * Cached per user.
+ */
+function get_all_summaries($user_id = false) {
+	if ($user_id === false) {
+		$user_id = user_id();
+	}
+
 	global $global_all_summaries;
-	if ($global_all_summaries === null) {
-		$global_all_summaries = array();
+	if (!isset($global_all_summaries[$user_id])) {
+		$global_all_summaries[$user_id] = array();
 		$q = db()->prepare("SELECT * FROM summaries WHERE user_id=?");
-		$q->execute(array(user_id()));
+		$q->execute(array($user_id));
 		while ($summary = $q->fetch()) {
-			$global_all_summaries[$summary['summary_type']] = $summary;
+			$global_all_summaries[$user_id][$summary['summary_type']] = $summary;
 		}
 	}
-	return $global_all_summaries;
+	return $global_all_summaries[$user_id];
 }
 
-// cached
-$global_all_offset_instances = null;
-function get_all_offset_instances() {
+$global_all_offset_instances = array();
+
+/**
+ * Get all offsets for the given user, or the current user (through
+ * {@link #user_id()}).
+ * Cached per user.
+ */
+function get_all_offset_instances($uesr_id = false) {
+	if ($user_id === false) {
+		$user_id = user_id();
+	}
+
 	global $global_all_offset_instances;
-	if ($global_all_offset_instances === null) {
-		$global_all_offset_instances = array();
+	if (!isset($global_all_offset_instances[$user_id])) {
+		$global_all_offset_instances[$user_id] = array();
 		$q = db()->prepare("SELECT * FROM offsets WHERE user_id=? AND is_recent=1");
-		$q->execute(array(user_id()));
+		$q->execute(array($user_id));
 		while ($offset = $q->fetch()) {
-			$global_all_offset_instances[$offset['currency']] = $offset;
+			$global_all_offset_instances[$user_id][$offset['currency']] = $offset;
 		}
 	}
-	return $global_all_offset_instances;
+	return $global_all_offset_instances[$user_id];
 }
 
 /**
  * Return a list of summary keys for this user
  * (e.g. 'summary_usd_bitstamp', 'summary_btc', ...)
  */
-function get_all_summary_currencies() {
-	$summaries = get_all_summaries();
+function get_all_summary_currencies($user_id = false) {
+	$summaries = get_all_summaries($user_id);
 	$result = array();
 	foreach ($summaries as $s) {
 		// assumes all summaries start with 'summary_CUR_optional'
@@ -99,12 +117,12 @@ function get_all_summary_currencies() {
  * Like {@link #get_all_summary_currencies()}, but returns
  * a list of currencies rather than summary keys.
  */
-function get_all_user_currencies() {
-	return array_keys(get_all_summary_currencies());
+function get_all_user_currencies($user_id = false) {
+	return array_keys(get_all_summary_currencies($user_id));
 }
 
-function get_all_conversion_currencies() {
-	$summaries = get_all_summaries();
+function get_all_conversion_currencies($user_id = false) {
+	$summaries = get_all_summaries($user_id);
 	$result = array();
 	foreach ($summaries as $s) {
 		// assumes all summaries start with 'summary_CUR_optional'

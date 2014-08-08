@@ -40,7 +40,8 @@ function render_graph_new($graph, $include_user_hash = false) {
 				<span class="subheading"></span>
 				<span class="last-updated"></span>
 			</div>
-			<div class="graph-target"><span class="status_loading">Loading...</span></div>
+			<div class="graph-target"><span class="status_loading"><?php echo ht("Loading..."); ?></span></div>
+			<div class="graph_extra extra" style="display:none;"><a href="#"></a></span></div>
 			<div class="admin-stats-wrapper hide-admin"><span class="admin-stats render_time"></span></div>
 		</div>
 		<div id="graph_table_template" class="overflow_wrapper" style="display:none;">
@@ -135,6 +136,9 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 	switch ($graph_type) {
 		case "btc_equivalent":
 			return new GraphRenderer_EquivalentPieBTC();
+
+		case "balances_table":
+			return new GraphRenderer_BalancesTable();
 
 		case "external_historical":
 			return new GraphRenderer_ExternalHistorical($arg0_resolved);

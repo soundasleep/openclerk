@@ -57,7 +57,7 @@ class GraphRenderer_AverageMarketData extends GraphRenderer {
 
 		$key_column = array('type' => 'string', 'title' => ct("Key"));
 		$columns[] = array('type' => 'string', 'title' => ct("Exchange"), 'heading' => true);
-		$columns[] = array('type' => 'string', 'title' => ct("Pair"));
+		$columns[] = array('type' => 'string', 'title' => ct("Price"));
 		$columns[] = array('type' => 'string', 'title' => ct("Volume"));
 
 		$q = db()->prepare("SELECT * FROM ticker_recent WHERE currency1=? AND currency2=? ORDER BY volume DESC");

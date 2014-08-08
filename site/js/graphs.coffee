@@ -401,6 +401,17 @@
     else
       $(target).find(".h2").hide()
 
+    if result.extra
+      extra = $(target).find(".extra").clone()
+      a = $(extra).find("a")
+      a.html(Locale.formatTemplate(result.extra.label, result.extra.args))
+      a.attr('href', result.extra.href)
+      a.addClass(result.extra.classes)
+      $(target).find(".overflow_wrapper").append(extra)
+      extra.show()
+    else
+      $(target).find(".extra").hide()
+
     $(target).find(".admin-stats").html(result.time + " ms")
 
   chartColours: [

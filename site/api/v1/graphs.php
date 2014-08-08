@@ -184,6 +184,16 @@ function api_v1_graphs($graph) {
 		$result['data'][$i] = $new_row;
 	}
 
+	// format any extra text from the result
+	if (isset($data['add_more_currencies'])) {
+		$result['extra'] = array(
+			'classes' => 'add_accounts',
+			'href' => url_for('wizard_currencies'),
+			'label' => ct("Add more currencies"),
+			'args' => array(),
+		);
+	}
+
 	$end_time = microtime(true);
 	$time_diff = ($end_time - $start_time) * 1000;
 	$result['time'] = (double) number_format_autoprecision($time_diff, 1, '.', '');
