@@ -14,7 +14,7 @@
 @Graphs =
   collection: {}
 
-  timeoutInterval: 60000
+  timeoutInterval: window.UserGraphRefresh
 
   ###
    # Forcibly re-render all the graphs on the page.
@@ -82,7 +82,7 @@
           url += "&no_cache=" + new Date().valueOf()
 
         # TODO premium and free graph update limits
-        window.setTimeout(graph.callback, @timeoutInterval) unless noTimeout
+        window.setTimeout(graph.callback, @timeoutInterval) unless noTimeout or @timeoutInterval == 0
 
         queue_ajax_request url,
           dataType: 'json'

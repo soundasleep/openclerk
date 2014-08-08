@@ -34,6 +34,21 @@ function page_header($page_title, $page_id = false, $options = array()) {
     <script type="text/javascript" src="<?php echo htmlspecialchars(url_for('js/locale/' . get_current_locale() . '.js?' . get_site_config('openclerk_version'))); ?>"></script>
     <?php if (isset($options['jsapi']) && $options['jsapi']) { ?>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+   	<?php
+		$user = user_logged_in() ? get_user(user_id()) : false;
+		if ($user) {
+			if ($user['disable_graph_refresh'] || (isset($graph_type['no_refresh']) && $graph_type['no_refresh'])) {
+				$timeout = 0;	// disable refresh
+			} else {
+				$timeout = get_premium_value(get_user(user_id()), 'graph_refresh');
+			}
+		} else {
+			$timeout = get_site_config('graph_refresh_public');
+		}
+		// TODO move this into a more helpful location rather than in the template head
+	?>window.UserGraphRefresh = <?php echo $timeout * 1000 * 60; ?>;	// ms
+    </script>
     <?php } ?>
     <?php if (isset($options["js"]) && $options["js"]) {
     	if (!is_array($options['js'])) $options['js'] = array($options['js']);
