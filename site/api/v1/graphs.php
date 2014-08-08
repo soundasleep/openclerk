@@ -75,12 +75,17 @@ function api_v1_graphs($graph) {
 	$data = $renderer->getData($graph['days']);
 	$original_count = count($data['data']);
 
+	$result['type'] = $renderer->getChartType();
+
 	// 2. apply deltas as necessary
 	$data['data'] = calculate_graph_deltas($graph, $data['data'], false /* ignore_first_row */);
 
-	// 3. add technicals as necessary
-	// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
-	if ($renderer->canHaveTechnicals()) {
+	// if there is no data, bail out early
+	if (count($data['data']) == 0) {
+		$result['type'] = 'nodata';
+	} else if ($renderer->canHaveTechnicals()) {
+		// 3. add technicals as necessary
+		// (only if there is at least one point of data, otherwise calculate_technicals() will throw an error)
 		$technicals = calculate_technicals($graph, $data['data'], $data['columns'], false /* ignore_first_row */);
 		$data['columns'] = $technicals['headings'];
 		$data['data'] = $technicals['data'];
@@ -105,8 +110,6 @@ function api_v1_graphs($graph) {
 			}
 		}
 	}
-
-	$result['type'] = $renderer->getChartType();
 
 	// 5. construct heading and links
 	$result['heading'] = array(

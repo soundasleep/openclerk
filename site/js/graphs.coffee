@@ -61,7 +61,7 @@
         ###
 
         if not graph.days?
-          Graphs.text graph.element, graph,
+          Graphs.errorMessage graph.element, graph,
             text: "No days specified"
           return
 
@@ -98,10 +98,12 @@
                   Graphs.vertical graph.element, graph, data
                 when "piechart"
                   Graphs.piechart graph.element, graph, data
+                when "nodata"
+                  Graphs.noData graph.element, graph, data
                 else
                   throw new Error("Could not render graph type " + data.type)
             catch error
-              Graphs.text graph.element, graph,
+              Graphs.errorMessage graph.element, graph,
                 text: error.message
               console.error error
 
@@ -112,13 +114,13 @@
             # try load the JSON anyway
             try
               parsed = JSON.parse(xhr.responseText)
-              Graphs.text graph.element, graph,
+              Graphs.errorMessage graph.element, graph,
                 text: parsed.message
               return
             catch e
               console.log e
 
-            Graphs.text graph.element, graph,
+            Graphs.errorMessage graph.element, graph,
               text: error.message
 
       # save this graphuration for later
@@ -362,9 +364,10 @@
     Graphs.renderHeadings target, graph, result
 
   ###
-   # Render simple text.
+   # Render an error message.
+   # @param result array(text)
   ###
-  text: (target, graph, result) ->
+  errorMessage: (target, graph, result) ->
     throw new Error("No text defined in result") unless result.text?
     throw new Error("Graph has not been initialised") unless graph.ready?
 
@@ -375,6 +378,20 @@
 
     $(targetDiv).text(result.text)
     $(targetDiv).addClass('error-message')
+
+  ###
+   # Render a message that there is no data available.
+  ###
+  noData: (target, graph, result) ->
+    throw new Error("Graph has not been initialised") unless graph.ready?
+
+    targetDiv = $(target).find(".graph-target")
+    throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
+
+    $(targetDiv).text(Locale.formatTemplate("No data to display."))
+    $(targetDiv).addClass('no-data graph_text')
+
+    Graphs.renderHeadings target, graph, result
 
   renderHeadings: (target, graph, result) ->
     # add classses, if provided
