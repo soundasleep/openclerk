@@ -411,7 +411,7 @@ function render_graph_actual($graph, $is_public) {
 						get_currency_abbr($c),
 						currency_format($c, $balance - $offset, 4),
 						// HTML quirk: "When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form."
-						'<form action="' . htmlspecialchars(url_for('set_offset', array('page' => $graph['page_id']))) . '" method="post">' .
+						'<form action="' . htmlspecialchars(url_for('set_offset', array('wizard' => true))) . '" method="post">' .
 							'<input type="text" name="' . htmlspecialchars($c) . '" value="' . htmlspecialchars($offset == 0 ? '' : number_format_autoprecision($offset)) . '" maxlength="32">' .
 							'</form>',
 						currency_format($c, $balance /* balance includes offset */, 4),

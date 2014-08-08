@@ -201,6 +201,9 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 		case "crypto_converted_table":
 			return new GraphRenderer_CryptoConvertedTable();
 
+		case "balances_offset_table":
+			return new GraphRenderer_BalancesOffsetsTable();
+
 		case "ticker_matrix":
 			return new GraphRenderer_TickerMatrix();
 

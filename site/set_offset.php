@@ -85,7 +85,7 @@ if (require_post("wizard", false)) {
 
 set_temporary_messages($messages);
 set_temporary_errors($errors);
-if (require_post("wizard", false)) {
+if (require_post("wizard", false) || require_get("wizard", false)) {
 	redirect(url_for('wizard_accounts'));
 } else {
 	redirect(url_for('profile', array('page' => require_get('page', false))));

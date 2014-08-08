@@ -16,7 +16,7 @@ function classloader($classname) {
 	} else {
 		// we can expect certain namespace classes _should_ always exist
 		if (strtolower(substr($renamed, 0, strlen("GraphRenderer/"))) == "graphrenderer/") {
-			throw new ClassLoaderException("Could not load class '$classname' from '$renamed'");
+			throw new ClassLoaderException("Could not find class '$classname' from '$renamed'");
 		}
 	}
 }

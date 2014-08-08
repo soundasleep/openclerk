@@ -81,7 +81,7 @@ $global_all_offset_instances = array();
  * {@link #user_id()}).
  * Cached per user.
  */
-function get_all_offset_instances($uesr_id = false) {
+function get_all_offset_instances($user_id = false) {
 	if ($user_id === false) {
 		$user_id = user_id();
 	}
