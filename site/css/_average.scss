@@ -30,27 +30,36 @@
 
     .graph {
       margin-left: 20px;
-
-      &.graph_average {
-        .overflow_wrapper {
-          height: 87%;
-        }
-
-        .graph_headings {
-          height: 3.9em;
-
-          h1 {
-            margin-top: 5px;
-          }
-          h2 {
-            margin-top: 11px;
-          }
-          .last-updated {
-            margin-top: -3em;
-          }
-        }
-      }
     }
   }
 }
 
+#page_average, #page_profile {
+  .graph_collection {
+    .graph {
+        &.graph_average {
+          .overflow_wrapper {
+            height: 87%;
+          }
+
+          .graph_headings {
+            height: 3.9em;
+
+            h1 {
+              margin-top: 5px;
+              // fixes for other page styles getting in the way
+              line-height: initial;
+              padding-left: 0;
+              background: none;
+            }
+            h2 {
+              margin-top: 11px;
+            }
+            .last-updated {
+              margin-top: -3em;
+            }
+          }
+        }
+    }
+  }
+}

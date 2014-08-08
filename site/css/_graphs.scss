@@ -43,16 +43,16 @@
 .graph_collection .graph .rate_matrix .volume, .graph_collection .graph .rate_matrix .exchange { font-size: 80%; color: #666; }
 
 .graph_collection .graph.graph_average {
-  h1, h2 {
+  h1.h1, h2.h2 {
     text-align: center;
     margin-top: 0;
     margin-bottom: 0;
     display: block;
   }
-  h1 {
+  h1.h1 {
     height: 20%;
   }
-  h2 {
+  h2.h2 {
     height: 10%;
     font-weight: normal;
     font-size: 90%;
