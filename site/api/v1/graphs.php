@@ -60,6 +60,14 @@ function api_v1_graphs($graph) {
 		$renderer->setUser($user['id']);
 	}
 
+	if ($renderer->usesDays()) {
+		// 0.5 limit 'days' parameter as necessary
+		$get_permitted_days = get_permitted_days();
+		if (!isset($get_permitted_days[$config['days']])) {
+			throw new GraphException("Invalid days '" . $config['days'] . "' for graph that requires days");
+		}
+	}
+
 	// 1. get raw graph data
 	$data = $renderer->getData($graph['days']);
 	$original_count = count($data['data']);
@@ -76,8 +84,10 @@ function api_v1_graphs($graph) {
 	}
 
 	// 4. discard early data
-	$data['data'] = discard_early_data($data['data'], $graph['days']);
-	$after_discard_count = count($data['data']);
+	if ($renderer->usesDays()) {
+		$data['data'] = discard_early_data($data['data'], $graph['days']);
+		$after_discard_count = count($data['data']);
+	}
 
 	$result['columns'] = $data['columns'];
 	$result['key'] = $data['key'];
@@ -139,14 +149,18 @@ function api_v1_graphs($graph) {
 
 	if (is_localhost()) {
 		$result['_debug'] = $graph;
-		$result['_debug']['data_discarded'] = $original_count - $after_discard_count;
+		if (isset($after_discard_count)) {
+			$result['_debug']['data_discarded'] = $original_count - $after_discard_count;
+		} else {
+			$result['_debug']['data_not_discarded'] = true;
+		}
 	}
 
 	// make sure that all 'number'-typed data is numeric
 	foreach ($result['data'] as $i => $row) {
 		foreach ($row as $key => $value) {
 			$column = $result['columns'][$key];
-			if ($column['type'] == 'number' || $column['type'] == "percent") {
+			if ($column['type'] == 'number' || $column['type'] == 'percent') {
 				$result['data'][$i][$key] = (double) $value;
 
 				if (is_localhost()) {
@@ -158,7 +172,7 @@ function api_v1_graphs($graph) {
 
 	$end_time = microtime(true);
 	$time_diff = ($end_time - $start_time) * 1000;
-	$result['time'] = graph_number_format($time_diff);
+	$result['time'] = (double) number_format_autoprecision($time_diff, 1, '.', '');
 
 	// 7. return data
 	return json_encode($result);
@@ -183,12 +197,6 @@ $config = array(
 	'technical_period' => require_get('technical_period', false),
 );
 $hash = substr(implode(',', $config), 0, 32);
-
-// limit 'days' parameter as necessary
-$get_permitted_days = get_permitted_days();
-if (!isset($get_permitted_days[$config['days']])) {
-	throw new GraphException("Invalid days '" . $config['days'] . "'");
-}
 
 // and then restructure as necessary away from hash
 $config['graph_type'] = require_get('graph_type');

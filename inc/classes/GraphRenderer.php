@@ -86,6 +86,16 @@ abstract class GraphRenderer {
 		return false;
 	}
 
+	/**
+	 * Does this function require a days parameter?
+	 * If {@code true}, then the returned data will be stripped based on the keys returned in
+	 * the data - assumes that the data uses dates as keys.
+	 * By default, returns {@code true}.
+	 */
+	function usesDays() {
+		return true;
+	}
+
 	var $user_id = null;
 
 	function setUser($user_id) {

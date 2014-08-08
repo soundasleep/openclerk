@@ -107,6 +107,15 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 		if ($bits[2] == "markets" && $cur1 && $cur2 && $bits[0] == "average") {
 			return new GraphRenderer_AverageMarketData($cur1, $cur2);
 		}
+
+		if ($bits[0] == "composition" && in_array($bits[1], get_all_currencies())) {
+			switch ($bits[2]) {
+				case "pie":
+					return new GraphRenderer_CompositionPie($bits[1]);
+				case "table":
+					return new GraphRenderer_CompositionTable($bits[1]);
+			}
+		}
 	}
 
 	if (count($bits) >= 2 && $bits[0] == "metrics") {
