@@ -48,7 +48,7 @@ function api_v1_graphs($graph) {
 		}
 		$expected_hash = compute_user_graph_hash($user);
 		if ($graph['user_hash'] !== $expected_hash) {
-			throw new GraphException("Mismatched user hash for " . $graph['user_id']);
+			throw new GraphException("Mismatched user hash for user " . $graph['user_id'] . " with graph type " . $graph['graph_type']);
 		}
 
 		if ($renderer->requiresAdmin()) {
