@@ -200,7 +200,11 @@ if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { 
 <?php } ?>
 <?php
 
-if (require_get("new_graphs", false)) {
+if (require_get("old_graphs", false)) {
+	// old behaviour
+	render_graph($graph, isset($graph['public']) && $graph['public']);
+
+} else {
 	// load technicals from the database as necessary
 	// (we can only load one at this stage)
 	$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=? LIMIT 1");
@@ -211,10 +215,6 @@ if (require_get("new_graphs", false)) {
 	}
 
 	render_graph_new($graph, true /* TODO we should not force user data unless we actually need it */);
-
-} else {
-	// old behaviour
-	render_graph($graph, isset($graph['public']) && $graph['public']);
 
 } ?>
 <?php if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { ?>
@@ -355,7 +355,7 @@ if (require_get("move_up", false) || require_get("move_down", false) || require_
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-	var e = $("#graph<?php echo htmlspecialchars(require_get("move_up", require_get("move_down", require_get("graph", false)))); ?>");
+	var e = $("#graph_<?php echo htmlspecialchars(require_get("move_up", require_get("move_down", require_get("graph", false)))); ?>");
 	if (e) {
 		e.css({ backgroundColor: '#221111' });
 		// can't fade backgroundColor without JQuery color plugin

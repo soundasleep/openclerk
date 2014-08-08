@@ -89,7 +89,11 @@ function render_graph_new($graph, $include_user_hash = false) {
 		$graph['can_be_edited'] = !($user['graph_managed_type'] == 'auto' && isset($graph['is_managed']) && $graph['is_managed']);
 	}
 
-	$graph_id = "graph_" . rand(0,0xffff);
+	if (isset($graph['id']) && $graph['id']) {
+		$graph_id = "graph_" . $graph['id'];
+	} else {
+		$graph_id = "graph_" . rand(0,0xffff);
+	}
 	$graph['target'] = $graph_id;
 
 	$graph['graphWidth'] = get_site_config('default_graph_width') * $graph['width'];
