@@ -206,9 +206,6 @@ class GraphRenderer_AdminMetrics extends GraphRenderer {
 			foreach ($keys as $id) {
 				if (!isset($row[$id])) $data[$date][$id] = 0;
 			}
-
-			// reindex everything to be numeric arrays, so they aren't output as JSON objects
-			$data[$date] = array_values($data[$date]);
 		}
 
 		return array(

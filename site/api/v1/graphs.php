@@ -63,8 +63,8 @@ function api_v1_graphs($graph) {
 	if ($renderer->usesDays()) {
 		// 0.5 limit 'days' parameter as necessary
 		$get_permitted_days = get_permitted_days();
-		if (!isset($get_permitted_days[$config['days']])) {
-			throw new GraphException("Invalid days '" . $config['days'] . "' for graph that requires days");
+		if (!isset($get_permitted_days[$graph['days']])) {
+			throw new GraphException("Invalid days '" . $graph['days'] . "' for graph that requires days");
 		}
 	}
 
@@ -168,6 +168,16 @@ function api_v1_graphs($graph) {
 				}
 			}
 		}
+	}
+
+	// make sure that all data rows are numeric arrays and not objects
+	// i.e. reindex everything to be numeric arrays, so they aren't output as JSON objects
+	foreach ($result['data'] as $i => $row) {
+		$new_row = array_values($row);
+		foreach ($row as $key => $value) {
+			$new_row[$key] = $value;
+		}
+		$result['data'][$i] = $new_row;
 	}
 
 	$end_time = microtime(true);

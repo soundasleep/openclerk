@@ -84,7 +84,9 @@
 
               switch data.type
                 when "linechart"
-                  Graphs.linechart graph.element, graph, data
+                  Graphs.linechart graph.element, graph, data, false
+                when "stacked"
+                  Graphs.linechart graph.element, graph, data, true
                 when "vertical"
                   Graphs.vertical graph.element, graph, data
                 when "piechart"
@@ -149,8 +151,9 @@
 
   ###
    # Render linecharts.
+   # @param stacked boolean if true, render as a stacked AreaChart; defaults to false
   ###
-  linechart: (target, graph, result) ->
+  linechart: (target, graph, result, stacked = false) ->
     throw new Error("Graph has not been initialised") unless graph.ready?
     throw new Error("Data has no columns") unless result.columns?
     throw new Error("Data has no key") unless result.key?
@@ -189,7 +192,7 @@
     for key, value of result.data
       if value.length != result.columns.length
         console.log "row: ", value, " columns: ", result.columns
-        throw new Error("Row '" + key + "' did not have exactly " + result.columns.length + " columns")
+        throw new Error("Row '" + key + "' did not have exactly " + result.columns.length + " columns but " + value.length)
       row = []
       row.push moment(key).toDate()
       for v in value
@@ -219,6 +222,7 @@
         left: Math.min(60, 30 * graph.width) # reduce padding
       backgroundColor: '#111'
       vAxes: vAxes
+      isStacked: stacked
 
     if graph.width >= 8
       options.chartArea.width = '90%'
@@ -226,8 +230,11 @@
 
     # draw the chart
     targetDiv = $(target).find(".graph-target")
-    throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
-    chart = new google.visualization.LineChart(targetDiv[0])
+    throw new Error("Could not find graph within " + target + ": " + targetDiv.length) unless targetDiv.length == 1
+    if stacked
+      chart = new google.visualization.AreaChart(targetDiv[0])
+    else
+      chart = new google.visualization.LineChart(targetDiv[0])
     chart.draw(table, options)
 
     Graphs.renderHeadings target, graph, result

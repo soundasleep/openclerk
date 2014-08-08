@@ -114,6 +114,12 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 					return new GraphRenderer_CompositionPie($bits[1]);
 				case "table":
 					return new GraphRenderer_CompositionTable($bits[1]);
+				case "daily":
+					return new GraphRenderer_CompositionGraph($bits[1]);
+				case "stacked":
+					return new GraphRenderer_CompositionStacked($bits[1]);
+				case "proportional":
+					return new GraphRenderer_CompositionProportional($bits[1]);
 			}
 		}
 	}
