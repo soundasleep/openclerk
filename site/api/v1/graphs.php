@@ -2,6 +2,13 @@
 
 define('FORCE_NO_RELATIVE', true);		// url_for() references need to be relative to the base path, not the js/ directory that this script is within
 
+/**
+ * Do not enable sessions for graph API calls.
+ * This has some important implications: it means that we cannot assume that the user is logged in,
+ * calls to `user_id()` will fail, etc.
+ */
+define('NO_SESSION', true);
+
 require(__DIR__ . "/../../../inc/content_type/json.php");		// to allow for appropriate headers etc
 require(__DIR__ . "/../../../inc/global.php");
 require(__DIR__ . "/../../../inc/cache.php");
@@ -49,6 +56,8 @@ function api_v1_graphs($graph) {
 				throw new GraphException("Graph requires administrator privileges");
 			}
 		}
+
+		$renderer->setUser($user['id']);
 	}
 
 	// 1. get raw graph data

@@ -86,4 +86,17 @@ abstract class GraphRenderer {
 		return false;
 	}
 
+	var $user_id = null;
+
+	function setUser($user_id) {
+		$this->user_id = $user_id;
+	}
+
+	function getUser() {
+		if ($this->user_id === null) {
+			throw new GraphException("Expected user to be set");
+		}
+		return $this->user_id;
+	}
+
 }

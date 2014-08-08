@@ -9,6 +9,10 @@ class GraphRenderer_EquivalentPieBTC extends GraphRenderer {
 		parent::__construct();
 	}
 
+	public function requiresUser() {
+		return true;
+	}
+
 	public function getTitle() {
 		return ct("Equivalent BTC");
 	}
@@ -29,7 +33,7 @@ class GraphRenderer_EquivalentPieBTC extends GraphRenderer {
 		$columns = array();
 
 		// get all balances
-		$balances = get_all_summary_instances();
+		$balances = get_all_summary_instances($this->getUser());
 
 		$last_updated = find_latest_created_at($balances, "total");
 

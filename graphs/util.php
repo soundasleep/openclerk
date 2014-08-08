@@ -26,18 +26,28 @@ function graph_number_format($n) {
 }
 
 // cached
-$global_all_summary_instances = null;
-function get_all_summary_instances() {
+$global_all_summary_instances = array();
+
+/**
+ * Get all summary_instances for the given user, or the current user (through
+ * {@link #user_id()}).
+ * Cached per user.
+ */
+function get_all_summary_instances($user_id = false) {
+	if (!$user_id) {
+		$user_id = user_id();
+	}
+
 	global $global_all_summary_instances;
-	if ($global_all_summary_instances === null) {
-		$global_all_summary_instances = array();
+	if (!isset($global_all_summary_instances[$user_id])) {
+		$global_all_summary_instances[$user_id] = array();
 		$q = db()->prepare("SELECT * FROM summary_instances WHERE user_id=? AND is_recent=1");
-		$q->execute(array(user_id()));
+		$q->execute(array($user_id));
 		while ($summary = $q->fetch()) {
-			$global_all_summary_instances[$summary['summary_type']] = $summary;
+			$global_all_summary_instances[$user_id][$summary['summary_type']] = $summary;
 		}
 	}
-	return $global_all_summary_instances;
+	return $global_all_summary_instances[$user_id];
 }
 
 // cached
@@ -119,7 +129,7 @@ function get_all_recent_rates() {
 			$query .= "(currency1 = '$cur' AND currency2 = 'btc' AND exchange='$exchange') OR";
 		}
 		$q = db()->prepare("SELECT * FROM ticker_recent WHERE 1 AND ($query 0)");
-		$q->execute(array(user_id()));
+		$q->execute();
 		while ($ticker = $q->fetch()) {
 			$global_all_recent_rates[$ticker['currency1'] . $ticker['currency2']] = $ticker;
 		}

@@ -1,14 +1,17 @@
 <?php
 
-session_start();
-header('X-Frame-Options: SAMEORIGIN');		// prevent clickhacking
+if (!defined('NO_SESSION')) {
+	session_start();
 
-/**
- * Track user referer for new users at signup. This persists across requests.
- */
-if (!isset($_SESSION['referer']) && isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']) {
-	$_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+	/**
+	 * Track user referer for new users at signup. This persists across requests.
+	 */
+	if (!isset($_SESSION['referer']) && isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']) {
+		$_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+	}
 }
+
+header('X-Frame-Options: SAMEORIGIN');		// prevent clickhacking
 
 /**
  * Get the user with this particular ID.
@@ -26,7 +29,18 @@ function get_user($id) {
 }
 
 $global_user_logged_in = false;
+/**
+ * Is the current user a logged in user?
+ * Once called, cached across the length of the script.
+ *
+ * @return true if the current request is also a user, false if not. always returns false if NO_SESSION is defined
+ */
 function user_logged_in() {
+	if (defined('NO_SESSION')) {
+		// a sessionless request can never be logged in
+		return false;
+	}
+
 	// cache the results of this function
 	// we don't cache failed login results, in case we login later through this script
 	global $global_user_logged_in;
@@ -217,6 +231,9 @@ function user_ip() {
 }
 
 function require_login() {
+	if (defined('NO_SESSION')) {
+		throw new Exception("Cannot force login for a sessionless connection");
+	}
 	if (!user_logged_in()) {
 		// only supports GET relogins; TODO support POST relogins
 		// TODO only allow destinations that are local (to prevent XSS)
@@ -242,11 +259,16 @@ function user_logout() {
 $global_is_admin = null;
 /**
  * Is the current user an administrator?
- * Once called, persists across the length of the script.
+ * Once called, cached across the length of the script.
  *
- * @return true if admin, false if not
+ * @return true if admin, false if not. always returns false if NO_SESSION is defined
  */
 function is_admin() {
+	if (defined('NO_SESSION')) {
+		// a sessionless request can never be admin
+		return false;
+	}
+
 	global $global_is_admin;
 	if ($global_is_admin === null) {
 		if (!user_logged_in()) {
