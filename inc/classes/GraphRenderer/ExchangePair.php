@@ -28,6 +28,17 @@ class GraphRenderer_ExchangePair extends GraphRenderer {
 		);
 	}
 
+	public function getURL() {
+		return url_for('historical', array(
+			'id' => $this->exchange . '_' . $this->currency1 . $this->currency2 . '_daily',
+			'days' => 180,
+		));
+	}
+
+	public function getLabel() {
+		return ct("View historical data");
+	}
+
 	public function canHaveTechnicals() {
 		// do not try to calculate technicals; this also resorts the data by first key
 		return false;

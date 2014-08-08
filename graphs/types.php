@@ -39,6 +39,24 @@ function graph_types_public($summaries = array()) {
 				'exchange' => $key,
 			);
 		}
+
+		foreach ($pairs as $pair) {
+			$pp = get_currency_abbr($pair[0]) . "/" . get_currency_abbr($pair[1]);
+			$data["pair_" . $key . "_" . $pair[0] . $pair[1]] = array(
+				'title' => t(":exchange :pair (table)", array(':exchange' => get_exchange_name($key), ':pair' => $pp)),
+				'heading' => get_exchange_name($key) . " $pp",
+				'description' => t("A simple table displaying the current bid/ask :pair price on :exchange.", array(':exchange' => get_exchange_name($key), ':pair' => $pp)),
+				'pairs' => $pair,
+				'hide' => !(isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])),
+				'public' => true, /* can be displayed publicly */
+				'days' => false,
+				'technical' => false, /* allow technical indicators */
+				'delta' => false,	/* allow deltas */
+				'historical' => 'get_exchange_historical',
+				'historical_arg0' => array('key' => $key, 'pair' => $pair),
+				'exchange' => $key,
+			);
+		}
 	}
 
 	{
@@ -346,13 +364,6 @@ function graph_types() {
 			'description' => t('A stacked area graph displaying the proportional historical value of all currencies if they were all converted into BTC.') . '<p>' . t('Exchanges used:') . ' ' . get_default_exchange_text(array_diff(get_all_currencies(), array('btc'))) . '.',
 			'days' => true,
 			'uses_summaries' => true,
-		),
-
-		'pair_mtgox_usdbtc' => array(
-			'title' => 'Mt.Gox USD/BTC (table)',
-			'heading' => 'Mt.Gox',
-			'description' => t('A simple table displaying the current bid/ask :pair price on :exchange.', array(':pair' => 'USD/BTC', ':exchange' => "Mt.Gox")),
-			'default_width' => get_site_config('default_user_graph_height'),
 		),
 
 		'ticker_matrix' => array(
