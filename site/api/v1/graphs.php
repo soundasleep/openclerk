@@ -251,7 +251,7 @@ $graph_type = require_get("graph_type");
 
 // load graph data, which is also used to construct the hash
 $config = array(
-	'days' => require_get("days"),
+	'days' => require_get("days", false),
 	'delta' => require_get("delta", false),
 	'arg0' => require_get('arg0', false),
 	'arg0_resolved' => require_get('arg0_resolved', false),
@@ -262,6 +262,9 @@ $config = array(
 	'technical_type' => require_get('technical_type', false),
 	'technical_period' => require_get('technical_period', false),
 );
+if (!$config['days']) {
+	$config['days'] = 45;	// default
+}
 $hash = substr(implode(',', $config), 0, 32);
 
 // and then restructure as necessary away from hash

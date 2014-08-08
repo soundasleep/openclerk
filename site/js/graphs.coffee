@@ -62,12 +62,7 @@
             window.setTimeout(graph.callback, @timeoutInterval)
         ###
 
-        if not graph.days?
-          Graphs.errorMessage graph.element, graph,
-            text: "No days specified"
-          return
-
-        url = "api/v1/graphs/" + graph.graph_type + "?days=" + graph.days
+        url = "api/v1/graphs/" + graph.graph_type + "?days=" + (if graph.days? then graph.days else "")
         if graph.delta?
           url += "&delta=" + graph.delta
         if graph.arg0?

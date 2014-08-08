@@ -4465,3 +4465,4 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 
 -- issue #274: add more simple pair tables
 UPDATE graphs SET graph_type='pair_mtgox_usdbtc' WHERE graph_type='mtgox_btc_table';
+
