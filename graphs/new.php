@@ -55,6 +55,23 @@ function render_graph_new($graph, $include_user_hash = false) {
 				<span class="outofdate" style="display:none;" title="<?php echo htmlspecialchars($title); ?>"></span>
 				<span class="subheading"></span>
 				<span class="last-updated"></span>
+				<ul class="graph_controls">
+					<li class="move_up"><a href="<?php echo htmlspecialchars(url_for('profile', array(
+						'page' => $graph['page_id'],
+						'move_up' => $graph['id']))); ?>"><?php echo ht("Move up"); ?></a></li>
+					<li class="move_down"><a href="<?php echo htmlspecialchars(url_for('profile', array(
+						'page' => $graph['page_id'],
+						'move_down' => $graph['id']))); ?>"><?php echo ht("Move down"); ?></a></li>
+					<li class="remove"><a href="<?php echo htmlspecialchars(url_for('profile', array(
+						'page' => $graph['page_id'],
+						'remove' => $graph['id']))); ?>"><?php echo ht("Remove"); ?></a></li>
+					<li class="edit"><a><?php echo ht("Edit"); ?></a></li>
+				</ul>
+				<div class="edit_target" style="display:none;">
+					<ul class="graph_edit_controls">
+						<li class="close"><a><?php echo ht("Close"); ?></a></li>
+					</ul>
+				</div>
 			</div>
 			<div class="graph-target"><span class="status_loading"><?php echo ht("Loading..."); ?></span></div>
 			<div class="graph_extra extra" style="display:none;"><a href="#"></a></span></div>
@@ -65,6 +82,11 @@ function render_graph_new($graph, $include_user_hash = false) {
 			</table>
 		</div>
 		<?php
+	}
+
+	if (user_logged_in()) {
+		$user = get_user(user_id());
+		$graph['can_be_edited'] = !($user['graph_managed_type'] == 'auto' && isset($graph['is_managed']) && $graph['is_managed']);
 	}
 
 	$graph_id = "graph_" . rand(0,0xffff);

@@ -148,6 +148,20 @@
         $(target).find(".status_loading").click =>
           graph.callback(true)    # do not set up a new timeout
 
+        # set up graph layout editing
+        editTarget = $(target).find(".edit_target")
+        editTarget.attr('id', 'edit_graph_target_' + graph.id)
+
+        editLink = $(target).find(".graph_controls .edit")
+        graph.type = graph.graph_type
+        console.log graph
+        if graph.can_be_edited
+          editLink.click =>
+            editGraphProperty this, graph.id, graph
+            return false
+        else
+          editLink.remove()
+
         # once the elements are ready, lets go
         graph.ready = true
         if staticGraph

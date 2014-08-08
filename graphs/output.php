@@ -90,6 +90,10 @@ function render_graph_controls($graph) {
 		// don't display controls if this graph is public
 		return;
 	}
+	if (!user_logged_in()) {
+		// don't display controls if we don't have a user
+		return;
+	}
 	if (!(isset($graph['page_id']) && $graph['page_id'])) {
 		// don't display controls if this graph has no page
 		return;
@@ -106,7 +110,7 @@ function render_graph_controls($graph) {
 		'page' => $graph['page_id'],
 		'remove' => $graph['id']))); ?>">Remove</a></li>
 	<?php if (!isset($user) || !($user['graph_managed_type'] == 'auto' && $graph['is_managed'])) { ?>
-	<li class="edit"><a onclick="javascript:editGraphProperty(this, <?php echo htmlspecialchars($graph['id']); ?>, get_graph_<?php echo htmlspecialchars($graph['id']); ?>()); return false;">Edit</a></li>
+	<li class="edit"><a onclick="javascript:editGraphProperty(this, '<?php echo htmlspecialchars($graph['id']); ?>', get_graph_<?php echo htmlspecialchars($graph['id']); ?>()); return false;">Edit</a></li>
 	<?php } ?>
 </ul>
 <script type="text/javascript">
