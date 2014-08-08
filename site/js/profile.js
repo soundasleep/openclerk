@@ -280,8 +280,13 @@ function editGraphProperty(target, id, graph_data) {
     $(temp).find("select[name='height']").val(graph_data['height']);
     $(temp).find("select[name='days']").val(graph_data['days']);
     $(temp).find("select[name='delta']").val(graph_data['delta']);
-    $(temp).find("select[name='technical']").val(graph_data['technical']);
-    $(temp).find("input[name='period']").val(graph_data['period']);
+    if (typeof graph_data['technical'] == 'undefined') {
+      $(temp).find("select[name='technical']").val(graph_data['technical_type']);
+      $(temp).find("input[name='period']").val(graph_data['technical_period']);
+    } else {
+      $(temp).find("select[name='technical']").val(graph_data['technical']);
+      $(temp).find("input[name='period']").val(graph_data['period']);
+    }
     $(temp).find("input[name='id']").val(graph_data['id']);
     $(temp).find("input:submit").val("Update graph");
 
