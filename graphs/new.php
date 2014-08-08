@@ -67,9 +67,37 @@ function render_graph_new($graph, $include_user_hash = false) {
 		$graph['user_hash'] = compute_user_graph_hash(get_user(user_id()));
 	}
 
+	// we set the widths and heights initially here so that the page layout doesn't move around
+	// a lot as the graphs are loaded via AJAX
+	$inline_styles = "overflow: hidden; width: " . $graph['computedWidth'] . "px; height: " . $graph['computedHeight'] . "px;";
+
+	if ($graph['graph_type'] == "calculator") {
+		// a special case for the Calculator widget; it doesn't seem a good idea to
+		// have this as an API call that returns a mixture of HTML and Javascript
+		?>
+		<div id="<?php echo htmlspecialchars($graph_id); ?>" class="graph graph_calculator" style="<?php echo $inline_styles; ?>">
+			<div class="graph_headings">
+				<h2 class="graph_title"><?php echo ht("Currency converter"); ?></h2>
+			</div>
+			<div class="graph-target">
+				<?php
+				require(__DIR__ . "/../site/_calculator.php");
+				?>
+			</div>
+		</div>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			Graphs.render(<?php echo json_encode($graph); ?>, true /* static graph */);
+			initialise_calculator($("#<?php echo htmlspecialchars($graph_id); ?>"))
+		});
+		</script>
+		<?php
+		return;
+	}
+
 	// 'overflow: hidden;' is to fix a Chrome rendering bug
 	?>
-		<div id="<?php echo htmlspecialchars($graph_id); ?>" class="graph" style="overflow: hidden;"></div>
+		<div id="<?php echo htmlspecialchars($graph_id); ?>" class="graph" style="<?php echo $inline_styles; ?>"></div>
 		<script type="text/javascript">
 			Graphs.render(<?php echo json_encode($graph); ?>);
 		</script>

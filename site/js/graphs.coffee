@@ -21,7 +21,14 @@
     for key, graph of @collection
       graph.callback()
 
-  render: (graph) ->
+  ###
+   # Initialise the DOM and execute the AJAX callback to render the
+   # given graph (in JSON format).
+   #
+   # @param staticGraph boolean if true, only modify the DOM as necessary; do not
+   #        call the callback or set a window timeout. defaults to false
+  ###
+  render: (graph, staticGraph = false) ->
     throw new Error("No target set") unless graph.target
 
     try
@@ -144,7 +151,10 @@
 
         # once the elements are ready, lets go
         graph.ready = true
-        graph.callback()
+        if staticGraph
+          $(target).find(".status_loading").remove()
+        else
+          graph.callback()
 
     catch error
       console.error error
