@@ -1,13 +1,15 @@
 <?php
 
-class GraphRenderer_SummaryGraph extends GraphRenderer_AbstractTicker {
+class GraphRenderer_BalancesGraph extends GraphRenderer_AbstractTicker {
 
-	var $summary_type;
+	var $exchange;
+	var $account_id;
 	var $currency;
 
-	public function __construct($summary_type, $currency) {
+	public function __construct($exchange, $account_id, $currency) {
 		parent::__construct();
-		$this->summary_type = $summary_type;
+		$this->exchange = $exchange;
+		$this->account_id = $account_id;
 		$this->currency = $currency;
 	}
 
@@ -16,12 +18,12 @@ class GraphRenderer_SummaryGraph extends GraphRenderer_AbstractTicker {
 	}
 
 	public function getTitle() {
-		return ct("Total :currency");
+		return ct(":exchange");
 	}
 
 	public function getTitleArgs() {
 		return array(
-			':currency' => get_currency_abbr($this->currency),
+			':exchange' => get_exchange_name($this->exchange),
 		);
 	}
 
@@ -41,10 +43,10 @@ class GraphRenderer_SummaryGraph extends GraphRenderer_AbstractTicker {
 	function getTickerSources($days, $extra_days) {
 		return array(
 			// first get summarised data
-			array('query' => "SELECT * FROM graph_data_summary WHERE user_id=:user_id AND summary_type=:summary_type AND
+			array('query' => "SELECT * FROM graph_data_balances WHERE user_id=:user_id AND exchange=:exchange AND account_id=:account_id AND currency=:currency AND
 				data_date >= DATE_SUB(NOW(), INTERVAL " . ($days + $extra_days) . " DAY) ORDER BY data_date DESC", 'key' => 'data_date'),
 			// and then get more recent data
-			array('query' => "SELECT * FROM summary_instances WHERE is_daily_data=1 AND summary_type=:summary_type AND
+			array('query' => "SELECT * FROM balances WHERE is_daily_data=1 AND exchange=:exchange AND account_id=:account_id AND currency=:currency AND
 				user_id=:user_id ORDER BY created_at DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at'),
 		);
 	}
@@ -55,7 +57,9 @@ class GraphRenderer_SummaryGraph extends GraphRenderer_AbstractTicker {
 	function getTickerArgs() {
 		return array(
 			'user_id' => $this->getUser(),
-			'summary_type' => $this->summary_type,
+			'exchange' => $this->exchange,
+			'account_id' => $this->account_id,
+			'currency' => $this->currency,
 		);
 	}
 
