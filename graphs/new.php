@@ -198,6 +198,21 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 		}
 	}
 
+	// issue #273: fix bitmarket_pl exchange
+	if (count($bits) == 4) {
+		$cur1 = false;
+		$cur2 = false;
+		if (strlen($bits[2]) == 6) {
+			$cur1 = substr($bits[2], 0, 3);
+			$cur2 = substr($bits[2], 3);
+			$cur1 = in_array($cur1, get_all_currencies()) ? $cur1 : false;
+			$cur2 = in_array($cur2, get_all_currencies()) ? $cur2 : false;
+		}
+		if ($bits[3] == "daily" && $cur1 && $cur2 && isset($all_exchanges[$bits[0] . "_" . $bits[1]])) {
+			return new GraphRenderer_Ticker($bits[0] . "_" . $bits[1], $cur1, $cur2);
+		}
+	}
+
 	if (count($bits) >= 2) {
 		if (substr($bits[0], 0, strlen("all2")) == "all2" || substr($bits[0], 0, strlen("crypto2")) == "crypto2") {
 			$cur = substr($bits[0], -3);
@@ -205,6 +220,10 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 				if (count($bits) == 3 && $bits[2] == "daily" && isset($all_exchanges[$bits[1]])) {
 					// e.g. all2nzd_bitnz_daily
 					return new GraphRenderer_SummaryGraphConvertedExchange($bits[0] . "_" . $bits[1], $cur);
+				}
+				if (count($bits) == 4 && $bits[3] == "daily" && isset($all_exchanges[$bits[1] . "_" . $bits[2]])) {
+					// e.g. all2pln_bitmarket_pl_daily (#273)
+					return new GraphRenderer_SummaryGraphConvertedExchange($bits[0] . "_" . $bits[1] . "_" . $bits[2], $cur);
 				}
 				if (count($bits) == 2 && $bits[1] == "daily") {
 					// e.g. crypto2ltc_daily
