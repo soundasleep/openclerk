@@ -130,7 +130,7 @@ abstract class GraphRenderer_AbstractCompositionGraph extends GraphRenderer {
 					$row[$key] = graph_number_format(0);
 				}
 			}
-			if (count($row) > 1) {
+			if (count($row) > 0) {
 				// don't add empty rows
 				$data[$date] = $row;
 				$previous_row = $row;
