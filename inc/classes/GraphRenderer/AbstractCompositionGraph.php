@@ -140,6 +140,19 @@ abstract class GraphRenderer_AbstractCompositionGraph extends GraphRenderer {
 		// sort each row by the biggest value in the most recent data
 		// so e.g. BTC comes first, LTC comes second, regardless of order of summary_instances, balances etc
 		$keys = array_keys($data);
+		// we can only sort if we actually have data
+		if (count($keys) == 0) {
+			// bail early
+			return array(
+				'key' => $key_column,
+				'columns' => $columns,
+				'data' => $data,
+				'last_updated' => $last_updated,
+
+				// there isn't any total
+			);
+		}
+
 		$last_row = $data[$keys[count($keys)-1]];
 		arsort($last_row);
 		$data_temp = array();
