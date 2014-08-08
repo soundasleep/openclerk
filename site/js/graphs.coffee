@@ -359,6 +359,8 @@
     throw new Error("Graph has not been initialised") unless graph.ready?
 
     targetDiv = $(target).find(".graph-target .status_loading")
+    if (targetDiv.length == 0)
+      targetDiv = $(target).find(".graph-target")
     throw new Error("Could not find graph within " + target) unless targetDiv.length == 1
 
     $(targetDiv).text(result.text)
@@ -370,10 +372,13 @@
       $(target).addClass(result.classes)
 
     # also render subheadings
-    heading = $(target).find(".graph_title a")
-    heading.html(Locale.formatTemplate(result.heading.label, result.heading.args))
-    heading.attr('href', result.heading.url)
-    heading.attr('title', result.heading.title)
+    heading = $(target).find(".graph_title")
+    if result.heading.url
+      $(heading).find("a").html(Locale.formatTemplate(result.heading.label, result.heading.args))
+      $(heading).find("a").attr('href', result.heading.url)
+      $(heading).find("a").attr('title', result.heading.title)
+    else
+      $(heading).html(Locale.formatTemplate(result.heading.label, result.heading.args))
 
     # TODO outdated graph logic
 
