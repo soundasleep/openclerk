@@ -231,7 +231,7 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 		}
 
 		if ($bits[0] == "securities" && in_array($bits[2], get_all_currencies())) {
-			$renderer = new GraphRenderer_BalancesGraphSecurities('securities_'. $bits[1], $arg0, $bits[2]);
+			$renderer = new GraphRenderer_BalancesGraphSecurities('securities_'. $bits[1], $arg0, $bits[2], $arg0_resolved);
 			return $renderer;
 		}
 
