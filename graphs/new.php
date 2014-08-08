@@ -212,6 +212,15 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 		case "ticker_matrix":
 			return new GraphRenderer_TickerMatrix();
 
+		case "btc_equivalent_graph":
+			return new GraphRenderer_BtcEquivalentGraph();
+
+		case "btc_equivalent_stacked":
+			return new GraphRenderer_BtcEquivalentStacked();
+
+		case "btc_equivalent_proportional":
+			return new GraphRenderer_BtcEquivalentProportional();
+
 		case "external_historical":
 			return new GraphRenderer_ExternalHistorical($arg0_resolved);
 

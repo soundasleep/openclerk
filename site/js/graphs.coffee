@@ -190,7 +190,7 @@
 
       series.push
         lineWidth: column.lineWidth
-        color: @getChartColour(i)
+        color: @getChartColour(if column.color? then column.color else i)
       i++
       table.addColumn type, Locale.formatTemplate(column.title, column.args)
 
@@ -285,7 +285,7 @@
     coloursHash = {}
     i = 0
     for column in result.columns
-      coloursHash[column.title] = @getChartColour(i)
+      coloursHash[column.title] = @getChartColour(if column.color? then column.color else i)
       i++
 
     # we need to resort colours too, based on how we've sorted

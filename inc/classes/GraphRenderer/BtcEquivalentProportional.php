@@ -1,6 +1,6 @@
 <?php
 
-class GraphRenderer_CompositionProportional extends GraphRenderer_CompositionGraph {
+class GraphRenderer_BtcEquivalentProportional extends GraphRenderer_BtcEquivalentGraph {
 
 	public function getChartType() {
 		return "stacked";
