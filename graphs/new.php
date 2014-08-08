@@ -90,8 +90,8 @@ function compute_user_graph_hash($user) {
  */
 function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 	$bits = explode("_", $graph_type);
+	$all_exchanges = get_all_exchanges();
 	if (count($bits) == 3) {
-		$all_exchanges = get_all_exchanges();
 		$cur1 = false;
 		$cur2 = false;
 		if (strlen($bits[1]) == 6) {
@@ -123,6 +123,32 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 					return new GraphRenderer_CompositionProportional($bits[1]);
 			}
 		}
+
+		if ($bits[0] == "total" && in_array($bits[1], get_all_currencies()) && $bits[2] == "daily") {
+			return new GraphRenderer_SummaryGraph('total' . $bits[1], $bits[1]);
+		}
+
+		if ($bits[0] == "hashrate" && in_array($bits[1], get_all_currencies()) && $bits[2] == "daily") {
+			return new GraphRenderer_SummaryGraphHashrate('totalmh_' . $bits[1], $bits[1]);
+		}
+
+	}
+
+	if (count($bits) >= 2) {
+		if (substr($bits[0], 0, strlen("all2")) == "all2" || substr($bits[0], 0, strlen("crypto2")) == "crypto2") {
+			$cur = substr($bits[0], -3);
+			if (in_array($cur, get_all_currencies())) {
+				if (count($bits) == 3 && $bits[2] == "daily" && isset($all_exchanges[$bits[1]])) {
+					// e.g. all2nzd_bitnz_daily
+					return new GraphRenderer_SummaryGraphConvertedExchange($bits[0] . "_" . $bits[1], $cur);
+				}
+				if (count($bits) == 2 && $bits[1] == "daily") {
+					// e.g. crypto2ltc_daily
+					return new GraphRenderer_SummaryGraphConvertedCrypto($bits[0], $cur);
+				}
+			}
+		}
+
 	}
 
 	if (count($bits) >= 2 && $bits[0] == "metrics") {
