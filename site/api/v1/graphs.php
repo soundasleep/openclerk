@@ -103,7 +103,25 @@ function api_v1_graphs($graph) {
 
 	// 6. construct subheading and revise last_updated
 	if ($renderer->hasSubheading()) {
-		$result['subheading'] = format_subheading_values_objects($graph, $data['data'], $data['columns']);
+		if ($result['type'] == 'piechart') {
+			// sum up the first row and use that as a total
+			if (count($data['data']) != 1) {
+				throw new GraphException("Expected one row of data for a piechart, got " . count($data['data']));
+			}
+			$sum = 0;
+			foreach ($data['data'] as $ignored => $row) {
+				foreach ($row as $value) {
+					$sum += $value;
+				}
+			}
+			$suffix = "";
+			if ($graph['delta'] == 'percent') {
+				$suffix .= '%';
+			}
+			$result['subheading'] = number_format_html($sum, 4, $suffix);
+		} else {
+			$result['subheading'] = format_subheading_values_objects($graph, $data['data'], $data['columns']);
+		}
 	}
 
 	$result['lastUpdated'] = recent_format_html($data['last_updated']);
