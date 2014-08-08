@@ -936,6 +936,13 @@ function is_localhost() {
 }
 
 function set_temporary_messages($m) {
+	if (defined('NO_SESSION')) {
+		if ($m === null) {
+			// does nothing
+			return false;
+		}
+		throw new Exception("Cannot set temporary messages with no session");
+	}
 	if ($m === null) {
 		unset($_SESSION["temporary_messages"]);
 	} else {
@@ -953,6 +960,13 @@ function get_temporary_messages() {
 }
 
 function set_temporary_errors($m) {
+	if (defined('NO_SESSION')) {
+		if ($m === null) {
+			// does nothing
+			return false;
+		}
+		throw new Exception("Cannot set temporary errors with no session");
+	}
 	if ($m === null) {
 		unset($_SESSION["temporary_errors"]);
 	} else {
