@@ -181,10 +181,26 @@ abstract class GraphRenderer_AbstractCompositionGraph extends GraphRenderer {
 			$last_row_total += $value;
 		}
 
+		// sort the last row, and then use this new order to resort all
+		// of the columns and data
+		arsort($last_row);
+		$sorted_columns = array();
+		$sorted_data = array();
+		foreach ($last_row as $i => $ignored) {
+			$sorted_columns[] = $result_columns[$i];
+		}
+		foreach ($result_data as $date => $rows) {
+			$sorted_row = array();
+			foreach ($last_row as $i => $ignored) {
+				$sorted_row[] = $rows[$i];
+			}
+			$sorted_rows[$date] = $sorted_row;
+		}
+
 		return array(
 			'key' => $key_column,
-			'columns' => $result_columns,
-			'data' => $result_data,
+			'columns' => $sorted_columns,
+			'data' => $sorted_rows,
 			'last_updated' => $last_updated,
 
 			'last_row_total' => $last_row_total,
