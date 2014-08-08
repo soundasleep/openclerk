@@ -14,6 +14,8 @@
 @Graphs =
   collection: {}
 
+  timeoutInterval: 60000
+
   ###
    # Forcibly re-render all the graphs on the page.
   ###
@@ -53,11 +55,11 @@
         queue_ajax_request url,
           success: (data, text, xhr) ->
             $("#" + graph.target).html(data)
-            window.setTimeout(graph.callback, 60000)
+            window.setTimeout(graph.callback, @timeoutInterval)
 
           error: (xhr, text, error) ->
             $("#" + graph.target).html(xhr.responseText)
-            window.setTimeout(graph.callback, 60000)
+            window.setTimeout(graph.callback, @timeoutInterval)
         ###
 
         if not graph.days?
@@ -80,7 +82,7 @@
           url += "&no_cache=" + new Date().valueOf()
 
         # TODO premium and free graph update limits
-        window.setTimeout(graph.callback, 60000) unless noTimeout
+        window.setTimeout(graph.callback, @timeoutInterval) unless noTimeout
 
         queue_ajax_request url,
           dataType: 'json'
@@ -329,16 +331,17 @@
     # $(clone).find(".graph-target").width(graph.graphWidth)
     # $(clone).find(".graph-target").height(graph.graphHeight)
 
-    thead = document.createElement('thead')
-    tr = document.createElement('tr')
-    for column in result.columns
-      th = document.createElement('th')
-      $(th).html(Locale.formatTemplate(column.title, column.args))
-      $(th).addClass(column.type)
-      $(tr).append(th)
+    if not result.noHeader
+      thead = document.createElement('thead')
+      tr = document.createElement('tr')
+      for column in result.columns
+        th = document.createElement('th')
+        $(th).html(Locale.formatTemplate(column.title, column.args))
+        $(th).addClass(column.type)
+        $(tr).append(th)
 
-    $(thead).append(tr)
-    $(clone).find('table').append(thead)
+      $(thead).append(tr)
+      $(clone).find('table').append(thead)
 
     tbody = document.createElement('tbody')
     for key, value of result.data

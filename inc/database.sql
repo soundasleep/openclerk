@@ -4455,3 +4455,13 @@ CREATE TABLE blackcoin_blocks (
 
   INDEX(is_recent)
 );
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.27 to 0.28
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+-- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
+DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
+
+-- issue #274: add more simple pair tables
+UPDATE graphs SET graph_type='pair_mtgox_usdbtc' WHERE graph_type='mtgox_btc_table';

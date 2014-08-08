@@ -348,7 +348,7 @@ function graph_types() {
 			'uses_summaries' => true,
 		),
 
-		'mtgox_btc_table' => array(
+		'pair_mtgox_usdbtc' => array(
 			'title' => 'Mt.Gox USD/BTC (table)',
 			'heading' => 'Mt.Gox',
 			'description' => t('A simple table displaying the current bid/ask :pair price on :exchange.', array(':pair' => 'USD/BTC', ':exchange' => "Mt.Gox")),

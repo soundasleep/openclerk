@@ -316,7 +316,7 @@ function render_graph_actual($graph, $is_public) {
 			render_balances_btc_equivalent_graph($graph, user_id(), true /* stacked */, true /* proprtional */);
 			break;
 
-		case "mtgox_btc_table":
+		case "pair_mtgox_usdbtc":
 			// a table of just BTC/USD rates
 			$rates = get_all_recent_rates();
 			$graph['last_updated'] = find_latest_created_at($rates['usdbtc']);

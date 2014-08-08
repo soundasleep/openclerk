@@ -125,6 +125,9 @@ function api_v1_graphs($graph) {
 	if (isset($data['h2'])) {
 		$result['h2'] = $data['h2'];
 	}
+	if (isset($data['no_header'])) {
+		$result['noHeader'] = $data['no_header'];
+	}
 
 	// 6. construct subheading and revise last_updated
 	if ($renderer->hasSubheading()) {

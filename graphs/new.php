@@ -148,7 +148,13 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 			$cur1 = substr($bits[1], 0, 3);
 			$cur2 = substr($bits[1], 3);
 			$cur1 = in_array($cur1, get_all_currencies()) ? $cur1 : false;
-			$cur2 = in_array($cur1, get_all_currencies()) ? $cur2 : false;
+			$cur2 = in_array($cur2, get_all_currencies()) ? $cur2 : false;
+		}
+		if (strlen($bits[2]) == 6 && !$cur1 && !$cur2) {
+			$cur1 = substr($bits[2], 0, 3);
+			$cur2 = substr($bits[2], 3);
+			$cur1 = in_array($cur1, get_all_currencies()) ? $cur1 : false;
+			$cur2 = in_array($cur2, get_all_currencies()) ? $cur2 : false;
 		}
 
 		if ($bits[2] == "daily" && $cur1 && $cur2 && isset($all_exchanges[$bits[0]])) {
@@ -187,6 +193,9 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
 			return $renderer;
 		}
 
+		if ($bits[0] == "pair" && isset($all_exchanges[$bits[1]]) && $cur1 && $cur2) {
+			return new GraphRenderer_ExchangePair($bits[1], $cur1, $cur2);
+		}
 	}
 
 	if (count($bits) >= 2) {
