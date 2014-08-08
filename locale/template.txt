@@ -24,17 +24,25 @@
 (untitled)
 (wallet)
 ... and <dozens_more>
+1 min
+15 min
+5 min
+:% success
 <addresses> were invalid and were not added.
 <cost1> per month, or <cost2> per year
 <currency> MHash/s
 <currency> historical MHash/s (graph)
+<exchange>
 <exchange> <currency> security value (graph)
+<exchange> <pair>
+<exchange> <pair> (table)
 <exchange> <pair> exchange data
 <exchange> historical <pair> (graph)
 <exchange> historical <pair> (market data)
 <exchange> security
 <number> (out of <total>)
 <openid> is often much more secure than using an e-mail and password. If you do use a password, please make sure you do not use the same password on other cryptocurrency sites.
+<pair>
 <pair> Ask
 <pair> Bid
 <percent> requests successful
@@ -239,6 +247,7 @@ Checked
 Chinese
 Clear Filters
 Click the "Export" button and save this CSV file to your computer.
+Close
 Coin Voting
 Commodity currencies
 Composition graphs of each currency
@@ -253,6 +262,8 @@ Contact
 Contact Details
 Contact Us
 Continue
+Converted <currency>
+Converted <currency> (<exchange>)
 Converted <title>
 Converted <title> historical (graph)
 Converted crypto
@@ -287,6 +298,7 @@ Current premium prices
 Currently <site_name> supports the <currencies> cryptocurrencies.
 Daily Rates
 Data updated at least every
+Database system load (hours)
 Date
 Date:
 Days:
@@ -339,6 +351,7 @@ Enable layout editing
 Enabled <title>.
 Enabled transaction creation for <title>.
 English
+Equivalent <currency>
 Equivalent BTC
 Equivalent BTC balances (graph)
 Equivalent BTC balances (pie)
@@ -463,9 +476,13 @@ Is it safe to provide <site_name> a Bitcoin-Qt CSV file?
 Is it safe to provide <site_name> a Litecoin-Qt CSV file?
 Italian
 Japanese
+Job frequency (graph)
+Job frequency (jobs/hour)
+Job queue delay (hours)
 Jobs
 Jobs at <site_name>
 Just now
+Key
 Knowledge Base: <title>
 Large
 Larger
@@ -489,6 +506,7 @@ Login with:
 Logout
 Lolcat
 Looking for your <preferences>?
+MH/s
 Mailing List
 Market Average: <pair>
 Market Averages
@@ -500,6 +518,8 @@ Mining Pools
 Mining pool wallets
 Mining pools
 More help
+Move down
+Move up
 Multiplier
 Must login every
 My converted <title>
@@ -522,6 +542,7 @@ No graphs to display! You might want to add one below.
 No hash specified.
 No outstanding payments.
 No previous payments.
+No recent rates found for <exchange> <pair>
 No securities to display! You might want to add details about <your_securities>, if you have any.
 No such external API type '<type>'.
 No such knowledge base article '<key>'.
@@ -603,6 +624,7 @@ Reference
 Reference:
 Relative Strength Index
 Release History
+Remove
 Remove Page
 Remove password
 Remove password login
@@ -659,6 +681,25 @@ Signup with:
 Simple Moving Average
 Simple moving average
 Since
+Site status
+Slowest CURL URLs (graph)
+Slowest CURL URLs (ms)
+Slowest DB queries (graph)
+Slowest DB queries (ms)
+Slowest graphs (graph)
+Slowest graphs (ms)
+Slowest graphs database time (graph)
+Slowest graphs database time (ms)
+Slowest graphs frequency
+Slowest graphs frequency (graph)
+Slowest jobs (graph)
+Slowest jobs (ms)
+Slowest jobs database time (graph)
+Slowest jobs database time (ms)
+Slowest pages (graph)
+Slowest pages (ms)
+Slowest pages database time (graph)
+Slowest pages database time (ms)
 Small
 Sort ascending
 Sort descending
@@ -683,6 +724,7 @@ Supported mining pools
 Supported wallets
 Supports <currencies>.
 System account
+System load (hours)
 Technical indicator types
 Technical:
 Terms and Conditions of Use
@@ -702,6 +744,16 @@ That resource could not be found.
 The Bitcoin-Qt client will only export your public Bitcoin addresses. These addresses can only be used to retrieve address balances; it is not possible to perform transactions using a public address.
 The Litecoin-Qt client will only export your public Litecoin addresses. These addresses can only be used to retrieve address balances; it is not possible to perform transactions using a public address.
 The combined fiat value of all of your currencies
+The frequency of particular jobs per hour, represented as a graph over time.
+The frequency that the slowest graphs are requested, represented as a graph over time.
+The slowest CURL requests represented as a graph over time.
+The slowest database queries represented as a graph over time.
+The slowest graphs represented as a graph over time.
+The slowest jobs represented as a graph over time.
+The slowest pages represented as a graph over time.
+The time spent in the database on the slowest graphs represented as a graph over time.
+The time spent in the database on the slowest jobs represented as a graph over time.
+The time spent in the database on the slowest pages represented as a graph over time.
 There is not yet any historical data for these statistics.
 There is not yet any historical data for this external API.
 These automated notifications are sent out up to once per day (or once per hour for premium users).
@@ -808,6 +860,7 @@ View
 View Reports
 View historical data
 View historical transactions
+View market averages
 View screenshots on personalising your reports
 View your Reports
 Visit this group
