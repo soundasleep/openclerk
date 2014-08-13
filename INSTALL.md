@@ -13,7 +13,7 @@ To install Openclerk:
 
 2. Install PHP/Apache: (requires PHP 5+)
 
-        sudo apt-get install apache2 php5 php5-mysql php5-curl libapache2-mod-php5
+        sudo apt-get install apache2 php5 php5-mysql php5-curl libapache2-mod-php5 php5-gd
         sudo a2enmod rewrite
         sudo service apache2 restart
 
@@ -80,8 +80,7 @@ To install Openclerk:
 
         mysql -u openclerk -p < inc/database.sql
 
-7. Copy inc/config.php.sample to inc/config.php and edit it with relevant
-   configuration data.
+7. Copy `inc/config.php.sample` to `config/config.php` and edit it with relevant configuration data.
 
 8. Set up cron jobs to execute the `batch/batch_*.php` scripts as necessary. Set
    'automated_key' to a secure value, and use this as the first parameter
