@@ -148,7 +148,7 @@ $graph = array(
 	<?php } ?>
 	<tr>
 		<th>mysql_qps (average)</th>
-		<td class="number"><?php echo number_format($stats['mysql_questions'] / $stats['mysql_uptime'], 2); ?></td>
+		<td class="number"><?php echo $stats['mysql_uptime'] ? number_format($stats['mysql_questions'] / $stats['mysql_uptime'], 2) : "-"; ?></td>
 	</tr>
 	<?php
 		$value = $stats['mysql_locks_blocked'] / ($stats['mysql_locks_immediate'] + $stats['mysql_locks_blocked'] + 1 /* hack to prevent div/0 */);
