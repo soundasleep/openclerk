@@ -91,109 +91,104 @@ $graph = array(
 <?php
 	$q = db()->prepare("SELECT * FROM site_statistics WHERE is_recent=1");
 	$q->execute();
-	$stats = $q->fetch();
-	if (!$stats) {
-		// if there are no site_statistics, display a warning instead of iterating over empty
-		$stats[] = array("warning" => "No site_statistics found yet.");
-	}
-	foreach ($stats as $key => $value) {
-		if (is_numeric($key)) continue;
-		$dp = 0;
-		$suffix = "";
-		$status = "";
-		if (substr($key, -strlen("disk_free_space")) == "disk_free_space") {
-			$suffix = " GB";
-			$value = $value / pow(1024, 3);
-			if ($value < 0.5) {
-				$status = "broken";
-			} if ($value < 1) {
-				$status = "bad";
-			} else if ($value < 5) {
-				$status = "poor";
-			} else if ($value < 10) {
-				$status = "good";
-			} else {
-				$status = "perfect";
+	if ($stats = $q->fetch()) {
+		foreach ($stats as $key => $value) {
+			if (is_numeric($key)) continue;
+			$dp = 0;
+			$suffix = "";
+			$status = "";
+			if (substr($key, -strlen("disk_free_space")) == "disk_free_space") {
+				$suffix = " GB";
+				$value = $value / pow(1024, 3);
+				if ($value < 0.5) {
+					$status = "broken";
+				} if ($value < 1) {
+					$status = "bad";
+				} else if ($value < 5) {
+					$status = "poor";
+				} else if ($value < 10) {
+					$status = "good";
+				} else {
+					$status = "perfect";
+				}
+				$dp = 3;
 			}
-			$dp = 3;
-		}
-		if (strpos($key, "system_load") !== false) {
-			$dp = 2;
-			if ($value > 2) {
+			if (strpos($key, "system_load") !== false) {
+				$dp = 2;
+				if ($value > 2) {
+					$status = "bad";
+				} else if ($value > 1) {
+					$status = "poor";
+				} else if ($value > 0.5) {
+					$status = "ok";
+				} else if ($value > 0.25) {
+					$status = "good";
+				} else {
+					$status = "perfect";
+				}
+			}
+			if ($key == "pending_subscriptions") {
+				if ($value >= 90) {
+					$status = "bad";
+				}
+			}
+			?>
+			<tr>
+				<th><?php echo htmlspecialchars($key); ?></th>
+				<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>">
+					<?php if ($key == "created_at") {
+						echo recent_format_html($value);
+					} else if (is_numeric($value)) {
+						echo number_format($value, $dp);
+					} else {
+						echo htmlspecialchars($value);
+					}
+					echo $suffix; ?></span></td>
+			</tr>
+			<?php } ?>
+		<tr>
+			<th>mysql_qps (average)</th>
+			<td class="number"><?php echo $stats['mysql_uptime'] ? number_format($stats['mysql_questions'] / $stats['mysql_uptime'], 2) : "-"; ?></td>
+		</tr>
+		<?php
+			$value = $stats['mysql_locks_blocked'] / ($stats['mysql_locks_immediate'] + $stats['mysql_locks_blocked'] + 1 /* hack to prevent div/0 */);
+			$status = "";
+			if ($value > 0.1) {
 				$status = "bad";
-			} else if ($value > 1) {
+			} else if ($value > 0.05) {
 				$status = "poor";
-			} else if ($value > 0.5) {
+			} else if ($value > 0.025) {
 				$status = "ok";
-			} else if ($value > 0.25) {
+			} else if ($value > 0.01) {
 				$status = "good";
 			} else {
 				$status = "perfect";
 			}
-		}
-		if ($key == "pending_subscriptions") {
-			if ($value >= 90) {
-				$status = "bad";
-			}
-		}
 		?>
-	<tr>
-		<th><?php echo htmlspecialchars($key); ?></th>
-		<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>">
-			<?php if ($key == "created_at") {
-				echo recent_format_html($value);
-			} else if (is_numeric($value)) {
-				echo number_format($value, $dp);
+		<tr>
+			<th>locked out queries</th>
+			<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>"><?php echo number_format($value, 2); ?> %</span></td>
+		</tr>
+		<?php
+			$value = $stats['mysql_slow_queries'] / ($stats['mysql_questions'] + + 1 /* hack to prevent div/0 */);
+			$status = "";
+			if ($value > 0.05) {
+				$status = "bad";
+			} else if ($value > 0.01) {
+				$status = "poor";
+			} else if ($value > 0.005) {
+				$status = "ok";
+			} else if ($value > 0.001) {
+				$status = "good";
 			} else {
-				echo htmlspecialchars($value);
+				$status = "perfect";
 			}
-			echo $suffix; ?></span></td>
-	</tr>
+		?>
+		<tr>
+			<th>slow queries</th>
+			<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>"><?php echo number_format($value, 3); ?> %</span></td>
+		</tr>
 	<?php } ?>
-	<tr>
-		<th>mysql_qps (average)</th>
-		<td class="number"><?php echo $stats['mysql_uptime'] ? number_format($stats['mysql_questions'] / $stats['mysql_uptime'], 2) : "-"; ?></td>
-	</tr>
-	<?php
-		$value = $stats['mysql_locks_blocked'] / ($stats['mysql_locks_immediate'] + $stats['mysql_locks_blocked'] + 1 /* hack to prevent div/0 */);
-		$status = "";
-		if ($value > 0.1) {
-			$status = "bad";
-		} else if ($value > 0.05) {
-			$status = "poor";
-		} else if ($value > 0.025) {
-			$status = "ok";
-		} else if ($value > 0.01) {
-			$status = "good";
-		} else {
-			$status = "perfect";
-		}
-	?>
-	<tr>
-		<th>locked out queries</th>
-		<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>"><?php echo number_format($value, 2); ?> %</span></td>
-	</tr>
-	<?php
-		$value = $stats['mysql_slow_queries'] / ($stats['mysql_questions'] + + 1 /* hack to prevent div/0 */);
-		$status = "";
-		if ($value > 0.05) {
-			$status = "bad";
-		} else if ($value > 0.01) {
-			$status = "poor";
-		} else if ($value > 0.005) {
-			$status = "ok";
-		} else if ($value > 0.001) {
-			$status = "good";
-		} else {
-			$status = "perfect";
-		}
-	?>
-	<tr>
-		<th>slow queries</th>
-		<td class="number"><span class="<?php echo $status ? "status_percent " . $status : ""; ?>"><?php echo number_format($value, 3); ?> %</span></td>
-	</tr>
-	<?php
-?>
 </tbody>
 </table>
 
