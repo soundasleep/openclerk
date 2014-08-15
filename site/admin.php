@@ -92,6 +92,10 @@ $graph = array(
 	$q = db()->prepare("SELECT * FROM site_statistics WHERE is_recent=1");
 	$q->execute();
 	$stats = $q->fetch();
+	if (!$stats) {
+		// if there are no site_statistics, display a warning instead of iterating over empty
+		$stats[] = array("warning" => "No site_statistics found yet.");
+	}
 	foreach ($stats as $key => $value) {
 		if (is_numeric($key)) continue;
 		$dp = 0;
