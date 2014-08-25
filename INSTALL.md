@@ -94,3 +94,7 @@ To install Openclerk:
 9. Sign up as normal. To make yourself an administrator, execute MySQL:
 
         UPDATE users SET is_admin=1 WHERE id=?
+
+### Or install with Chef
+
+An experimental Chef cookbook that will install and configure Openclerk is available at https://github.com/soundasleep/openclerk-cookbook.
