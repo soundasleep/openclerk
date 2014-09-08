@@ -25,6 +25,9 @@ $html = preg_replace("#[\n\t]+#", "", $html);
 $html = preg_replace("#</tr>#", "</tr>\n", $html);
 $html = preg_replace("#<td[^>]+?>#", "<td>", $html);
 $html = preg_replace("#<tr[^>]+?>#", "<tr>", $html);
+$html = preg_replace("#<span[^>]+?>#", "", $html);
+$html = preg_replace("#</span>#", "", $html);
+$html = preg_replace("#> *<#", "><", $html);
 
 if ($address['is_received']) {
 	crypto_log("We are looking for received balance.");
