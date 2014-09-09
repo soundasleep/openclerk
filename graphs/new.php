@@ -165,7 +165,18 @@ class NoDataGraphException_AddAccountsAddresses extends GraphException { }
 class NoDataGraphException_AddCurrencies extends GraphException { }
 
 function compute_user_graph_hash($user) {
-	return md5(get_site_config('user_graph_hash_salt') . ":" . $user['id'] . ":" . $user['last_login']);
+	return md5(get_site_config('user_graph_hash_salt') . ":" . $user['id'] . ":" . $_SESSION["user_key"]);
+}
+
+function has_expected_user_graph_hash($hash, $user) {
+	$q = db()->prepare("SELECT * FROM valid_user_keys WHERE user_id=?");
+	$q->execute(array($user['id']));
+	while ($key = $q->fetch()) {
+		if ($hash === md5(get_site_config('user_graph_hash_salt') . ":" . $user['id'] . ":" . $key['user_key'])) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /**

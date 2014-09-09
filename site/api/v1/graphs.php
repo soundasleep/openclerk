@@ -46,8 +46,7 @@ function api_v1_graphs($graph) {
 		if (!$user) {
 			throw new GraphException("No such user found");
 		}
-		$expected_hash = compute_user_graph_hash($user);
-		if ($graph['user_hash'] !== $expected_hash) {
+		if (!has_expected_user_graph_hash($graph['user_hash'], $user)) {
 			throw new GraphException("Mismatched user hash for user " . $graph['user_id'] . " with graph type " . $graph['graph_type']);
 		}
 
