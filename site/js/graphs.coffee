@@ -45,23 +45,6 @@
        #        also tries to force a cache bust
       ###
       graph.callback = (noTimeout) =>
-        ###
-        url = "graph_public?graph_type=" + graph.graph_type + "&days=" + graph.days +
-              "&height=" + graph.height + "&width=" + graph.width +
-              "&delta=" + graph.delta + "&arg0=" + graph.arg0 +
-              "&arg0_resolved=" + graph.arg0_resolved + "&id=" + graph.id +
-              "&no_technicals=" + graph.no_technicals
-
-        queue_ajax_request url,
-          success: (data, text, xhr) ->
-            $("#" + graph.target).html(data)
-            window.setTimeout(graph.callback, @timeoutInterval)
-
-          error: (xhr, text, error) ->
-            $("#" + graph.target).html(xhr.responseText)
-            window.setTimeout(graph.callback, @timeoutInterval)
-        ###
-
         url = "api/v1/graphs/" + graph.graph_type + "?days=" + (if graph.days? then graph.days else "")
         if graph.delta?
           url += "&delta=" + graph.delta

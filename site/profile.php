@@ -200,23 +200,18 @@ if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { 
 <?php } ?>
 <?php
 
-if (require_get("old_graphs", false)) {
-	// old behaviour
-	render_graph($graph, isset($graph['public']) && $graph['public']);
+// load technicals from the database as necessary
+// (we can only load one at this stage)
+$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=? LIMIT 1");
+$q->execute(array($graph['id']));
+if ($technical = $q->fetch()) {
+	$graph['technical_type'] = $technical['technical_type'];
+	$graph['technical_period'] = $technical['technical_period'];
+}
 
-} else {
-	// load technicals from the database as necessary
-	// (we can only load one at this stage)
-	$q = db()->prepare("SELECT * FROM graph_technicals WHERE graph_id=? LIMIT 1");
-	$q->execute(array($graph['id']));
-	if ($technical = $q->fetch()) {
-		$graph['technical_type'] = $technical['technical_type'];
-		$graph['technical_period'] = $technical['technical_period'];
-	}
+render_graph_new($graph, true /* TODO we should not force user data unless we actually need it */);
 
-	render_graph_new($graph, true /* TODO we should not force user data unless we actually need it */);
-
-} ?>
+?>
 <?php if ($graph['graph_type'] == "linebreak" || $graph['graph_type'] == "heading") { ?>
 </div>
 </div>

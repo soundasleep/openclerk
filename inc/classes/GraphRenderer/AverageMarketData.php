@@ -93,7 +93,7 @@ class GraphRenderer_AverageMarketData extends GraphRenderer {
 			$id = $ticker['exchange'] . "_" . $ticker['currency1'] . $ticker['currency2'] . "_daily";
 			$data[$ticker['exchange']] = array(
 				"<a href=\"" . htmlspecialchars(url_for('historical', array('id' => $id, 'days' => 180))) . "\">" . get_exchange_name($ticker['exchange']) . "</a>",
-				average_currency_format_html($ticker['last_trade'], $ticker['last_trade']),
+				$this->average_currency_format_html($ticker['last_trade'], $ticker['last_trade']),
 				currency_format($volume_currency, $ticker['volume'], 0) . " (" .
 					($average['volume'] == 0 ? "-" : (number_format($ticker['volume'] * 100 / $average['volume']) . "%")) . ")",
 			);
@@ -113,6 +113,22 @@ class GraphRenderer_AverageMarketData extends GraphRenderer {
 			'h2' => "(" . number_format($average['volume']). " " . get_currency_abbr($volume_currency) . " total volume)",
 		);
 
+	}
+
+	public function average_currency_format_html($cmp, $n) {
+		if ($cmp > 1000) {
+			return number_format_precision_html($n, 0);
+		} else if ($cmp > 100) {
+			return number_format_precision_html($n, 2);
+		} else if ($cmp > 1) {
+			return number_format_precision_html($n, 4);
+		} else if ($cmp > 1e-2) {
+			return number_format_precision_html($n, 6);
+		} else if ($cmp > 1e-4) {
+			return number_format_precision_html($n, 8);
+		} else {
+			return number_format_precision_html($n, 8);
+		}
 	}
 
 }
