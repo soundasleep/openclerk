@@ -2,26 +2,20 @@
 
 /**
  * Vertcoin Search job.
- * We use the vertexplorer.com directly, but this does not provide confirmations.
+ * The Vertcoin Search (through Abe) does not provide an expressive enough API
+ * for things like /address/x/balance?confirmations=6
+ * So, we need to emulate this by periodically querying Explorer for the current block number,
+ * and HTML parsing /address pages for transactions, and reversing any transactions within
+ * a block number less than the current block number (minus some number).
+ * We can go zero-confirmations for users, but for payment we need to have confirmations.
  */
 
-// get the relevant address
-$q = db()->prepare("SELECT * FROM addresses WHERE user_id=? AND id=?");
-$q->execute(array($job['user_id'], $job['arg_id']));
-$address = $q->fetch();
-if (!$address) {
-	throw new JobException("Cannot find an address " . $job['arg_id'] . " for user " . $job['user_id']);
-}
+$abe_data = array(
+	'currency' => 'vtc',
+	'block_table' => 'vertcoin_blocks',
+	'block_job' => 'vertcoin_block',
+	'explorer_url' => get_site_config('vtc_address_url'),
+	'confirmations' => get_site_config('vtc_confirmations'),
+);
 
-$result = crypto_json_decode(crypto_get_contents(crypto_wrap_url(get_site_config('vtc_balance_url') . urlencode($address['address']))));
-
-if ($address['is_received']) {
-	crypto_log("We are looking for received balance.");
-
-	$balance = $result['totalReceived'];
-} else {
-	$balance = $result['balance'];
-}
-crypto_log("Found balance " . $balance);
-
-insert_new_address_balance($job, $address, $balance);
+require(__DIR__ . "/_abe_blockchain.php");

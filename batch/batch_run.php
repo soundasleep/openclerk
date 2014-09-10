@@ -272,6 +272,10 @@ try {
 			require(__DIR__ . "/../jobs/ixcoin_block.php");
 			break;
 
+		case "vertcoin_block":
+			require(__DIR__ . "/../jobs/vertcoin_block.php");
+			break;
+
 		case "netcoin_block":
 			require(__DIR__ . "/../jobs/netcoin_block.php");
 			break;

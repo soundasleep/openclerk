@@ -311,7 +311,8 @@ if (!$premium_only) {
 		'feathercoin_block', 'ppcoin_block', 'novacoin_block', 'primecoin_block',
 		'terracoin_block', 'dogecoin_block', 'megacoin_block', 'namecoin_block',
 		'digitalcoin_block', 'worldcoin_block', 'ixcoin_block',
-		'netcoin_block', 'hobonickels_block', 'blackcoin_block');
+		'netcoin_block', 'hobonickels_block', 'blackcoin_block',
+		'vertcoin_block');
 	foreach ($block_jobs as $name) {
 		// as often as we can (or on request), run litecoin_block jobs
 		if (!$job_type || in_array($name, $job_type)) {

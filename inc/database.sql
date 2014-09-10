@@ -4466,3 +4466,18 @@ DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
 -- issue #274: add more simple pair tables
 UPDATE graphs SET graph_type='pair_mtgox_usdbtc' WHERE graph_type='mtgox_btc_table';
 
+-- ... continue from here
+
+-- issue #285: use Vertcoin Explorer
+DROP TABLE IF EXISTS vertcoin_blocks;
+
+CREATE TABLE vertcoin_blocks (
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+
+  blockcount int not null,
+
+  is_recent tinyint not null default 0,
+
+  INDEX(is_recent)
+);

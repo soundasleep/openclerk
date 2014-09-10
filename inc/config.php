@@ -190,8 +190,8 @@ function get_default_site_config() {
 		"wdc_block_url" => "http://www.worldcoinexplorer.com/api/coindetails",
 		"ixc_address_url" => "http://block.al.tcoin.info/address/",
 		"ixc_block_url" => "http://block.al.tcoin.info/chain/Ixcoin/q/getblockcount",
-		"vtc_address_url" => "http://vertexplorer.com/address/",
-		"vtc_balance_url" => "http://vertexplorer.com/api/addr/",
+		"vtc_address_url" => "https://explorer.vertcoin.org/address/",
+		"vtc_block_url" => "https://explorer.vertcoin.org/chain/Vertcoin/q/getblockcount",
 		"net_address_url" => "http://explorer.netcoinfoundation.org/address/",
 		"net_block_url" => "http://explorer.netcoinfoundation.org/chain/Netcoin/q/getblockcount",
 		"hbn_address_url" => "http://162.217.249.198:1080/address/",
@@ -213,7 +213,7 @@ function get_default_site_config() {
 		"dgc_confirmations" => 6,
 		// "wdc_confirmations" => 6, -- not supported! #238
 		"ixc_confirmations" => 6,
-		// "vtc_confirmations" => 6, -- not supported
+		"vtc_confirmations" => 6,
 		"net_confirmations" => 6,
 		"hbn_confirmations" => 6,
 
