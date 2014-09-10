@@ -56,13 +56,16 @@ class GraphRenderer_EquivalentPieBTC extends GraphRenderer {
 			$data[] = graph_number_format(demo_scale($balances['totalbtc']['balance']));
 		}
 		foreach (get_all_currencies() as $cur) {
+			// if the key is a currency, use the same currency colour across all graphs (#293)
+			$color = array_search($cur, get_all_currencies());
+
 			if ($cur == 'btc') continue;
 			if (!is_fiat_currency($cur) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates['btc' . $cur])) {
-				$columns[] = array('type' => 'number', 'title' => get_currency_abbr($cur));
+				$columns[] = array('type' => 'number', 'title' => get_currency_abbr($cur), 'color' => $color);
 				$data[] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] * $rates['btc' . $cur]['bid']));
 			}
 			if (is_fiat_currency($cur) && isset($balances['total' . $cur]) && $balances['total' . $cur]['balance'] != 0 && isset($rates[$cur . 'btc']) && $rates[$cur . 'btc'] /* no div by 0 */) {
-				$columns[] = array('type' => 'number', 'title' => get_currency_abbr($cur));
+				$columns[] = array('type' => 'number', 'title' => get_currency_abbr($cur), 'color' => $color);
 				$data[] = graph_number_format(demo_scale($balances['total' . $cur]['balance'] / $rates[$cur . 'btc']['ask']));
 			}
 		}
