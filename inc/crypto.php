@@ -302,7 +302,10 @@ function get_exchange_pairs() {
 				array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'),
 				array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),
 				array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
-		"cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('nmc', 'ghs')),
+		"cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('ltc', 'ghs'),
+				array('usd', 'btc'), array('usd', 'ghs'), array('usd', 'ltc'), array('btc', 'dog'),
+				array('btc', 'drk'), array('btc', 'mec'), array('btc', 'wdc'), array('btc', 'ftc'),
+				array('ltc', 'dog'), array('ltc', 'drk'), array('ltc', 'mec')),
 		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'),
 				array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc'), array('sgd', 'btc'),
 				array('dkk', 'btc'), array('inr', 'btc'), array('cny', 'btc'),
@@ -385,6 +388,18 @@ function get_new_exchange_pairs() {
 		"crypto-trade_usddrk",
 		"crypto-trade_btcnxt",
 		"crypto-trade_usdnxt",
+		"cexio_ltcghs",
+		"cexio_usdbtc",
+		"cexio_usdghs",
+		"cexio_usdltc",
+		"cexio_btcdog",
+		"cexio_btcdrk",
+		"cexio_btcmec",
+		"cexio_btcwdc",
+		"cexio_btcftc",
+		"cexio_ltcdog",
+		"cexio_ltcdrk",
+		"cexio_ltcmec",
 	);
 }
 
@@ -443,7 +458,7 @@ function get_supported_wallets() {
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
 		"cryptotroll" => array('dog', 'hash'),
 		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt'),
-		"cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc'),		// also available: dvc
+		"cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),		// also available: dvc
 		"d2" => array('wdc', 'hash'),				// other coins available
 		"dedicatedpool" => array('dog', 'hash'),		// other coins available
 		"ecoining" => array('ppc', 'hash'),

@@ -26,7 +26,7 @@
 
 	fixed <span class="currency_name_dog">DOGE</span> addresses not updating;
 
-	updated supported currencies from <a href="https://www.crypto-trade.com">Crypto-Trade</a> and other exchanges.
+	updated supported currencies from <a href="https://www.crypto-trade.com">Crypto-Trade</a>, <a href="https://cex.io">CEX.io</a> and other exchanges.
 </dd>
 
 <dt>24 July</dt>
