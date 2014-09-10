@@ -5,7 +5,6 @@
 '<date>' is not a valid date
 '<value>' is not a valid <title> <label>.
 '<value>' is not a valid <title> title.
-'<value>' is not a valid numeric value for <currency>.
 (No <accounts> defined.)
 (No addresses defined.)
 (No graphs yet in this category.)
@@ -91,7 +90,7 @@ A stacked area graph displaying the historical value of your total <currency> ba
 A stacked area graph displaying the proportional historical value of all currencies if they were all converted into BTC.
 A stacked area graph displaying the proportional historical value of your total <currency> balance (before any conversions).
 A table displaying all of your <currency> balances and the total balance (before any conversions).
-A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.
+A table displaying the current sum of all currencies (before any conversions), along with the current total offset values of each currency.
 A table displaying the current sum of all your currencies (before any conversions).
 A table displaying the equivalent value of all cryptocurrencies - but not fiat currencies - if they were immediately converted into other cryptocurrencies.
 A table displaying the equivalent value of all cryptocurrencies and fiat currencies if they were immediately converted into fiat currencies. Cryptocurrencies are converted via BTC.
@@ -119,6 +118,7 @@ Add Graph
 Add Individual Securities
 Add Mining Pools
 Add New Notification
+Add Offsets
 Add OpenID Identity
 Add Other Account
 Add Page
@@ -143,6 +143,7 @@ Add new account
 Add new category
 Add new graph
 Add new page
+Add offset
 Add page
 Add password
 Add transaction
@@ -160,6 +161,7 @@ Added new finance category.
 Added new graph page <title>.
 Added transaction.
 Adding graphs
+Additional balances
 Address
 Address balances
 Addresses
@@ -201,18 +203,17 @@ As a <user>, you may have up to <addresses> and <accounts> defined.
 As a <user>, you may have up to <addresses> of <your_currencies> defined.
 As a <user>, you may have up to <graphs> per page defined.
 As a <user>, you may have up to <notifications> defined.
+As a <user>, you may have up to <offsets> defined.
 As a <user>, you may have up to accounts defined.
 As a <user>, your <titles> should be updated at least once every <hours><extra>.
 As a new user, it will take <minutes> for your <accounts> to be updated and your first reports to be generated.
 As a new user, it will take up to <hours> for this graph to be populated with initial data.
 As a new user, your addresses and accounts will be updated more frequently (every <frequency>) for the next <hours>.
-Ask
 Automatically logged in. Hi, <user>!
 Automatically select the best reports for me.
 Balance
 Balances
 Beta
-Bid
 Blog
 Bollinger Bands
 CSV File:
@@ -304,7 +305,6 @@ Date:
 Days:
 Delete
 Delete Account
-Delete generated historical transactions and start again
 Delete this account
 Delete this account, removing all historical data
 Delete this address
@@ -325,10 +325,13 @@ Disable
 Disable automatic graph refresh
 Disable e-mail/password login
 Disable this account, preserving any historical data
+Disable this notification
 Disable transaction generation for this account
+Disable transaction generation for this address
 Disabled
 Disabled <title>.
-Disabled transaction creation for <title>.
+Disabled notification.
+Disabled transaction creation for <title>; transactions will no longer be automatically created for this <label>.
 Displays a line of text as a heading at a particular location. Also functions as a line break. Select 'Enable layout editing' to move it.'
 Do graphs live update?
 Donate
@@ -342,14 +345,15 @@ Edited <heading> graph, with <technical>.
 Edited <heading> graph.
 Either you have not enabled this balance, or your summaries for this balance have not yet been updated by <site_name>.
 Either you have not enabled this currency, or your summaries for this currency have not yet been updated by <site_name>.
-Either you have not specified any accounts or addresses in <currency>, or these addresses and accounts have not yet been updated by <site_name>.
 Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by <site_name>.
 Enable
 Enable e-mail/password login
 Enable e-mail/password login on your account
 Enable layout editing
+Enable this notification
 Enabled <title>.
-Enabled transaction creation for <title>.
+Enabled notification.
+Enabled transaction creation for <title>; transactions will soon be automatically created for this <label>.
 English
 Equivalent <currency>
 Equivalent BTC
@@ -555,8 +559,10 @@ Not necessary
 Notification
 Notification Preferences
 Notifications
+Notify users and remove currency
 OR
 Offset
+Offsets
 Once information from your accounts have been downloaded and compiled into reports, you may view <reports> by defining graphs and pages. <site_name> can automatically manage these reports for you, or you may opt to define these manually. (You can always change these accounts later, by selecting the "Configure Accounts" link above.)
 Once this CSV file has been exported, select the "Browse..." button on the "Upload CSV" tab on the <page> to locate and upload this file to <site_name>.
 Once you have <signed_up> for a free <site_name> account, you may login here using OpenID or a password.
@@ -626,12 +632,14 @@ Relative Strength Index
 Release History
 Remove
 Remove Page
+Remove all historical transactions
 Remove password
 Remove password login
 Remove this page
 Removed <title>.
 Removed OpenID identity '<identity>'.
 Removed address <address>.
+Removed all transactions for <title>.
 Removed password.
 Removing a currency will also permanently remove any historical summary data for that currency.
 Repeat:
@@ -648,7 +656,6 @@ Reset graphs and pages
 Reset graphs.
 Reset page with all graphs
 Reset password
-Reset transactions for <title>; historical transactions will soon be generated automatically.
 Russian
 Safe and secure
 Save
@@ -672,7 +679,6 @@ Security:
 Select an exchange to display help...
 Select an option
 Select reports based on my portfolio preferences:
-Set <currency> offset to <value>.
 Show:
 Signing up for a <site_name> account is free and instant, and does not require any personally identifiable information. All that you need is <openid>, such as those provided by <examples> or others. This means that <site_name> does not deal with any passwords.
 Signup
@@ -816,7 +822,6 @@ Uncaught exceptions
 Unknown
 Unknown coin <id>.
 Unknown currency or no currency specified.
-Unknown graph type <type>
 Unknown notification type to edit '<notification_type>'
 Unknown page.
 Unsubscribe
@@ -826,12 +831,10 @@ Unused premium addresses
 Update
 Update Profile
 Update Title
-Update offsets
 Update votes
 Updated <title> <label>.
 Updated <title> title.
 Updated account details.
-Updated currency offsets.
 Updated existing notification.
 Updated graph portfolio preferences.
 Updated graph report management preference.
@@ -1014,9 +1017,13 @@ no data
 none
 notify you
 now
+offset
+offsets
 on
 one cryptocurrency
 one fiat currency
+other user
+other users
 outstanding premium payments
 password login
 powered by <openclerk>
@@ -1041,8 +1048,11 @@ ticker
 undo
 unknown
 untitled
+user
 user account
 user profile
+users
+value
 vote
 vote for new currencies
 votes

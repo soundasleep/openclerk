@@ -12,14 +12,12 @@ List of features that are also running at https://cryptfolio.com:
 * Easy-to-use web interface based in PHP
 * Create free accounts through OpenID or passwords
 * Support for multiple currencies
-  * Cryptocurrencies (BTC, LTC, NMC, PPC, FTC, NVC, XPM, TRC, DOGE, MEC, XRP, DGC, WDC, IXC, VTC, NET, HBN, BC)
-  * Fiat currencies (USD, GBP, EUR, CAD, AUD, NZD, CNY, PLN, ILS, KRW, SGD)
+  * Cryptocurrencies (BTC, LTC, NMC, PPC, FTC, NVC, XPM, TRC, DOGE, MEC, XRP, DGC, WDC, IXC, VTC, NET, HBN, BC, DRK, VRC, NXT)
+  * Fiat currencies (USD, GBP, EUR, CAD, AUD, NZD, CNY, PLN, ILS, KRW, SGD, DKK, INR)
   * Commodity currencies (GHS)
 * Support for exchange wallets
   * ANXPRO
   * Bit2c
-  * Bitcurex EUR
-  * Bitcurex PLN
   * BitMarket.pl
   * Bitstamp
   * Bittrex
@@ -70,15 +68,12 @@ List of features that are also running at https://cryptfolio.com:
   * Cryptotroll
   * d2
   * dedicatedpool.com
-  * Dogechain Pool
-  * dogepool.pw
   * Ecoining
   * Eligius
   * Elitist Jerks
   * GHash.io
   * Give Me Coins
   * HashFaster
-  * Hypernova
   * ltc.kattare.com
   * nvc.khore.org
   * litecoinpool.org
@@ -94,7 +89,6 @@ List of features that are also running at https://cryptfolio.com:
   * RapidHash
   * ScryptGuild
   * scryptpools.com
-  * Shibe Pool
   * Slush's pool
   * TeamDoge
   * TripleMining

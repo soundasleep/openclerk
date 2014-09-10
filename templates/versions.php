@@ -22,7 +22,7 @@
 
 	automatic transactions have been disabled, but can be re-enabled through <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your wizards</a>;
 
-	you can now <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_offsets')); ?>">have multiple offsets</a> for each currency;
+	you can now add <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_offsets')); ?>">multiple named offsets</a> for each currency;
 
 	fixed <span class="currency_name_dog">DOGE</span> addresses not updating;
 
