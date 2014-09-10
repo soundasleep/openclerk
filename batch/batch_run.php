@@ -524,10 +524,6 @@ try {
 			require(__DIR__ . "/../jobs/cryptsy.php");
 			break;
 
-		case "shibepool":
-			require(__DIR__ . "/../jobs/shibepool.php");
-			break;
-
 		case "cryptopools_dgc":
 			require(__DIR__ . "/../jobs/cryptopools_dgc.php");
 			break;

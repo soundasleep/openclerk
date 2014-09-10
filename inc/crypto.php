@@ -464,7 +464,6 @@ function get_supported_wallets() {
 		"rapidhash" => array('dog', 'vtc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
 		"scryptguild" => array('btc', 'dog', 'ltc', 'wdc', 'dgc', 'hash'),	// others available: lot, leaf, sbc, smc, meow, glc, eac, csc, anc
-		"shibepool" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
 		"teamdoge" => array('dog', 'hash'),
 		"triplemining" => array('btc', 'hash'),
@@ -739,7 +738,7 @@ function account_data_grouped() {
 			'rapidhash_vtc' => array('table' => 'accounts_rapidhash_vtc', 'group' => 'accounts', 'suffix' => ' VTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash'),
 			'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-			'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
 			'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
 			'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -854,6 +853,9 @@ function account_data_grouped() {
 			if (!isset($data[$key0][$key]['system'])) {
 				$data[$key0][$key]['system'] = false;
 			}
+			if (!isset($data[$key0][$key]['query'])) {
+				$data[$key0][$key]['query'] = '';
+			}
 		}
 	}
 	return $data;
@@ -959,7 +961,6 @@ function get_external_apis() {
 			'scryptguild' => '<a href="https://www.scryptguild.com/">ScryptGuild</a>',
 			'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
 			'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
-			'shibepool' => '<a href="http://shibepool.com/">Shibe Pool</a>',
 			'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
 			'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
 			'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',

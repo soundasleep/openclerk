@@ -4560,3 +4560,6 @@ ALTER TABLE offsets ADD title varchar(255) null;
 DELETE FROM offsets WHERE is_recent=0;
 DELETE FROM offsets WHERE balance=0;
 ALTER TABLE offsets DROP is_recent;
+
+-- issue #314: remove Shibe Pool accounts
+UPDATE accounts_shibepool SET is_disabled=1;
