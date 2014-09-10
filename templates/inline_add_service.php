@@ -33,11 +33,11 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>CoinEX (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/37">#37</a>)</li>
 	<li>coinmine.pw (<a href="http://www.coinmine.pw/api-information.php">PayAPI</a> is not safe &ndash; <a href="http://redmine.jevon.org/issues/106">#106</a>)</li>
 	<li>Coin.Mx</li>
+	<li>Coins-E</li>
 </ul>
 </div>
 <div class="column">
 <ul>
-	<li>Coins-E</li>
 	<li>fast-pool.com</li>
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
 	<li>hash-to-coins.com (no API &ndash; <a href="http://redmine.jevon.org/issues/282">#282</a>)</li>
@@ -46,8 +46,10 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>mcxNOW (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/91">#91</a>)</li>
 	<li>MintPal (<a href="http://redmine.jevon.org/issues/214">#214</a>)</li>
 	<li>NetcodePool (all currencies)</li>
+	<li>NiceHash (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/286">#286</a>)</li>
 	<li>Safello</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
+	<li>WestHash (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/287">#287</a>)</li>
 </ul>
 </div>
 </div>
