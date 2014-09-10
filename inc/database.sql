@@ -4484,3 +4484,6 @@ CREATE TABLE vertcoin_blocks (
 
 -- issue #290: removing dogechainpool accounts
 UPDATE accounts_dogechainpool SET is_disabled=1;
+
+-- issue #300: removing hypernova.pw accounts
+UPDATE accounts_hypernova SET is_disabled=1;

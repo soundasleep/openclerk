@@ -340,10 +340,6 @@ try {
 			require(__DIR__ . "/../jobs/btcguild.php");
 			break;
 
-		case "hypernova":
-			require(__DIR__ . "/../jobs/hypernova.php");
-			break;
-
 		case "ltcmineru":
 			require(__DIR__ . "/../jobs/ltcmineru.php");
 			break;
