@@ -83,12 +83,12 @@
                 else
                   throw new Error("Could not render graph type " + data.type)
 
-              ga('send', 'event', 'graphs', 'render', graph.graph_type)
+              ga('send', 'event', 'graphs', 'render', graph.graph_type) if ga?
             catch error
               Graphs.errorMessage graph.element, graph,
                 text: error.message
               console.error error
-              ga('send', 'event', 'graphs', 'error', error.message)
+              ga('send', 'event', 'graphs', 'error', error.message) if ga?
 
           error: (xhr, text, error) =>
             console.log if xhr.responseJSON? then xhr.responseJSON else xhr.responseText
