@@ -23,6 +23,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 <ul>
 	<li>BIPS (wallet API was removed)</li>
 	<li>Bitcoin.de</li>
+	<li>Bitcurex (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/297">#297</a>)</li>
 	<li>Bitfinex</li>
 	<li>Bitcoin China</li>
 	<li>Blockchain.info Wallet (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/195">#195</a>)</li>

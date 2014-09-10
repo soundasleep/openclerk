@@ -4546,3 +4546,7 @@ CREATE TABLE vericoin_blocks (
 
   INDEX(is_recent)
 );
+
+-- issue #297: removing Bitcurex accounts
+UPDATE accounts_bitcurex_eur SET is_disabled=1;
+UPDATE accounts_bitcurex_pln SET is_disabled=1;

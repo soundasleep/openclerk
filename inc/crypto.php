@@ -404,8 +404,6 @@ function get_supported_wallets() {
 		"anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),		// also hkd, sgd, jpy, chf
 		"beeeeer" => array('xpm'),
 		"bit2c" => array('btc', 'ltc', 'ils'),
-		"bitcurex_eur" => array('btc', 'eur'),
-		"bitcurex_pln" => array('btc', 'pln'),
 		"bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
@@ -735,8 +733,8 @@ function account_data_grouped() {
 			'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
 			'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-			'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
+			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
 			'bitmarket_pl' => array('table' => 'accounts_bitmarket_pl', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bittrex' => array('table' => 'accounts_bittrex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -948,8 +946,6 @@ function get_external_apis() {
 		"Exchange wallets" => array(
 			'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
 			'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
-			'bitcurex_eur' => '<a href="https://eur.bitcurex.com/">Bitcurex EUR</a>',
-			'bitcurex_pln' => '<a href="https://pln.bitcurex.com/">Bitcurex PLN</a>',
 			'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
 			'bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',

@@ -468,14 +468,6 @@ try {
 			require(__DIR__ . "/../jobs/scryptpools.php");
 			break;
 
-		case "bitcurex_pln":
-			require(__DIR__ . "/../jobs/bitcurex_pln.php");
-			break;
-
-		case "bitcurex_eur":
-			require(__DIR__ . "/../jobs/bitcurex_eur.php");
-			break;
-
 		case "justcoin":
 			require(__DIR__ . "/../jobs/justcoin.php");
 			break;
