@@ -2,6 +2,8 @@
 
 require(__DIR__ . "/../inc/global.php");
 
+define('USE_MASTER_DB', true);
+
 // POST overrides GET
 $destination = require_post("destination", require_get("destination", false));
 $autologin = require_post("autologin", require_get("autologin", true));

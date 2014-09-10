@@ -3,6 +3,8 @@
 require(__DIR__ . "/../inc/global.php");
 require(__DIR__ . "/../inc/countries.php");
 
+define('USE_MASTER_DB', true);
+
 // only permit POST for some variables
 $autologin = require_post("autologin", require_get("autologin", true));
 $use_password = require_post("use_password", require_get("use_password", false));
