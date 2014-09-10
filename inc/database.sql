@@ -4591,4 +4591,4 @@ CREATE TABLE ticker_historical (
 );
 
 -- initialise with everything
-REPLACE INTO ticker_historical (SELECT * FROM ticker_historical);
+REPLACE INTO ticker_historical (SELECT * FROM ticker);
