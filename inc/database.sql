@@ -4512,3 +4512,10 @@ ALTER TABLE securities_havelock ADD is_disabled_manually tinyint not null defaul
 
 -- re-enable all securities_havelock
 UPDATE securities_havelock SET is_disabled=0;
+
+-- issue #304: disable all automatic transaction generators
+DELETE FROM transaction_creators;
+
+-- and remove all automatic transactions
+DELETE FROM transactions WHERE is_automatic=1;
+

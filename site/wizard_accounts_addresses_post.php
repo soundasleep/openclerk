@@ -235,6 +235,7 @@ if (isset($_FILES['csv']) || require_post('addresses', false)) {
 
 // process enable_creator, disable_creator, reset_creator
 $account_data['exchange'] = $account_data['job_type'];
+$account_data['label'] = "address";
 require(__DIR__ . "/_wizard_accounts_creator_post.php");
 
 // otherwise we've got some other error; continue to redirect to GET

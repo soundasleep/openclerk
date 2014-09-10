@@ -2,7 +2,7 @@
 
 /**
  * Goes through a users' accounts and identifies which accounts might need automatic transaction
- * generation.
+ * generation deleted.
  */
 
 // create a map of all the current user exchanges
@@ -45,18 +45,6 @@ if ($to_delete) {
 
 	$q = db()->prepare("DELETE FROM transaction_creators WHERE user_id=? AND id IN (" . implode(",", $to_delete) . ")");
 	$q->execute(array($job['user_id']));
-}
-
-// now find all new ones
-foreach ($current_accounts as $account) {
-	crypto_log("Creating transaction creator for " . htmlspecialchars($account['exchange']) . " (" . $account['id'] . ")");
-
-	$q = db()->prepare("INSERT INTO transaction_creators SET user_id=:user_id, exchange=:exchange, account_id=:account_id");
-	$q->execute(array(
-		"user_id" => $account['user_id'],
-		"exchange" => $account['exchange'],
-		"account_id" => $account['id'],
-	));
 }
 
 crypto_log("Complete.");

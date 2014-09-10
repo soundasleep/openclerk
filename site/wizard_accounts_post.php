@@ -320,6 +320,7 @@ if (require_post('enable', false) && require_post('id', false)) {
 }
 
 // process enable_creator, disable_creator, reset_creator
+$account_data['label'] = "account";
 require(__DIR__ . "/_wizard_accounts_creator_post.php");
 
 // either there was an error or we haven't done anything; go back to callback

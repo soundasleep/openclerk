@@ -96,7 +96,7 @@ foreach ($accounts as $a) {
 		$q = db()->prepare("SELECT * FROM transaction_creators WHERE exchange=? AND account_id=?");
 		$q->execute(array($account_data['job_type'], $a['id']));
 		$creator = $q->fetch();
-		$enabled = !$creator || !$creator['is_disabled'];
+		$enabled = $creator && !$creator['is_disabled'];
 
 		$q = db()->prepare("SELECT COUNT(*) AS c FROM transactions WHERE user_id=? AND exchange=? AND account_id=?");
 		$q->execute(array(user_id(), $account_data['job_type'], $a['id']));
@@ -106,21 +106,21 @@ foreach ($accounts as $a) {
 			<?php if ($enabled) { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="disable_creator" value="<?php echo ht("Disable"); ?>" class="disable" onclick="return confirmCreatorDisable();" title="<?php echo ht("Disable transaction generation for this account"); ?>">
+				<input type="submit" name="remove_creator" value="<?php echo ht("Disable"); ?>" class="disable" onclick="return confirmCreatorDisable();" title="<?php echo ht("Disable transaction generation for this address"); ?>">
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 				<input type="hidden" name="callback" value="wizard_accounts_addresses">
 			</form>
 			<?php } else { ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="enable_creator" value="<?php echo ht("Enable"); ?>" class="enable" title="Enable transaction generation for this account"); ?>">
+				<input type="submit" name="create_creator" value="<?php echo ht("Enable"); ?>" class="enable" title="Enable transaction generation for this address"); ?>
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 				<input type="hidden" name="callback" value="wizard_accounts_addresses">
 			</form>
 		<?php } ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_addresses_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="reset_creator" value="<?php echo ht("Reset"); ?>" class="reset" onclick="return confirmTransactionsReset();" title="<?php echo ht("Delete generated historical transactions and start again"); ?>">
+				<input type="submit" name="reset_creator" value="<?php echo ht("Reset"); ?>" class="reset" onclick="return confirmTransactionsReset();" title="<?php echo ht("Remove all historical transactions"); ?>">
 				<input type="hidden" name="currency" value="<?php echo htmlspecialchars($account_data['currency']); ?>">
 				<input type="hidden" name="callback" value="wizard_accounts_addresses">
 			</form>
