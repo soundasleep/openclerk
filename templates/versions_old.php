@@ -1,4 +1,12 @@
 
+<dt>7 April</dt>
+<dd>Added currency support for <a href="http://www.ixcoin.co/" class="currency_name_ixc">Ixcoin</a>, <a href="https://vertcoin.org/" class="currency_name_vtc">Vertcoin</a>,
+<a href="http://netcoinfoundation.org/" class="currency_name_net">Netcoin</a>, <a href="http://hobonickels.info/" class="currency_name_hbn">Hobonickels</a>
+and <span class="currency_name_ils" title="<?php echo htmlspecialchars(get_currency_name('ils')); ?>">ILS</span>;
+added <a href="https://www.bit2c.co.il/">Bit2c</a> exchange;
+added <a href="https://www.scryptguild.com/">ScryptGuild</a> mining pool;
+enabled a number of exchange currency pairs.</dd>
+
 <dt>21 March</dt>
 <dd>Added currency support for <a href="http://digitalcoin.co/en/" class="currency_name_dgc">Digitalcoin</a> and <a href="http://www.worldcoinalliance.net/" class="currency_name_wdc">Worldcoin</a>;
 added <a href="https://www.cryptsy.com">Cryptsy</a> accounts;

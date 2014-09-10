@@ -1,4 +1,34 @@
 
+<dt>10 September</dt>
+<dd>
+	Added currency support for <a href="https://www.darkcoin.io/" class="currency_name_drk">Darkcoin</a>,
+	<a href="http://www.vericoin.info/" class="currency_name_vrc">Vericoin</a>,
+	<a href="http://nxt.org/" class="currency_name_nxt">Nxt</a>,
+	<span class="currency_name_dkk" title="<?php echo htmlspecialchars(get_currency_name('dkk')); ?>">DKK</span>
+	and <span class="currency_name_inr" title="<?php echo htmlspecialchars(get_currency_name('inr')); ?>">INR</span>;
+
+	rewrote graphing framework;
+
+	added simple currency pair graphs for all exchange pairs;
+
+	graphs can now be <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>">refreshed manually</a>;
+
+	disabled <a href="http://pool.dogechain.info">Dogechain Pool</a>,
+	<a href="https://hypernova.pw/">hypernova.pw</a>,
+	<a href="http://dogepool.pw">dogepool.pw</a> and
+	<a href="http://shibepool.com/">Shibe Pool</a> mining pools;
+
+	notifications can now be <a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>">individually disabled</a>;
+
+	automatic transactions have been disabled, but can be re-enabled through <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your wizards</a>;
+
+	you can now <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_offsets')); ?>">have multiple offsets</a> for each currency;
+
+	fixed <span class="currency_name_dog">DOGE</span> addresses not updating;
+
+	updated supported currencies from <a href="https://www.crypto-trade.com">Crypto-Trade</a> and other exchanges.
+</dd>
+
 <dt>24 July</dt>
 <dd>
 	Added currency support for <a href="http://www.blackcoin.co/" class="currency_name_bc1">Blackcoin</a>;
@@ -63,13 +93,5 @@ fixed <span class="currency_name_dgc" title="<?php echo htmlspecialchars(get_cur
 rewrote <a href="http://openclerk.org">Openclerk</a> to use new build tools and technologies;
 fixed <span class="currency_name_trc" title="<?php echo htmlspecialchars(get_currency_name('trc')); ?>">TRC</span> and <span class="currency_name_nvc" title="<?php echo htmlspecialchars(get_currency_name('nvc')); ?>">NVC</span> addresses not updating;
 fixed <a href="http://ypool.net/">ypool.net</a> mining pool accounts not updating.</dd>
-
-<dt>7 April</dt>
-<dd>Added currency support for <a href="http://www.ixcoin.co/" class="currency_name_ixc">Ixcoin</a>, <a href="https://vertcoin.org/" class="currency_name_vtc">Vertcoin</a>,
-<a href="http://netcoinfoundation.org/" class="currency_name_net">Netcoin</a>, <a href="http://hobonickels.info/" class="currency_name_hbn">Hobonickels</a>
-and <span class="currency_name_ils" title="<?php echo htmlspecialchars(get_currency_name('ils')); ?>">ILS</span>;
-added <a href="https://www.bit2c.co.il/">Bit2c</a> exchange;
-added <a href="https://www.scryptguild.com/">ScryptGuild</a> mining pool;
-enabled a number of exchange currency pairs.</dd>
 
 <!-- more are in versions_old -->

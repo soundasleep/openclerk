@@ -22,4 +22,8 @@
 	and disabling "automatic graph refresh".
 </p>
 
+<p>
+	You may also force a graph refresh by clicking on the "last updated" field on the graph <span class="new">new</span>.
+</p>
+
 <div style="clear:both;"></div>
