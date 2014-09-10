@@ -5,7 +5,7 @@
 </p>
 
 <p>
-	As of Openclerk 0.22, all of your accounts and addresses will automatically generate
+	As of Openclerk 0.22, all of your accounts and addresses can automatically generate
 	<a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">transactions</a>
 	for historical and future daily activity.
 </p>
@@ -30,8 +30,8 @@
 </p>
 
 <p>
-	You may disable automatic transaction generation by visiting <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts wizard</a>
-	and disabling transaction generation through the wizards. This will prevent any future transactions from being generated, but it will not
+	You may enable or disable automatic transaction generation by visiting <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your accounts wizard</a>
+	and toggling transaction generation through the wizards. Disabling transaction generation will prevent any future transactions from being generated, but it will not
 	delete any historical transactions.
 </p>
 
