@@ -4550,3 +4550,6 @@ CREATE TABLE vericoin_blocks (
 -- issue #297: removing Bitcurex accounts
 UPDATE accounts_bitcurex_eur SET is_disabled=1;
 UPDATE accounts_bitcurex_pln SET is_disabled=1;
+
+-- issue #303: remove dogepool.pw accounts
+UPDATE accounts_dogepoolpw SET is_disabled=1;
