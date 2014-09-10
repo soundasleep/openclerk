@@ -89,7 +89,7 @@ function get_all_offset_instances($user_id = false) {
 	global $global_all_offset_instances;
 	if (!isset($global_all_offset_instances[$user_id])) {
 		$global_all_offset_instances[$user_id] = array();
-		$q = db()->prepare("SELECT * FROM offsets WHERE user_id=? AND is_recent=1");
+		$q = db()->prepare("SELECT currency, SUM(balance) AS balance FROM offsets WHERE user_id=? GROUP BY currency");
 		$q->execute(array($user_id));
 		while ($offset = $q->fetch()) {
 			$global_all_offset_instances[$user_id][$offset['currency']] = $offset;

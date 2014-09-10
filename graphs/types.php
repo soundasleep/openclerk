@@ -399,7 +399,7 @@ function graph_types() {
 		'balances_offset_table' => array(
 			'title' => t('Total balances with offsets (table)'),
 			'heading' => t('Total balances'),
-			'description' => t('A table displaying the current sum of all currencies (before any conversions), along with text fields to set offset values for each currency directly.'),
+			'description' => t('A table displaying the current sum of all currencies (before any conversions), along with the current total offset values of each currency.'),
 			'uses_summaries' => true,
 		),
 	);

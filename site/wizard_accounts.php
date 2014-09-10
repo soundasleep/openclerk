@@ -23,7 +23,6 @@ $accounts = user_limits_summary(user_id());
 // get our offset values
 require(__DIR__ . "/../graphs/util.php");
 $summaries = get_all_summary_currencies();
-$offsets = get_all_offset_instances();
 $currencies = get_all_currencies();
 
 require_template("wizard_accounts");
@@ -62,6 +61,17 @@ require_template("wizard_accounts");
 		</ul>
 	</li>
 
+</ul>
+
+<ul class="account-type">
+
+	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_offsets')); ?>"><?php echo t("Offsets"); ?>
+		<?php if ($accounts['wizard_offsets']) { ?><span class="count">(<?php echo number_format($accounts['wizard_offsets']); ?>)<?php } ?></a>
+		<ul>
+			<li><?php echo t("e.g."); ?> <?php echo ht("Additional balances"); ?> <span class="new"><?php echo ht("new"); ?></span></li>
+		</ul>
+	</li>
+
 	<li><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_other')); ?>"><?php echo t("Other"); ?>
 		<?php if ($accounts['wizard_other']) { ?><span class="count">(<?php echo number_format($accounts['wizard_other']); ?>)<?php } ?></a>
 		<ul>
@@ -69,50 +79,16 @@ require_template("wizard_accounts");
 		</ul>
 	</li>
 
+	<li></li>
+
+	<li><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>"><?php echo t("Notifications"); ?>
+		<?php if ($accounts['wizard_notifications']) { ?><span class="count">(<?php echo number_format($accounts['wizard_notifications']); ?>)<?php } ?></a>
+		<ul>
+			<li><?php echo t("e.g."); ?> <?php echo t("Hashrates"); ?>, <?php echo t("exchange rates"); ?></li>
+		</ul>
+	</li>
+
 </ul>
-
-<div class="offset-text">
-	<ul class="account-type floating">
-
-		<li><a href="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>"><?php echo t("Notifications"); ?>
-			<?php if ($accounts['wizard_notifications']) { ?><span class="count">(<?php echo number_format($accounts['wizard_notifications']); ?>)<?php } ?></a>
-			<ul>
-				<li><?php echo t("e.g."); ?> <?php echo t("Hashrates"); ?>, <?php echo t("exchange rates"); ?> <span class="new"><?php echo ht("new"); ?></span></li>
-			</ul>
-		</li>
-
-	</ul>
-
-	<?php require_template("wizard_accounts_offsets"); ?>
-</div>
-
-<form action="<?php echo htmlspecialchars(url_for('set_offset')); ?>" method="post" class="wizard-offsets">
-	<table class="standard">
-	<thead>
-		<tr>
-			<th><?php echo t("Currency"); ?></th>
-			<th><?php echo t("Value"); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($currencies as $c) {
-		if (isset($summaries[$c])) {
-			$offset = demo_scale(isset($offsets[$c]) ? $offsets[$c]['balance'] : 0); ?>
-		<tr>
-			<th><span class="currency_name_<?php echo $c; ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></span></th>
-			<td><input type="text" name="<?php echo $c; ?>" value="<?php echo htmlspecialchars($offset == 0 ? '' : number_format_autoprecision($offset)) ?>" size="10"> <?php echo htmlspecialchars(get_currency_abbr($c)); ?></td>
-		</tr>
-		<?php }
-	} ?>
-	<tr>
-		<td colspan="2" class="buttons">
-			<input type="submit" name="add" value="<?php echo ht("Update offsets"); ?>" class="add">
-			<input type="hidden" name="wizard" value="1">
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</form>
 
 <div style="clear:both;"></div>
 
