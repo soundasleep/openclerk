@@ -4532,3 +4532,17 @@ CREATE TABLE darkcoin_blocks (
 
   INDEX(is_recent)
 );
+
+-- issue #307: add Darkcoin DRK cryptocurrency
+DROP TABLE IF EXISTS vericoin_blocks;
+
+CREATE TABLE vericoin_blocks (
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+
+  blockcount int not null,
+
+  is_recent tinyint not null default 0,
+
+  INDEX(is_recent)
+);

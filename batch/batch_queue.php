@@ -87,6 +87,7 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'hobonickels', 'query' => ' AND currency=\'hbn\''), // make sure to add _block job below too
 	array('table' => 'addresses', 'type' => 'blackcoin', 'query' => ' AND currency=\'bc1\''), // make sure to add _block job below too
 	array('table' => 'addresses', 'type' => 'darkcoin', 'query' => ' AND currency=\'drk\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'vericoin', 'query' => ' AND currency=\'vrc\''), // make sure to add _block job below too
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
 	array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
@@ -311,7 +312,7 @@ if (!$premium_only) {
 		'terracoin_block', 'dogecoin_block', 'megacoin_block', 'namecoin_block',
 		'digitalcoin_block', 'worldcoin_block', 'ixcoin_block',
 		'netcoin_block', 'hobonickels_block', 'blackcoin_block',
-		'vertcoin_block', 'darkcoin_block');
+		'vertcoin_block', 'darkcoin_block', 'vericoin_block');
 	foreach ($block_jobs as $name) {
 		// as often as we can (or on request), run litecoin_block jobs
 		if (!$job_type || in_array($name, $job_type)) {
