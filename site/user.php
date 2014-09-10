@@ -523,6 +523,15 @@ foreach ($identities as $identity) {
 		?></td>
 </tr>
 <tr>
+	<th><a href="<?php echo htmlspecialchars(url_for('wizard_accounts_offsets')); ?>"><?php echo ht("Offsets"); ?></a>:</th>
+	<td><?php echo t(":number (out of :total)",
+		array(
+			':number' => number_format($accounts['total_offsets']),
+			':total' => number_format(get_premium_value($user, 'offsets')),
+		));
+		?></td>
+</tr>
+<tr>
 	<th><a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>"><?php echo ht("Finance Accounts"); ?></a>:</th>
 	<td><?php echo t(":number (out of :total)",
 		array(
