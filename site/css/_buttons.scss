@@ -38,10 +38,10 @@ input[type=submit], button {
   &.test {
     background: $button-background url('../img/nuvola/reload.png') 3px 3px no-repeat;
   }
-  &.enable {
+  &.disable {
     background: $button-background url('../img/nuvola/ok.png') 3px 3px no-repeat;
   }
-  &.disable {
+  &.enable {
     background: $button-background url('../img/nuvola/ok_disabled.png') 3px 3px no-repeat;
   }
 
