@@ -326,12 +326,9 @@ function get_exchange_pairs() {
 				array('btc', 'vrc'), array('btc', 'nxt'), array('ltc', 'nxt'),
 		),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
-		"kraken" => array(array('ltc', 'dog'), array('ltc', 'xrp'), array('eur', 'ltc'), array('krw', 'ltc'), array('usd', 'ltc'),
-				array('nmc', 'dog'), array('nmc', 'xrp'), array('eur', 'nmc'), array('krw', 'nmc'), array('usd', 'nmc'),
-				array('btc', 'ltc'), array('btc', 'nmc'), array('btc', 'dog'), array('btc', 'xrp'), array('eur', 'btc'), array('krw', 'btc'), array('usd', 'btc'),	// also [btc, ven]
-				array('eur', 'dog'), array('eur', 'xrp'),
-				array('krw', 'xrp'),
-				array('usd', 'dog'), array('usd', 'xrp')),
+		"kraken" => array(array('btc', 'ltc'), array('btc', 'nmc'), array('btc', 'dog'), array('btc', 'xrp'),
+				array('eur', 'btc'), array('usd', 'btc'), array('eur', 'ltc'), array('usd', 'ltc'),
+		),
 		"itbit" => array(array('usd', 'btc'), array('eur', 'btc'), array('sgd', 'btc')),
 		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
 				array('btc', 'vrc'),
