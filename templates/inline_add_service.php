@@ -23,9 +23,10 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 <ul>
 	<li>BIPS (wallet API was removed)</li>
 	<li>Bitcoin.de</li>
+	<li>Bitcoin China</li>
 	<li>Bitcurex (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/297">#297</a>)</li>
 	<li>Bitfinex (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/283">#283</a>)</li>
-	<li>Bitcoin China</li>
+	<li>BitGo (<a href="http://redmine.jevon.org/issues/288">#288</a>)</li>
 	<li>Blockchain.info Wallet (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/195">#195</a>)</li>
 	<li>BTER (<a href="http://redmine.jevon.org/issues/237">#237</a>)</li>
 	<li>CampBX (read-only API <a href="https://bitcointalk.org/index.php?topic=192423.msg2868088#msg2868088">"coming in September"</a>)</li>
@@ -34,11 +35,11 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>CoinEX (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/37">#37</a>)</li>
 	<li>coinmine.pw (<a href="http://www.coinmine.pw/api-information.php">PayAPI</a> is not safe &ndash; <a href="http://redmine.jevon.org/issues/106">#106</a>)</li>
 	<li>Coin.Mx</li>
-	<li>Coins-E</li>
 </ul>
 </div>
 <div class="column">
 <ul>
+	<li>Coins-E</li>
 	<li>fast-pool.com</li>
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
 	<li>hash-to-coins.com (no API &ndash; <a href="http://redmine.jevon.org/issues/282">#282</a>)</li>
