@@ -232,6 +232,10 @@ try {
 			require(__DIR__ . "/../jobs/vericoin.php");
 			break;
 
+		case "nxt":
+			require(__DIR__ . "/../jobs/nxt.php");
+			break;
+
 		case "litecoin_block":
 			require(__DIR__ . "/../jobs/litecoin_block.php");
 			break;

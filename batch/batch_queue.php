@@ -88,6 +88,7 @@ $standard_jobs = array(
 	array('table' => 'addresses', 'type' => 'blackcoin', 'query' => ' AND currency=\'bc1\''), // make sure to add _block job below too
 	array('table' => 'addresses', 'type' => 'darkcoin', 'query' => ' AND currency=\'drk\''), // make sure to add _block job below too
 	array('table' => 'addresses', 'type' => 'vericoin', 'query' => ' AND currency=\'vrc\''), // make sure to add _block job below too
+	array('table' => 'addresses', 'type' => 'nxt', 'query' => ' AND currency=\'nxt\''),
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
 	array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),

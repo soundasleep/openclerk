@@ -7,7 +7,7 @@
 
 function get_all_currencies() {
 	return array(
-		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc",
+		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt",
 		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd",
 		"ghs",
 	);
@@ -27,7 +27,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt");
 }
 
 function get_all_commodity_currencies() {
@@ -43,7 +43,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt");
 }
 
 function get_currency_name($n) {
@@ -68,6 +68,7 @@ function get_currency_name($n) {
 		case "bc1": return "Blackcoin";
 		case "drk": return "Darkcoin";
 		case "vrc": return "VeriCoin";
+		case "nxt": return "Nxt";
 
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
@@ -121,6 +122,7 @@ function get_blockchain_currencies() {
 		"BlackChain" => array('bc1'),
 		"Darkcoin Explorer" => array('drk'),
 		"cryptoID" => array('vrc'),
+		"NXT Explorer" => array('nxt'),
 	);
 }
 
@@ -291,7 +293,7 @@ function get_exchange_pairs() {
 		"bitnz" => array(array('nzd', 'btc')),
 		"bitstamp" => array(array('usd', 'btc')),
 		"bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'),
-			array('btc', 'bc1'), array('btc', 'drk'), array('btc', 'vrc'),
+			array('btc', 'bc1'), array('btc', 'drk'), array('btc', 'vrc'), array('btc', 'nxt'),
 		),	// and others
 		"btcchina" => array(array('cny', 'btc')),
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
@@ -311,7 +313,7 @@ function get_exchange_pairs() {
 				array('btc', 'trc'), array('btc', 'dog'), array('btc', 'mec'), array('ltc', 'mec'), array('btc', 'dgc'),
 				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc'), array('btc', 'ixc'), array('btc', 'vtc'),
 				array('btc', 'net'), array('ltc', 'net'), array('btc', 'hbn'), array('btc', 'bc1'), array('btc', 'drk'),
-				array('btc', 'vrc'),
+				array('btc', 'vrc'), array('btc', 'nxt'), array('ltc', 'nxt'),
 		),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
 		"kraken" => array(array('ltc', 'dog'), array('ltc', 'xrp'), array('eur', 'ltc'), array('krw', 'ltc'), array('usd', 'ltc'),
@@ -327,7 +329,7 @@ function get_exchange_pairs() {
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'ixc'), array('btc', 'bc1'), array('btc', 'drk'),
-				array('btc', 'vrc'),
+				array('btc', 'vrc'), array('btc', 'nxt'),
 		),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils'), array('usd', 'sgd')),
@@ -341,7 +343,7 @@ function get_exchange_pairs() {
 		"vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
 				array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'), array('btc', 'nvc'),
 				array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog'), array('btc', 'dgc'), array('btc', 'wdc'),
-				array('btc', 'ixc'), array('btc', 'vtc'), array('btc', 'bc1')),
+				array('btc', 'ixc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'nxt')),
 		"virtex" => array(array('cad', 'btc'), array('cad', 'ltc'), array('btc', 'ltc')),
 	);
 }
@@ -360,6 +362,10 @@ function get_new_exchange_pairs() {
 		"cryptsy_btcvrc",
 		"mintpal_btcvrc",
 		"poloniex_btvrc",
+		"cryptsy_btcnxt",
+		"bittrex_btcnxt",
+		"poloniex_btcnxt",
+		"vircurex_btcnxt",
 	);
 }
 
@@ -417,7 +423,7 @@ function get_supported_wallets() {
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1'),
 		"cryptotroll" => array('dog', 'hash'),
-		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk'),
+		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt'),
 		"cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc'),		// also available: dvc
 		"d2" => array('wdc', 'hash'),				// other coins available
 		"dedicatedpool" => array('dog', 'hash'),		// other coins available
@@ -563,6 +569,7 @@ function get_default_currency_exchange($c) {
 		case "bc1": return "cryptsy";
 		case "drk": return "mintpal";
 		case "vrc": return "bittrex";
+		case "nxt": return "cryptsy";
 		// fiats
 		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
@@ -678,6 +685,7 @@ function account_data_grouped() {
 			'blackcoin' => array('title' => 'BC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'bc1\'', 'wizard' => 'addresses', 'currency' => 'bc1'),
 			'darkcoin' => array('title' => 'DRK addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'drk\'', 'wizard' => 'addresses', 'currency' => 'drk'),
 			'vericoin' => array('title' => 'VRC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'vrc\'', 'wizard' => 'addresses', 'currency' => 'vrc'),
+			'nxt' => array('title' => 'NXT account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nxt\'', 'wizard' => 'addresses', 'currency' => 'nxt'),
 		),
 		'Mining pools' => array(
 			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -896,6 +904,7 @@ function get_external_apis() {
 			'darkcoin_block' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a> (block count)',
 			'vericoin' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
 			'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC block count)',
+			'nxt' => '<a href="http://nxtexplorer.com/">NXT Explorer</a>',
 		),
 
 		"Mining pool wallets" => array(
@@ -1296,6 +1305,18 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_vrc_address',
 				'job_type' => 'vericoin',
 				'client' => get_currency_name('vrc'),
+			);
+
+		case "nxt":
+			return array(
+				'premium_group' => 'nxt',
+				'title' => 'NXT account',
+				'titles' => 'NXT accounts',
+				'table' => 'addresses',
+				'currency' => 'nxt',
+				'callback' => 'is_valid_nxt_address',
+				'job_type' => 'nxt',
+				'client' => get_currency_name('nxt'),
 			);
 
 		default:
@@ -2683,6 +2704,13 @@ function is_valid_vrc_address($address) {
 function is_valid_trc_address($address) {
 	// based on is_valid_btc_address
 	return is_valid_btc_address($address);
+}
+
+function is_valid_nxt_address($address) {
+	if (strlen($address) >= 5 && strlen($address) <= 32 && preg_match("#^[0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
 }
 
 function is_valid_mmcfe_apikey($key) {

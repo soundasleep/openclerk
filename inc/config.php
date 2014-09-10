@@ -205,6 +205,7 @@ function get_default_site_config() {
 		"vrc_balance_url" => "http://chainz.cryptoid.info/vrc/api.dws?q=getbalance&a=",
 		"vrc_received_url" => "http://chainz.cryptoid.info/vrc/api.dws?q=getreceivedbyaddress&a=",
 		"vrc_block_url" => "http://chainz.cryptoid.info/vrc/api.dws?q=getblockcount",
+		"nxt_address_url" => "http://nxtexplorer.com/nxt/nxt.cgi?action=3000&acc=",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
