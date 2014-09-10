@@ -123,7 +123,6 @@ function get_default_site_config() {
 		"sleep_vircurex_balance" => 5,
 		"sleep_cryptostocks_balance" => 5,
 		"sleep_themoneyconverter_ticker" => 5,
-		"sleep_crypto-trade_ticker" => 1,
 		"sleep_givemecoins" => 0,
 		"sleep_vaultofsatoshi_ticker" => 5,
 		"sleep_kraken_ticker" => 1,

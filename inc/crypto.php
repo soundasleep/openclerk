@@ -312,7 +312,10 @@ function get_exchange_pairs() {
 				array('btc', 'nvc'), array('btc', 'dgc'), array('btc', 'bc1'), array('btc', 'drk')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'),
 				array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'),
-				array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dgc'), array('btc', 'wdc'), array('btc', 'bc1')),
+				array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dgc'), array('btc', 'wdc'), array('btc', 'bc1'),
+				array('btc', 'dog'), array('usd', 'dog'), array('btc', 'drk'), array('usd', 'drk'), array('btc', 'nxt'),
+				array('usd', 'nxt'),
+		),
 		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'),
 				array('btc', 'trc'), array('btc', 'dog'), array('btc', 'mec'), array('ltc', 'mec'), array('btc', 'dgc'),
 				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc'), array('btc', 'ixc'), array('btc', 'vtc'),
@@ -376,6 +379,12 @@ function get_new_exchange_pairs() {
 		"themoneyconverter_usddkk",
 		"coinbase_inrbtc",
 		"themoneyconverter_usdinr",
+		"crypto-trade_btcdog",
+		"crypto-trade_usddog",
+		"crypto-trade_btcdrk",
+		"crypto-trade_usddrk",
+		"crypto-trade_btcnxt",
+		"crypto-trade_usdnxt",
 	);
 }
 
@@ -431,7 +440,7 @@ function get_supported_wallets() {
 		"coinhuntr" => array('ltc', 'hash'),
 		"cryptopools" => array('dgc', 'hash'),		// other coins available
 		"cryptostocks" => array('btc', 'ltc'),
-		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1'),
+		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
 		"cryptotroll" => array('dog', 'hash'),
 		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt'),
 		"cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc'),		// also available: dvc

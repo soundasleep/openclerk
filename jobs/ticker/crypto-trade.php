@@ -4,61 +4,41 @@
  * Crypto-Trade ticker job.
  */
 
-$rates_list = array(
-	array('usd', 'btc'),
-	array('eur', 'btc'),
-	array('usd', 'ltc'),
-	array('eur', 'ltc'),
-	array('btc', 'ltc'),
-	array('usd', 'nmc'),
-	array('btc', 'nmc'),
-	array('usd', 'xpm'),
-	array('btc', 'xpm'),
-	array('ppc', 'xpm'),
-	array('usd', 'ppc'),
-	array('btc', 'ppc'),
-	array('btc', 'trc'),
-	array('usd', 'ftc'),
-	array('btc', 'ftc'),
-	array('btc', 'dvc'),
-	array('btc', 'wdc'),
-	array('btc', 'dgc'),
-	array('btc', 'bc1'),
-);
+$exchange_name = "crypto-trade";
+$exchange_pairs = get_exchange_pairs();
+$rates_list = $exchange_pairs['crypto-trade'];
 
-// tickers...
-$first = true;
-foreach ($rates_list as $rl) {
-	$cur1 = $rl[0];
-	$cur2 = $rl[1];
-	$exchange_name = $exchange['name'];
+// find any pairs we aren't finding
+$expected = array();
+foreach ($rates_list as $pair) {
+	$expected[$pair[0] . $pair[1]] = $pair[0] . $pair[1];
+}
 
-	// sleep between requests
-	if (!$first) {
-		set_time_limit(30 + (get_site_config('sleep_crypto-trade_ticker') * 2));
-		sleep(get_site_config('sleep_crypto-trade_ticker'));
-	}
-	$first = false;
+$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://crypto-trade.com/api/1/tickers")));
+foreach ($data['data'][0] as $key => $rate) {
+	foreach ($rates_list as $pair) {
+		$cur1 = $pair[0];
+		$cur2 = $pair[1];
+		if ($key == strtolower(get_currency_abbr($cur2)) . "_" . strtolower(get_currency_abbr($cur1))) {
+			if (!isset($expected[$cur1 . $cur2])) {
+				throw new ExternalAPIException("Found pair $cur1/$cur2 twice");
+			}
 
-	$rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://crypto-trade.com/api/1/ticker/" . strtolower(get_currency_abbr($cur2)) . "_" . strtolower(get_currency_abbr($cur1)))));
+			insert_new_ticker($job, $exchange, strtolower($cur1), strtolower($cur2), array(
+				"last_trade" => $rate['last'],
+				"bid" => $rate['max_bid'],
+				"ask" => $rate['min_ask'],
+				"volume" => $rate['vol_' . strtolower(get_currency_abbr($cur2))],
+				// ignoring low, high
+			));
 
-	if (!isset($rates['data']['last'])) {
-		if (isset($rates['error'])) {
-			throw new ExternalAPIException("Could not find $cur1/$cur2 rate for $exchange_name: " . htmlspecialchars($rates['error']));
+			unset($expected[$cur1 . $cur2]);
 		}
-
-		throw new ExternalAPIException("No $cur1/$cur2 rate for $exchange_name");
 	}
+}
 
-	crypto_log(print_r($rates, true));
-	insert_new_ticker($job, $exchange, strtolower($cur1), strtolower($cur2), array(
-		"last_trade" => $rates['data']['last'],
-		"bid" => $rates['data']['max_bid'],
-		"ask" => $rates['data']['min_ask'],
-		"volume" => $rates['data']['vol_' . get_currency_abbr($cur2)],
-		// ignoring low, high
-	));
-
+if ($expected) {
+	throw new ExternalAPIException("Did not find ticker pairs for " . implode(", ", $expected));
 }
 
 // securities values are now calculated in securities_cryptotrade job
