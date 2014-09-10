@@ -141,6 +141,8 @@ function get_error_class($n) {
 			} else {
 				if ($summary['s'] == 0) {
 					echo "<td class=\"disabled\">no data</a>\n";
+				} else if ($summary['s'] == $summary['manually_disabled']) {
+					echo "<td class=\"disabled\">all manually disabled</a>\n";
 				} else {
 					$pct = 1 - (($summary['disabled'] - $summary['manually_disabled']) / ($summary['s'] - $summary['manually_disabled']));
 					echo "<td class=\"status_percent " . get_error_class($pct) . "\">" . number_format_autoprecision($pct * 100, 2) . " %</td>\n";

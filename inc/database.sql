@@ -4487,3 +4487,25 @@ UPDATE accounts_dogechainpool SET is_disabled=1;
 
 -- issue #300: removing hypernova.pw accounts
 UPDATE accounts_hypernova SET is_disabled=1;
+
+-- issue #291: allow securities tables to be enabled/disabled through admin_accounts interface
+ALTER TABLE securities_796 ADD user_id int not null;
+UPDATE securities_796 SET user_id=100;
+ALTER TABLE securities_bitfunder ADD user_id int not null;
+UPDATE securities_bitfunder SET user_id=100;
+ALTER TABLE securities_btcinve ADD user_id int not null;
+UPDATE securities_btcinve SET user_id=100;
+ALTER TABLE securities_btct ADD user_id int not null;
+UPDATE securities_btct SET user_id=100;
+ALTER TABLE securities_cryptotrade ADD user_id int not null;
+UPDATE securities_cryptotrade SET user_id=100;
+ALTER TABLE securities_cryptostocks ADD user_id int not null;
+UPDATE securities_cryptostocks SET user_id=100;
+ALTER TABLE securities_havelock ADD user_id int not null;
+UPDATE securities_havelock SET user_id=100;
+ALTER TABLE securities_litecoininvest ADD user_id int not null;
+UPDATE securities_litecoininvest SET user_id=100;
+ALTER TABLE securities_litecoinglobal ADD user_id int not null;
+UPDATE securities_litecoinglobal SET user_id=100;
+
+ALTER TABLE securities_havelock ADD is_disabled_manually tinyint not null default 0;
