@@ -840,7 +840,7 @@ function account_data_grouped() {
 	);
 	// add all offset currencies
 	foreach (get_all_currencies() as $cur) {
-		$data['Offsets']['offset_' . $cur] = array('title' => get_currency_name($cur), 'label' => 'offset', 'table' => 'offsets', 'group' => 'offsets', 'wizard' => 'offsets', 'query' => ' AND currency=\'' . $cur . '\'', 'currency' => $cur);
+		$data['Offsets']['offset_' . $cur] = array('title' => get_currency_name($cur), 'label' => 'offset', 'table' => 'offsets', 'group' => 'offsets', 'wizard' => 'offsets', 'query' => ' AND currency=\'' . $cur . '\'', 'currency' => $cur, 'job' => false);
 	}
 	foreach ($data as $key0 => $row0) {
 		foreach ($row0 as $key => $row) {
