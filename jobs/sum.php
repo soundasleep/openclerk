@@ -45,8 +45,8 @@ foreach (get_all_currencies() as $cur) {
 		}
 
 		// and the most recent offsets
-		$q = db()->prepare("SELECT * FROM offsets
-			WHERE user_id=? AND is_recent=1 AND currency=?");
+		$q = db()->prepare("SELECT SUM(balance) AS balance FROM offsets
+			WHERE user_id=? AND currency=?");
 		$q->execute(array($job['user_id'], $cur));
 		$total_offsets_balance = 0;
 		while ($offset = $q->fetch()) { // we should only have one anyway

@@ -323,6 +323,9 @@ function get_default_premium_config() {
 		"securities_free" => 2,
 		"securities_premium" => 100,
 
+		"offsets_free" => 10,
+		"offsets_premium" => 200,
+
 		"graph_pages_free" => 1,
 		"graph_pages_premium" => 20,
 

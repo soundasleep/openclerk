@@ -4553,3 +4553,10 @@ UPDATE accounts_bitcurex_pln SET is_disabled=1;
 
 -- issue #303: remove dogepool.pw accounts
 UPDATE accounts_dogepoolpw SET is_disabled=1;
+
+-- issue #149: allow multiple labelled offsets per coin
+-- we rewrite the 'offsets' table to add the columns necessary for our wizards
+ALTER TABLE offsets ADD title varchar(255) null;
+DELETE FROM offsets WHERE is_recent=0;
+DELETE FROM offsets WHERE balance=0;
+ALTER TABLE offsets DROP is_recent;

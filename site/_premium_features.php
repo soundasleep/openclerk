@@ -42,6 +42,7 @@
 		'graph_pages' => $welcome ? t("Reports pages") : link_to(url_for('profile'), t("Reports pages")),
 		'graphs_per_page' => t("Graphs per report page"),
 		'summaries' => $welcome ? t("Currencies") : link_to(url_for('wizard_currencies'), t("Currencies")),
+		'offsets' => $welcome ? t("Offsets") : link_to(url_for('wizard_accounts_offsets'), t("Offsets")),
 	);
 	foreach ($predef as $key => $title) { ?>
 	<tr>

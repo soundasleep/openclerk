@@ -73,7 +73,7 @@ foreach ($accounts as $a) {
 <?php if (!isset($is_in_callback)) { ?>
 	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; echo $is_disabled ? " disabled": ""; ?>" id="<?php echo htmlspecialchars($row_element_id); ?>">
 <?php } ?>
-		<td class="type"><?php echo htmlspecialchars(get_exchange_name($a['exchange']) . (isset($account_type_data['suffix']) ? $account_type_data['suffix'] : "")); ?></td>
+		<td class="type"><?php echo htmlspecialchars($account_type['exchange_name_callback']($a['exchange']) . (isset($account_type_data['suffix']) ? $account_type_data['suffix'] : "")); ?></td>
 		<td id="account<?php echo htmlspecialchars($a['id']); ?>" class="title">
 			<span title="Title"><?php echo $a['title'] ? htmlspecialchars($a['title']) : "<i>" . ht("untitled") . "</i>"; ?></span>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post" style="display:none;">
@@ -101,37 +101,39 @@ foreach ($accounts as $a) {
 		</td>
 		<?php } ?>
 		<td class="added"><?php echo recent_format_html($a['created_at']); ?></td>
-		<td class="last_checked <?php if ($job) echo ($job['is_error'] ? "job_error" : "job_success"); ?>">
-			<?php echo recent_format_html($last_updated); ?>
-			<?php if (isset($job['message']) && $job['message']) { ?>
-			: <?php echo htmlspecialchars($job['message']); ?>
-			<?php } ?>
-		</td>
-		<td class="balances"><?php
-			$had_balance = false;
-			echo "<ul>";
-			foreach ($balances as $c => $value) {
-				if ($value != 0) {
-					$had_balance = true;
-					echo "<li>" . currency_format($c, $value, 4) . "</li>\n";
+		<?php if ($account_type['has_balances']) { ?>
+			<td class="last_checked <?php if ($job) echo ($job['is_error'] ? "job_error" : "job_success"); ?>">
+				<?php echo recent_format_html($last_updated); ?>
+				<?php if (isset($job['message']) && $job['message']) { ?>
+				: <?php echo htmlspecialchars($job['message']); ?>
+				<?php } ?>
+			</td>
+			<td class="balances"><?php
+				$had_balance = false;
+				echo "<ul>";
+				foreach ($balances as $c => $value) {
+					if ($value != 0) {
+						$had_balance = true;
+						echo "<li>" . currency_format($c, $value, 4) . "</li>\n";
+					}
 				}
-			}
-			foreach ($balances_wallet as $c => $value) {
-				if ($value != 0) {
-					$had_balance = true;
-					echo "<li>" . currency_format($c, $value, 4) . " " . ht("(wallet)"). "</li>\n";
+				foreach ($balances_wallet as $c => $value) {
+					if ($value != 0) {
+						$had_balance = true;
+						echo "<li>" . currency_format($c, $value, 4) . " " . ht("(wallet)"). "</li>\n";
+					}
 				}
-			}
-			foreach ($balances_securities as $c => $value) {
-				if ($value != 0) {
-					$had_balance = true;
-					echo "<li>" . currency_format($c, $value, 4) . " " . ht("(securities)") . "</li>\n";
+				foreach ($balances_securities as $c => $value) {
+					if ($value != 0) {
+						$had_balance = true;
+						echo "<li>" . currency_format($c, $value, 4) . " " . ht("(securities)") . "</li>\n";
+					}
 				}
-			}
-			echo "</ul>";
-			if (!$had_balance) echo "<i>" . ht("None") . "</i>";
-			if ($is_disabled) echo " <i>" . ht("(disabled)") . "</i>";
-		?></td>
+				echo "</ul>";
+				if (!$had_balance) echo "<i>" . ht("None") . "</i>";
+				if ($is_disabled) echo " <i>" . ht("(disabled)") . "</i>";
+			?></td>
+		<?php } ?>
 		<?php if ($account_type['hashrate']) {
 			$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
 			$q->execute(array($a['exchange'], $a['id'], $a['user_id']));
@@ -144,42 +146,44 @@ foreach ($accounts as $a) {
 			echo "</td>";
 		} ?>
 		<?php
-		$q = db()->prepare("SELECT * FROM transaction_creators WHERE exchange=? AND account_id=?");
-		$q->execute(array($a['exchange'], $a['id']));
-		$creator = $q->fetch();
-		$enabled = $creator && !$creator['is_disabled'];
+		if ($account_type['has_transactions']) {
+			$q = db()->prepare("SELECT * FROM transaction_creators WHERE exchange=? AND account_id=?");
+			$q->execute(array($a['exchange'], $a['id']));
+			$creator = $q->fetch();
+			$enabled = $creator && !$creator['is_disabled'];
 
-		$q = db()->prepare("SELECT COUNT(*) AS c FROM transactions WHERE user_id=? AND exchange=? AND account_id=?");
-		$q->execute(array(user_id(), $a['exchange'], $a['id']));
-		$transaction_count = $q->fetch();
-		?>
-		<td class="buttons transactions">
-			<?php if ($enabled) { ?>
-			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
-				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="remove_creator" value="<?php echo ht("Disable"); ?>" class="disable" onclick="return confirmCreatorDisable();" title="<?php echo ht("Disable transaction generation for this account"); ?>">
-				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
-				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
-			</form>
-			<?php } else { ?>
-			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
-				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="create_creator" value="<?php echo ht("Enable"); ?>" class="enable" title="Enable transaction generation for this account">
-				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
-				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
-			</form>
+			$q = db()->prepare("SELECT COUNT(*) AS c FROM transactions WHERE user_id=? AND exchange=? AND account_id=?");
+			$q->execute(array(user_id(), $a['exchange'], $a['id']));
+			$transaction_count = $q->fetch();
+			?>
+			<td class="buttons transactions">
+				<?php if ($enabled) { ?>
+				<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+					<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+					<input type="submit" name="remove_creator" value="<?php echo ht("Disable"); ?>" class="disable" onclick="return confirmCreatorDisable();" title="<?php echo ht("Disable transaction generation for this account"); ?>">
+					<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+					<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+				</form>
+				<?php } else { ?>
+				<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+					<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+					<input type="submit" name="create_creator" value="<?php echo ht("Enable"); ?>" class="enable" title="Enable transaction generation for this account">
+					<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+					<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+				</form>
+			<?php } ?>
+				<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
+					<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
+					<input type="submit" name="reset_creator" value="<?php echo ht("Reset"); ?>" class="reset" onclick="return confirmTransactionsReset();" title="<?php echo ht("Remove all historical transactions"); ?>">
+					<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
+					<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
+				</form>
+				<span class="transaction-count">
+					<a href="<?php echo htmlspecialchars(url_for('your_transactions', array('exchange' => $a['exchange'], 'account_id' => $a['id']))); ?>" class="view-transactions" title="<?php echo ht("View historical transactions"); ?>"><?php echo ht("View"); ?></a>
+					(<?php echo number_format($transaction_count['c']); ?>)
+				</span>
+			</td>
 		<?php } ?>
-			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
-				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
-				<input type="submit" name="reset_creator" value="<?php echo ht("Reset"); ?>" class="reset" onclick="return confirmTransactionsReset();" title="<?php echo ht("Remove all historical transactions"); ?>">
-				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
-				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
-			</form>
-			<span class="transaction-count">
-				<a href="<?php echo htmlspecialchars(url_for('your_transactions', array('exchange' => $a['exchange'], 'account_id' => $a['id']))); ?>" class="view-transactions" title="<?php echo ht("View historical transactions"); ?>"><?php echo ht("View"); ?></a>
-				(<?php echo number_format($transaction_count['c']); ?>)
-			</span>
-		</td>
 		<td class="buttons">
 			<form action="<?php echo htmlspecialchars(url_for('wizard_accounts_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($a['id']); ?>">
@@ -187,7 +191,7 @@ foreach ($accounts as $a) {
 				<input type="hidden" name="type" value="<?php echo htmlspecialchars($a['exchange']); ?>">
 				<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 			</form>
-			<?php if (!$account_type_data['disabled']) {
+			<?php if (!$account_type_data['disabled'] && $account_type['can_test']) {
 				if ($is_test_job) { ?>
 					<span class="status_loading"><?php echo ht("Testing..."); ?></span>
 						<?php if (!isset($is_in_callback)) { ?>

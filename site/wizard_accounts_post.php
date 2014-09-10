@@ -33,6 +33,7 @@ switch (require_post("callback")) {
 	case "wizard_accounts_exchanges":
 	case "wizard_accounts_securities":
 	case "wizard_accounts_individual_securities":
+	case "wizard_accounts_offsets":
 	case "wizard_accounts_other":
 		break;
 
@@ -108,7 +109,7 @@ if (require_post("key", false) !== false && require_post("id", false)) {
 		$messages[] = t("Updated :title :label.",
 			array(
 				':title' => htmlspecialchars($account_data['title']),
-				':label' => htmlspecialchars($config['inputs'][$key]['title']),
+				':label' => htmlspecialchars($config['inputs'][$key]['inline_title']),
 			));
 
 		// redirect to GET
@@ -144,6 +145,10 @@ if (require_post("add", false)) {
 			$query .= ", $key=?";
 			$args[] = $value;
 		}
+	}
+	foreach ($account_data['fixed_inputs'] as $key => $data) {
+		$query .= ", $key=?";
+		$args[] = $data;
 	}
 	if ($account_data['disabled']) {
 		$errors[] = t("Cannot add a new account; that account type is disabled.");

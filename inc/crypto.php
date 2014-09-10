@@ -815,7 +815,13 @@ function account_data_grouped() {
 			'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries', 'job' => false),
 			'notifications' => array('title' => 'Notifications', 'table' => 'notifications', 'group' => 'notifications', 'wizard' => 'notifications'),
 		),
+		'Offsets' => array(
+		),
 	);
+	// add all offset currencies
+	foreach (get_all_currencies() as $cur) {
+		$data['Offsets']['offset_' . $cur] = array('title' => get_currency_name($cur), 'label' => 'offset', 'table' => 'offsets', 'group' => 'offsets', 'wizard' => 'offsets', 'query' => ' AND currency=\'' . $cur . '\'', 'currency' => $cur);
+	}
 	foreach ($data as $key0 => $row0) {
 		foreach ($row0 as $key => $row) {
 			if (!isset($data[$key0][$key]['label'])) {
@@ -1345,8 +1351,14 @@ function get_accounts_wizard_config($exchange) {
 	if (!isset($result['khash'])) {
 		$result['khash'] = false;
 	}
+	if (!isset($result['fixed_inputs'])) {
+		$result['fixed_inputs'] = array();
+	}
 	foreach ($result['inputs'] as $key => $data) {
 		$result['inputs'][$key]['key'] = $key;
+		if (!isset($result['inputs'][$key]['inline_title'])) {
+			$result['inputs'][$key]['inline_title'] = $result['inputs'][$key]['title'];
+		}
 	}
 	foreach (account_data_grouped() as $group => $data) {
 		foreach ($data as $key => $values) {
@@ -2143,13 +2155,28 @@ function get_accounts_wizard_config_basic($exchange) {
 				'inputs' => array(
 					'api_url' => array('title' => 'URL', 'callback' => 'is_valid_generic_url', 'length' => 255),
 					'currency' => array('title' => t('Currency'), 'dropdown' => 'dropdown_currency_list', 'callback' => 'is_valid_currency', 'style_prefix' => 'currency_name_'),
-					'multiplier' => array('title' => t('Multiplier'), 'callback' => 'is_numeric', 'length' => 6, 'default' => 1, 'number' => true),
+					'multiplier' => array('title' => t('Multiplier'), 'inline_title' => t('value'), 'callback' => 'is_numeric', 'length' => 6, 'default' => 1, 'number' => true),
 				),
 				'table' => 'accounts_generic',
 				'title' => 'Generic API',
 			);
 
 		default:
+			// --- offsets ---
+			if (substr($exchange, 0, strlen("offset_")) === "offset_") {
+				$cur = substr($exchange, strlen("offset_"));
+				return array(
+					'inputs' => array(
+						'balance' => array('title' => t('Value'), 'inline_title' => t('value'), 'callback' => 'is_numeric', 'length' => 6, 'default' => 1, 'number' => true),
+					),
+					'fixed_inputs' => array(
+						'currency' => $cur,
+					),
+					'table' => 'offsets',
+					'title' => get_currency_abbr($cur) . " offset",
+				);
+			}
+
 			throw new Exception("Unknown accounts type '$exchange'");
 	}
 }
@@ -2229,6 +2256,23 @@ function get_wizard_account_type($wizard) {
 			);
 			break;
 
+		case "offsets":
+			$account_type = array(
+				'title' => t('Offset'),
+				'titles' => t('Offsets'),
+				'wizard' => 'offsets',
+				'hashrate' => false,
+				'url' => 'wizard_accounts_offsets',
+				'first_heading' => t('Currency'),
+				'display_headings' => array('balance' => t('Amount')),
+				'display_editable' => array('balance' => 'number_format_autoprecision'),
+				'a' => 'an',
+				'exchange_name_callback' => 'get_currency_name_from_exchange',
+				'help_filename_callback' => 'get_offsets_help_filename',
+				'add_label' => t('Add offset'),
+			);
+			break;
+
 		case "other":
 			$account_type = array(
 				'title' => t('Other Account'),
@@ -2263,14 +2307,42 @@ function get_wizard_account_type($wizard) {
 	if (!isset($account_type['accounts'])) {
 		$account_type['accounts'] = "accounts";
 	}
+	if (!isset($account_type['add_label'])) {
+		$account_type['add_label'] = t('Add account');
+	}
 	if (!isset($account_type['a'])) {
 		$account_type['a'] = "a";
 	}
 	if (!isset($account_type['transaction_creation'])) {
 		$account_type['transaction_creation'] = false;
 	}
+	if (!isset($account_type['has_balances'])) {
+		$account_type['has_balances'] = false;
+	}
+	if (!isset($account_type['has_transactions'])) {
+		$account_type['has_transactions'] = false;
+	}
+	if (!isset($account_type['can_test'])) {
+		$account_type['can_test'] = false;
+	}
+	if (!isset($account_type['exchange_name_callback'])) {
+		$account_type['exchange_name_callback'] = 'get_exchange_name';
+	}
+	if (!isset($account_type['help_filename_callback'])) {
+		$account_type['help_filename_callback'] = 'get_exchange_help_filename';
+	}
 
 	return $account_type;
+}
+
+function get_currency_name_from_exchange($s) {
+	return get_currency_abbr(substr($s, strlen("offset_")));
+}
+function get_exchange_help_filename($s) {
+	return "inline_accounts_" . $s;
+}
+function get_offsets_help_filename($s) {
+	return "inline_offsets";
 }
 
 function get_individual_security_config($account) {

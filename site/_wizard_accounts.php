@@ -24,11 +24,13 @@ foreach (account_data_grouped() as $label => $data) {
 			$account_data = get_accounts_wizard_config($key);
 			if (!$value['disabled']) {
 				$add_types[] = $key;
-				$add_type_names[$key] = get_exchange_name($key) . (isset($value['suffix']) ? $value['suffix'] : "");
+				$add_type_names[$key] = $account_type['exchange_name_callback']($key) . (isset($value['suffix']) ? $value['suffix'] : "");
+				$add_type_help[$key] = $account_type['help_filename_callback']($key);
 			}
 
+			$query = $value['query'] ? $value['query'] : "";
 			$q = db()->prepare("SELECT * FROM " . $account_data['table'] . "
-				WHERE user_id=? ORDER BY title ASC");
+				WHERE user_id=? $query ORDER BY title ASC");
 			$q->execute(array(user_id()));
 			while ($r = $q->fetch()) {
 				$r['exchange'] = $key;
@@ -52,18 +54,20 @@ $account_data = null;
 
 <div class="page_accounts">
 
-<p>
-<?php
-$extra_hours = (int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60));
-echo t("As a :user, your :titles should be updated at least once every :hours:extra.",
-	array(
-		':user' => $user['is_premium'] ? ht("premium user") : (user_is_new($user) ? ht("new user") : link_to(url_for('premium'), t("free user"))),
-		':titles' => $account_type['accounts'],
-		':hours' => plural("hour", user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours")),
-		':extra' => (user_is_new($user) && !$user['is_premium']) ? " " . t("(for the next :hours)", array(':hours' => plural("hour", $extra_hours))) : "",
-	));
-?>
-</p>
+<?php if ($account_type['wizard'] != 'offsets') { ?>
+	<p>
+	<?php
+	$extra_hours = (int) (get_site_config('new_user_premium_update_hours') - ((time() - strtotime($user['created_at']))) / (60 * 60));
+	echo t("As a :user, your :titles should be updated at least once every :hours:extra.",
+		array(
+			':user' => $user['is_premium'] ? ht("premium user") : (user_is_new($user) ? ht("new user") : link_to(url_for('premium'), t("free user"))),
+			':titles' => $account_type['accounts'],
+			':hours' => plural("hour", user_is_new($user) ? get_site_config('refresh_queue_hours_premium') : get_premium_value($user, "refresh_queue_hours")),
+			':extra' => (user_is_new($user) && !$user['is_premium']) ? " " . t("(for the next :hours)", array(':hours' => plural("hour", $extra_hours))) : "",
+		));
+		?>
+	</p>
+<?php } ?>
 
 <h2><?php echo t("Your :titles", array(':titles' => $account_type['titles'])); ?></h2>
 
@@ -78,10 +82,14 @@ echo t("As a :user, your :titles should be updated at least once every :hours:ex
 			<th class="headings"><?php echo htmlspecialchars($value); ?></th>
 		<?php } ?>
 		<th class="added"><?php echo ht("Added"); ?></th>
+		<?php if ($account_type['has_balances']) { ?>
 		<th class="last_checked"><?php echo ht("Checked"); ?></th>
 		<th class="balances"><?php echo ht("Balances"); ?></th>
+		<?php } ?>
 		<?php if ($account_type['hashrate']) { echo "<th class=\"hashrate\">" . ht("Hashrate") . "</th>"; } ?>
+		<?php if ($account_type['has_transactions']) { ?>
 		<th class="transactions"><?php echo ht("Transactions"); ?></th>
+		<?php } ?>
 		<th class="buttons"></th>
 	</tr>
 </thead>
@@ -140,7 +148,7 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
 	</tr>
 	<tr class="buttons">
 		<td colspan="2" class="buttons">
-			<input type="submit" name="add" value="<?php echo ht("Add account"); ?>" class="add">
+			<input type="submit" name="add" value="<?php echo htmlspecialchars($account_type['add_label']); ?>" class="add">
 			<input type="hidden" name="callback" value="<?php echo htmlspecialchars($account_type['url']); ?>">
 
 			<?php if (isset($account_type['add_help'])) { ?>
@@ -202,8 +210,10 @@ function previous_data() {
 <div style="display:none;" id="accounts_help">
 <?php foreach ($add_types as $exchange) { ?>
 	<div id="accounts_help_<?php echo htmlspecialchars($exchange); ?>">
-	<?php require_template("inline_accounts_" . $exchange); ?>
-	<span class="more_help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $exchange))); ?>"><?php echo ht("More help"); ?></a></span>
+	<?php require_template($add_type_help[$exchange]); ?>
+	<?php if ($account_type['wizard'] != 'offsets') { ?>
+		<span class="more_help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => $exchange))); ?>"><?php echo ht("More help"); ?></a></span>
+	<?php } ?>
 	</div>
 <?php } ?>
 </div>
