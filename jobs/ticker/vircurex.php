@@ -4,47 +4,23 @@
  * Vircurex ticker job.
  */
 
-$rates_list = array(
-	// array('cur1' => 'btc', 'cur2' => 'bqc'), // all flipped around - removed in 0.6
-	// array('cur1' => 'btc', 'cur2' => 'cnc'), // all flipped around - removed in 0.6
-	// array('cur1' => 'btc', 'cur2' => 'yac'), // all flipped around - removed in 0.6
-	array('cur1' => 'btc', 'cur2' => 'anc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'dgc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'dog'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'dvc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'frc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ftc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'i0c'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ixc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ltc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'nmc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'nvc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'ppc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'trc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'vtc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'xpm'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'qrk'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'vtc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'wdc'), // all flipped around
-	array('cur1' => 'eur', 'cur2' => 'btc'), // all flipped around
-	array('cur1' => 'ltc', 'cur2' => 'nmc'), // all flipped around
-	array('cur1' => 'usd', 'cur2' => 'btc'), // all flipped around
-	array('cur1' => 'usd', 'cur2' => 'ltc'), // all flipped around
-	array('cur1' => 'usd', 'cur2' => 'nmc'), // all flipped around
-	array('cur1' => 'btc', 'cur2' => 'bc1'), // all flipped around
-);
+$exchange_name = "vircurex";
+$exchange_pairs = get_exchange_pairs();
+$rates_list = $exchange_pairs['vircurex'];
 
 $rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://api.vircurex.com/api/get_info_for_currency.json")));
 
 foreach ($rates_list as $rl) {
+	$cur1 = $rl[0];
+	$cur2 = $rl[1];
 
-	if (!isset($rates[get_currency_abbr($rl['cur2'])][get_currency_abbr($rl['cur1'])])) {
-		throw new ExternalAPIException("No " . $rl['cur1'] . "/" . $rl['cur2'] . " rate for Vircurex");
+	if (!isset($rates[get_currency_abbr($cur2)][get_currency_abbr($cur1)])) {
+		throw new ExternalAPIException("No " . $cur1 . "/" . $cur2 . " rate for Vircurex");
 	}
 
-	$obj = $rates[get_currency_abbr($rl['cur2'])][get_currency_abbr($rl['cur1'])];
+	$obj = $rates[get_currency_abbr($cur2)][get_currency_abbr($cur1)];
 
-	insert_new_ticker($job, $exchange, strtolower($rl['cur1']), strtolower($rl['cur2']), array(
+	insert_new_ticker($job, $exchange, strtolower($cur1), strtolower($cur2), array(
 		"last_trade" => $obj['last_trade'],
 		"bid" => $obj['highest_bid'],
 		"ask" => $obj['lowest_ask'],

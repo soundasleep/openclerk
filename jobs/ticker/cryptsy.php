@@ -4,38 +4,9 @@
  * Cryptsy ticker job.
  */
 
-$rates_list = array(
-	array('cur1' => 'btc', 'cur2' => 'ltc'),
-	array('cur1' => 'btc', 'cur2' => 'ftc'),
-	array('cur1' => 'btc', 'cur2' => 'nvc'),
-	array('cur1' => 'btc', 'cur2' => 'ppc'),
-	array('cur1' => 'btc', 'cur2' => 'trc'),
-	array('cur1' => 'btc', 'cur2' => 'dog'),
-	array('cur1' => 'btc', 'cur2' => 'mec'),
-	array('cur1' => 'ltc', 'cur2' => 'mec'),
-	array('cur1' => 'btc', 'cur2' => 'dgc'),
-	array('cur1' => 'ltc', 'cur2' => 'dgc'),
-	array('cur1' => 'btc', 'cur2' => 'wdc'),
-	array('cur1' => 'btc', 'cur2' => 'xpm'),
-	// 0.20
-	array('cur1' => 'btc', 'cur2' => 'nmc'),
-	array('cur1' => 'btc', 'cur2' => 'vtc'),
-	array('cur1' => 'btc', 'cur2' => 'net'),
-	array('cur1' => 'ltc', 'cur2' => 'net'),
-	array('cur1' => 'btc', 'cur2' => 'ixc'),
-	array('cur1' => 'btc', 'cur2' => 'hbn'),
-	array('cur1' => 'btc', 'cur2' => 'bc1'),
-	// currencies not yet exposed to users or public
-	array('cur1' => 'btc', 'cur2' => 'mnc'),
-	// currently USD currencies are broken
-	/*
-	array('cur1' => 'usd', 'cur2' => 'btc'),
-	array('cur1' => 'usd', 'cur2' => 'ftc'),
-	array('cur1' => 'usd', 'cur2' => 'ltc'),
-	array('cur1' => 'usd', 'cur2' => 'dog'),
-	*/
-	// lots of others
-);
+$exchange_name = "cryptsy";
+$exchange_pairs = get_exchange_pairs();
+$rates_list = $exchange_pairs['cryptsy'];
 
 // get all the orderbook data (this is a big file!)
 $rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("http://pubapi.cryptsy.com/api.php?method=marketdatav2")));
@@ -45,8 +16,8 @@ if (isset($rates['notice'])) {
 
 $first = true;
 foreach ($rates_list as $rl) {
-	$cur1 = $rl['cur1'];
-	$cur2 = $rl['cur2'];
+	$cur1 = $rl[0];
+	$cur2 = $rl[1];
 	if (!isset($rates['return']['markets'][get_currency_abbr($cur2) . "/" . get_currency_abbr($cur1)])) {
 		throw new ExternalAPIException("No $cur2/$cur1 rate for " . $exchange['name']);
 	}
