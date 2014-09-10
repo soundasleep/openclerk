@@ -28,7 +28,6 @@ function get_site_config_ext() {
 		"password_salt" => "abc123",
 		"unsubscribe_salt" => "abc123",
 		"google_analytics_account" => "UA-12345678-0",	// _setAccount
-		"google_analytics_domain" => "localhost.openclerk.org",	// _setDomainName
 
 		// site-specific config values go here
 		"automated_key" => "abc123",
