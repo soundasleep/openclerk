@@ -302,7 +302,7 @@ function get_exchange_pairs() {
 		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'), array('cny', 'btc'),
 				array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc'), array('sgd', 'btc')),
 		"coins-e" => array(array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'),
-				array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'),
+				array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'), array('btc', 'vrc'),
 				array('btc', 'nvc'), array('btc', 'dgc'), array('btc', 'bc1'), array('btc', 'drk')),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'),
 				array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'),
@@ -311,6 +311,7 @@ function get_exchange_pairs() {
 				array('btc', 'trc'), array('btc', 'dog'), array('btc', 'mec'), array('ltc', 'mec'), array('btc', 'dgc'),
 				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc'), array('btc', 'ixc'), array('btc', 'vtc'),
 				array('btc', 'net'), array('ltc', 'net'), array('btc', 'hbn'), array('btc', 'bc1'), array('btc', 'drk'),
+				array('btc', 'vrc'),
 		),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
 		"kraken" => array(array('ltc', 'dog'), array('ltc', 'xrp'), array('eur', 'ltc'), array('krw', 'ltc'), array('usd', 'ltc'),
@@ -320,10 +321,13 @@ function get_exchange_pairs() {
 				array('krw', 'xrp'),
 				array('usd', 'dog'), array('usd', 'xrp')),
 		"itbit" => array(array('usd', 'btc'), array('eur', 'btc'), array('sgd', 'btc')),
-		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk')),
+		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
+				array('btc', 'vrc'),
+		),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'ixc'), array('btc', 'bc1'), array('btc', 'drk'),
+				array('btc', 'vrc'),
 		),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils'), array('usd', 'sgd')),
@@ -352,6 +356,10 @@ function get_new_exchange_pairs() {
 		"vaultofsatoshi_usddrk",
 		"vaultofsatoshi_caddrk",
 		"bittrex_btcvrc",
+		"coins-e_btcvrc",
+		"cryptsy_btcvrc",
+		"mintpal_btcvrc",
+		"poloniex_btvrc",
 	);
 }
 
