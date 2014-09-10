@@ -4569,3 +4569,26 @@ ALTER TABLE notifications ADD is_disabled tinyint not null default 0;
 ALTER TABLE notifications ADD failures tinyint not null default 0;
 ALTER TABLE notifications ADD first_failure timestamp null;
 ALTER TABLE notifications ADD INDEX(is_disabled);
+
+-- issue #243: store all historical ticker data before trimming
+CREATE TABLE ticker_historical (
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+
+  exchange varchar(32) not null,
+  currency1 varchar(3),
+  currency2 varchar(3),
+  last_trade decimal(24, 8),
+  ask decimal(24, 8),
+  bid decimal(24, 8),
+  volume decimal(24, 8),
+  is_daily_data tinyint not null default 0,
+  job_id int,
+  created_at_day mediumint not null,
+
+  INDEX(currency1), INDEX(currency2), INDEX(is_daily_data),
+  INDEX(exchange, currency1, currency2), INDEX(created_at), INDEX(created_at_day)
+);
+
+-- initialise with everything
+REPLACE INTO ticker_historical (SELECT * FROM ticker_historical);

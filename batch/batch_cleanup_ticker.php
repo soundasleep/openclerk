@@ -25,6 +25,12 @@ $cutoff_date = date('Y-m-d', strtotime(get_site_config('archive_ticker_data'))) 
 $summary_date_prefix = " 00:00:00"; // +00:00
 crypto_log("Cleaning up ticker data earlier than " . htmlspecialchars($cutoff_date) . " into summaries...");
 
+// issue #243: make sure we store all historical data in a backup table
+$q = db_master()->prepare("REPLACE INTO ticker_historical (SELECT * FROM ticker WHERE created_at <= :date ORDER BY created_at ASC)");
+$q->execute(array("date" => $cutoff_date));
+
+crypto_log("Backed up historical data...");
+
 $q = db_master()->prepare("SELECT * FROM ticker WHERE created_at <= :date ORDER BY created_at ASC");
 $q->execute(array("date" => $cutoff_date));
 
