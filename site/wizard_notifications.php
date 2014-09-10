@@ -8,16 +8,31 @@
 require(__DIR__ . "/../inc/global.php");
 require_login();
 
+$messages = array();
+
+// get all of our accounts
+$accounts = user_limits_summary(user_id());
+
+// enable/disable notifications
+if (require_post("disable", false)) {
+	$q = db()->prepare("UPDATE notifications SET is_disabled=1 WHERE id=? AND user_id=?");
+	$q->execute(array(require_post("disable"), user_id()));
+
+	$messages[] = t("Disabled notification.");
+}
+
+if (require_post("enable", false)) {
+	$q = db()->prepare("UPDATE notifications SET is_disabled=0 WHERE id=? AND user_id=?");
+	$q->execute(array(require_post("enable"), user_id()));
+
+	$messages[] = t("Enabled notification.");
+}
+
 require(__DIR__ . "/../layout/templates.php");
 page_header(t("Notification Preferences"), "page_wizard_notifications", array('js' => array('wizard', 'notifications', 'accounts' /* for sorting */), 'class' => 'page_accounts'));
 
 $user = get_user(user_id());
 require_user($user);
-
-$messages = array();
-
-// get all of our accounts
-$accounts = user_limits_summary(user_id());
 
 // get all of our notifications
 $q = db()->prepare("SELECT * FROM notifications WHERE user_id=? ORDER BY notification_type DESC, id ASC");
@@ -340,6 +355,17 @@ foreach ($notifications as $notification) {
 				<input type="hidden" name="edit" value="<?php echo htmlspecialchars($notification['id']); ?>">
 				<input type="submit" value="<?php echo ht("Edit"); ?>" class="edit" title="<?php echo ht("Edit this notification"); ?>">
 			</form>
+			<?php if ($notification['is_disabled']) { ?>
+				<form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="post">
+					<input type="hidden" name="enable" value="<?php echo htmlspecialchars($notification['id']); ?>">
+					<input type="submit" value="<?php echo ht("Enable"); ?>" class="enable" title="<?php echo ht("Enable this notification"); ?>">
+				</form>
+			<?php } else { ?>
+				<form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="post">
+					<input type="hidden" name="disable" value="<?php echo htmlspecialchars($notification['id']); ?>">
+					<input type="submit" value="<?php echo ht("Disable"); ?>" class="disable" title="<?php echo ht("Disable this notification"); ?>">
+				</form>
+			<?php } ?>
 			<form action="<?php echo htmlspecialchars(url_for('wizard_notifications_post')); ?>" method="post">
 				<input type="hidden" name="id" value="<?php echo htmlspecialchars($notification['id']); ?>">
 				<input type="submit" name="delete" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this notification"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this notification?"); ?>');">

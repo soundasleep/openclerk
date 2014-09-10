@@ -4563,3 +4563,9 @@ ALTER TABLE offsets DROP is_recent;
 
 -- issue #314: remove Shibe Pool accounts
 UPDATE accounts_shibepool SET is_disabled=1;
+
+-- issue #262: allow notifications to be disabled
+ALTER TABLE notifications ADD is_disabled tinyint not null default 0;
+ALTER TABLE notifications ADD failures tinyint not null default 0;
+ALTER TABLE notifications ADD first_failure timestamp null;
+ALTER TABLE notifications ADD INDEX(is_disabled);

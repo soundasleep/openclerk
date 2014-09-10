@@ -204,10 +204,10 @@ $standard_jobs = array_merge($standard_jobs, array(
 	array('table' => 'transaction_creators', 'type' => 'transactions', 'failure' => true),
 
 	// notifications support
-	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='hour'", 'hours' => 1),
-	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='day'", 'hours' => 24),
-	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='week'", 'hours' => 24 * 7),
-	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='month'", 'hours' => 24 * 7 * 30),
+	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='hour'", 'failure' => true, 'hours' => 1),
+	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='day'", 'failure' => true, 'hours' => 24),
+	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='week'", 'failure' => true, 'hours' => 24 * 7),
+	array('table' => 'notifications', 'type' => 'notification', 'query' => " AND period='month'", 'failure' => true, 'hours' => 24 * 7 * 30),
 ));
 
 crypto_log("Current time: " . date('r'));
