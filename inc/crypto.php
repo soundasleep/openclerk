@@ -8,7 +8,7 @@
 function get_all_currencies() {
 	return array(
 		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt",
-		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk",
+		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
 		"ghs",
 	);
 }
@@ -23,7 +23,7 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("drk");
+	return array("drk", "vrc", "nxt", "dkk", "inr");
 }
 
 function get_all_cryptocurrencies() {
@@ -82,6 +82,7 @@ function get_currency_name($n) {
 		case "krw": return "South Korean won";
 		case "sgd": return "Singapore dollar";
 		case "dkk": return "Danish Krone";
+		case "inr": return "Indian Rupee";
 
 		case "ghs": return "CEX.io GHS";
 		default:	return "Unknown (" . htmlspecialchars($n) . ")";
@@ -302,8 +303,10 @@ function get_exchange_pairs() {
 				array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),
 				array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
 		"cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('nmc', 'ghs')),
-		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'), array('cny', 'btc'),
-				array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc'), array('sgd', 'btc'), array('dkk', 'btc')),
+		"coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'),
+				array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc'), array('sgd', 'btc'),
+				array('dkk', 'btc'), array('inr', 'btc'), array('cny', 'btc'),
+			),
 		"coins-e" => array(array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'),
 				array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'), array('btc', 'vrc'),
 				array('btc', 'nvc'), array('btc', 'dgc'), array('btc', 'bc1'), array('btc', 'drk')),
@@ -334,7 +337,7 @@ function get_exchange_pairs() {
 		),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils'), array('usd', 'sgd'),
-				array('usd', 'dkk'),
+				array('usd', 'dkk'), array('usd', 'inr'),
 		),
 		"vaultofsatoshi" => array(
 				array('usd', 'btc'), array('usd', 'ltc'), array('usd', 'ppc'), array('usd', 'dog'), array('usd', 'ftc'), array('usd', 'xpm'), array('usd', 'vtc'),
@@ -371,6 +374,8 @@ function get_new_exchange_pairs() {
 		"vircurex_btcnxt",
 		"coinbase_dkkbtc",
 		"themoneyconverter_usddkk",
+		"coinbase_inrbtc",
+		"themoneyconverter_usdinr",
 	);
 }
 
@@ -588,6 +593,7 @@ function get_default_currency_exchange($c) {
 		case "krw": return "kraken";
 		case "sgd": return "itbit";
 		case "dkk": return "coinbase";
+		case "inr": return "coinbase";
 		// commodities
 		case "ghs": return "cexio";
 		default: throw new Exception("Unknown currency to exchange into: $c");
