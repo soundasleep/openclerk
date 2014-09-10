@@ -8,11 +8,20 @@ require_once(__DIR__ . "/OpenclerkTest.php");
  */
 class GenerateVersionTest extends OpenclerkTest {
 
-	function testGenerate() {
+	function getPackageJsonVersion() {
 		$version = get_site_config('openclerk_version');
+		if (!preg_match("#^[0-9]+\.[0-9]+\.[0-9]+$#", $version)) {
+			$version = $version . ".0";
+		}
+		return $version;
+	}
+
+	function testGenerate() {
+		$version = $this->getPackageJsonVersion();
 		$found = false;
 
 		$this->assertNotEmpty($version, "No version found");
+		$this->assertMatches("#^[0-9]+\.[0-9]+\.[0-9]+$#", $version, "Version was a valid package.json version");
 
 		$input = file(__DIR__ . "/../package.json");
 		$fp = fopen(__DIR__ . "/../package.json", "w");

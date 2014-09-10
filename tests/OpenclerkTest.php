@@ -46,4 +46,14 @@ class OpenclerkTest extends PHPUnit_Framework_TestCase {
 		return $result;
 	}
 
+	function assertMatches($regexp, $string, $message = false) {
+		if (!preg_match($regexp, $string)) {
+			if ($message === false) {
+				$this->fail("'$string' did not match '$regexp'");
+			} else {
+				$this->fail("$message: '$string' did not match '$regexp'");
+			}
+		}
+	}
+
 }
