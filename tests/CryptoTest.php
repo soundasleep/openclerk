@@ -48,4 +48,71 @@ class CryptoTestsTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	/**
+	 * If we have disabled an account, it should not appear in {@link get_external_apis()}.
+	 */
+	function testDisabledAccountsArentExternalAPIs() {
+		$account_data_grouped = account_data_grouped();
+		$external_apis = get_external_apis();
+		$this->assertGreaterThan(0, count($account_data_grouped['Mining pools']));
+		foreach ($account_data_grouped['Mining pools'] as $key => $data) {
+			if ($data['disabled']) {
+				$this->assertFalse(isset($external_apis['Mining pool wallets'][$key]), "Did not expect disabled mining pool wallet '$key' in external APIs");
+			}
+		}
+		$this->assertGreaterThan(0, count($account_data_grouped['Exchanges']));
+		foreach ($account_data_grouped['Exchanges'] as $key => $data) {
+			if ($data['disabled']) {
+				$this->assertFalse(isset($external_apis['Exchange wallets'][$key]), "Did not expect disabled exchange wallet '$key' in external APIs");
+			}
+		}
+		$this->assertGreaterThan(0, count($account_data_grouped['Securities']));
+		foreach ($account_data_grouped['Securities'] as $key => $data) {
+			if ($data['disabled']) {
+				$this->assertFalse(isset($external_apis['Security exchanges'][$key]), "Did not expect disabled mining pool wallet '$key' in external APIs");
+			}
+		}
+	}
+
+	/**
+	 * If we have disabled an account, it should not appear in {@link get_supported_wallets()}.
+	 */
+	function testDisabledAccountsArentWallets() {
+		$account_data_grouped = account_data_grouped();
+		$wallets = get_supported_wallets();
+		$this->assertGreaterThan(0, count($account_data_grouped['Mining pools']));
+		foreach ($account_data_grouped['Mining pools'] as $key => $data) {
+			if ($data['disabled']) {
+				$this->assertFalse(isset($wallets[$key]), "Did not expect disabled mining pool wallet '$key' in supported wallets");
+			}
+		}
+		$this->assertGreaterThan(0, count($account_data_grouped['Exchanges']));
+		foreach ($account_data_grouped['Exchanges'] as $key => $data) {
+			if ($data['disabled']) {
+				$this->assertFalse(isset($wallets[$key]), "Did not expect disabled exchange wallet '$key' in supported wallets");
+			}
+		}
+		$this->assertGreaterThan(0, count($account_data_grouped['Securities']));
+		foreach ($account_data_grouped['Securities'] as $key => $data) {
+			if ($data['disabled']) {
+				$this->assertFalse(isset($wallets[$key]), "Did not expect disabled mining pool wallet '$key' in supported wallets");
+			}
+		}
+	}
+
+	/**
+	 * All exchanges, even those that are disabled, should have a definition through
+	 * {@link #get_accounts_wizard_config_basic()}.
+	 */
+	function testAllAccountsHaveWizardConfig() {
+		$account_data_grouped = account_data_grouped();
+		foreach (array('Mining pools', 'Exchanges', 'Securities') as $group_key) {
+			foreach ($account_data_grouped[$group_key] as $key => $data) {
+				$this->assertNotNull(get_accounts_wizard_config_basic($key), "Expected a wizard config for exchange '$key'");
+			}
+		}
+
+
+	}
+
 }
