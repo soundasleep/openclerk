@@ -436,10 +436,6 @@ try {
 			require(__DIR__ . "/../jobs/litecoinpool.php");
 			break;
 
-		case "dogepoolpw":
-			require(__DIR__ . "/../jobs/dogepoolpw.php");
-			break;
-
 		case "elitistjerks":
 			require(__DIR__ . "/../jobs/elitistjerks.php");
 			break;
