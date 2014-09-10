@@ -25,8 +25,8 @@ if ($address['is_received']) {
 	$html = preg_replace("#<[^>]+>#", "", $html);
 	$html = preg_replace("#[\n\r\t]+#", " ", $html);
 	$matches = false;
-	if (preg_match("#Balance +:([0-9\.]+) +Equivalent#im", $html, $matches)) {
-		$balance = $matches[1];
+	if (preg_match("#Balance +:([0-9,\.]+) +Equivalent#im", $html, $matches)) {
+		$balance = str_replace(",", "", $matches[1]);
 		insert_new_address_balance($job, $address, $balance);
 	} else {
 		throw new ExternalAPIException("Could not find current balance on page");
