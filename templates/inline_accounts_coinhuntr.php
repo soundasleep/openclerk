@@ -7,7 +7,7 @@ $account_data = array('exchange_name' => get_exchange_name('coinhuntr'));
 
 <ol class="steps">
 	<li>Log into your <?php echo $account_data['exchange_name']; ?> account
-		and visit your <a href="https://coinhuntr.com/index.php?page=account&action=edit">Account Settings page</a>.<br>
+		and visit your <a href="https://coinhuntr.com/index.php?page=account&amp;action=edit">Account Settings page</a>.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/coinhuntr1.png')); ?>"></li>
 
 	<li>Copy and paste your <i>API Key</i> into the <a class="wizard_link" href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">"Add new Mining Pool" form</a>, and click "Add account".<br>
