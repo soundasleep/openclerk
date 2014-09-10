@@ -4,20 +4,9 @@
  * Coins-E ticker job.
  */
 
-$rates_list = array(
-	// not all coins are tracked
-	array('btc', 'dog'),
-	array('btc', 'mec'),
-	array('btc', 'ftc'),
-	array('btc', 'ltc'),
-	array('btc', 'ppc'),
-	array('btc', 'qrk'),
-	array('btc', 'nvc'),
-	array('btc', 'dgc'),
-	array('btc', 'bc1'),
-
-	array('xpm', 'ppc'),
-);
+$exchange_name = "coins-e";
+$exchange_pairs = get_exchange_pairs();
+$rates_list = $exchange_pairs['coins-e'];
 
 // get the ticker
 $rates = crypto_json_decode(crypto_get_contents(crypto_wrap_url("https://www.coins-e.com/api/v2/markets/data/")));
