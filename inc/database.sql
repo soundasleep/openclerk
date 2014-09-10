@@ -4509,3 +4509,6 @@ ALTER TABLE securities_litecoinglobal ADD user_id int not null;
 UPDATE securities_litecoinglobal SET user_id=100;
 
 ALTER TABLE securities_havelock ADD is_disabled_manually tinyint not null default 0;
+
+-- re-enable all securities_havelock
+UPDATE securities_havelock SET is_disabled=0;
