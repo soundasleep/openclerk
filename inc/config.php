@@ -199,6 +199,8 @@ function get_default_site_config() {
 		"bc1_address_url" => "http://blackcha.in/address/",
 		"bc1_balance_url" => "http://blackcha.in/api/address/",
 		"bc1_block_url" => "http://blackcha.in/api/status?q=getInfo",
+		"drk_address_url" => "http://explorer.darkcoin.io/address/",
+		"drk_block_url" => "http://explorer.darkcoin.io/chain/Darkcoin/q/getblockcount",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,
@@ -216,6 +218,7 @@ function get_default_site_config() {
 		"vtc_confirmations" => 6,
 		"net_confirmations" => 6,
 		"hbn_confirmations" => 6,
+		"drk_confirmations" => 6,
 
 		// register Coinbase Applications through https://coinbase.com/oauth/applications
 		"coinbase_client_id" => 'xxx',

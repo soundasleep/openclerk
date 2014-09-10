@@ -224,6 +224,10 @@ try {
 			require(__DIR__ . "/../jobs/blackcoin.php");
 			break;
 
+		case "darkcoin":
+			require(__DIR__ . "/../jobs/darkcoin.php");
+			break;
+
 		case "litecoin_block":
 			require(__DIR__ . "/../jobs/litecoin_block.php");
 			break;
@@ -286,6 +290,10 @@ try {
 
 		case "blackcoin_block":
 			require(__DIR__ . "/../jobs/blackcoin_block.php");
+			break;
+
+		case "darkcoin_block":
+			require(__DIR__ . "/../jobs/darkcoin_block.php");
 			break;
 
 		case "generic":

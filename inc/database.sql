@@ -4519,3 +4519,16 @@ DELETE FROM transaction_creators;
 -- and remove all automatic transactions
 DELETE FROM transactions WHERE is_automatic=1;
 
+-- issue #295: add Darkcoin DRK cryptocurrency
+DROP TABLE IF EXISTS darkcoin_blocks;
+
+CREATE TABLE darkcoin_blocks (
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+
+  blockcount int not null,
+
+  is_recent tinyint not null default 0,
+
+  INDEX(is_recent)
+);

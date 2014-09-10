@@ -7,7 +7,7 @@
 
 function get_all_currencies() {
 	return array(
-		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */,
+		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk",
 		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd",
 		"ghs",
 	);
@@ -23,11 +23,11 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("bc1");
+	return array("drk");
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk");
 }
 
 function get_all_commodity_currencies() {
@@ -43,7 +43,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk");
 }
 
 function get_currency_name($n) {
@@ -66,6 +66,7 @@ function get_currency_name($n) {
 		case "net": return "Netcoin";
 		case "hbn": return "Hobonickels";
 		case "bc1": return "Blackcoin";
+		case "drk": return "Darkcoin";
 
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
@@ -117,6 +118,7 @@ function get_blockchain_currencies() {
 		"162.217.249.198" => array('hbn'),
 		"Novacoin Explorer" => array('nvc'),
 		"BlackChain" => array('bc1'),
+		"Darkcoin Explorer" => array('drk'),
 	);
 }
 
@@ -313,7 +315,7 @@ function get_exchange_pairs() {
 				array('krw', 'xrp'),
 				array('usd', 'dog'), array('usd', 'xrp')),
 		"itbit" => array(array('usd', 'btc'), array('eur', 'btc'), array('sgd', 'btc')),
-		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1')),
+		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk')),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'ixc'), array('btc', 'bc1')),		// also pts, mmc, ...
@@ -334,19 +336,7 @@ function get_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"bittrex_btcltc",
-		"bittrex_btcdog",
-		"bittrex_btcvtc",
-		"bittrex_btcppc",
-		"bittrex_btcbc1",
-		"coins-e_btcbc1",
-		"crypto-trade_btcbc1",
-		"cryptsy_btcbc1",
-		"mintpal_btcbc1",
-		"poloniex_btcbc1",
-		"vaultofsatoshi_usdbc1",
-		"vaultofsatoshi_cadbc1",
-		"vircurex_btcbc1",
+		"mintpal_btcdrk",
 	);
 }
 
@@ -550,6 +540,7 @@ function get_default_currency_exchange($c) {
 		case "net": return "cryptsy";
 		case "hbn": return "cryptsy";
 		case "bc1": return "cryptsy";
+		case "drk": return "mintpal";
 		// fiats
 		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
@@ -663,6 +654,7 @@ function account_data_grouped() {
 			'netcoin' => array('title' => 'NET addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'net\'', 'wizard' => 'addresses', 'currency' => 'net'),
 			'hobonickels' => array('title' => 'HBN addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'hbn\'', 'wizard' => 'addresses', 'currency' => 'hbn'),
 			'blackcoin' => array('title' => 'BC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'bc1\'', 'wizard' => 'addresses', 'currency' => 'bc1'),
+			'darkcoin' => array('title' => 'DRK addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'drk\'', 'wizard' => 'addresses', 'currency' => 'drk'),
 		),
 		'Mining pools' => array(
 			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -877,6 +869,8 @@ function get_external_apis() {
 			'hobonickels_block' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a> (block count)',
 			'blackcoin' => '<a href="http://blackcha.in/">BlackChain</a>',
 			'blackcoin_block' => '<a href="http://blackcha.in/">BlackChain</a> (block count)',
+			'darkcoin' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a>',
+			'darkcoin_block' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a> (block count)',
 		),
 
 		"Mining pool wallets" => array(
@@ -1255,6 +1249,18 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_bc1_address',
 				'job_type' => 'blackcoin',
 				'client' => get_currency_name('bc1'),
+			);
+
+		case "drk":
+			return array(
+				'premium_group' => 'darkcoin',
+				'title' => 'DRK address',
+				'titles' => 'DRK addresses',
+				'table' => 'addresses',
+				'currency' => 'drk',
+				'callback' => 'is_valid_drk_address',
+				'job_type' => 'darkcoin',
+				'client' => get_currency_name('drk'),
 			);
 
 		default:
@@ -2615,6 +2621,15 @@ function is_valid_hbn_address($address) {
 function is_valid_bc1_address($address) {
 	// based on is_valid_btc_address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "B")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_drk_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "X")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}
