@@ -390,7 +390,6 @@ function get_supported_wallets() {
 		"796" => array('btc', 'ltc', 'usd'),
 		"anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),		// also hkd, sgd, jpy, chf
 		"beeeeer" => array('xpm'),
-		"bips" => array('btc', 'usd'),
 		"bit2c" => array('btc', 'ltc', 'ils'),
 		"bitcurex_eur" => array('btc', 'eur'),
 		"bitcurex_pln" => array('btc', 'pln'),
@@ -401,7 +400,6 @@ function get_supported_wallets() {
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btcinve" => array('btc'),
-		"btct" => array('btc'),
 		"coinbase" => array('btc'),
 		"coinhuntr" => array('ltc', 'hash'),
 		"cryptopools" => array('dgc', 'hash'),		// other coins available
@@ -412,7 +410,6 @@ function get_supported_wallets() {
 		"cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc'),		// also available: dvc
 		"d2" => array('wdc', 'hash'),				// other coins available
 		"dedicatedpool" => array('dog', 'hash'),		// other coins available
-		"dogechainpool" => array('dog', 'hash'),
 		"dogepoolpw" => array('dog', 'hash'),
 		"ecoining" => array('ppc', 'hash'),
 		"eligius" => array('btc', 'hash'),		// BTC is paid directly to BTC address but also stored temporarily
@@ -432,7 +429,6 @@ function get_supported_wallets() {
 		"kattare" => array('ltc', 'hash'),
 		"ltcmineru" => array('ltc'),
 		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad', 'nzd', 'cny', 'gbp'),
-		"miningforeman" => array('ltc', 'ftc', 'hash'),
 		"miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),		// and LOTS more; used in jobs/miningpoolco.php
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),		// and LOTS more; used in jobs/multipool.php
 		"mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
@@ -679,7 +675,7 @@ function account_data_grouped() {
 			'cryptotroll_doge' => array('table' => 'accounts_cryptotroll_doge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptotroll', 'suffix' => ' DOGE'),
 			'd2_wdc' => array('table' => 'accounts_d2_wdc', 'group' => 'accounts', 'suffix' => ' WDC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'd2'),
 			'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
-			'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
 			'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'ecoining_ppc' => array('table' => 'accounts_ecoining_ppc', 'group' => 'accounts', 'suffix' => ' Peercoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ecoining'),
 			'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -880,7 +876,6 @@ function get_external_apis() {
 			'cryptotroll_doge' => '<a href="http://doge.cryptotroll.com">Cryptotroll</a> (DOGE)',
 			'd2_wdc' => '<a href="https://wdc.d2.cc/">d2</a> (WDC)',
 			'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
-			'dogechainpool' => '<a href="http://pool.dogechain.info/">Dogechain Pool</a>',
 			'dogepoolpw' => '<a href="http://dogepool.pw">dogepool.pw</a>',
 			'ecoining_ppc' => '<a href="https://peercoin.ecoining.com/">Ecoining Peercoin</a>',
 			'eligius' => '<a href="http://eligius.st/">Eligius</a>',
@@ -893,12 +888,9 @@ function get_external_apis() {
 			'hypernova' => '<a href="https://hypernova.pw/">Hypernova</a>',
 			'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
 			'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
-			'lite_coinpool' => '<a href="http://lite.coin-pool.com/">lite.coin-pool.com</a>',
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
 			'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
 			'ltcmineru' => '<a href="http://ltcmine.ru/">LTCMine.ru</a>',
-			'miningforeman' => '<a href="http://www.mining-foreman.org/">Mining Foreman</a> (LTC)',
-			'miningforeman_ftc' => '<a href="http://ftc.mining-foreman.org/">Mining Foreman</a> (FTC)',
 			'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
 			'multipool' => '<a href="https://multipool.us/">Multipool</a>',
 			'mupool' => '<a href="https://mupool.com/">MuPool</a>',
@@ -922,7 +914,6 @@ function get_external_apis() {
 
 		"Exchange wallets" => array(
 			'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
-			'bips' => '<a href="https://bips.me">BIPS</a>',
 			'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
 			'bitcurex_eur' => '<a href="https://eur.bitcurex.com/">Bitcurex EUR</a>',
 			'bitcurex_pln' => '<a href="https://pln.bitcurex.com/">Bitcurex PLN</a>',

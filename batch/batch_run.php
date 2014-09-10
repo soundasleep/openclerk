@@ -428,10 +428,6 @@ try {
 			require(__DIR__ . "/../jobs/elitistjerks.php");
 			break;
 
-		case "dogechainpool":
-			require(__DIR__ . "/../jobs/dogechainpool.php");
-			break;
-
 		case "hashfaster_ltc":
 			require(__DIR__ . "/../jobs/hashfaster_ltc.php");
 			break;

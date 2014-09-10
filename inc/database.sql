@@ -4481,3 +4481,6 @@ CREATE TABLE vertcoin_blocks (
 
   INDEX(is_recent)
 );
+
+-- issue #290: removing dogechainpool accounts
+UPDATE accounts_dogechainpool SET is_disabled=1;

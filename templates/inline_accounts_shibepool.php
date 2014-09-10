@@ -1,5 +1,5 @@
 <?php
-$account_data = array('exchange_name' => get_exchange_name('dogechainpool'));
+$account_data = array('exchange_name' => get_exchange_name('shibepool'));
 ?>
 
 <div class="instructions_add">
