@@ -61,7 +61,7 @@ if ($pages) {
 
 				$q = db()->prepare("SELECT securities.* " . (count($currencies) > 1 ? ", ss.currency" : "") . " FROM securities
 					JOIN " . $table . " AS ss ON securities.security_id=ss.id
-					WHERE exchange=? AND user_id=? AND is_recent=1 ORDER BY exchange ASC, ss.name ASC");
+					WHERE exchange=? AND securities.user_id=? AND is_recent=1 ORDER BY exchange ASC, ss.name ASC");
 				$q->execute(array($exchange, user_id()));
 				$securities = $q->fetchAll();
 
@@ -72,7 +72,7 @@ if ($pages) {
 					$security_table_name = $ind_account['securities_table'];
 					$q = db()->prepare("SELECT t.* " . (count($currencies) > 1 ? ", ss.currency" : "") . " FROM $table_name AS t
 						JOIN $security_table_name AS ss ON t.security_id=ss.id
-						WHERE user_id=? ORDER BY ss.name ASC");
+						WHERE t.user_id=? ORDER BY ss.name ASC");
 					$q->execute(array(user_id()));
 					$securities2 = $q->fetchAll();
 					$securities = array_merge($securities, $securities2);
