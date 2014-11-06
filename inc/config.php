@@ -165,16 +165,10 @@ function get_default_site_config() {
 		"ppc_address_url" => "http://ppc.blockr.io/api/v1/address/info/",
 		"ppc_block_url" => "http://ppc.blockr.io/api/v1/block/info/last",
 		"nvc_address_url" => "https://explorer.novaco.in/address/",
-		// not implemented yet!
-		// "nvc_block_url" => "http://nvc.cryptocoinexplorer.com/chain/Novacoin/q/getblockcount",
 		"nvc_block_url_html" => "https://explorer.novaco.in/",		// for obtaining block count manually
-		"xpm_address_url" => "http://xpm.cryptocoinexplorer.com/address/",
-		// not implemented yet!
-		// "xpm_block_url" => "http://xpm.cryptocoinexplorer.com/chain/Primecoin/q/getblockcount",
+		"xpm_address_url" => "https://coinplorer.com/XPM/Addresses/",
 		"xpm_block_url_html" => "http://xpm.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
 		"trc_address_url" => "http://trc.cryptocoinexplorer.com/address/",
-		// not implemented yet!
-		// "trc_block_url" => "http://trc.cryptocoinexplorer.com/chain/Terracoin/q/getblockcount",
 		"trc_block_url_html" => "http://trc.cryptocoinexplorer.com/block/-1",		// for obtaining block count manually
 		"dog_address_url" => "http://dogechain.info//address/",
 		"dog_block_url" => "http://dogechain.info//chain/Dogecoin/q/getblockcount",

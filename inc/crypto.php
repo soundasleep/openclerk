@@ -108,7 +108,7 @@ function get_blockchain_currencies() {
 	return array(
 		"Blockchain.info" => array('btc'),
 		"Litecoin Explorer" => array('ltc'),
-		"CryptoCoin Explorer" => array('xpm', 'trc'),
+		"CryptoCoin Explorer" => array('trc'),
 		"Blockr.io" => array('ppc', 'dgc'),
 		"Feathercoin Search" => array('ftc'),
 		"DogeChain" => array('dog'),
@@ -125,6 +125,7 @@ function get_blockchain_currencies() {
 		"Darkcoin Explorer" => array('drk'),
 		"cryptoID" => array('vrc'),
 		"NXT Explorer" => array('nxt'),
+		"Coinplorer" => array('xpm'),
 	);
 }
 
