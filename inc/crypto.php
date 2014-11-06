@@ -335,7 +335,7 @@ function get_exchange_pairs() {
 		),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
-				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'ixc'), array('btc', 'bc1'), array('btc', 'drk'),
+				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'bc1'), array('btc', 'drk'),
 				array('btc', 'vrc'), array('btc', 'nxt'),
 		),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
