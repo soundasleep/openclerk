@@ -69,10 +69,6 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/poloniex.php");
 		break;
 
-	case "mintpal":
-		require(__DIR__ . "/reported_currencies/mintpal.php");
-		break;
-
 	case "anxpro":
 		require(__DIR__ . "/reported_currencies/anxpro.php");
 		break;

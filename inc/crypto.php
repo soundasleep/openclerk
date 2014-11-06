@@ -330,9 +330,6 @@ function get_exchange_pairs() {
 				array('eur', 'btc'), array('usd', 'btc'), array('eur', 'ltc'), array('usd', 'ltc'),
 		),
 		"itbit" => array(array('usd', 'btc'), array('eur', 'btc'), array('sgd', 'btc')),
-		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
-				array('btc', 'vrc'),
-		),
 		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'bc1'), array('btc', 'drk'),
@@ -559,7 +556,7 @@ function get_default_currency_exchange($c) {
 		case "net": return "cryptsy";
 		case "hbn": return "cryptsy";
 		case "bc1": return "cryptsy";
-		case "drk": return "mintpal";
+		case "drk": return "cryptsy";
 		case "vrc": return "bittrex";
 		case "nxt": return "cryptsy";
 		// fiats
@@ -991,7 +988,6 @@ function get_external_apis() {
 			'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'ticker_kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
 			'ticker_itbit' => '<a href="https://www.itbit.com/">itBit</a>',
-			'ticker_mintpal' => '<a href="https://www.mintpal.com/">MintPal</a>',
 			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'ticker_poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
 			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',

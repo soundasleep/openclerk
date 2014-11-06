@@ -4592,3 +4592,10 @@ CREATE TABLE ticker_historical (
 
 -- initialise with everything
 REPLACE INTO ticker_historical (SELECT * FROM ticker);
+
+-- --------------------------------------------------------------------------
+-- upgrade statements from 0.28 to 0.29
+-- NOTE make sure you set jobs_enabled=false while upgrading the site and executing these queries!
+-- --------------------------------------------------------------------------
+-- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
+DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
