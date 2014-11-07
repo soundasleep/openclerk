@@ -303,6 +303,7 @@ function get_exchange_pairs() {
 		"bitstamp" => array(array('usd', 'btc')),
 		"bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'),
 			array('btc', 'bc1'), array('btc', 'drk'), array('btc', 'vrc'), array('btc', 'nxt'),
+			array('btc', 'rdd'),
 		),	// and others
 		"btcchina" => array(array('cny', 'btc')),
 		"btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
@@ -324,7 +325,7 @@ function get_exchange_pairs() {
 				array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'),
 				array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dgc'), array('btc', 'wdc'), array('btc', 'bc1'),
 				array('btc', 'dog'), array('usd', 'dog'), array('btc', 'drk'), array('usd', 'drk'), array('btc', 'nxt'),
-				array('usd', 'nxt'),
+				array('usd', 'nxt'), array('btc', 'rdd'), array('ltc', 'rdd'), array('usd', 'rdd'),
 		),
 		"cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'),
 				array('btc', 'trc'), array('btc', 'dog'), array('btc', 'mec'), array('ltc', 'mec'), array('btc', 'dgc'),
@@ -339,7 +340,7 @@ function get_exchange_pairs() {
 		"itbit" => array(array('usd', 'btc'), array('eur', 'btc'), array('sgd', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'bc1'), array('btc', 'drk'),
-				array('btc', 'vrc'), array('btc', 'nxt'),
+				array('btc', 'vrc'), array('btc', 'nxt'), array('btc', 'rdd'),
 		),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils'), array('usd', 'sgd'),
@@ -372,6 +373,11 @@ function get_disabled_exchange_pairs() {
 function get_new_exchange_pairs() {
 	return array(
 		"bitcurex_usdbtc",
+		"cryptsy_btcrdd",
+		"cryptsy_ltcrdd",
+		"cryptsy_usdrdd",
+		"bittrex_btcrdd",
+		"poloniex_btcrdd",
 	);
 }
 
@@ -418,7 +424,7 @@ function get_supported_wallets() {
 		"bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
 		"bitstamp" => array('btc', 'usd'),
-		"bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt'),	// and others, used in jobs/bittrex.php
+		"bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd'),	// and others, used in jobs/bittrex.php
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
 		"btcguild" => array('btc', 'nmc', 'hash'),
 		"btcinve" => array('btc'),
@@ -428,7 +434,7 @@ function get_supported_wallets() {
 		"cryptostocks" => array('btc', 'ltc'),
 		"crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
 		"cryptotroll" => array('dog', 'hash'),
-		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt'),
+		"cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd'),
 		"cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),		// also available: dvc
 		"d2" => array('wdc', 'hash'),				// other coins available
 		"dedicatedpool" => array('dog', 'hash'),		// other coins available
@@ -455,7 +461,7 @@ function get_supported_wallets() {
 		"nicehash" => array('btc'),
 		"nut2pools" => array('ftc', 'hash'),
 		"ozcoin" => array('ltc', 'btc', 'hash'),
-		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'bc1', 'nxt'),		// and LOTS more; used in jobs/poloniex.php
+		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'bc1', 'nxt', 'rdd'),		// and LOTS more; used in jobs/poloniex.php
 		"poolx" => array('ltc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
