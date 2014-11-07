@@ -18,7 +18,7 @@ function api_get_all_rates($with_extra = true) {
 					// btc/ltc and btc/ghs
 					$exchange = get_default_currency_exchange($cur2);
 					$ticker = get_latest_ticker($exchange, $cur1, $cur2);
-					$rate = 1 / $ticker['last_trade'];
+					$rate = $ticker['last_trade'] == 0 ? 0 : (1 / $ticker['last_trade']);
 					$pair = $cur1 . $cur2;
 				} else {
 					// btc/usd
@@ -38,7 +38,7 @@ function api_get_all_rates($with_extra = true) {
 					// btc/usd
 					$exchange = get_default_currency_exchange($cur1);
 					$ticker = get_latest_ticker($exchange, $cur1, $cur2);
-					$rate = 1 / $ticker['last_trade'];
+					$rate = $ticker['last_trade'] == 0 ? 0 : (1 / $ticker['last_trade']);
 					$pair = $cur1 . $cur2;
 				}
 			} else {
@@ -53,7 +53,7 @@ function api_get_all_rates($with_extra = true) {
 					// usd/?
 					$exchange = array(get_default_currency_exchange($cur1));
 					$ticker = get_latest_ticker($exchange[0], $cur1, 'btc');
-					$rate = 1 / $ticker['last_trade'];
+					$rate = $ticker['last_trade'] == 0 ? 0 : (1 / $ticker['last_trade']);
 					$pair = array($cur1 . 'btc');
 				}
 
@@ -62,7 +62,7 @@ function api_get_all_rates($with_extra = true) {
 					// ?/ltc and ?/ghs
 					$exchange[] = get_default_currency_exchange($cur2);
 					$ticker = get_latest_ticker($exchange[1], 'btc', $cur2);
-					$rate = $rate / $ticker['last_trade'];
+					$rate = $ticker['last_trade'] == 0 ? 0 : ($rate / $ticker['last_trade']);
 					$pair[] = 'btc' . $cur2;
 				} else {
 					// ?/usd
