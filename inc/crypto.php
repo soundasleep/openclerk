@@ -408,7 +408,6 @@ function get_supported_wallets() {
 		"50btc" => array('btc', 'hash'),
 		"796" => array('btc', 'ltc', 'usd'),
 		"anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),		// also hkd, sgd, jpy, chf
-		"beeeeer" => array('xpm'),
 		"bit2c" => array('btc', 'ltc', 'ils'),
 		"bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
@@ -689,7 +688,7 @@ function account_data_grouped() {
 		),
 		'Mining pools' => array(
 			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-			'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
 			'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -917,7 +916,6 @@ function get_external_apis() {
 
 		"Mining pool wallets" => array(
 			'50btc' => '<a href="https://50btc.com/">50BTC</a>',
-			'beeeeer' => '<a href="http://beeeeer.org/">' . htmlspecialchars(get_exchange_name('beeeeer')) . '</a>',
 			'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
 			'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
 			'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',

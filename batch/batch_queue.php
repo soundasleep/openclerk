@@ -119,7 +119,6 @@ $standard_jobs = array(
 	array('table' => 'accounts_litepooleu', 'type' => 'litepooleu', 'failure' => true),
 	array('table' => 'accounts_coinhuntr', 'type' => 'coinhuntr', 'failure' => true),
 	array('table' => 'accounts_eligius', 'type' => 'eligius', 'failure' => true),		// for hashrates; balance is handled by securities_update[eligius]
-	array('table' => 'accounts_beeeeer', 'type' => 'beeeeer', 'failure' => true),
 	array('table' => 'accounts_litecoinpool', 'type' => 'litecoinpool', 'failure' => true),
 	array('table' => 'accounts_elitistjerks', 'type' => 'elitistjerks', 'failure' => true),
 	array('table' => 'accounts_hashfaster_doge', 'type' => 'hashfaster_doge', 'failure' => true),

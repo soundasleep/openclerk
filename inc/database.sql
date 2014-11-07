@@ -4606,3 +4606,6 @@ UPDATE exchanges SET is_disabled=1 WHERE name='mintpal';
 
 -- issue #316: remove Mt.Gox exchange ticker
 UPDATE exchanges SET is_disabled=1 WHERE name='mtgox';
+
+-- issue #303: remove b(e^5)r.org accounts
+UPDATE accounts_beeeeer SET is_disabled=1;
