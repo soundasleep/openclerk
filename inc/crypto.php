@@ -331,7 +331,6 @@ function get_exchange_pairs() {
 				array('eur', 'btc'), array('usd', 'btc'), array('eur', 'ltc'), array('usd', 'ltc'),
 		),
 		"itbit" => array(array('usd', 'btc'), array('eur', 'btc'), array('sgd', 'btc')),
-		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'bc1'), array('btc', 'drk'),
 				array('btc', 'vrc'), array('btc', 'nxt'),
@@ -360,6 +359,7 @@ function get_disabled_exchange_pairs() {
 		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
 				array('btc', 'vrc'),
 		),
+		"mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
 	);
 }
 
