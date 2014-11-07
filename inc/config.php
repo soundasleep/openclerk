@@ -200,6 +200,8 @@ function get_default_site_config() {
 		"nxt_address_url" => "http://nxtexplorer.com/nxt/nxt.cgi?action=3000&acc=",
 		"rdd_address_url" => "http://live.reddcoin.com/address/",
 		"rdd_block_url" => "http://live.reddcoin.com/api/status?q=getInfo",
+		"via_address_url" => "http://explorer.viacoin.org/address/",
+		"via_block_url" => "http://explorer.viacoin.org/api/status?q=getInfo",
 		"btc_confirmations" => 6,
 		"ltc_confirmations" => 6,
 		"ftc_confirmations" => 6,

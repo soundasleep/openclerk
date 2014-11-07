@@ -4710,3 +4710,17 @@ CREATE TABLE reddcoin_blocks (
 
   INDEX(is_recent)
 );
+
+-- issue #325: add Viacoin VIA cryptocurrency
+DROP TABLE IF EXISTS viacoin_blocks;
+
+CREATE TABLE viacoin_blocks (
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+
+  blockcount int not null,
+
+  is_recent tinyint not null default 0,
+
+  INDEX(is_recent)
+);

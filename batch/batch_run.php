@@ -240,6 +240,10 @@ try {
 			require(__DIR__ . "/../jobs/reddcoin.php");
 			break;
 
+		case "viacoin":
+			require(__DIR__ . "/../jobs/viacoin.php");
+			break;
+
 		// block jobs
 		case "litecoin_block":
 			require(__DIR__ . "/../jobs/litecoin_block.php");
@@ -311,6 +315,10 @@ try {
 
 		case "reddcoin_block":
 			require(__DIR__ . "/../jobs/reddcoin_block.php");
+			break;
+
+		case "viacoin_block":
+			require(__DIR__ . "/../jobs/viacoin_block.php");
 			break;
 
 		// account jobs
