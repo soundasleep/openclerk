@@ -528,14 +528,6 @@ try {
 			require(__DIR__ . "/../jobs/kraken.php");
 			break;
 
-		case "rapidhash_doge":
-			require(__DIR__ . "/../jobs/rapidhash_doge.php");
-			break;
-
-		case "rapidhash_vtc":
-			require(__DIR__ . "/../jobs/rapidhash_vtc.php");
-			break;
-
 		case "cryptotroll_doge":
 			require(__DIR__ . "/../jobs/cryptotroll_doge.php");
 			break;
