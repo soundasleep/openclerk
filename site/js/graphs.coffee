@@ -58,6 +58,8 @@
           url += "&user_id=" + graph.user_id + "&user_hash=" + graph.user_hash
         if noTimeout
           url += "&no_cache=" + new Date().valueOf()
+        if graph.demo?
+          url += "&demo=1"
 
         # TODO premium and free graph update limits
         window.setTimeout(graph.callback, @timeoutInterval) unless noTimeout or @timeoutInterval == 0

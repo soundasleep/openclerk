@@ -2585,7 +2585,7 @@ function get_latest_ticker($exchange, $cur1, $cur2) {
 			set_latest_ticker($ticker);
 		}
 	}
-	return $_latest_tickers[$key];
+	return isset($_latest_tickers[$key]) ? $_latest_tickers[$key] : false;
 }
 // used for testing
 function set_latest_ticker($ticker) {

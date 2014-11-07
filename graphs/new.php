@@ -113,6 +113,11 @@ function render_graph_new($graph, $include_user_hash = false) {
 		$graph['user_hash'] = compute_user_graph_hash(get_user(user_id()));
 	}
 
+	// enable demo if necessary
+	if (require_get("demo", false)) {
+		$graph['demo'] = true;
+	}
+
 	// we set the widths and heights initially here so that the page layout doesn't move around
 	// a lot as the graphs are loaded via AJAX
 	$inline_styles = "overflow: hidden; width: " . $graph['computedWidth'] . "px; height: " . $graph['computedHeight'] . "px;";
