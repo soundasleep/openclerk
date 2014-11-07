@@ -16,7 +16,8 @@ function graph_types_public($summaries = array()) {
 
 	// we can generate a list of daily graphs from all of the exchanges that we support
 	// but we'll only want to display currency pairs that we're interested in
-	foreach (get_exchange_pairs() as $key => $pairs) {
+	$all_pairs = get_exchange_pairs() + get_disabled_exchange_pairs();
+	foreach ($all_pairs as $key => $pairs) {
 		$data['subcategory_exchanges_' . $key] = array(
 			'title' => get_exchange_name($key),
 			'subcategory' => true,

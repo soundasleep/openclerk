@@ -355,6 +355,14 @@ function get_exchange_pairs() {
 	);
 }
 
+function get_disabled_exchange_pairs() {
+	return array(
+		"mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
+				array('btc', 'vrc'),
+		),
+	);
+}
+
 function get_new_exchange_pairs() {
 	return array(
 		"bitcurex_usdbtc",

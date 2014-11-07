@@ -4599,3 +4599,8 @@ REPLACE INTO ticker_historical (SELECT * FROM ticker);
 -- --------------------------------------------------------------------------
 -- at some point, this can go into an upgrade script (#115); for now, just execute it as part of every upgrade step
 DELETE FROM admin_messages WHERE message_type='version_check' AND is_read=0;
+
+ALTER TABLE exchanges ADD is_disabled tinyint not null default 0;
+ALTER TABLE exchanges ADD INDEX(is_disabled);
+UPDATE exchanges SET is_disabled=1 where name='mintpal';
+

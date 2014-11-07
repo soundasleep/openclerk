@@ -197,7 +197,11 @@ function get_error_class($n) {
 			$job = $q->fetch();
 		}
 
-		echo "<td></td>";
+		if ($ticker['is_disabled']) {
+			echo "<td><i>disabled</i></td>";
+		} else {
+			echo "<td></td>";
+		}
 		echo "<td></td>";
 		echo "<td></td>";
 

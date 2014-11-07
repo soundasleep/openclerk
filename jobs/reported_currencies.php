@@ -5,7 +5,7 @@
  */
 
 // get the relevant summary
-$q = db()->prepare("SELECT * FROM exchanges WHERE id=?");
+$q = db()->prepare("SELECT * FROM exchanges WHERE id=? AND is_disabled=0");
 $q->execute(array($job['arg_id']));
 $exchange = $q->fetch();
 if (!$exchange) {
