@@ -582,6 +582,10 @@ try {
 			require(__DIR__ . "/../jobs/hashtocoins.php");
 			break;
 
+		case "btclevels":
+			require(__DIR__ . "/../jobs/btclevels.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");
