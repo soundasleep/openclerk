@@ -7,7 +7,7 @@
 </p>
 
 <p>
-	These currencies can either be purchased through exchanges such as <a href="http://mtgox.com">Mt.Gox</a> and
+	These currencies can either be purchased through exchanges such as <a href="https://coinbase.com">Coinbase</a> and
 	<a href="http://btc-e.com">BTC-e</a>, or can be generated independently using computing resources such as
 	your CPU, your video card, or specialised ASIC hardware (called <i>mining</i>).
 </p>

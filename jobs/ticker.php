@@ -29,10 +29,6 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/bitnz.php");
 		break;
 
-	case "mtgox":
-		require(__DIR__ . "/ticker/mtgox.php");
-		break;
-
 	case "vircurex":
 		require(__DIR__ . "/ticker/vircurex.php");
 		break;

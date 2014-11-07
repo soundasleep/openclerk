@@ -6,7 +6,7 @@ $account_data = array('exchange_name' => get_exchange_name('vircurex'));
 <h2>Adding a Vircurex account</h2>
 
 <ol class="steps">
-	<li>Log into your <a href="https://mtgox.com/security">Vircurex account</a> and visit <i>Settings</i> in the top right navigation.<br>
+	<li>Log into your <a href="https://vircurex.com/accounts">Vircurex account</a> and visit <i>Settings</i> in the top right navigation.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/vircurex1.png')); ?>"></li>
 
 	<li>Under the <i>API tab</i>, check <i>Get balance</i>, insert in any random secret string - for example,

@@ -4609,3 +4609,6 @@ UPDATE exchanges SET is_disabled=1 WHERE name='mtgox';
 
 -- issue #303: remove b(e^5)r.org accounts
 UPDATE accounts_beeeeer SET is_disabled=1;
+
+-- issue #316: remove Mt.Gox accounts
+UPDATE accounts_mtgox SET is_disabled=1;

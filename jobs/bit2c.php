@@ -14,7 +14,6 @@ if (!$account) {
 	throw new JobException("Cannot find a $exchange account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-// from mtgox documentation somewhere
 function bit2c_query($key, $secret, $path, array $req = array()) {
 
 	//// generate a nonce as microtime, with as-string handling to avoid problems with 32bits systems

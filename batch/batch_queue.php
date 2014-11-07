@@ -92,7 +92,6 @@ $standard_jobs = array(
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
 	array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
-	array('table' => 'accounts_mtgox', 'type' => 'mtgox', 'failure' => true),
 	array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'failure' => true),
 	array('table' => 'accounts_poolx', 'type' => 'poolx', 'failure' => true),
 	array('table' => 'accounts_wemineltc', 'type' => 'wemineltc', 'failure' => true),

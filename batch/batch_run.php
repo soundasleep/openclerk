@@ -316,10 +316,6 @@ try {
 			require(__DIR__ . "/../jobs/btce.php");
 			break;
 
-		case "mtgox":
-			require(__DIR__ . "/../jobs/mtgox.php");
-			break;
-
 		case "vircurex":
 			require(__DIR__ . "/../jobs/vircurex.php");
 			break;

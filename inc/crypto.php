@@ -442,7 +442,6 @@ function get_supported_wallets() {
 		"litepooleu" => array('ltc', 'hash'),
 		"kattare" => array('ltc', 'hash'),
 		"ltcmineru" => array('ltc'),
-		"mtgox" => array('btc', 'usd', 'eur', 'aud', 'cad', 'nzd', 'cny', 'gbp'),
 		"miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),		// and LOTS more; used in jobs/miningpoolco.php
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),		// and LOTS more; used in jobs/multipool.php
 		"mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
@@ -752,7 +751,7 @@ function account_data_grouped() {
 			'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'kraken' => array('table' => 'accounts_kraken', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
 			'poloniex' => array('table' => 'accounts_poloniex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -973,7 +972,6 @@ function get_external_apis() {
 			'kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
 			'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
 			'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
-			'mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
 			'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
 			'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
@@ -994,7 +992,6 @@ function get_external_apis() {
 			'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
 			'ticker_kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
 			'ticker_itbit' => '<a href="https://www.itbit.com/">itBit</a>',
-			'ticker_mtgox' => '<a href="http://mtgox.com">Mt.Gox</a>',
 			'ticker_poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
 			'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
 			'ticker_vircurex' => '<a href="https://vircurex.com">Vircurex</a>',

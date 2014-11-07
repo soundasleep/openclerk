@@ -119,7 +119,6 @@ function get_default_site_config() {
 		"sleep_bit2c_ticker" => 5,
 		"sleep_cexio_ticker" => 5,
 		"sleep_virtex_ticker" => 5,
-		"sleep_mtgox_ticker" => 5,
 		"sleep_vircurex_balance" => 5,
 		"sleep_cryptostocks_balance" => 5,
 		"sleep_themoneyconverter_ticker" => 5,
