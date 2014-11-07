@@ -16,7 +16,8 @@
 	<a href="http://beeeeer.org/"><?php echo htmlspecialchars(get_exchange_name('beeeeer')); ?></a> and
 	<a href="https://doge.rapidhash.net/">RapidHash</a> mining pools;
 
-	fixed <span class="currency_name_xpm">XPM</span> addresses not updating;
+	fixed <span class="currency_name_xpm">XPM</span> addresses and
+	<a href="https://nvc.khore.org">nvc.khore.org</a> accounts not updating;
 
 	updated example graph images.
 </dd>
