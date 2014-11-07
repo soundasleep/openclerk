@@ -36,6 +36,7 @@
 		<li><span class="currency_name_net"><a href="http://netcoinfoundation.org/" target="_blank">Netcoin</a> - <a href="http://forum.netcoinfoundation.org/" target="_blank">Netcoin Forum</a></span></li>
 		<li><span class="currency_name_hbn"><a href="http://hobonickels.info/" target="_blank">Hobonickels</a> - <a href="http://www.reddit.com/r/hobonickel" target="_blank">/r/hobonickel</a></span></li>
 		<li><span class="currency_name_bc1"><a href="http://www.blackcoin.co/" target="_blank">Blackcoin</a> - <a href="http://www.blackcoin.co/" target="_blank">What is Blackcoin?</a></span></li>
+		<li><span class="currency_name_rdd"><a href="https://www.reddcoin.com/" target="_blank">Reddcoin</a> - <a href="https://www.youtube.com/watch?v=KlYJ0sNVVpg" target="_blank">What is Reddcoin?</a></span></li>
 	</ul>
 </p>
 

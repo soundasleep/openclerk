@@ -236,6 +236,11 @@ try {
 			require(__DIR__ . "/../jobs/nxt.php");
 			break;
 
+		case "reddcoin":
+			require(__DIR__ . "/../jobs/reddcoin.php");
+			break;
+
+		// block jobs
 		case "litecoin_block":
 			require(__DIR__ . "/../jobs/litecoin_block.php");
 			break;
@@ -304,6 +309,11 @@ try {
 			require(__DIR__ . "/../jobs/vericoin_block.php");
 			break;
 
+		case "reddcoin_block":
+			require(__DIR__ . "/../jobs/reddcoin_block.php");
+			break;
+
+		// account jobs
 		case "generic":
 			require(__DIR__ . "/../jobs/generic.php");
 			break;

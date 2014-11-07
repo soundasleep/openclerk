@@ -4696,3 +4696,17 @@ CREATE TABLE accounts_hashtocoins (
 
   INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
+
+-- issue #324: add Reddcoin RDD cryptocurrency
+DROP TABLE IF EXISTS reddcoin_blocks;
+
+CREATE TABLE reddcoin_blocks (
+  id int not null auto_increment primary key,
+  created_at timestamp not null default current_timestamp,
+
+  blockcount int not null,
+
+  is_recent tinyint not null default 0,
+
+  INDEX(is_recent)
+);

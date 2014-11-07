@@ -7,7 +7,7 @@
 
 function get_all_currencies() {
 	return array(
-		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt",
+		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt", "rdd",
 		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
 		"ghs",
 	);
@@ -23,11 +23,11 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("drk", "vrc", "nxt", "dkk", "inr");
+	return array("rdd");
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd");
 }
 
 function get_all_commodity_currencies() {
@@ -43,7 +43,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd");
 }
 
 function get_currency_name($n) {
@@ -69,6 +69,7 @@ function get_currency_name($n) {
 		case "drk": return "Darkcoin";
 		case "vrc": return "VeriCoin";
 		case "nxt": return "Nxt";
+		case "rdd": return "Reddcoin";
 
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
@@ -126,6 +127,7 @@ function get_blockchain_currencies() {
 		"cryptoID" => array('vrc'),
 		"NXT Explorer" => array('nxt'),
 		"Coinplorer" => array('xpm'),
+		"Reddsight" => array('rdd'),
 	);
 }
 
@@ -571,6 +573,7 @@ function get_default_currency_exchange($c) {
 		case "drk": return "cryptsy";
 		case "vrc": return "bittrex";
 		case "nxt": return "cryptsy";
+		case "rdd": return "cryptsy";
 		// fiats
 		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
@@ -689,6 +692,7 @@ function account_data_grouped() {
 			'darkcoin' => array('title' => 'DRK addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'drk\'', 'wizard' => 'addresses', 'currency' => 'drk'),
 			'vericoin' => array('title' => 'VRC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'vrc\'', 'wizard' => 'addresses', 'currency' => 'vrc'),
 			'nxt' => array('title' => 'NXT account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nxt\'', 'wizard' => 'addresses', 'currency' => 'nxt'),
+			'reddcoin' => array('title' => 'RDD account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'rdd\'', 'wizard' => 'addresses', 'currency' => 'rdd'),
 		),
 		'Mining pools' => array(
 			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -920,6 +924,8 @@ function get_external_apis() {
 			'vericoin' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
 			'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC block count)',
 			'nxt' => '<a href="http://nxtexplorer.com/">NXT Explorer</a>',
+			'reddcoin' => '<a href="http://live.reddcoin.com/">Reddcoin</a>',
+			'reddcoin_block' => '<a href="http://live.reddcoin.com/">Reddcoin</a> (block count)',
 		),
 
 		"Mining pool wallets" => array(
@@ -1326,6 +1332,18 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_nxt_address',
 				'job_type' => 'nxt',
 				'client' => get_currency_name('nxt'),
+			);
+
+		case "rdd":
+			return array(
+				'premium_group' => 'reddcoin',
+				'title' => 'RDD account',
+				'titles' => 'RDD accounts',
+				'table' => 'addresses',
+				'currency' => 'rdd',
+				'callback' => 'is_valid_rdd_address',
+				'job_type' => 'rdd',
+				'client' => get_currency_name('rdd'),
 			);
 
 		default:
@@ -2826,6 +2844,14 @@ function is_valid_nxt_address($address) {
 	return false;
 }
 
+function is_valid_rdd_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "R")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
 function is_valid_mmcfe_apikey($key) {
 	// not sure what the format should be, seems to be 64 character hexadecmial
 	return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
