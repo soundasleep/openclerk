@@ -40,6 +40,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 <div class="column">
 <ul>
 	<li>Coins-E</li>
+	<li>Coinsortium (<a href="http://redmine.jevon.org/issues/318">#318</a>)</li>
 	<li>fast-pool.com</li>
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
 	<li>hash-to-coins.com (no API &ndash; <a href="http://redmine.jevon.org/issues/282">#282</a>)</li>
