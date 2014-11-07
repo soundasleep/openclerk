@@ -4612,3 +4612,6 @@ UPDATE accounts_beeeeer SET is_disabled=1;
 
 -- issue #316: remove Mt.Gox accounts
 UPDATE accounts_mtgox SET is_disabled=1;
+
+-- issue #317: remove Scryptguild accounts
+UPDATE accounts_scryptguild SET is_disabled=1;

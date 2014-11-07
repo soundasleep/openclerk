@@ -524,10 +524,6 @@ try {
 			require(__DIR__ . "/../jobs/bit2c.php");
 			break;
 
-		case "scryptguild":
-			require(__DIR__ . "/../jobs/scryptguild.php");
-			break;
-
 		case "kraken":
 			require(__DIR__ . "/../jobs/kraken.php");
 			break;

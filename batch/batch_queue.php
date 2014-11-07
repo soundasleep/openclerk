@@ -145,7 +145,6 @@ $standard_jobs = array(
 	array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
 	array('table' => 'accounts_cryptopools_dgc', 'type' => 'cryptopools_dgc', 'failure' => true),
 	array('table' => 'accounts_d2_wdc', 'type' => 'd2_wdc', 'failure' => true),
-	array('table' => 'accounts_scryptguild', 'type' => 'scryptguild', 'failure' => true),
 	array('table' => 'accounts_kraken', 'type' => 'kraken', 'failure' => true),
 	array('table' => 'accounts_rapidhash_doge', 'type' => 'rapidhash_doge', 'failure' => true),
 	array('table' => 'accounts_rapidhash_vtc', 'type' => 'rapidhash_vtc', 'failure' => true),
