@@ -352,10 +352,6 @@ try {
 			require(__DIR__ . "/../jobs/btcguild.php");
 			break;
 
-		case "ltcmineru":
-			require(__DIR__ . "/../jobs/ltcmineru.php");
-			break;
-
 		case "havelock":
 			require(__DIR__ . "/../jobs/havelock.php");
 			break;

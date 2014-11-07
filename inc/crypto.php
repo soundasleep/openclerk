@@ -441,7 +441,6 @@ function get_supported_wallets() {
 		"liteguardian" => array('ltc'),
 		"litepooleu" => array('ltc', 'hash'),
 		"kattare" => array('ltc', 'hash'),
-		"ltcmineru" => array('ltc'),
 		"miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),		// and LOTS more; used in jobs/miningpoolco.php
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),		// and LOTS more; used in jobs/multipool.php
 		"mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
@@ -710,7 +709,7 @@ function account_data_grouped() {
 			'litecoinpool' => array('table' => 'accounts_litecoinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'liteguardian' => array('table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'litepooleu' => array('table' => 'accounts_litepooleu', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-			'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
 			'miningforeman' => array('table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
 			'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
 			'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -932,7 +931,6 @@ function get_external_apis() {
 			'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
 			'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
-			'ltcmineru' => '<a href="http://ltcmine.ru/">LTCMine.ru</a>',
 			'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
 			'multipool' => '<a href="https://multipool.us/">Multipool</a>',
 			'mupool' => '<a href="https://mupool.com/">MuPool</a>',

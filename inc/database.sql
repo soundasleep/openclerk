@@ -4619,3 +4619,6 @@ UPDATE accounts_scryptguild SET is_disabled=1;
 -- issue #315: remove Rapidhash accounts
 UPDATE accounts_rapidhash_doge SET is_disabled=1;
 UPDATE accounts_rapidhash_vtc SET is_disabled=1;
+
+-- issue #289: remove ltcmine.ru accounts
+UPDATE accounts_ltcmineru SET is_disabled=1;
