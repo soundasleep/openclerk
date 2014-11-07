@@ -259,6 +259,7 @@ function get_all_exchanges() {
 		"nicehash" => "NiceHash",
 		"westhash" => "WestHash",
 		"eobot" => "Eobot",
+		"hashtocoins" => "Hash-to-Coins",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -437,6 +438,7 @@ function get_supported_wallets() {
 		"givemecoins" => array('ltc', 'vtc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
 		"hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
+		"hashtocoins" => array('dog', 'ltc', 'net', 'nvc', 'wdc', 'hash'),
 		"justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),	 // supports btc, usd, eur, nok, ltc
 		"khore" => array('nvc', 'hash'),
 		"kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw'),		// also 'asset-based Ven/XVN'
@@ -483,7 +485,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("nicehash", "westhash", "eobot");
+	return array("nicehash", "westhash", "eobot", "hashtocoins");
 }
 
 function get_summary_types() {
@@ -709,6 +711,7 @@ function account_data_grouped() {
 			'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
 			'hashfaster_ftc' => array('table' => 'accounts_hashfaster_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
 			'hashfaster_ltc' => array('table' => 'accounts_hashfaster_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
+			'hashtocoins' => array('table' => 'accounts_hashtocoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'hypernova' => array('table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
 			'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -937,6 +940,7 @@ function get_external_apis() {
 			'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
 			'hashfaster_ftc' => '<a href="http://ftc.hashfaster.com">HashFaster</a> (FTC)',
 			'hashfaster_ltc' => '<a href="http://ltc.hashfaster.com">HashFaster</a> (LTC)',
+			'hashtocoins' => '<a href="https://hash-to-coins.com/">Hash-to-Coins</a>',
 			'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
 			'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
 			'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
@@ -1828,6 +1832,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_id' => array('title' => 'Account ID', 'callback' => 'is_numeric', 'length' => 16),
 				),
 				'table' => 'accounts_eobot',
+				'khash' => true,		// actually both
+			);
+
+		case "hashtocoins":
+			return array(
+				'inputs' => array(
+					'api_key' => array('title' => 'API Key', 'callback' => 'is_valid_hashtocoins_apikey'),
+				),
+				'table' => 'accounts_hashtocoins',
 				'khash' => true,
 			);
 
@@ -3146,6 +3159,11 @@ function is_valid_bittrex_apikey($key) {
 
 function is_valid_nicehash_apikey($key) {
 	return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
+}
+
+function is_valid_hashtocoins_apikey($key) {
+	// looks like a 64 character hex string
+	return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

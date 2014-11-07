@@ -154,6 +154,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_nicehash', 'type' => 'nicehash', 'failure' => true),
 	array('table' => 'accounts_westhash', 'type' => 'westhash', 'failure' => true),
 	array('table' => 'accounts_eobot', 'type' => 'eobot', 'failure' => true),
+	array('table' => 'accounts_hashtocoins', 'type' => 'hashtocoins', 'failure' => true),
 
 	array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1', 'user_id' => get_site_config('system_user_id')),
 

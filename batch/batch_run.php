@@ -560,6 +560,10 @@ try {
 			require(__DIR__ . "/../jobs/eobot.php");
 			break;
 
+		case "hashtocoins":
+			require(__DIR__ . "/../jobs/hashtocoins.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");
