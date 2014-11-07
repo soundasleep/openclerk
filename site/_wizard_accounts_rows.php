@@ -135,12 +135,24 @@ foreach ($accounts as $a) {
 			?></td>
 		<?php } ?>
 		<?php if ($account_type['hashrate']) {
-			$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
-			$q->execute(array($a['exchange'], $a['id'], $a['user_id']));
 			echo "<td class=\"balances hashrate\">";
-			if ($mhash = $q->fetch()) {
-				echo $mhash['mhash'] ? (!(isset($a['khash']) && $a['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
-			} else {
+			$found_hashrate = false;
+			foreach (array($a['exchange'], $a['exchange'] . "_sha", $a['exchange'] . "_scrypt") as $exchange_key) {
+				$q = db()->prepare("SELECT * FROM hashrates WHERE exchange=? AND account_id=? AND user_id=? AND is_recent=1 LIMIT 1");
+				$q->execute(array($exchange_key, $a['id'], $a['user_id']));
+				if ($mhash = $q->fetch()) {
+					$found_hashrate = true;
+					if (substr($mhash['exchange'], -strlen("_sha")) == "_sha") {
+						echo number_format_autoprecision($mhash['mhash'], 1)  . " MH/s";
+					} else if (substr($mhash['exchange'], -strlen("_sha")) == "_sha") {
+						echo number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s";
+					} else {
+						echo $mhash['mhash'] ? (!(isset($a['khash']) && $a['khash']) ? number_format_autoprecision($mhash['mhash'], 1) . " MH/s" : number_format_autoprecision($mhash['mhash'] * 1000, 1) . " KH/s") : "-";
+					}
+					echo "<br>";
+				}
+			}
+			if (!$found_hashrate) {
 				echo "-";
 			}
 			echo "</td>";

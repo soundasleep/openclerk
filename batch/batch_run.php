@@ -556,6 +556,10 @@ try {
 			require(__DIR__ . "/../jobs/westhash.php");
 			break;
 
+		case "eobot":
+			require(__DIR__ . "/../jobs/eobot.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");

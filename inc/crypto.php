@@ -258,6 +258,7 @@ function get_all_exchanges() {
 		"ripple" => "Ripple",		// other ledger balances in Ripple accounts are stored as account balances
 		"nicehash" => "NiceHash",
 		"westhash" => "WestHash",
+		"eobot" => "Eobot",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -431,6 +432,7 @@ function get_supported_wallets() {
 		"ecoining" => array('ppc', 'hash'),
 		"eligius" => array('btc', 'hash'),		// BTC is paid directly to BTC address but also stored temporarily
 		"elitistjerks" => array('ltc', 'hash'),
+		"eobot" => array('btc', 'ltc', 'bc1', 'nmc', 'dog', 'drk', 'vtc', 'ftc', 'ppc', 'nxt', 'hash'),		//  also naut, cure, charity, ghs, scrypt, btsx, sys, ppd
 		"ghashio" => array('hash'),		// we only use ghash.io for hashrates
 		"givemecoins" => array('ltc', 'vtc', 'ftc', 'hash'),
 		"havelock" => array('btc'),
@@ -481,7 +483,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("bittrex");
+	return array("nicehash", "westhash", "eobot");
 }
 
 function get_summary_types() {
@@ -701,6 +703,7 @@ function account_data_grouped() {
 			'ecoining_ppc' => array('table' => 'accounts_ecoining_ppc', 'group' => 'accounts', 'suffix' => ' Peercoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ecoining'),
 			'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'eobot' => array('table' => 'accounts_eobot', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'ghashio' => array('table' => 'accounts_ghashio', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
@@ -928,6 +931,7 @@ function get_external_apis() {
 			'ecoining_ppc' => '<a href="https://peercoin.ecoining.com/">Ecoining Peercoin</a>',
 			'eligius' => '<a href="http://eligius.st/">Eligius</a>',
 			'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
+			'eobot' => '<a href="https://www.eobot.com/">Eobot</a>',
 			'ghashio' => '<a href="https://ghash.io">GHash.io</a>',
 			'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
 			'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
@@ -1815,6 +1819,15 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_nicehash_apikey'),
 				),
 				'table' => 'accounts_westhash',
+				'khash' => true,
+			);
+
+		case "eobot":
+			return array(
+				'inputs' => array(
+					'api_id' => array('title' => 'Account ID', 'callback' => 'is_numeric', 'length' => 16),
+				),
+				'table' => 'accounts_eobot',
 				'khash' => true,
 			);
 

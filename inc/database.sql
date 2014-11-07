@@ -4660,3 +4660,21 @@ CREATE TABLE accounts_westhash (
 
   INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
 );
+
+-- issue #323: add Eobot mining pool
+CREATE TABLE accounts_eobot (
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
+
+  title varchar(255),
+  api_id varchar(255) not null,
+
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
+  is_disabled_manually tinyint not null default 0,
+
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
+);
