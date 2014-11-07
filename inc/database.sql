@@ -4622,3 +4622,41 @@ UPDATE accounts_rapidhash_vtc SET is_disabled=1;
 
 -- issue #289: remove ltcmine.ru accounts
 UPDATE accounts_ltcmineru SET is_disabled=1;
+
+-- issue #286: add NiceHash mining pool
+CREATE TABLE accounts_nicehash (
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
+
+  title varchar(255),
+  api_id varchar(255) not null,
+  api_key varchar(255) not null,
+
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
+  is_disabled_manually tinyint not null default 0,
+
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
+);
+
+-- issue #287: add WestHash mining pool
+CREATE TABLE accounts_westhash (
+  id int not null auto_increment primary key,
+  user_id int not null,
+  created_at timestamp not null default current_timestamp,
+  last_queue timestamp,
+
+  title varchar(255),
+  api_id varchar(255) not null,
+  api_key varchar(255) not null,
+
+  is_disabled tinyint not null default 0,
+  failures tinyint not null default 0,
+  first_failure timestamp null,
+  is_disabled_manually tinyint not null default 0,
+
+  INDEX(user_id), INDEX(last_queue), INDEX(is_disabled), INDEX(is_disabled_manually)
+);

@@ -256,6 +256,8 @@ function get_all_exchanges() {
 		"itbit" => "itBit",
 		"bittrex" => "Bittrex",
 		"ripple" => "Ripple",		// other ledger balances in Ripple accounts are stored as account balances
+		"nicehash" => "NiceHash",
+		"westhash" => "WestHash",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -444,6 +446,7 @@ function get_supported_wallets() {
 		"miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),		// and LOTS more; used in jobs/miningpoolco.php
 		"multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),		// and LOTS more; used in jobs/multipool.php
 		"mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
+		"nicehash" => array('btc'),
 		"nut2pools" => array('ftc', 'hash'),
 		"ozcoin" => array('ltc', 'btc', 'hash'),
 		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'bc1', 'nxt'),		// and LOTS more; used in jobs/poloniex.php
@@ -456,6 +459,7 @@ function get_supported_wallets() {
 		"vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'bc1', 'nxt'),		// used in jobs/vircurex.php
 		"wemineftc" => array('ftc', 'hash'),
 		"wemineltc" => array('ltc', 'hash'),
+		"westhash" => array('btc'),
 		"ypool" => array('ltc', 'xpm', 'dog'),	// also pts
 		"generic" => get_all_currencies(),
 	);
@@ -715,6 +719,7 @@ function account_data_grouped() {
 			'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'mupool' => array('table' => 'accounts_mupool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'nicehash' => array('table' => 'accounts_nicehash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'nut2pools_ftc' => array('table' => 'accounts_nut2pools_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'nut2pools'),
 			'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
 			'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
@@ -730,6 +735,7 @@ function account_data_grouped() {
 			'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'wemineftc' => array('table' => 'accounts_wemineftc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'wemineltc' => array('table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
+			'westhash' => array('table' => 'accounts_westhash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 			'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
 		),
 		'Exchanges' => array(
@@ -934,6 +940,7 @@ function get_external_apis() {
 			'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
 			'multipool' => '<a href="https://multipool.us/">Multipool</a>',
 			'mupool' => '<a href="https://mupool.com/">MuPool</a>',
+			'nicehash' => '<a href="https://www.nicehash.com/">NiceHash</a>',
 			'nut2pools_ftc' => '<a href="https://ftc.nut2pools.com/">Nut2Pools</a> (FTC)',
 			'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
 			'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
@@ -945,6 +952,7 @@ function get_external_apis() {
 			'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
 			'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
 			'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
+			'westhash' => '<a href="https://www.westhash.com/">WestHash</a>',
 			'ypool' => '<a href="http://ypool.net">ypool.net</a>',
 		),
 
@@ -1787,6 +1795,26 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
 				),
 				'table' => 'accounts_mupool',
+				'khash' => true,
+			);
+
+		case "nicehash":
+			return array(
+				'inputs' => array(
+					'api_id' => array('title' => 'API ID', 'callback' => 'is_numeric', 'length' => 16),
+					'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_nicehash_apikey'),
+				),
+				'table' => 'accounts_nicehash',
+				'khash' => true,
+			);
+
+		case "westhash":
+			return array(
+				'inputs' => array(
+					'api_id' => array('title' => 'API ID', 'callback' => 'is_numeric', 'length' => 16),
+					'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_nicehash_apikey'),
+				),
+				'table' => 'accounts_westhash',
 				'khash' => true,
 			);
 
@@ -3101,6 +3129,10 @@ function is_valid_bittrex_apisecret($key) {
 function is_valid_bittrex_apikey($key) {
 	// looks like a 32 character hex string
 	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_nicehash_apikey($key) {
+	return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
 }
 
 function is_valid_currency($c) {

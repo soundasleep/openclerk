@@ -548,6 +548,14 @@ try {
 			require(__DIR__ . "/../jobs/bittrex.php");
 			break;
 
+		case "nicehash":
+			require(__DIR__ . "/../jobs/nicehash.php");
+			break;
+
+		case "westhash":
+			require(__DIR__ . "/../jobs/westhash.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");
