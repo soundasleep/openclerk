@@ -1,4 +1,10 @@
 
+<dt>21 April</dt>
+<dd>Added support for <a href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => 1))); ?>">password signup</a> and login;
+rewrote <a href="http://openclerk.org">Openclerk</a> to use new build tools and technologies;
+fixed <span class="currency_name_trc" title="<?php echo htmlspecialchars(get_currency_name('trc')); ?>">TRC</span> and <span class="currency_name_nvc" title="<?php echo htmlspecialchars(get_currency_name('nvc')); ?>">NVC</span> addresses not updating;
+fixed <a href="http://ypool.net/">ypool.net</a> mining pool accounts not updating.</dd>
+
 <dt>7 April</dt>
 <dd>Added currency support for <a href="http://www.ixcoin.co/" class="currency_name_ixc">Ixcoin</a>, <a href="https://vertcoin.org/" class="currency_name_vtc">Vertcoin</a>,
 <a href="http://netcoinfoundation.org/" class="currency_name_net">Netcoin</a>, <a href="http://hobonickels.info/" class="currency_name_hbn">Hobonickels</a>

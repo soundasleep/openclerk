@@ -12,12 +12,13 @@ List of features that are also running at https://cryptfolio.com:
 * Easy-to-use web interface based in PHP
 * Create free accounts through OpenID or passwords
 * Support for multiple currencies
-  * Cryptocurrencies (BTC, LTC, NMC, PPC, FTC, NVC, XPM, TRC, DOGE, MEC, XRP, DGC, WDC, IXC, VTC, NET, HBN, BC, DRK, VRC, NXT)
+  * Cryptocurrencies (BTC, LTC, NMC, PPC, FTC, NVC, XPM, TRC, DOGE, MEC, XRP, DGC, WDC, IXC, VTC, NET, HBN, BC, DRK, VRC, NXT, RDD, VIA)
   * Fiat currencies (USD, GBP, EUR, CAD, AUD, NZD, CNY, PLN, ILS, KRW, SGD, DKK, INR)
   * Commodity currencies (GHS)
 * Support for exchange wallets
   * ANXPRO
   * Bit2c
+  * BTClevels
   * BitMarket.pl
   * Bitstamp
   * Bittrex
@@ -28,7 +29,6 @@ List of features that are also running at https://cryptfolio.com:
   * Cryptsy
   * Justcoin
   * Kraken
-  * Mt.Gox
   * Poloniex
   * Vault of Satoshi
   * Vircurex
@@ -50,8 +50,6 @@ List of features that are also running at https://cryptfolio.com:
   * Justcoin
   * Kraken
   * itBit
-  * MintPal
-  * Mt.Gox
   * Poloniex
   * TheMoneyConverter
   * Vault of Satoshi
@@ -60,7 +58,6 @@ List of features that are also running at https://cryptfolio.com:
   * Market averages
 * Support for mining pools and miner hashrates
   * 50BTC
-  * b(e^5)r.org
   * BitMinter
   * BTC Guild
   * CoinHuntr
@@ -71,29 +68,30 @@ List of features that are also running at https://cryptfolio.com:
   * Ecoining
   * Eligius
   * Elitist Jerks
+  * Eobot
   * GHash.io
   * Give Me Coins
   * HashFaster
+  * Hash-to-Coins
   * ltc.kattare.com
   * nvc.khore.org
   * litecoinpool.org
   * LiteGuardian
   * Litepool
-  * LTCMine.ru
   * MiningPool.co
   * Multipool
   * MuPool
+  * NiceHash
   * Nut2Pools
   * Ozcoin
   * Pool-x.eu
-  * RapidHash
-  * ScryptGuild
   * scryptpools.com
   * Slush's pool
   * TeamDoge
   * TripleMining
   * WeMineFTC
   * WeMineLTC
+  * WestHash
   * ypool.net
 * Support for securities exchanges
   * 796 Xchange

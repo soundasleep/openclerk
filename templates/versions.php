@@ -1,4 +1,26 @@
 
+<dt>7 November</dt>
+<dd>
+	Added currency support for <a href="https://www.reddcoin.com/" class="currency_name_rdd">Reddcoin</a>
+	and <a href="http://viacoin.org/" class="currency_name_via">Viacoin</a>;
+
+	added <a href="https://www.nicehash.com/">NiceHash</a>,
+	<a href="https://westhash.com/">WestHash</a>,
+	<a href="https://hash-to-coins.com/">Hash-to-coins</a> and
+	<a href="https://www.eobot.com/">Eobot</a> mining pools;
+
+	added <a href="https://btclevels.com/">BTClevels</a> accounts;
+
+	disabled <a href="https://www.scryptguild.com/">ScryptGuild</a>,
+	<a href="http://ltcmine.ru/">LTCMine.ru</a>,
+	<a href="http://beeeeer.org/"><?php echo htmlspecialchars(get_exchange_name('beeeeer')); ?></a> and
+	<a href="https://doge.rapidhash.net/">RapidHash</a> mining pools;
+
+	fixed <span class="currency_name_xpm">XPM</span> addresses not updating;
+
+	updated example graph images.
+</dd>
+
 <dt>10 September</dt>
 <dd>
 	Added currency support for <a href="https://www.darkcoin.io/" class="currency_name_drk">Darkcoin</a>,
@@ -87,11 +109,5 @@ accounts can now be <a href="<?php echo htmlspecialchars(url_for('wizard_account
 added more large graph sizes;
 fixed <span class="currency_name_dgc" title="<?php echo htmlspecialchars(get_currency_name('dgc')); ?>">DGC</span> and <span class="currency_name_wdc" title="<?php echo htmlspecialchars(get_currency_name('wdc')); ?>">WDC</span> addresses not updating.
 </dd>
-
-<dt>21 April</dt>
-<dd>Added support for <a href="<?php echo htmlspecialchars(url_for('signup', array('use_password' => 1))); ?>">password signup</a> and login;
-rewrote <a href="http://openclerk.org">Openclerk</a> to use new build tools and technologies;
-fixed <span class="currency_name_trc" title="<?php echo htmlspecialchars(get_currency_name('trc')); ?>">TRC</span> and <span class="currency_name_nvc" title="<?php echo htmlspecialchars(get_currency_name('nvc')); ?>">NVC</span> addresses not updating;
-fixed <a href="http://ypool.net/">ypool.net</a> mining pool accounts not updating.</dd>
 
 <!-- more are in versions_old -->
