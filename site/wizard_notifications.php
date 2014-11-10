@@ -278,15 +278,18 @@ foreach ($notifications as $notification) {
 			$q->execute(array($notification['type_id']));
 			$account = $q->fetch();
 			if (!$account) {
-				throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
-			}
+				// throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
+				$account_text = "<i>" . t("Invalid account") . "</i>";
+				$value_label = "-";
 
-			$account_text = t("Exchange rate on :exchange for :pair",
-				array(
-					':exchange' => get_exchange_name($account['exchange']),
-					':pair' => get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']),
-				));
-			$value_label = get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']);
+			} else {
+				$account_text = t("Exchange rate on :exchange for :pair",
+					array(
+						':exchange' => get_exchange_name($account['exchange']),
+						':pair' => get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']),
+					));
+				$value_label = get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']);
+			}
 
 			break;
 
@@ -295,7 +298,9 @@ foreach ($notifications as $notification) {
 			$q->execute(array($notification['type_id']));
 			$account = $q->fetch();
 			if (!$account) {
-				throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
+				// throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
+		                $account_text = "<i>" . t("Invalid account") . "</i>";
+                                $value_label = "-";
 			}
 
 			if (substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') {
