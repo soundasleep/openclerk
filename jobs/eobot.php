@@ -26,6 +26,10 @@ foreach ($split as $row) {
 
 $wallets = get_supported_wallets();
 foreach ($wallets['eobot'] as $currency) {
+	if ($currency == "hash") {
+		continue;
+	}
+
 	if (!isset($data[get_currency_abbr($currency)])) {
 		throw new ExternalAPIException("Did not find any balance for " . get_currency_abbr($currency));
 	}
