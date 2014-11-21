@@ -121,7 +121,7 @@ foreach ($data as $exchange => $balance) {
 				$link = url_for('wizard_accounts_addresses#wizard_' . $currency);
 			}
 			if ($exchange == 'offsets') {
-				$link = url_for('wizard_accounts');
+				$link = url_for('wizard_accounts_offsets');
 			}
 			if ($exchange == 'ripple') {
 				$link = url_for('wizard_accounts_addresses#wizard_xrp');
