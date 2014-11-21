@@ -1,6 +1,12 @@
 <div class="premium_prices">
 <h3><?php echo t("Current premium prices"); ?></h3>
 
+<?php
+if (in_premium_promotion_leadup_period()) {
+	require_template("premium_promotion");
+}
+?>
+
 <table class="fancy">
 <?php foreach (get_site_config('premium_currencies') as $currency) { ?>
 <tr>

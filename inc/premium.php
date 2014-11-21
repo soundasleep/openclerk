@@ -79,7 +79,33 @@ function get_premium_value($user, $group) {
  */
 function get_premium_price($currency, $period) {
 	// because of floating point inaccuracy we need to round it to 8 decimal places, particularly before displaying it
-	return wrap_number(get_site_config('premium_' . $currency . '_' . $period) * (1-get_site_config('premium_' . $currency . '_discount')), 8);
+	return wrap_number(get_site_config('premium_' . $currency . '_' . $period) * (1-get_premium_price_discount($currency)), 8);
+}
+
+/**
+ * Allows for custom prices based on promotion periods e.g. Bitcoin black friday
+ */
+function get_premium_price_discount($currency) {
+	if (in_premium_promotion_period()) {
+		return get_site_config('premium_promotion_' . $currency . '_discount');
+	}
+	return get_site_config('premium_' . $currency . '_discount');
+}
+
+function in_premium_promotion_leadup_period() {
+	if (get_site_config('premium_promotion_leadup', false) && get_site_config('premium_promotion_ends')) {
+		return time() >= strtotime(get_site_config('premium_promotion_leadup')) &&
+			time() <= strtotime(get_site_config('premium_promotion_ends'));
+	}
+	return false;
+}
+
+function in_premium_promotion_period() {
+	if (get_site_config('premium_promotion_starts', false) && get_site_config('premium_promotion_ends')) {
+		return time() >= strtotime(get_site_config('premium_promotion_starts')) &&
+			time() <= strtotime(get_site_config('premium_promotion_ends'));
+	}
+	return false;
 }
 
 /**

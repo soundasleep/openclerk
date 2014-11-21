@@ -19,6 +19,12 @@
 </div>
 </div>
 
+<?php
+if (in_premium_promotion_leadup_period()) {
+	require_template("premium_promotion");
+}
+?>
+
 <hr>
 
 <div class="home-block" id="home_block_features">
