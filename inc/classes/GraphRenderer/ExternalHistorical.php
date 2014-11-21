@@ -51,7 +51,7 @@ class GraphRenderer_ExternalHistorical extends GraphRenderer_AbstractTicker {
 	 */
 	function getTickerColumns() {
 		$columns = array();
-		$columns[] = array('type' => 'percent', 'title' => ct(":% success"), 'min' => 0, 'max' => 100);
+		$columns[] = array('type' => 'percent', 'title' => ct("% success"), 'min' => 0, 'max' => 100);
 		return $columns;
 	}
 

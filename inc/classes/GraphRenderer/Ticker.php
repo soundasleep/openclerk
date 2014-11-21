@@ -40,7 +40,7 @@ class GraphRenderer_Ticker extends GraphRenderer_AbstractTicker {
 	 */
 	function getTickerColumns() {
 
-		$args = array('pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2));
+		$args = array(':pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2));
 		$columns = array();
 		if ($this->exchange == 'themoneyconverter' || $this->exchange == "coinbase") {
 			// hack fix because TheMoneyConverter and Coinbase only have last_trade
