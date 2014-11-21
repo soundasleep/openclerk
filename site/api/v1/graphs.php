@@ -62,11 +62,14 @@ function api_v1_graphs($graph) {
 	if ($renderer->usesDays()) {
 		// 0.5 limit 'days' parameter as necessary
 		$get_permitted_days = get_permitted_days();
-		if (!isset($get_permitted_days[$graph['days']])) {
-			// exception TODO get rid of 'days' from get_permitted_days()
-			if ($graph['days'] != 366) {
-				throw new GraphException("Invalid days '" . $graph['days'] . "' for graph that requires days");
+		$has_valid_days = false;
+		foreach ($get_permitted_days as $key => $days) {
+			if ($days['days'] == $graph['days']) {
+				$has_valid_days = true;
 			}
+		}
+		if (!$has_valid_days) {
+			throw new GraphException("Invalid days '" . $graph['days'] . "' for graph that requires days");
 		}
 	}
 
