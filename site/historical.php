@@ -80,7 +80,7 @@ if ($id && isset($historical_graphs[$id])) {
 	<?php
 	$day_print = array();
 	foreach ($permitted_days as $key => $days) {
-		$day_print[] = "<span class=\"" . ($key === $graph['days'] ? 'selected' : '') . "\"><a href=\"" . htmlspecialchars(url_for('historical', array('days' => $key) + $extra_args)) . "\">" . htmlspecialchars($days['title']) . "</a></span>";
+		$day_print[] = "<span class=\"" . ($days['days'] === $graph['days'] ? 'selected' : '') . "\"><a href=\"" . htmlspecialchars(url_for('historical', array('days' => $key) + $extra_args)) . "\">" . htmlspecialchars($days['title']) . "</a></span>";
 	}
 	echo implode(" | ", $day_print);
 	?>
