@@ -586,6 +586,10 @@ try {
 			require(__DIR__ . "/../jobs/btclevels.php");
 			break;
 
+		case "bitnz":
+			require(__DIR__ . "/../jobs/bitnz.php");
+			break;
+
 		// individual securities jobs
 		case "individual_cryptostocks":
 			require(__DIR__ . "/../jobs/individual_cryptostocks.php");

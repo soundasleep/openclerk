@@ -158,6 +158,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_eobot', 'type' => 'eobot', 'failure' => true),
 	array('table' => 'accounts_hashtocoins', 'type' => 'hashtocoins', 'failure' => true),
 	array('table' => 'accounts_btclevels', 'type' => 'btclevels', 'failure' => true),
+	array('table' => 'accounts_bitnz', 'type' => 'bitnz', 'failure' => true),
 
 	array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1 AND is_disabled=0', 'user_id' => get_site_config('system_user_id')),
 

@@ -430,6 +430,7 @@ function get_supported_wallets() {
 		"bit2c" => array('btc', 'ltc', 'ils'),
 		"bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
 		"bitminter" => array('btc', 'nmc', 'hash'),
+		"bitnz" => array('btc', 'nzd'),
 		"bitstamp" => array('btc', 'usd'),
 		"bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd', 'via'),	// and others, used in jobs/bittrex.php
 		"btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),		// used in jobs/btce.php
@@ -501,7 +502,7 @@ function get_supported_wallets_safe() {
 }
 
 function get_new_supported_wallets() {
-	return array("nicehash", "westhash", "eobot", "hashtocoins", "btclevels");
+	return array("bitnz");
 }
 
 function get_summary_types() {
@@ -772,6 +773,7 @@ function account_data_grouped() {
 			'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
 			'btclevels' => array('table' => 'accounts_btclevels', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitmarket_pl' => array('table' => 'accounts_bitmarket_pl', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
+			'bitnz' => array('table' => 'accounts_bitnz', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'bittrex' => array('table' => 'accounts_bittrex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
 			'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -993,6 +995,7 @@ function get_external_apis() {
 			'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
 			'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
 			'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
+			'bitnz' => '<a href="https://bitnz.com">BitNZ</a>',
 			'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
 			'bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
 			'btce' => '<a href="http://btc-e.com">BTC-e</a>',
@@ -1014,7 +1017,7 @@ function get_external_apis() {
 
 		"Exchange tickers" => array(
 			'ticker_anxpro' => '<a href="https://anxpro.com/">ANXPRO</a>',
-			'ticker_bitnz' => '<a href="http://bitnz.com">BitNZ</a>',
+			'ticker_bitnz' => '<a href="https://bitnz.com">BitNZ</a>',
 			'ticker_bitcurex' => '<a href="https://bitcurex.com/">Bitcurex</a>',
 			'ticker_bitmarket_pl' => '<a href="https://www.bitmarket.pl/">BitMarket.pl</a>',
 			'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
@@ -2086,6 +2089,16 @@ function get_accounts_wizard_config_basic($exchange) {
 					'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btclevels_apisecret', 'length' => 128),
 				),
 				'table' => 'accounts_btclevels',
+			);
+
+		case "bitnz":
+			return array(
+				'inputs' => array(
+					'api_username' => array('title' => 'Username', 'callback' => 'is_string'),
+					'api_key' => array('title' => 'API Key', 'callback' => 'is_valid_bitnz_apikey'),
+					'api_secret' => array('title' => 'API Secret', 'callback' => 'is_valid_bitnz_apisecret', 'length' => 32),
+				),
+				'table' => 'accounts_bitnz',
 			);
 
 		// --- securities ---
@@ -3246,6 +3259,16 @@ function is_valid_hashtocoins_apikey($key) {
 
 function is_valid_btclevels_apisecret($key) {
 	return preg_match("#^[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}$#", $key);
+}
+
+function is_valid_bitnz_apikey($key) {
+	// looks like a 32 character hex string
+	return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
+}
+
+function is_valid_bitnz_apisecret($key) {
+	// looks like a random string
+	return strlen($key) > 8 && strlen($key) < 12 && preg_match("#^[a-zA-Z0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
