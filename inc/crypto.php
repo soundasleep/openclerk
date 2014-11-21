@@ -451,7 +451,7 @@ function get_supported_wallets() {
 		"elitistjerks" => array('ltc', 'hash'),
 		"eobot" => array('btc', 'ltc', 'bc1', 'nmc', 'dog', 'drk', 'vtc', 'ftc', 'ppc', 'nxt', 'hash'),		//  also naut, cure, charity, ghs, scrypt, btsx, sys, ppd
 		"ghashio" => array('hash'),		// we only use ghash.io for hashrates
-		"givemecoins" => array('ltc', 'vtc', 'ftc', 'hash'),
+		"givemecoins" => array('ltc', 'vtc', 'ftc', 'ppc', 'dog', 'hash'),
 		"havelock" => array('btc'),
 		"hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
 		"hashtocoins" => array('dog', 'ltc', 'net', 'nvc', 'wdc', 'hash'),
