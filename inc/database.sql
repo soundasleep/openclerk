@@ -4773,3 +4773,7 @@ CREATE TABLE accounts_bitnz (
 
 INSERT INTO exchanges SET name='bter';
 UPDATE exchanges SET track_reported_currencies=1 WHERE name='bter';
+
+UPDATE securities_796 SET is_disabled=1 WHERE name='bd';
+INSERT INTO securities_796 SET name='rsm', title='RSM', api_name='rsm', user_id=100;
+
