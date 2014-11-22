@@ -359,6 +359,7 @@ function get_exchange_pairs() {
 		"poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
 				array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'bc1'), array('btc', 'drk'),
 				array('btc', 'vrc'), array('btc', 'nxt'), array('btc', 'rdd'), array('btc', 'via'),
+				array('btc', 'nbt'), array('btc', 'xrp'),
 		),		// also pts, mmc, ...
 		"themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
 				array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils'), array('usd', 'sgd'),
@@ -391,6 +392,8 @@ function get_disabled_exchange_pairs() {
 function get_new_exchange_pairs() {
 	return array(
 		// All BTER pairs are new
+		"poloniex_btcnbt",
+		"poloniex_btcxrp",
 	);
 }
 
@@ -476,7 +479,7 @@ function get_supported_wallets() {
 		"nicehash" => array('btc'),
 		"nut2pools" => array('ftc', 'hash'),
 		"ozcoin" => array('ltc', 'btc', 'hash'),
-		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'bc1', 'nxt', 'rdd', 'via'),		// and LOTS more; used in jobs/poloniex.php
+		"poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'bc1', 'nxt', 'rdd', 'via', 'nbt', 'xrp'),		// and LOTS more; used in jobs/poloniex.php
 		"poolx" => array('ltc', 'hash'),
 		"scryptpools" => array('dog', 'hash'),
 		"slush" => array('btc', 'nmc', 'hash'),
