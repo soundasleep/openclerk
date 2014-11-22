@@ -244,6 +244,14 @@ try {
 			require(__DIR__ . "/../jobs/viacoin.php");
 			break;
 
+		case "nubits":
+			require(__DIR__ . "/../jobs/nubits.php");
+			break;
+
+		case "nushares":
+			require(__DIR__ . "/../jobs/nushares.php");
+			break;
+
 		// block jobs
 		case "litecoin_block":
 			require(__DIR__ . "/../jobs/litecoin_block.php");
@@ -319,6 +327,10 @@ try {
 
 		case "viacoin_block":
 			require(__DIR__ . "/../jobs/viacoin_block.php");
+			break;
+
+		case "nubits_block":
+			require(__DIR__ . "/../jobs/nubits_block.php");
 			break;
 
 		// account jobs

@@ -7,7 +7,7 @@
 
 function get_all_currencies() {
 	return array(
-		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt", "rdd", "via",
+		"btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
 		"usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
 		"ghs",
 	);
@@ -23,11 +23,11 @@ function is_hashrate_mhash($cur) {
 }
 
 function get_new_supported_currencies() {
-	return array("rdd", "via");
+	return array("nbt", "nsr");
 }
 
 function get_all_cryptocurrencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr");
 }
 
 function get_all_commodity_currencies() {
@@ -43,7 +43,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via");
+	return array("btc", "ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr");
 }
 
 function get_currency_name($n) {
@@ -71,6 +71,8 @@ function get_currency_name($n) {
 		case "nxt": return "Nxt";
 		case "rdd": return "Reddcoin";
 		case "via": return "Viacoin";
+		case "nbt": return "NuBits";
+		case "nsr": return "NuShares";
 
 		case "usd":	return "United States dollar";
 		case "nzd":	return "New Zealand dollar";
@@ -130,6 +132,7 @@ function get_blockchain_currencies() {
 		"Coinplorer" => array('xpm'),
 		"Reddsight" => array('rdd'),
 		"Viacoin Insight" => array('via'),
+		"NuExplorer" => array('nbt', 'nsr'),
 	);
 }
 
@@ -590,6 +593,8 @@ function get_default_currency_exchange($c) {
 		case "nxt": return "cryptsy";
 		case "rdd": return "cryptsy";
 		case "via": return "cryptsy";
+		case "nbt": return "poloniex";
+		case "nsr": return "poloniex";
 		// fiats
 		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
@@ -710,6 +715,8 @@ function account_data_grouped() {
 			'nxt' => array('title' => 'NXT account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nxt\'', 'wizard' => 'addresses', 'currency' => 'nxt'),
 			'reddcoin' => array('title' => 'RDD account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'rdd\'', 'wizard' => 'addresses', 'currency' => 'rdd'),
 			'viacoin' => array('title' => 'VIA account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'via\'', 'wizard' => 'addresses', 'currency' => 'via'),
+			'nubits' => array('title' => 'NBT account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nbt\'', 'wizard' => 'addresses', 'currency' => 'nbt'),
+			'nushares' => array('title' => 'NSR account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nsr\'', 'wizard' => 'addresses', 'currency' => 'nsr'),
 		),
 		'Mining pools' => array(
 			'50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -947,6 +954,9 @@ function get_external_apis() {
 			'reddcoin_block' => '<a href="http://live.reddcoin.com/">Reddsight</a> (block count)',
 			'viacoin' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a>',
 			'viacoin_block' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a> (block count)',
+			'nubits' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NBT)',
+			'nubits_block' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (block count)',
+			'nushares' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NSR)',
 		),
 
 		"Mining pool wallets" => array(
@@ -1379,6 +1389,30 @@ function get_blockchain_wizard_config($currency) {
 				'callback' => 'is_valid_via_address',
 				'job_type' => 'via',
 				'client' => get_currency_name('via'),
+			);
+
+		case "nbt":
+			return array(
+				'premium_group' => 'nubits',
+				'title' => 'NBT account',
+				'titles' => 'NBT accounts',
+				'table' => 'addresses',
+				'currency' => 'nbt',
+				'callback' => 'is_valid_nbt_address',
+				'job_type' => 'nbt',
+				'client' => get_currency_name('nbt'),
+			);
+
+		case "nsr":
+			return array(
+				'premium_group' => 'nushares',
+				'title' => 'VIA account',
+				'titles' => 'VIA accounts',
+				'table' => 'addresses',
+				'currency' => 'nsr',
+				'callback' => 'is_valid_nsr_address',
+				'job_type' => 'nsr',
+				'client' => get_currency_name('nsr'),
 			);
 
 		default:
@@ -2911,6 +2945,24 @@ function is_valid_rdd_address($address) {
 function is_valid_via_address($address) {
 	// based on is_valid_btc_address
 	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "V")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_nbt_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "B")
+			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
+		return true;
+	}
+	return false;
+}
+
+function is_valid_nsr_address($address) {
+	// based on is_valid_btc_address
+	if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "S")
 			&& preg_match("#^[A-Za-z0-9]+$#", $address)) {
 		return true;
 	}

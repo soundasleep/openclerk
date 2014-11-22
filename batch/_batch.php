@@ -131,7 +131,10 @@ function crypto_check_response($string, $message = false) {
 	}
 	if (strpos($string, 'CloudFlare') !== false) {
 		if (strpos($string, 'The origin web server timed out responding to this request.') !== false) {
-			throw new CloudFlareException('Cloudflare reported: The origin web server timed out responding to this request.');
+			throw new CloudFlareException('CloudFlare reported: The origin web server timed out responding to this request.');
+		}
+		if (strpos($string, 'Web server is down') !== false) {
+			throw new CloudFlareException('CloudFlare reported: Web server is down.');
 		}
 	}
 	if (strpos($string, 'Incapsula incident') !== false) {
