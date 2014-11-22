@@ -44,6 +44,7 @@ class ExternalAPIException extends Exception { } // expected exceptions
 class EmptyResponseException extends ExternalAPIException { } // expected exception; allows us to handle e.g BitMinter
 class CloudFlareException extends ExternalAPIException { } // expected exception; TODO implement some code to handle CloudFlare blocking
 class IncapsulaException extends ExternalAPIException { } // expected exception; TODO implement some code to handle Incapsula blocking
+class BlockchainException extends ExternalAPIException { } // expected exceptions
 
 /**
  * Extends {@link #curl_init()} to also set {@code CURLOPT_TIMEOUT}

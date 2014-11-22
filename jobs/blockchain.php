@@ -30,6 +30,9 @@ if (!is_numeric($balance)) {
 	if ($balance == "Checksum does not validate") {
 		throw new ExternalAPIException("Checksum does not validate");
 	}
+	if (strpos($balance, "Maximum concurrent requests reached.") !== false) {
+		throw new BlockchainException("Maximum concurrent requests reached");
+	}
 	throw new ExternalAPIException("Blockchain returned non-numeric balance: '" . htmlspecialchars($balance) . "'");
 } else {
 	crypto_log("Blockchain balance for " . htmlspecialchars($address['address']) . ": " . ($balance / $divisor));

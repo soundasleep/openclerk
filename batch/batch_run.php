@@ -740,6 +740,8 @@ if ($account_data && $account_data['failure']) {
 			crypto_log("Not increasing failure count: was a CloudFlareException");
 		} else if ($runtime_exception instanceof IncapsulaException) {
 			crypto_log("Not increasing failure count: was a IncapsulaException");
+		} else if ($runtime_exception instanceof BlockchainException) {
+			crypto_log("Not increasing failure count: was a BlockchainException");
 		} else {
 			$q = db_master()->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");
 			$q->execute(array($job['arg_id']));
