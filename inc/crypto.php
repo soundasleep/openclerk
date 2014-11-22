@@ -350,7 +350,7 @@ function get_exchange_pairs() {
 				array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc'), array('btc', 'ixc'), array('btc', 'vtc'),
 				array('btc', 'net'), array('ltc', 'net'), array('btc', 'hbn'), array('btc', 'bc1'), array('btc', 'drk'),
 				array('btc', 'vrc'), array('btc', 'nxt'), array('btc', 'rdd'), array('ltc', 'rdd'), array('usd', 'rdd'),
-				array('ltc', 'nxt'), array('btc', 'via'), array('usd', 'via'), array('btc', 'xrp'), array('usd', 'xrp'),
+				array('ltc', 'nxt'), array('btc', 'via'), array('btc', 'xrp'), array('usd', 'xrp'),
 		),
 		"justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),	// also (nok, btc)
 		"kraken" => array(array('btc', 'ltc'), array('btc', 'nmc'), array('btc', 'dog'), array('btc', 'xrp'),
