@@ -31,6 +31,7 @@ $kraken_pairs = array(
 	'btceur' => false,
 	'btckrw' => false,
 	'btcusd' => false,
+	'btcgbp' => false,
 	'eurdog' => true,
 	'eurxrp' => true,
 	'krwxrp' => true,
@@ -49,7 +50,7 @@ foreach ($pairs as $pair) {
 		$key = strtoupper(get_iso4_name($pair[1]) . get_iso4_name($pair[0]));
 		$pair['flip'] = $kraken_pairs[$pair[1] . $pair[0]];
 	} else {
-		throw new JobException("Pair " . implode("/", $pair) . " was not found in kraken_pairs");
+		throw new JobException("Pair " . implode("/", $pair) . " was not found in kraken_pairs map");
 	}
 	$map[$key] = $pair;
 }
