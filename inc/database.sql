@@ -4785,4 +4785,4 @@ INSERT INTO securities_796 SET name='rsm', title='RSM', api_name='rsm', user_id=
 -- issue #337: disable BTCinve accounts
 UPDATE accounts_btcinve SET is_disabled=1;
 UPDATE accounts_individual_btcinve SET is_disabled=1;
-
+DELETE FROM securities_update WHERE exchange='btcinve';
