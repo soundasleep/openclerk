@@ -27,7 +27,6 @@
   "1 min": "1 min",
   "15 min": "15 min",
   "5 min": "5 min",
-  ":% success": ":% success",
   ":addresses were invalid and were not added.": ":addresses were invalid and were not added.",
   ":cost1 per month, or :cost2 per year": ":cost1 per month, or :cost2 per year",
   ":currency MHash\/s": ":currency MHash\/s",

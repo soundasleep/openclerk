@@ -1,8 +1,8 @@
 [
+  "% success",
   "1 min",
   "15 min",
   "5 min",
-  ":% success",
   ":currency MHash\/s",
   ":exchange",
   ":exchange :pair",

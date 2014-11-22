@@ -26,7 +26,6 @@
 1 min
 15 min
 5 min
-:% success
 <addresses> were invalid and were not added.
 <cost1> per month, or <cost2> per year
 <currency> MHash/s

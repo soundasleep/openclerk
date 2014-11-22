@@ -1,4 +1,18 @@
 
+<dt>22 November</dt>
+<dd>
+	Added currency support for <a href="https://nubits.com/" class="currency_name_nbt">NuBits</a>
+	and <a href="https://nubits.com/" class="currency_name_nsr">NuShares</a>;
+
+	added <a href="https://bitnz.com/">BitNZ</a> exchange accounts;
+
+	updated <a href="https://www.give-me-coins.com">Give Me Coins</a> supported currencies;
+
+	graphs can now display two years of data;
+
+	<a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your wizards</a> now display current balances for each account.
+</dd>
+
 <dt>7 November</dt>
 <dd>
 	Added currency support for <a href="https://www.reddcoin.com/" class="currency_name_rdd">Reddcoin</a>
@@ -96,19 +110,6 @@ Added <a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">fin
 added support for creating manual transactions;
 added <a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">transactions</a> export as CSV;
 added support for listing daily exchange rates with <a href="<?php echo htmlspecialchars(url_for('average')); ?>">your transactions</a>.
-</dd>
-
-<dt>25 April</dt>
-<dd>Added currency support for <span class="currency_name_krw" title="<?php echo htmlspecialchars(get_currency_name('krw')); ?>">KRW</span>;
-added <a href="https://www.kraken.com/">Kraken</a> exchange;
-added <a href="<?php echo htmlspecialchars(url_for('average')); ?>">market average price indices</a>, and enabled price average summary calculations;
-added initial <a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">Your Transactions</a> interface for testing,
-and <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'transaction_creation'))); ?>">automatic transaction creation</a>;
-added <a href="https://doge.rapidhash.net">RapidHash DOGE</a>, <a href="https://vtc.rapidhash.net">RapidHash VTC</a>
-and <a href="http://doge.cryptotroll.com/">Cryptotroll DOGE</a> mining pools;
-accounts can now be <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">manually disabled</a>;
-added more large graph sizes;
-fixed <span class="currency_name_dgc" title="<?php echo htmlspecialchars(get_currency_name('dgc')); ?>">DGC</span> and <span class="currency_name_wdc" title="<?php echo htmlspecialchars(get_currency_name('wdc')); ?>">WDC</span> addresses not updating.
 </dd>
 
 <!-- more are in versions_old -->
