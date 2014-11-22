@@ -268,6 +268,7 @@ function get_all_exchanges() {
 		"eobot" => "Eobot",
 		"hashtocoins" => "Hash-to-Coins",
 		"btclevels" => "BTClevels",
+		"bter" => "Bter",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -284,7 +285,7 @@ function get_exchange_name($n) {
 
 // these are just new exchange pairs; not new exchange wallets
 function get_new_exchanges() {
-	return array("bittrex");
+	return array("bittrex", "bter");
 }
 
 function get_exchange_pairs() {
@@ -316,6 +317,9 @@ function get_exchange_pairs() {
 				array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'),
 				array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),
 				array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
+		"bter" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'nxt'), array('btc', 'nsr'),
+				array('btc', 'nbt'), array('btc', 'net'), array('btc', 'xpm'),
+				array('usd', 'btc'), array('usd', 'dog'), array('usd', 'ltc'), array('usd', 'nxt')),
 		"cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('ltc', 'ghs'),
 				array('usd', 'btc'), array('usd', 'ghs'), array('usd', 'ltc'), array('btc', 'dog'),
 				array('btc', 'drk'), array('btc', 'mec'), array('btc', 'wdc'), array('btc', 'ftc'),
@@ -326,7 +330,8 @@ function get_exchange_pairs() {
 			),
 		"coins-e" => array(array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'),
 				array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'), array('btc', 'vrc'),
-				array('btc', 'nvc'), array('btc', 'dgc'), array('btc', 'bc1'), array('btc', 'drk')),
+				array('btc', 'nvc'), array('btc', 'dgc'), array('btc', 'bc1'), array('btc', 'drk'),
+			),
 		"crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'),
 				array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'),
 				array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dgc'), array('btc', 'wdc'), array('btc', 'bc1'),
@@ -379,15 +384,7 @@ function get_disabled_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		"bitcurex_usdbtc",
-		"cryptsy_btcrdd",
-		"cryptsy_ltcrdd",
-		"cryptsy_usdrdd",
-		"bittrex_btcrdd",
-		"poloniex_btcrdd",
-		"cryptsy_btcvia",
-		"bittrex_btcvia",
-		"poloniex_btcvia",
+		// TODO update with BTER new pairs
 	);
 }
 
@@ -593,8 +590,8 @@ function get_default_currency_exchange($c) {
 		case "nxt": return "cryptsy";
 		case "rdd": return "cryptsy";
 		case "via": return "cryptsy";
-		case "nbt": return "poloniex";
-		case "nsr": return "poloniex";
+		case "nbt": return "bter";
+		case "nsr": return "bter";
 		// fiats
 		case "usd": return "bitstamp";
 		case "nzd": return "bitnz";
