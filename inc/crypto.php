@@ -424,10 +424,13 @@ function get_new_exchange_pairs() {
 		"cryptsy_btcxrp",
 		"cryptsy_usdxrp",
 		"poloniex_btcdrk",
-		"kraken_btcgbp",
+		"kraken_gbpbtc",
 	);
 }
 
+/**
+ * Includes disabled exchanges
+ */
 function get_security_exchange_pairs() {
 	return array(
 		// should be in alphabetical order
