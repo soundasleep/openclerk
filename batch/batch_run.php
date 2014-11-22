@@ -329,10 +329,6 @@ try {
 			require(__DIR__ . "/../jobs/viacoin_block.php");
 			break;
 
-		case "nubits_block":
-			require(__DIR__ . "/../jobs/nubits_block.php");
-			break;
-
 		// account jobs
 		case "generic":
 			require(__DIR__ . "/../jobs/generic.php");

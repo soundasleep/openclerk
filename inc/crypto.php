@@ -958,7 +958,6 @@ function get_external_apis() {
 			'viacoin' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a>',
 			'viacoin_block' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a> (block count)',
 			'nubits' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NBT)',
-			'nubits_block' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (block count)',
 			'nushares' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NSR)',
 		),
 
