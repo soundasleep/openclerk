@@ -498,10 +498,6 @@ try {
 			require(__DIR__ . "/../jobs/litecoininvest.php");
 			break;
 
-		case "btcinve":
-			require(__DIR__ . "/../jobs/btcinve.php");
-			break;
-
 		case "miningpoolco":
 			require(__DIR__ . "/../jobs/miningpoolco.php");
 			break;
@@ -617,10 +613,6 @@ try {
 
 		case "individual_litecoininvest":
 			require(__DIR__ . "/../jobs/individual_litecoininvest.php");
-			break;
-
-		case "individual_btcinve":
-			require(__DIR__ . "/../jobs/individual_btcinve.php");
 			break;
 
 		// summary jobs
