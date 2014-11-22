@@ -5,7 +5,7 @@ Your {$site_name} premium account payment will be processed once you transfer {$
 
 Once the {$currency_name} network has confirmed the transaction, your account will be credited with premium status.
 
-You may keep track of this transaction via {$explorer}{$address}. You may also keep track of this order by logging into your account: {$url}.
+You may keep track of this transaction via {$explorer}. You may also keep track of this order by logging into your account: {$url}.
 
 Thanks for purchasing a premium account!
 

@@ -17,7 +17,7 @@ if (!$address) {
 if ($address['is_received']) {
 	throw new JobException("is_received is not implemented for $currency");
 }
-$url = get_site_config($currency . '_address_url') . $address['address'];
+$url = sprintf(get_site_config($currency . '_address_url'), $address['address']);
 
 $html = crypto_get_contents(crypto_wrap_url($url));
 

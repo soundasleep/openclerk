@@ -251,7 +251,7 @@ function crypto_address($currency, $address) {
 		foreach ($currencies as $cur) {
 			if ($cur == $currency) {
 				return "<span class=\"address " . $currency . "_address\"><code>" . htmlspecialchars($address) . "</code>
-					<a class=\"inspect\" href=\"" . htmlspecialchars(get_site_config($currency . "_address_url") . $address) . "\" title=\"Inspect with " . htmlspecialchars($explorer) . "\">?</a>
+					<a class=\"inspect\" href=\"" . htmlspecialchars(sprintf(get_site_config($currency . "_address_url"), $address)) . "\" title=\"Inspect with " . htmlspecialchars($explorer) . "\">?</a>
 				</span>";
 			}
 		}

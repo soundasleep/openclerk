@@ -5,7 +5,7 @@ This is a reminder that your {$site_name} premium account purchase is still pend
 
 Once the {$currency_name} network has confirmed the transaction, your account will be credited with premium status.
 
-You may keep track of this transaction via {$explorer}{$address}. You may also keep track of this order by logging into your account: {$url}.
+You may keep track of this transaction via {$explorer}. You may also keep track of this order by logging into your account: {$url}.
 
 If not completed, this purchase will be cancelled after {$cancelled}; in the meantime, you will be sent a reminder every {$reminder}. Please ignore this message if you have already paid.
 

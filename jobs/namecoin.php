@@ -14,7 +14,7 @@ if (!$address) {
 	throw new JobException("Cannot find an address " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-$html = crypto_get_contents(crypto_wrap_url(get_site_config('nmc_address_url') . urlencode($address['address'])));
+$html = crypto_get_contents(crypto_wrap_url(sprintf(get_site_config('nmc_address_url'), urlencode($address['address']))));
 
 // look for 'current balance'
 if ($address['is_received']) {

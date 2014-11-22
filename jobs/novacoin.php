@@ -18,7 +18,7 @@ if ($address['is_received']) {
 	throw new JobException("We cannot get received balance for Novacoin.");
 }
 
-$html = crypto_get_contents(crypto_wrap_url(get_site_config('nvc_address_url') . urlencode($address['address'])));
+$html = crypto_get_contents(crypto_wrap_url(sprintf(get_site_config('nvc_address_url'), urlencode($address['address']))));
 
 // look for 'current balance'
 $matches = false;

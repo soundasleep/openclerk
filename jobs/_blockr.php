@@ -27,7 +27,7 @@ if ($address['is_received']) {
 	throw new ExternalAPIException("is_received is not supported for " . $currency);
 }
 
-$url = get_site_config($currency . '_address_url') . $address['address'] . "?confirmations=" . $confirmations;
+$url = sprintf(get_site_config($currency . '_address_url'), $address['address']) . "?confirmations=" . $confirmations;
 
 $json = crypto_json_decode(crypto_get_contents(crypto_wrap_url($url)));
 $data = crypto_jsend($json);

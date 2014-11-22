@@ -20,7 +20,8 @@ if (!$address) {
 }
 
 // we can now request the HTML page
-$html = crypto_get_contents(crypto_wrap_url($abe_data['explorer_url'] . urlencode($address['address'])));
+$url = sprintf($abe_data['explorer_url'], urlencode($address['address']));
+$html = crypto_get_contents(crypto_wrap_url($url));
 $html = preg_replace("#[\n\t]+#", "", $html);
 $html = preg_replace("#</tr>#", "</tr>\n", $html);
 $html = preg_replace("#<td[^>]+?>#", "<td>", $html);
