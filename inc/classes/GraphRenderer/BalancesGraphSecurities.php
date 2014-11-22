@@ -12,7 +12,7 @@ class GraphRenderer_BalancesGraphSecurities extends GraphRenderer_BalancesGraph 
 
 			$instances = get_security_instances($bits[1], $this->currency);
 			foreach ($instances as $instance) {
-				if ($instance['title'] == $arg0_resolved) {
+				if ($instance['title'] == $arg0_resolved || $instance['name'] == $arg0_resolved) {
 					$this->account_id = $instance['id'];
 				}
 			}
