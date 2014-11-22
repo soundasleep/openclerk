@@ -6,6 +6,8 @@
 
 	added <a href="https://bitnz.com/">BitNZ</a> exchange accounts;
 
+	added <a href="https://bter.com/">Bter</a> exchange tickers;
+
 	updated <a href="https://www.give-me-coins.com">Give Me Coins</a> supported currencies;
 
 	disabled <a href="https://www.btcinve.com/">BTCInve</a> security exchange;
