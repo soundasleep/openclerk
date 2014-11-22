@@ -6,7 +6,7 @@
 
 	added <a href="https://bitnz.com/">BitNZ</a> exchange accounts;
 
-	added <a href="https://bter.com/">Bter</a> exchange tickers;
+	added <a href="https://bter.com/">BTER</a> exchange tickers;
 
 	updated <a href="https://www.give-me-coins.com">Give Me Coins</a> supported currencies;
 

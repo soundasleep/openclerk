@@ -268,7 +268,7 @@ function get_all_exchanges() {
 		"eobot" => "Eobot",
 		"hashtocoins" => "Hash-to-Coins",
 		"btclevels" => "BTClevels",
-		"bter" => "Bter",
+		"bter" => "BTER",
 
 		// for failing server jobs
 		"securities_havelock" => "Havelock Investments security",
@@ -424,6 +424,7 @@ function get_new_exchange_pairs() {
 		"cryptsy_btcxrp",
 		"cryptsy_usdxrp",
 		"poloniex_btcdrk",
+		"kraken_btcgbp",
 	);
 }
 

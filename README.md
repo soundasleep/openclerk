@@ -43,7 +43,7 @@ List of features that are also running at https://cryptfolio.com:
   * Bittrex
   * BTC China
   * BTC-e
-  * Bter
+  * BTER
   * CEX.io
   * Coinbase
   * Coins-E
