@@ -130,6 +130,10 @@ $graph = array(
 			if ($key == "pending_subscriptions") {
 				if ($value >= 90) {
 					$status = "bad";
+				} else if ($value >= 70) {
+					$status = "poor";
+				} else if ($value >= 50) {
+					$status = "ok";
 				}
 			}
 			?>
