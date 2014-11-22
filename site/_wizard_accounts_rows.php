@@ -130,7 +130,7 @@ foreach ($accounts as $a) {
 					}
 				}
 				echo "</ul>";
-				if (!$had_balance) echo "<i>" . ht("None") . "</i>";
+				if (!$had_balance) echo "<i>-</i>";
 				if ($is_disabled) echo " <i>" . ht("(disabled)") . "</i>";
 			?></td>
 		<?php } ?>
