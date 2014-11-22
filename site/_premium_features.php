@@ -38,7 +38,7 @@
 	}
 	$predef = array(
 		'addresses' => t('Tracked addresses (:currencies)', array(':currencies' => implode(", ", $currencies))),
-		'accounts' => t('Tracked accounts (:accounts)', array(':accounts' => 'BTC-e, Mt.Gox, ...')),
+		'accounts' => t('Tracked accounts (:accounts)', array(':accounts' => 'BTC-e, Bitstamp, ...')),
 		'graph_pages' => $welcome ? t("Reports pages") : link_to(url_for('profile'), t("Reports pages")),
 		'graphs_per_page' => t("Graphs per report page"),
 		'summaries' => $welcome ? t("Currencies") : link_to(url_for('wizard_currencies'), t("Currencies")),
