@@ -318,8 +318,14 @@ function get_exchange_pairs() {
 				array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),
 				array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
 		"bter" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'nxt'), array('btc', 'nsr'),
-				array('btc', 'nbt'), array('btc', 'net'), array('btc', 'xpm'),
-				array('usd', 'btc'), array('usd', 'dog'), array('usd', 'ltc'), array('usd', 'nxt')),
+				array('btc', 'nbt'), array('btc', 'net'), array('btc', 'xpm'), array('btc', 'bc1'),
+				array('btc', 'dgc'), array('btc', 'drk'), array('btc', 'ftc'), array('btc', 'mec'),
+				array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'via'), array('btc', 'vrc'),
+				array('btc', 'vtc'), array('btc', 'wdc'),
+				array('usd', 'btc'), array('usd', 'dog'), array('usd', 'ltc'), array('usd', 'nxt'),
+				array('cny', 'btc'), array('cny', 'dog'), array('cny', 'ltc'), array('cny', 'nxt'),
+				array('cny', 'nmc'), array('cny', 'ppc'), array('cny', 'xpm'), array('cny', 'nxt'),
+			),
 		"cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('ltc', 'ghs'),
 				array('usd', 'btc'), array('usd', 'ghs'), array('usd', 'ltc'), array('btc', 'dog'),
 				array('btc', 'drk'), array('btc', 'mec'), array('btc', 'wdc'), array('btc', 'ftc'),
@@ -384,7 +390,7 @@ function get_disabled_exchange_pairs() {
 
 function get_new_exchange_pairs() {
 	return array(
-		// TODO update with BTER new pairs
+		// All BTER pairs are new
 	);
 }
 

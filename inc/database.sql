@@ -4772,3 +4772,4 @@ CREATE TABLE accounts_bitnz (
 );
 
 INSERT INTO exchanges SET name='bter';
+UPDATE exchanges SET track_reported_currencies=1 WHERE name='bter';

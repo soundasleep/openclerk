@@ -77,6 +77,10 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/reported_currencies/bittrex.php");
 		break;
 
+	case "bter":
+		require(__DIR__ . "/reported_currencies/bter.php");
+		break;
+
 	default:
 		throw new JobException("Unknown exchange to report currencies " . $exchange['name']);
 		break;
