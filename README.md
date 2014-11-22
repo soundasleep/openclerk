@@ -97,7 +97,6 @@ List of features that are also running at https://cryptfolio.com:
   * ypool.net
 * Support for securities exchanges
   * 796 Xchange
-  * BTCInve
   * Crypto-Trade
   * Cryptostocks
   * Havelock Investments

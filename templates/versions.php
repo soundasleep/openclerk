@@ -8,6 +8,8 @@
 
 	updated <a href="https://www.give-me-coins.com">Give Me Coins</a> supported currencies;
 
+	disabled <a href="https://www.btcinve.com/">BTCInve</a> security exchange;
+
 	graphs can now display two years of data;
 
 	<a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">your wizards</a> now display current balances for each account.
