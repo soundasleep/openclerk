@@ -16,7 +16,11 @@ if (!$account) {
 
 $raw = crypto_get_contents(crypto_wrap_url("https://www.westhash.com/api?method=balance&id=" . urlencode($account['api_id']) . "&key=" . urlencode($account['api_key'])));
 $data = crypto_json_decode($raw);
+crypto_log(print_r($data, true));
 
+if (isset($data['result']['error']) && $data['result']['error']) {
+	throw new ExternalAPIException($data['result']['error']);
+}
 if (!isset($data['result']['balance_confirmed'])) {
 	throw new ExternalAPIException("No confirmed balance found");
 }
