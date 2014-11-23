@@ -61,6 +61,7 @@ function map_iso4_name($cur) {
 		case "xxrp": return "xrp";
 		case "xnmc": return "nmc";
 		case "xxdg": return "dog";
+		case "xstr": return "str";		// stellar
 		// case "xxvn": return "ven"; - "Ven (XVN) is the only digital currency that's completely back by assets"
 
 		case "zusd": return "usd";
