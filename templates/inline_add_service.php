@@ -109,7 +109,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 
 <p>
 	For example, <a href="https://www.havelockinvestments.com">Havelock Investments</a>
-	allows multiple API keys to be created, each with different permissions. (illustrated).
+	allows multiple API keys to be created, each with different permissions (illustrated).
 </p>
 
 <h2>Requesting a new service</h2>
