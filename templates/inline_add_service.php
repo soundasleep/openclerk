@@ -49,10 +49,8 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>mcxNOW (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/91">#91</a>)</li>
 	<li>MintPal (<a href="http://redmine.jevon.org/issues/214">#214</a>)</li>
 	<li>NetcodePool (all currencies)</li>
-	<li>NiceHash (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/286">#286</a>)</li>
 	<li>Safello</li>
 	<li>VirtEx (<a href="https://www.cavirtex.com/faq#tradingapi">wallet balances API coming</a>)</li>
-	<li>WestHash (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/287">#287</a>)</li>
 </ul>
 </div>
 </div>
@@ -68,7 +66,7 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 
 	Mining pools that are run on existing mining pool software, such as
 	<a href="https://github.com/TheSerapher/php-mpos">MPOS</a> and <a href="https://github.com/Greedi/mmcFE">mmcFE</a>,
-	often automatically provide users with read-only API keys for wallets and balances.
+	often automatically provide users with read-only API keys for balances and hashrates.
 	These pools can easily be added to Openclerk.
 </p>
 
