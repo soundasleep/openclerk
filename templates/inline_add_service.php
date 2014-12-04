@@ -43,7 +43,6 @@ Exchanges/pools/services that do <em>not</em> have a suitable read-only API yet 
 	<li>Coinsortium (<a href="http://redmine.jevon.org/issues/318">#318</a>)</li>
 	<li>fast-pool.com</li>
 	<li>Flexcoin (<a href="https://bitcointalk.org/index.php?topic=57732.msg2022077#msg2022077">no API yet</a>)</li>
-	<li>hash-to-coins.com (no API &ndash; <a href="http://redmine.jevon.org/issues/282">#282</a>)</li>
 	<li>itBit (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/249">#249</a>)</li>
 	<li>Intersango (registration is closed)</li>
 	<li>mcxNOW (API is not safe &ndash; <a href="http://redmine.jevon.org/issues/91">#91</a>)</li>
