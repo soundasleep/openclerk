@@ -158,7 +158,7 @@ function get_default_site_config() {
 		// external URLs
 		"ltc_address_url" => "http://explorer.litecoin.net/address/%s",
 		"ltc_block_url" => "http://explorer.litecoin.net/chain/Litecoin/q/getblockcount",
-		"btc_address_url" => "http://blockchain.info/address/%s",
+		"btc_address_url" => "https://blockchain.info/address/%s",
 		"ftc_address_url" => "http://explorer.feathercoin.com/address/%s",
 		"ftc_block_url" => "http://explorer.feathercoin.com/chain/Feathercoin/q/getblockcount",
 		"ppc_address_url" => "http://ppc.blockr.io/api/v1/address/info/%s",

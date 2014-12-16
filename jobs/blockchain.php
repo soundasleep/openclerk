@@ -14,9 +14,9 @@ if (!$address) {
 
 if ($address['is_received']) {
 	crypto_log("Need to get received balance rather than current balance for address " . htmlspecialchars($address['address']) . ".");
-	$url = "http://blockchain.info/q/getreceivedbyaddress/" . urlencode($address['address']) . "?confirmations=" . get_site_config('btc_confirmations');
+	$url = "https://blockchain.info/q/getreceivedbyaddress/" . urlencode($address['address']) . "?confirmations=" . get_site_config('btc_confirmations');
 } else {
-	$url = "http://blockchain.info/q/addressbalance/" . urlencode($address['address']) . "?confirmations=" . get_site_config('btc_confirmations');
+	$url = "https://blockchain.info/q/addressbalance/" . urlencode($address['address']) . "?confirmations=" . get_site_config('btc_confirmations');
 }
 if (get_site_config('blockchain_api_key')) {
 	crypto_log("Using Blockchain API key.");
