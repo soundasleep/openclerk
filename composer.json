@@ -5,7 +5,9 @@
     "lightopenid/lightopenid": "dev-master",
     "phpunit/phpunit": "4.0",
     "soundasleep/spritify": "0.3.0",
-    "kwipi/famfamfam-flags": "0.1.1"
+    "kwipi/famfamfam-flags": "0.1.1",
+    "openclerk/db": "dev-master",
+    "openclerk/events": "dev-master"
   },
   "repositories": [{
     "type": "vcs",

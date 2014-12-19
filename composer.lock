@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "790ca22c7ae9091b980e13edbc648e48",
+    "hash": "58d4a11e4957fb61213498449a485c8c",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -50,14 +50,8 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/soundasleep/lightopenid.git",
-                "reference": "45e59630025cff221392c3ed32cd979f3b278aae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/lightopenid/zipball/45e59630025cff221392c3ed32cd979f3b278aae",
-                "reference": "45e59630025cff221392c3ed32cd979f3b278aae",
-                "shasum": ""
+                "url": "https://git.gitorious.org/lightopenid/lightopenid.git",
+                "reference": "9d42dc24e4dd34121c98a6491bc3ef7933a68a19"
             },
             "require": {
                 "php": ">=5.2.3"
@@ -68,18 +62,68 @@
                     "./"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "homepage": "http://code.google.com/p/lightopenid/",
             "keywords": [
-                "openid"
+                "OpenId"
             ],
-            "support": {
-                "source": "https://github.com/soundasleep/lightopenid/tree/master",
-                "issues": "https://github.com/soundasleep/lightopenid/issues"
+            "time": "2013-10-27 16:25:49"
+        },
+        {
+            "name": "openclerk/db",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/db.git",
+                "reference": "d0816595c8bd0e2979df7dbf13375235c5dbc769"
             },
-            "time": "2014-04-18 02:16:03"
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/d0816595c8bd0e2979df7dbf13375235c5dbc769",
+                "reference": "d0816595c8bd0e2979df7dbf13375235c5dbc769",
+                "shasum": ""
+            },
+            "require": {
+                "openclerk/events": "dev-master"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4",
+                "soundasleep/component-tests": "~0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Db\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-12-19 22:53:01"
+        },
+        {
+            "name": "openclerk/events",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/events.git",
+                "reference": "70e93ef6bc69a830030f79061a2c53e8f544a70a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/events/zipball/70e93ef6bc69a830030f79061a2c53e8f544a70a",
+                "reference": "70e93ef6bc69a830030f79061a2c53e8f544a70a",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Openclerk\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-12-16 07:34:34"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -87,12 +131,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "85c7c6bdf07a9a697149993c95213dcba7864979"
+                "reference": "851da29103d87b06b8cb3170e7bffb106287ce76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/85c7c6bdf07a9a697149993c95213dcba7864979",
-                "reference": "85c7c6bdf07a9a697149993c95213dcba7864979",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/851da29103d87b06b8cb3170e7bffb106287ce76",
+                "reference": "851da29103d87b06b8cb3170e7bffb106287ce76",
                 "shasum": ""
             },
             "require": {
@@ -132,20 +176,20 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2014-11-06 14:30:45"
+            "time": "2014-12-17 15:07:19"
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.11",
+            "version": "2.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "53603b3c995f5aab6b59c8e08c3a663d2cc810b7"
+                "reference": "0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/53603b3c995f5aab6b59c8e08c3a663d2cc810b7",
-                "reference": "53603b3c995f5aab6b59c8e08c3a663d2cc810b7",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5",
+                "reference": "0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5",
                 "shasum": ""
             },
             "require": {
@@ -197,7 +241,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-08-31 06:33:04"
+            "time": "2014-12-03 06:41:44"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -567,16 +611,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "0d9bf79554d2a999da194a60416c15cf461eb67d"
+                "reference": "6e6c71d918088c251b181ba8b3088af4ac336dd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/0d9bf79554d2a999da194a60416c15cf461eb67d",
-                "reference": "0d9bf79554d2a999da194a60416c15cf461eb67d",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6e6c71d918088c251b181ba8b3088af4ac336dd7",
+                "reference": "6e6c71d918088c251b181ba8b3088af4ac336dd7",
                 "shasum": ""
             },
             "require": {
@@ -613,7 +657,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2014-10-22 06:38:05"
+            "time": "2014-10-25 08:00:45"
         },
         {
             "name": "sebastian/exporter",
@@ -811,17 +855,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.6",
+            "version": "v2.6.1",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "2d9f527449cabfa8543dd7fa3a466d6ae83d6726"
+                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/2d9f527449cabfa8543dd7fa3a466d6ae83d6726",
-                "reference": "2d9f527449cabfa8543dd7fa3a466d6ae83d6726",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/3346fc090a3eb6b53d408db2903b241af51dcb20",
+                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20",
                 "shasum": ""
             },
             "require": {
@@ -830,7 +874,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -854,7 +898,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-01 05:50:18"
+            "time": "2014-12-02 20:19:20"
         }
     ],
     "packages-dev": [],
@@ -862,7 +906,9 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phpmailer/phpmailer": 20,
-        "lightopenid/lightopenid": 20
+        "lightopenid/lightopenid": 20,
+        "openclerk/db": 20,
+        "openclerk/events": 20
     },
     "prefer-stable": false,
     "platform": [],

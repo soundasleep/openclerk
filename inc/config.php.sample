@@ -11,10 +11,15 @@ function get_site_config_ext() {
 		"openid_host" => "localhost.openclerk.org",
 		"absolute_url" => "http://localhost.openclerk.org/clerk/",
 
-		"database_url" => "mysql:host=localhost;dbname=clerk",
-		"database_username" => "clerk",
-		"database_password" => "clerk",
-		"database_timezone" => false,
+    // issue #188: if true, then non-write queries will go to this database by default
+    "database_slave" => true,
+    "database_host_master" => "localhost",
+    "database_host_slave" => "localhost",
+    "database_port" => 3306,
+    "database_name" => "clerk",
+    "database_username" => "clerk",
+    "database_password" => "clerk",
+    "database_timezone" => false,   // e.g. "-08:00" if your DB is in UTC and your web server is in PST
 
 		"phpmailer_host" => "mail.example.com",
 		"phpmailer_username" => "user",
