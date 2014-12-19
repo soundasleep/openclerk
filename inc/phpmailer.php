@@ -1,7 +1,5 @@
 <?php
 
-require(__DIR__ . "/../vendor/phpmailer/phpmailer/PHPMailerAutoload.php");
-
 function phpmailer($to, $to_name, $subject, $message) {
 	$mail = new PHPMailer();
 
