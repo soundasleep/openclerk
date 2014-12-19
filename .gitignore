@@ -10,12 +10,18 @@ site/styles/
 
 # Ignore package-managed libraries
 vendor/
+node_modules/
 
 # Ignore generated favicon
 site/favicon.ico
 
 # Ignore generated sprites
 site/img/default-sprites.png
+site/img/custom-sprites.png
 
 # Ignore compiled scripts
 site/scripts
+site/js/graphs.js
+
+# Ignore custom extensions
+config/
