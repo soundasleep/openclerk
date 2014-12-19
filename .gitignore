@@ -25,3 +25,6 @@ site/js/graphs.js
 
 # Ignore custom extensions
 config/
+
+# Ignore test results
+tests/report.xml

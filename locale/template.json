@@ -464,6 +464,7 @@
   "Instead of the default exchange, use the following exchanges:": "Instead of the default exchange, use the following exchanges:",
   "Interface": "Interface",
   "Invalid OpenID parameter": "Invalid OpenID parameter",
+  "Invalid account": "Invalid account",
   "Invalid article key.": "Invalid article key.",
   "Invalid e-mail.": "Invalid e-mail.",
   "Invalid graph management preference.": "Invalid graph management preference.",

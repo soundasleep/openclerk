@@ -78,12 +78,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "d0816595c8bd0e2979df7dbf13375235c5dbc769"
+                "reference": "8a378f7336482aa096987265207ec8b813533ac7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/d0816595c8bd0e2979df7dbf13375235c5dbc769",
-                "reference": "d0816595c8bd0e2979df7dbf13375235c5dbc769",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/8a378f7336482aa096987265207ec8b813533ac7",
+                "reference": "8a378f7336482aa096987265207ec8b813533ac7",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-19 22:53:01"
+            "time": "2014-12-19 23:47:32"
         },
         {
             "name": "openclerk/events",
