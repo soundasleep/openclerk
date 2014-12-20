@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "58d4a11e4957fb61213498449a485c8c",
+    "hash": "a7a4300a9bfa0ea0bdf2fbc7cc98930b",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -71,6 +71,29 @@
                 "OpenId"
             ],
             "time": "2013-10-27 16:25:49"
+        },
+        {
+            "name": "openclerk/config",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/config.git",
+                "reference": "c86c7dc7567efbf406fd9ceb4252c80560e60bec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/config/zipball/c86c7dc7567efbf406fd9ceb4252c80560e60bec",
+                "reference": "c86c7dc7567efbf406fd9ceb4252c80560e60bec",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Openclerk\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-12-08 02:13:51"
         },
         {
             "name": "openclerk/db",
@@ -908,7 +931,8 @@
         "phpmailer/phpmailer": 20,
         "lightopenid/lightopenid": 20,
         "openclerk/db": 20,
-        "openclerk/events": 20
+        "openclerk/events": 20,
+        "openclerk/config": 20
     },
     "prefer-stable": false,
     "platform": [],

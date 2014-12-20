@@ -7,7 +7,8 @@
     "soundasleep/spritify": "0.3.0",
     "kwipi/famfamfam-flags": "0.1.1",
     "openclerk/db": "dev-master",
-    "openclerk/events": "dev-master"
+    "openclerk/events": "dev-master",
+    "openclerk/config": "dev-master"
   },
   "repositories": [{
     "type": "vcs",

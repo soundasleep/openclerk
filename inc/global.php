@@ -101,11 +101,6 @@ class ReplicatedDbWrapper {
   }
 }
 
-function config($key, $default = null) {
-  // we don't actually have default yet
-  return get_site_config($key);
-}
-
 $db_instance = null;
 
 function db() {
