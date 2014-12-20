@@ -19,6 +19,9 @@ site/favicon.ico
 site/img/default-sprites.png
 site/img/custom-sprites.png
 
+# Ignore generated content from *-discovery
+generated/
+
 # Ignore compiled scripts
 site/scripts
 site/js/graphs.js

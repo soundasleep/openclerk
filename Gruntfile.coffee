@@ -8,6 +8,7 @@ module.exports = (grunt) ->
       compiledScripts: ['site/scripts']
       compiledHead: ['site/head-compiled.html']
       copiedNodeModulesJs: ['site/js/node_modules/']
+      generated: ['generated']
 
     phpunit:
       unit:
@@ -86,6 +87,11 @@ module.exports = (grunt) ->
         cmd: 'php -f vendor/soundasleep/spritify/spritify.php -- --input site/styles/custom.css --png ../img/custom-sprites.png --output site/styles/custom.css'
         fail: true
 
+      # TODO add a grunt npm task to wrap this
+      componentDiscovery:
+        cmd: 'php -f vendor/soundasleep/component-discovery/generate.php -- .'
+        fail: true
+
     useminPrepare:
       html: 'site/head-compiled.html'
       options:
@@ -112,6 +118,10 @@ module.exports = (grunt) ->
         files: 'config/site/img/config/**'
         tasks: ['copy:configImages', 'copy:configFavicon', 'bgShell:spritifyDefault', 'custom']
 
+      discovery:
+        files: ['**/*.json']
+        tasks: ['bgShell:componentDiscovery']
+
   grunt.loadNpmTasks 'grunt-bg-shell'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -127,6 +137,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build', "Build the static site", [
     'clean',
+    'bgShell:componentDiscovery',
     'copy:sourceFavicon',
     'copy:configImages',
     'copy:head',
@@ -143,6 +154,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'serve', [
     'clean',
+    'bgShell:componentDiscovery',
     'copy:sourceFavicon',
     'copy:configImages',
     # 'copy:head',

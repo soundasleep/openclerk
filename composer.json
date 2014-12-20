@@ -1,4 +1,12 @@
 {
+  "name": "soundasleep/openclerk",
+  "description": "An open source project to keep track of cryptocurrency finances",
+  "autoload": {
+    "psr-4": {
+      "Migrations\\": "migrations",
+      "DiscoveredComponents\\": "generated/components"
+    }
+  },
   "require": {
     "phpmailer/phpmailer": "dev-master",
     "soundasleep/html5lib-php": "~0.1.3",
@@ -9,7 +17,8 @@
     "openclerk/db": "dev-master",
     "openclerk/events": "dev-master",
     "openclerk/config": "dev-master",
-    "openclerk/metrics": "dev-master"
+    "openclerk/metrics": "dev-master",
+    "soundasleep/component-discovery": "dev-master"
   },
   "repositories": [{
     "type": "vcs",

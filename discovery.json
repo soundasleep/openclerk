@@ -1,0 +1,7 @@
+{
+  "components": {
+    "migrations": "migrations.json"
+  },
+  "src": ["vendor/*/*", "inc"],
+  "dest": "generated/components"
+}

@@ -19,13 +19,6 @@ class PerformanceMetricsException extends Exception { }
  */
 function performance_metrics_page_start() {
   Openclerk\Events::trigger('page_start', null);
-
-  // TODO remove these
-  if (!performance_metrics_enabled()) {
-    return;
-  }
-  global $_performance_metrics;
-  $_performance_metrics['page_start'] = microtime(true);
 }
 
 /**
@@ -33,6 +26,8 @@ function performance_metrics_page_start() {
  */
 function performance_metrics_page_end() {
   Openclerk\Events::trigger('page_end', null);
+
+  throw new Exception("Need to implement timed_curl");
 
   // TODO remove these
   if (!performance_metrics_enabled()) {
