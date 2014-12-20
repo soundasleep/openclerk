@@ -59,8 +59,14 @@ Openclerk\Config::merge(array(
   // issue #12: allow unsafe accounts?
   'allow_unsafe' => false,
 
-  // debug control
-  "timed_sql" => false,
+  // debug control, metrics control
+  "metrics_enabled" => true,
+  "metrics_db_enabled" => true,
+  "metrics_page_enabled" => true,
+
+  // store reports into the database
+  "metrics_store" => false,
+
   "timed_curl" => false,
   "show_i18n" => false,               // shows all i18n keys as [key], only to admins
   "log_missing_i18n" => false,        // log any missing i18n keys to uncaught_exceptions

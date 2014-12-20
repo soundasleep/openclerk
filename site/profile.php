@@ -30,11 +30,6 @@ if ($user['needs_managed_update']) {
 
 require(__DIR__ . "/_profile_common.php");
 
-// reset stats
-if (get_site_config('timed_sql')) {
-  echo "<!-- before profile render: " . print_r(Openclerk\MetricsHandler::getInstance()->printResults(), true) . " -->\n";
-}
-
 // a user might not have any pages displayed
 $page_title_prefix = t("Your Reports:") . " ";
 $enable_editing_dialog = true;

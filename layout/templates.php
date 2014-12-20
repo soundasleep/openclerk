@@ -192,12 +192,6 @@ function page_footer() {
 
     echo "\n<!--\n" . print_r(Openclerk\MetricsHandler::getInstance()->printResults(), true) . "\n-->";
 
-    // TODO remove timed_sql
-    if (get_site_config('timed_sql') && is_admin()) {
-      global $global_timed_sql;
-      echo "\n<!-- SQL debug: \n " . print_r($global_timed_sql, true) . "\n-->";
-    }
-
     if (get_site_config('timed_curl') && is_admin()) {
       global $global_timed_curl;
       echo "\n<!-- CURL debug: \n " . print_r($global_timed_curl, true) . "\n-->";

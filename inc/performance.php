@@ -59,43 +59,9 @@ function performance_metrics_page_end() {
     'is_logged_in' => user_logged_in() ? 1 : 0,
   );
 
-  list($query, $args) = prepare_timed_data($query, $args);
-
   $q = db()->prepare($query);
   $q->execute($args);
   $page_id = db()->lastInsertId();
-
-  // we also want to keep track of the slowest queries and URLs here
-  if (get_site_config('timed_sql')) {
-    global $global_timed_sql;
-    foreach ($global_timed_sql['queries'] as $query => $data) {
-      // only if it's over a specified limit, so we don't spam the database with super fast queries
-      $slow_query = ($data['time'] / $data['count']) > get_site_config('performance_metrics_slow_query');
-      $repeated_query = $data['count'] > get_site_config('performance_metrics_repeated_query');
-      if ($slow_query || $repeated_query) {
-
-        $query_substr = substr($query, 0, 255);
-        $q = db()->prepare("SELECT id FROM performance_metrics_queries WHERE query=? LIMIT 1");
-        $q->execute(array($query_substr));
-        $pq = $q->fetch();
-        if (!$pq) {
-          $q = db()->prepare("INSERT INTO performance_metrics_queries SET query=?");
-          $q->execute(array($query_substr));
-          $pq = array('id' => db()->lastInsertId());
-        }
-
-        if ($slow_query) {
-          $q = db()->prepare("INSERT INTO performance_metrics_slow_queries SET query_id=?, query_count=?, query_time=?, page_id=?");
-          $q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
-        }
-        if ($repeated_query) {
-          $q = db()->prepare("INSERT INTO performance_metrics_repeated_queries SET query_id=?, query_count=?, query_time=?, page_id=?");
-          $q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
-        }
-
-      }
-    }
-  }
 
   if (get_site_config('timed_curl')) {
     global $global_timed_curl;
@@ -166,8 +132,6 @@ function performance_metrics_job_complete($job = null, $runtime_exception = null
       'runtime_exception' => $runtime_exception ? get_class($runtime_exception) : null,
     );
 
-    list($query, $args) = prepare_timed_data($query, $args);
-
     $q = db()->prepare($query);
     $q->execute($args);
   }
@@ -199,8 +163,6 @@ function performance_metrics_queue_complete($user_id, $priority, $job_types, $pr
     'job_types' => $job_types ? substr($job_types, 0, 255) : null,
     'premium_only' => $premium_only ? 1 : 0,
   );
-
-  list($query, $args) = prepare_timed_data($query, $args);
 
   $q = db()->prepare($query);
   $q->execute($args);
@@ -236,46 +198,7 @@ function performance_metrics_graph_complete($graph) {
       'has_technicals' => isset($graph['technicals']) && $graph['technicals'] ? 1 : 0,
     );
 
-    list($query, $args) = prepare_timed_data($query, $args);
-
     $q = db()->prepare($query);
     $q->execute($args);
   }
-}
-
-/**
- * Prepare the query, args from timed_sql or timed_curl
- * @return list($query, $args)
- */
-function prepare_timed_data($query, $args) {
-
-  if (get_site_config('timed_sql')) {
-    // also load DB metrics from timed_sql
-    global $global_timed_sql;
-    $query .= ", db_prepares=:db_prepares, db_executes=:db_executes, db_fetches=:db_fetches, db_fetch_alls=:db_fetch_alls,
-      db_prepare_time=:db_prepare_time, db_execute_time=:db_execute_time, db_fetch_time=:db_fetch_time, db_fetch_all_time=:db_fetch_all_time";
-    $args += array(
-      'db_prepares' => $global_timed_sql['prepare']['count'],
-      'db_executes' => $global_timed_sql['execute']['count'],
-      'db_fetches' => $global_timed_sql['fetch']['count'],
-      'db_fetch_alls' => $global_timed_sql['fetchAll']['count'],
-      'db_prepare_time' => $global_timed_sql['prepare']['time'],
-      'db_execute_time' => $global_timed_sql['execute']['time'],
-      'db_fetch_time' => $global_timed_sql['fetch']['time'],
-      'db_fetch_all_time' => $global_timed_sql['fetchAll']['time'],
-    );
-  }
-
-  if (get_site_config('timed_curl')) {
-    // also load DB metrics from timed_curl
-    global $global_timed_curl;
-    $query .= ", curl_requests=:curl_requests, curl_request_time=:curl_request_time";
-    $args += array(
-      'curl_requests' => $global_timed_curl['count'],
-      'curl_request_time' => $global_timed_curl['time'],
-    );
-  }
-
-  return array($query, $args);
-
 }
