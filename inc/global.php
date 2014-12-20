@@ -10,6 +10,10 @@ require(__DIR__ . "/classes.php");
 require(__DIR__ . "/config.php");
 define('LIGHTOPENID_TIMEOUT', get_site_config('get_openid_timeout') * 1000);
 
+// set up (db, page) metrics
+// (need to do this before performance_metrics_page_start())
+Openclerk\MetricsHandler::init(db());
+
 // before loading sessions
 require(__DIR__ . "/performance.php");
 performance_metrics_page_start();
