@@ -101,12 +101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "b4be4fd788fb9725be4228ac52929d1d156d2d44"
+                "reference": "fe04b877bbf76336cdbb374ef146ce2444e4c304"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/b4be4fd788fb9725be4228ac52929d1d156d2d44",
-                "reference": "b4be4fd788fb9725be4228ac52929d1d156d2d44",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/fe04b877bbf76336cdbb374ef146ce2444e4c304",
+                "reference": "fe04b877bbf76336cdbb374ef146ce2444e4c304",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2014-12-20 02:01:12"
+            "time": "2014-12-20 02:46:51"
         },
         {
             "name": "openclerk/events",
@@ -155,12 +155,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/metrics.git",
-                "reference": "d39c3d31b416d37b77a43e631e7f063daedf1f15"
+                "reference": "b62e55ac8c974de48586da313f6dbdcbad54ba44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/metrics/zipball/d39c3d31b416d37b77a43e631e7f063daedf1f15",
-                "reference": "d39c3d31b416d37b77a43e631e7f063daedf1f15",
+                "url": "https://api.github.com/repos/openclerk/metrics/zipball/b62e55ac8c974de48586da313f6dbdcbad54ba44",
+                "reference": "b62e55ac8c974de48586da313f6dbdcbad54ba44",
                 "shasum": ""
             },
             "require": {
@@ -175,7 +175,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-20 00:14:02"
+            "time": "2014-12-20 02:48:01"
         },
         {
             "name": "phpmailer/phpmailer",

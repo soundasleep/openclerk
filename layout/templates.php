@@ -189,15 +189,10 @@ function page_footer() {
     $end_time = microtime(true);
     $time_diff = ($end_time - PAGE_RENDER_START) * 1000;
     echo "<!-- rendered in " . number_format($time_diff, 2) . " ms -->";
-
-    echo "\n<!--\n" . print_r(Openclerk\MetricsHandler::getInstance()->printResults(), true) . "\n-->";
-
-    if (get_site_config('timed_curl') && is_admin()) {
-      global $global_timed_curl;
-      echo "\n<!-- CURL debug: \n " . print_r($global_timed_curl, true) . "\n-->";
-    }
   }
   performance_metrics_page_end();
+
+  echo "\n<!--\n" . print_r(Openclerk\MetricsHandler::getInstance()->printResults(), true) . "\n-->";
 
 }
 

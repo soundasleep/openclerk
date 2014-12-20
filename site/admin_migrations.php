@@ -48,9 +48,10 @@ function iterate_over_migrations($migration) {
   $result = array();
   foreach ($migration->getParents() as $parent) {
     // we need to install all parents before installing children
-    $result += iterate_over_migrations($parent);
+    $result = array_merge($result, iterate_over_migrations($parent));
   }
   $result[] = $migration->getName();
+  $result = array_unique($result);
   return $result;
 }
 echo implode(" -&gt; ", iterate_over_migrations($migrations));

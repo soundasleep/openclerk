@@ -19,6 +19,10 @@ class PerformanceMetricsException extends Exception { }
  */
 function performance_metrics_page_start() {
   Openclerk\Events::trigger('page_start', null);
+
+  // TODO remove when job metrics are being captured
+  global $_performance_metrics;
+  $_performance_metrics['page_start'] = microtime(true);
 }
 
 /**
@@ -26,71 +30,6 @@ function performance_metrics_page_start() {
  */
 function performance_metrics_page_end() {
   Openclerk\Events::trigger('page_end', null);
-
-  throw new Exception("Need to implement timed_curl");
-
-  // TODO remove these
-  if (!performance_metrics_enabled()) {
-    return;
-  }
-  global $_performance_metrics;
-  $page_time = microtime(true) - $_performance_metrics['page_start'];
-  if (isset($_performance_metrics['page_end'])) {
-    throw new PerformanceMetricsException("page_end called twice");
-  }
-  $_performance_metrics['page_end'] = true;
-
-  // "What database queries take the longest?"
-  // "What tables take the longest to query?"
-  // "What URLs take the longest to request?"
-  // "How long does it take for a page to be generated?"
-  // "What pages are taking the longest to load?"
-  // "What pages have the most database queries?"
-  // "What pages spend the most time in PHP as opposed to the database?"
-  $query = "INSERT INTO performance_metrics_pages SET script_name=:script_name, time_taken=:time_taken, is_logged_in=:is_logged_in";
-  $args = array(
-    'script_name' => isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null,
-    'time_taken' => $page_time * 1000,
-    'is_logged_in' => user_logged_in() ? 1 : 0,
-  );
-
-  $q = db()->prepare($query);
-  $q->execute($args);
-  $page_id = db()->lastInsertId();
-
-  if (get_site_config('timed_curl')) {
-    global $global_timed_curl;
-    if (isset($global_timed_curl)) {
-      foreach ($global_timed_curl['urls'] as $url => $data) {
-        // only if it's over a specified limit, so we don't spam the database with super fast URLs
-        $slow_url = ($data['time'] / $data['count']) > get_site_config('performance_metrics_slow_curl');
-        $repeated_url = $data['count'] > get_site_config('performance_metrics_repeated_curl');
-        if ($slow_url || $repeated_url) {
-
-          $url_substr = substr($url, 0, 255);
-          $q = db()->prepare("SELECT id FROM performance_metrics_urls WHERE url=? LIMIT 1");
-          $q->execute(array($url_substr));
-          $pq = $q->fetch();
-          if (!$pq) {
-            $q = db()->prepare("INSERT INTO performance_metrics_urls SET url=?");
-            $q->execute(array($url_substr));
-            $pq = array('id' => db()->lastInsertId());
-          }
-
-          if ($slow_url) {
-            $q = db()->prepare("INSERT INTO performance_metrics_slow_urls SET url_id=?, url_count=?, url_time=?, page_id=?");
-            $q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
-          }
-          if ($repeated_url) {
-            $q = db()->prepare("INSERT INTO performance_metrics_repeated_urls SET url_id=?, url_count=?, url_time=?, page_id=?");
-            $q->execute(array($pq['id'], $data['count'], $data['time'], $page_id));
-          }
-
-        }
-      }
-    }
-  }
-
 }
 
 /**

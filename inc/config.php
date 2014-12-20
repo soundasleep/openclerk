@@ -63,11 +63,11 @@ Openclerk\Config::merge(array(
   "metrics_enabled" => true,
   "metrics_db_enabled" => true,
   "metrics_page_enabled" => true,
+  "metrics_curl_enabled" => true,
 
   // store reports into the database
-  "metrics_store" => false,
+  "metrics_store" => true,
 
-  "timed_curl" => false,
   "show_i18n" => false,               // shows all i18n keys as [key], only to admins
   "log_missing_i18n" => false,        // log any missing i18n keys to uncaught_exceptions
   "allow_fake_login" => false,        // see admin_login.php

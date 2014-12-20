@@ -13,11 +13,20 @@ class UseDbMigration extends \Db\Migration {
     return array(
       new \Db\BaseMigration(),
       new RemovePerformanceMetrics(),
+      new RemovePerformanceMetrics2(),
     );
   }
 
   function getName() {
-    return "UseDbMigration_" . md5(implode(",", array_keys($this->getParents())));
+    return "UseDbMigration_" . $this->generateHash();
+  }
+
+  function generateHash() {
+    $result = array();
+    foreach ($this->getParents() as $parent) {
+      $result[] = $parent->getName();
+    }
+    return md5(implode(",", $result));
   }
 
 }
