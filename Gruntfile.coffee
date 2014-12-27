@@ -12,10 +12,11 @@ module.exports = (grunt) ->
 
     phpunit:
       unit:
-        dir: 'tests'
+        dir: ''       # we specify NO dir so that we only use phpunit.xml
       options:
         bin: 'vendor/bin/phpunit'
         colors: true
+        configuration: './phpunit.xml'
         logJunit: 'tests/report.xml'
         followOutput: true
         stopOnError: true
