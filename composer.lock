@@ -101,12 +101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "fe04b877bbf76336cdbb374ef146ce2444e4c304"
+                "reference": "9691538980183f0fe4422d3c0cbaf3476a5a18c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/fe04b877bbf76336cdbb374ef146ce2444e4c304",
-                "reference": "fe04b877bbf76336cdbb374ef146ce2444e4c304",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/9691538980183f0fe4422d3c0cbaf3476a5a18c6",
+                "reference": "9691538980183f0fe4422d3c0cbaf3476a5a18c6",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2014-12-20 02:46:51"
+            "time": "2014-12-27 00:56:12"
         },
         {
             "name": "openclerk/events",
