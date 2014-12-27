@@ -29,5 +29,8 @@ site/js/graphs.js
 # Ignore custom extensions
 config/
 
+# Ignore runtime output
+output/
+
 # Ignore test results
 tests/report.xml

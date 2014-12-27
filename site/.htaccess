@@ -5,13 +5,8 @@
 
 RewriteEngine on
 
-# client-side URI mapping
-# if you are running in a top-level domain, you should use this:
-# RewriteBase /
-# ErrorDocument 404 /404.php
-# if you are running in a subfolder, you should instead use this:
-RewriteBase /clerk
-ErrorDocument 404 /clerk/404.php
+RewriteBase /
+ErrorDocument 404 /404.php
 
 # Provide human-readable URLs for some common paths; otherwise
 # all scripts are accessible through the final rule below.
