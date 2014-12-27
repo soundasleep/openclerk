@@ -4,7 +4,7 @@
 added <a href="https://www.kraken.com/">Kraken</a> exchange;
 added <a href="<?php echo htmlspecialchars(url_for('average')); ?>">market average price indices</a>, and enabled price average summary calculations;
 added initial <a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">Your Transactions</a> interface for testing,
-and <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'transaction_creation'))); ?>">automatic transaction creation</a>;
+and <a href="<?php echo htmlspecialchars(url_for('help/transaction_creation')); ?>">automatic transaction creation</a>;
 added <a href="https://doge.rapidhash.net">RapidHash DOGE</a>, <a href="https://vtc.rapidhash.net">RapidHash VTC</a>
 and <a href="http://doge.cryptotroll.com/">Cryptotroll DOGE</a> mining pools;
 accounts can now be <a href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>">manually disabled</a>;
@@ -66,13 +66,13 @@ added <a href="http://doge.hashfaster.com">HashFaster DOGE</a>, <a href="https:/
 reduced <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium</a> prices.</dd>
 
 <dt>9 January</dt>
-<dd>Added <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>">e-mail notifications</a>;
+<dd>Added <a href="<?php echo htmlspecialchars(url_for('help/notifications')); ?>">e-mail notifications</a>;
 improved site performance; fixes for managed graphs; disabled <a href="https://50btc.com/">50BTC</a> mining pool.</dd>
 
 <dt>23 December</dt>
-<dd>Added <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'graph_refresh'))); ?>">live graph updates</a>;
+<dd>Added <a href="<?php echo htmlspecialchars(url_for('help/graph_refresh')); ?>">live graph updates</a>;
 accounts can now have <a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">multiple OpenID identities</a>;
-enabled <a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'bitcoin_csv'))); ?>">CSV upload</a> and multiple addresses for all cryptocurrencies;
+enabled <a href="<?php echo htmlspecialchars(url_for('help/bitcoin_csv')); ?>">CSV upload</a> and multiple addresses for all cryptocurrencies;
 added currency support for <a href="http://dogecoin.com/" class="currency_name_dog">Dogecoin</a> and <span class="currency_name_gbp" title="<?php echo htmlspecialchars(get_currency_name('gbp')); ?>">GBP</span>;
 added <a href="http://pool.dogechain.info">Dogechain Pool</a>, <a href="http://dogepool.pw">dogepool.pw</a>, <a href="https://www.ejpool.info/">Elitist Jerks</a>,
 <a href="http://hashfaster.com">HashFaster</a> (LTC, FTC), <a href="http://ozco.in">Ozcoin</a> (LTC, BTC),

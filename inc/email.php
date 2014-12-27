@@ -37,8 +37,6 @@ function send_email($to, $template_id, $args = array()) {
     $to = new MockEmailUser($to, $to);
   }
 
-  // TODO mock mailing
-
   Emails\Email::send($to, $template_id, $args);
 }
 

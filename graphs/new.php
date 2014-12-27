@@ -138,7 +138,7 @@ function render_graph_new($graph, $include_user_hash = false) {
 				</div>
 				<div class="graph-target">
 					<?php
-					require(__DIR__ . "/../site/_calculator.php");
+					require(__DIR__ . "/../pages/_calculator.php");
 					?>
 				</div>
 			</div>

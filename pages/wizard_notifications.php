@@ -14,17 +14,17 @@ $accounts = user_limits_summary(user_id());
 
 // enable/disable notifications
 if (require_post("disable", false)) {
-	$q = db()->prepare("UPDATE notifications SET is_disabled=1 WHERE id=? AND user_id=?");
-	$q->execute(array(require_post("disable"), user_id()));
+  $q = db()->prepare("UPDATE notifications SET is_disabled=1 WHERE id=? AND user_id=?");
+  $q->execute(array(require_post("disable"), user_id()));
 
-	$messages[] = t("Disabled notification.");
+  $messages[] = t("Disabled notification.");
 }
 
 if (require_post("enable", false)) {
-	$q = db()->prepare("UPDATE notifications SET is_disabled=0 WHERE id=? AND user_id=?");
-	$q->execute(array(require_post("enable"), user_id()));
+  $q = db()->prepare("UPDATE notifications SET is_disabled=0 WHERE id=? AND user_id=?");
+  $q->execute(array(require_post("enable"), user_id()));
 
-	$messages[] = t("Enabled notification.");
+  $messages[] = t("Enabled notification.");
 }
 
 require(__DIR__ . "/../layout/templates.php");
@@ -42,31 +42,31 @@ $notifications = $q->fetchAll();
 $instance = false;
 $account = false;
 if (require_get("edit", false)) {
-	$q = db()->prepare("SELECT * FROM notifications WHERE id=? AND user_id=?");
-	$q->execute(array(require_get("edit"), user_id()));
-	$instance = $q->fetch();
-	if (!$instance) {
-		$errors[] = t("Could not find your notification :key to edit.", array(':key' => htmlspecialchars(require_get("edit"))));
-	}
+  $q = db()->prepare("SELECT * FROM notifications WHERE id=? AND user_id=?");
+  $q->execute(array(require_get("edit"), user_id()));
+  $instance = $q->fetch();
+  if (!$instance) {
+    $errors[] = t("Could not find your notification :key to edit.", array(':key' => htmlspecialchars(require_get("edit"))));
+  }
 
-	switch ($instance['notification_type']) {
-		case "ticker":
-			$q = db()->prepare("SELECT * FROM notifications_ticker WHERE id=?");
-			$q->execute(array($instance['type_id']));
-			$account = $q->fetch();
-			// if false, we can still display default editing options
-			break;
+  switch ($instance['notification_type']) {
+    case "ticker":
+      $q = db()->prepare("SELECT * FROM notifications_ticker WHERE id=?");
+      $q->execute(array($instance['type_id']));
+      $account = $q->fetch();
+      // if false, we can still display default editing options
+      break;
 
-		case "summary_instance":
-			$q = db()->prepare("SELECT * FROM notifications_summary_instances WHERE id=?");
-			$q->execute(array($instance['type_id']));
-			$account = $q->fetch();
-			// if false, we can still display default editing options
-			break;
+    case "summary_instance":
+      $q = db()->prepare("SELECT * FROM notifications_summary_instances WHERE id=?");
+      $q->execute(array($instance['type_id']));
+      $account = $q->fetch();
+      // if false, we can still display default editing options
+      break;
 
-		default:
-			throw new Exception(t("Unknown notification type to edit ':notification_type'"), array(':notification_type' => $instance['notification_type']));
-	}
+    default:
+      throw new Exception(t("Unknown notification type to edit ':notification_type'"), array(':notification_type' => $instance['notification_type']));
+  }
 }
 
 require_template("wizard_notifications");
@@ -83,51 +83,51 @@ require_template("wizard_notifications");
 ?>
 <script type="text/javascript">
 function get_supported_notifications() {
-	return <?php
-		// get a list of all possible notifications
-		$supported_notifications = array(
-			'exchanges' => array(),
-			'total_currencies' => array(),
-			'total_hashrate_currencies' => array(),
-			'all2_summaries' => array(),
-		);
-		$supported_exchange_currencies = array();
+  return <?php
+    // get a list of all possible notifications
+    $supported_notifications = array(
+      'exchanges' => array(),
+      'total_currencies' => array(),
+      'total_hashrate_currencies' => array(),
+      'all2_summaries' => array(),
+    );
+    $supported_exchange_currencies = array();
 
-		// all the exchanges we may be interested in
-		require(__DIR__ . "/../graphs/util.php");
-		$summaries = get_all_summary_currencies();
-		$conversions = get_all_conversion_currencies();
+    // all the exchanges we may be interested in
+    require(__DIR__ . "/../graphs/util.php");
+    $summaries = get_all_summary_currencies();
+    $conversions = get_all_conversion_currencies();
 
-		foreach (get_exchange_pairs() as $exchange => $pairs) {
-			foreach ($pairs as $pair) {
-				if (isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])) {
-					if (!isset($supported_notifications['exchanges'][$exchange])) {
-						$supported_notifications['exchanges'][$exchange] = array();
-					}
-					$supported_notifications['exchanges'][$exchange][] = $pair;
-					$supported_exchange_currencies[$pair[0] . $pair[1]] = get_currency_abbr($pair[0]) . "/" . get_currency_abbr($pair[1]);
-				}
-			}
-		}
+    foreach (get_exchange_pairs() as $exchange => $pairs) {
+      foreach ($pairs as $pair) {
+        if (isset($summaries[$pair[0]]) && isset($summaries[$pair[1]])) {
+          if (!isset($supported_notifications['exchanges'][$exchange])) {
+            $supported_notifications['exchanges'][$exchange] = array();
+          }
+          $supported_notifications['exchanges'][$exchange][] = $pair;
+          $supported_exchange_currencies[$pair[0] . $pair[1]] = get_currency_abbr($pair[0]) . "/" . get_currency_abbr($pair[1]);
+        }
+      }
+    }
 
-		foreach (get_summary_types() as $key => $summary) {
-			$cur = $summary['currency'];
-			if (isset($summaries[$summary['currency']])) {
-				$supported_notifications['total_currencies'][$cur] = get_currency_abbr($cur);
-				if (in_array($summary['currency'], get_all_hashrate_currencies())) {
-					$supported_notifications['total_hashrate_currencies'][$cur] = get_currency_abbr($cur);
-				}
-			}
-		}
+    foreach (get_summary_types() as $key => $summary) {
+      $cur = $summary['currency'];
+      if (isset($summaries[$summary['currency']])) {
+        $supported_notifications['total_currencies'][$cur] = get_currency_abbr($cur);
+        if (in_array($summary['currency'], get_all_hashrate_currencies())) {
+          $supported_notifications['total_hashrate_currencies'][$cur] = get_currency_abbr($cur);
+        }
+      }
+    }
 
-		foreach (get_total_conversion_summary_types() as $key => $summary) {
-			if (isset($conversions['summary_' . $key])) {
-				$supported_notifications['all2_summaries'][$key] = $summary['short_title'];
-			}
-		}
+    foreach (get_total_conversion_summary_types() as $key => $summary) {
+      if (isset($conversions['summary_' . $key])) {
+        $supported_notifications['all2_summaries'][$key] = $summary['short_title'];
+      }
+    }
 
-		echo json_encode($supported_notifications);
-		?>;
+    echo json_encode($supported_notifications);
+    ?>;
 }
 </script>
 
@@ -140,113 +140,113 @@ function get_supported_notifications() {
 <form action="<?php echo htmlspecialchars(url_for('wizard_notifications_post')); ?>" method="post">
 <table class="notification_template<?php echo $instance ? " selected" : ""; ?>">
 <tr>
-	<td>
-	<span class="email_notification"><?php echo ht("Please send me an e-mail when"); ?></span>
-	<select id="notification_type" name="type">
-		<option value="ticker"<?php echo ($instance && $instance['notification_type'] == 'ticker') ? " selected" : ""; ?>><?php echo ht("the exchange rate"); ?></option>
-		<option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('total')) == 'total' && substr($account['summary_type'], 0, strlen('totalmh_')) != 'totalmh_') ? " selected" : ""; ?>><?php echo ht("my total"); ?></option>
-		<option value="summary_instance_total_hashrate"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') ? " selected" : ""; ?>><?php echo ht("my total hashrate"); ?></option>
-		<option value="summary_instance_all2"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('all2')) == 'all2') ? " selected" : ""; ?>><?php echo ht("my converted"); ?></option>
-	</select>
+  <td>
+  <span class="email_notification"><?php echo ht("Please send me an e-mail when"); ?></span>
+  <select id="notification_type" name="type">
+    <option value="ticker"<?php echo ($instance && $instance['notification_type'] == 'ticker') ? " selected" : ""; ?>><?php echo ht("the exchange rate"); ?></option>
+    <option value="summary_instance_total"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('total')) == 'total' && substr($account['summary_type'], 0, strlen('totalmh_')) != 'totalmh_') ? " selected" : ""; ?>><?php echo ht("my total"); ?></option>
+    <option value="summary_instance_total_hashrate"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') ? " selected" : ""; ?>><?php echo ht("my total hashrate"); ?></option>
+    <option value="summary_instance_all2"<?php echo ($instance && $instance['notification_type'] == 'summary_instance' && $account && substr($account['summary_type'], 0, strlen('all2')) == 'all2') ? " selected" : ""; ?>><?php echo ht("my converted"); ?></option>
+  </select>
 
-	<ul>
-		<li class="exchanges">
-			<?php echo t("on"); ?>
-			<select id="notification_exchanges" name="exchange">
-				<?php foreach ($supported_notifications['exchanges'] as $exchange => $pairs) { ?>
-					<option value="<?php echo htmlspecialchars($exchange); ?>"<?php echo isset($account['exchange']) && $account['exchange'] == $exchange ? " selected" : ""; ?>><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></option>
-				<?php } ?>
-			</select>
+  <ul>
+    <li class="exchanges">
+      <?php echo t("on"); ?>
+      <select id="notification_exchanges" name="exchange">
+        <?php foreach ($supported_notifications['exchanges'] as $exchange => $pairs) { ?>
+          <option value="<?php echo htmlspecialchars($exchange); ?>"<?php echo isset($account['exchange']) && $account['exchange'] == $exchange ? " selected" : ""; ?>><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></option>
+        <?php } ?>
+      </select>
 
-			<?php echo t("for"); ?>
-			<select id="notification_currencies" name="currencies">
-				<?php foreach ($supported_exchange_currencies as $key => $value) {
-					$selected = isset($account['currency1']) && isset($account['currency2']) && ($account['currency1'] . $account['currency2']) == $key; ?>
-					<option value="<?php echo htmlspecialchars($key); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($value); ?></option>
-				<?php } ?>
-			</select>
-		</li>
+      <?php echo t("for"); ?>
+      <select id="notification_currencies" name="currencies">
+        <?php foreach ($supported_exchange_currencies as $key => $value) {
+          $selected = isset($account['currency1']) && isset($account['currency2']) && ($account['currency1'] . $account['currency2']) == $key; ?>
+          <option value="<?php echo htmlspecialchars($key); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($value); ?></option>
+        <?php } ?>
+      </select>
+    </li>
 
-		<li class="total_currencies" style="display:none;">
-			<select id="notification_total_currencies" name="total_currency">
-				<?php foreach ($supported_notifications['total_currencies'] as $cur => $title) {
-					$selected = $account && $account['summary_type'] == 'total' . $cur; ?>
-					<option value="<?php echo htmlspecialchars($cur); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
-				<?php } ?>
-			</select>
-			<?php echo t("(before any conversions)"); ?>
-		</li>
+    <li class="total_currencies" style="display:none;">
+      <select id="notification_total_currencies" name="total_currency">
+        <?php foreach ($supported_notifications['total_currencies'] as $cur => $title) {
+          $selected = $account && $account['summary_type'] == 'total' . $cur; ?>
+          <option value="<?php echo htmlspecialchars($cur); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
+        <?php } ?>
+      </select>
+      <?php echo t("(before any conversions)"); ?>
+    </li>
 
-		<li class="total_hashrate_currencies" style="display:none;">
-			<?php echo t("for"); ?>
-			<select id="notification_total_hashrate_currencies" name="total_hashrate_currency">
-				<?php foreach ($supported_notifications['total_hashrate_currencies'] as $cur => $title) {
-					$selected = $account && $account['summary_type'] == 'totalmh_' . $cur; ?>
-					<option value="<?php echo htmlspecialchars($cur); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
-				<?php } ?>
-			</select>
-		</li>
+    <li class="total_hashrate_currencies" style="display:none;">
+      <?php echo t("for"); ?>
+      <select id="notification_total_hashrate_currencies" name="total_hashrate_currency">
+        <?php foreach ($supported_notifications['total_hashrate_currencies'] as $cur => $title) {
+          $selected = $account && $account['summary_type'] == 'totalmh_' . $cur; ?>
+          <option value="<?php echo htmlspecialchars($cur); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
+        <?php } ?>
+      </select>
+    </li>
 
-		<li class="all2_summaries" style="display:none;">
-			<select id="notification_all2_summaries" name="all2_summary">
-				<?php foreach ($supported_notifications['all2_summaries'] as $key => $title) {
-					$selected = $account && $account['summary_type'] == 'all2' . $key; ?>
-					<option value="<?php echo htmlspecialchars($key); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
-				<?php } ?>
-			</select>
-		</li>
+    <li class="all2_summaries" style="display:none;">
+      <select id="notification_all2_summaries" name="all2_summary">
+        <?php foreach ($supported_notifications['all2_summaries'] as $key => $title) {
+          $selected = $account && $account['summary_type'] == 'all2' . $key; ?>
+          <option value="<?php echo htmlspecialchars($key); ?>"<?php echo $selected ? " selected" : ""; ?>><?php echo htmlspecialchars($title); ?></option>
+        <?php } ?>
+      </select>
+    </li>
 
-		<li class="condition">
-			<select id="notification_condition" name="condition">
-				<?php
-				$options = get_permitted_notification_conditions();
-				foreach ($options as $key => $value) { ?>
-				<option value="<?php echo htmlspecialchars($key); ?>"<?php echo $instance && $instance['trigger_condition'] == $key ? " selected" : ""; ?>><?php echo htmlspecialchars($value); ?></option>
-				<?php } ?>
-			</select>
+    <li class="condition">
+      <select id="notification_condition" name="condition">
+        <?php
+        $options = get_permitted_notification_conditions();
+        foreach ($options as $key => $value) { ?>
+        <option value="<?php echo htmlspecialchars($key); ?>"<?php echo $instance && $instance['trigger_condition'] == $key ? " selected" : ""; ?>><?php echo htmlspecialchars($value); ?></option>
+        <?php } ?>
+      </select>
 
-			<span class="notification_value">
-				<input type="text" name="value" value="<?php echo number_format_autoprecision($instance ? $instance['trigger_value'] : 1); ?>">
+      <span class="notification_value">
+        <input type="text" name="value" value="<?php echo number_format_autoprecision($instance ? $instance['trigger_value'] : 1); ?>">
 
-				<span class="notification_percent_on">
-				<select id="notification_percent" name="percent">
-					<option value="1"<?php echo $instance ? ($instance['is_percent'] ? " selected" : "") : " selected"; ?>>%</option>
-					<option value="0" class="value_label"<?php echo $instance ? ($instance['is_percent'] ? "" : " selected") : ""; ?>>USD/BTC</option>
-				</select>
-				</span>
-				<span class="notification_percent_off value_label">USD/BTC</span>
-			</span>
-		</li>
+        <span class="notification_percent_on">
+        <select id="notification_percent" name="percent">
+          <option value="1"<?php echo $instance ? ($instance['is_percent'] ? " selected" : "") : " selected"; ?>>%</option>
+          <option value="0" class="value_label"<?php echo $instance ? ($instance['is_percent'] ? "" : " selected") : ""; ?>>USD/BTC</option>
+        </select>
+        </span>
+        <span class="notification_percent_off value_label">USD/BTC</span>
+      </span>
+    </li>
 
-		<li class="period">
-			<?php echo t("within"); ?>
-			<select id="notification_period" name="period">
-				<?php
-				foreach (get_permitted_notification_periods() as $key => $value) { ?>
-				<option value="<?php echo htmlspecialchars($key); ?>"<?php
-					echo (($instance && $instance['period'] == $key) || ($key == 'hour' && $user['is_premium']) || ($key == 'day' && !$user['is_premium'])) ? " selected" : "";
-					if ($key == 'hour') {
-						echo " class=\"premium\"";
-						echo $user['is_premium'] ? "" : " disabled";
-					}
-					?>><?php echo htmlspecialchars($value['label']); ?></option>
-				<?php } ?>
-			</select>
-		</li>
-	</ul>
+    <li class="period">
+      <?php echo t("within"); ?>
+      <select id="notification_period" name="period">
+        <?php
+        foreach (get_permitted_notification_periods() as $key => $value) { ?>
+        <option value="<?php echo htmlspecialchars($key); ?>"<?php
+          echo (($instance && $instance['period'] == $key) || ($key == 'hour' && $user['is_premium']) || ($key == 'day' && !$user['is_premium'])) ? " selected" : "";
+          if ($key == 'hour') {
+            echo " class=\"premium\"";
+            echo $user['is_premium'] ? "" : " disabled";
+          }
+          ?>><?php echo htmlspecialchars($value['label']); ?></option>
+        <?php } ?>
+      </select>
+    </li>
+  </ul>
 
-	</td>
+  </td>
 </tr>
 <tr>
-	<td class="buttons">
-		<?php if ($instance) { ?>
-		<input type="hidden" name="id" value="<?php echo htmlspecialchars($instance['id']); ?>">
-		<input type="submit" name="save" value="<?php echo ht("Save Notification"); ?>" class="save">
-		<input type="submit" name="cancel" value="<?php echo ht("Cancel Edit"); ?>" class="cancel">
-		<?php } else { ?>
-		<input type="submit" name="add" value="<?php echo ht("Create Notification"); ?>" class="create">
-		<?php } ?>
-	</td>
+  <td class="buttons">
+    <?php if ($instance) { ?>
+    <input type="hidden" name="id" value="<?php echo htmlspecialchars($instance['id']); ?>">
+    <input type="submit" name="save" value="<?php echo ht("Save Notification"); ?>" class="save">
+    <input type="submit" name="cancel" value="<?php echo ht("Cancel Edit"); ?>" class="cancel">
+    <?php } else { ?>
+    <input type="submit" name="add" value="<?php echo ht("Create Notification"); ?>" class="create">
+    <?php } ?>
+  </td>
 </tr>
 </table>
 </form>
@@ -259,133 +259,133 @@ function get_supported_notifications() {
 
 <table class="standard standard_account_list">
 <thead>
-	<tr>
-		<th><?php echo t("Notification"); ?></th>
-		<th><?php echo t("Period"); ?></th>
-		<th><?php echo t("Last check"); ?></th>
-		<th><?php echo t("Last notification"); ?></th>
-		<th></th>
-	</tr>
+  <tr>
+    <th><?php echo t("Notification"); ?></th>
+    <th><?php echo t("Period"); ?></th>
+    <th><?php echo t("Last check"); ?></th>
+    <th><?php echo t("Last notification"); ?></th>
+    <th></th>
+  </tr>
 </thead>
 <tbody>
 <?php
 $count = 0;
 foreach ($notifications as $notification) {
-	switch ($notification['notification_type']) {
-		case "ticker":
-			$q = db()->prepare("SELECT * FROM notifications_ticker WHERE id=? LIMIT 1");
-			$q->execute(array($notification['type_id']));
-			$account = $q->fetch();
-			if (!$account) {
-				// throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
-				$account_text = "<i>" . t("Invalid account") . "</i>";
-				$value_label = "-";
+  switch ($notification['notification_type']) {
+    case "ticker":
+      $q = db()->prepare("SELECT * FROM notifications_ticker WHERE id=? LIMIT 1");
+      $q->execute(array($notification['type_id']));
+      $account = $q->fetch();
+      if (!$account) {
+        // throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
+        $account_text = "<i>" . t("Invalid account") . "</i>";
+        $value_label = "-";
 
-			} else {
-				$account_text = t("Exchange rate on :exchange for :pair",
-					array(
-						':exchange' => get_exchange_name($account['exchange']),
-						':pair' => get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']),
-					));
-				$value_label = get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']);
-			}
+      } else {
+        $account_text = t("Exchange rate on :exchange for :pair",
+          array(
+            ':exchange' => get_exchange_name($account['exchange']),
+            ':pair' => get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']),
+          ));
+        $value_label = get_currency_abbr($account['currency1']) . "/" . get_currency_abbr($account['currency2']);
+      }
 
-			break;
+      break;
 
-		case "summary_instance":
-			$q = db()->prepare("SELECT * FROM notifications_summary_instances WHERE id=? LIMIT 1");
-			$q->execute(array($notification['type_id']));
-			$account = $q->fetch();
-			if (!$account) {
-				// throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
-		                $account_text = "<i>" . t("Invalid account") . "</i>";
+    case "summary_instance":
+      $q = db()->prepare("SELECT * FROM notifications_summary_instances WHERE id=? LIMIT 1");
+      $q->execute(array($notification['type_id']));
+      $account = $q->fetch();
+      if (!$account) {
+        // throw new Exception("Could not find account '" . $notification['notification_type'] . "' for notification " . $notification['id']);
+                    $account_text = "<i>" . t("Invalid account") . "</i>";
                                 $value_label = "-";
-			}
+      }
 
-			if (substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') {
-				$currency = substr($account['summary_type'], strlen('totalmh_'));
-				$account_text = t("My total :currency hashrate", array(':currency' => get_currency_abbr($currency)));
-				$value_label = "MH/s";
-			} else if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
-				$currency = substr($account['summary_type'], strlen('total'));
-				$account_text = t("My total :currency", array(':currency' => get_currency_abbr($currency)));
-				$value_label = get_currency_abbr($currency);
-			} else if (substr($account['summary_type'], 0, strlen('all2')) == 'all2') {
-				$summary_type = substr($account['summary_type'], strlen('all2'));
-				$summary_types = get_total_conversion_summary_types();
-				$account_text = t("My converted :title", array(':title' => $summary_types[$summary_type]['short_title']));
-				$value_label = get_currency_abbr($summary_types[$summary_type]['currency']);
-			} else {
-				$account_text = "unknown";
-				$value_label = "unknown";
-			}
+      if (substr($account['summary_type'], 0, strlen('totalmh_')) == 'totalmh_') {
+        $currency = substr($account['summary_type'], strlen('totalmh_'));
+        $account_text = t("My total :currency hashrate", array(':currency' => get_currency_abbr($currency)));
+        $value_label = "MH/s";
+      } else if (substr($account['summary_type'], 0, strlen('total')) == 'total') {
+        $currency = substr($account['summary_type'], strlen('total'));
+        $account_text = t("My total :currency", array(':currency' => get_currency_abbr($currency)));
+        $value_label = get_currency_abbr($currency);
+      } else if (substr($account['summary_type'], 0, strlen('all2')) == 'all2') {
+        $summary_type = substr($account['summary_type'], strlen('all2'));
+        $summary_types = get_total_conversion_summary_types();
+        $account_text = t("My converted :title", array(':title' => $summary_types[$summary_type]['short_title']));
+        $value_label = get_currency_abbr($summary_types[$summary_type]['currency']);
+      } else {
+        $account_text = "unknown";
+        $value_label = "unknown";
+      }
 
-			break;
+      break;
 
-		default:
-			throw new Exception("Unknown notification type '" . $notification['notification_type'] . "'");
-	}
+    default:
+      throw new Exception("Unknown notification type '" . $notification['notification_type'] . "'");
+  }
 
-	$permitted = get_permitted_notification_conditions();
-	switch ($notification['trigger_condition']) {
-		case "increases":
-		case "decreases":
-			$trigger_text = $permitted[$notification['trigger_condition']];
-			break;
+  $permitted = get_permitted_notification_conditions();
+  switch ($notification['trigger_condition']) {
+    case "increases":
+    case "decreases":
+      $trigger_text = $permitted[$notification['trigger_condition']];
+      break;
 
-		case "increases_by":
-		case "decreases_by":
-			$trigger_text = $permitted[$notification['trigger_condition']] . " " . number_format_autoprecision_html($notification['trigger_value'], $notification['is_percent'] ? '%' : (' ' . $value_label));
-			break;
+    case "increases_by":
+    case "decreases_by":
+      $trigger_text = $permitted[$notification['trigger_condition']] . " " . number_format_autoprecision_html($notification['trigger_value'], $notification['is_percent'] ? '%' : (' ' . $value_label));
+      break;
 
-		case "above":
-		case "below":
-			$trigger_text = $permitted[$notification['trigger_condition']] . " " . number_format_autoprecision_html($notification['trigger_value'], " " . $value_label);
-			break;
+    case "above":
+    case "below":
+      $trigger_text = $permitted[$notification['trigger_condition']] . " " . number_format_autoprecision_html($notification['trigger_value'], " " . $value_label);
+      break;
 
-		default:
-			throw new Exception("Unknown notification trigger '" . $notification['trigger_condition'] . "'");
-	}
+    default:
+      throw new Exception("Unknown notification trigger '" . $notification['trigger_condition'] . "'");
+  }
 
 ?>
-	<tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?><?php echo ($instance && $instance['id'] == $notification['id']) ? " selected" : ""; ?>">
-		<td><span class="email_notification"><?php echo $account_text . " " . $trigger_text; ?></span></td>
-		<td><?php $notification_periods = get_permitted_notification_periods();
-			echo $notification_periods[$notification['period']]['title']; ?></td>
-		<td><?php echo recent_format_html($notification['last_queue']); ?></td>
-		<td><?php echo recent_format_html($notification['last_notification']); ?></td>
-		<td class="buttons">
-			<form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="get">
-				<input type="hidden" name="edit" value="<?php echo htmlspecialchars($notification['id']); ?>">
-				<input type="submit" value="<?php echo ht("Edit"); ?>" class="edit" title="<?php echo ht("Edit this notification"); ?>">
-			</form>
-			<?php if ($notification['is_disabled']) { ?>
-				<form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="post">
-					<input type="hidden" name="enable" value="<?php echo htmlspecialchars($notification['id']); ?>">
-					<input type="submit" value="<?php echo ht("Enable"); ?>" class="enable" title="<?php echo ht("Enable this notification"); ?>">
-				</form>
-			<?php } else { ?>
-				<form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="post">
-					<input type="hidden" name="disable" value="<?php echo htmlspecialchars($notification['id']); ?>">
-					<input type="submit" value="<?php echo ht("Disable"); ?>" class="disable" title="<?php echo ht("Disable this notification"); ?>">
-				</form>
-			<?php } ?>
-			<form action="<?php echo htmlspecialchars(url_for('wizard_notifications_post')); ?>" method="post">
-				<input type="hidden" name="id" value="<?php echo htmlspecialchars($notification['id']); ?>">
-				<input type="submit" name="delete" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this notification"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this notification?"); ?>');">
-			</form>
-		</td>
-	</tr>
+  <tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?><?php echo ($instance && $instance['id'] == $notification['id']) ? " selected" : ""; ?>">
+    <td><span class="email_notification"><?php echo $account_text . " " . $trigger_text; ?></span></td>
+    <td><?php $notification_periods = get_permitted_notification_periods();
+      echo $notification_periods[$notification['period']]['title']; ?></td>
+    <td><?php echo recent_format_html($notification['last_queue']); ?></td>
+    <td><?php echo recent_format_html($notification['last_notification']); ?></td>
+    <td class="buttons">
+      <form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="get">
+        <input type="hidden" name="edit" value="<?php echo htmlspecialchars($notification['id']); ?>">
+        <input type="submit" value="<?php echo ht("Edit"); ?>" class="edit" title="<?php echo ht("Edit this notification"); ?>">
+      </form>
+      <?php if ($notification['is_disabled']) { ?>
+        <form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="post">
+          <input type="hidden" name="enable" value="<?php echo htmlspecialchars($notification['id']); ?>">
+          <input type="submit" value="<?php echo ht("Enable"); ?>" class="enable" title="<?php echo ht("Enable this notification"); ?>">
+        </form>
+      <?php } else { ?>
+        <form action="<?php echo htmlspecialchars(url_for('wizard_notifications')); ?>" method="post">
+          <input type="hidden" name="disable" value="<?php echo htmlspecialchars($notification['id']); ?>">
+          <input type="submit" value="<?php echo ht("Disable"); ?>" class="disable" title="<?php echo ht("Disable this notification"); ?>">
+        </form>
+      <?php } ?>
+      <form action="<?php echo htmlspecialchars(url_for('wizard_notifications_post')); ?>" method="post">
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($notification['id']); ?>">
+        <input type="submit" name="delete" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this notification"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this notification?"); ?>');">
+      </form>
+    </td>
+  </tr>
 <?php } ?>
 <?php if (!$notifications) { ?>
-	<tr>
-		<td colspan="4"><i><?php echo t("(No notifications defined.)"); ?></i></td>
-	</tr>
+  <tr>
+    <td colspan="4"><i><?php echo t("(No notifications defined.)"); ?></i></td>
+  </tr>
 <?php } ?>
 </tbody>
 </table>
 
-<div class="help"><a href="<?php echo htmlspecialchars(url_for('kb', array('q' => 'notifications'))); ?>"><?php echo t("How do automated notifications work?"); ?></a></div>
+<div class="help"><a href="<?php echo htmlspecialchars(url_for('help/notifications')); ?>"><?php echo t("How do automated notifications work?"); ?></a></div>
 
 <div style="clear:both;"></div>
 
