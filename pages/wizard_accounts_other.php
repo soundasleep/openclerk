@@ -13,11 +13,13 @@ require(__DIR__ . "/../graphs/util.php");
 require(__DIR__ . "/../layout/templates.php");
 page_header(t("Add Other Account"), "page_wizard_accounts_other", array('js' => array('accounts', 'wizard'), 'class' => 'page_accounts wizard_page'));
 
+global $user;
 $user = get_user(user_id());
 require_user($user);
 
 $messages = array();
 
+global $account_type;
 $account_type = get_wizard_account_type('other');
 require_template("wizard_accounts_other");
 

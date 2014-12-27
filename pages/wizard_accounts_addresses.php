@@ -15,6 +15,7 @@ require(__DIR__ . "/../graphs/util.php");
 require(__DIR__ . "/../layout/templates.php");
 page_header(t("Add Addresses"), "page_wizard_accounts_addresses", array('js' => array('accounts', 'wizard'), 'class' => 'page_accounts wizard_page'));
 
+global $user;
 $user = get_user(user_id());
 require_user($user);
 
