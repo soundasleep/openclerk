@@ -34,7 +34,7 @@ function send_email($to, $template_id, $args = array()) {
   if (is_array($to)) {
     $to = new MockEmailUser($to["email"], $to["name"]);
   } else if (is_string($to)) {
-    $to = new MockEmailUser($to["email"], $to["email"]);
+    $to = new MockEmailUser($to, $to);
   }
 
   // TODO mock mailing
