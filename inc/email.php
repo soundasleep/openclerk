@@ -1,6 +1,22 @@
 <?php
 
-require(__DIR__ . "/phpmailer.php");
+/**
+ * Temporary mock User object until we have integrated openclerk/users.
+ */
+class MockEmailUser {
+  function __construct($email, $name) {
+    $this->email = $email;
+    $this->name = $name;
+  }
+
+  function getEmail() {
+    return $this->email;
+  }
+
+  function getName() {
+    return $this->name;
+  }
+}
 
 /**
  * The subject of the e-mail is obtained from the first line of the e-mail template.
@@ -15,6 +31,12 @@ function send_email($to, $template_id, $args = array()) {
   $args['site_url'] = config('absolute_url');
   $args['site_email'] = config('phpmailer_from');
 
+  if (is_array($to)) {
+    $to = new MockEmailUser($to["email"], $to["name"]);
+  } else if (is_string($to)) {
+    $to = new MockEmailUser($to["email"], $to["email"]);
+  }
+
   // TODO mock mailing
 
   Emails\Email::send($to, $template_id, $args);
@@ -26,6 +48,8 @@ function send_email($to, $template_id, $args = array()) {
  * - set locales eventually
  */
 function send_user_email($user, $template_id, $args = array()) {
+  $args["name"] = $user["name"] ? $user["name"] : $user["email"];
+
   send_email($user, $template_id, $args);
 
   if (isset($user['id'])) {
