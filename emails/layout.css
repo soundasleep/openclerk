@@ -1,0 +1,30 @@
+html, body {
+  background: #eee;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.body {
+  background: #eee;
+  padding: 15px;
+}
+.content {
+  padding: 15px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  color: #111;
+  line-height: 130%;
+}
+.sender {
+  text-align: center;
+  line-height: 130%;
+  font-size: 90%;
+  margin-top: 15px;
+}
+.thanks {
+  display: none;
+}
+.site_name {
+  font-weight: bold;
+}

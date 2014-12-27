@@ -14,10 +14,10 @@ $errors = array();
 
 if (require_post("email", false)) {
 	$email = require_post("email");
-	send_email($email, $email, "admin_test", array(
-		"date" => date('r'),
-		"email" => $email,
-	));
+  $result = send_email($email, "admin_test", array(
+    "date" => date('r'),
+    "email" => $email,
+  ));
 	$messages[] = "Sent e-mail to " . htmlspecialchars($email) . ".";
 }
 

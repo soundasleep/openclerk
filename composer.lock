@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a5498a39e8f6f68309e190932d804bf1",
+    "hash": "7fcff5f6fdcf8cf87593497c3091779a",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -127,6 +127,37 @@
             "time": "2014-12-27 00:56:12"
         },
         {
+            "name": "openclerk/emails",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/emails.git",
+                "reference": "7be73dfedf304321c2cb9ff311bd078a70e3ef53"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/emails/zipball/7be73dfedf304321c2cb9ff311bd078a70e3ef53",
+                "reference": "7be73dfedf304321c2cb9ff311bd078a70e3ef53",
+                "shasum": ""
+            },
+            "require": {
+                "openclerk/config": "dev-master",
+                "openclerk/events": "dev-master",
+                "openclerk/templates": "dev-master",
+                "pelago/emogrifier": ">=0.1",
+                "phpmailer/phpmailer": ">=5.2.9",
+                "soundasleep/html2text": ">=0.2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Emails\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-12-10 03:09:48"
+        },
+        {
             "name": "openclerk/events",
             "version": "dev-master",
             "source": {
@@ -176,6 +207,86 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2014-12-20 02:50:30"
+        },
+        {
+            "name": "openclerk/templates",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/templates.git",
+                "reference": "ff527b88bae3229a7cbb0561484fcb3da1968087"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/templates/zipball/ff527b88bae3229a7cbb0561484fcb3da1968087",
+                "reference": "ff527b88bae3229a7cbb0561484fcb3da1968087",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Openclerk\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-12-08 03:48:54"
+        },
+        {
+            "name": "pelago/emogrifier",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jjriv/emogrifier.git",
+                "reference": "229fba489439f5606d816b0a13146971817e9bf4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jjriv/emogrifier/zipball/229fba489439f5606d816b0a13146971817e9bf4",
+                "reference": "229fba489439f5606d816b0a13146971817e9bf4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*",
+                "squizlabs/php_codesniffer": "1.5.*",
+                "typo3-ci/typo3sniffpool": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pelago\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Reeve",
+                    "email": "jreeve@pelagodesign.com"
+                },
+                {
+                    "name": "Cameron Brooks"
+                },
+                {
+                    "name": "Jaime Prado"
+                },
+                {
+                    "name": "Oliver Klee",
+                    "email": "typo3-coding@oliverklee.de"
+                },
+                {
+                    "name": "Roman Ožana",
+                    "email": "ozana@omdesign.cz"
+                }
+            ],
+            "description": "Converts CSS styles into inline style attributes in your HTML code",
+            "homepage": "http://www.pelagodesign.com/sidecar/emogrifier/",
+            "time": "2014-10-30 16:45:48"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -257,6 +368,53 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
             "time": "2014-12-27 00:34:43"
+        },
+        {
+            "name": "soundasleep/html2text",
+            "version": "0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soundasleep/html2text.git",
+                "reference": "a5548bbac80f3c39c53513a9630779943eb253de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soundasleep/html2text/zipball/a5548bbac80f3c39c53513a9630779943eb253de",
+                "reference": "a5548bbac80f3c39c53513a9630779943eb253de",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Html2Text\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "EPL-1.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jevon Wright",
+                    "homepage": "https://jevon.org",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP script to convert HTML into a plain text format",
+            "homepage": "https://github.com/soundasleep/html2text",
+            "keywords": [
+                "email",
+                "html",
+                "php",
+                "text"
+            ],
+            "time": "2014-12-15 03:08:50"
         },
         {
             "name": "soundasleep/html5lib-php",
@@ -1088,9 +1246,11 @@
         "phpmailer/phpmailer": 20,
         "lightopenid/lightopenid": 20,
         "openclerk/db": 20,
+        "openclerk/emails": 20,
         "openclerk/events": 20,
         "openclerk/config": 20,
         "openclerk/metrics": 20,
+        "openclerk/templates": 20,
         "soundasleep/component-discovery": 20,
         "soundasleep/component-tests": 20
     },

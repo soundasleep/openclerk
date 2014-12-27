@@ -14,9 +14,11 @@
     "soundasleep/spritify": "0.3.0",
     "kwipi/famfamfam-flags": "0.1.1",
     "openclerk/db": "dev-master",
+    "openclerk/emails": "dev-master",
     "openclerk/events": "dev-master",
     "openclerk/config": "dev-master",
     "openclerk/metrics": "dev-master",
+    "openclerk/templates": "dev-master",
     "soundasleep/component-discovery": "dev-master"
   },
   "require-dev": {
