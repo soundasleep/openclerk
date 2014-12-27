@@ -1,0 +1,22 @@
+<title>Your Failing {$exchange} {$label} has been Disabled</title>
+<p><b>Hello {$name},</b></p>
+
+<p>
+  <a href="{$url}">One of your {$exchange} {$labels}</a> ({$title}) configured in {$site_name}
+  has been disabled temporarily due to repeated failures ({$failures} times over the last {$length}).
+</p>
+
+<p>The last error was: <i>{$message}</i></p>
+
+<p>
+  This may be because your {$label} has been configured incorrectly;
+  you have prevented {$site_name} from accessing this {$label}; or {$exchange} is currently down.
+</p>
+
+<p>
+  You can re-enable or remove this {$label} by visiting <a href="{$url}">your {$site_name} accounts wizard</a>.
+</p>
+
+<p>
+  Thanks for using {$site_name}!
+</p>
