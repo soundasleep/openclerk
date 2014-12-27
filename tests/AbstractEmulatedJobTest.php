@@ -21,14 +21,24 @@ abstract class AbstractEmulatedJobTest extends PHPUnit_Framework_TestCase {
 
 	var $user;
 
+  /**
+   * Create a new user, and set up the mock mailer.
+   */
 	function setUp() {
 		// first create a new user
 		$this->user = $this->createNewUser();
+
+    \Emails\Email::setMockMailer(array($this, "mockMailer"));
 	}
 
+  /**
+   * Remove the test user, and remove the mock mailer.
+   */
 	function tearDown() {
 		// finally, delete everything related to this user
 		$this->deleteUser($this->user);
+
+    \Emails\Email::setMockMailer(null);
 	}
 
 	function createNewUser() {
@@ -51,9 +61,8 @@ abstract class AbstractEmulatedJobTest extends PHPUnit_Framework_TestCase {
 	 */
 	abstract function getRates();
 
-	// $__mock_mailer($to_email, $to_name, $subject, $template);
 	var $mails;
-	function mockMailer($to_email, $to_name, $subject, $template) {
+	function mockMailer($to_email, $to_name, $subject, $template, $html_template) {
 		$this->mails[] = $template;
 	}
 
@@ -93,9 +102,6 @@ abstract class AbstractEmulatedJobTest extends PHPUnit_Framework_TestCase {
 		$q = db()->prepare("SELECT * FROM jobs WHERE id=?");
 		$q->execute(array($job_id));
 		$job = $q->fetch();
-
-		global $__mock_mailer;
-		$__mock_mailer = array($this, 'mockMailer');
 
 		require_once(__DIR__ . "/../batch/_batch_insert.php");
 		require(__DIR__ . "/../jobs/" . $this->getJobType() . ".php");
