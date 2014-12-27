@@ -3,6 +3,21 @@
 		<testsuite name="Openclerk tests">
 			<!-- loads all *Test.php -->
 			<directory>tests</directory>
+      <directory>vendor/openclerk/config/test</directory>
+      <directory>vendor/openclerk/db/test</directory>
+      <directory>vendor/openclerk/emails/test</directory>
+      <directory>vendor/openclerk/events/test</directory>
+      <directory>vendor/openclerk/exceptions/test</directory>
+      <directory>vendor/openclerk/forms/test</directory>
+      <directory>vendor/openclerk/jobs/test</directory>
+      <directory>vendor/openclerk/pages/test</directory>
+      <directory>vendor/openclerk/routing/test</directory>
+      <directory>vendor/openclerk/templates/test</directory>
+      <directory>vendor/openclerk/users/test</directory>
+      <directory>vendor/soundasleep/php-helpers/test</directory>
+      <directory>vendor/soundasleep/component-discovery/test</directory>
+      <directory>vendor/soundasleep/asset-discovery/test</directory>
+      <directory>vendor/soundasleep/html2text/tests</directory>
 		</testsuite>
 	</testsuites>
 
