@@ -48,17 +48,7 @@ To install Openclerk:
         mysql -u clerk --password=password clerk < inc/database.sql
         grunt test # JUnit output is in tests/report.xml
 
-4. Configure Apache to serve both openclerk and `node_modules/` through the parent
-   directory, as necessary: (serving `node_modules/` is not necessary if you are building
-   the site through `grunt build`)
-
-        Alias "/clerk/js/node_modules" "/var/www/my.openclerk.org/node_modules"
-        <Directory "/var/www/my.openclerk.org/node_modules">
-           Options Indexes FollowSymLinks
-           DirectoryIndex index.html index.php default.html default.php
-           AllowOverride All
-           Allow from All
-        </Directory>
+4. Configure Apache to serve openclerk through the parent directory:
 
         Alias "/clerk" "/var/www/my.openclerk.org/site"
         <Directory "/var/www/my.openclerk.org/site">
@@ -66,12 +56,10 @@ To install Openclerk:
            DirectoryIndex index.html index.php default.html default.php
            AllowOverride All
            Allow from All
+           ErrorDocument /404.php
         </Directory>
 
-4. Update `site/.htaccess` mod_rewrite rules if you are not running within a
-   `/clerk` subfolder
-
-5. Create a new database and new user:
+5. Create a new MySQL database and new MySQL user:
 
         CREATE DATABASE openclerk;
         GRANT ALL ON openclerk.* to 'openclerk'@'localhost' IDENTIFIED BY 'password';
@@ -80,7 +68,8 @@ To install Openclerk:
 
         mysql -u openclerk -p < inc/database.sql
 
-7. Copy `inc/config.php.sample` to `config/config.php` and edit it with relevant configuration data.
+7. Edit `inc/config.php` as necessary, or create a `config/config.php` to overwrite
+   these default configuration options.
 
 8. Set up cron jobs to execute the `batch/batch_*.php` scripts as necessary. Set
    'automated_key' to a secure value, and use this as the first parameter
@@ -94,6 +83,8 @@ To install Openclerk:
 9. Sign up as normal. To make yourself an administrator, execute MySQL:
 
         UPDATE users SET is_admin=1 WHERE id=?
+
+10. Visit the _Admin Migrations_ page to complete installing the database migrations (new as of 0.31).
 
 ### Or install with Chef
 
