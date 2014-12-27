@@ -10,6 +10,7 @@ require_login();
 $messages = array();
 
 // get all of our accounts
+global $accounts;
 $accounts = user_limits_summary(user_id());
 
 // enable/disable notifications
@@ -30,6 +31,7 @@ if (require_post("enable", false)) {
 require(__DIR__ . "/../layout/templates.php");
 page_header(t("Notification Preferences"), "page_wizard_notifications", array('js' => array('wizard', 'notifications', 'accounts' /* for sorting */), 'class' => 'page_accounts'));
 
+global $user;
 $user = get_user(user_id());
 require_user($user);
 

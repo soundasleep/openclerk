@@ -11,12 +11,14 @@ require_login();
 require(__DIR__ . "/../layout/templates.php");
 page_header(t("Currency Preferences"), "page_wizard_currencies", array('js' => array('wizard'), 'class' => 'page_accounts'));
 
+global $user;
 $user = get_user(user_id());
 require_user($user);
 
 $messages = array();
 
 // get all of our accounts
+global $accounts;
 $accounts = user_limits_summary(user_id());
 
 $cryptos = get_all_cryptocurrencies();
