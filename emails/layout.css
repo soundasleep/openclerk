@@ -1,5 +1,6 @@
 html, body {
   background: #eee;
+  color: black;
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
@@ -8,6 +9,13 @@ html, body {
   background: #eee;
   padding: 15px;
 }
+.header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.header a {
+  color: black;
+}
 .content {
   padding: 15px;
   background: white;
@@ -15,6 +23,13 @@ html, body {
   border-radius: 10px;
   color: #111;
   line-height: 130%;
+}
+.content p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.content p + p {
+  margin-top: 1em;
 }
 .sender {
   text-align: center;
