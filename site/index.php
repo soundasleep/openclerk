@@ -1,10 +1,17 @@
 <?php
+// router.php
 
 require(__DIR__ . "/../inc/global.php");
+$path = require_get("path", "index");
 
-require(__DIR__ . "/../layout/templates.php");
-page_header(get_site_config('site_name'), "page_home", array('class' => 'fancy_page'));
+try {
+  \Openclerk\Router::process($path);
+} catch (\Openclerk\RouterException $e) {
+  header("HTTP/1.0 404 Not Found");
+  echo htmlspecialchars($e->getMessage());
+  if (is_localhost()) {
+    echo "<br>" . htmlspecialchars($e->getPrevious()->getMessage());
+  }
+}
 
-require_template("index");
-
-page_footer();
+?>

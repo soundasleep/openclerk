@@ -25,6 +25,8 @@ require(__DIR__ . "/premium.php");
 require(__DIR__ . "/heavy.php");
 require(__DIR__ . "/kb.php");
 
+require(__DIR__ . "/routes.php");
+
 // issue #152: support i18n
 require(__DIR__ . "/i18n.php");
 function missing_locale_string($key, $locale) {
@@ -231,13 +233,6 @@ function redirect($url) {
   }
   header('Location: ' . $url);
   die();
-}
-
-/**
- * Return an absolute URL for a page on the current site.
- */
-function absolute_url($url) {
-  return get_site_config('absolute_url') . $url;
 }
 
 function xml_header() {
@@ -471,7 +466,7 @@ function calculate_relative_path() {
  * Also handles #hash arguments.
  * Should handle absolute arguments OK.
  */
-function url_for($module, $arguments = array()) {
+function old_url_for($module, $arguments = array()) {
   $is_absolute = (strpos($module, "://") !== false);
   $hash = false;
   if (strpos($module, "#") !== false) {

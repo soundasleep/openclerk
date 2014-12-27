@@ -1,6 +1,6 @@
 <Files "_*">
-	Order deny,allow
-	Deny from all
+  Order deny,allow
+  Deny from all
 </Files>
 
 RewriteEngine on
@@ -15,37 +15,20 @@ RewriteRule . - [E=REWRITEBASE:/clerk/]
 
 RewriteBase /
 
-# Set custom 404 documents
-RewriteCond %{HTTP_HOST} !localhost
-ErrorDocument 404 /404.php
-
-RewriteCond %{HTTP_HOST} localhost
-ErrorDocument 404 /clerk/404.php
-
 # Provide human-readable URLs for some common paths; otherwise
 # all scripts are accessible through the final rule below.
 # To disable these rules, edit url_for() and remove the switch($module) statement.
 # Also see: Issue #4.
 
-RewriteCond %{QUERY_STRING}     	   ^q=(.*)$    [NC]
-RewriteRule ^kb$                     help/%1     [R=301,L]
+RewriteRule ^js/add_graph.js$              %{ENV:REWRITEBASE}js/add_graph.js.php          [L,QSA]
+RewriteRule ^js/locale/([0-9a-z_]+).js$    %{ENV:REWRITEBASE}js/locale.js.php?locale=$1   [L,QSA]
 
-RewriteRule ^help/([0-9a-z\-_]+)$    %{ENV:REWRITEBASE}kb.php?q=$1     [L,QSA]
+RewriteRule ^api/([0-9a-z_]+)/([0-9a-z_]+).json$      %{ENV:REWRITEBASE}api/$1/$2.php     [L,QSA]
 
-RewriteRule ^(help)/$                %{ENV:REWRITEBASE}$1         [R,QSA]
-RewriteRule ^(signup)/$              %{ENV:REWRITEBASE}$1         [R,QSA]
-RewriteRule ^(login)/$               %{ENV:REWRITEBASE}$1         [R,QSA]
-RewriteRule ^(profile)/$             %{ENV:REWRITEBASE}$1         [R,QSA]
+RewriteRule ^api/([0-9a-z_]+)/graphs/([0-9a-z_\-]+)(|.json)$      %{ENV:REWRITEBASE}api/$1/graphs.php?graph_type=$2   [L,QSA]
 
-RewriteRule ^js/add_graph.js$        %{ENV:REWRITEBASE}js/add_graph.js.php [L,QSA]
-RewriteRule ^js/locale/([0-9a-z_]+).js$    %{ENV:REWRITEBASE}js/locale.js.php?locale=$1 [L,QSA]
-
-RewriteRule ^api/([0-9a-z_]+)/([0-9a-z_]+).json$    	%{ENV:REWRITEBASE}api/$1/$2.php		[L,QSA]
-
-RewriteRule ^api/([0-9a-z_]+)/graphs/([0-9a-z_\-]+)(|.json)$    	%{ENV:REWRITEBASE}api/$1/graphs.php?graph_type=$2		[L,QSA]
-
-RewriteRule ^qr/([0-9a-zA-Z_]+)$	   %{ENV:REWRITEBASE}img/qr/qr.php?code=$1	[L,QSA]
+RewriteRule ^qr/([0-9a-zA-Z_]+)$     %{ENV:REWRITEBASE}img/qr/qr.php?code=$1              [L,QSA]
 
 # This rewrites /foo to /foo.php
 # To disable this rule, edit url_for() to return the normal .php extension for a given path.
-RewriteRule ^([0-9a-z_]+)$           %{ENV:REWRITEBASE}$1.php     [L,QSA]
+RewriteRule ^([0-9a-z_]+)$           %{ENV:REWRITEBASE}index.php?path=$1     [L,QSA]

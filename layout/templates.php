@@ -323,6 +323,10 @@ function default_chart_color($index) {
 }
 
 function require_template($id) {
+  if (!$id) {
+    throw new Exception("Invalid template id '$id'");
+  }
+
   // sanity checking for security
   $id = str_replace(".", "", $id);
   $id = str_replace("/", "", $id);
