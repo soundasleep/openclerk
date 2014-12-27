@@ -101,12 +101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "e91387ab4b2faa065972d9fa3586e0e45b8234fd"
+                "reference": "526d3e344ba80d2f5465209ea25103b650502572"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/e91387ab4b2faa065972d9fa3586e0e45b8234fd",
-                "reference": "e91387ab4b2faa065972d9fa3586e0e45b8234fd",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/526d3e344ba80d2f5465209ea25103b650502572",
+                "reference": "526d3e344ba80d2f5465209ea25103b650502572",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2014-12-27 03:57:55"
+            "time": "2014-12-27 05:23:34"
         },
         {
             "name": "openclerk/emails",
@@ -191,12 +191,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/metrics.git",
-                "reference": "9fc2fbb0711e60dc9fd4fc7034b328fd2c7bef60"
+                "reference": "560cfd62bb57b846f61d59dbe5067f2a8c6837f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/metrics/zipball/9fc2fbb0711e60dc9fd4fc7034b328fd2c7bef60",
-                "reference": "9fc2fbb0711e60dc9fd4fc7034b328fd2c7bef60",
+                "url": "https://api.github.com/repos/openclerk/metrics/zipball/560cfd62bb57b846f61d59dbe5067f2a8c6837f6",
+                "reference": "560cfd62bb57b846f61d59dbe5067f2a8c6837f6",
                 "shasum": ""
             },
             "require": {
@@ -211,7 +211,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-20 02:50:30"
+            "time": "2014-12-27 05:25:31"
         },
         {
             "name": "openclerk/templates",

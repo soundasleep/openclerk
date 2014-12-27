@@ -193,6 +193,9 @@ function page_footer() {
   performance_metrics_page_end();
 
   echo "\n<!--\n" . print_r(Openclerk\MetricsHandler::getInstance()->printResults(), true) . "\n-->";
+  if (is_admin()) {
+    echo "\n<!-- " . print_r($_SESSION, true) . "\n-->";
+  }
 
 }
 
