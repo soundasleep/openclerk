@@ -155,12 +155,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/metrics.git",
-                "reference": "b62e55ac8c974de48586da313f6dbdcbad54ba44"
+                "reference": "9fc2fbb0711e60dc9fd4fc7034b328fd2c7bef60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/metrics/zipball/b62e55ac8c974de48586da313f6dbdcbad54ba44",
-                "reference": "b62e55ac8c974de48586da313f6dbdcbad54ba44",
+                "url": "https://api.github.com/repos/openclerk/metrics/zipball/9fc2fbb0711e60dc9fd4fc7034b328fd2c7bef60",
+                "reference": "9fc2fbb0711e60dc9fd4fc7034b328fd2c7bef60",
                 "shasum": ""
             },
             "require": {
@@ -175,7 +175,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-20 02:48:01"
+            "time": "2014-12-20 02:50:30"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -183,12 +183,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "851da29103d87b06b8cb3170e7bffb106287ce76"
+                "reference": "cb22df10d62f9036d7ca0bbe17953754858f7876"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/851da29103d87b06b8cb3170e7bffb106287ce76",
-                "reference": "851da29103d87b06b8cb3170e7bffb106287ce76",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/cb22df10d62f9036d7ca0bbe17953754858f7876",
+                "reference": "cb22df10d62f9036d7ca0bbe17953754858f7876",
                 "shasum": ""
             },
             "require": {
@@ -228,20 +228,20 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2014-12-17 15:07:19"
+            "time": "2014-12-26 09:40:56"
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.13",
+            "version": "2.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5"
+                "reference": "ca158276c1200cc27f5409a5e338486bc0b4fc94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5",
-                "reference": "0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ca158276c1200cc27f5409a5e338486bc0b4fc94",
+                "reference": "ca158276c1200cc27f5409a5e338486bc0b4fc94",
                 "shasum": ""
             },
             "require": {
@@ -293,7 +293,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-12-03 06:41:44"
+            "time": "2014-12-26 13:28:33"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -817,12 +817,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "446bc23a70298ba6d1044022494cf75de9d3cb3d"
+                "reference": "a8e0b37ce1a0e9840f2e33edbf4a744a75fbf423"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/446bc23a70298ba6d1044022494cf75de9d3cb3d",
-                "reference": "446bc23a70298ba6d1044022494cf75de9d3cb3d",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/a8e0b37ce1a0e9840f2e33edbf4a744a75fbf423",
+                "reference": "a8e0b37ce1a0e9840f2e33edbf4a744a75fbf423",
                 "shasum": ""
             },
             "require-dev": {
@@ -837,7 +837,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2014-12-20 02:09:02"
+            "time": "2014-12-27 00:34:43"
         },
         {
             "name": "soundasleep/html5lib-php",
