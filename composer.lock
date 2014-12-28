@@ -219,12 +219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/routing.git",
-                "reference": "94715fde9f0176b7496e07e49fd8ce7c9b114f0f"
+                "reference": "3777f3fef6cede4ff787851abd01f2a04acdbfc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/routing/zipball/94715fde9f0176b7496e07e49fd8ce7c9b114f0f",
-                "reference": "94715fde9f0176b7496e07e49fd8ce7c9b114f0f",
+                "url": "https://api.github.com/repos/openclerk/routing/zipball/3777f3fef6cede4ff787851abd01f2a04acdbfc2",
+                "reference": "3777f3fef6cede4ff787851abd01f2a04acdbfc2",
                 "shasum": ""
             },
             "require": {
@@ -243,7 +243,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-19 00:01:43"
+            "time": "2014-12-27 07:04:20"
         },
         {
             "name": "openclerk/templates",
