@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8008489862d05fd954db546ef1a74be3",
+    "hash": "46a3d10bbfcf19eab514d5473d176c53",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -94,6 +94,32 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2014-12-08 02:13:51"
+        },
+        {
+            "name": "openclerk/currencies",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/currencies.git",
+                "reference": "98853a5ad2a3418dce108b6693568c3189a174af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/98853a5ad2a3418dce108b6693568c3189a174af",
+                "reference": "98853a5ad2a3418dce108b6693568c3189a174af",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Openclerk\\Currencies\\": "src"
+                }
+            },
+            "support": {
+                "source": "https://github.com/openclerk/currencies/tree/master",
+                "issues": "https://github.com/openclerk/currencies/issues"
+            },
+            "time": "2014-12-28 10:03:33"
         },
         {
             "name": "openclerk/db",
@@ -377,6 +403,27 @@
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "time": "2014-09-26 18:33:30"
+        },
+        {
+            "name": "soundasleep/asset-discovery",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soundasleep/asset-discovery.git",
+                "reference": "06b3c1e7517f219fe49a3e8a9dc74429a8169440"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soundasleep/asset-discovery/zipball/06b3c1e7517f219fe49a3e8a9dc74429a8169440",
+                "reference": "06b3c1e7517f219fe49a3e8a9dc74429a8169440",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-12-28 09:57:23"
         },
         {
             "name": "soundasleep/component-discovery",
@@ -1281,6 +1328,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "lightopenid/lightopenid": 20,
+        "openclerk/currencies": 20,
         "openclerk/db": 20,
         "openclerk/emails": 20,
         "openclerk/events": 20,
@@ -1289,6 +1337,7 @@
         "openclerk/routing": 20,
         "openclerk/templates": 20,
         "soundasleep/component-discovery": 20,
+        "soundasleep/asset-discovery": 20,
         "soundasleep/component-tests": 20
     },
     "prefer-stable": false,

@@ -4,7 +4,8 @@
   "autoload": {
     "psr-4": {
       "Migrations\\": "migrations",
-      "DiscoveredComponents\\": "generated/components"
+      "DiscoveredComponents\\": "generated/components",
+      "Core\\": "core"
     }
   },
   "require": {
@@ -12,6 +13,7 @@
     "lightopenid/lightopenid": "dev-master",
     "soundasleep/spritify": "0.3.0",
     "kwipi/famfamfam-flags": "0.1.1",
+    "openclerk/currencies": "dev-master",
     "openclerk/db": "dev-master",
     "openclerk/emails": "dev-master",
     "openclerk/events": "dev-master",
@@ -19,7 +21,8 @@
     "openclerk/metrics": "dev-master",
     "openclerk/routing": "dev-master",
     "openclerk/templates": "dev-master",
-    "soundasleep/component-discovery": "dev-master"
+    "soundasleep/component-discovery": "dev-master",
+    "soundasleep/asset-discovery": "dev-master"
   },
   "require-dev": {
     "soundasleep/component-tests": "dev-master",
@@ -34,5 +37,8 @@
   }, {
     "type": "vcs",
     "url": "https://github.com/soundasleep/component-tests"
+  }, {
+    "type": "vcs",
+    "url": "https://github.com/openclerk/currencies"
   }]
 }

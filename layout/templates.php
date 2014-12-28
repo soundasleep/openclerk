@@ -19,6 +19,8 @@ function page_header($page_title, $page_id = false, $options = array()) {
 <html<?php echo " class=\"" . implode(" ", $html_classes) . "\""; ?>>
 <head>
     <title><?php echo htmlspecialchars($page_title); ?><?php if (has_required_admin()) echo " [admin]"; ?></title>
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('styles/generated.css' . '?' . get_site_config('openclerk_version'))); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for('styles/generated-scss.css' . '?' . get_site_config('openclerk_version'))); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for(get_site_config('default_css') . '?' . get_site_config('openclerk_version'))); ?>" />
     <?php if (get_site_config('custom_css')) { ?>
     <link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars(url_for(get_site_config('custom_css') . '?' . get_site_config('openclerk_version'))); ?>" />

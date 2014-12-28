@@ -8,7 +8,7 @@ module.exports = (grunt) ->
       compiledScripts: ['site/scripts']
       compiledHead: ['site/head-compiled.html']
       copiedNodeModulesJs: ['site/js/node_modules/']
-      generated: ['generated']
+      generated: ['generated', 'site/images']
 
     phpunit:
       unit:
@@ -93,6 +93,11 @@ module.exports = (grunt) ->
         cmd: 'php -f vendor/soundasleep/component-discovery/generate.php -- .'
         fail: true
 
+      # TODO add a grunt npm task to wrap this
+      assetDiscovery:
+        cmd: 'php -f vendor/soundasleep/asset-discovery/generate.php -- .'
+        fail: true
+
     useminPrepare:
       html: 'site/head-compiled.html'
       options:
@@ -139,6 +144,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'build', "Build the static site", [
     'clean',
     'bgShell:componentDiscovery',
+    'bgShell:assetDiscovery',
     'copy:sourceFavicon',
     'copy:configImages',
     'copy:head',
@@ -156,6 +162,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'serve', [
     'clean',
     'bgShell:componentDiscovery',
+    'bgShell:assetDiscovery',
     'copy:sourceFavicon',
     'copy:configImages',
     # 'copy:head',

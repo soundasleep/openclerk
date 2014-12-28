@@ -1,0 +1,4 @@
+{
+  "scss": ["css/*.scss"],
+  "images": ["images/*"]
+}
