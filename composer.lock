@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "46a3d10bbfcf19eab514d5473d176c53",
+    "hash": "0fc793c159befbc61af525e44b3e988c",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -71,6 +71,108 @@
                 "OpenId"
             ],
             "time": "2013-10-27 16:25:49"
+        },
+        {
+            "name": "monolog/monolog",
+            "version": "1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
+                "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/log": "~1.0"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0.0"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "~2.4, >2.4.8",
+                "doctrine/couchdb": "~1.0@dev",
+                "graylog2/gelf-php": "~1.0",
+                "phpunit/phpunit": "~3.7.0",
+                "raven/raven": "~0.5",
+                "ruflin/elastica": "0.90.*",
+                "videlalvaro/php-amqplib": "~2.4"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+                "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-mongo": "Allow sending log messages to a MongoDB server",
+                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "raven/raven": "Allow sending log messages to a Sentry server",
+                "rollbar/rollbar": "Allow sending log messages to Rollbar",
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+                "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.11.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Monolog\\": "src/Monolog"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+            "homepage": "http://github.com/Seldaek/monolog",
+            "keywords": [
+                "log",
+                "logging",
+                "psr-3"
+            ],
+            "time": "2014-09-30 13:30:58"
+        },
+        {
+            "name": "openclerk/apis",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/apis.git",
+                "reference": "672d31a0ea23b3345134561be7dd7f18edf73f7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/apis/zipball/672d31a0ea23b3345134561be7dd7f18edf73f7e",
+                "reference": "672d31a0ea23b3345134561be7dd7f18edf73f7e",
+                "shasum": ""
+            },
+            "require": {
+                "openclerk/config": "dev-master"
+            },
+            "require-dev": {
+                "soundasleep/component-tests": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Apis\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "A library for defining and using APIs",
+            "time": "2014-12-29 11:08:05"
         },
         {
             "name": "openclerk/config",
@@ -405,6 +507,44 @@
             "time": "2014-09-26 18:33:30"
         },
         {
+            "name": "psr/log",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psr\\Log\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2012-12-21 11:40:51"
+        },
+        {
             "name": "soundasleep/asset-discovery",
             "version": "dev-master",
             "source": {
@@ -431,12 +571,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "4380507f6b245b34cc48f13acc0425c011ee8091"
+                "reference": "256e54528f614d168e876b28d9acdbb07c1889a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/4380507f6b245b34cc48f13acc0425c011ee8091",
-                "reference": "4380507f6b245b34cc48f13acc0425c011ee8091",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/256e54528f614d168e876b28d9acdbb07c1889a0",
+                "reference": "256e54528f614d168e876b28d9acdbb07c1889a0",
                 "shasum": ""
             },
             "require-dev": {
@@ -451,7 +591,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2014-12-29 05:11:43"
+            "time": "2014-12-29 10:15:52"
         },
         {
             "name": "soundasleep/html2text",
@@ -1249,19 +1389,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-tests.git",
-                "reference": "33e59c59b0bbf8e8d05e7e6e458aaf4a1555c67d"
+                "reference": "d75c1e436216186fd087888fe28a0f1afe56dde5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-tests/zipball/33e59c59b0bbf8e8d05e7e6e458aaf4a1555c67d",
-                "reference": "33e59c59b0bbf8e8d05e7e6e458aaf4a1555c67d",
+                "url": "https://api.github.com/repos/soundasleep/component-tests/zipball/d75c1e436216186fd087888fe28a0f1afe56dde5",
+                "reference": "d75c1e436216186fd087888fe28a0f1afe56dde5",
                 "shasum": ""
             },
             "require": {
-                "justinrainbow/json-schema": "~1.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.4"
+                "justinrainbow/json-schema": "~1.3",
+                "phpunit/phpunit": "4.0"
             },
             "type": "library",
             "autoload": {
@@ -1271,10 +1409,10 @@
             },
             "description": "Common Composer and PHP component lint and validation tests",
             "support": {
-                "source": "https://github.com/soundasleep/component-tests/tree/0.1.1",
+                "source": "https://github.com/soundasleep/component-tests/tree/master",
                 "issues": "https://github.com/soundasleep/component-tests/issues"
             },
-            "time": "2014-12-18 09:34:37"
+            "time": "2014-12-29 11:24:53"
         },
         {
             "name": "symfony/yaml",
@@ -1328,6 +1466,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "lightopenid/lightopenid": 20,
+        "openclerk/apis": 20,
         "openclerk/currencies": 20,
         "openclerk/db": 20,
         "openclerk/emails": 20,

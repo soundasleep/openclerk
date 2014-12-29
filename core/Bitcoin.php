@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use \Monolog\Logger;
+
 /**
  * Represents the Bitcoin cryptocurrency.
  */
@@ -50,8 +52,12 @@ class Bitcoin extends \Openclerk\Currencies\Cryptocurrency {
     return sprintf("https://blockchain.info/address/%s", urlencode($address));
   }
 
-  function getBalance($address) {
-    throw new \Exception("Not implemented");
+  /**
+   * @throws {@link BalanceException} if something happened and the balance could not be obtained.
+   */
+  function getBalance($address, Logger $logger) {
+    $fetcher = new BitcoinBalance($address);
+    return $fetcher->getBalance($logger);
   }
 
 }

@@ -640,11 +640,11 @@ if ($account_data && $account_data['failure']) {
 	// failed?
 	if ($runtime_exception !== null) {
 		// don't count CloudFlare as a failure
-		if ($runtime_exception instanceof CloudFlareException) {
+		if ($runtime_exception instanceof CloudFlareException || $runtime_exception instanceof \Openclerk\Apis\CloudFlareException) {
 			crypto_log("Not increasing failure count: was a CloudFlareException");
-		} else if ($runtime_exception instanceof IncapsulaException) {
+		} else if ($runtime_exception instanceof IncapsulaException || $runtime_exception instanceof \Openclerk\Apis\IncapsulaException) {
 			crypto_log("Not increasing failure count: was a IncapsulaException");
-		} else if ($runtime_exception instanceof BlockchainException) {
+		} else if ($runtime_exception instanceof BlockchainException || $runtime_exception instanceof \Core\BlockchainException) {
 			crypto_log("Not increasing failure count: was a BlockchainException");
 		} else {
 			$q = db_master()->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");

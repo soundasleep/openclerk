@@ -219,3 +219,27 @@ class WrappedJobException extends Exception {
     return $this->job_id;
   }
 }
+
+// provides our own logger implementation
+use Monolog\Logger;
+
+class CryptoLogHandler extends \Monolog\Handler\AbstractHandler {
+  function handle(array $record) {
+    $message = $record['message'];
+    if (is_valid_url($message)) {
+      return crypto_wrap_url($message);
+    }
+    if ($record['level'] >= Logger::WARNING) {
+      if ($record['level'] >= Logger::ERROR) {
+        $message = "[ERROR] " . $message;
+      } else {
+        $message = "[Warning] " .  $message;
+      }
+    }
+    crypto_log($message);
+  }
+}
+
+global $logger;
+$logger = new Logger("batch");
+$logger->pushHandler(new CryptoLogHandler());

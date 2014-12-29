@@ -126,6 +126,9 @@ function print_exception_trace($e) {
   echo "</ul>";
 }
 function format_args_list($a, $count = 0) {
+  if ($a instanceof \Monolog\Logger) {
+    return get_class($a);
+  }
   if (is_array($a)) {
     $data = array();
     $i = 0;

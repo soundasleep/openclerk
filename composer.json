@@ -13,6 +13,7 @@
     "lightopenid/lightopenid": "dev-master",
     "soundasleep/spritify": "0.3.0",
     "kwipi/famfamfam-flags": "0.1.1",
+    "openclerk/apis": "dev-master",
     "openclerk/currencies": "dev-master",
     "openclerk/db": "dev-master",
     "openclerk/emails": "dev-master",
@@ -22,7 +23,8 @@
     "openclerk/routing": "dev-master",
     "openclerk/templates": "dev-master",
     "soundasleep/component-discovery": "dev-master",
-    "soundasleep/asset-discovery": "dev-master"
+    "soundasleep/asset-discovery": "dev-master",
+    "monolog/monolog": "~1.11"
   },
   "require-dev": {
     "soundasleep/component-tests": "dev-master",
