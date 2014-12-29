@@ -1,7 +1,21 @@
 {
   "components": {
     "migrations": "migrations.json",
-    "currencies": "currencies.json"
+    "currencies": {
+      "file": "currencies.json",
+      "instanceof": "\\Openclerk\\Currencies\\Currency",
+      "maps": {
+        "getKeyForAbbr": "getAbbr"
+      },
+      "masks": {
+        "getCryptocurrencies": "isCryptocurrency",
+        "getFiatCurrencies": "isFiat",
+        "getCommodityCurrencies": "isCommodity"
+      },
+      "lists": {
+        "getAbbrs": "getAbbr"
+      }
+    }
   },
   "src": ["vendor/*/*", "inc", "core"],
   "dest": "generated/components"

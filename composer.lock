@@ -431,12 +431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "a8e0b37ce1a0e9840f2e33edbf4a744a75fbf423"
+                "reference": "4380507f6b245b34cc48f13acc0425c011ee8091"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/a8e0b37ce1a0e9840f2e33edbf4a744a75fbf423",
-                "reference": "a8e0b37ce1a0e9840f2e33edbf4a744a75fbf423",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/4380507f6b245b34cc48f13acc0425c011ee8091",
+                "reference": "4380507f6b245b34cc48f13acc0425c011ee8091",
                 "shasum": ""
             },
             "require-dev": {
@@ -451,7 +451,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2014-12-27 00:34:43"
+            "time": "2014-12-29 05:11:43"
         },
         {
             "name": "soundasleep/html2text",
