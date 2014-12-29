@@ -305,6 +305,12 @@ if (!$user['is_first_report_sent']) {
 				"name" => ($user['name'] ? $user['name'] : $user['email']),
 				"url" => absolute_url(url_for("profile")),
 				"login" => absolute_url(url_for("login")),
+                                "wizard_currencies" => absolute_url(url_for("wizard_currencies")),
+                                "wizard_addresses" => absolute_url(url_for("wizard_accounts_addresses")),
+                                "wizard_accounts" => absolute_url(url_for("wizard_accounts")),
+                                "wizard_notifications" =>  absolute_url(url_for("wizard_notifications")),
+                                "reports" => absolute_url(url_for("profile")),
+                                "premium" =>  absolute_url(url_for("premium")),
 				// TODO in the future this will have reporting values (when automatic reports are implemented)
 			));
 			crypto_log("Sent first report e-mail to " . htmlspecialchars($user['email']) . ".");
