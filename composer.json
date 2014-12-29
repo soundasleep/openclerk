@@ -15,6 +15,7 @@
     "kwipi/famfamfam-flags": "0.1.1",
     "openclerk/apis": "dev-master",
     "openclerk/currencies": "dev-master",
+    "openclerk/cryptocurrencies": "dev-master",
     "openclerk/db": "dev-master",
     "openclerk/emails": "dev-master",
     "openclerk/events": "dev-master",
@@ -36,8 +37,5 @@
   }, {
     "type": "vcs",
     "url": "https://github.com/soundasleep/spritify"
-  }, {
-    "type": "vcs",
-    "url": "https://github.com/soundasleep/component-tests"
   }]
 }

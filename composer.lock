@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2165d4149c3dd364d210f346e2984772",
+    "hash": "83506436853af89387e7626a2903bf2d",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -196,6 +196,35 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2014-12-08 02:13:51"
+        },
+        {
+            "name": "openclerk/cryptocurrencies",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/cryptocurrencies.git",
+                "reference": "ea565fbaf6c098fd72ec7c9ca48dfbf61d8b7c3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/ea565fbaf6c098fd72ec7c9ca48dfbf61d8b7c3c",
+                "reference": "ea565fbaf6c098fd72ec7c9ca48dfbf61d8b7c3c",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "~1.11",
+                "openclerk/apis": "dev-master",
+                "openclerk/currencies": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cryptocurrency\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Definitions and implementations of cryptocurrencies in Openclerk",
+            "time": "2014-12-29 23:30:50"
         },
         {
             "name": "openclerk/currencies",
@@ -1469,6 +1498,7 @@
         "lightopenid/lightopenid": 20,
         "openclerk/apis": 20,
         "openclerk/currencies": 20,
+        "openclerk/cryptocurrencies": 20,
         "openclerk/db": 20,
         "openclerk/emails": 20,
         "openclerk/events": 20,

@@ -22,6 +22,7 @@ page_header("Admin: Currencies", "page_admin_currencies", array('js' => array('a
 	<tr>
 		<th class="default_sort_down">Code</th>
     <th>Name</th>
+    <th>Class</th>
     <th>Abbr</th>
 		<th>Type</th>
     <th>Explorer</th>
@@ -35,6 +36,7 @@ page_header("Admin: Currencies", "page_admin_currencies", array('js' => array('a
     echo "<tr>";
     echo "<th>" . htmlspecialchars($code) . "</th>";
     echo "<td><span class=\"currency_name currency_" . $code . "\">" . htmlspecialchars($currency->getName()) . "</span></td>";
+    echo "<td><i>" . get_class($currency) . "</i></td>";
     echo "<td>" . htmlspecialchars($currency->getAbbr()) . "</td>";
     echo "<td>";
     if ($currency->isCryptocurrency()) {
