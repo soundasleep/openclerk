@@ -112,7 +112,17 @@ class CryptoTestsTest extends PHPUnit_Framework_TestCase {
 			}
 		}
 
-
 	}
+
+  /**
+   * All currencies defined in {@link get_address_currencies()} should have
+   * an equivalent PHP script in {@code jobs/addresses/CUR.php}.
+   */
+  function testAllAddressCurrenciesHaveAddressIncludes() {
+    foreach (get_address_currencies() as $cur) {
+      $file = __DIR__ . "/../jobs/addresses/$cur.php";
+      $this->assertTrue(file_exists($file), "File '$file' did not exist for address currency '$cur'");
+    }
+  }
 
 }

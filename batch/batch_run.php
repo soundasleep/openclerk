@@ -151,107 +151,6 @@ try {
 			require(__DIR__ . "/../jobs/reported_currencies.php");
 			break;
 
-		// address jobs
-		case "blockchain":
-			require(__DIR__ . "/../jobs/blockchain.php");
-			break;
-
-		case "litecoin":
-			require(__DIR__ . "/../jobs/litecoin.php");
-			break;
-
-		case "feathercoin":
-			require(__DIR__ . "/../jobs/feathercoin.php");
-			break;
-
-		case "ppcoin":
-			require(__DIR__ . "/../jobs/ppcoin.php");
-			break;
-
-		case "novacoin":
-			require(__DIR__ . "/../jobs/novacoin.php");
-			break;
-
-		case "primecoin":
-			require(__DIR__ . "/../jobs/primecoin.php");
-			break;
-
-		case "terracoin":
-			require(__DIR__ . "/../jobs/terracoin.php");
-			break;
-
-		case "dogecoin":
-			require(__DIR__ . "/../jobs/dogecoin.php");
-			break;
-
-		case "megacoin":
-			require(__DIR__ . "/../jobs/megacoin.php");
-			break;
-
-		case "ripple":
-			require(__DIR__ . "/../jobs/ripple.php");
-			break;
-
-		case "namecoin":
-			require(__DIR__ . "/../jobs/namecoin.php");
-			break;
-
-		case "digitalcoin":
-			require(__DIR__ . "/../jobs/digitalcoin.php");
-			break;
-
-		case "worldcoin":
-			require(__DIR__ . "/../jobs/worldcoin.php");
-			break;
-
-		case "ixcoin":
-			require(__DIR__ . "/../jobs/ixcoin.php");
-			break;
-
-		case "vertcoin":
-			require(__DIR__ . "/../jobs/vertcoin.php");
-			break;
-
-		case "netcoin":
-			require(__DIR__ . "/../jobs/netcoin.php");
-			break;
-
-		case "hobonickels":
-			require(__DIR__ . "/../jobs/hobonickels.php");
-			break;
-
-		case "blackcoin":
-			require(__DIR__ . "/../jobs/blackcoin.php");
-			break;
-
-		case "darkcoin":
-			require(__DIR__ . "/../jobs/darkcoin.php");
-			break;
-
-		case "vericoin":
-			require(__DIR__ . "/../jobs/vericoin.php");
-			break;
-
-		case "nxt":
-			require(__DIR__ . "/../jobs/nxt.php");
-			break;
-
-		case "reddcoin":
-			require(__DIR__ . "/../jobs/reddcoin.php");
-			break;
-
-		case "viacoin":
-			require(__DIR__ . "/../jobs/viacoin.php");
-			break;
-
-		case "nubits":
-			require(__DIR__ . "/../jobs/nubits.php");
-			break;
-
-		case "nushares":
-			require(__DIR__ . "/../jobs/nushares.php");
-			break;
-
 		// block jobs
 		case "litecoin_block":
 			require(__DIR__ . "/../jobs/litecoin_block.php");
@@ -681,6 +580,19 @@ try {
 			break;
 
 		default:
+      if (substr($job['job_type'], 0, strlen("address_")) === "address_") {
+        // address job
+        $cur = substr($job['job_type'], strlen("address_"));
+        if (!in_array($cur, get_address_currencies())) {
+          throw new JobException("Currency $cur is not a valid address currency");
+        }
+        if (!file_exists(__DIR__ . "/../jobs/addresses/" . safe_include_arg($cur) . ".php")) {
+          throw new JobException("Could not find any addresses/$cur.php include");
+        }
+        require(__DIR__ . "/../jobs/addresses/" . safe_include_arg($cur) . ".php");
+        break;
+      }
+
 			// issue #12: unsafe accounts
 			if (get_site_config('allow_unsafe')) {
 				switch ($job['job_type']) {

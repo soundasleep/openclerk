@@ -16,7 +16,7 @@
  * (premium user jobs, 30 mins)
  *   batch_queue?key=...&priority=5&premium_only=1
  * (admin jobs, 5 mins) [5 mins for LTC transactions]
- *   batch_queue?key=...&user=100&priority=-20&job_type=blockchain,litecoin,outstanding,expiring,expire
+ *   batch_queue?key=...&user=100&priority=-20&job_type=address_btc,address_ltc,outstanding,expiring,expire
  */
 
 define('BATCH_JOB_START', microtime(true));
@@ -63,36 +63,25 @@ if (isset($argv[5]) && $argv[5] && $argv[5] != "-") {
 	$premium_only = explode(",", require_get("premium_only"));
 }
 
+$ticker_jobs = array(
+  array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id'), 'hours' => get_site_config('refresh_queue_hours_ticker'), 'query' => ' AND is_disabled=0'),
+);
+
+// address jobs are now named in common patterns
+// make sure to add the _block job below too if necessary
+$address_jobs = array();
+foreach (get_address_currencies() as $cur) {
+  $address_jobs[] = array(
+    'table' => 'addresses',
+    'type' => 'address_' . $cur,
+    'query' => " AND currency='$cur'",
+  );
+}
+
 // standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
 // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
 // if no 'user_id' is specified, then the user will also be checked for disable status
-$standard_jobs = array(
-	array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id'), 'hours' => get_site_config('refresh_queue_hours_ticker'), 'query' => ' AND is_disabled=0'),
-	array('table' => 'addresses', 'type' => 'blockchain', 'query' => ' AND currency=\'btc\''),
-	array('table' => 'addresses', 'type' => 'litecoin', 'query' => ' AND currency=\'ltc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'feathercoin', 'query' => ' AND currency=\'ftc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'ppcoin', 'query' => ' AND currency=\'ppc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'novacoin', 'query' => ' AND currency=\'nvc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'primecoin', 'query' => ' AND currency=\'xpm\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'terracoin', 'query' => ' AND currency=\'trc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'dogecoin', 'query' => ' AND currency=\'dog\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'megacoin', 'query' => ' AND currency=\'mec\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'ripple', 'query' => ' AND currency=\'xrp\''),
-	array('table' => 'addresses', 'type' => 'namecoin', 'query' => ' AND currency=\'nmc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'digitalcoin', 'query' => ' AND currency=\'dgc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'worldcoin', 'query' => ' AND currency=\'wdc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'ixcoin', 'query' => ' AND currency=\'ixc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'vertcoin', 'query' => ' AND currency=\'vtc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'netcoin', 'query' => ' AND currency=\'net\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'hobonickels', 'query' => ' AND currency=\'hbn\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'blackcoin', 'query' => ' AND currency=\'bc1\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'darkcoin', 'query' => ' AND currency=\'drk\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'vericoin', 'query' => ' AND currency=\'vrc\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'nxt', 'query' => ' AND currency=\'nxt\''),
-	array('table' => 'addresses', 'type' => 'reddcoin', 'query' => ' AND currency=\'rdd\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'viacoin', 'query' => ' AND currency=\'via\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'nubits', 'query' => ' AND currency=\'nbt\''), // make sure to add _block job below too
-	array('table' => 'addresses', 'type' => 'nushares', 'query' => ' AND currency=\'nsr\''), // make sure to add _block job below too
+$standard_jobs = array_merge($ticker_jobs, $address_jobs, array(
 	array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
 	array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
 	array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
@@ -167,7 +156,7 @@ $standard_jobs = array(
 	array('table' => 'accounts_individual_cryptotrade', 'type' => 'individual_crypto-trade', 'failure' => true),
 	array('table' => 'accounts_individual_796', 'type' => 'individual_796', 'failure' => true),
 	array('table' => 'accounts_individual_litecoininvest', 'type' => 'individual_litecoininvest', 'failure' => true),
-);
+));
 
 if (get_site_config('allow_unsafe')) {
 	// run unsafe jobs only if the flag has been set

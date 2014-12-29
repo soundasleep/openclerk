@@ -8,31 +8,8 @@ require_admin();
 
 require(__DIR__ . "/../layout/templates.php");
 
-class MyLogger extends \Db\Logger {
-  function log($s) {
-    echo "<li>" . htmlspecialchars($s) . "</li>";
-  }
-  function error($s) {
-    echo "<li class=\"error\" style=\"color:red;\">" . htmlspecialchars($s) . "</li>";
-  }
-}
-
-$logger = new MyLogger();
-
-class AllMigrations extends \Db\Migration {
-  function getParents() {
-    // the order is important
-    return array_merge(array(new Db\BaseMigration()),             // track migrations
-      array(new Migrations\UseDbMigration()),      // migrate the old DB to the new DB
-      DiscoveredComponents\Migrations::getAllInstances());   // then apply any new discovered ones
-  }
-
-  function getName() {
-    return "AllMigrations_" . md5(implode(",", array_keys($this->getParents())));
-  }
-}
-
-$migrations = new AllMigrations(db());
+$logger = new \Core\MyLogger();
+$migrations = new \Migrations\AllMigrations(db());
 
 page_header("Migrations", "page_migrations", array('jsapi' => true));
 

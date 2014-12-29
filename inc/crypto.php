@@ -5,8 +5,11 @@
  * what currencies are supported, what pairs, etc.
  */
 
+use \Openclerk\Currencies\Currency;
+use \DiscoveredComponents\Currencies;
+
 function get_all_currencies() {
-  return array_merge(\DiscoveredComponents\Currencies::getKeys(), array(
+  return array_merge(Currencies::getKeys(), array(
     "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
@@ -14,13 +17,13 @@ function get_all_currencies() {
 }
 
 function get_all_hashrate_currencies() {
-  return array_merge(\DiscoveredComponents\Currencies::getHashrateCurrencies(), array("ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn"));
+  return array_merge(Currencies::getHashrateCurrencies(), array("ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn"));
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
 function is_hashrate_mhash($cur) {
-  if (in_array($cur, \DiscoveredComponents\Currencies::getKeys())) {
-    $currency = \DiscoveredComponents\Currencies::getInstance($cur);
+  if (in_array($cur, Currencies::getKeys())) {
+    $currency = Currencies::getInstance($cur);
     return $currency->isMHash();
   }
   return $cur == 'nmc' || $cur == 'ppc' || $cur == 'trc';
@@ -31,11 +34,11 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  return array_merge(\DiscoveredComponents\Currencies::getCryptocurrencies(), array("ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  return array_merge(Currencies::getCryptocurrencies(), array("ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
 }
 
 function get_all_commodity_currencies() {
-  return array_merge(\DiscoveredComponents\Currencies::getCommodityCurrencies(), array("ghs"));
+  return array_merge(Currencies::getCommodityCurrencies(), array("ghs"));
 }
 
 function get_all_fiat_currencies() {
@@ -47,12 +50,12 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  return array_merge(\DiscoveredComponents\Currencies::getAddressCurrencies(), array("ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  return array_merge(Currencies::getAddressCurrencies(), array("ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
 }
 
 function get_currency_name($cur) {
-  if (in_array($cur, \DiscoveredComponents\Currencies::getKeys())) {
-    $currency = \DiscoveredComponents\Currencies::getInstance($cur);
+  if (in_array($cur, Currencies::getKeys())) {
+    $currency = Currencies::getInstance($cur);
     return $currency->getName();
   }
 
@@ -102,8 +105,8 @@ function get_currency_name($cur) {
 }
 
 function get_currency_abbr($c) {
-  if (in_array($c, \DiscoveredComponents\Currencies::getKeys())) {
-    $currency = \DiscoveredComponents\Currencies::getInstance($c);
+  if (in_array($c, Currencies::getKeys())) {
+    $currency = Currencies::getInstance($c);
     return $currency->getAbbr();
   }
 
@@ -116,8 +119,8 @@ function get_currency_abbr($c) {
  * Reverse of {@link get_currency_abbr()}.
  */
 function get_currency_key($c) {
-  if (in_array($c, \DiscoveredComponents\Currencies::getAbbrs())) {
-    return \DiscoveredComponents\Currencies::getKeyForAbbr($c);
+  if (in_array($c, Currencies::getAbbrs())) {
+    return Currencies::getKeyForAbbr($c);
   }
 
   if (strtolower($c) == "doge") return "dog";
@@ -127,8 +130,8 @@ function get_currency_key($c) {
 
 function get_blockchain_currencies() {
   $explorers = array();
-  foreach (\DiscoveredComponents\Currencies::getBalanceCurrencies() as $key) {
-    $currency = \DiscoveredComponents\Currencies::getInstance($key);
+  foreach (Currencies::getBalanceCurrencies() as $key) {
+    $currency = Currencies::getInstance($key);
     $explorer = $currency->getExplorerName();
     if (!isset($explorers[$explorer])) {
       $explorers[$explorer] = array();
@@ -758,34 +761,24 @@ function get_crypto_conversion_summary_types() {
 }
 
 function account_data_grouped() {
+  $addresses_data = array();
+
+  // we can generate this automatically
+  foreach (get_address_currencies() as $cur) {
+    $addresses_data["address_" . $cur] = array(
+      'title' => get_currency_abbr($cur) . ' addresses',
+      'label' => 'address',
+      'labels' => 'addresses',
+      'table' => 'addresses',
+      'group' => 'addresses',
+      'query' => " AND currency='$cur'",
+      'wizard' => 'addresses',
+      'currency' => $cur,
+    );
+  }
+
   $data = array(
-    'Addresses' => array(
-      'blockchain' => array('title' => 'BTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'btc\'', 'wizard' => 'addresses', 'currency' => 'btc'),
-      'litecoin' => array('title' => 'LTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ltc\'', 'wizard' => 'addresses', 'currency' => 'ltc'),
-      'feathercoin' => array('title' => 'FTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ftc\'', 'wizard' => 'addresses', 'currency' => 'ftc'),
-      'ppcoin' => array('title' => 'PPC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ppc\'', 'wizard' => 'addresses', 'currency' => 'ppc'),
-      'novacoin' => array('title' => 'NVC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nvc\'', 'wizard' => 'addresses', 'currency' => 'nvc'),
-      'primecoin' => array('title' => 'XPM addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'xpm\'', 'wizard' => 'addresses', 'currency' => 'xpm'),
-      'terracoin' => array('title' => 'TRC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'trc\'', 'wizard' => 'addresses', 'currency' => 'trc'),
-      'dogecoin' => array('title' => 'DOGE addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'dog\'', 'wizard' => 'addresses', 'currency' => 'dog'),
-      'megacoin' => array('title' => 'MEC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'mec\'', 'wizard' => 'addresses', 'currency' => 'mec'),
-      'ripple' => array('title' => 'XRP addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'xrp\'', 'wizard' => 'addresses', 'currency' => 'xrp'),
-      'namecoin' => array('title' => 'NMC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nmc\'', 'wizard' => 'addresses', 'currency' => 'nmc'),
-      'digitalcoin' => array('title' => 'DGC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'dgc\'', 'wizard' => 'addresses', 'currency' => 'dgc'),
-      'worldcoin' => array('title' => 'WDC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'wdc\'', 'wizard' => 'addresses', 'currency' => 'wdc'),
-      'ixcoin' => array('title' => 'IXC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'ixc\'', 'wizard' => 'addresses', 'currency' => 'ixc'),
-      'vertcoin' => array('title' => 'VTC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'vtc\'', 'wizard' => 'addresses', 'currency' => 'vtc'),
-      'netcoin' => array('title' => 'NET addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'net\'', 'wizard' => 'addresses', 'currency' => 'net'),
-      'hobonickels' => array('title' => 'HBN addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'hbn\'', 'wizard' => 'addresses', 'currency' => 'hbn'),
-      'blackcoin' => array('title' => 'BC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'bc1\'', 'wizard' => 'addresses', 'currency' => 'bc1'),
-      'darkcoin' => array('title' => 'DRK addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'drk\'', 'wizard' => 'addresses', 'currency' => 'drk'),
-      'vericoin' => array('title' => 'VRC addresses', 'label' => 'address', 'labels' => 'addresses', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'vrc\'', 'wizard' => 'addresses', 'currency' => 'vrc'),
-      'nxt' => array('title' => 'NXT account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nxt\'', 'wizard' => 'addresses', 'currency' => 'nxt'),
-      'reddcoin' => array('title' => 'RDD account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'rdd\'', 'wizard' => 'addresses', 'currency' => 'rdd'),
-      'viacoin' => array('title' => 'VIA account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'via\'', 'wizard' => 'addresses', 'currency' => 'via'),
-      'nubits' => array('title' => 'NBT account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nbt\'', 'wizard' => 'addresses', 'currency' => 'nbt'),
-      'nushares' => array('title' => 'NSR account', 'label' => 'account', 'labels' => 'accounts', 'table' => 'addresses', 'group' => 'addresses', 'query' => ' AND currency=\'nsr\'', 'wizard' => 'addresses', 'currency' => 'nsr'),
-    ),
+    'Addresses' => $addresses_data,
     'Mining pools' => array(
       '50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
@@ -977,53 +970,67 @@ function get_account_data($exchange, $throw_exception_on_failure = true) {
 
 // we can't get this from account_data_grouped() because this also includes ticker information
 function get_external_apis() {
+  $external_apis_addresses = array();
+  foreach (Currencies::getBalanceCurrencies() as $key) {
+    $currency = Currencies::getInstance($key);
+    if ($currency->getExplorerURL()) {
+      $link = link_to($currency->getExplorerURL(), $currency->getExplorerName());
+    } else {
+      $link = htmlspecialchars($currency->getExplorerName());
+    }
+
+    $external_apis_addresses["address_" . $key] = $link;
+  }
+
   $external_apis = array(
-    "Address balances" => array(
+    "Address balances" => array_merge($external_apis_addresses, array(
       // plaintext content is obtained by removing all HTML tags from the link HTML
-      'blockchain' => '<a href="http://blockchain.info">Blockchain</a>',
-      'litecoin' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a>',
-      'litecoin_block' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a> (block count)',
-      'feathercoin' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC)',
-      'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC block count)',
-      'ppcoin' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
-      'ppcoin_block' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC block count)',
-      'novacoin' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
-      'novacoin_block' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a> (block count)',
-      'primecoin' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
-      'terracoin' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
-      'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC block count)',
-      'dogecoin' => '<a href="http://dogechain.info/">DogeChain</a>',
+      'address_ltc' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a>',
+      'address_ftc' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC)',
+      'address_ppc' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
+      'address_nvc' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
+      'address_xpm' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
+      'address_trc' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
+      'address_dog' => '<a href="http://dogechain.info/">DogeChain</a>',
+      'address_mec' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
+      'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
+      'address_nmc' => '<a href="http://namecha.in">Namecha.in</a>',
+      'address_dgc' => '<a href="http://dgc.blockr.io/">blockr.io</a> (DGC)',
+      'address_wdc' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
+      'address_ixc' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
+      'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
+      'address_net' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
+      'address_hbn' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a>',
+      'address_bc1' => '<a href="http://blackcha.in/">BlackChain</a>',
+      'address_drk' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a>',
+      'address_vrc' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
+      'address_nxt' => '<a href="http://nxtexplorer.com/">NXT Explorer</a>',
+      'address_rdd' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
+      'address_via' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a>',
+      'address_nbt' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NBT)',
+      'address_nsr' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NSR)',
+    )),
+
+    "Block counts" => array(
+      'litecoin_block' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a>',
+      'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC)',
+      'ppcoin_block' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
+      'novacoin_block' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
+      'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
       'dogecoin_block' => '<a href="http://dogechain.info/">DogeChain</a>',
-      'megacoin' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
-      'megacoin_block' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a> (block count)',
-      'ripple' => '<a href="http://ripple.com">Ripple</a>',
-      'namecoin' => '<a href="http://namecha.in">Namecha.in</a>',
-      'namecoin_block' => '<a href="http://namecha.in">Namecha.in</a> (block count)',
-      'digitalcoin' => '<a href="http://dgc.blockr.io/">blockr.io</a> (DGC)',
-      'digitalcoin_block' => '<a href="http://dgc.blockr.io/">blockr.io</a> (DGC block count)',
-      'worldcoin' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
-      'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a> (block count)',
-      'ixcoin' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
-      'ixcoin_block' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC block count)',
-      'vertcoin' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
+      'megacoin_block' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
+      'namecoin_block' => '<a href="http://namecha.in">Namecha.in</a>',
+      'digitalcoin_block' => '<a href="http://dgc.blockr.io/">blockr.io</a> (DGC)',
+      'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
+      'ixcoin_block' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
-      'netcoin' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
-      'netcoin_block' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a> (block count)',
-      'hobonickels' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a>',
-      'hobonickels_block' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a> (block count)',
-      'blackcoin' => '<a href="http://blackcha.in/">BlackChain</a>',
-      'blackcoin_block' => '<a href="http://blackcha.in/">BlackChain</a> (block count)',
-      'darkcoin' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a>',
-      'darkcoin_block' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a> (block count)',
-      'vericoin' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
-      'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC block count)',
-      'nxt' => '<a href="http://nxtexplorer.com/">NXT Explorer</a>',
-      'reddcoin' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
-      'reddcoin_block' => '<a href="http://live.reddcoin.com/">Reddsight</a> (block count)',
-      'viacoin' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a>',
-      'viacoin_block' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a> (block count)',
-      'nubits' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NBT)',
-      'nushares' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NSR)',
+      'netcoin_block' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
+      'hobonickels_block' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a>',
+      'blackcoin_block' => '<a href="http://blackcha.in/">BlackChain</a>',
+      'darkcoin_block' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a>',
+      'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
+      'reddcoin_block' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
+      'viacoin_block' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a>',
     ),
 
     "Mining pool wallets" => array(
@@ -1176,21 +1183,54 @@ function translate_external_api_group_to_suffix($group) {
   }
 }
 
-function get_blockchain_wizard_config($currency) {
-  switch ($currency) {
-    case "btc":
-      return array(
-        'premium_group' => 'blockchain',
-        'title' => 'BTC address',
-        'titles' => 'BTC addresses',
-        'table' => 'addresses',
-        'currency' => 'btc',
-        'callback' => 'is_valid_btc_address',
-        'job_type' => 'blockchain',
-        'client' => 'Bitcoin-Qt',
-        'csv_kb' => 'bitcoin_csv',
-      );
+/**
+ * Wraps {@link Currency}s to return data expected of
+ * {@link #get_blockchain_wizard_config()}.
+ */
+class BlockchainWizardConfig {
+  function __construct(Currency $currency) {
+    $this->currency = $currency;
+  }
 
+  function getConfig() {
+    $result = array(
+      'premium_group' => 'address_' . $this->currency->getCode(),
+      'title' => $this->currency->getAbbr() . ' address',
+      'titles' => $this->currency->getAbbr() . ' addresses',
+      'table' => 'addresses',
+      'currency' => 'btc',
+      'callback' => array($this->currency, 'isValid'),
+      'job_type' => 'address_' . $this->currency->getCode(),
+      'client' => $this->currency->getName(),
+    );
+
+    // custom knowledge base articles
+    // TODO move out into components or something else
+    switch ($this->currency->getCode()) {
+      case "btc":
+        $result["client"] = "Bitcoin-Qt";
+        $result["csv_kb"] = "bitcoin_csv";
+        break;
+
+      case "ltc":
+        $result["client"] = "Litecoin-Qt";
+        $result["csv_kb"] = "litecoin_csv";
+        break;
+    }
+
+    return $result;
+  }
+}
+
+function get_blockchain_wizard_config($currency) {
+  // components override
+  if (Currencies::hasKey($currency)) {
+    $obj = Currencies::getInstance($currency);
+    $config = new BlockchainWizardConfig($obj);
+    return $config->getConfig();
+  }
+
+  switch ($currency) {
     case "ltc":
       return array(
         'premium_group' => 'litecoin',
@@ -2820,13 +2860,14 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
   return $dropdown_get_all_securities[$table];
 }
 
+/**
+ * TODO this should be removed; but any component that depends on this definition
+ * should therefore depend on whatever component Bitcoin is defined. Perhaps through
+ * a custom static {@link Bitcoin#isValid()} function.
+ */
 function is_valid_btc_address($address) {
-  // very simple check according to https://bitcoin.it/wiki/Address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && ((substr($address, 0, 1) == "1" || substr($address, 0, 1) == "3"))
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("btc");
+  return $currency->isValid($address);
 }
 
 function is_valid_ltc_address($address) {

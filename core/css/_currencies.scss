@@ -1,7 +1,11 @@
-.currency_name {
-  &.currency_btc {
-    padding-left: 20px;
-    background: url('../images/currencies/bitcoin.png') 0 0 no-repeat;
-    background-size: 16px 16px;
-  }
+.currency_name.currency_btc {
+  padding-left: 20px;
+  background: url('../images/currencies/bitcoin.png') 0 0 no-repeat;
+  background-size: 16px 16px;
+}
+
+.currency_name_btc {
+  padding-left: 20px;
+  background: url('../images/currencies/bitcoin.png') 0 0 no-repeat;
+  background-size: 16px 16px;
 }
