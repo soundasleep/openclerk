@@ -139,7 +139,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-phpunit'
   grunt.loadNpmTasks 'grunt-usemin'
 
-  grunt.registerTask 'test', "Run tests", ['phpunit']
+  grunt.registerTask 'test', "Run tests", ['build', 'phpunit']
 
   grunt.registerTask 'build', "Build the static site", [
     'clean',
