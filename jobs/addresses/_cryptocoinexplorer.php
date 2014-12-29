@@ -27,7 +27,8 @@ if (preg_match("/Address not found/im", $html) || preg_match("/Address is either
 	$balance = 0;
 
 } else {
-	require(__DIR__ . '/../vendor/soundasleep/html5lib-php/library/HTML5/Parser.php');
+  // TODO use composer autoload properly
+	require(__DIR__ . '/../../vendor/soundasleep/html5lib-php/library/HTML5/Parser.php');
 
 	// this HTML is totally messed up and invalid; try to clean it up
 	$html = preg_replace("/&([a-z]+)/im", "", $html);
