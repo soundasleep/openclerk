@@ -39,8 +39,5 @@
   }, {
     "type": "vcs",
     "url": "https://github.com/soundasleep/component-tests"
-  }, {
-    "type": "vcs",
-    "url": "https://github.com/openclerk/currencies"
   }]
 }

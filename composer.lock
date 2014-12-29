@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0fc793c159befbc61af525e44b3e988c",
+    "hash": "2165d4149c3dd364d210f346e2984772",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -203,13 +203,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/currencies.git",
-                "reference": "98853a5ad2a3418dce108b6693568c3189a174af"
+                "reference": "e3b4a2bf90cbe73eed9e550203a4eb4b7a0860ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/currencies/zipball/98853a5ad2a3418dce108b6693568c3189a174af",
-                "reference": "98853a5ad2a3418dce108b6693568c3189a174af",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/e3b4a2bf90cbe73eed9e550203a4eb4b7a0860ce",
+                "reference": "e3b4a2bf90cbe73eed9e550203a4eb4b7a0860ce",
                 "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "~1.11"
             },
             "type": "library",
             "autoload": {
@@ -217,11 +220,8 @@
                     "Openclerk\\Currencies\\": "src"
                 }
             },
-            "support": {
-                "source": "https://github.com/openclerk/currencies/tree/master",
-                "issues": "https://github.com/openclerk/currencies/issues"
-            },
-            "time": "2014-12-28 10:03:33"
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-12-29 11:21:13"
         },
         {
             "name": "openclerk/db",
