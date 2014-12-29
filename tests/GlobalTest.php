@@ -113,4 +113,14 @@ class GlobalTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame("0.00000010", number_format_human("0.0000001"));
 	}
 
+  /**
+   * Tests {@link safe_include_arg()}.
+   */
+  function testSafeIncludeArg() {
+    $this->assertEquals("foo", safe_include_arg("foo"));
+    $this->assertEquals("foophp", safe_include_arg("foo.php"));
+    $this->assertEquals("foo", safe_include_arg("/foo"));
+    $this->assertEquals("foo", safe_include_arg("../foo"));
+  }
+
 }

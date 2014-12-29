@@ -746,3 +746,7 @@ function get_temporary_errors() {
 
 class EscapedException extends Exception { }
 
+function safe_include_arg($arg) {
+  // take out any relative paths etc
+  return preg_replace("/[^a-z0-9_\-]/i", "", $arg);
+}
