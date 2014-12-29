@@ -1,14 +1,16 @@
 <?php
 
 /**
- * Admin status page.
+ * Admin status page for pending migrations.
  */
 
 require_admin();
 
 require(__DIR__ . "/../layout/templates.php");
 
-$logger = new \Core\MyLogger();
+$logger = new \Monolog\Logger("admin_migrations");
+$logger->pushHandler(new \Core\MyLogger());
+
 $migrations = new \Migrations\AllMigrations(db());
 
 page_header("Migrations", "page_migrations", array('jsapi' => true));

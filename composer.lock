@@ -229,15 +229,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "526d3e344ba80d2f5465209ea25103b650502572"
+                "reference": "f18a6c0171b7703f565c811044e59ed9a26bdc6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/526d3e344ba80d2f5465209ea25103b650502572",
-                "reference": "526d3e344ba80d2f5465209ea25103b650502572",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/f18a6c0171b7703f565c811044e59ed9a26bdc6d",
+                "reference": "f18a6c0171b7703f565c811044e59ed9a26bdc6d",
                 "shasum": ""
             },
             "require": {
+                "monolog/monolog": "~1.11",
                 "openclerk/events": "dev-master"
             },
             "require-dev": {
@@ -252,7 +253,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2014-12-27 05:23:34"
+            "time": "2014-12-29 11:39:00"
         },
         {
             "name": "openclerk/emails",
