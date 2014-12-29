@@ -1390,12 +1390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-tests.git",
-                "reference": "d75c1e436216186fd087888fe28a0f1afe56dde5"
+                "reference": "57ac99b5af3ef4a00ecda159b5765ea2fa76134d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-tests/zipball/d75c1e436216186fd087888fe28a0f1afe56dde5",
-                "reference": "d75c1e436216186fd087888fe28a0f1afe56dde5",
+                "url": "https://api.github.com/repos/soundasleep/component-tests/zipball/57ac99b5af3ef4a00ecda159b5765ea2fa76134d",
+                "reference": "57ac99b5af3ef4a00ecda159b5765ea2fa76134d",
                 "shasum": ""
             },
             "require": {
@@ -1413,7 +1413,7 @@
                 "source": "https://github.com/soundasleep/component-tests/tree/master",
                 "issues": "https://github.com/soundasleep/component-tests/issues"
             },
-            "time": "2014-12-29 11:24:53"
+            "time": "2014-12-29 12:26:19"
         },
         {
             "name": "symfony/yaml",
