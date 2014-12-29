@@ -18,7 +18,16 @@
 
 <p>
   <ul class="currency_list">
-    <li><span class="currency_name_btc"><a href="http://bitcoin.org" target="_blank">Bitcoin</a> - <a href="https://www.weusecoins.com/en/" target="_blank">What is Bitcoin?</a></span></li>
+    <?php
+    foreach (\DiscoveredComponents\Currencies::getAllInstances() as $currency) {
+      echo "<li>";
+      echo "<span class=\"currency_name_" . $currency->getCode() . "\">" . link_to($currency->getURL(), $currency->getName(), array("target" => "_blank")) . "</span>";
+      foreach ($currency->getCommunityLinks() as $url => $title) {
+        echo " - " . link_to($url, $title, array("target" => "_blank"));
+      }
+      echo "</li>";
+    }
+    ?>
     <li><span class="currency_name_ltc"><a href="http://litecoin.org" target="_blank">Litecoin</a> - <a href="https://en.bitcoin.it/wiki/Litecoin" target="_blank">What is Litecoin?</a></span></li>
     <li><span class="currency_name_nmc"><a href="http://dot-bit.org" target="_blank">Namecoin</a> - <a href="http://dot-bit.org/Namecoin" target="_blank">What is Namecoin?</a></span></li>
     <li><span class="currency_name_ftc"><a href="http://feathercoin.com/" target="_blank">Feathercoin</a> - <a href="http://www.feathercoin.com/about/" target="_blank">What is Feathercoin?</a></span></li>
