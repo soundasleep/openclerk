@@ -74,16 +74,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.11.0",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa"
+                "reference": "1fbe8c2641f2b163addf49cc5e18f144bec6b19f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
-                "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1fbe8c2641f2b163addf49cc5e18f144bec6b19f",
+                "reference": "1fbe8c2641f2b163addf49cc5e18f144bec6b19f",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "aws/aws-sdk-php": "~2.4, >2.4.8",
                 "doctrine/couchdb": "~1.0@dev",
                 "graylog2/gelf-php": "~1.0",
-                "phpunit/phpunit": "~3.7.0",
+                "phpunit/phpunit": "~4.0",
                 "raven/raven": "~0.5",
                 "ruflin/elastica": "0.90.*",
                 "videlalvaro/php-amqplib": "~2.4"
@@ -116,7 +116,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.11.x-dev"
+                    "dev-master": "1.12.x-dev"
                 }
             },
             "autoload": {
@@ -142,7 +142,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-09-30 13:30:58"
+            "time": "2014-12-29 21:29:35"
         },
         {
             "name": "openclerk/apis",
@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/currencies.git",
-                "reference": "e3b4a2bf90cbe73eed9e550203a4eb4b7a0860ce"
+                "reference": "c43f8fe940a5a3b3436a315e7474c362998dd5cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/currencies/zipball/e3b4a2bf90cbe73eed9e550203a4eb4b7a0860ce",
-                "reference": "e3b4a2bf90cbe73eed9e550203a4eb4b7a0860ce",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/c43f8fe940a5a3b3436a315e7474c362998dd5cc",
+                "reference": "c43f8fe940a5a3b3436a315e7474c362998dd5cc",
                 "shasum": ""
             },
             "require": {
@@ -221,7 +221,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-29 11:21:13"
+            "time": "2014-12-29 22:35:39"
         },
         {
             "name": "openclerk/db",
@@ -229,12 +229,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "f18a6c0171b7703f565c811044e59ed9a26bdc6d"
+                "reference": "1648e77e3302e4a531d987908a4d7a042affdf87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/f18a6c0171b7703f565c811044e59ed9a26bdc6d",
-                "reference": "f18a6c0171b7703f565c811044e59ed9a26bdc6d",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/1648e77e3302e4a531d987908a4d7a042affdf87",
+                "reference": "1648e77e3302e4a531d987908a4d7a042affdf87",
                 "shasum": ""
             },
             "require": {
@@ -253,7 +253,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2014-12-29 11:39:00"
+            "time": "2014-12-29 22:23:13"
         },
         {
             "name": "openclerk/emails",
@@ -572,12 +572,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "256e54528f614d168e876b28d9acdbb07c1889a0"
+                "reference": "cc19deeacd310e2088b59ba46e5ba1867d7f93a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/256e54528f614d168e876b28d9acdbb07c1889a0",
-                "reference": "256e54528f614d168e876b28d9acdbb07c1889a0",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/cc19deeacd310e2088b59ba46e5ba1867d7f93a5",
+                "reference": "cc19deeacd310e2088b59ba46e5ba1867d7f93a5",
                 "shasum": ""
             },
             "require-dev": {
@@ -592,7 +592,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2014-12-29 10:15:52"
+            "time": "2014-12-29 22:15:18"
         },
         {
             "name": "soundasleep/html2text",

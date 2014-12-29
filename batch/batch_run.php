@@ -593,6 +593,32 @@ try {
         break;
       }
 
+      if (substr($job['job_type'], 0, strlen("blockcount_")) === "blockcount_") {
+        // address job
+        $cur = substr($job['job_type'], strlen("blockcount_"));
+        if (!in_array($cur, \DiscoveredComponents\Currencies::getBlockCurrencies())) {
+          throw new JobException("Currency $cur is not a valid block currency");
+        }
+        if (!file_exists(__DIR__ . "/../jobs/blockcount/" . safe_include_arg($cur) . ".php")) {
+          throw new JobException("Could not find any blockcount/$cur.php include");
+        }
+        require(__DIR__ . "/../jobs/blockcount/" . safe_include_arg($cur) . ".php");
+        break;
+      }
+
+      if (substr($job['job_type'], 0, strlen("difficulty_")) === "difficulty_") {
+        // address job
+        $cur = substr($job['job_type'], strlen("difficulty_"));
+        if (!in_array($cur, \DiscoveredComponents\Currencies::getDifficultyCurrencies())) {
+          throw new JobException("Currency $cur is not a valid difficulty currency");
+        }
+        if (!file_exists(__DIR__ . "/../jobs/difficulty/" . safe_include_arg($cur) . ".php")) {
+          throw new JobException("Could not find any difficulty/$cur.php include");
+        }
+        require(__DIR__ . "/../jobs/difficulty/" . safe_include_arg($cur) . ".php");
+        break;
+      }
+
 			// issue #12: unsafe accounts
 			if (get_site_config('allow_unsafe')) {
 				switch ($job['job_type']) {

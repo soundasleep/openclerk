@@ -1,0 +1,4 @@
+{
+  "\\Core\\Migrations\\BitcoinBlockCount": "\\Core\\Migrations\\BitcoinBlockCount",
+  "\\Core\\Migrations\\BitcoinDifficulty": "\\Core\\Migrations\\BitcoinDifficulty"
+}

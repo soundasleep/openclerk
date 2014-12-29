@@ -313,6 +313,32 @@ if (!$premium_only) {
 		}
 	}
 
+  // block count jobs (using the new Currencies framework)
+  foreach (\DiscoveredComponents\Currencies::getBlockCurrencies() as $cur) {
+    $name = "blockcount_" . $cur;
+    if (!$job_type || in_array($name, $job_type)) {
+      insert_new_job(array(
+        'priority' => $priority,
+        'type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      ), false);
+    }
+  }
+
+  // difficulty jobs (using the new Currencies framework)
+  foreach (\DiscoveredComponents\Currencies::getDifficultyCurrencies() as $cur) {
+    $name = "difficulty_" . $cur;
+    if (!$job_type || in_array($name, $job_type)) {
+      insert_new_job(array(
+        'priority' => $priority,
+        'type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      ), false);
+    }
+  }
+
 	// reset jobs that have crashed
 	// if a job is currently running, this won't have any effect, unless it crashes right now
 	$q = db_master()->prepare("UPDATE jobs SET is_executing=0 WHERE is_executing=1");

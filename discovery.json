@@ -18,7 +18,9 @@
       "instances": {
         "getHashrateCurrencies": "\\Openclerk\\Currencies\\HashableCurrency",
         "getAddressCurrencies": "\\Openclerk\\Currencies\\AddressableCurrency",
-        "getBalanceCurrencies": "\\Openclerk\\Currencies\\BalanceableCurrency"
+        "getBalanceCurrencies": "\\Openclerk\\Currencies\\BalanceableCurrency",
+        "getBlockCurrencies": "\\Openclerk\\Currencies\\BlockCurrency",
+        "getDifficultyCurrencies": "\\Openclerk\\Currencies\\DifficultyCurrency"
       }
     }
   },

@@ -7,7 +7,8 @@ use \Monolog\Logger;
 /**
  * Represents the Bitcoin cryptocurrency.
  */
-class Bitcoin extends \Openclerk\Currencies\Cryptocurrency {
+class Bitcoin extends \Openclerk\Currencies\Cryptocurrency
+  implements \Openclerk\Currencies\BlockCurrency, \Openclerk\Currencies\DifficultyCurrency {
 
   function getCode() {
     return "btc";
@@ -56,8 +57,18 @@ class Bitcoin extends \Openclerk\Currencies\Cryptocurrency {
    * @throws {@link BalanceException} if something happened and the balance could not be obtained.
    */
   function getBalance($address, Logger $logger) {
-    $fetcher = new BitcoinBalance($address);
-    return $fetcher->getBalance($logger);
+    $fetcher = new BlockchainInfo();
+    return $fetcher->getBalance($address, $logger);
+  }
+
+  function getBlockCount(Logger $logger) {
+    $fetcher = new BlockchainInfo();
+    return $fetcher->getBlockCount($logger);
+  }
+
+  function getDifficulty(Logger $logger) {
+    $fetcher = new BlockchainInfo();
+    return $fetcher->getDifficulty($logger);
   }
 
 }
