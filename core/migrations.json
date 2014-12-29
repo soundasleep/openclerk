@@ -1,4 +1,4 @@
 {
-  "\\Core\\Migrations\\BitcoinBlockCount": "\\Core\\Migrations\\BitcoinBlockCount",
-  "\\Core\\Migrations\\BitcoinDifficulty": "\\Core\\Migrations\\BitcoinDifficulty"
+  "\\Core\\Migrations\\BlockCountMigrationGenerator": "\\Core\\Migrations\\BlockCountMigrationGenerator",
+  "\\Core\\Migrations\\DifficultyMigrationGenerator": "\\Core\\Migrations\\DifficultyMigrationGenerator"
 }

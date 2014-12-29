@@ -4,15 +4,19 @@ namespace Core\Migrations;
 
 use \Db\Connection;
 
-abstract class AbstractBlockCountMigration extends \Db\Migration {
+/**
+ * Allows migrations to be generated at runtime.
+ * This means we don't need to create separate migrations for each new currency discovered,
+ * because each currency will have a constant table structure.
+ */
+class GeneratedDifficultyMigration extends \Db\Migration {
 
-  /**
-   * Get the currency for this migration.
-   */
-  abstract function getCurrency();
+  function __construct($currency) {
+    $this->currency = $currency;
+  }
 
   function getTable() {
-    return "blockcount_" . $this->getCurrency()->getCode();
+    return "difficulty_" . $this->currency;
   }
 
   /**
@@ -31,12 +35,16 @@ abstract class AbstractBlockCountMigration extends \Db\Migration {
       id int not null auto_increment primary key,
       created_at timestamp not null default current_timestamp,
 
-      blockcount int not null,
+      difficulty decimal(24, 8) not null,
       is_recent tinyint not null default 0,
 
       INDEX(is_recent)
     );");
     return $q->execute();
+  }
+
+  function getName() {
+    return parent::getName() . "_" . $this->currency;
   }
 
 }

@@ -5,6 +5,7 @@
 			<directory>tests</directory>
       <directory>vendor/openclerk/apis/test</directory>
       <directory>vendor/openclerk/config/test</directory>
+      <directory>vendor/openclerk/cryptocurrencies/test</directory>
       <directory>vendor/openclerk/currencies/test</directory>
       <directory>vendor/openclerk/db/test</directory>
       <directory>vendor/openclerk/emails/test</directory>

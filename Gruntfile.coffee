@@ -19,8 +19,6 @@ module.exports = (grunt) ->
         configuration: './phpunit.xml'
         logJunit: 'tests/report.xml'
         followOutput: true
-        stopOnError: true
-        stopOnFailure: true
 
     sass:
       dist:
