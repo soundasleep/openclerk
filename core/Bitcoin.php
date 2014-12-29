@@ -35,7 +35,7 @@ class Bitcoin extends \Openclerk\Currencies\Cryptocurrency {
   }
 
   function getExplorerName() {
-    return "Blockchain";
+    return "Blockchain.info";
   }
 
   function getExplorerURL() {
