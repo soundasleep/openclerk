@@ -8,10 +8,14 @@ try {
   \Openclerk\Router::process($path);
 } catch (\Openclerk\RouterException $e) {
   header("HTTP/1.0 404 Not Found");
-  echo htmlspecialchars($e->getMessage());
+
+  $errors = array();
+  $errors[] = htmlspecialchars($e->getMessage());
   if (is_localhost()) {
-    echo "<br>" . htmlspecialchars($e->getPrevious()->getMessage());
+    $errors[] = htmlspecialchars($e->getPrevious()->getMessage());
   }
+
+  require(__DIR__ . "/404.php");
 }
 
 ?>
