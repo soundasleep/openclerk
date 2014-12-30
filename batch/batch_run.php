@@ -578,40 +578,39 @@ try {
     default:
       if (substr($job['job_type'], 0, strlen("address_")) === "address_") {
         // address job
-        $cur = substr($job['job_type'], strlen("address_"));
-        if (!in_array($cur, get_address_currencies())) {
-          throw new JobException("Currency $cur is not a valid address currency");
+        $currency = substr($job['job_type'], strlen("address_"));
+        if (!in_array($currency, get_address_currencies())) {
+          throw new JobException("Currency $currency is not a valid address currency");
         }
-        if (!file_exists(__DIR__ . "/../jobs/addresses/" . safe_include_arg($cur) . ".php")) {
-          throw new JobException("Could not find any addresses/$cur.php include");
+        if (in_array($currency, \DiscoveredComponents\Currencies::getBalanceCurrencies())) {
+          require(__DIR__ . "/../jobs/addresses/discovered.php");
+        } else {
+          // TODO eventually remove this block once we have no currencies that are also in getBalanceCurrencies()
+          if (!file_exists(__DIR__ . "/../jobs/addresses/" . safe_include_arg($currency) . ".php")) {
+            throw new JobException("Could not find any addresses/$currency.php include");
+          }
+          require(__DIR__ . "/../jobs/addresses/" . safe_include_arg($currency) . ".php");
         }
-        require(__DIR__ . "/../jobs/addresses/" . safe_include_arg($cur) . ".php");
         break;
       }
 
       if (substr($job['job_type'], 0, strlen("blockcount_")) === "blockcount_") {
         // address job
-        $cur = substr($job['job_type'], strlen("blockcount_"));
-        if (!in_array($cur, \DiscoveredComponents\Currencies::getBlockCurrencies())) {
-          throw new JobException("Currency $cur is not a valid block currency");
+        $currency = substr($job['job_type'], strlen("blockcount_"));
+        if (!in_array($currency, \DiscoveredComponents\Currencies::getBlockCurrencies())) {
+          throw new JobException("Currency $currency is not a valid block currency");
         }
-        if (!file_exists(__DIR__ . "/../jobs/blockcount/" . safe_include_arg($cur) . ".php")) {
-          throw new JobException("Could not find any blockcount/$cur.php include");
-        }
-        require(__DIR__ . "/../jobs/blockcount/" . safe_include_arg($cur) . ".php");
+        require(__DIR__ . "/../jobs/blockcount/discovered.php");
         break;
       }
 
       if (substr($job['job_type'], 0, strlen("difficulty_")) === "difficulty_") {
         // address job
-        $cur = substr($job['job_type'], strlen("difficulty_"));
-        if (!in_array($cur, \DiscoveredComponents\Currencies::getDifficultyCurrencies())) {
-          throw new JobException("Currency $cur is not a valid difficulty currency");
+        $currency = substr($job['job_type'], strlen("difficulty_"));
+        if (!in_array($currency, \DiscoveredComponents\Currencies::getDifficultyCurrencies())) {
+          throw new JobException("Currency $currency is not a valid difficulty currency");
         }
-        if (!file_exists(__DIR__ . "/../jobs/difficulty/" . safe_include_arg($cur) . ".php")) {
-          throw new JobException("Could not find any difficulty/$cur.php include");
-        }
-        require(__DIR__ . "/../jobs/difficulty/" . safe_include_arg($cur) . ".php");
+        require(__DIR__ . "/../jobs/difficulty/discovered.php");
         break;
       }
 
