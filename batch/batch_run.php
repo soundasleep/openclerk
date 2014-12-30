@@ -204,10 +204,6 @@ try {
       require(__DIR__ . "/../jobs/hobonickels_block.php");
       break;
 
-    case "blackcoin_block":
-      require(__DIR__ . "/../jobs/blackcoin_block.php");
-      break;
-
     case "darkcoin_block":
       require(__DIR__ . "/../jobs/darkcoin_block.php");
       break;
