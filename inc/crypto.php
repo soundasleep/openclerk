@@ -10,7 +10,7 @@ use \DiscoveredComponents\Currencies;
 
 function get_all_currencies() {
   return array_merge(Currencies::getKeys(), array(
-    "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
+    "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -34,7 +34,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  return array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  return array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
 }
 
 function get_all_commodity_currencies() {
@@ -50,7 +50,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  return array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  return array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
 }
 
 function get_currency_name($cur) {
@@ -75,7 +75,6 @@ function get_currency_name($cur) {
     case "vtc": return "Vertcoin";
     case "net": return "Netcoin";
     case "hbn": return "Hobonickels";
-    case "bc1": return "Blackcoin";
     case "drk": return "Darkcoin";
     case "vrc": return "VeriCoin";
     case "nxt": return "Nxt";
@@ -110,7 +109,6 @@ function get_currency_abbr($c) {
   }
 
   if ($c == "dog") return "DOGE";
-  if ($c == "bc1") return "BC";
   return strtoupper($c);
 }
 
@@ -123,7 +121,6 @@ function get_currency_key($c) {
   }
 
   if (strtolower($c) == "doge") return "dog";
-  if (strtolower($c) == "bc") return "bc1";
   return strtolower($c);
 }
 
@@ -152,7 +149,6 @@ function get_blockchain_currencies() {
     "Netcoin Explorer" => array('net'),
     "162.217.249.198" => array('hbn'),
     "Novacoin Explorer" => array('nvc'),
-    "BlackChain" => array('bc1'),
     "Darkcoin Explorer" => array('drk'),
     "cryptoID" => array('vrc'),
     "NXT Explorer" => array('nxt'),
@@ -1010,7 +1006,6 @@ function get_external_apis() {
       'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'address_net' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
       'address_hbn' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a>',
-      'address_bc1' => '<a href="http://blackcha.in/">BlackChain</a>',
       'address_drk' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a>',
       'address_vrc' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
       'address_nxt' => '<a href="http://nxtexplorer.com/">NXT Explorer</a>',
@@ -1034,7 +1029,6 @@ function get_external_apis() {
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'netcoin_block' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
       'hobonickels_block' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a>',
-      'blackcoin_block' => '<a href="http://blackcha.in/">BlackChain</a>',
       'darkcoin_block' => '<a href="http://explorer.darkcoin.io/">Darkcoin Explorer</a>',
       'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
       'reddcoin_block' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
@@ -1417,18 +1411,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_hbn_address',
         'job_type' => 'hobonickels',
         'client' => get_currency_name('hbn'),
-      );
-
-    case "bc1":
-      return array(
-        'premium_group' => 'blackcoin',
-        'title' => 'BC address',
-        'titles' => 'BC addresses',
-        'table' => 'addresses',
-        'currency' => 'bc1',
-        'callback' => 'is_valid_bc1_address',
-        'job_type' => 'blackcoin',
-        'client' => get_currency_name('bc1'),
       );
 
     case "drk":

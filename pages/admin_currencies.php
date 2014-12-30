@@ -28,6 +28,9 @@ page_header("Admin: Currencies", "page_admin_currencies", array('js' => array('a
     <th>Explorer</th>
     <th>Block</th>
     <th>Difficulty</th>
+    <th>Confirmable</th>
+    <th>BlockBalance</th>
+    <th>Receivable</th>
 	</tr>
 </thead>
 <tbody>
@@ -58,6 +61,9 @@ page_header("Admin: Currencies", "page_admin_currencies", array('js' => array('a
     echo "</td>";
     echo "<td>" . ($currency instanceof \Openclerk\Currencies\BlockCurrency ? "yes" : "") . "</td>";
     echo "<td>" . ($currency instanceof \Openclerk\Currencies\DifficultyCurrency ? "yes" : "") . "</td>";
+    echo "<td>" . ($currency instanceof \Openclerk\Currencies\ConfirmableCurrency ? "yes" : "") . "</td>";
+    echo "<td>" . ($currency instanceof \Openclerk\Currencies\BlockBalanceableCurrency ? "yes" : "") . "</td>";
+    echo "<td>" . ($currency instanceof \Openclerk\Currencies\ReceivableCurrency ? "yes" : "") . "</td>";
     echo "</tr>\n";
   }
 ?>

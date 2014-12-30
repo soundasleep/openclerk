@@ -245,6 +245,15 @@ function display_messages() {
 }
 
 function crypto_address($currency, $address) {
+  foreach (\DiscoveredComponents\Currencies::getAddressCurrencies() as $cur) {
+    if ($cur === $currency) {
+      $instance = \DiscoveredComponents\Currencies::getInstance($cur);
+      return "<span class=\"address " . $currency . "_address\"><code>" . htmlspecialchars($address) . "</code>
+        <a class=\"inspect\" href=\"" . htmlspecialchars($instance->getBalanceURL($address)) . "\" title=\"Inspect with " . htmlspecialchars($instance->getExplorerName()) . "\">?</a>
+      </span>";
+    }
+  }
+
   foreach (get_blockchain_currencies() as $explorer => $currencies) {
     foreach ($currencies as $cur) {
       if ($cur == $currency) {

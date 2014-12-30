@@ -123,9 +123,6 @@ Openclerk\Config::merge(array(
   "technical_period_max" => 365,
 
   // external URLs
-  "ltc_address_url" => "http://explorer.litecoin.net/address/%s",
-  "ltc_block_url" => "http://explorer.litecoin.net/chain/Litecoin/q/getblockcount",
-  "btc_address_url" => "https://blockchain.info/address/%s",
   "ftc_address_url" => "http://explorer.feathercoin.com/address/%s",
   "ftc_block_url" => "http://explorer.feathercoin.com/chain/Feathercoin/q/getblockcount",
   "ppc_address_url" => "http://ppc.blockr.io/api/v1/address/info/%s",
@@ -155,9 +152,6 @@ Openclerk\Config::merge(array(
   "net_block_url" => "http://explorer.netcoinfoundation.org/chain/Netcoin/q/getblockcount",
   "hbn_address_url" => "http://162.217.249.198:1080/address/%s",
   "hbn_block_url" => "http://162.217.249.198:1080/chain/Hobonickels/q/getblockcount",
-  "bc1_address_url" => "http://blackcha.in/address/%s",
-  "bc1_balance_url" => "http://blackcha.in/api/address/%s",
-  "bc1_block_url" => "http://blackcha.in/api/status?q=getInfo",
   "drk_address_url" => "http://explorer.darkcoin.io/address/%s",
   "drk_block_url" => "http://explorer.darkcoin.io/chain/Darkcoin/q/getblockcount",
   "vrc_address_url" => "https://chainz.cryptoid.info/vrc/address.dws?%s",
@@ -171,8 +165,6 @@ Openclerk\Config::merge(array(
   "via_block_url" => "http://explorer.viacoin.org/api/status?q=getInfo",
   "nbt_address_url" => "https://blockexplorer.nu/address/%s/1/newest",
   "nsr_address_url" => "https://blockexplorer.nu/address/%s/1/newest",
-  "btc_confirmations" => 6,
-  "ltc_confirmations" => 6,
   "ftc_confirmations" => 6,
   "ppc_confirmations" => 6,
   "nvc_confirmations" => 6,

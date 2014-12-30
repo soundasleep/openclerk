@@ -28,7 +28,6 @@
       echo "</li>";
     }
     ?>
-    <li><span class="currency_name_ltc"><a href="http://litecoin.org" target="_blank">Litecoin</a> - <a href="https://en.bitcoin.it/wiki/Litecoin" target="_blank">What is Litecoin?</a></span></li>
     <li><span class="currency_name_nmc"><a href="http://dot-bit.org" target="_blank">Namecoin</a> - <a href="http://dot-bit.org/Namecoin" target="_blank">What is Namecoin?</a></span></li>
     <li><span class="currency_name_ftc"><a href="http://feathercoin.com/" target="_blank">Feathercoin</a> - <a href="http://www.feathercoin.com/about/" target="_blank">What is Feathercoin?</a></span></li>
     <li><span class="currency_name_ppc"><a href="http://ppcoin.org/" target="_blank">PPCoin</a> - <a href="https://github.com/ppcoin/ppcoin/wiki/FAQ" target="_blank">PPCoin FAQ</a></span></li>
@@ -44,7 +43,6 @@
     <li><span class="currency_name_vtc"><a href="http://www.vertcoin.org/" target="_blank">Vertcoin</a> - <a href="http://vertcoinforum.com/" target="_blank">Vertcoin Forum</a></span></li>
     <li><span class="currency_name_net"><a href="http://netcoinfoundation.org/" target="_blank">Netcoin</a> - <a href="http://forum.netcoinfoundation.org/" target="_blank">Netcoin Forum</a></span></li>
     <li><span class="currency_name_hbn"><a href="http://hobonickels.info/" target="_blank">Hobonickels</a> - <a href="http://www.reddit.com/r/hobonickel" target="_blank">/r/hobonickel</a></span></li>
-    <li><span class="currency_name_bc1"><a href="http://www.blackcoin.co/" target="_blank">Blackcoin</a> - <a href="http://www.blackcoin.co/" target="_blank">What is Blackcoin?</a></span></li>
     <li><span class="currency_name_rdd"><a href="https://www.reddcoin.com/" target="_blank">Reddcoin</a> - <a href="http://www.reddit.com/r/reddcoin" target="_blank">/r/reddcoin</a></span></li>
     <li><span class="currency_name_via"><a href="http://viacoin.org/" target="_blank">Viacoin</a> - <a href="http://www.reddit.com/r/viacoin" target="_blank">/r/viacoin</a></span></li>
   </ul>
