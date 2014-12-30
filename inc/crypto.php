@@ -1206,7 +1206,7 @@ class BlockchainWizardConfig {
       'title' => $this->currency->getAbbr() . ' address',
       'titles' => $this->currency->getAbbr() . ' addresses',
       'table' => 'addresses',
-      'currency' => 'btc',
+      'currency' => $this->currency->getCode(),
       'callback' => array($this->currency, 'isValid'),
       'job_type' => 'address_' . $this->currency->getCode(),
       'client' => $this->currency->getName(),
