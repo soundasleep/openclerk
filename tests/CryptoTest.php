@@ -120,6 +120,11 @@ class CryptoTestsTest extends PHPUnit_Framework_TestCase {
    */
   function testAllAddressCurrenciesHaveAddressIncludes() {
     foreach (get_address_currencies() as $cur) {
+      // skip ones that are discovered
+      if (\DiscoveredComponents\Currencies::hasKey($cur)) {
+        continue;
+      }
+
       $file = __DIR__ . "/../jobs/addresses/$cur.php";
       $this->assertTrue(file_exists($file), "File '$file' did not exist for address currency '$cur'");
     }
