@@ -13,7 +13,12 @@ if (!$address) {
 	throw new JobException("Cannot find an address " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
-$result = crypto_json_decode(crypto_get_contents(crypto_wrap_url(get_site_config('bc1_balance_url') . urlencode($address['address']) . "?noTxList=1")));
+$result = crypto_json_decode(crypto_get_contents(crypto_wrap_url(sprintf(get_site_config('bc1_balance_url'), urlencode($address['address'])) . "?noTxList=1")));
+crypto_log(print_r($result, true));
+
+if (isset($result['error'])) {
+  throw new ExternalAPIException($result['error']);
+}
 
 if ($address['is_received']) {
 	crypto_log("We are looking for received balance.");
