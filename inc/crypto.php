@@ -9,15 +9,47 @@ use \Openclerk\Currencies\Currency;
 use \DiscoveredComponents\Currencies;
 
 function get_all_currencies() {
-  return array_merge(Currencies::getKeys(), array(
+  $currencies = array_merge(Currencies::getKeys(), array(
     "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
+  uasort($currencies, 'sort_currency_list');
+  return $currencies;
+}
+
+/**
+ * Allow us to define our own sort order for currency lists.
+ * Sorts by a defined order, and then alphabetically for any undefined currency codes.
+ */
+function sort_currency_list($a, $b) {
+  $desired = array(
+    "btc", "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "bc1", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
+    "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
+    "ghs",
+  );
+  $as = array_search($a, $desired);
+  $bs = array_search($b, $desired);
+  if ($as === false) {
+    if ($bs === false) {
+      return strcmp($a, $b);
+    } else {
+      return 1;
+    }
+  }
+  if ($bs === false) {
+    return -1;
+  }
+  if ($as == $bs) {
+    return 0;
+  }
+  return $as < $bs ? -1 : 1;
 }
 
 function get_all_hashrate_currencies() {
-  return array_merge(Currencies::getHashrateCurrencies(), array("nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn"));
+  $currencies = array_merge(Currencies::getHashrateCurrencies(), array("nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn"));
+  uasort($currencies, 'sort_currency_list');
+  return $currencies;
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -34,11 +66,15 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  return array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  uasort($currencies, 'sort_currency_list');
+  return $currencies;
 }
 
 function get_all_commodity_currencies() {
-  return array_merge(Currencies::getCommodityCurrencies(), array("ghs"));
+  $currencies = array_merge(Currencies::getCommodityCurrencies(), array("ghs"));
+  uasort($currencies, 'sort_currency_list');
+  return $currencies;
 }
 
 function get_all_fiat_currencies() {
@@ -50,7 +86,9 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  return array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  uasort($currencies, 'sort_currency_list');
+  return $currencies;
 }
 
 function get_currency_name($cur) {
