@@ -10,14 +10,14 @@ use \DiscoveredComponents\Currencies;
 
 function get_all_currencies() {
   return array_merge(Currencies::getKeys(), array(
-    "ltc", "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
+    "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1" /* blackcoin=bc */, "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
 }
 
 function get_all_hashrate_currencies() {
-  return array_merge(Currencies::getHashrateCurrencies(), array("ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn"));
+  return array_merge(Currencies::getHashrateCurrencies(), array("nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn"));
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -34,7 +34,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  return array_merge(Currencies::getCryptocurrencies(), array("ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  return array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
 }
 
 function get_all_commodity_currencies() {
@@ -50,7 +50,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  return array_merge(Currencies::getAddressCurrencies(), array("ltc", "nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  return array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "bc1", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
 }
 
 function get_currency_name($cur) {
@@ -60,7 +60,6 @@ function get_currency_name($cur) {
   }
 
   switch ($cur) {
-    case "ltc": return "Litecoin";
     case "ppc": return "PPCoin";
     case "ftc": return "Feathercoin";
     case "nvc": return "Novacoin";
@@ -140,7 +139,6 @@ function get_blockchain_currencies() {
   }
 
   return array_merge($explorers, array(
-    "Litecoin Explorer" => array('ltc'),
     "CryptoCoin Explorer" => array('trc'),
     "Blockr.io" => array('ppc', 'dgc'),
     "Feathercoin Search" => array('ftc'),
@@ -982,10 +980,21 @@ function get_external_apis() {
     $external_apis_addresses["address_" . $key] = $link;
   }
 
+  $external_apis_blockcounts = array();
+  foreach (Currencies::getBlockCurrencies() as $key) {
+    $currency = Currencies::getInstance($key);
+    if ($currency->getExplorerURL()) {
+      $link = link_to($currency->getExplorerURL(), $currency->getExplorerName());
+    } else {
+      $link = htmlspecialchars($currency->getExplorerName());
+    }
+
+    $external_apis_blockcounts["blockcount_" . $key] = $link;
+  }
+
   $external_apis = array(
     "Address balances" => array_merge($external_apis_addresses, array(
       // plaintext content is obtained by removing all HTML tags from the link HTML
-      'address_ltc' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a>',
       'address_ftc' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC)',
       'address_ppc' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
       'address_nvc' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
@@ -1011,8 +1020,7 @@ function get_external_apis() {
       'address_nsr' => '<a href="https://blockexplorer.nu/">NuExplorer</a> (NSR)',
     )),
 
-    "Block counts" => array(
-      'litecoin_block' => '<a href="http://explorer.litecoin.net">Litecoin explorer</a>',
+    "Block counts" => array_merge($external_apis_blockcounts, array(
       'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC)',
       'ppcoin_block' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
       'novacoin_block' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
@@ -1031,7 +1039,7 @@ function get_external_apis() {
       'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
       'reddcoin_block' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
       'viacoin_block' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a>',
-    ),
+    )),
 
     "Mining pool wallets" => array(
       '50btc' => '<a href="https://50btc.com/">50BTC</a>',
@@ -1231,19 +1239,6 @@ function get_blockchain_wizard_config($currency) {
   }
 
   switch ($currency) {
-    case "ltc":
-      return array(
-        'premium_group' => 'litecoin',
-        'title' => 'LTC address',
-        'titles' => 'LTC addresses',
-        'table' => 'addresses',
-        'currency' => 'ltc',
-        'callback' => 'is_valid_ltc_address',
-        'job_type' => 'litecoin',
-        'client' => 'Litecoin-Qt',
-        'csv_kb' => 'litecoin_csv',
-      );
-
     case "ftc":
       return array(
         'premium_group' => 'feathercoin',
@@ -2871,12 +2866,8 @@ function is_valid_btc_address($address) {
 }
 
 function is_valid_ltc_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "L")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("ltc");
+  return $currency->isValid($address);
 }
 
 function is_valid_ftc_address($address) {

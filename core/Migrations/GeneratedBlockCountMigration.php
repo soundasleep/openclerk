@@ -23,7 +23,7 @@ class GeneratedBlockCountMigration extends \Db\Migration {
    * Override the default function to check that a table exists.
    */
   function isApplied(Connection $db) {
-    return $this->tableExists($db, $this->getTable($db));
+    return $this->tableExists($db, $this->getTable());
   }
 
   /**
