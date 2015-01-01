@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/apis.git",
-                "reference": "672d31a0ea23b3345134561be7dd7f18edf73f7e"
+                "reference": "36fd65ecc88b009e831c16dfdec93cc5fe935663"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/apis/zipball/672d31a0ea23b3345134561be7dd7f18edf73f7e",
-                "reference": "672d31a0ea23b3345134561be7dd7f18edf73f7e",
+                "url": "https://api.github.com/repos/openclerk/apis/zipball/36fd65ecc88b009e831c16dfdec93cc5fe935663",
+                "reference": "36fd65ecc88b009e831c16dfdec93cc5fe935663",
                 "shasum": ""
             },
             "require": {
@@ -172,7 +172,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for defining and using APIs",
-            "time": "2014-12-29 11:08:05"
+            "time": "2015-01-01 11:23:17"
         },
         {
             "name": "openclerk/config",
@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "8cb6890e01c047fe0f072d5c4a37d63f9e3673c3"
+                "reference": "ec896716ef87b0bc0333ce24a2f7680cada22263"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/8cb6890e01c047fe0f072d5c4a37d63f9e3673c3",
-                "reference": "8cb6890e01c047fe0f072d5c4a37d63f9e3673c3",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/ec896716ef87b0bc0333ce24a2f7680cada22263",
+                "reference": "ec896716ef87b0bc0333ce24a2f7680cada22263",
                 "shasum": ""
             },
             "require": {
@@ -228,7 +228,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2014-12-30 10:34:25"
+            "time": "2015-01-01 11:48:06"
         },
         {
             "name": "openclerk/currencies",
@@ -1384,16 +1384,16 @@
         },
         {
             "name": "sebastian/version",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/version.git",
-                "reference": "b6e1f0cf6b9e1ec409a0d3e2f2a5fb0998e36b43"
+                "reference": "a77d9123f8e809db3fbdea15038c27a95da4058b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/b6e1f0cf6b9e1ec409a0d3e2f2a5fb0998e36b43",
-                "reference": "b6e1f0cf6b9e1ec409a0d3e2f2a5fb0998e36b43",
+                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/a77d9123f8e809db3fbdea15038c27a95da4058b",
+                "reference": "a77d9123f8e809db3fbdea15038c27a95da4058b",
                 "shasum": ""
             },
             "type": "library",
@@ -1415,7 +1415,7 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2014-03-07 15:35:33"
+            "time": "2014-12-15 14:25:24"
         },
         {
             "name": "soundasleep/component-tests",

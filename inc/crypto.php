@@ -10,7 +10,7 @@ use \DiscoveredComponents\Currencies;
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
+    "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "dog", "mec", "xrp", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -47,18 +47,18 @@ function sort_currency_list($a, $b) {
 }
 
 function get_all_hashrate_currencies() {
-  $currencies = array_merge(Currencies::getHashrateCurrencies(), array("nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn"));
-  uasort($currencies, 'sort_currency_list');
-  return $currencies;
+  // TODO actually implement HashableCurrencies
+  return array("btc", "ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn");
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
 function is_hashrate_mhash($cur) {
-  if (in_array($cur, Currencies::getKeys())) {
-    $currency = Currencies::getInstance($cur);
-    return $currency->isMHash();
-  }
-  return $cur == 'nmc' || $cur == 'ppc' || $cur == 'trc';
+  // TODO actually implement HashableCurrencies
+  // if (in_array($cur, Currencies::getKeys())) {
+  //   $currency = Currencies::getInstance($cur);
+  //   return $currency->isMHash();
+  // }
+  return $cur == 'btc' || $cur == 'nmc' || $cur == 'ppc' || $cur == 'trc';
 }
 
 function get_new_supported_currencies() {
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "dgc", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "dog", "mec", "xrp", "wdc", "ixc", "vtc", "net", "hbn", "drk", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -107,7 +107,6 @@ function get_currency_name($cur) {
     case "dog": return "Dogecoin";
     case "mec": return "Megacoin";
     case "xrp": return "Ripple";
-    case "dgc": return "Digitalcoin";
     case "wdc": return "Worldcoin";
     case "ixc": return "Ixcoin";
     case "vtc": return "Vertcoin";
@@ -175,7 +174,7 @@ function get_blockchain_currencies() {
 
   return array_merge($explorers, array(
     "CryptoCoin Explorer" => array('trc'),
-    "Blockr.io" => array('ppc', 'dgc'),
+    "Blockr.io" => array('ppc'),
     "Feathercoin Search" => array('ftc'),
     "DogeChain" => array('dog'),
     "Namecha.in" => array('nmc'),
@@ -1038,7 +1037,6 @@ function get_external_apis() {
       'address_mec' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
       'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
       'address_nmc' => '<a href="http://namecha.in">Namecha.in</a>',
-      'address_dgc' => '<a href="http://dgc.blockr.io/">blockr.io</a> (DGC)',
       'address_wdc' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'address_ixc' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
       'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
@@ -1061,7 +1059,6 @@ function get_external_apis() {
       'dogecoin_block' => '<a href="http://dogechain.info/">DogeChain</a>',
       'megacoin_block' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
       'namecoin_block' => '<a href="http://namecha.in">Namecha.in</a>',
-      'digitalcoin_block' => '<a href="http://dgc.blockr.io/">blockr.io</a> (DGC)',
       'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'ixcoin_block' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
@@ -1377,18 +1374,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_nmc_address',
         'job_type' => 'namecoin',
         'client' => get_currency_name('nmc'),
-      );
-
-    case "dgc":
-      return array(
-        'premium_group' => 'digitalcoin',
-        'title' => 'DGC address',
-        'titles' => 'DGC addresses',
-        'table' => 'addresses',
-        'currency' => 'dgc',
-        'callback' => 'is_valid_dgc_address',
-        'job_type' => 'digitalcoin',
-        'client' => get_currency_name('dgc'),
       );
 
     case "wdc":
@@ -2963,12 +2948,8 @@ function is_valid_nmc_address($address) {
 }
 
 function is_valid_dgc_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "D")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("dgc");
+  return $currency->isValid($address);
 }
 
 function is_valid_wdc_address($address) {

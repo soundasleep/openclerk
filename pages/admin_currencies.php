@@ -63,7 +63,7 @@ page_header("Admin: Currencies", "page_admin_currencies", array('js' => array('a
     echo "<td>" . ($currency instanceof \Openclerk\Currencies\DifficultyCurrency ? "yes" : "") . "</td>";
     echo "<td>" . ($currency instanceof \Openclerk\Currencies\ConfirmableCurrency ? "yes" : "") . "</td>";
     echo "<td>" . ($currency instanceof \Openclerk\Currencies\BlockBalanceableCurrency ? "yes" : "") . "</td>";
-    echo "<td>" . ($currency instanceof \Openclerk\Currencies\ReceivableCurrency ? "yes" : "") . "</td>";
+    echo "<td>" . ($currency instanceof \Openclerk\Currencies\ReceivedCurrency ? "yes" : "") . "</td>";
     echo "</tr>\n";
   }
 ?>
