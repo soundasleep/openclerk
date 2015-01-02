@@ -22,6 +22,7 @@ site/img/custom-sprites.png
 # Ignore generated content from *-discovery
 generated/
 site/css/generated*
+site/css/_generated*
 site/js/generated*
 site/images/
 

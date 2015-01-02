@@ -3,6 +3,6 @@
   "js": "site/js/generated.js",
   "coffee": "site/js/generated-coffee.coffee",
   "css": "site/styles/generated.css",
-  "scss": "site/css/generated-scss.scss",
+  "scss": "site/css/_generated.scss",
   "images": "site/images/"
 }

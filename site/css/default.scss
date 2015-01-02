@@ -1,5 +1,8 @@
 @import "variables";
 
+// generated SCSS from asset-discovery; should be at top
+@import "generated";
+
 @viewport{
   zoom: 1.0;
   width: extend-to-zoom;
@@ -209,7 +212,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .xrp_address .inspect { background: url('../img/ripple_graph.png') top left no-repeat; }
 .wdc_address .inspect { background: url('../img/worldcoinexplorer.png') top left no-repeat; }
 .vtc_address .inspect { background: url('../img/vertcoin.png') top left no-repeat; }
-.hbn_address .inspect { background: url('../img/hobonickels_explorer.png') top left no-repeat; }
 .vrc_address .inspect { background: url('../img/cryptoid.png') top left no-repeat; }
 .nxt_address .inspect { background: url('../img/nxt.png') top left no-repeat; }
 .rdd_address .inspect { background: url('../img/reddsight.png') top left no-repeat; }
@@ -217,11 +219,24 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .nbt_address .inspect { background: url('../img/nuexplorer.png') top left no-repeat; }
 .nsr_address .inspect { background: url('../img/nuexplorer.png') top left no-repeat; }
 
+@each $code in $currency-codes {
+  .explorer_name.explorer_#{$code} {
+    padding-left: 20px;
+  }
+
+  .#{$code}_address .inspect, .explorer_name.explorer_#{code} {
+    @include explorer-label-background($code);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+  }
+}
+
 .currency_name_nmc, .currency_name_ppc,
   .currency_name_nvc, .currency_name_xpm, .currency_name_trc, .currency_name_ghs,
   .currency_name_mec, .currency_name_xrp,
   .currency_name_wdc, .currency_name_ixc, .currency_name_vtc, .currency_name_net,
-  .currency_name_hbn, .currency_name_vrc,
+  .currency_name_vrc,
   .currency_name_nxt, .currency_name_rdd, .currency_name_via, .currency_name_nbt,
   .currency_name_nsr {
     padding-left: 20px;
@@ -238,7 +253,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .currency_name_ixc { background: url('../img/ixcoin.png') 0 0 no-repeat; }
 .currency_name_vtc { background: url('../img/vertcoin.png') 0 0 no-repeat; }
 .currency_name_net { background: url('../img/netcoin.png') 0 0 no-repeat; }
-.currency_name_hbn { background: url('../img/hobonickels.png') 0 0 no-repeat; }
 .currency_name_vrc { background: url('../img/vericoin.png') 0 0 no-repeat; }
 .currency_name_nxt { background: url('../img/nxt.png') 0 0 no-repeat; }
 .currency_name_rdd { background: url('../img/reddcoin.png') 0 0 no-repeat; }
@@ -246,6 +260,17 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .currency_name_ghs { background: url('../img/ghs.png') 0 0 no-repeat; }
 .currency_name_nbt { background: url('../img/nubits.png') 0 0 no-repeat; }
 .currency_name_nsr { background: url('../img/nushares.png') 0 0 no-repeat; }
+
+@each $code in $currency-codes {
+  .currency_name.currency_#{$code}, .currency_name_#{$code} {
+    padding-left: 20px;
+    @include currency-label-background($code);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+  }
+}
+
 .purchase_button { padding: 2px; }
 .help_name_twitter { background: url('../img/twitter.png') top left no-repeat; padding-left: 20px; }
 .help_name_facebook { background: url('../img/facebook.png') top left no-repeat; padding-left: 20px; }
