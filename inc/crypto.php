@@ -1327,18 +1327,6 @@ function get_blockchain_wizard_config($currency) {
         'client' => get_currency_name('trc'),
       );
 
-    case "dog":
-      return array(
-        'premium_group' => 'dogecoin',
-        'title' => 'DOGE address',
-        'titles' => 'DOGE addresses',
-        'table' => 'addresses',
-        'currency' => 'dog',
-        'callback' => 'is_valid_dog_address',
-        'job_type' => 'dogecoin',
-        'client' => get_currency_name('dog'),
-      );
-
     case "mec":
       return array(
         'premium_group' => 'megacoin',
@@ -1433,18 +1421,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_hbn_address',
         'job_type' => 'hobonickels',
         'client' => get_currency_name('hbn'),
-      );
-
-    case "drk":
-      return array(
-        'premium_group' => 'darkcoin',
-        'title' => 'DRK address',
-        'titles' => 'DRK addresses',
-        'table' => 'addresses',
-        'currency' => 'drk',
-        'callback' => 'is_valid_drk_address',
-        'job_type' => 'darkcoin',
-        'client' => get_currency_name('drk'),
       );
 
     case "vrc":
@@ -2993,21 +2969,13 @@ function is_valid_hbn_address($address) {
 }
 
 function is_valid_bc1_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "B")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("bc1");
+  return $currency->isValid($address);
 }
 
 function is_valid_drk_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "X")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("drk");
+  return $currency->isValid($address);
 }
 
 function is_valid_vrc_address($address) {

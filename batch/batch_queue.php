@@ -296,10 +296,10 @@ foreach ($standard_jobs as $standard) {
 if (!$premium_only) {
   $block_jobs = array('version_check', 'vote_coins',
     'feathercoin_block', 'ppcoin_block', 'novacoin_block',
-    'terracoin_block', 'dogecoin_block', 'megacoin_block', 'namecoin_block',
-    'digitalcoin_block', 'worldcoin_block', 'ixcoin_block',
+    'terracoin_block', 'megacoin_block', 'namecoin_block',
+    'worldcoin_block', 'ixcoin_block',
     'netcoin_block', 'hobonickels_block',
-    'vertcoin_block', 'darkcoin_block', 'vericoin_block',
+    'vertcoin_block', 'vericoin_block',
     'reddcoin_block', 'viacoin_block');
   foreach ($block_jobs as $name) {
     // as often as we can (or on request), run litecoin_block jobs
