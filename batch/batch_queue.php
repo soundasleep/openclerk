@@ -297,7 +297,7 @@ if (!$premium_only) {
   $block_jobs = array('version_check', 'vote_coins',
     'ppcoin_block', 'novacoin_block',
     'terracoin_block', 'megacoin_block', 'namecoin_block',
-    'worldcoin_block', 'ixcoin_block',
+    'worldcoin_block',
     'netcoin_block',
     'vertcoin_block', 'vericoin_block',
     'reddcoin_block', 'viacoin_block');

@@ -8,16 +8,6 @@
 use \Openclerk\Currencies\Currency;
 use \DiscoveredComponents\Currencies;
 
-function get_all_currencies() {
-  $currencies = array_merge(Currencies::getKeys(), array(
-    "nmc", "ppc", "xpm", "nvc", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
-    "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
-    "ghs",
-  ));
-  uasort($currencies, 'sort_currency_list');
-  return $currencies;
-}
-
 /**
  * Allow us to define our own sort order for currency lists.
  * Sorts by a defined order, and then alphabetically for any undefined currency codes.
@@ -48,7 +38,17 @@ function sort_currency_list($a, $b) {
 
 function get_all_hashrate_currencies() {
   // TODO actually implement HashableCurrencies
-  return array("btc", "ltc", "nmc", "nvc", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net");
+  return array("btc", "ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn");
+}
+
+function get_all_currencies() {
+  $currencies = array_merge(Currencies::getKeys(), array(
+    "nmc", "ppc", "xpm", "nvc", "trc", "mec", "xrp", "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
+    "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
+    "ghs",
+  ));
+  uasort($currencies, 'sort_currency_list');
+  return $currencies;
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "ixc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp", "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -106,7 +106,6 @@ function get_currency_name($cur) {
     case "mec": return "Megacoin";
     case "xrp": return "Ripple";
     case "wdc": return "Worldcoin";
-    case "ixc": return "Ixcoin";
     case "vtc": return "Vertcoin";
     case "net": return "Netcoin";
     case "vrc": return "VeriCoin";
@@ -174,7 +173,6 @@ function get_blockchain_currencies() {
     "Namecha.in" => array('nmc'),
     "Ripple" => array('xrp'),
     "Megacoin Block Explorer" => array('mec'),
-    "Altcoin Explorer" => array('ixc'),
     "Worldcoin Explorer" => array('wdc'),
     "Vertcoin Explorer" => array('vtc'),
     "Netcoin Explorer" => array('net'),
@@ -1029,7 +1027,6 @@ function get_external_apis() {
       'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
       'address_nmc' => '<a href="http://namecha.in">Namecha.in</a>',
       'address_wdc' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
-      'address_ixc' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
       'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'address_net' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
       'address_vrc' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
@@ -1047,7 +1044,6 @@ function get_external_apis() {
       'megacoin_block' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
       'namecoin_block' => '<a href="http://namecha.in">Namecha.in</a>',
       'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
-      'ixcoin_block' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'netcoin_block' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
       'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
@@ -1253,18 +1249,6 @@ function get_blockchain_wizard_config($currency) {
   }
 
   switch ($currency) {
-    case "ftc":
-      return array(
-        'premium_group' => 'feathercoin',
-        'title' => 'FTC address',
-        'titles' => 'FTC addresses',
-        'table' => 'addresses',
-        'currency' => 'ftc',
-        'callback' => 'is_valid_ftc_address',
-        'job_type' => 'feathercoin',
-        'client' => get_currency_name('ftc'),
-      );
-
     case "ppc":
       return array(
         'premium_group' => 'ppcoin',
@@ -1359,18 +1343,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_wdc_address',
         'job_type' => 'worldcoin',
         'client' => get_currency_name('wdc'),
-      );
-
-    case "ixc":
-      return array(
-        'premium_group' => 'ixcoin',
-        'title' => 'IXC address',
-        'titles' => 'IXC addresses',
-        'table' => 'addresses',
-        'currency' => 'ixc',
-        'callback' => 'is_valid_ixc_address',
-        'job_type' => 'ixcoin',
-        'client' => get_currency_name('ixc'),
       );
 
     case "vtc":
@@ -2903,12 +2875,8 @@ function is_valid_wdc_address($address) {
 }
 
 function is_valid_ixc_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "x")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("ixc");
+  return $currency->isValid($address);
 }
 
 function is_valid_vtc_address($address) {
