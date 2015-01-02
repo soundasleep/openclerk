@@ -295,7 +295,7 @@ foreach ($standard_jobs as $standard) {
 
 if (!$premium_only) {
   $block_jobs = array('version_check', 'vote_coins',
-    'feathercoin_block', 'ppcoin_block', 'novacoin_block',
+    'ppcoin_block', 'novacoin_block',
     'terracoin_block', 'megacoin_block', 'namecoin_block',
     'worldcoin_block', 'ixcoin_block',
     'netcoin_block', 'hobonickels_block',

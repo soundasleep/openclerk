@@ -10,7 +10,7 @@ use \DiscoveredComponents\Currencies;
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "nmc", "ppc", "ftc", "xpm", "nvc", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
+    "nmc", "ppc", "xpm", "nvc", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "ftc", "nvc", "xpm", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -99,7 +99,6 @@ function get_currency_name($cur) {
 
   switch ($cur) {
     case "ppc": return "PPCoin";
-    case "ftc": return "Feathercoin";
     case "nvc": return "Novacoin";
     case "nmc": return "Namecoin";
     case "xpm": return "Primecoin";
@@ -173,7 +172,6 @@ function get_blockchain_currencies() {
   return array_merge($explorers, array(
     "CryptoCoin Explorer" => array('trc'),
     "Blockr.io" => array('ppc'),
-    "Feathercoin Search" => array('ftc'),
     "Namecha.in" => array('nmc'),
     "Ripple" => array('xrp'),
     "Megacoin Block Explorer" => array('mec'),
@@ -2844,12 +2842,8 @@ function is_valid_ltc_address($address) {
 }
 
 function is_valid_ftc_address($address) {
-  // based on is_valid_ftc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "6" || substr($address, 0, 1) == "7")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("ftc");
+  return $currency->isValid($address);
 }
 
 function is_valid_ppc_address($address) {
