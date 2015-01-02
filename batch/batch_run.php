@@ -188,10 +188,6 @@ try {
       require(__DIR__ . "/../jobs/netcoin_block.php");
       break;
 
-    case "hobonickels_block":
-      require(__DIR__ . "/../jobs/hobonickels_block.php");
-      break;
-
     case "vericoin_block":
       require(__DIR__ . "/../jobs/vericoin_block.php");
       break;

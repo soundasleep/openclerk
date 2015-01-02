@@ -298,7 +298,7 @@ if (!$premium_only) {
     'ppcoin_block', 'novacoin_block',
     'terracoin_block', 'megacoin_block', 'namecoin_block',
     'worldcoin_block', 'ixcoin_block',
-    'netcoin_block', 'hobonickels_block',
+    'netcoin_block',
     'vertcoin_block', 'vericoin_block',
     'reddcoin_block', 'viacoin_block');
   foreach ($block_jobs as $name) {

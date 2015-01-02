@@ -10,7 +10,7 @@ use \DiscoveredComponents\Currencies;
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "nmc", "ppc", "xpm", "nvc", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
+    "nmc", "ppc", "xpm", "nvc", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -48,7 +48,7 @@ function sort_currency_list($a, $b) {
 
 function get_all_hashrate_currencies() {
   // TODO actually implement HashableCurrencies
-  return array("btc", "ltc", "nmc", "nvc", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn");
+  return array("btc", "ltc", "nmc", "nvc", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net");
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "ixc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "hbn", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp", "wdc", "ixc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -109,7 +109,6 @@ function get_currency_name($cur) {
     case "ixc": return "Ixcoin";
     case "vtc": return "Vertcoin";
     case "net": return "Netcoin";
-    case "hbn": return "Hobonickels";
     case "vrc": return "VeriCoin";
     case "nxt": return "Nxt";
     case "rdd": return "Reddcoin";
@@ -1022,7 +1021,6 @@ function get_external_apis() {
   $external_apis = array(
     "Address balances" => array_merge($external_apis_addresses, array(
       // plaintext content is obtained by removing all HTML tags from the link HTML
-      'address_ftc' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC)',
       'address_ppc' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
       'address_nvc' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
       'address_xpm' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
@@ -1034,7 +1032,6 @@ function get_external_apis() {
       'address_ixc' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
       'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'address_net' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
-      'address_hbn' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a>',
       'address_vrc' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
       'address_nxt' => '<a href="http://nxtexplorer.com/">NXT Explorer</a>',
       'address_rdd' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
@@ -1044,7 +1041,6 @@ function get_external_apis() {
     )),
 
     "Block counts" => array_merge($external_apis_blockcounts, array(
-      'feathercoin_block' => '<a href="http://cryptocoinexplorer.com:5750/">CryptoCoin explorer</a> (FTC)',
       'ppcoin_block' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
       'novacoin_block' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
       'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
@@ -1054,7 +1050,6 @@ function get_external_apis() {
       'ixcoin_block' => '<a href="http://block.al.tcoin.info/chain/Ixcoin">Altcoin explorer</a> (IXC)',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'netcoin_block' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
-      'hobonickels_block' => '<a href="http://162.217.249.198:1080/chain/Hobonickels">Hobonickels</a>',
       'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
       'reddcoin_block' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
       'viacoin_block' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a>',
@@ -1400,18 +1395,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_net_address',
         'job_type' => 'netcoin',
         'client' => get_currency_name('net'),
-      );
-
-    case "hbn":
-      return array(
-        'premium_group' => 'hobonickels',
-        'title' => 'HBN address',
-        'titles' => 'HBN addresses',
-        'table' => 'addresses',
-        'currency' => 'hbn',
-        'callback' => 'is_valid_hbn_address',
-        'job_type' => 'hobonickels',
-        'client' => get_currency_name('hbn'),
       );
 
     case "vrc":
@@ -2947,12 +2930,8 @@ function is_valid_net_address($address) {
 }
 
 function is_valid_hbn_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "E" || substr($address, 0, 1) == "F")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("hbn");
+  return $currency->isValid($address);
 }
 
 function is_valid_bc1_address($address) {
