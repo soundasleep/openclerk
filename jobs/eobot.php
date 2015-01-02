@@ -50,13 +50,19 @@ foreach ($split as $row) {
 	$data[$bits[0]] = $bits[1];
 }
 
-if (isset($data['MiningSHA-256'])) {
-	$hash_rate = $data['MiningSHA-256'] + $data['CloudSHA-256'];
-	insert_new_hashrate($job, $account, $exchange . "_sha", $currency, $hash_rate);
-}
+$wallets = get_supported_wallets();
+foreach ($wallets['eobot'] as $currency) {
+  if ($currency == "hash") {
+    continue;
+  }
 
-if (isset($data['MiningScrypt'])) {
-	$hash_rate = $data['MiningScrypt'] + $data['CloudScrypt'];
-	insert_new_hashrate($job, $account, $exchange . "_scrypt", $currency, $hash_rate / 1000 /* in KHash/s */);
-}
+  if (isset($data['MiningSHA-256']) && is_hashrate_mhash($currency)) {
+  	$hash_rate = $data['MiningSHA-256'] + $data['CloudSHA-256'];
+  	insert_new_hashrate($job, $account, $exchange . "_sha", $currency, $hash_rate);
+  }
 
+  if (isset($data['MiningScrypt']) && !is_hashrate_mhash($currency)) {
+  	$hash_rate = $data['MiningScrypt'] + $data['CloudScrypt'];
+  	insert_new_hashrate($job, $account, $exchange . "_scrypt", $currency, $hash_rate / 1000 /* in KHash/s */);
+  }
+}
