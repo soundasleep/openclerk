@@ -180,10 +180,6 @@ try {
       require(__DIR__ . "/../jobs/namecoin_block.php");
       break;
 
-    case "digitalcoin_block":
-      require(__DIR__ . "/../jobs/digitalcoin_block.php");
-      break;
-
     case "worldcoin_block":
       require(__DIR__ . "/../jobs/worldcoin_block.php");
       break;

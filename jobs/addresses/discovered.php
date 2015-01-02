@@ -19,7 +19,11 @@ if (!$address) {
 
 $instance = \DiscoveredComponents\Currencies::getInstance($currency);
 
-if ($instance instanceof \Openclerk\Currencies\BlockCurrency) {
+if ($instance instanceof \Openclerk\Currencies\ConfirmableCurrency) {
+  // directly request confirmations
+  $balance = $instance->getBalanceWithConfirmations($address['address'], \Openclerk\Config::get($currency . "_confirmations", 6), $logger);
+
+} else if ($instance instanceof \Openclerk\Currencies\BlockCurrency) {
   // get the most recent block count, to calculate confirmations
   $block = null;
   $q = db()->prepare("SELECT * FROM blockcount_" . $currency . " WHERE is_recent=1");
