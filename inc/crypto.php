@@ -176,7 +176,6 @@ function get_blockchain_currencies() {
     "CryptoCoin Explorer" => array('trc'),
     "Blockr.io" => array('ppc'),
     "Feathercoin Search" => array('ftc'),
-    "DogeChain" => array('dog'),
     "Namecha.in" => array('nmc'),
     "Ripple" => array('xrp'),
     "Megacoin Block Explorer" => array('mec'),
@@ -2912,12 +2911,8 @@ function is_valid_xpm_address($address) {
 }
 
 function is_valid_dog_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "D")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("dog");
+  return $currency->isValid($address);
 }
 
 function is_valid_mec_address($address) {

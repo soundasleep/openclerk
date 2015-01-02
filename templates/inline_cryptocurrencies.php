@@ -19,7 +19,14 @@
 <p>
   <ul class="currency_list">
     <?php
-    foreach (\DiscoveredComponents\Currencies::getAllInstances() as $currency) {
+    // get_all_cryptocurrencies() so that it's sorted
+    foreach (get_all_cryptocurrencies() as $code) {
+      if (!\DiscoveredComponents\Currencies::hasKey($code)) {
+        continue;
+      }
+
+      $currency = \DiscoveredComponents\Currencies::getInstance($code);
+
       echo "<li>";
       echo "<span class=\"currency_name_" . $currency->getCode() . "\">" . link_to($currency->getURL(), $currency->getName(), array("target" => "_blank")) . "</span>";
       foreach ($currency->getCommunityLinks() as $url => $title) {

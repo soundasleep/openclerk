@@ -168,10 +168,6 @@ try {
       require(__DIR__ . "/../jobs/terracoin_block.php");
       break;
 
-    case "dogecoin_block":
-      require(__DIR__ . "/../jobs/dogecoin_block.php");
-      break;
-
     case "megacoin_block":
       require(__DIR__ . "/../jobs/megacoin_block.php");
       break;
