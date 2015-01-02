@@ -72,7 +72,7 @@ module.exports = (grunt) ->
         files: [{
           expand: true
           cwd: 'node_modules/'
-          src: ['**/*.js']
+          src: ['**/*.js', '!**/node_modules/**']
           dest: 'site/js/node_modules/'
         }]
 
