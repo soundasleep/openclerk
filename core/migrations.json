@@ -1,5 +1,4 @@
 {
   "\\Core\\Migrations\\BlockCountMigrationGenerator": "\\Core\\Migrations\\BlockCountMigrationGenerator",
-  "\\Core\\Migrations\\DifficultyMigrationGenerator": "\\Core\\Migrations\\DifficultyMigrationGenerator",
-  "\\Core\\Migrations\\RenameLitecoinBlocks": "\\Core\\Migrations\\RenameLitecoinBlocks"
+  "\\Core\\Migrations\\DifficultyMigrationGenerator": "\\Core\\Migrations\\DifficultyMigrationGenerator"
 }

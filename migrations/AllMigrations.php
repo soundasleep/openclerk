@@ -9,10 +9,15 @@ class AllMigrations extends \Db\Migration {
   function getParents() {
     // the order is important
     return array_merge(
-        array(new \Db\BaseMigration()),                          // track migrations
-        array(new \Migrations\UseDbMigration()),                 // migrate the old DB to the new DB for all components
-        \DiscoveredComponents\Migrations::getAllInstances(),     // then apply any new discovered ones
-        array(new \Migrations\ExternalAPIsMigration(), new \Migrations\ExternalAPIsMigrationBlocks())
+        array(new \Db\BaseMigration()),                         // track migrations
+        array(
+          // migrate the old DB to the new DB for all components
+          new \Migrations\UseDbMigration(),
+          new \Migrations\ExternalAPIsMigration(),
+          new \Migrations\ExternalAPIsMigrationBlocks(),
+          new \Migrations\RenameBlockTables(),
+        ),
+        \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered ones
       );
   }
 
