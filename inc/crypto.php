@@ -43,7 +43,7 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "nmc", "ppc", "xpm", "nvc", "trc", "xrp", "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via",
+    "nmc", "ppc", "xpm", "nvc", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "xrp", "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -106,7 +106,6 @@ function get_currency_name($cur) {
     case "xrp": return "Ripple";
     case "wdc": return "Worldcoin";
     case "vtc": return "Vertcoin";
-    case "net": return "Netcoin";
     case "vrc": return "VeriCoin";
     case "nxt": return "Nxt";
     case "rdd": return "Reddcoin";
@@ -171,7 +170,6 @@ function get_blockchain_currencies() {
     "Ripple" => array('xrp'),
     "Worldcoin Explorer" => array('wdc'),
     "Vertcoin Explorer" => array('vtc'),
-    "Netcoin Explorer" => array('net'),
     "162.217.249.198" => array('hbn'),
     "Novacoin Explorer" => array('nvc'),
     "cryptoID" => array('vrc'),
@@ -1022,7 +1020,6 @@ function get_external_apis() {
       'address_nmc' => '<a href="http://namecha.in">Namecha.in</a>',
       'address_wdc' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
-      'address_net' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
       'address_vrc' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
       'address_nxt' => '<a href="http://nxtexplorer.com/">NXT Explorer</a>',
       'address_rdd' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
@@ -1036,7 +1033,6 @@ function get_external_apis() {
       'namecoin_block' => '<a href="http://namecha.in">Namecha.in</a>',
       'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
-      'netcoin_block' => '<a href="http://explorer.netcoinfoundation.org/">Netcoin Explorer</a>',
       'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
       'reddcoin_block' => '<a href="http://live.reddcoin.com/">Reddsight</a>',
       'viacoin_block' => '<a href="http://explorer.viacoin.org/">Viacoin Insight</a>',
@@ -1334,18 +1330,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_vtc_address',
         'job_type' => 'vertcoin',
         'client' => get_currency_name('vtc'),
-      );
-
-    case "net":
-      return array(
-        'premium_group' => 'netcoin',
-        'title' => 'NET address',
-        'titles' => 'NET addresses',
-        'table' => 'addresses',
-        'currency' => 'net',
-        'callback' => 'is_valid_net_address',
-        'job_type' => 'netcoin',
-        'client' => get_currency_name('net'),
       );
 
     case "vrc":
@@ -2840,12 +2824,8 @@ function is_valid_vtc_address($address) {
 }
 
 function is_valid_net_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "n")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("net");
+  return $currency->isValid($address);
 }
 
 function is_valid_hbn_address($address) {

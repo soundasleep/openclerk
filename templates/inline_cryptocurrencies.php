@@ -43,7 +43,6 @@
     <li><span class="currency_name_xrp"><a href="https://ripple.com/" target="_blank">Ripple</a> - <a href="https://ripple.com/about-ripple/" target="_blank">What is Ripple?</a></span></li>
     <li><span class="currency_name_wdc"><a href="http://www.worldcoinalliance.net/" target="_blank">Worldcoin</a> - <a href="http://www.worldcoinalliance.net/worldcoin-features-specifications-advantages/" target="_blank">Why Worldcoin?</a></span></li>
     <li><span class="currency_name_vtc"><a href="http://www.vertcoin.org/" target="_blank">Vertcoin</a> - <a href="http://vertcoinforum.com/" target="_blank">Vertcoin Forum</a></span></li>
-    <li><span class="currency_name_net"><a href="http://netcoinfoundation.org/" target="_blank">Netcoin</a> - <a href="http://forum.netcoinfoundation.org/" target="_blank">Netcoin Forum</a></span></li>
     <li><span class="currency_name_rdd"><a href="https://www.reddcoin.com/" target="_blank">Reddcoin</a> - <a href="http://www.reddit.com/r/reddcoin" target="_blank">/r/reddcoin</a></span></li>
     <li><span class="currency_name_via"><a href="http://viacoin.org/" target="_blank">Viacoin</a> - <a href="http://www.reddit.com/r/viacoin" target="_blank">/r/viacoin</a></span></li>
   </ul>
