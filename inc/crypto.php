@@ -43,7 +43,7 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "nmc", "ppc", "xpm", "nvc", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via",
+    "ppc", "xpm", "nvc", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("ppc", "nvc", "xpm", "trc", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("ppc", "nvc", "xpm", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -100,7 +100,6 @@ function get_currency_name($cur) {
   switch ($cur) {
     case "ppc": return "PPCoin";
     case "nvc": return "Novacoin";
-    case "nmc": return "Namecoin";
     case "xpm": return "Primecoin";
     case "trc": return "Terracoin";
     case "xrp": return "Ripple";
@@ -166,7 +165,6 @@ function get_blockchain_currencies() {
   return array_merge($explorers, array(
     "CryptoCoin Explorer" => array('trc'),
     "Blockr.io" => array('ppc'),
-    "Namecha.in" => array('nmc'),
     "Ripple" => array('xrp'),
     "Worldcoin Explorer" => array('wdc'),
     "Vertcoin Explorer" => array('vtc'),
@@ -1017,7 +1015,6 @@ function get_external_apis() {
       'address_xpm' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
       'address_trc' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
       'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
-      'address_nmc' => '<a href="http://namecha.in">Namecha.in</a>',
       'address_wdc' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'address_vrc' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
@@ -1030,7 +1027,6 @@ function get_external_apis() {
       'ppcoin_block' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
       'novacoin_block' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
       'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
-      'namecoin_block' => '<a href="http://namecha.in">Namecha.in</a>',
       'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
@@ -1294,18 +1290,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_xrp_address',
         'job_type' => 'ripple',
         'client' => get_currency_name('xrp'),
-      );
-
-    case "nmc":
-      return array(
-        'premium_group' => 'namecoin',
-        'title' => 'NMC address',
-        'titles' => 'NMC addresses',
-        'table' => 'addresses',
-        'currency' => 'nmc',
-        'callback' => 'is_valid_nmc_address',
-        'job_type' => 'namecoin',
-        'client' => get_currency_name('nmc'),
       );
 
     case "wdc":
@@ -2787,12 +2771,8 @@ function is_valid_xrp_address($address) {
 }
 
 function is_valid_nmc_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "M" || substr($address, 0, 1) == "N")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("nmc");
+  return $currency->isValid($address);
 }
 
 function is_valid_dgc_address($address) {

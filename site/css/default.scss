@@ -204,7 +204,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .address .inspect {
     display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom;
   }
-.nmc_address .inspect { background: url('../img/explorer1.png') top left no-repeat; }
 .ppc_address .inspect { background: url('../img/blockr.png') top left no-repeat; }
 .nvc_address .inspect { background: url('../img/novacoin_explorer.png') top left no-repeat; }
 .xpm_address .inspect { background: url('../img/coinplorer.png') top left no-repeat; }
@@ -230,15 +229,14 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
   }
 }
 
-.currency_name_nmc, .currency_name_ppc,
+.currency_name_ppc,
   .currency_name_nvc, .currency_name_xpm, .currency_name_trc, .currency_name_ghs,
   .currency_name_xrp,
-  .currency_name_wdc, .currency_name_ixc, .currency_name_vtc,
+  .currency_name_wdc, .currency_name_vtc,
   .currency_name_vrc,
   .currency_name_nxt, .currency_name_rdd, .currency_name_via {
     padding-left: 20px;
   }
-.currency_name_nmc { background: url('../img/namecoin.png') 0 0 no-repeat; }
 .currency_name_ppc { background: url('../img/ppcoin.png') 0 0 no-repeat; }
 .currency_name_nvc { background: url('../img/novacoin.png') 0 0 no-repeat; }
 .currency_name_xpm { background: url('../img/primecoin.png') 0 0 no-repeat; }
