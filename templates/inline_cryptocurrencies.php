@@ -40,10 +40,7 @@
     <li><span class="currency_name_nvc"><a href="http://novacoin.org/" target="_blank">Novacoin</a> - <a href="http://novacoin.org/wiki/" target="_blank">Novacoin Wiki</a></span></li>
     <li><span class="currency_name_xpm"><a href="http://primecoin.org/" target="_blank">Primecoin</a> - <a href="https://github.com/primecoin/primecoin/wiki" target="_blank">Primecoin Wiki</a></span></li>
     <li><span class="currency_name_trc"><a href="http://terracoin.org/" target="_blank">Terracoin</a> - <a href="http://terracoin.org/about.html" target="_blank">About Terracoin</a></span></li>
-    <li><span class="currency_name_dog"><a href="http://dogecoin.com/" target="_blank">Dogecoin</a> - <a href="https://dogecoin.org/" target="_blank">Dogecoin community</a></span></li>
-    <li><span class="currency_name_mec"><a href="http://megacoin.co.nz/" target="_blank">Megacoin</a> - <a href="http://megacoin.in/about" target="_blank">About Megacoin</a></span></li>
     <li><span class="currency_name_xrp"><a href="https://ripple.com/" target="_blank">Ripple</a> - <a href="https://ripple.com/about-ripple/" target="_blank">What is Ripple?</a></span></li>
-    <li><span class="currency_name_dgc"><a href="http://digitalcoin.co/en/" target="_blank">Digitalcoin</a> - <a href="http://digitalcoin.co/quick-start/" target="_blank">Digitalcoin Quick Start</a></span></li>
     <li><span class="currency_name_wdc"><a href="http://www.worldcoinalliance.net/" target="_blank">Worldcoin</a> - <a href="http://www.worldcoinalliance.net/worldcoin-features-specifications-advantages/" target="_blank">Why Worldcoin?</a></span></li>
     <li><span class="currency_name_vtc"><a href="http://www.vertcoin.org/" target="_blank">Vertcoin</a> - <a href="http://vertcoinforum.com/" target="_blank">Vertcoin Forum</a></span></li>
     <li><span class="currency_name_net"><a href="http://netcoinfoundation.org/" target="_blank">Netcoin</a> - <a href="http://forum.netcoinfoundation.org/" target="_blank">Netcoin Forum</a></span></li>

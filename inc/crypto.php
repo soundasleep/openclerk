@@ -43,7 +43,7 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "nmc", "ppc", "xpm", "nvc", "trc", "mec", "xrp", "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
+    "nmc", "ppc", "xpm", "nvc", "trc", "xrp", "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "mec", "xrp", "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("nmc", "ppc", "nvc", "xpm", "trc", "xrp", "wdc", "vtc", "net", "vrc", "nxt", "rdd", "via", "nbt", "nsr"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -103,7 +103,6 @@ function get_currency_name($cur) {
     case "nmc": return "Namecoin";
     case "xpm": return "Primecoin";
     case "trc": return "Terracoin";
-    case "mec": return "Megacoin";
     case "xrp": return "Ripple";
     case "wdc": return "Worldcoin";
     case "vtc": return "Vertcoin";
@@ -172,7 +171,6 @@ function get_blockchain_currencies() {
     "Blockr.io" => array('ppc'),
     "Namecha.in" => array('nmc'),
     "Ripple" => array('xrp'),
-    "Megacoin Block Explorer" => array('mec'),
     "Worldcoin Explorer" => array('wdc'),
     "Vertcoin Explorer" => array('vtc'),
     "Netcoin Explorer" => array('net'),
@@ -1023,7 +1021,6 @@ function get_external_apis() {
       'address_nvc' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
       'address_xpm' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
       'address_trc' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
-      'address_mec' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
       'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
       'address_nmc' => '<a href="http://namecha.in">Namecha.in</a>',
       'address_wdc' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
@@ -1041,7 +1038,6 @@ function get_external_apis() {
       'ppcoin_block' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
       'novacoin_block' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
       'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
-      'megacoin_block' => '<a href="http://mega.rapta.net:2750/chain/Megacoin">Megacoin Block Explorer</a>',
       'namecoin_block' => '<a href="http://namecha.in">Namecha.in</a>',
       'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
@@ -1295,18 +1291,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_trc_address',
         'job_type' => 'terracoin',
         'client' => get_currency_name('trc'),
-      );
-
-    case "mec":
-      return array(
-        'premium_group' => 'megacoin',
-        'title' => 'MEC address',
-        'titles' => 'MEC addresses',
-        'table' => 'addresses',
-        'currency' => 'mec',
-        'callback' => 'is_valid_mec_address',
-        'job_type' => 'megacoin',
-        'client' => get_currency_name('mec'),
       );
 
     case "xrp":
@@ -2834,12 +2818,8 @@ function is_valid_dog_address($address) {
 }
 
 function is_valid_mec_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "M")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("mec");
+  return $currency->isValid($address);
 }
 
 function is_valid_xrp_address($address) {
