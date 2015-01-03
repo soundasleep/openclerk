@@ -216,8 +216,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .nxt_address .inspect { background: url('../img/nxt.png') top left no-repeat; }
 .rdd_address .inspect { background: url('../img/reddsight.png') top left no-repeat; }
 .via_address .inspect { background: url('../img/viacoin.png') top left no-repeat; }
-.nbt_address .inspect { background: url('../img/nuexplorer.png') top left no-repeat; }
-.nsr_address .inspect { background: url('../img/nuexplorer.png') top left no-repeat; }
 
 @each $code in $currency-codes {
   .explorer_name.explorer_#{$code} {
@@ -237,8 +235,7 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
   .currency_name_xrp,
   .currency_name_wdc, .currency_name_ixc, .currency_name_vtc, .currency_name_net,
   .currency_name_vrc,
-  .currency_name_nxt, .currency_name_rdd, .currency_name_via, .currency_name_nbt,
-  .currency_name_nsr {
+  .currency_name_nxt, .currency_name_rdd, .currency_name_via {
     padding-left: 20px;
   }
 .currency_name_nmc { background: url('../img/namecoin.png') 0 0 no-repeat; }
@@ -256,8 +253,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .currency_name_rdd { background: url('../img/reddcoin.png') 0 0 no-repeat; }
 .currency_name_via { background: url('../img/viacoin.png') 0 0 no-repeat; }
 .currency_name_ghs { background: url('../img/ghs.png') 0 0 no-repeat; }
-.currency_name_nbt { background: url('../img/nubits.png') 0 0 no-repeat; }
-.currency_name_nsr { background: url('../img/nushares.png') 0 0 no-repeat; }
 
 @each $code in $currency-codes {
   .currency_name.currency_#{$code}, .currency_name_#{$code} {
