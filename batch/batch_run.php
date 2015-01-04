@@ -151,11 +151,6 @@ try {
       require(__DIR__ . "/../jobs/reported_currencies.php");
       break;
 
-    // block jobs
-    case "worldcoin_block":
-      require(__DIR__ . "/../jobs/worldcoin_block.php");
-      break;
-
     // account jobs
     case "generic":
       require(__DIR__ . "/../jobs/generic.php");
