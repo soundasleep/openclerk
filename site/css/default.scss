@@ -211,7 +211,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .wdc_address .inspect { background: url('../img/worldcoinexplorer.png') top left no-repeat; }
 .vtc_address .inspect { background: url('../img/vertcoin.png') top left no-repeat; }
 .vrc_address .inspect { background: url('../img/cryptoid.png') top left no-repeat; }
-.nxt_address .inspect { background: url('../img/nxt.png') top left no-repeat; }
 .rdd_address .inspect { background: url('../img/reddsight.png') top left no-repeat; }
 .via_address .inspect { background: url('../img/viacoin.png') top left no-repeat; }
 
@@ -233,7 +232,7 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
   .currency_name_xrp,
   .currency_name_wdc, .currency_name_vtc,
   .currency_name_vrc,
-  .currency_name_nxt, .currency_name_rdd, .currency_name_via {
+  .currency_name_rdd, .currency_name_via {
     padding-left: 20px;
   }
 .currency_name_ppc { background: url('../img/ppcoin.png') 0 0 no-repeat; }
@@ -244,7 +243,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .currency_name_wdc { background: url('../img/explorer_wdc.png') 0 0 no-repeat; }
 .currency_name_vtc { background: url('../img/vertcoin.png') 0 0 no-repeat; }
 .currency_name_vrc { background: url('../img/vericoin.png') 0 0 no-repeat; }
-.currency_name_nxt { background: url('../img/nxt.png') 0 0 no-repeat; }
 .currency_name_rdd { background: url('../img/reddcoin.png') 0 0 no-repeat; }
 .currency_name_via { background: url('../img/viacoin.png') 0 0 no-repeat; }
 .currency_name_ghs { background: url('../img/ghs.png') 0 0 no-repeat; }

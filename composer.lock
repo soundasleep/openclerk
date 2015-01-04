@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/apis.git",
-                "reference": "36fd65ecc88b009e831c16dfdec93cc5fe935663"
+                "reference": "fe3d437f56516bf4d0d4c0f286e35d78dbb04e35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/apis/zipball/36fd65ecc88b009e831c16dfdec93cc5fe935663",
-                "reference": "36fd65ecc88b009e831c16dfdec93cc5fe935663",
+                "url": "https://api.github.com/repos/openclerk/apis/zipball/fe3d437f56516bf4d0d4c0f286e35d78dbb04e35",
+                "reference": "fe3d437f56516bf4d0d4c0f286e35d78dbb04e35",
                 "shasum": ""
             },
             "require": {
@@ -172,7 +172,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for defining and using APIs",
-            "time": "2015-01-01 11:23:17"
+            "time": "2015-01-04 00:37:08"
         },
         {
             "name": "openclerk/config",
@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "643d28cc7aa4b29a0e213f0ab4449993da8c348b"
+                "reference": "c2c7e9c0797e0a9dad050101192655b38c342971"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/643d28cc7aa4b29a0e213f0ab4449993da8c348b",
-                "reference": "643d28cc7aa4b29a0e213f0ab4449993da8c348b",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/c2c7e9c0797e0a9dad050101192655b38c342971",
+                "reference": "c2c7e9c0797e0a9dad050101192655b38c342971",
                 "shasum": ""
             },
             "require": {
@@ -229,7 +229,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-01-04 00:05:13"
+            "time": "2015-01-04 00:46:20"
         },
         {
             "name": "openclerk/currencies",
