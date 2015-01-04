@@ -43,7 +43,7 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "ppc", "xpm", "nvc", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via",
+    "ppc", "xpm", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("ppc", "nvc", "xpm", "trc", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("ppc", "xpm", "trc", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("ppc", "nvc", "xpm", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("ppc", "xpm", "trc", "xrp", "wdc", "vtc", "vrc", "nxt", "rdd", "via"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -99,7 +99,6 @@ function get_currency_name($cur) {
 
   switch ($cur) {
     case "ppc": return "PPCoin";
-    case "nvc": return "Novacoin";
     case "xpm": return "Primecoin";
     case "trc": return "Terracoin";
     case "xrp": return "Ripple";
@@ -169,7 +168,6 @@ function get_blockchain_currencies() {
     "Worldcoin Explorer" => array('wdc'),
     "Vertcoin Explorer" => array('vtc'),
     "162.217.249.198" => array('hbn'),
-    "Novacoin Explorer" => array('nvc'),
     "cryptoID" => array('vrc'),
     "NXT Explorer" => array('nxt'),
     "Coinplorer" => array('xpm'),
@@ -1011,7 +1009,6 @@ function get_external_apis() {
     "Address balances" => array_merge($external_apis_addresses, array(
       // plaintext content is obtained by removing all HTML tags from the link HTML
       'address_ppc' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
-      'address_nvc' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
       'address_xpm' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
       'address_trc' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
       'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
@@ -1025,7 +1022,6 @@ function get_external_apis() {
 
     "Block counts" => array_merge($external_apis_blockcounts, array(
       'ppcoin_block' => '<a href="http://ppc.blockr.io/">blockr.io</a> (PPC)',
-      'novacoin_block' => '<a href="https://explorer.novaco.in/">Novacoin explorer</a>',
       'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
       'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
@@ -1242,18 +1238,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_ppc_address',
         'job_type' => 'ppcoin',
         'client' => get_currency_name('ppc'),
-      );
-
-    case "nvc":
-      return array(
-        'premium_group' => 'novacoin',
-        'title' => 'NVC address',
-        'titles' => 'NVC addresses',
-        'table' => 'addresses',
-        'currency' => 'nvc',
-        'callback' => 'is_valid_nvc_address',
-        'job_type' => 'novacoin',
-        'client' => get_currency_name('nvc'),
       );
 
     case "xpm":
@@ -2734,12 +2718,8 @@ function is_valid_ppc_address($address) {
 }
 
 function is_valid_nvc_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "4")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("nvc");
+  return $currency->isValid($address);
 }
 
 function is_valid_xpm_address($address) {
