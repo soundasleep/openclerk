@@ -23,7 +23,7 @@ if ($instance instanceof \Openclerk\Currencies\ConfirmableCurrency) {
   // directly request confirmations
   $balance = $instance->getBalanceWithConfirmations($address['address'], \Openclerk\Config::get($currency . "_confirmations", 6), $logger);
 
-} else if ($instance instanceof \Openclerk\Currencies\BlockCurrency) {
+} else if ($instance instanceof \Openclerk\Currencies\BlockBalanceableCurrency) {
   // get the most recent block count, to calculate confirmations
   $block = null;
   $q = db()->prepare("SELECT * FROM blockcount_" . $currency . " WHERE is_recent=1");
@@ -34,8 +34,8 @@ if ($instance instanceof \Openclerk\Currencies\ConfirmableCurrency) {
 
   $balance = $instance->getBalanceAtBlock($address['address'], $block, $logger);
 } else {
-  // we can't do confirmations
-  $balance = $currency->getBalance($address['address'], $logger);
+  // we can't do confirmations or block balances
+  $balance = $instance->getBalance($address['address'], $logger);
 
 }
 
