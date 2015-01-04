@@ -43,7 +43,7 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "xpm", "trc", "xrp", "wdc", "vtc", "vrc", "via",
+    "xpm", "xrp", "wdc", "vtc", "vrc", "via",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("xpm", "trc", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "vrc", "via"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("xpm", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc", "vrc", "via"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("xpm", "trc", "xrp", "wdc", "vtc", "vrc", "via"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("xpm", "xrp", "wdc", "vtc", "vrc", "via"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -99,7 +99,6 @@ function get_currency_name($cur) {
 
   switch ($cur) {
     case "xpm": return "Primecoin";
-    case "trc": return "Terracoin";
     case "xrp": return "Ripple";
     case "wdc": return "Worldcoin";
     case "vtc": return "Vertcoin";
@@ -159,7 +158,6 @@ function get_blockchain_currencies() {
   }
 
   return array_merge($explorers, array(
-    "CryptoCoin Explorer" => array('trc'),
     "Ripple" => array('xrp'),
     "Worldcoin Explorer" => array('wdc'),
     "Vertcoin Explorer" => array('vtc'),
@@ -1002,7 +1000,6 @@ function get_external_apis() {
     "Address balances" => array_merge($external_apis_addresses, array(
       // plaintext content is obtained by removing all HTML tags from the link HTML
       'address_xpm' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
-      'address_trc' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
       'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
       'address_wdc' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
@@ -1011,7 +1008,6 @@ function get_external_apis() {
     )),
 
     "Block counts" => array_merge($external_apis_blockcounts, array(
-      'terracoin_block' => '<a href="http://trc.cryptocoinexplorer.com/">CryptoCoin explorer</a> (TRC)',
       'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
       'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
       'vericoin_block' => '<a href="https://chainz.cryptoid.info/vrc/">cryptoID</a> (VRC)',
@@ -1226,18 +1222,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_xpm_address',
         'job_type' => 'primecoin',
         'client' => get_currency_name('xpm'),
-      );
-
-    case "trc":
-      return array(
-        'premium_group' => 'terracoin',
-        'title' => 'TRC address',
-        'titles' => 'TRC addresses',
-        'table' => 'addresses',
-        'currency' => 'trc',
-        'callback' => 'is_valid_trc_address',
-        'job_type' => 'terracoin',
-        'client' => get_currency_name('trc'),
       );
 
     case "xrp":
@@ -2761,8 +2745,8 @@ function is_valid_vrc_address($address) {
 }
 
 function is_valid_trc_address($address) {
-  // based on is_valid_btc_address
-  return is_valid_btc_address($address);
+  $currency = Currencies::getInstance("trc");
+  return $currency->isValid($address);
 }
 
 function is_valid_nxt_address($address) {

@@ -152,10 +152,6 @@ try {
       break;
 
     // block jobs
-    case "terracoin_block":
-      require(__DIR__ . "/../jobs/terracoin_block.php");
-      break;
-
     case "worldcoin_block":
       require(__DIR__ . "/../jobs/worldcoin_block.php");
       break;
