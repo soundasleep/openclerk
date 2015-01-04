@@ -296,7 +296,7 @@ foreach ($standard_jobs as $standard) {
 if (!$premium_only) {
   $block_jobs = array('version_check', 'vote_coins',
     'worldcoin_block',
-    'vertcoin_block', 'vericoin_block');
+    'vertcoin_block');
   foreach ($block_jobs as $name) {
     // as often as we can (or on request), run litecoin_block jobs
     if (!$job_type || in_array($name, $job_type)) {
