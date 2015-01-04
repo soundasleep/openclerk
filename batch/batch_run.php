@@ -156,10 +156,6 @@ try {
       require(__DIR__ . "/../jobs/worldcoin_block.php");
       break;
 
-    case "vertcoin_block":
-      require(__DIR__ . "/../jobs/vertcoin_block.php");
-      break;
-
     // account jobs
     case "generic":
       require(__DIR__ . "/../jobs/generic.php");

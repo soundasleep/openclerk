@@ -207,7 +207,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .xpm_address .inspect { background: url('../img/coinplorer.png') top left no-repeat; }
 .xrp_address .inspect { background: url('../img/ripple_graph.png') top left no-repeat; }
 .wdc_address .inspect { background: url('../img/worldcoinexplorer.png') top left no-repeat; }
-.vtc_address .inspect { background: url('../img/vertcoin.png') top left no-repeat; }
 
 @each $code in $currency-codes {
   .explorer_name.explorer_#{$code} {
@@ -224,14 +223,13 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 
 .currency_name_xpm, .currency_name_ghs,
   .currency_name_xrp,
-  .currency_name_wdc, .currency_name_vtc {
+  .currency_name_wdc {
     padding-left: 20px;
   }
 .currency_name_xpm { background: url('../img/primecoin.png') 0 0 no-repeat; }
 .currency_name_dog { font-family: "Comic Sans MS"; font-size: 85%; }
 .currency_name_xrp { background: url('../img/ripple.png') 0 0 no-repeat; }
 .currency_name_wdc { background: url('../img/explorer_wdc.png') 0 0 no-repeat; }
-.currency_name_vtc { background: url('../img/vertcoin.png') 0 0 no-repeat; }
 .currency_name_ghs { background: url('../img/ghs.png') 0 0 no-repeat; }
 
 @each $code in $currency-codes {

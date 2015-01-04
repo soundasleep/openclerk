@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "00db0c8b9ef63c8d84b2b8135212c71d3d44e437"
+                "reference": "d1c4bce634ade041a47aef755cad4ab3786a3455"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/00db0c8b9ef63c8d84b2b8135212c71d3d44e437",
-                "reference": "00db0c8b9ef63c8d84b2b8135212c71d3d44e437",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/d1c4bce634ade041a47aef755cad4ab3786a3455",
+                "reference": "d1c4bce634ade041a47aef755cad4ab3786a3455",
                 "shasum": ""
             },
             "require": {
@@ -230,7 +230,7 @@
             },
             "notification-url": "http://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-01-04 05:24:04"
+            "time": "2015-01-04 05:54:08"
         },
         {
             "name": "openclerk/currencies",

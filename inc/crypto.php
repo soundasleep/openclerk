@@ -43,7 +43,7 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "xpm", "xrp", "wdc", "vtc",
+    "xpm", "xrp", "wdc",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("xpm", "xrp" /* I guess xrp is a cryptocurrency */, "wdc", "vtc"));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("xpm", "xrp" /* I guess xrp is a cryptocurrency */, "wdc"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("xpm", "xrp", "wdc", "vtc"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("xpm", "xrp", "wdc"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -101,7 +101,6 @@ function get_currency_name($cur) {
     case "xpm": return "Primecoin";
     case "xrp": return "Ripple";
     case "wdc": return "Worldcoin";
-    case "vtc": return "Vertcoin";
 
     case "usd": return "United States dollar";
     case "nzd": return "New Zealand dollar";
@@ -158,7 +157,6 @@ function get_blockchain_currencies() {
   return array_merge($explorers, array(
     "Ripple" => array('xrp'),
     "Worldcoin Explorer" => array('wdc'),
-    "Vertcoin Explorer" => array('vtc'),
     "Coinplorer" => array('xpm'),
   ));
 }
@@ -998,12 +996,10 @@ function get_external_apis() {
       'address_xpm' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
       'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
       'address_wdc' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
-      'address_vtc' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
     )),
 
     "Block counts" => array_merge($external_apis_blockcounts, array(
       'worldcoin_block' => '<a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>',
-      'vertcoin_block' => '<a href="https://explorer.vertcoin.org/">Vertcoin Explorer</a>',
     )),
 
     "Mining pool wallets" => array(
@@ -1238,18 +1234,6 @@ function get_blockchain_wizard_config($currency) {
         'callback' => 'is_valid_wdc_address',
         'job_type' => 'worldcoin',
         'client' => get_currency_name('wdc'),
-      );
-
-    case "vtc":
-      return array(
-        'premium_group' => 'vertcoin',
-        'title' => 'VTC address',
-        'titles' => 'VTC addresses',
-        'table' => 'addresses',
-        'currency' => 'vtc',
-        'callback' => 'is_valid_vtc_address',
-        'job_type' => 'vertcoin',
-        'client' => get_currency_name('vtc'),
       );
 
     default:
@@ -2675,12 +2659,8 @@ function is_valid_ixc_address($address) {
 }
 
 function is_valid_vtc_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "V")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("vtc");
+  return $currency->isValid($address);
 }
 
 function is_valid_net_address($address) {
