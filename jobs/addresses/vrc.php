@@ -15,9 +15,9 @@ if (!$address) {
 
 if ($address['is_received']) {
 	crypto_log("We are looking for received balance.");
-	$url = get_site_config('vrc_received_url') . urlencode($address['address']);
+	$url = sprintf(get_site_config('vrc_received_url'), urlencode($address['address']));
 } else {
-	$url = get_site_config('vrc_balance_url') . urlencode($address['address']);
+	$url = sprintf(get_site_config('vrc_balance_url'), urlencode($address['address']));
 }
 
 $balance = crypto_get_contents(crypto_wrap_url($url));
