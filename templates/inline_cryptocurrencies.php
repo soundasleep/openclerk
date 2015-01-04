@@ -35,7 +35,6 @@
       echo "</li>";
     }
     ?>
-    <li><span class="currency_name_ppc"><a href="http://ppcoin.org/" target="_blank">PPCoin</a> - <a href="https://github.com/ppcoin/ppcoin/wiki/FAQ" target="_blank">PPCoin FAQ</a></span></li>
     <li><span class="currency_name_xpm"><a href="http://primecoin.org/" target="_blank">Primecoin</a> - <a href="https://github.com/primecoin/primecoin/wiki" target="_blank">Primecoin Wiki</a></span></li>
     <li><span class="currency_name_trc"><a href="http://terracoin.org/" target="_blank">Terracoin</a> - <a href="http://terracoin.org/about.html" target="_blank">About Terracoin</a></span></li>
     <li><span class="currency_name_xrp"><a href="https://ripple.com/" target="_blank">Ripple</a> - <a href="https://ripple.com/about-ripple/" target="_blank">What is Ripple?</a></span></li>

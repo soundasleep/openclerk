@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "c2c7e9c0797e0a9dad050101192655b38c342971"
+                "reference": "a0989924ed2dc099857e0613b254a325732b5a11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/c2c7e9c0797e0a9dad050101192655b38c342971",
-                "reference": "c2c7e9c0797e0a9dad050101192655b38c342971",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/a0989924ed2dc099857e0613b254a325732b5a11",
+                "reference": "a0989924ed2dc099857e0613b254a325732b5a11",
                 "shasum": ""
             },
             "require": {
@@ -229,7 +229,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-01-04 00:46:20"
+            "time": "2015-01-04 00:59:00"
         },
         {
             "name": "openclerk/currencies",
@@ -606,12 +606,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "cc19deeacd310e2088b59ba46e5ba1867d7f93a5"
+                "reference": "4e127bac9dd301c6877c46f31780bd7297b50c8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/cc19deeacd310e2088b59ba46e5ba1867d7f93a5",
-                "reference": "cc19deeacd310e2088b59ba46e5ba1867d7f93a5",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/4e127bac9dd301c6877c46f31780bd7297b50c8e",
+                "reference": "4e127bac9dd301c6877c46f31780bd7297b50c8e",
                 "shasum": ""
             },
             "require-dev": {
@@ -626,7 +626,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2014-12-29 22:15:18"
+            "time": "2015-01-04 00:52:34"
         },
         {
             "name": "soundasleep/html2text",
