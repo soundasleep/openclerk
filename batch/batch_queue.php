@@ -298,7 +298,7 @@ if (!$premium_only) {
     'terracoin_block',
     'worldcoin_block',
     'vertcoin_block', 'vericoin_block',
-    'reddcoin_block', 'viacoin_block');
+    'viacoin_block');
   foreach ($block_jobs as $name) {
     // as often as we can (or on request), run litecoin_block jobs
     if (!$job_type || in_array($name, $job_type)) {
