@@ -164,10 +164,6 @@ try {
       require(__DIR__ . "/../jobs/vericoin_block.php");
       break;
 
-    case "viacoin_block":
-      require(__DIR__ . "/../jobs/viacoin_block.php");
-      break;
-
     // account jobs
     case "generic":
       require(__DIR__ . "/../jobs/generic.php");
