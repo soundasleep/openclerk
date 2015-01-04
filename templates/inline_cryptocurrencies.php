@@ -35,7 +35,6 @@
       echo "</li>";
     }
     ?>
-    <li><span class="currency_name_xrp"><a href="https://ripple.com/" target="_blank">Ripple</a> - <a href="https://ripple.com/about-ripple/" target="_blank">What is Ripple?</a></span></li>
   </ul>
 </p>
 

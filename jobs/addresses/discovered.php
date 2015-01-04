@@ -22,6 +22,7 @@ $instance = \DiscoveredComponents\Currencies::getInstance($currency);
 if ($instance instanceof \Openclerk\Currencies\ConfirmableCurrency) {
   // directly request confirmations
   $balance = $instance->getBalanceWithConfirmations($address['address'], \Openclerk\Config::get($currency . "_confirmations", 6), $logger);
+  insert_new_address_balance($job, $address, $balance);
 
 } else if ($instance instanceof \Openclerk\Currencies\BlockBalanceableCurrency) {
   // get the most recent block count, to calculate confirmations
@@ -33,10 +34,26 @@ if ($instance instanceof \Openclerk\Currencies\ConfirmableCurrency) {
   }
 
   $balance = $instance->getBalanceAtBlock($address['address'], $block, $logger);
+  insert_new_address_balance($job, $address, $balance);
+
 } else {
   // we can't do confirmations or block balances
   $balance = $instance->getBalance($address['address'], $logger);
+  insert_new_address_balance($job, $address, $balance);
 
 }
 
-insert_new_address_balance($job, $address, $balance);
+if ($instance instanceof \Openclerk\Currencies\MultiBalanceableCurrency) {
+  $balances = $instance->getMultiBalances($address['address'], $logger);
+  foreach ($balances as $code => $balance) {
+    if (in_array($code, get_all_currencies())) {
+      if ($code != $currency) {
+        // skip balances we've already inserted for this currency
+        insert_new_balance($job, $address, 'ripple', $code, $balance);
+      }
+    } else {
+      $logger->info("Unknown multi currency '$code'");
+    }
+  }
+
+}

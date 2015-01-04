@@ -43,7 +43,6 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "xrp",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +65,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("xrp" /* I guess xrp is a cryptocurrency */));
+  $currencies = Currencies::getCryptocurrencies();
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +85,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("xrp"));
+  $currencies = Currencies::getAddressCurrencies();
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -98,8 +97,6 @@ function get_currency_name($cur) {
   }
 
   switch ($cur) {
-    case "xrp": return "Ripple";
-
     case "usd": return "United States dollar";
     case "nzd": return "New Zealand dollar";
     case "aud": return "Australian dollar";
@@ -125,7 +122,6 @@ function get_currency_abbr($c) {
     return $currency->getAbbr();
   }
 
-  if ($c == "dog") return "DOGE";
   return strtoupper($c);
 }
 
@@ -137,7 +133,6 @@ function get_currency_key($c) {
     return Currencies::getKeyForAbbr($c);
   }
 
-  if (strtolower($c) == "doge") return "dog";
   return strtolower($c);
 }
 
@@ -152,9 +147,7 @@ function get_blockchain_currencies() {
     $explorers[$explorer][] = $key;
   }
 
-  return array_merge($explorers, array(
-    "Ripple" => array('xrp'),
-  ));
+  return $explorers;
 }
 
 function get_all_exchanges() {
@@ -987,10 +980,7 @@ function get_external_apis() {
   }
 
   $external_apis = array(
-    "Address balances" => array_merge($external_apis_addresses, array(
-      // plaintext content is obtained by removing all HTML tags from the link HTML
-      'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
-    )),
+    "Address balances" => $external_apis_addresses,
 
     "Block counts" => $external_apis_blockcounts,
 
@@ -1191,22 +1181,7 @@ function get_blockchain_wizard_config($currency) {
     return $config->getConfig();
   }
 
-  switch ($currency) {
-    case "xrp":
-      return array(
-        'premium_group' => 'ripple',
-        'title' => 'XRP address',
-        'titles' => 'XRP addresses',
-        'table' => 'addresses',
-        'currency' => 'xrp',
-        'callback' => 'is_valid_xrp_address',
-        'job_type' => 'ripple',
-        'client' => get_currency_name('xrp'),
-      );
-
-    default:
-      throw new Exception("Unknown blockchain currency '$currency'");
-  }
+  throw new Exception("Unknown blockchain currency '$currency'");
 }
 
 function get_accounts_wizard_config($exchange) {
@@ -2590,12 +2565,8 @@ function is_valid_mec_address($address) {
 }
 
 function is_valid_xrp_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "r")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("xrp");
+  return $currency->isValid($address);
 }
 
 function is_valid_nmc_address($address) {

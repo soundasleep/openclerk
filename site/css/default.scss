@@ -204,7 +204,6 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
 .address .inspect {
     display: inline-block; text-indent: 900em; overflow: hidden; width: 16px; height: 16px; vertical-align: text-bottom;
   }
-.xrp_address .inspect { background: url('../img/ripple_graph.png') top left no-repeat; }
 
 @each $code in $currency-codes {
   .explorer_name.explorer_#{$code} {
@@ -219,12 +218,10 @@ tr.odd span.status_loading { background: url('../img/spinning_odd.gif') top left
   }
 }
 
-.currency_name_ghs,
-  .currency_name_xrp {
+.currency_name_ghs {
     padding-left: 20px;
   }
 .currency_name_dog { font-family: "Comic Sans MS"; font-size: 85%; }
-.currency_name_xrp { background: url('../img/ripple.png') 0 0 no-repeat; }
 .currency_name_ghs { background: url('../img/ghs.png') 0 0 no-repeat; }
 
 @each $code in $currency-codes {

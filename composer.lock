@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "0cc206c1cf7fd99ec4fcd5aa0e129ae1a605e8a2"
+                "reference": "cdc1e52ff6ef33f9afd4669080217bce60b48ae4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/0cc206c1cf7fd99ec4fcd5aa0e129ae1a605e8a2",
-                "reference": "0cc206c1cf7fd99ec4fcd5aa0e129ae1a605e8a2",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/cdc1e52ff6ef33f9afd4669080217bce60b48ae4",
+                "reference": "cdc1e52ff6ef33f9afd4669080217bce60b48ae4",
                 "shasum": ""
             },
             "require": {
@@ -230,7 +230,7 @@
             },
             "notification-url": "http://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-01-04 06:17:34"
+            "time": "2015-01-04 06:48:56"
         },
         {
             "name": "openclerk/currencies",
@@ -238,12 +238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/currencies.git",
-                "reference": "af97acf911ba03ae61df5057f3fcb593ba71fc80"
+                "reference": "20f8a7e5aca8a4a0469fb86244feadade6d4cd75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/currencies/zipball/af97acf911ba03ae61df5057f3fcb593ba71fc80",
-                "reference": "af97acf911ba03ae61df5057f3fcb593ba71fc80",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/20f8a7e5aca8a4a0469fb86244feadade6d4cd75",
+                "reference": "20f8a7e5aca8a4a0469fb86244feadade6d4cd75",
                 "shasum": ""
             },
             "require": {
@@ -255,8 +255,8 @@
                     "Openclerk\\Currencies\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-30 10:14:13"
+            "notification-url": "http://packagist.org/downloads/",
+            "time": "2015-01-04 06:49:51"
         },
         {
             "name": "openclerk/db",
