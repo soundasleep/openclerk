@@ -35,7 +35,6 @@
       echo "</li>";
     }
     ?>
-    <li><span class="currency_name_xpm"><a href="http://primecoin.org/" target="_blank">Primecoin</a> - <a href="https://github.com/primecoin/primecoin/wiki" target="_blank">Primecoin Wiki</a></span></li>
     <li><span class="currency_name_xrp"><a href="https://ripple.com/" target="_blank">Ripple</a> - <a href="https://ripple.com/about-ripple/" target="_blank">What is Ripple?</a></span></li>
   </ul>
 </p>

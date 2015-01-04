@@ -43,7 +43,7 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "xpm", "xrp",
+    "xrp",
     "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
@@ -66,7 +66,7 @@ function get_new_supported_currencies() {
 }
 
 function get_all_cryptocurrencies() {
-  $currencies = array_merge(Currencies::getCryptocurrencies(), array("xpm", "xrp" /* I guess xrp is a cryptocurrency */));
+  $currencies = array_merge(Currencies::getCryptocurrencies(), array("xrp" /* I guess xrp is a cryptocurrency */));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -86,7 +86,7 @@ function is_fiat_currency($cur) {
 
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
-  $currencies = array_merge(Currencies::getAddressCurrencies(), array("xpm", "xrp"));
+  $currencies = array_merge(Currencies::getAddressCurrencies(), array("xrp"));
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -98,7 +98,6 @@ function get_currency_name($cur) {
   }
 
   switch ($cur) {
-    case "xpm": return "Primecoin";
     case "xrp": return "Ripple";
 
     case "usd": return "United States dollar";
@@ -155,7 +154,6 @@ function get_blockchain_currencies() {
 
   return array_merge($explorers, array(
     "Ripple" => array('xrp'),
-    "Coinplorer" => array('xpm'),
   ));
 }
 
@@ -991,7 +989,6 @@ function get_external_apis() {
   $external_apis = array(
     "Address balances" => array_merge($external_apis_addresses, array(
       // plaintext content is obtained by removing all HTML tags from the link HTML
-      'address_xpm' => '<a href="https://coinplorer.com/XPM">Coinplorer</a> (XPM)',
       'address_xrp' => '<a href="http://ripple.com">Ripple</a>',
     )),
 
@@ -1195,18 +1192,6 @@ function get_blockchain_wizard_config($currency) {
   }
 
   switch ($currency) {
-    case "xpm":
-      return array(
-        'premium_group' => 'primecoin',
-        'title' => 'XPM address',
-        'titles' => 'XPM addresses',
-        'table' => 'addresses',
-        'currency' => 'xpm',
-        'callback' => 'is_valid_xpm_address',
-        'job_type' => 'primecoin',
-        'client' => get_currency_name('xpm'),
-      );
-
     case "xrp":
       return array(
         'premium_group' => 'ripple',
@@ -2590,12 +2575,8 @@ function is_valid_nvc_address($address) {
 }
 
 function is_valid_xpm_address($address) {
-  // based on is_valid_btc_address
-  if (strlen($address) >= 27 && strlen($address) <= 34 && (substr($address, 0, 1) == "A")
-      && preg_match("#^[A-Za-z0-9]+$#", $address)) {
-    return true;
-  }
-  return false;
+  $currency = Currencies::getInstance("xpm");
+  return $currency->isValid($address);
 }
 
 function is_valid_dog_address($address) {
