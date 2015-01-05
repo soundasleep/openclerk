@@ -6,6 +6,8 @@ if (!isset($account_type)) {
 }
 
 // get all of our accounts
+global $add_types;
+global $add_type_names;
 $accounts = array();
 $add_types = array();
 $add_type_names = array();
@@ -24,8 +26,8 @@ foreach (account_data_grouped() as $label => $data) {
       $account_data = get_accounts_wizard_config($key);
       if (!$value['disabled']) {
         $add_types[] = $key;
-        $add_type_names[$key] = $account_type['exchange_name_callback']($key) . (isset($value['suffix']) ? $value['suffix'] : "");
-        $add_type_help[$key] = $account_type['help_filename_callback']($key);
+        $add_type_names[$key] = call_user_func($account_type['exchange_name_callback'], $key) . (isset($value['suffix']) ? $value['suffix'] : "");
+        $add_type_help[$key] = call_user_func($account_type['help_filename_callback'], $key);
       }
 
       $query = $value['query'] ? $value['query'] : "";
