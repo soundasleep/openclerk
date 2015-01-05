@@ -1373,7 +1373,7 @@ function get_accounts_wizard_config_basic($exchange) {
     case "eligius":
       return array(
         'inputs' => array(
-          'btc_address' => array('title' => 'BTC Address', 'callback' => 'is_valid_btc_address'),
+          'btc_address' => array('title' => 'BTC Address', 'callback' => array(Currencies::getInstance('btc'), 'isValid')),
         ),
         'table' => 'accounts_eligius',
       );
@@ -1937,7 +1937,7 @@ function get_accounts_wizard_config_basic($exchange) {
     case "bitfunder":
       return array(
         'inputs' => array(
-          'btc_address' => array('title' => 'BTC Address', 'callback' => 'is_valid_btc_address'),
+          'btc_address' => array('title' => 'BTC Address', 'callback' => array(Currencies::getInstance('btc'), 'isValid')),
         ),
         'table' => 'accounts_bitfunder',
       );
@@ -2517,136 +2517,6 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
     }
   }
   return $dropdown_get_all_securities[$table];
-}
-
-/**
- * TODO this should be removed; but any component that depends on this definition
- * should therefore depend on whatever component Bitcoin is defined. Perhaps through
- * a custom static {@link Bitcoin#isValid()} function.
- */
-function is_valid_btc_address($address) {
-  $currency = Currencies::getInstance("btc");
-  return $currency->isValid($address);
-}
-
-function is_valid_ltc_address($address) {
-  $currency = Currencies::getInstance("ltc");
-  return $currency->isValid($address);
-}
-
-function is_valid_ftc_address($address) {
-  $currency = Currencies::getInstance("ftc");
-  return $currency->isValid($address);
-}
-
-function is_valid_ppc_address($address) {
-  $currency = Currencies::getInstance("ppc");
-  return $currency->isValid($address);
-}
-
-function is_valid_nvc_address($address) {
-  $currency = Currencies::getInstance("nvc");
-  return $currency->isValid($address);
-}
-
-function is_valid_xpm_address($address) {
-  $currency = Currencies::getInstance("xpm");
-  return $currency->isValid($address);
-}
-
-function is_valid_dog_address($address) {
-  $currency = Currencies::getInstance("dog");
-  return $currency->isValid($address);
-}
-
-function is_valid_mec_address($address) {
-  $currency = Currencies::getInstance("mec");
-  return $currency->isValid($address);
-}
-
-function is_valid_xrp_address($address) {
-  $currency = Currencies::getInstance("xrp");
-  return $currency->isValid($address);
-}
-
-function is_valid_nmc_address($address) {
-  $currency = Currencies::getInstance("nmc");
-  return $currency->isValid($address);
-}
-
-function is_valid_dgc_address($address) {
-  $currency = Currencies::getInstance("dgc");
-  return $currency->isValid($address);
-}
-
-function is_valid_wdc_address($address) {
-  $currency = Currencies::getInstance("wdc");
-  return $currency->isValid($address);
-}
-
-function is_valid_ixc_address($address) {
-  $currency = Currencies::getInstance("ixc");
-  return $currency->isValid($address);
-}
-
-function is_valid_vtc_address($address) {
-  $currency = Currencies::getInstance("vtc");
-  return $currency->isValid($address);
-}
-
-function is_valid_net_address($address) {
-  $currency = Currencies::getInstance("net");
-  return $currency->isValid($address);
-}
-
-function is_valid_hbn_address($address) {
-  $currency = Currencies::getInstance("hbn");
-  return $currency->isValid($address);
-}
-
-function is_valid_bc1_address($address) {
-  $currency = Currencies::getInstance("bc1");
-  return $currency->isValid($address);
-}
-
-function is_valid_drk_address($address) {
-  $currency = Currencies::getInstance("drk");
-  return $currency->isValid($address);
-}
-
-function is_valid_vrc_address($address) {
-  $currency = Currencies::getInstance("vrc");
-  return $currency->isValid($address);
-}
-
-function is_valid_trc_address($address) {
-  $currency = Currencies::getInstance("trc");
-  return $currency->isValid($address);
-}
-
-function is_valid_nxt_address($address) {
-  $currency = Currencies::getInstance("nxt");
-  return $currency->isValid($address);
-}
-
-function is_valid_rdd_address($address) {
-  $currency = Currencies::getInstance("rdd");
-  return $currency->isValid($address);
-}
-
-function is_valid_via_address($address) {
-  $currency = Currencies::getInstance("via");
-  return $currency->isValid($address);
-}
-
-function is_valid_nbt_address($address) {
-  $currency = Currencies::getInstance("nbt");
-  return $currency->isValid($address);
-}
-
-function is_valid_nsr_address($address) {
-  $currency = Currencies::getInstance("nsr");
-  return $currency->isValid($address);
 }
 
 function is_valid_mmcfe_apikey($key) {
