@@ -38,3 +38,6 @@ output/
 
 # Ignore test results
 tests/report.xml
+
+# Ignore runtime .htaccess (issue #391)
+site/.htaccess

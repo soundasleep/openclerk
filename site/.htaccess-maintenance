@@ -1,0 +1,15 @@
+<Files "_*">
+  Order deny,allow
+  Deny from all
+</Files>
+
+RewriteEngine on
+
+# enable maintenance page
+# RewriteCond %{REMOTE_ADDR} !AAA.BBB.CCC.DDD
+RewriteBase /
+RewriteCond %{DOCUMENT_ROOT}/../config/site/maintenance.html -f
+RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+RewriteRule ^([0-9a-z/_]*)$ /maintenance.html [R=503,L]
+ErrorDocument 503 /maintenance.html
+ErrorDocument 404 /404.php
