@@ -509,7 +509,7 @@ function get_supported_wallets() {
     "ecoining" => array('ppc', 'hash'),
     "eligius" => array('btc', 'hash'),    // BTC is paid directly to BTC address but also stored temporarily
     "elitistjerks" => array('ltc', 'hash'),
-    "eobot" => array('btc', 'ltc', 'bc1', 'nmc', 'dog', 'drk', 'vtc', 'ftc', 'ppc', 'nxt', 'hash'),   //  also naut, cure, charity, ghs, scrypt, btsx, sys, ppd
+    "eobot" => array('btc', 'ltc', 'nmc', 'dog', 'drk', 'vtc', 'ftc', 'ppc', 'nxt', 'hash'),   //  also naut, cure, charity, ghs, scrypt, btsx, sys, ppd
     "ghashio" => array('hash'),   // we only use ghash.io for hashrates
     "givemecoins" => array('ltc', 'vtc', 'ftc', 'ppc', 'dog', 'hash'),
     "havelock" => array('btc'),
