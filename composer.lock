@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "b597262b03318128d4dcc7ecc2b104fa868f7c8b"
+                "reference": "04cacfaf75e786164446de4ed2f89a7c15a278a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/b597262b03318128d4dcc7ecc2b104fa868f7c8b",
-                "reference": "b597262b03318128d4dcc7ecc2b104fa868f7c8b",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/04cacfaf75e786164446de4ed2f89a7c15a278a6",
+                "reference": "04cacfaf75e786164446de4ed2f89a7c15a278a6",
                 "shasum": ""
             },
             "require": {
@@ -228,9 +228,9 @@
                     "Cryptocurrency\\Tests\\": "test"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-01-04 06:53:06"
+            "time": "2015-01-09 02:53:23"
         },
         {
             "name": "openclerk/currencies",
@@ -264,12 +264,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "1648e77e3302e4a531d987908a4d7a042affdf87"
+                "reference": "7285d1db7a006d0352eb9cc7f7b5296b9e85b740"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/1648e77e3302e4a531d987908a4d7a042affdf87",
-                "reference": "1648e77e3302e4a531d987908a4d7a042affdf87",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/7285d1db7a006d0352eb9cc7f7b5296b9e85b740",
+                "reference": "7285d1db7a006d0352eb9cc7f7b5296b9e85b740",
                 "shasum": ""
             },
             "require": {
@@ -288,7 +288,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2014-12-29 22:23:13"
+            "time": "2015-01-09 02:44:25"
         },
         {
             "name": "openclerk/emails",
@@ -296,12 +296,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/emails.git",
-                "reference": "12f9482767d97c60ed4c07297a4ce70d14734e0c"
+                "reference": "bc13234bed2f2145bc1e453f8ebc5854c42e099e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/emails/zipball/12f9482767d97c60ed4c07297a4ce70d14734e0c",
-                "reference": "12f9482767d97c60ed4c07297a4ce70d14734e0c",
+                "url": "https://api.github.com/repos/openclerk/emails/zipball/bc13234bed2f2145bc1e453f8ebc5854c42e099e",
+                "reference": "bc13234bed2f2145bc1e453f8ebc5854c42e099e",
                 "shasum": ""
             },
             "require": {
@@ -324,7 +324,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for sending emails and email management",
-            "time": "2014-12-27 04:51:18"
+            "time": "2015-01-06 00:05:08"
         },
         {
             "name": "openclerk/events",
@@ -355,12 +355,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/metrics.git",
-                "reference": "560cfd62bb57b846f61d59dbe5067f2a8c6837f6"
+                "reference": "25033f19ac58abd074d809be9c4763880b0ae13a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/metrics/zipball/560cfd62bb57b846f61d59dbe5067f2a8c6837f6",
-                "reference": "560cfd62bb57b846f61d59dbe5067f2a8c6837f6",
+                "url": "https://api.github.com/repos/openclerk/metrics/zipball/25033f19ac58abd074d809be9c4763880b0ae13a",
+                "reference": "25033f19ac58abd074d809be9c4763880b0ae13a",
                 "shasum": ""
             },
             "require": {
@@ -375,7 +375,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-27 05:25:31"
+            "time": "2015-01-06 00:28:36"
         },
         {
             "name": "openclerk/routing",
@@ -1452,17 +1452,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.1",
+            "version": "v2.6.3",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20"
+                "reference": "82462a90848a52c2533aa6b598b107d68076b018"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/3346fc090a3eb6b53d408db2903b241af51dcb20",
-                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/82462a90848a52c2533aa6b598b107d68076b018",
+                "reference": "82462a90848a52c2533aa6b598b107d68076b018",
                 "shasum": ""
             },
             "require": {
@@ -1495,7 +1495,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-02 20:19:20"
+            "time": "2015-01-03 15:33:07"
         }
     ],
     "aliases": [],
