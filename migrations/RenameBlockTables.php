@@ -46,6 +46,11 @@ class RenameBlockTables extends \Db\Migration {
         if (!$q->execute()) {
           throw new \Exception("Could not apply external_status migration '$from' to '$to'");
         }
+
+        // the from table should no longer exist
+        if ($this->tableExists($db, $from)) {
+          throw new \Exception("Table '$from' should no longer exist");
+        }
       }
     }
 

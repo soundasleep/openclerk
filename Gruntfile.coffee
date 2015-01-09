@@ -76,6 +76,14 @@ module.exports = (grunt) ->
           dest: 'site/js/node_modules/'
         }]
 
+      htaccess:
+        src: 'site/.htaccess.live'
+        dest: 'site/.htaccess'
+
+      htaccessMaintenance:
+        src: 'site/.htaccess.maintenance'
+        dest: 'site/.htaccess'
+
     bgShell:
       # TODO add a grunt-spritify npm task to wrap this
       spritifyDefault:
@@ -179,5 +187,12 @@ module.exports = (grunt) ->
   grunt.registerTask 'custom', "Build custom content if necessary", ->
     grunt.task.run(['bgShell:spritifyCustom']) if grunt.file.exists('site/styles/custom.css')
     grunt.task.run(['copy:configFavicon']) if grunt.file.exists('config/site/img/favicon.ico')
+
+  # Issue #391
+  grunt.registerTask 'deploy', "Enable maintenance page, build, and disable maintenance page when successful", [
+    'copy:htaccessMaintenance',
+    'build',
+    'copy:htaccess'
+  ]
 
   grunt.registerTask 'default', ['test']

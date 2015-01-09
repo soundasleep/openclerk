@@ -3,7 +3,17 @@ openclerk
 
 An open source project to keep track of cryptocurrency finances, based on an internal prototype.
 
-*NOTE* This is an experimental Git clone of the parent Subversion repository hosted on Google Code: http://code.google.com/p/openclerk/
+Requires PHP 5.4+ and uses a number of awesome child components:
+
+* [openclerk/db](https://github.com/openclerk/db) for database abstraction
+* [openclerk/emails](https://github.com/openclerk/emails) for email management
+* [openclerk/config](https://github.com/openclerk/config) for configuration management
+* [openclerk/events](https://github.com/openclerk/events) for server-side event management
+* [openclerk/routing](https://github.com/openclerk/routing) and [openclerk/templates](https://github.com/openclerk/templates) for page routing and templating
+* [openclerk/currencies](https://github.com/openclerk/currencies) for abstract currency definitions
+* [openclerk/cryptocurrencies](https://github.com/openclerk/cryptocurrencies) for cryptocurrency definitions
+* [soundasleep/component-discovery](https://github.com/soundasleep/component-discovery) and
+  [soundasleep/asset-discovery](https://github.com/soundasleep/asset-discovery) for runtime component and asset discovery, enabling custom extensions
 
 ## Features
 
