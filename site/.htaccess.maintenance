@@ -1,34 +1,16 @@
 <Files "_*">
-  Order deny,allow
-  Deny from all
+	Order deny,allow
+	Deny from all
 </Files>
 
 RewriteEngine on
 
-# This allows us to have .htaccess either hosted locally (through a subfolder)
-# or on production (through a root folder)
-RewriteCond %{HTTP_HOST} !localhost
-RewriteRule . - [E=REWRITEBASE:/]
-
-RewriteCond %{HTTP_HOST} localhost
-RewriteRule . - [E=REWRITEBASE:/clerk/]
-
+# enable maintenance page
+# RewriteCond %{REMOTE_ADDR} !AAA.BBB.CCC.DDD
 RewriteBase /
+RewriteCond %{DOCUMENT_ROOT}/../config/site/maintenance.html -f
+RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+RewriteRule ^([0-9a-z/_]*)$ /maintenance.html [R=503,L]
+ErrorDocument 503 /maintenance.html
+ErrorDocument 404 /404.php
 
-# Provide human-readable URLs for some common paths; otherwise
-# all scripts are accessible through the final rule below.
-# To disable these rules, edit url_for() and remove the switch($module) statement.
-# Also see: Issue #4.
-
-RewriteRule ^js/add_graph.js$              %{ENV:REWRITEBASE}js/add_graph.js.php          [L,QSA]
-RewriteRule ^js/locale/([0-9a-z_]+).js$    %{ENV:REWRITEBASE}js/locale.js.php?locale=$1   [L,QSA]
-
-RewriteRule ^api/([0-9a-z_]+)/([0-9a-z_]+).json$      %{ENV:REWRITEBASE}api/$1/$2.php     [L,QSA]
-
-RewriteRule ^api/([0-9a-z_]+)/graphs/([0-9a-z_\-]+)(|.json)$      %{ENV:REWRITEBASE}api/$1/graphs.php?graph_type=$2   [L,QSA]
-
-RewriteRule ^qr/([0-9a-zA-Z_]+)$     %{ENV:REWRITEBASE}img/qr/qr.php?code=$1              [L,QSA]
-
-# This rewrites /foo to /foo.php
-# To disable this rule, edit url_for() to return the normal .php extension for a given path.
-RewriteRule ^([0-9a-z_/]+)$           %{ENV:REWRITEBASE}index.php?path=$1     [L,QSA]
