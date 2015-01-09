@@ -1,3 +1,18 @@
+<dt>9 January</dt>
+<dd>
+  Added new block explorers for <span class="currency_name_vtc">VTC</span>, <span class="currency_name_mec">MEC</span>,
+  <span class="currency_name_ixc">IXC</span>, <span class="currency_name_ftc">FTC</span> and <span class="currency_name_trc">TRC</span> addresses;
+
+  rebranded Blackcoin from BC to <span class="currency_name_bc1">BLK</span>;
+
+  email messages are now provided in both HTML and text;
+
+  updated the list of <a href="<?php echo htmlspecialchars(url_for("help/cryptocurrencies")); ?>">cryptocurrency community resources</a>;
+
+  released the <a href="http://openclerk.org" target="_blank">openclerk.org</a> project page;
+
+  completed initial work in componentising the underlying <a href="http://openclerk.org">openclerk.org</a> application architecture.
+</dd>
 
 <dt>22 November</dt>
 <dd>
@@ -106,14 +121,6 @@ added <a href="https://mupool.com/">MuPool</a> mining pool.
 <dd>
 Added initial site translations into German, French, Japanese, Russian and Chinese (Simplified) languages;
 enabled <a href="https://code.google.com/p/openclerk/wiki/HelpTranslate">contributions for improving these translations</a>.
-</dd>
-
-<dt>12 May</dt>
-<dd>
-Added <a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">finance accounts</a> and <a href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>">finance categories</a>;
-added support for creating manual transactions;
-added <a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">transactions</a> export as CSV;
-added support for listing daily exchange rates with <a href="<?php echo htmlspecialchars(url_for('average')); ?>">your transactions</a>.
 </dd>
 
 <!-- more are in versions_old -->

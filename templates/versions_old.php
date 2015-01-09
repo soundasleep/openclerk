@@ -1,4 +1,12 @@
 
+<dt>12 May</dt>
+<dd>
+Added <a href="<?php echo htmlspecialchars(url_for('finance_accounts')); ?>">finance accounts</a> and <a href="<?php echo htmlspecialchars(url_for('finance_categories')); ?>">finance categories</a>;
+added support for creating manual transactions;
+added <a href="<?php echo htmlspecialchars(url_for('your_transactions')); ?>">transactions</a> export as CSV;
+added support for listing daily exchange rates with <a href="<?php echo htmlspecialchars(url_for('average')); ?>">your transactions</a>.
+</dd>
+
 <dt>25 April</dt>
 <dd>Added currency support for <span class="currency_name_krw" title="<?php echo htmlspecialchars(get_currency_name('krw')); ?>">KRW</span>;
 added <a href="https://www.kraken.com/">Kraken</a> exchange;
