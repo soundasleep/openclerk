@@ -38,10 +38,12 @@ echo implode(" -&gt; ", iterate_over_migrations($migrations));
 <hr>
 
 <?php
-if ($migrations->hasPending(db())) {
+$db = db()->getMaster();		// force master connection
+
+if ($migrations->hasPending($db)) {
   echo "<h2>Installing migrations</h2>";
   echo "<ul>";
-  $migrations->install(db(), $logger);
+  $migrations->install($db, $logger);
   echo "</ul>";
 } else {
   echo "<h2>No migrations need to be installed</h2>";
