@@ -558,7 +558,7 @@ try {
 }
 
 // delete job
-$q = db_master()->prepare("UPDATE jobs SET is_executed=1,is_executing=0,is_error=?,executed_at=NOW() WHERE id=? LIMIT 1");
+$q = db_master()->prepare("UPDATE jobs SET is_executed=1,is_executing=0,is_error=?,executed_at=NOW() WHERE id=?");
 $job['is_error'] = ($runtime_exception === null ? 0 : 1);
 $q->execute(array($job['is_error'], $job['id']));
 
