@@ -18,7 +18,7 @@ if (!$account) {
 $wallets = get_supported_wallets();
 foreach ($wallets['ypool'] as $currency) {
 
-	$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url("http://ypool.net/api/personal_stats?coinType=" . urlencode(strtolower(get_currency_abbr($currency))) . "&key=" . urlencode($account['api_key']))));
+	$data = crypto_json_decode(crypto_get_contents(crypto_wrap_url("http://mining.ypool.net/api/personal_stats?coinType=" . urlencode(strtolower(get_currency_abbr($currency))) . "&key=" . urlencode($account['api_key']))));
 
 	// some quick checks
 	if (!isset($data['status_code'])) {
