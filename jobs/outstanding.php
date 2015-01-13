@@ -199,7 +199,7 @@ if (!$balance) {
               "currency" => get_currency_abbr($address['currency']),
               "currency_name" => get_currency_name($address['currency']),
               "address" => $address['address'],
-              "explorer" => sprintf(get_site_config($address['currency'] . '_address_url'), $address['address']),
+              "explorer" => get_explorer_address($address['currency'], $address['address']),
               "url" => absolute_url(url_for("user#user_outstanding")),
               "reminder" => $reminder,
               "cancelled" => $cancelled,
