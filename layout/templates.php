@@ -266,6 +266,23 @@ function crypto_address($currency, $address) {
   return htmlspecialchars($address);
 }
 
+function get_explorer_address($currency, $address) {
+  foreach (\DiscoveredComponents\Currencies::getAddressCurrencies() as $cur) {
+    if ($cur === $currency) {
+      $instance = \DiscoveredComponents\Currencies::getInstance($cur);
+      return $instance->getBalanceURL($address);
+    }
+  }
+
+  foreach (get_blockchain_currencies() as $explorer => $currencies) {
+    foreach ($currencies as $cur) {
+      if ($cur == $currency) {
+        return sprintf(get_site_config($currency . "_address_url"), $address);
+      }
+    }
+  }
+}
+
 function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {
   $currency = get_currency_abbr($currency_code);
 
