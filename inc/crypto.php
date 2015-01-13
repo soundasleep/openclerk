@@ -536,7 +536,7 @@ function get_supported_wallets() {
     "teamdoge" => array('dog', 'hash'),
     "triplemining" => array('btc', 'hash'),
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
-    "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'bc1', 'nxt'),   // used in jobs/vircurex.php
+    "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
     "wemineftc" => array('ftc', 'hash'),
     "wemineltc" => array('ltc', 'hash'),
     "westhash" => array('btc'),

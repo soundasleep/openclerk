@@ -41,10 +41,10 @@ foreach ($currencies as $i => $currency) {
 
 	// if auth fails, display helpful message
 	if (!isset($balance["currency"]) && isset($balance["statustxt"])) {
-		throw new ExternalAPIException(htmlspecialchars($balance["statustxt"]));
+		throw new ExternalAPIException(htmlspecialchars($balance["statustxt"]) . " for currency $currency");
 	}
 	if (!isset($balance["currency"]) && isset($balance["statustext"])) {
-		throw new ExternalAPIException(htmlspecialchars($balance["statustext"]));
+		throw new ExternalAPIException(htmlspecialchars($balance["statustext"]) . " for currency $currency");
 	}
 
 	// sanity check
