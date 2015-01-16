@@ -23,6 +23,7 @@
     "openclerk/fiat": "dev-master",
     "openclerk/config": "dev-master",
     "openclerk/metrics": "dev-master",
+    "openclerk/pages": "dev-master",
     "openclerk/routing": "dev-master",
     "openclerk/templates": "dev-master",
     "soundasleep/component-discovery": "dev-master",

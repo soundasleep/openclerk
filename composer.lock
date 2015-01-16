@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8375c06e28747549c6656598da701cd3",
+    "hash": "3a3b3d9bffc5fbc0bd2c65e142e6af07",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -143,6 +143,63 @@
                 "psr-3"
             ],
             "time": "2014-12-29 21:29:35"
+        },
+        {
+            "name": "mthaml/mthaml",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arnaud-lb/MtHaml.git",
+                "reference": "7c5de50f82636dfd7fd91e79257ceeb0add78134"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arnaud-lb/MtHaml/zipball/7c5de50f82636dfd7fd91e79257ceeb0add78134",
+                "reference": "7c5de50f82636dfd7fd91e79257ceeb0add78134",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "conflict": {
+                "mthaml/mthaml-bundle": "<1.1.0"
+            },
+            "require-dev": {
+                "coffeescript/coffeescript": "~1",
+                "leafo/lessphp": "*",
+                "leafo/scssphp": "*",
+                "michelf/php-markdown": "~1.3",
+                "twig/twig": "~1.11"
+            },
+            "suggest": {
+                "coffeescript/coffeescript": "If you want to use :coffee or :coffeescript filter",
+                "leafo/lessphp": "If you want to use :less filter",
+                "leafo/scssphp": "If you want to use :scss filter",
+                "michelf/php-markdown": "If you want to use :markdown filter",
+                "twig/twig": "If you want to use Twig templating engine"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MtHaml\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arnaud Le Blanc",
+                    "email": "arnaud.lb@gmail.com"
+                }
+            ],
+            "description": "HAML for PHP",
+            "homepage": "https://github.com/arnaud-lb/MtHaml",
+            "keywords": [
+                "HAML"
+            ],
+            "time": "2014-08-16 09:00:50"
         },
         {
             "name": "openclerk/apis",
@@ -443,6 +500,32 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2015-01-06 00:28:36"
+        },
+        {
+            "name": "openclerk/pages",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/pages.git",
+                "reference": "f3afd84c8602ff4d5cd2979dae80cd1041fb1fad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/pages/zipball/f3afd84c8602ff4d5cd2979dae80cd1041fb1fad",
+                "reference": "f3afd84c8602ff4d5cd2979dae80cd1041fb1fad",
+                "shasum": ""
+            },
+            "require": {
+                "mthaml/mthaml": "~1.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pages\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2014-12-19 08:18:58"
         },
         {
             "name": "openclerk/routing",
@@ -1579,6 +1662,7 @@
         "openclerk/fiat": 20,
         "openclerk/config": 20,
         "openclerk/metrics": 20,
+        "openclerk/pages": 20,
         "openclerk/routing": 20,
         "openclerk/templates": 20,
         "soundasleep/component-discovery": 20,

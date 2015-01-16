@@ -1,8 +1,10 @@
 <?php
 
-require(__DIR__ . "/../layout/templates.php");
-page_header(t("Terms of Service"), "page_terms");
+use \Pages\PageRenderer;
 
-require_template("terms");
-
-page_footer();
+PageRenderer::header(array(
+  "title" => t("Terms of Service"),
+  "id" => "page_terms",
+));
+PageRenderer::requireTemplate("terms");
+PageRenderer::footer();
