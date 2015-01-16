@@ -5,17 +5,16 @@ use \Pages\PageRenderer;
   </div>
 </div>
 
-<?php PageRenderer::requireTemplate("templates_footer"); ?>
+<?php
 
-<div id="footer_nav">
+PageRenderer::requireTemplate("templates_footer");
 
-<?php PageRenderer::requireTemplate("footer_navigation"); ?>
+echo "<div id=\"footer_nav\">";
+PageRenderer::requireTemplate("footer_navigation");
+PageRenderer::requireTemplate("footer_copyright");
+echo "</div>";
 
-<?php PageRenderer::requireTemplate("footer_copyright"); ?>
-
-</div>
-
-<?php if (!(has_required_admin() || defined('BATCH_SCRIPT'))) { ?>
+if (!(has_required_admin() || defined('BATCH_SCRIPT'))){ ?>
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -28,6 +27,7 @@ use \Pages\PageRenderer;
 <?php } ?>
 </body>
 </html>
+
 <?php
 
 if (defined('PAGE_RENDER_START')) {
@@ -41,4 +41,3 @@ echo "\n<!--\n" . print_r(Openclerk\MetricsHandler::getInstance()->printResults(
 if (is_admin()) {
   echo "\n<!-- " . print_r($_SESSION, true) . "\n-->";
 }
-

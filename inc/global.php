@@ -520,11 +520,15 @@ function url_add($url, $arguments) {
   return $url;
 }
 
-function link_to($url, $text = false) {
+function link_to($url, $text = false, $options = array()) {
   if ($text === false) {
     return link_to($url, $url);
   }
-  return "<a href=\"" . htmlspecialchars($url) . "\">" . htmlspecialchars($text) . "</a>";
+  $options_html = "";
+  foreach ($options as $key => $value) {
+    $options_html .= " $key=\"" . htmlspecialchars($value) . "\"";
+  }
+  return "<a href=\"" . htmlspecialchars($url) . "\"" . $options_html . ">" . htmlspecialchars($text) . "</a>";
 }
 
 /**
