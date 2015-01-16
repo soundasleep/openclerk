@@ -241,12 +241,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/currencies.git",
-                "reference": "20f8a7e5aca8a4a0469fb86244feadade6d4cd75"
+                "reference": "63127cd0b1759423dc4b5d1dc51acf8d34e91f9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/currencies/zipball/20f8a7e5aca8a4a0469fb86244feadade6d4cd75",
-                "reference": "20f8a7e5aca8a4a0469fb86244feadade6d4cd75",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/63127cd0b1759423dc4b5d1dc51acf8d34e91f9c",
+                "reference": "63127cd0b1759423dc4b5d1dc51acf8d34e91f9c",
                 "shasum": ""
             },
             "require": {
@@ -258,8 +258,8 @@
                     "Openclerk\\Currencies\\": "src"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
-            "time": "2015-01-04 06:49:51"
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2015-01-16 02:59:38"
         },
         {
             "name": "openclerk/db",
@@ -358,12 +358,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/fiat.git",
-                "reference": "4b79dec3b227acd12a129c0d91ddbafeec1d2429"
+                "reference": "1b6630101607799b4cc7ddbe07b7724fbc2396a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/fiat/zipball/4b79dec3b227acd12a129c0d91ddbafeec1d2429",
-                "reference": "4b79dec3b227acd12a129c0d91ddbafeec1d2429",
+                "url": "https://api.github.com/repos/openclerk/fiat/zipball/1b6630101607799b4cc7ddbe07b7724fbc2396a6",
+                "reference": "1b6630101607799b4cc7ddbe07b7724fbc2396a6",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +382,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of fiat currencies in Openclerk",
-            "time": "2015-01-16 02:54:57"
+            "time": "2015-01-16 03:14:11"
         },
         {
             "name": "openclerk/metrics",

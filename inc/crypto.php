@@ -43,7 +43,6 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = array_merge(Currencies::getKeys(), array(
-    "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
     "ghs",
   ));
   uasort($currencies, 'sort_currency_list');
@@ -97,20 +96,6 @@ function get_currency_name($cur) {
   }
 
   switch ($cur) {
-    case "usd": return "United States dollar";
-    case "nzd": return "New Zealand dollar";
-    case "aud": return "Australian dollar";
-    case "cad": return "Canadian dollar";
-    case "cny": return "Chinese yuan";
-    case "pln": return "Polish zloty";  // not unicode! should be -l
-    case "eur": return "Euro";
-    case "gbp": return "Pound sterling";
-    case "ils": return "Israeli new shekel";
-    case "krw": return "South Korean won";
-    case "sgd": return "Singapore dollar";
-    case "dkk": return "Danish Krone";
-    case "inr": return "Indian Rupee";
-
     case "ghs": return "CEX.io GHS";
     default:  return "Unknown (" . htmlspecialchars($cur) . ")";
   }
