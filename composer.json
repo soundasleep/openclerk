@@ -19,6 +19,7 @@
     "openclerk/db": "dev-master",
     "openclerk/emails": "dev-master",
     "openclerk/events": "dev-master",
+    "openclerk/fiat": "dev-master",
     "openclerk/config": "dev-master",
     "openclerk/metrics": "dev-master",
     "openclerk/routing": "dev-master",
