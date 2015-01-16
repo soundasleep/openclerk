@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d10e87f7b3d9ace0527b41930301f61d",
+    "hash": "8375c06e28747549c6656598da701cd3",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -178,6 +178,38 @@
             "time": "2015-01-14 03:52:41"
         },
         {
+            "name": "openclerk/commodities",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/commodities.git",
+                "reference": "b08104c8db779f36c4e8016d063853f02ca22352"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/commodities/zipball/b08104c8db779f36c4e8016d063853f02ca22352",
+                "reference": "b08104c8db779f36c4e8016d063853f02ca22352",
+                "shasum": ""
+            },
+            "require": {
+                "openclerk/config": "dev-master",
+                "openclerk/currencies": "dev-master"
+            },
+            "require-dev": {
+                "soundasleep/component-tests": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Commodity\\": "src",
+                    "Commodity\\Tests\\": "test"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Definitions and implementations of commodity currencies in Openclerk",
+            "time": "2015-01-16 03:29:37"
+        },
+        {
             "name": "openclerk/config",
             "version": "dev-master",
             "source": {
@@ -241,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/currencies.git",
-                "reference": "63127cd0b1759423dc4b5d1dc51acf8d34e91f9c"
+                "reference": "fb82e241b96ccb7d4b7e114244646d606df83a2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/currencies/zipball/63127cd0b1759423dc4b5d1dc51acf8d34e91f9c",
-                "reference": "63127cd0b1759423dc4b5d1dc51acf8d34e91f9c",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/fb82e241b96ccb7d4b7e114244646d606df83a2f",
+                "reference": "fb82e241b96ccb7d4b7e114244646d606df83a2f",
                 "shasum": ""
             },
             "require": {
@@ -259,7 +291,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-01-16 02:59:38"
+            "time": "2015-01-16 03:23:18"
         },
         {
             "name": "openclerk/db",
@@ -358,12 +390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/fiat.git",
-                "reference": "1b6630101607799b4cc7ddbe07b7724fbc2396a6"
+                "reference": "6065de9644b941f74fc8bdfbf74e04896f907076"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/fiat/zipball/1b6630101607799b4cc7ddbe07b7724fbc2396a6",
-                "reference": "1b6630101607799b4cc7ddbe07b7724fbc2396a6",
+                "url": "https://api.github.com/repos/openclerk/fiat/zipball/6065de9644b941f74fc8bdfbf74e04896f907076",
+                "reference": "6065de9644b941f74fc8bdfbf74e04896f907076",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +414,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of fiat currencies in Openclerk",
-            "time": "2015-01-16 03:14:11"
+            "time": "2015-01-16 03:21:56"
         },
         {
             "name": "openclerk/metrics",
@@ -1538,6 +1570,7 @@
     "stability-flags": {
         "lightopenid/lightopenid": 20,
         "openclerk/apis": 20,
+        "openclerk/commodities": 20,
         "openclerk/currencies": 20,
         "openclerk/cryptocurrencies": 20,
         "openclerk/db": 20,

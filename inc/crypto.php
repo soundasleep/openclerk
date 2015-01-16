@@ -42,9 +42,7 @@ function get_all_hashrate_currencies() {
 }
 
 function get_all_currencies() {
-  $currencies = array_merge(Currencies::getKeys(), array(
-    "ghs",
-  ));
+  $currencies = Currencies::getKeys();
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -70,14 +68,17 @@ function get_all_cryptocurrencies() {
 }
 
 function get_all_commodity_currencies() {
-  $currencies = array_merge(Currencies::getCommodityCurrencies(), array("ghs"));
+  $currencies = Currencies::getCommodityCurrencies();
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
 
 function get_all_fiat_currencies() {
-  return array_diff(array_diff(get_all_currencies(), get_all_cryptocurrencies()), get_all_commodity_currencies());
+  $currencies = Currencies::getFiatCurrencies();
+  uasort($currencies, 'sort_currency_list');
+  return $currencies;
 }
+
 function is_fiat_currency($cur) {
   return in_array($cur, get_all_fiat_currencies());
 }
@@ -95,10 +96,7 @@ function get_currency_name($cur) {
     return $currency->getName();
   }
 
-  switch ($cur) {
-    case "ghs": return "CEX.io GHS";
-    default:  return "Unknown (" . htmlspecialchars($cur) . ")";
-  }
+  return "Unknown (" . htmlspecialchars($cur) . ")";
 }
 
 function get_currency_abbr($c) {
