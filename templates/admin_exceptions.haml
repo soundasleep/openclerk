@@ -1,0 +1,29 @@
+%table.standard
+  %thead
+    %tr
+      %th ID
+      %th.date Date
+      %th Type
+      %th Message
+      %th Source
+      %th Job ID
+      %th
+  %tbody
+    :php
+      $q = db()->prepare("SELECT uncaught_exceptions.*, jobs.job_type FROM uncaught_exceptions
+          LEFT JOIN jobs ON uncaught_exceptions.job_id=jobs.id
+          ORDER BY id DESC LIMIT " . ((int) $limit));
+      $q->execute();
+    - while ($e = $q->fetch())
+      - $path = str_replace("\\", "/", $e['filename'])
+      %tr
+        %td = number_format($e['id'])
+        %td.date = recent_format_html($e['created_at'])
+        %td = $e['class_name']
+        %td = $e['message']
+        %td = substr($path, strrpos($path, '/') + 1) . ":" . $e['line_number']
+        %td
+          = $e['job_id'] . ($e['job_type'] ? (": " . $e['job_type']) : "")
+        %td
+          - if($e['job_id'])
+            = link_to(url_for('admin_run_job', array('job_id' => $e['job_id'], 'force' => 1)), "Run again")

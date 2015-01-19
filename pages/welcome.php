@@ -4,7 +4,6 @@
  * Signup welcome page, offering premium signups.
  */
 
-require(__DIR__ . "/../layout/templates.php");
 require(__DIR__ . "/../graphs/types.php");
 
 $user = get_user(user_id());

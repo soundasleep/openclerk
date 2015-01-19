@@ -6,8 +6,6 @@
 
 require_admin();
 
-require(__DIR__ . "/../layout/templates.php");
-
 $logger = new \Monolog\Logger("admin_migrations");
 $logger->pushHandler(new \Core\MyLogger());
 

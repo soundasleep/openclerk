@@ -10,7 +10,6 @@ require_login();
 
 require(__DIR__ . "/../graphs/util.php");
 
-require(__DIR__ . "/../layout/templates.php");
 page_header(t("Add Offsets"), "page_wizard_accounts_offsets", array('js' => array('accounts', 'wizard'), 'class' => 'page_accounts wizard_page'));
 
 global $user;

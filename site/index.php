@@ -2,6 +2,8 @@
 // router.php
 
 require(__DIR__ . "/../inc/global.php");
+require(__DIR__ . "/../layout/templates.php");
+require(__DIR__ . "/../layout/graphs.php");
 
 use \Pages\PageRenderer;
 use \Openclerk\Router;
@@ -9,8 +11,7 @@ use \Openclerk\Router;
 PageRenderer::addTemplatesLocation(__DIR__ . "/../templates");
 PageRenderer::addTemplatesLocation(__DIR__ . "/../config/templates");
 PageRenderer::setHamlOptions(array(
-  'safe_functions' => array("require_template", "link_to"),
-  'enable_escaper' => false,
+  'safe_functions' => array("require_template", "link_to", "recent_format_html"),
 ));
 
 $stylesheets = array(
@@ -32,6 +33,14 @@ $javascripts = array(
 );
 foreach ($javascripts as $js) {
   PageRenderer::addJavascript(Router::urlFor($js));
+}
+
+/**
+ * TODO rename to require_template
+ * TODO move out of the router file
+ */
+function require_template_new($template, $arguments = array()) {
+  PageRenderer::requireTemplate($template, $arguments);
 }
 
 $path = require_get("path", "index");

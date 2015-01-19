@@ -1,6 +1,5 @@
 <?php
 
-require(__DIR__ . "/../layout/graphs.php");
 require_login();
 
 $messages = array();

@@ -5,10 +5,7 @@
  * into graphs and such.
  */
 
-require(__DIR__ . "/../layout/graphs.php");
 require_login();
-
-require(__DIR__ . "/../layout/templates.php");
 
 $user = get_user(user_id());
 require_user($user);

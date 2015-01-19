@@ -4,7 +4,6 @@
  * A simple calculator to calculate the value of one currency in another currency.
  */
 
-require(__DIR__ . "/../layout/templates.php");
 page_header(t("Cryptocurrency Calculator"), "page_calculator", array('js' => 'calculator'));
 
 require_template("calculator");

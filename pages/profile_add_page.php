@@ -1,6 +1,5 @@
 <?php
 
-require(__DIR__ . "/../layout/graphs.php");
 require_login();
 
 $user = get_user(user_id());

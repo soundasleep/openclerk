@@ -16,7 +16,6 @@
 
 require_login();
 
-require(__DIR__ . "/../layout/templates.php");
 page_header(t("Report Preferences"), "page_wizard_reports", array('js' => array('wizard'), 'class' => 'page_accounts'));
 
 global $user;

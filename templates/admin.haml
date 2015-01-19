@@ -1,0 +1,55 @@
+%h1 Site Status
+
+.graph_collection{:style => "float: right; width: 50%;"}
+  - render_graph_new($statistics_graph, true /* user_hash */);
+
+%ul
+  %li
+    = link_to(url_for("admin_jobs"), "Job Status")
+    \-
+    = link_to(url_for("admin_jobs", array("oldest" => true)), "oldest jobs")
+    \-
+    = link_to(url_for("admin_jobs_distribution"), "jobs distribution")
+  %li = link_to(url_for("admin_email"), "Send test e-mail")
+  %li = link_to(url_for("admin_financial"), "Financial report")
+  %li = link_to(url_for("admin_users"), "Users report")
+  %li = link_to(url_for("admin_subscribe"), "Pending subscription requests")
+  %li = link_to(url_for("admin_user_list"), "Users administration")
+  %li = link_to(url_for("admin_accounts"), "Accounts Status")
+  %li = link_to(url_for("admin_metrics"), "Site performance metrics")
+  %li = link_to(url_for("admin_reported_currencies"), "Exchange reported currencies")
+  %li = link_to(url_for("admin_vote_coins"), "Coin voting")
+  %li = link_to(url_for("admin_show_explorers"), "Show coin explorers")
+  %li = link_to(url_for("admin_migrations"), "Install latest migrations")
+  %li = link_to(url_for("admin_currencies"), "Discovered currencies")
+
+%h2{:style => "clear: both"}
+  = link_to(url_for("admin_exceptions"), "Recent Exceptions")
+
+- require_template_new("admin_exceptions", array('limit' => 20))
+
+%h2 Site Statistics
+
+.graph_collection{:style => "float: right; width: 60%;"}
+  - render_graph_new($queue_graph, true /* user_hash */);
+
+%table.standard
+  %thead
+    %tr
+      %th Key
+      %th Value
+
+  %tbody
+    - foreach ($statistics as $stat)
+      %tr
+        %th = $stat['key']
+        %td.number
+          %span{:class => $stat['class']}
+            - if ($stat['key'] == "created_at")
+              = recent_format_html($stat['value'])
+            - else if (is_numeric($stat['value']))
+              = number_format($stat['value'], $stat['dp'])
+            - else
+              = $stat['value']
+            = $stat['suffix']
+

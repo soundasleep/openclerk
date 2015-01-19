@@ -28,7 +28,6 @@ if (require_post("enable", false)) {
   $messages[] = t("Enabled notification.");
 }
 
-require(__DIR__ . "/../layout/templates.php");
 page_header(t("Notification Preferences"), "page_wizard_notifications", array('js' => array('wizard', 'notifications', 'accounts' /* for sorting */), 'class' => 'page_accounts'));
 
 global $user;

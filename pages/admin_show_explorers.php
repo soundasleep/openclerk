@@ -6,8 +6,6 @@
 
 require_admin();
 
-require(__DIR__ . "/../layout/templates.php");
-
 $messages = array();
 $errors = array();
 
