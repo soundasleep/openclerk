@@ -3,15 +3,9 @@
     %span.title #{get_site_config('site_name')}
 
     %ul
-      %li
-        :php
-          echo link_to(url_for("index"), t("About"))
-      %li
-        :php
-          echo link_to(url_for("premium"), t("Get Premium"))
-      %li
-        :php
-          echo link_to(get_site_config('version_history_link'), t("Release History"))
+      %li = link_to(url_for("index"), t("About"))
+      %li = link_to(url_for("premium"), t("Get Premium"))
+      %li = link_to(get_site_config('version_history_link'), t("Release History"))
       %li
         %a{:href => "http://openclerk.org", :target => "_blank"} Openclerk.org
 
@@ -20,57 +14,30 @@
 
     %ul
       - if (user_logged_in())
-        %li
-          :php
-            echo link_to(url_for("user"), t("User Profile"))
-        %li
-          :php
-            echo link_to(url_for("wizard_currencies"), t("Currency Preferences"))
-        %li
-          :php
-            echo link_to(url_for("wizard_accounts"), t("Configure Accounts"))
-        %li
-          :php
-            echo link_to(url_for("profile"), t("Your Reports"))
+        %li = link_to(url_for("user"), t("User Profile"))
+        %li = link_to(url_for("wizard_currencies"), t("Currency Preferences"))
+        %li = link_to(url_for("wizard_accounts"), t("Configure Accounts"))
+        %li = link_to(url_for("profile"), t("Your Reports"))
       - else
-        %li
-          :php
-            echo link_to(url_for("signup"), t("Signup"))
-        %li
-          :php
-            echo link_to(url_for("login"), t("Login"))
+        %li = link_to(url_for("signup"), t("Signup"))
+        %li = link_to(url_for("login"), t("Login"))
 
   %li
     %span.title #{t("Tools")}
 
     %ul
-      %li
-        :php
-          echo link_to(url_for("historical"), t("Historical Data"))
-      %li
-        :php
-          echo link_to(url_for("average"), t("Market Averages"))
-      %li
-        :php
-          echo link_to(url_for("your_transactions"), t(":site_name Finance"))
-      %li
-        :php
-          echo link_to(url_for("calculator"), t("Calculator"))
+      %li = link_to(url_for("historical"), t("Historical Data"))
+      %li = link_to(url_for("average"), t("Market Averages"))
+      %li = link_to(url_for("your_transactions"), t(":site_name Finance"))
+      %li = link_to(url_for("calculator"), t("Calculator"))
 
   %li
     %span.title #{t("Support")}
 
     %ul
+      %li = link_to(url_for("help"), t("Help Centre"))
       %li
-        :php
-          echo link_to(url_for("help"), t("Help Centre"))
-      %li
-        :php
-          echo link_to(get_site_config('blog_link'), t("Blog"), array("target" => "_blank"))
+        = link_to(get_site_config('blog_link'), t("Blog"), array("target" => "_blank"))
         %span.new #{t("new")}
-      %li
-        :php
-          echo link_to(url_for("contact"), t("Contact Us"))
-      %li
-        :php
-          echo link_to(url_for("external"), t("External API Status"))
+      %li = link_to(url_for("contact"), t("Contact Us"))
+      %li = link_to(url_for("external"), t("External API Status"))

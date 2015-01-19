@@ -28,7 +28,8 @@
     "openclerk/templates": "dev-master",
     "soundasleep/component-discovery": "dev-master",
     "soundasleep/asset-discovery": "dev-master",
-    "monolog/monolog": "~1.11"
+    "monolog/monolog": "~1.11",
+    "mthaml/mthaml": "dev-master"
   },
   "require-dev": {
     "soundasleep/component-tests": "dev-master",
@@ -40,5 +41,8 @@
   }, {
     "type": "vcs",
     "url": "https://github.com/soundasleep/spritify"
+  }, {
+    "type": "vcs",
+    "url": "https://github.com/soundasleep/MtHaml"
   }]
 }

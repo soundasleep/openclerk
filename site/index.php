@@ -8,6 +8,10 @@ use \Openclerk\Router;
 
 PageRenderer::addTemplatesLocation(__DIR__ . "/../templates");
 PageRenderer::addTemplatesLocation(__DIR__ . "/../config/templates");
+PageRenderer::setHamlOptions(array(
+  'safe_functions' => array("require_template", "link_to"),
+  'enable_escaper' => false,
+));
 
 $stylesheets = array(
   'styles/generated.css' . '?' . get_site_config('openclerk_version'),
