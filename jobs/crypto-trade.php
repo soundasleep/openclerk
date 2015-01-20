@@ -71,8 +71,9 @@ $get_supported_wallets = get_supported_wallets();
 $currencies = $get_supported_wallets['crypto-trade']; // also supports trc, cnc, wdc etc
 foreach ($currencies as $currency) {
 	$currency_key = strtolower(get_currency_abbr($currency));
+        if ($currency == "bc1") $currency_key = "bc";
 
-	crypto_log($exchange . " balance for " . $currency . ": " . $info['data']['funds'][$currency_key]);
+	crypto_log($exchange . " balance for " . $currency . " ($currency_key): " . $info['data']['funds'][$currency_key]);
 	if (!isset($info['data']['funds'][$currency_key])) {
 		throw new ExternalAPIException("Did not find funds for currency $currency ($currency_key) in $exchange");
 	}
