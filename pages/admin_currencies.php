@@ -53,7 +53,7 @@ page_header("Admin: Currencies", "page_admin_currencies", array('js' => array('a
     }
     echo "</td>";
     echo "<td>";
-    if ($currency->hasExplorer()) {
+    if ($currency instanceof \Openclerk\Currencies\AddressableCurrency && $currency->hasExplorer()) {
       echo "<span class=\"explorer_name explorer_" . $code . "\">" . link_to($currency->getExplorerURL(), $currency->getExplorerName()) . "<span>";
     } else {
       echo "-";

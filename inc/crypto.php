@@ -42,10 +42,7 @@ function get_all_hashrate_currencies() {
 }
 
 function get_all_currencies() {
-  $currencies = array_merge(Currencies::getKeys(), array(
-    "usd", "gbp", "eur", "cad", "aud", "nzd", "cny", "pln", "ils", "krw", "sgd", "dkk", "inr",
-    "ghs",
-  ));
+  $currencies = Currencies::getKeys();
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
@@ -71,14 +68,17 @@ function get_all_cryptocurrencies() {
 }
 
 function get_all_commodity_currencies() {
-  $currencies = array_merge(Currencies::getCommodityCurrencies(), array("ghs"));
+  $currencies = Currencies::getCommodityCurrencies();
   uasort($currencies, 'sort_currency_list');
   return $currencies;
 }
 
 function get_all_fiat_currencies() {
-  return array_diff(array_diff(get_all_currencies(), get_all_cryptocurrencies()), get_all_commodity_currencies());
+  $currencies = Currencies::getFiatCurrencies();
+  uasort($currencies, 'sort_currency_list');
+  return $currencies;
 }
+
 function is_fiat_currency($cur) {
   return in_array($cur, get_all_fiat_currencies());
 }
@@ -96,24 +96,7 @@ function get_currency_name($cur) {
     return $currency->getName();
   }
 
-  switch ($cur) {
-    case "usd": return "United States dollar";
-    case "nzd": return "New Zealand dollar";
-    case "aud": return "Australian dollar";
-    case "cad": return "Canadian dollar";
-    case "cny": return "Chinese yuan";
-    case "pln": return "Polish zloty";  // not unicode! should be -l
-    case "eur": return "Euro";
-    case "gbp": return "Pound sterling";
-    case "ils": return "Israeli new shekel";
-    case "krw": return "South Korean won";
-    case "sgd": return "Singapore dollar";
-    case "dkk": return "Danish Krone";
-    case "inr": return "Indian Rupee";
-
-    case "ghs": return "CEX.io GHS";
-    default:  return "Unknown (" . htmlspecialchars($cur) . ")";
-  }
+  return "Unknown (" . htmlspecialchars($cur) . ")";
 }
 
 function get_currency_abbr($c) {
