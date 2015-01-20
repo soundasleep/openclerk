@@ -395,7 +395,7 @@ function get_exchange_pairs() {
     "vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
         array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'),
         array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog'), array('btc', 'dgc'), array('btc', 'wdc'),
-        array('btc', 'ixc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'nxt')),
+        array('btc', 'ixc'), array('btc', 'vtc')),
     "virtex" => array(array('cad', 'btc'), array('cad', 'ltc'), array('btc', 'ltc')),
   );
 }
