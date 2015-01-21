@@ -7,6 +7,7 @@
 
 use \Openclerk\Currencies\Currency;
 use \DiscoveredComponents\Currencies;
+use \DiscoveredComponents\Exchanges;
 
 /**
  * Allow us to define our own sort order for currency lists.
@@ -134,7 +135,7 @@ function get_blockchain_currencies() {
 }
 
 function get_all_exchanges() {
-  return array(
+  $exchanges = array(
     "bit2c" =>      "Bit2c",
     "bitnz" =>      "BitNZ",
     "btce" =>       "BTC-e",
@@ -186,7 +187,6 @@ function get_all_exchanges() {
     "liteguardian" =>   "LiteGuardian",
     "themoneyconverter" => "TheMoneyConverter",
     "virtex" =>     "VirtEx",
-    "bitstamp" =>     "Bitstamp",
     "796" =>      "796 Xchange",
     "796_wallet" =>   "796 Xchange (Wallet)",
     "796_securities" => "796 Xchange (Securities)",
@@ -270,13 +270,26 @@ function get_all_exchanges() {
     // for failing server jobs
     "securities_havelock" => "Havelock Investments security",
   );
+
+  // add discovered exchanges
+  foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    $exchanges[$key] = $exchange->getName();
+  }
+
+  return $exchanges;
 }
 
 function get_exchange_name($n) {
+  if (in_array($n, Exchanges::getKeys())) {
+    $exchange = Exchanges::getInstance($n);
+    return $exchange->getName();
+  }
+
   $exchanges = get_all_exchanges();
   if (isset($exchanges[$n])) {
     return $exchanges[$n];
   }
+
   return "Unknown (" . htmlspecialchars($n) . "]";
 }
 
@@ -285,8 +298,12 @@ function get_new_exchanges() {
   return array("bittrex", "bter");
 }
 
+/**
+ * Get all exchange codes and their currently supported pairs.
+ * Does not return the exchange codes in alphabetical order.
+ */
 function get_exchange_pairs() {
-  return array(
+  $pairs = array(
     // should be in alphabetical order
     "anxpro" => array(
       array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('gbp', 'btc'), array('nzd', 'btc'), array('sgd', 'btc'), array('cad', 'btc'),
@@ -304,7 +321,6 @@ function get_exchange_pairs() {
     "bitcurex" => array(array('pln', 'btc'), array('eur', 'btc'), array('usd', 'btc')),
     "bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
     "bitnz" => array(array('nzd', 'btc')),
-    "bitstamp" => array(array('usd', 'btc')),
     "bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'),
       array('btc', 'bc1'), array('btc', 'drk'), array('btc', 'vrc'), array('btc', 'nxt'),
       array('btc', 'rdd'), array('btc', 'via'), array('btc', 'dgc'), array('btc', 'ftc'),
@@ -381,6 +397,14 @@ function get_exchange_pairs() {
         array('btc', 'ixc'), array('btc', 'vtc')),
     "virtex" => array(array('cad', 'btc'), array('cad', 'ltc'), array('btc', 'ltc')),
   );
+
+  // add all discovered pairs
+  foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    $persistent = new \Core\PersistentExchange($exchange, db());
+    $pairs[$key] = $persistent->getMarkets();
+  }
+
+  return $pairs;
 }
 
 function get_disabled_exchange_pairs() {
@@ -392,6 +416,7 @@ function get_disabled_exchange_pairs() {
   );
 }
 
+// TODO we can rewrite this to use exchange_pairs
 function get_new_exchange_pairs() {
   return array(
     // All BTER pairs are new
@@ -962,6 +987,12 @@ function get_external_apis() {
     $external_apis_blockcounts["blockcount_" . $key] = $link;
   }
 
+  $exchange_tickers = array();
+  foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    $link = link_to($exchange->getURL(), $exchange->getName());
+    $exchange_tickers["ticker_" . $key] = $link;
+  }
+
   $external_apis = array(
     "Address balances" => $external_apis_addresses,
 
@@ -1032,12 +1063,11 @@ function get_external_apis() {
       'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
     ),
 
-    "Exchange tickers" => array(
+    "Exchange tickers" => array_merge($exchange_tickers, array(
       'ticker_anxpro' => '<a href="https://anxpro.com/">ANXPRO</a>',
       'ticker_bitnz' => '<a href="https://bitnz.com">BitNZ</a>',
       'ticker_bitcurex' => '<a href="https://bitcurex.com/">Bitcurex</a>',
       'ticker_bitmarket_pl' => '<a href="https://www.bitmarket.pl/">BitMarket.pl</a>',
-      'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
       'ticker_bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
       'ticker_btcchina' => '<a href="https://btcchina.com">BTC China</a>',
       'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
@@ -1051,7 +1081,7 @@ function get_external_apis() {
       'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
       'ticker_vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
       'ticker_virtex' => '<a href="https://www.cavirtex.com/">VirtEx</a>',
-    ),
+    )),
 
     "Security exchanges" => array(
       'securities_796' => '<a href="https://796.com">796 Xchange</a>',

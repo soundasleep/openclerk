@@ -54,7 +54,7 @@ class PersistentExchange {
    * May be cached.
    * @param force if {@code true}, force a refresh
    */
-  function getMarkets($force) {
+  function getMarkets($force = false) {
     if ($this->cached_markets === null || $force) {
       $this->cached_markets = array();
       $q = $this->db->prepare("SELECT * FROM exchange_pairs WHERE exchange=?");

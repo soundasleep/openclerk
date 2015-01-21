@@ -12,6 +12,11 @@
 <?php
 $exchange_data = get_exchange_pairs();
 $all_currencies = get_all_currencies();
+// sort alphabetically
+uksort($exchange_data, 'sort_all_exchanges');
+function sort_all_exchanges($a, $b) {
+  return strcmp(strtolower(get_exchange_name($a)), strtolower(get_exchange_name($b)));
+}
 ?>
 <table class="supported_exchanges">
 <thead>
@@ -97,7 +102,7 @@ uksort($all_wallets, 'sort_all_wallets');
 function sort_all_wallets($a, $b) {
   if ($a == "generic") return 1;
   if ($b == "generic") return -1;
-  return strcmp(get_exchange_name($a), get_exchange_name($b));
+  return strcmp(strtolower(get_exchange_name($a)), strtolower(get_exchange_name($b)));
 }
 ?>
 <table class="supported_wallets">
