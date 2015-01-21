@@ -333,6 +333,19 @@ if (!$premium_only) {
     }
   }
 
+  // markets jobs (using the new Exchanges framework: #400)
+  foreach (\DiscoveredComponents\Exchanges::getKeys() as $exchange) {
+    $name = "markets_" . $exchange;
+    if (!$job_type || in_array($name, $job_type)) {
+      insert_new_job(array(
+        'priority' => $priority,
+        'type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      ), false);
+    }
+  }
+
   // reset jobs that have crashed
   // if a job is currently running, this won't have any effect, unless it crashes right now
   $q = db_master()->prepare("UPDATE jobs SET is_executing=0 WHERE is_executing=1");
