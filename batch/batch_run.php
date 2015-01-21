@@ -551,6 +551,16 @@ try {
         break;
       }
 
+      if (substr($job['job_type'], 0, strlen("ticker_")) === "ticker_") {
+        // address job
+        $exchange = substr($job['job_type'], strlen("ticker_"));
+        if (!in_array($exchange, \DiscoveredComponents\Exchanges::getKeys())) {
+          throw new JobException("Exchange $exchange is not a valid exchange");
+        }
+        require(__DIR__ . "/../jobs/ticker/discovered.php");
+        break;
+      }
+
       // issue #12: unsafe accounts
       if (get_site_config('allow_unsafe')) {
         switch ($job['job_type']) {

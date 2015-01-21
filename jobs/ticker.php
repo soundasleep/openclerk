@@ -41,10 +41,6 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/virtex.php");
 		break;
 
-	case "bitstamp":
-		require(__DIR__ . "/ticker/bitstamp.php");
-		break;
-
 	case "cexio":
 		require(__DIR__ . "/ticker/cexio.php");
 		break;
@@ -114,6 +110,12 @@ switch ($exchange['name']) {
 		break;
 
 	default:
+    // bail on any discovered exchange
+    if (in_array($exchange['name'], \DiscoveredComponents\Exchanges::getKeys())) {
+      crypto_log("Ignoring discovered currency " . $exchange['name']);
+      break;
+    }
+
 		throw new JobException("Unknown exchange " . $exchange['name']);
 		break;
 }

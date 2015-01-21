@@ -344,6 +344,16 @@ if (!$premium_only) {
         'arg_id' => -1,
       ), false);
     }
+
+    $name = "ticker_" . $exchange;
+    if (!$job_type || in_array($name, $job_type)) {
+      insert_new_job(array(
+        'priority' => $priority,
+        'type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      ), false);
+    }
   }
 
   // reset jobs that have crashed
