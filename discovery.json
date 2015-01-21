@@ -21,6 +21,10 @@
         "getBlockCurrencies": "\\Openclerk\\Currencies\\BlockCurrency",
         "getDifficultyCurrencies": "\\Openclerk\\Currencies\\DifficultyCurrency"
       }
+    },
+    "exchanges": {
+      "file": "exchanges.json",
+      "instanceof": "\\Openclerk\\Currencies\\Exchange"
     }
   },
   "src": ["vendor/*/*", "inc", "core"],
