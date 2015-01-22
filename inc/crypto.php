@@ -136,7 +136,6 @@ function get_blockchain_currencies() {
 
 function get_all_exchanges() {
   $exchanges = array(
-    "bit2c" =>      "Bit2c",
     "bitnz" =>      "BitNZ",
     "btce" =>       "BTC-e",
     "mtgox" =>      "Mt.Gox",
@@ -212,7 +211,6 @@ function get_all_exchanges() {
     "ozcoin_ltc" =>   "Ozcoin",
     "ozcoin_btc" =>   "Ozcoin",
     "scryptpools" =>  "scryptpools.com",
-    "bitcurex" =>   "Bitcurex", // both exchanges for tickers
     "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
     "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
     "justcoin" =>   "Justcoin",
@@ -303,9 +301,6 @@ function get_new_exchanges() {
  */
 function get_exchange_pairs() {
   $pairs = array(
-    // should be in alphabetical order
-    "bit2c" => array(array('ils', 'btc'), array('ils', 'ltc'), array('btc', 'ltc')),
-    "bitcurex" => array(array('pln', 'btc'), array('eur', 'btc'), array('usd', 'btc')),
     "bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
     "bitnz" => array(array('nzd', 'btc')),
     "bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'),

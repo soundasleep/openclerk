@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab916b04e547f261f3c41ddb01d0135a",
+    "hash": "402b53d14853e80931da9e5a2d0585aa",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/apis.git",
-                "reference": "4f8573f9a75db509956bc31017acb877fefa02a4"
+                "reference": "d7e1fa215a080bc83b01303b02a5048accb36a26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/apis/zipball/4f8573f9a75db509956bc31017acb877fefa02a4",
-                "reference": "4f8573f9a75db509956bc31017acb877fefa02a4",
+                "url": "https://api.github.com/repos/openclerk/apis/zipball/d7e1fa215a080bc83b01303b02a5048accb36a26",
+                "reference": "d7e1fa215a080bc83b01303b02a5048accb36a26",
                 "shasum": ""
             },
             "require": {
@@ -175,7 +175,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for defining and using APIs",
-            "time": "2015-01-14 03:52:41"
+            "time": "2015-01-22 02:19:32"
         },
         {
             "name": "openclerk/commodities",
@@ -390,12 +390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/exchanges.git",
-                "reference": "a1f23642d0dfdc22f8a5b75b32c6d828514c08e6"
+                "reference": "c0a9a36d07eadec098ddc46dd9aa6b60061e72f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/a1f23642d0dfdc22f8a5b75b32c6d828514c08e6",
-                "reference": "a1f23642d0dfdc22f8a5b75b32c6d828514c08e6",
+                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/c0a9a36d07eadec098ddc46dd9aa6b60061e72f2",
+                "reference": "c0a9a36d07eadec098ddc46dd9aa6b60061e72f2",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of exchanges in Openclerk",
-            "time": "2015-01-21 04:01:28"
+            "time": "2015-01-22 02:20:08"
         },
         {
             "name": "openclerk/fiat",
@@ -1545,11 +1545,8 @@
                     "ComponentTests\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "description": "Common Composer and PHP component lint and validation tests",
-            "support": {
-                "source": "https://github.com/soundasleep/component-tests/tree/master",
-                "issues": "https://github.com/soundasleep/component-tests/issues"
-            },
             "time": "2014-12-29 13:10:48"
         },
         {
