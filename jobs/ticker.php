@@ -29,26 +29,6 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/virtex.php");
 		break;
 
-	case "cexio":
-		require(__DIR__ . "/ticker/cexio.php");
-		break;
-
-	case "crypto-trade":
-		require(__DIR__ . "/ticker/crypto-trade.php");
-		break;
-
-	case "cryptsy":
-		require(__DIR__ . "/ticker/cryptsy.php");
-		break;
-
-	case "coins-e":
-		require(__DIR__ . "/ticker/coins-e.php");
-		break;
-
-	case "justcoin":
-		require(__DIR__ . "/ticker/justcoin.php");
-		break;
-
 	case "vaultofsatoshi":
 		require(__DIR__ . "/ticker/vaultofsatoshi.php");
 		break;
@@ -59,10 +39,6 @@ switch ($exchange['name']) {
 
 	case "poloniex":
 		require(__DIR__ . "/ticker/poloniex.php");
-		break;
-
-	case "itbit":
-		require(__DIR__ . "/ticker/itbit.php");
 		break;
 
 	case "average":
