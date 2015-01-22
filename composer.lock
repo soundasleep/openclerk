@@ -390,12 +390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/exchanges.git",
-                "reference": "c0a9a36d07eadec098ddc46dd9aa6b60061e72f2"
+                "reference": "99847084cc8390f707f0ffeb13cfd30295e38b08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/c0a9a36d07eadec098ddc46dd9aa6b60061e72f2",
-                "reference": "c0a9a36d07eadec098ddc46dd9aa6b60061e72f2",
+                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/99847084cc8390f707f0ffeb13cfd30295e38b08",
+                "reference": "99847084cc8390f707f0ffeb13cfd30295e38b08",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of exchanges in Openclerk",
-            "time": "2015-01-22 02:20:08"
+            "time": "2015-01-22 03:55:06"
         },
         {
             "name": "openclerk/fiat",

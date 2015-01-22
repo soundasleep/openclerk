@@ -136,7 +136,6 @@ function get_blockchain_currencies() {
 
 function get_all_exchanges() {
   $exchanges = array(
-    "btce" =>       "BTC-e",
     "mtgox" =>      "Mt.Gox",
     "bips" =>       "BIPS",   // this is now disabled
     "litecoinglobal" =>  "Litecoin Global",
@@ -174,7 +173,6 @@ function get_all_exchanges() {
     "miningforeman" =>  "Mining Foreman", // LTC default
     "miningforeman_ftc" => "Mining Foreman",
     "khore" =>      "nvc.khore.org",
-    "cexio" =>      "CEX.io",
     "ghashio" =>    "GHash.io",
     "crypto-trade" => "Crypto-Trade",
     "crypto-trade_securities" => "Crypto-Trade (Securities)",
@@ -215,7 +213,6 @@ function get_all_exchanges() {
     "multipool" =>    "Multipool",
     "ypool" =>      "ypool.net",
     "cryptsy" =>    "Cryptsy",
-    "coinbase" =>   "Coinbase",
     "litecoininvest" => "Litecoininvest",
     "litecoininvest_wallet" => "Litecoininvest (Wallet)",
     "litecoininvest_securities" => "Litecoininvest (Securities)",
@@ -258,7 +255,6 @@ function get_all_exchanges() {
     "eobot" => "Eobot",
     "hashtocoins" => "Hash-to-Coins",
     "btclevels" => "BTClevels",
-    "bter" => "BTER",
 
     // for failing server jobs
     "securities_havelock" => "Havelock Investments security",
@@ -297,28 +293,6 @@ function get_new_exchanges() {
  */
 function get_exchange_pairs() {
   $pairs = array(
-    "btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
-        array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'),
-        array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),
-        array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
-    "bter" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'nxt'), array('btc', 'nsr'),
-        array('btc', 'nbt'), array('btc', 'net'), array('btc', 'xpm'), array('btc', 'bc1'),
-        array('btc', 'dgc'), array('btc', 'drk'), array('btc', 'ftc'), array('btc', 'mec'),
-        array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'via'), array('btc', 'vrc'),
-        array('btc', 'vtc'), array('btc', 'wdc'),
-        array('usd', 'btc'), array('usd', 'dog'), array('usd', 'ltc'), array('usd', 'nxt'),
-        array('cny', 'btc'), array('cny', 'dog'), array('cny', 'ltc'), array('cny', 'nxt'),
-        array('cny', 'nmc'), array('cny', 'ppc'), array('cny', 'xpm'), array('cny', 'nxt'),
-      ),
-    "cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('ltc', 'ghs'),
-        array('usd', 'btc'), array('usd', 'ghs'), array('usd', 'ltc'), array('btc', 'dog'),
-        array('btc', 'drk'), array('btc', 'mec'), array('btc', 'wdc'), array('btc', 'ftc'),
-        array('ltc', 'dog'), array('ltc', 'drk'), array('ltc', 'mec'), array('btc', 'ixc'),
-      ),
-    "coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'),
-        array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc'), array('sgd', 'btc'),
-        array('dkk', 'btc'), array('inr', 'btc'), array('cny', 'btc'),
-      ),
     "coins-e" => array(array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'),
         array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'), array('btc', 'vrc'),
         array('btc', 'nvc'), array('btc', 'dgc'), array('btc', 'bc1'), array('btc', 'drk'),
@@ -397,7 +371,6 @@ function get_disabled_exchange_pairs() {
 // TODO we can rewrite this to use exchange_pairs
 function get_new_exchange_pairs() {
   return array(
-    // All BTER pairs are new
     "poloniex_btcnbt",
     "poloniex_btcxrp",
     "vaultofsatoshi_btcltc",
