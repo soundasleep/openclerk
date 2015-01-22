@@ -256,7 +256,6 @@ function get_all_exchanges() {
     "poloniex" => "Poloniex",
     "mintpal" => "MintPal",
     "mupool" => "MuPool",
-    "anxpro" => "ANXPRO",
     "itbit" => "itBit",
     "bittrex" => "Bittrex",
     "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
@@ -305,18 +304,6 @@ function get_new_exchanges() {
 function get_exchange_pairs() {
   $pairs = array(
     // should be in alphabetical order
-    "anxpro" => array(
-      array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('gbp', 'btc'), array('nzd', 'btc'), array('sgd', 'btc'), array('cad', 'btc'),
-      array('usd', 'ltc'), array('eur', 'ltc'), array('aud', 'ltc'), array('gbp', 'ltc'), array('nzd', 'ltc'), array('sgd', 'ltc'), array('cad', 'ltc'),
-      // array('usd', 'ppc'), array('eur', 'ppc'), array('aud', 'ppc'), array('gbp', 'ppc'), array('nzd', 'ppc'), array('sgd', 'ppc'),
-      array('usd', 'nmc'), array('eur', 'nmc'), array('aud', 'nmc'), array('gbp', 'nmc'), array('nzd', 'nmc'), array('sgd', 'nmc'), array('cad', 'nmc'),
-      array('usd', 'dog'), array('eur', 'dog'), array('aud', 'dog'), array('gbp', 'dog'), array('nzd', 'dog'), array('sgd', 'dog'), array('cad', 'dog'),
-      // also hkd, jpy, chf
-      array('btc', 'ltc'),
-      // array('btc', 'ppc'), array('ltc', 'ppc'),
-      array('btc', 'nmc'), array('ltc', 'nmc'),
-      array('btc', 'dog'),
-    ),
     "bit2c" => array(array('ils', 'btc'), array('ils', 'ltc'), array('btc', 'ltc')),
     "bitcurex" => array(array('pln', 'btc'), array('eur', 'btc'), array('usd', 'btc')),
     "bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
@@ -1064,7 +1051,6 @@ function get_external_apis() {
     ),
 
     "Exchange tickers" => array_merge($exchange_tickers, array(
-      'ticker_anxpro' => '<a href="https://anxpro.com/">ANXPRO</a>',
       'ticker_bitnz' => '<a href="https://bitnz.com">BitNZ</a>',
       'ticker_bitcurex' => '<a href="https://bitcurex.com/">Bitcurex</a>',
       'ticker_bitmarket_pl' => '<a href="https://www.bitmarket.pl/">BitMarket.pl</a>',

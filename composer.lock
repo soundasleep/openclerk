@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "ab916b04e547f261f3c41ddb01d0135a",
     "packages": [
@@ -237,12 +238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "6702451a92fc5c9ab0aa18a19f949823fce9fcd6"
+                "reference": "fd19a4b9a69a106e569d6ee36b08e06c12bbc999"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/6702451a92fc5c9ab0aa18a19f949823fce9fcd6",
-                "reference": "6702451a92fc5c9ab0aa18a19f949823fce9fcd6",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/fd19a4b9a69a106e569d6ee36b08e06c12bbc999",
+                "reference": "fd19a4b9a69a106e569d6ee36b08e06c12bbc999",
                 "shasum": ""
             },
             "require": {
@@ -264,7 +265,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-01-20 23:18:56"
+            "time": "2015-01-21 22:43:57"
         },
         {
             "name": "openclerk/currencies",
@@ -272,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/currencies.git",
-                "reference": "5c9b0fa36677962b02b7dc08447b1b22f3b4b50d"
+                "reference": "4b37d66a83524d57c9cf79a208f147ef70676a79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/currencies/zipball/5c9b0fa36677962b02b7dc08447b1b22f3b4b50d",
-                "reference": "5c9b0fa36677962b02b7dc08447b1b22f3b4b50d",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/4b37d66a83524d57c9cf79a208f147ef70676a79",
+                "reference": "4b37d66a83524d57c9cf79a208f147ef70676a79",
                 "shasum": ""
             },
             "require": {
@@ -290,7 +291,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-01-21 01:46:58"
+            "time": "2015-01-22 00:36:27"
         },
         {
             "name": "openclerk/db",
@@ -389,12 +390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/exchanges.git",
-                "reference": "98036743891f8a80c788dd88f2e1155586fda6ad"
+                "reference": "a1f23642d0dfdc22f8a5b75b32c6d828514c08e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/98036743891f8a80c788dd88f2e1155586fda6ad",
-                "reference": "98036743891f8a80c788dd88f2e1155586fda6ad",
+                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/a1f23642d0dfdc22f8a5b75b32c6d828514c08e6",
+                "reference": "a1f23642d0dfdc22f8a5b75b32c6d828514c08e6",
                 "shasum": ""
             },
             "require": {
@@ -416,7 +417,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of exchanges in Openclerk",
-            "time": "2015-01-21 02:04:11"
+            "time": "2015-01-21 04:01:28"
         },
         {
             "name": "openclerk/fiat",
@@ -1599,9 +1600,7 @@
             "time": "2015-01-03 15:33:07"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "lightopenid/lightopenid": 20,
@@ -1622,10 +1621,8 @@
         "soundasleep/asset-discovery": 20,
         "soundasleep/component-tests": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
 }

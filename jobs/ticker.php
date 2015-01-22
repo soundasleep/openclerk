@@ -89,10 +89,6 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/poloniex.php");
 		break;
 
-	case "anxpro":
-		require(__DIR__ . "/ticker/anxpro.php");
-		break;
-
 	case "itbit":
 		require(__DIR__ . "/ticker/itbit.php");
 		break;
