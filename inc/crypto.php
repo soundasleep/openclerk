@@ -136,7 +136,6 @@ function get_blockchain_currencies() {
 
 function get_all_exchanges() {
   $exchanges = array(
-    "bitnz" =>      "BitNZ",
     "btce" =>       "BTC-e",
     "mtgox" =>      "Mt.Gox",
     "bips" =>       "BIPS",   // this is now disabled
@@ -190,7 +189,6 @@ function get_all_exchanges() {
     "796_wallet" =>   "796 Xchange (Wallet)",
     "796_securities" => "796 Xchange (Securities)",
     "kattare" =>    "ltc.kattare.com",
-    "btcchina" =>   "BTC China",
     "cryptsy" =>    "Cryptsy",
     "litepooleu" =>   "Litepool",
     "coinhuntr" =>    "CoinHuntr",
@@ -250,7 +248,6 @@ function get_all_exchanges() {
     "rapidhash_vtc" => "RapidHash",
     "cryptotroll" => "Cryptotroll",
     "cryptotroll_doge" => "Cryptotroll",
-    "bitmarket_pl" => "BitMarket.pl",
     "poloniex" => "Poloniex",
     "mintpal" => "MintPal",
     "mupool" => "MuPool",
@@ -300,9 +297,6 @@ function get_new_exchanges() {
  */
 function get_exchange_pairs() {
   $pairs = array(
-    "bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
-    "bitnz" => array(array('nzd', 'btc')),
-    "btcchina" => array(array('cny', 'btc')),
     "btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
         array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'),
         array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),

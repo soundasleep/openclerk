@@ -21,10 +21,6 @@ switch ($exchange['name']) {
 		require(__DIR__ . "/ticker/btce.php");
 		break;
 
-	case "bitnz":
-		require(__DIR__ . "/ticker/bitnz.php");
-		break;
-
 	case "vircurex":
 		require(__DIR__ . "/ticker/vircurex.php");
 		break;
@@ -43,10 +39,6 @@ switch ($exchange['name']) {
 
 	case "crypto-trade":
 		require(__DIR__ . "/ticker/crypto-trade.php");
-		break;
-
-	case "btcchina":
-		require(__DIR__ . "/ticker/btcchina.php");
 		break;
 
 	case "cryptsy":
@@ -71,10 +63,6 @@ switch ($exchange['name']) {
 
 	case "kraken":
 		require(__DIR__ . "/ticker/kraken.php");
-		break;
-
-	case "bitmarket_pl":
-		require(__DIR__ . "/ticker/bitmarket_pl.php");
 		break;
 
 	case "poloniex":
