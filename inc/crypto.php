@@ -372,7 +372,14 @@ function get_exchange_pairs() {
   // add all discovered pairs
   foreach (Exchanges::getAllInstances() as $key => $exchange) {
     $persistent = new \Core\PersistentExchange($exchange, db());
-    $pairs[$key] = $persistent->getMarkets();
+    $result = array();
+    foreach ($persistent->getMarkets() as $pair) {
+      if (in_array($pair[0], get_all_currencies()) && in_array($pair[1], get_all_currencies())) {
+        $result[] = $pair;
+      }
+    }
+
+    $pairs[$key] = $result;
   }
 
   return $pairs;
