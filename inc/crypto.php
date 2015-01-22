@@ -255,7 +255,6 @@ function get_all_exchanges() {
     "mintpal" => "MintPal",
     "mupool" => "MuPool",
     "itbit" => "itBit",
-    "bittrex" => "Bittrex",
     "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
     "nicehash" => "NiceHash",
     "westhash" => "WestHash",
@@ -303,10 +302,6 @@ function get_exchange_pairs() {
   $pairs = array(
     "bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
     "bitnz" => array(array('nzd', 'btc')),
-    "bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'),
-      array('btc', 'bc1'), array('btc', 'drk'), array('btc', 'vrc'), array('btc', 'nxt'),
-      array('btc', 'rdd'), array('btc', 'via'), array('btc', 'dgc'), array('btc', 'ftc'),
-    ),  // and others
     "btcchina" => array(array('cny', 'btc')),
     "btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
         array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'),

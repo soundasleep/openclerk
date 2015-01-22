@@ -37,6 +37,14 @@ class PersistentExchange {
     // add new markets
     foreach ($markets as $pair) {
       if (array_search($pair, $existing) === false) {
+        if (strlen($pair[0]) != 3) {
+          $logger->info("Ignoring currency '" . $pair[0] . "': not three characters long");
+          continue;
+        }
+        if (strlen($pair[1]) != 3) {
+          $logger->info("Ignoring currency '" . $pair[1] . "': not three characters long");
+          continue;
+        }
         $logger->info("Adding pair " . implode("/", $pair));
         $q = $this->db->prepare("INSERT INTO exchange_pairs SET exchange=?, currency1=?, currency2=?");
         $q->execute(array($this->exchange->getCode(), $pair[0], $pair[1]));
