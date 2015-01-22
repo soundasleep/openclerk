@@ -44,7 +44,7 @@ function get_all_hashrate_currencies() {
 
 function get_all_currencies() {
   $currencies = Currencies::getKeys();
-  uasort($currencies, 'sort_currency_list');
+  usort($currencies, 'sort_currency_list');
   return $currencies;
 }
 
@@ -64,19 +64,19 @@ function get_new_supported_currencies() {
 
 function get_all_cryptocurrencies() {
   $currencies = Currencies::getCryptocurrencies();
-  uasort($currencies, 'sort_currency_list');
+  usort($currencies, 'sort_currency_list');
   return $currencies;
 }
 
 function get_all_commodity_currencies() {
   $currencies = Currencies::getCommodityCurrencies();
-  uasort($currencies, 'sort_currency_list');
+  usort($currencies, 'sort_currency_list');
   return $currencies;
 }
 
 function get_all_fiat_currencies() {
   $currencies = Currencies::getFiatCurrencies();
-  uasort($currencies, 'sort_currency_list');
+  usort($currencies, 'sort_currency_list');
   return $currencies;
 }
 
@@ -87,7 +87,7 @@ function is_fiat_currency($cur) {
 // currencies which we can download balances using explorers etc
 function get_address_currencies() {
   $currencies = Currencies::getAddressCurrencies();
-  uasort($currencies, 'sort_currency_list');
+  usort($currencies, 'sort_currency_list');
   return $currencies;
 }
 
