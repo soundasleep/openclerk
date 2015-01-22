@@ -17,28 +17,8 @@ $job['arg0'] = $exchange['name'];		// issue #135: for performance metrics later
 // each exchange will insert in many different currency pairs, depending on how many
 // currencies are supported
 switch ($exchange['name']) {
-	case "vircurex":
-		require(__DIR__ . "/ticker/vircurex.php");
-		break;
-
-	case "themoneyconverter":
-		require(__DIR__ . "/ticker/themoneyconverter.php");
-		break;
-
 	case "virtex":
 		require(__DIR__ . "/ticker/virtex.php");
-		break;
-
-	case "vaultofsatoshi":
-		require(__DIR__ . "/ticker/vaultofsatoshi.php");
-		break;
-
-	case "kraken":
-		require(__DIR__ . "/ticker/kraken.php");
-		break;
-
-	case "poloniex":
-		require(__DIR__ . "/ticker/poloniex.php");
 		break;
 
 	case "average":

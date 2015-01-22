@@ -164,7 +164,6 @@ function get_all_exchanges() {
     "wemineltc" =>    "WeMineLTC",
     "wemineftc" =>    "WeMineFTC",
     "givemecoins" =>  "Give Me Coins",
-    "vircurex" =>     "Vircurex",
     "slush" =>      "Slush's pool",
     "btcguild" =>     "BTC Guild",
     "50btc" =>      "50BTC",
@@ -180,8 +179,6 @@ function get_all_exchanges() {
     "havelock_securities" => "Havelock Investments (Securities)",
     "bitminter" =>    "BitMinter",
     "liteguardian" =>   "LiteGuardian",
-    "themoneyconverter" => "TheMoneyConverter",
-    "virtex" =>     "VirtEx",
     "796" =>      "796 Xchange",
     "796_wallet" =>   "796 Xchange (Wallet)",
     "796_securities" => "796 Xchange (Securities)",
@@ -234,14 +231,12 @@ function get_all_exchanges() {
     "d2" => "d2",
     "d2_wdc" => "d2",
     "scryptguild" => "ScryptGuild",
-    "kraken" => "Kraken",
     "average" => "Market Average",
     "rapidhash" => "RapidHash",
     "rapidhash_doge" => "RapidHash",
     "rapidhash_vtc" => "RapidHash",
     "cryptotroll" => "Cryptotroll",
     "cryptotroll_doge" => "Cryptotroll",
-    "poloniex" => "Poloniex",
     "mintpal" => "MintPal",
     "mupool" => "MuPool",
     "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
@@ -287,37 +282,7 @@ function get_new_exchanges() {
  * Does not return the exchange codes in alphabetical order.
  */
 function get_exchange_pairs() {
-  $pairs = array(
-    "kraken" => array(array('btc', 'ltc'), array('btc', 'nmc'), array('btc', 'dog'), array('btc', 'xrp'),
-        array('eur', 'btc'), array('usd', 'btc'), array('eur', 'ltc'), array('usd', 'ltc'),
-        array('gbp', 'btc'),
-    ),
-    "poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
-        array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'drk'),
-        array('btc', 'vrc'), array('btc', 'nxt'), array('btc', 'rdd'), array('btc', 'via'),
-        array('btc', 'nbt'), array('btc', 'xrp'), array('btc', 'drk'),
-    ),    // also pts, mmc, ...
-    "themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
-        array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils'), array('usd', 'sgd'),
-        array('usd', 'dkk'), array('usd', 'inr'),
-    ),
-    "vaultofsatoshi" => array(
-        array('usd', 'btc'), array('usd', 'ltc'), array('usd', 'ppc'), array('usd', 'dog'), array('usd', 'ftc'), array('usd', 'xpm'),
-        array('usd', 'drk'),
-        array('cad', 'btc'), array('cad', 'ltc'), array('cad', 'ppc'), array('cad', 'dog'), array('cad', 'ftc'), array('cad', 'xpm'),
-        array('cad', 'drk'),
-        array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'dog'), array('btc', 'vtc'),
-        array('btc', 'drk'),
-        array('ltc', 'ppc'), array('ltc', 'dog'), array('ltc', 'xpm'),
-        array('ltc', 'drk'),
-        // also qrk
-    ),
-    "vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
-        array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'),
-        array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog'), array('btc', 'dgc'), array('btc', 'wdc'),
-        array('btc', 'ixc'), array('btc', 'vtc')),
-    "virtex" => array(array('cad', 'btc'), array('cad', 'ltc'), array('btc', 'ltc')),
-  );
+  $pairs = array();
 
   // add all discovered pairs
   foreach (Exchanges::getAllInstances() as $key => $exchange) {
@@ -990,23 +955,7 @@ function get_external_apis() {
       'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
     ),
 
-    "Exchange tickers" => array_merge($exchange_tickers, array(
-      'ticker_bitnz' => '<a href="https://bitnz.com">BitNZ</a>',
-      'ticker_bitcurex' => '<a href="https://bitcurex.com/">Bitcurex</a>',
-      'ticker_bitmarket_pl' => '<a href="https://www.bitmarket.pl/">BitMarket.pl</a>',
-      'ticker_bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
-      'ticker_btcchina' => '<a href="https://btcchina.com">BTC China</a>',
-      'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
-      'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
-      'ticker_coins-e' => '<a href="https://www.coins-e.com">Coins-E</a>',
-      'ticker_cryptsy' => '<a href="https://www.cryptsy.com/">Cryptsy</a>',
-      'ticker_kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
-      'ticker_itbit' => '<a href="https://www.itbit.com/">itBit</a>',
-      'ticker_poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
-      'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
-      'ticker_vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
-      'ticker_virtex' => '<a href="https://www.cavirtex.com/">VirtEx</a>',
-    )),
+    "Exchange tickers" => $exchange_tickers,
 
     "Security exchanges" => array(
       'securities_796' => '<a href="https://796.com">796 Xchange</a>',
