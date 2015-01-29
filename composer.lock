@@ -390,12 +390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/exchanges.git",
-                "reference": "9135abf6ed21dc0c9f3e450b32464945a9c4006b"
+                "reference": "8a5cd3e1ef80815869aa7848c76bdf3afaa1b902"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/9135abf6ed21dc0c9f3e450b32464945a9c4006b",
-                "reference": "9135abf6ed21dc0c9f3e450b32464945a9c4006b",
+                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/8a5cd3e1ef80815869aa7848c76bdf3afaa1b902",
+                "reference": "8a5cd3e1ef80815869aa7848c76bdf3afaa1b902",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of exchanges in Openclerk",
-            "time": "2015-01-22 06:28:25"
+            "time": "2015-01-22 06:34:46"
         },
         {
             "name": "openclerk/fiat",
@@ -485,12 +485,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/routing.git",
-                "reference": "3777f3fef6cede4ff787851abd01f2a04acdbfc2"
+                "reference": "caccd7e859daff7cd0857e3d4246365fc675515b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/routing/zipball/3777f3fef6cede4ff787851abd01f2a04acdbfc2",
-                "reference": "3777f3fef6cede4ff787851abd01f2a04acdbfc2",
+                "url": "https://api.github.com/repos/openclerk/routing/zipball/caccd7e859daff7cd0857e3d4246365fc675515b",
+                "reference": "caccd7e859daff7cd0857e3d4246365fc675515b",
                 "shasum": ""
             },
             "require": {
@@ -509,7 +509,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-27 07:04:20"
+            "time": "2015-01-26 23:14:35"
         },
         {
             "name": "openclerk/templates",
@@ -709,12 +709,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "4e127bac9dd301c6877c46f31780bd7297b50c8e"
+                "reference": "e36c1073fb58c9422c96df6e2039aa61c8f6800d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/4e127bac9dd301c6877c46f31780bd7297b50c8e",
-                "reference": "4e127bac9dd301c6877c46f31780bd7297b50c8e",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/e36c1073fb58c9422c96df6e2039aa61c8f6800d",
+                "reference": "e36c1073fb58c9422c96df6e2039aa61c8f6800d",
                 "shasum": ""
             },
             "require-dev": {
@@ -729,7 +729,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2015-01-04 00:52:34"
+            "time": "2015-01-26 03:35:55"
         },
         {
             "name": "soundasleep/html2text",
@@ -942,16 +942,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.14",
+            "version": "2.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "ca158276c1200cc27f5409a5e338486bc0b4fc94"
+                "reference": "34cc484af1ca149188d0d9e91412191e398e0b67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ca158276c1200cc27f5409a5e338486bc0b4fc94",
-                "reference": "ca158276c1200cc27f5409a5e338486bc0b4fc94",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/34cc484af1ca149188d0d9e91412191e398e0b67",
+                "reference": "34cc484af1ca149188d0d9e91412191e398e0b67",
                 "shasum": ""
             },
             "require": {
@@ -964,7 +964,7 @@
             },
             "require-dev": {
                 "ext-xdebug": ">=2.1.4",
-                "phpunit/phpunit": "~4.1"
+                "phpunit/phpunit": "~4"
             },
             "suggest": {
                 "ext-dom": "*",
@@ -983,9 +983,6 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1003,7 +1000,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-12-26 13:28:33"
+            "time": "2015-01-24 10:06:35"
         },
         {
             "name": "phpunit/php-file-iterator",
