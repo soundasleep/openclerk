@@ -17,10 +17,6 @@ $job['arg0'] = $exchange['name'];		// issue #135: for performance metrics later
 // each exchange will insert in many different currency pairs, depending on how many
 // currencies are supported
 switch ($exchange['name']) {
-	case "virtex":
-		require(__DIR__ . "/ticker/virtex.php");
-		break;
-
 	case "average":
 		require(__DIR__ . "/ticker/average.php");
 		break;
