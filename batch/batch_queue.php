@@ -210,7 +210,8 @@ class OpenclerkJobQueuer extends JobQueuer {
           "user_id" => isset($standard['user_id']) ? $standard['user_id'] : $address[$field], /* $field so we can select users.id as user_id */
           "arg_id" => $address['id'],
 
-          // TODO eventually these should not be passed along
+          // TODO eventually these should not be passed along; these are just passed
+          // along for jobQueued() and debug printing
           "queue_field" => $queue_field,
           "object" => $address,
           "table" => $standard['table'],
@@ -231,6 +232,53 @@ class OpenclerkJobQueuer extends JobQueuer {
       if ($disabled_count > 1) {
         $logger->info("Also skipped another " . number_format($disabled_count) . " " . $standard['type'] . " jobs due to disabled users");
       }
+    }
+
+    $block_jobs = array('version_check', 'vote_coins');
+    foreach ($block_jobs as $name) {
+      // as often as we can (or on request), run litecoin_block jobs
+      $result[] = array(
+        'job_type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      );
+    }
+
+    // block count jobs (using the new Currencies framework)
+    foreach (\DiscoveredComponents\Currencies::getBlockCurrencies() as $cur) {
+      $name = "blockcount_" . $cur;
+      $result[] = array(
+        'job_type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      );
+    }
+
+    // difficulty jobs (using the new Currencies framework)
+    foreach (\DiscoveredComponents\Currencies::getDifficultyCurrencies() as $cur) {
+      $name = "difficulty_" . $cur;
+      $result[] = array(
+        'job_type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      );
+    }
+
+    // markets jobs (using the new Exchanges framework: #400)
+    foreach (\DiscoveredComponents\Exchanges::getKeys() as $exchange) {
+      $name = "markets_" . $exchange;
+      $result[] = array(
+        'job_type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      );
+
+      $name = "ticker_" . $exchange;
+      $result[] = array(
+        'job_type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      );
     }
 
     return $result;
