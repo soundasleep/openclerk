@@ -249,7 +249,7 @@ class OpenclerkJobQueuer extends JobQueuer {
     );
 
     if (isset($job['queue_field'])) {
-      $logger->info("Added job " . print_r($printed_job, true) . " " . link_to(url_for('batch/batch_run', array('key' => require_get("key", false), 'job_id' => $job['id'], 'force' => 1)), "Run now"));
+      $logger->info("Added job " . print_r($printed_job, true) . " " . link_to(url_for('admin_run_job', array('job_id' => $job['id'], 'force' => 1)), "Run now"));
 
       $queue_field = $job['queue_field'];
 
@@ -260,7 +260,7 @@ class OpenclerkJobQueuer extends JobQueuer {
       }
 
     } else {
-      $logger->info("Existing job " . print_r($printed_job, true) . " " . link_to(url_for('batch/batch_run', array('key' => require_get("key", false), 'job_id' => $job['id'], 'force' => 1)), "Run now"));
+      $logger->info("Existing job " . print_r($printed_job, true) . " " . link_to(url_for('admin_run_job', array('job_id' => $job['id'], 'force' => 1)), "Run now"));
 
     }
 
