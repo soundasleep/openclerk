@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "402b53d14853e80931da9e5a2d0585aa",
+    "hash": "90a938b550cb1c8724a01426bd6b9134",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -450,6 +450,40 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of fiat currencies in Openclerk",
             "time": "2015-01-16 03:21:56"
+        },
+        {
+            "name": "openclerk/jobs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/jobs.git",
+                "reference": "04e6702943e74fea5173ed91f68320d0f0566bfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/jobs/zipball/04e6702943e74fea5173ed91f68320d0f0566bfc",
+                "reference": "04e6702943e74fea5173ed91f68320d0f0566bfc",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "~1.11",
+                "openclerk/config": "dev-master",
+                "openclerk/db": "dev-master",
+                "openclerk/events": "dev-master"
+            },
+            "require-dev": {
+                "soundasleep/component-tests": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Openclerk\\Jobs\\": "src",
+                    "Openclerk\\Jobs\\Tests\\": "test"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Simple PHP job queueing, execution and management",
+            "time": "2015-01-29 23:11:02"
         },
         {
             "name": "openclerk/metrics",
@@ -1607,6 +1641,7 @@
         "openclerk/events": 20,
         "openclerk/exchanges": 20,
         "openclerk/fiat": 20,
+        "openclerk/jobs": 20,
         "openclerk/config": 20,
         "openclerk/metrics": 20,
         "openclerk/routing": 20,
