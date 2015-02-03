@@ -450,12 +450,122 @@ class GenericOpenclerkJob implements Job {
   }
 
   function passed(Connection $db, Logger $logger) {
-    // does nothing
+    // is this a standard job?
+    $account_data = $this->findStandardJob();
+    if ($account_data) {
+      $logger->info("Using standard job " . print_r($account_data, true));
+      if (!$account_data['failure']) {
+        $logger->info("Not a failure standard job");
+        return;
+      }
+    } else {
+      return;
+    }
+
+    $failing_table = $account_data['table'];
+    $job = $this->job;
+
+    // reset the failure counter
+    $q = $db->prepare("UPDATE $failing_table SET failures=0 WHERE id=?");
+    $q->execute(array($job['arg_id']));
   }
 
-  function failed(\Exception $e, Connection $db, Logger $logger) {
-    // does nothing
-    // TODO implement failing tables
+  /**
+   * Implements failing tables; if an account type fails multiple times,
+   * then send the user an email and disable the account.
+   * @see OpenclerkJobQueuer#getStandardJobs()
+   */
+  function failed(\Exception $runtime_exception, Connection $db, Logger $logger) {
+    // is this a standard job?
+    $standard = $this->findStandardJob();
+    if ($standard) {
+      $logger->info("Using standard job " . print_r($standard, true));
+      if (!$standard['failure']) {
+        $logger->info("Not a failure standard job");
+        return;
+      }
+    } else {
+      return;
+    }
+
+    $failing_table = $standard['table'];
+    $job = $this->job;
+
+    // find the relevant account_data for this standard job
+    $account_data = false;
+    foreach (account_data_grouped() as $label => $group) {
+      foreach ($group as $exchange => $data) {
+        if ($job['job_type'] == $exchange) {
+          $account_data = $data;
+          $account_data['exchange'] = $exchange;
+          break;
+        }
+      }
+    }
+    $logger->info("Using account data " . print_r($account_data, true));
+
+    // don't count CloudFlare as a failure
+    if ($runtime_exception instanceof CloudFlareException || $runtime_exception instanceof \Openclerk\Apis\CloudFlareException) {
+      $logger->info("Not increasing failure count: was a CloudFlareException");
+    } else if ($runtime_exception instanceof IncapsulaException || $runtime_exception instanceof \Openclerk\Apis\IncapsulaException) {
+      $logger->info("Not increasing failure count: was a IncapsulaException");
+    } else if ($runtime_exception instanceof BlockchainException || $runtime_exception instanceof \Core\BlockchainException) {
+      $logger->info("Not increasing failure count: was a BlockchainException");
+    } else {
+      $q = $db->prepare("UPDATE $failing_table SET failures=failures+1,first_failure=IF(ISNULL(first_failure), NOW(), first_failure) WHERE id=?");
+      $q->execute(array($job['arg_id']));
+      $logger->info("Increasing account failure count");
+    }
+
+    $user = get_user($job['user_id']);
+    if (!$user) {
+      $logger->info("Warning: No user " . $job['user_id'] . " found");
+    } else {
+
+      // failed too many times?
+      $q = $db->prepare("SELECT * FROM $failing_table WHERE id=? LIMIT 1");
+      $q->execute(array($job['arg_id']));
+      $account = $q->fetch();
+      $logger->info("Current account failure count: " . number_format($account['failures']));
+
+      if ($account['failures'] >= get_premium_value($user, 'max_failures')) {
+        // disable it and send an email
+        $q = $db->prepare("UPDATE $failing_table SET is_disabled=1 WHERE id=?");
+        $q->execute(array($job['arg_id']));
+
+        if ($user['email'] && !$account['is_disabled'] /* don't send the same email multiple times */) {
+          send_user_email($user, "failure", array(
+            "name" => ($user['name'] ? $user['name'] : $user['email']),
+            "exchange" => get_exchange_name($account_data['exchange']),
+            "label" => $account_data['label'],
+            "labels" => $account_data['labels'],
+            "failures" => number_format($account['failures']),
+            "message" => $runtime_exception->getMessage(),
+            "length" => recent_format(strtotime($account['first_failure']), "", ""),
+            "title" => (isset($account['title']) && $account['title']) ? "\"" . $account['title'] . "\"" : "untitled",
+            "url" => absolute_url(url_for("wizard_accounts")),
+          ));
+          $logger->info("Sent failure e-mail to " . htmlspecialchars($user['email']) . ".");
+        }
+
+      }
+
+    }
+  }
+
+  function findStandardJob() {
+    $job = $this->job;
+
+    // is this a standard job?
+    $standard_jobs = OpenclerkJobQueuer::getStandardJobs();
+
+    foreach ($standard_jobs as $standard) {
+      if ($standard['failure'] && $standard['type'] == $job['job_type']) {
+        return $standard;
+      }
+    }
+
+    return false;
   }
 
 }
