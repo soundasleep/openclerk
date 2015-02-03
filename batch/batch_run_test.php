@@ -2,7 +2,7 @@
 
 /**
  * Batch script: find a job to execute, and execute it.
- * Run premium user jobs only.
+ * Run test jobs only.
  * Uses the new openclerk/jobs framework.
  */
 
@@ -23,15 +23,15 @@ use \Monolog\Logger;
 use \Core\MyLogger;
 
 /**
- * Run jobs from premium users.
+ * Run test jobs.
  */
-class OpenclerkJobRunnerPremium extends \Core\OpenclerkJobRunner {
+class OpenclerkJobRunnerTest extends \Core\OpenclerkJobRunner {
 
   /**
-   * Find a job that belongs to a premium user.
+   * Find a job that is a test job.
    */
   function findJob(Connection $db, Logger $logger) {
-    $q = $db->prepare("SELECT * FROM jobs WHERE user_id IN (SELECT id FROM users WHERE is_premium=1) AND " . $this->defaultFindJobQuery() . " LIMIT 1");
+    $q = $db->prepare("SELECT * FROM jobs WHERE is_test_job=1 AND " . $this->defaultFindJobQuery() . " LIMIT 1");
     $q->execute();
     return $q->fetch();
   }
@@ -41,6 +41,6 @@ class OpenclerkJobRunnerPremium extends \Core\OpenclerkJobRunner {
 $logger = new \Monolog\Logger("batch_run");
 $logger->pushHandler(new \Core\MyLogger());
 
-$runner = new OpenclerkJobRunnerPremium();
+$runner = new OpenclerkJobRunnerTest();
 $runner->runOne(db(), $logger);
 
