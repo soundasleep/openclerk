@@ -60,6 +60,13 @@ $limit = 20;
 require(__DIR__ . "/_admin_exceptions.php");
 ?>
 
+<h2 style="clear: both;"><a href="<?php echo htmlspecialchars(url_for('admin_job_exceptions')); ?>">Recent Job Exceptions</a></h2>
+
+<?php
+$limit = 20;
+require(__DIR__ . "/_admin_job_exceptions.php");
+?>
+
 <h2>Site Statistics</h2>
 
 <?php

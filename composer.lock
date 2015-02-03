@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/apis.git",
-                "reference": "d7e1fa215a080bc83b01303b02a5048accb36a26"
+                "reference": "c79431e01be0a45857aaeb061e310425fda07e85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/apis/zipball/d7e1fa215a080bc83b01303b02a5048accb36a26",
-                "reference": "d7e1fa215a080bc83b01303b02a5048accb36a26",
+                "url": "https://api.github.com/repos/openclerk/apis/zipball/c79431e01be0a45857aaeb061e310425fda07e85",
+                "reference": "c79431e01be0a45857aaeb061e310425fda07e85",
                 "shasum": ""
             },
             "require": {
@@ -175,7 +175,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for defining and using APIs",
-            "time": "2015-01-22 02:19:32"
+            "time": "2015-02-03 21:12:56"
         },
         {
             "name": "openclerk/commodities",
@@ -238,12 +238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "fd19a4b9a69a106e569d6ee36b08e06c12bbc999"
+                "reference": "66bcce7be1f6ce802f393333ed7857a6a4a54744"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/fd19a4b9a69a106e569d6ee36b08e06c12bbc999",
-                "reference": "fd19a4b9a69a106e569d6ee36b08e06c12bbc999",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/66bcce7be1f6ce802f393333ed7857a6a4a54744",
+                "reference": "66bcce7be1f6ce802f393333ed7857a6a4a54744",
                 "shasum": ""
             },
             "require": {
@@ -265,7 +265,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-01-21 22:43:57"
+            "time": "2015-02-03 21:41:09"
         },
         {
             "name": "openclerk/currencies",
@@ -299,12 +299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "d1b6edb7315879bdfcccea2f4ae8ed7e9c9fde56"
+                "reference": "72bbe476bf2da3197b76dc6401ac6cfc4b668f64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/d1b6edb7315879bdfcccea2f4ae8ed7e9c9fde56",
-                "reference": "d1b6edb7315879bdfcccea2f4ae8ed7e9c9fde56",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/72bbe476bf2da3197b76dc6401ac6cfc4b668f64",
+                "reference": "72bbe476bf2da3197b76dc6401ac6cfc4b668f64",
                 "shasum": ""
             },
             "require": {
@@ -323,7 +323,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2015-01-14 03:33:57"
+            "time": "2015-01-29 23:45:38"
         },
         {
             "name": "openclerk/emails",
@@ -457,12 +457,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/jobs.git",
-                "reference": "04e6702943e74fea5173ed91f68320d0f0566bfc"
+                "reference": "3c21930764fd801471e996fb0a1ba1f8e1ea094c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/jobs/zipball/04e6702943e74fea5173ed91f68320d0f0566bfc",
-                "reference": "04e6702943e74fea5173ed91f68320d0f0566bfc",
+                "url": "https://api.github.com/repos/openclerk/jobs/zipball/3c21930764fd801471e996fb0a1ba1f8e1ea094c",
+                "reference": "3c21930764fd801471e996fb0a1ba1f8e1ea094c",
                 "shasum": ""
             },
             "require": {
@@ -483,7 +483,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP job queueing, execution and management",
-            "time": "2015-01-29 23:11:02"
+            "time": "2015-01-30 00:30:35"
         },
         {
             "name": "openclerk/metrics",
@@ -1582,17 +1582,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018"
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/82462a90848a52c2533aa6b598b107d68076b018",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/60ed7751671113cf1ee7d7778e691642c2e9acd8",
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8",
                 "shasum": ""
             },
             "require": {
@@ -1625,7 +1625,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-03 15:33:07"
+            "time": "2015-01-25 04:39:26"
         }
     ],
     "aliases": [],

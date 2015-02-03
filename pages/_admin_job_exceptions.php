@@ -10,11 +10,14 @@ require_admin();
 		<th>Type</th>
 		<th>Message</th>
 		<th>Source</th>
+		<th>Job ID</th>
+		<th></th>
 	</tr>
 </thead>
 <tbody>
 <?php
-	$q = db()->prepare("SELECT * FROM uncaught_exceptions
+	$q = db()->prepare("SELECT job_exceptions.*, jobs.job_type FROM job_exceptions
+		LEFT JOIN jobs ON job_exceptions.job_id=jobs.id
 		ORDER BY id DESC LIMIT " . ((int) $limit));
 	$q->execute();
 	while ($e = $q->fetch()) {
@@ -25,6 +28,8 @@ require_admin();
 		<td><?php echo htmlspecialchars($e['class_name']); ?></td>
 		<td><?php echo htmlspecialchars($e['message']); ?></td>
 		<td><?php echo htmlspecialchars(substr($path, strrpos($path, '/') + 1) . ":" . $e['line_number']); ?></td>
+		<td><?php echo htmlspecialchars($e['job_id']); echo $e['job_type'] ? (": " . htmlspecialchars($e['job_type'])) : ""; ?></td>
+		<td><?php if ($e['job_id']) { ?><a href="<?php echo htmlspecialchars(url_for('admin_run_job', array('job_id' => $e['job_id'], 'force' => 1))); ?>">Run again</a><?php } ?></td>
 	</tr>
 	<?php }
 ?>
