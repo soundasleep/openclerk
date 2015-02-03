@@ -457,12 +457,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/jobs.git",
-                "reference": "3c21930764fd801471e996fb0a1ba1f8e1ea094c"
+                "reference": "8d64571d67a6f4da53450104fa0a9aceebf656b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/jobs/zipball/3c21930764fd801471e996fb0a1ba1f8e1ea094c",
-                "reference": "3c21930764fd801471e996fb0a1ba1f8e1ea094c",
+                "url": "https://api.github.com/repos/openclerk/jobs/zipball/8d64571d67a6f4da53450104fa0a9aceebf656b2",
+                "reference": "8d64571d67a6f4da53450104fa0a9aceebf656b2",
                 "shasum": ""
             },
             "require": {
@@ -483,7 +483,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP job queueing, execution and management",
-            "time": "2015-01-30 00:30:35"
+            "time": "2015-02-03 22:37:57"
         },
         {
             "name": "openclerk/metrics",
