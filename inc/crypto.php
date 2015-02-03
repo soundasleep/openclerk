@@ -2003,6 +2003,7 @@ function get_wizard_account_type($wizard) {
         'add_help' => 'add_service',
         'a' => 'an',
         'transaction_creation' => true,
+        'can_test' => true,
       );
       break;
 
@@ -2016,6 +2017,7 @@ function get_wizard_account_type($wizard) {
         'url' => 'wizard_accounts_pools',
         'add_help' => 'add_service',
         'transaction_creation' => true,
+        'can_test' => true,
       );
       break;
 
@@ -2028,6 +2030,7 @@ function get_wizard_account_type($wizard) {
         'has_balances' => true,
         'url' => 'wizard_accounts_securities',
         'add_help' => 'add_service',
+        'can_test' => true,
       );
       break;
 
@@ -2045,6 +2048,7 @@ function get_wizard_account_type($wizard) {
         'display_callback' => 'get_individual_security_config',
         'add_help' => 'add_service',
         'a' => 'an',
+        'can_test' => true,
       );
       break;
 
@@ -2078,6 +2082,7 @@ function get_wizard_account_type($wizard) {
         'display_headings' => array('multiplier' => t('Multiplier')),
         'display_editable' => array('multiplier' => 'number_format_autoprecision'),
         'transaction_creation' => true,
+        'can_test' => true,
       );
       break;
 
