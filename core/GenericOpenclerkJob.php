@@ -7,6 +7,7 @@ use \Openclerk\Jobs\Job;
 use \Db\Connection;
 use \Monolog\Logger;
 use \Core\MyLogger;
+use \JobException;
 
 class GenericOpenclerkJob implements Job {
 
