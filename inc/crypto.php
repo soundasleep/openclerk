@@ -309,34 +309,22 @@ function get_disabled_exchange_pairs() {
   );
 }
 
-// TODO we can rewrite this to use exchange_pairs
+$_cached_get_new_exchange_pairs = null;
+/**
+ * Get all exchange pairs that can be considered 'new'
+ */
 function get_new_exchange_pairs() {
-  return array(
-    "poloniex_btcnbt",
-    "poloniex_btcxrp",
-    "vaultofsatoshi_btcltc",
-    "vaultofsatoshi_btcppc",
-    "vaultofsatoshi_btcdog",
-    "vaultofsatoshi_btcvtc",
-    "vaultofsatoshi_btcdrk",
-    "vaultofsatoshi_ltcppc",
-    "vaultofsatoshi_ltcdog",
-    "vaultofsatoshi_ltcxpm",
-    "vaultofsatoshi_ltcdrk",
-    "anxpro_cadbtc",
-    "anxpro_cadltc",
-    "anxpro_cadnmc",
-    "anxpro_caddog",
-    "bittrex_btcdgc",
-    "bittrex_btcftc",
-    "cexio_btcixc",
-    "crypto-trade_btcvia",
-    "crypto-trade_usdvia",
-    "cryptsy_btcxrp",
-    "cryptsy_usdxrp",
-    "poloniex_btcdrk",
-    "kraken_gbpbtc",
-  );
+  global $_cached_get_new_exchange_pairs;
+  if ($_cached_get_new_exchange_pairs === null) {
+    $result = array();
+    $q = db()->prepare("SELECT * FROM exchange_pairs WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)");
+    $q->execute();
+    while ($pair = $q->fetch()) {
+      $result[] = $pair['exchange'] . "_" . $pair['currency1'] . $pair['currency2'];
+    }
+    $_cached_get_new_exchange_pairs = $result;
+  }
+  return $_cached_get_new_exchange_pairs;
 }
 
 /**
