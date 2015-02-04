@@ -42,10 +42,15 @@ function get_all_hashrate_currencies() {
   return array("btc", "ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn");
 }
 
+$_cached_get_all_currencies = null;
 function get_all_currencies() {
-  $currencies = Currencies::getKeys();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_all_currencies;
+  if ($_cached_get_all_currencies === null) {
+    $currencies = Currencies::getKeys();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_all_currencies = $currencies;
+  }
+  return $_cached_get_all_currencies;
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -63,33 +68,55 @@ function get_new_supported_currencies() {
   return array("sj1");
 }
 
+$_cached_get_all_cryptocurrencies = null;
 function get_all_cryptocurrencies() {
-  $currencies = Currencies::getCryptocurrencies();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_all_cryptocurrencies;
+  if ($_cached_get_all_cryptocurrencies === null) {
+    $currencies = Currencies::getCryptocurrencies();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_all_cryptocurrencies = $currencies;
+  }
+  return $_cached_get_all_cryptocurrencies;
 }
 
+$_cached_get_all_commodity_currencies = null;
 function get_all_commodity_currencies() {
-  $currencies = Currencies::getCommodityCurrencies();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_all_commodity_currencies;
+  if ($_cached_get_all_commodity_currencies === null) {
+    $currencies = Currencies::getCommodityCurrencies();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_all_commodity_currencies = $currencies;
+  }
+  return $_cached_get_all_commodity_currencies;
 }
 
+$_cached_get_all_fiat_currencies = null;
 function get_all_fiat_currencies() {
-  $currencies = Currencies::getFiatCurrencies();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_all_fiat_currencies;
+  if ($_cached_get_all_fiat_currencies === null) {
+    $currencies = Currencies::getFiatCurrencies();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_all_fiat_currencies = $currencies;
+  }
+  return $_cached_get_all_fiat_currencies;
 }
 
 function is_fiat_currency($cur) {
   return in_array($cur, get_all_fiat_currencies());
 }
 
-// currencies which we can download balances using explorers etc
+$_cached_get_address_currencies = null;
+/**
+ * Currencies which we can download balances using explorers etc
+ */
 function get_address_currencies() {
-  $currencies = Currencies::getAddressCurrencies();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_address_currencies;
+  if ($_cached_get_address_currencies === null) {
+    $currencies = Currencies::getAddressCurrencies();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_address_currencies = $currencies;
+  }
+  return $_cached_get_address_currencies;
 }
 
 function get_currency_name($cur) {
