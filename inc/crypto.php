@@ -248,6 +248,8 @@ function get_all_exchanges() {
 
     // for failing server jobs
     "securities_havelock" => "Havelock Investments security",
+    "securities_796" => "796 Xchange security",
+    "securities_litecoininvest" => "Litecoininvest security",
   );
 
   // add discovered exchanges

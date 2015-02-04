@@ -83,6 +83,11 @@
     }
 
     echo "<dt>" . ht($category) . "</dt>\n";
+    if ($category == "Offsets") {
+      // Offsets have no subcategories; issue #344
+      continue;
+    }
+
     $result = array();
     foreach ($datas as $exchange => $data) {
       if (isset($data['disabled']) && $data['disabled']) {
