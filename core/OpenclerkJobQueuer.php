@@ -35,6 +35,16 @@ class OpenclerkJobQueuer extends JobQueuer {
       );
     }
 
+    // premium address balance jobs needs to run much more frequently, but only for the system user (#412)
+    foreach (get_address_currencies() as $cur) {
+      $address_jobs[] = array(
+        'table' => 'addresses',
+        'type' => 'address_' . $cur,
+        'query' => " AND currency='$cur' AND user_id='" . get_site_config('system_user_id') . "'",
+        'hours' => get_site_config('refresh_queue_hours_system'),
+      );
+    }
+
     // standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
     // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
     // if no 'user_id' is specified, then the user will also be checked for disable status
