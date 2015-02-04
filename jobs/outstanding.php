@@ -4,8 +4,6 @@
  * Outstanding premium payments job.
  */
 
-require(__DIR__ . "/../layout/templates.php");
-
 // get the relevant premium and address info
 $q = db()->prepare("SELECT p.*,
     a.address, a.currency

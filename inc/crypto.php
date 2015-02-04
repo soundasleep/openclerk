@@ -2808,3 +2808,19 @@ function is_valid_id($n) {
   return is_numeric($n) && $n == (int) $n && $n > 0;
 }
 
+function get_explorer_address($currency, $address) {
+  foreach (\DiscoveredComponents\Currencies::getAddressCurrencies() as $cur) {
+    if ($cur === $currency) {
+      $instance = \DiscoveredComponents\Currencies::getInstance($cur);
+      return $instance->getBalanceURL($address);
+    }
+  }
+
+  foreach (get_blockchain_currencies() as $explorer => $currencies) {
+    foreach ($currencies as $cur) {
+      if ($cur == $currency) {
+        return sprintf(get_site_config($currency . "_address_url"), $address);
+      }
+    }
+  }
+}
