@@ -32,7 +32,7 @@ class OpenclerkJobRunnerSystem extends \Core\OpenclerkJobRunner {
    */
   function findJob(Connection $db, Logger $logger) {
     $q = $db->prepare("SELECT * FROM jobs WHERE user_id = ? AND " . $this->defaultFindJobQuery() . " LIMIT 1");
-    $q->execute(get_site_config('system_user_id'));
+    $q->execute(array(get_site_config('system_user_id')));
     return $q->fetch();
   }
 
