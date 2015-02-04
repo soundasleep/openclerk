@@ -38,8 +38,8 @@ class OpenclerkJobRunnerType extends \Core\OpenclerkJobRunner {
    * Find a job that starts with the given prefix
    */
   function findJob(Connection $db, Logger $logger) {
-    $q = $db->prepare("SELECT * FROM jobs WHERE job_prefix=? AND " . $this->defaultFindJobQuery() . " LIMIT 1");
-    $q->execute(array($this->job_prefix));
+    $q = $db->prepare("SELECT * FROM jobs WHERE (job_prefix=? OR job_type=?) AND " . $this->defaultFindJobQuery() . " LIMIT 1");
+    $q->execute(array($this->job_prefix, $this->job_prefix));
     return $q->fetch();
   }
 
