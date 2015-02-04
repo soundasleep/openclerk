@@ -238,12 +238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "66bcce7be1f6ce802f393333ed7857a6a4a54744"
+                "reference": "a6eda778b2176605210e3ae700c48510579b4200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/66bcce7be1f6ce802f393333ed7857a6a4a54744",
-                "reference": "66bcce7be1f6ce802f393333ed7857a6a4a54744",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/a6eda778b2176605210e3ae700c48510579b4200",
+                "reference": "a6eda778b2176605210e3ae700c48510579b4200",
                 "shasum": ""
             },
             "require": {
@@ -265,7 +265,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-02-03 21:41:09"
+            "time": "2015-02-04 02:29:32"
         },
         {
             "name": "openclerk/currencies",
@@ -390,12 +390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/exchanges.git",
-                "reference": "8a5cd3e1ef80815869aa7848c76bdf3afaa1b902"
+                "reference": "63780332a02ba393c38b552d1ed8addd91bd76a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/8a5cd3e1ef80815869aa7848c76bdf3afaa1b902",
-                "reference": "8a5cd3e1ef80815869aa7848c76bdf3afaa1b902",
+                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/63780332a02ba393c38b552d1ed8addd91bd76a3",
+                "reference": "63780332a02ba393c38b552d1ed8addd91bd76a3",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of exchanges in Openclerk",
-            "time": "2015-01-22 06:34:46"
+            "time": "2015-02-04 02:27:33"
         },
         {
             "name": "openclerk/fiat",

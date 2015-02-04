@@ -58,8 +58,9 @@ function is_hashrate_mhash($cur) {
   return $cur == 'btc' || $cur == 'nmc' || $cur == 'ppc' || $cur == 'trc';
 }
 
+// TODO we should be able to get this from the database somehow
 function get_new_supported_currencies() {
-  return array("nbt", "nsr");
+  return array("sj1");
 }
 
 function get_all_cryptocurrencies() {
@@ -541,6 +542,7 @@ function get_default_currency_exchange($c) {
     case "via": return "cryptsy";
     case "nbt": return "bter";
     case "nsr": return "bter";
+    case "sj1": return "poloniex";
     // fiats
     case "usd": return "bitstamp";
     case "nzd": return "bitnz";
