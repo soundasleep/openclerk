@@ -425,12 +425,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/fiat.git",
-                "reference": "6065de9644b941f74fc8bdfbf74e04896f907076"
+                "reference": "48b4e163e35336e38ef334ace274d9940c41b5bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/fiat/zipball/6065de9644b941f74fc8bdfbf74e04896f907076",
-                "reference": "6065de9644b941f74fc8bdfbf74e04896f907076",
+                "url": "https://api.github.com/repos/openclerk/fiat/zipball/48b4e163e35336e38ef334ace274d9940c41b5bb",
+                "reference": "48b4e163e35336e38ef334ace274d9940c41b5bb",
                 "shasum": ""
             },
             "require": {
@@ -449,7 +449,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of fiat currencies in Openclerk",
-            "time": "2015-01-16 03:21:56"
+            "time": "2015-02-04 02:51:23"
         },
         {
             "name": "openclerk/jobs",
