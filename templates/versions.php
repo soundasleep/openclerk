@@ -1,4 +1,4 @@
-<dt>9 January</dt>
+<dt>4 February</dt>
 <dd>
   Added currency support for <a href="http://storj.io/" class="currency_name_sj1">StorjCoin</a>;
 
