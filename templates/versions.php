@@ -1,5 +1,18 @@
 <dt>9 January</dt>
 <dd>
+  Added currency support for <a href="http://storj.io/" class="currency_name_sj1">StorjCoin</a>;
+
+  added new block explorer for <span class="currency_name_hbn">HBN</span> addresses;
+
+  <a href="<?php echo htmlspecialchars(url_for("historical")); ?>">exchange pairs</a> are now updated automatically;
+
+  fixed test account buttons not displaying in <a href="<?php echo htmlspecialchars(url_for("wizard_accounts")); ?>">your accounts wizards</a>;
+
+  updated <a href="<?php echo htmlspecialchars(url_for("features")); ?>">features list</a>.
+</dd>
+
+<dt>9 January</dt>
+<dd>
   Added new block explorers for <span class="currency_name_vtc">VTC</span>, <span class="currency_name_mec">MEC</span>,
   <span class="currency_name_ixc">IXC</span>, <span class="currency_name_ftc">FTC</span> and <span class="currency_name_trc">TRC</span> addresses;
 

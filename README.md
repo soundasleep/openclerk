@@ -22,7 +22,7 @@ List of features that are also running at https://cryptfolio.com:
 * Easy-to-use web interface based in PHP
 * Create free accounts through OpenID or passwords
 * Support for multiple currencies
-  * Cryptocurrencies (BTC, LTC, NMC, PPC, FTC, XPM, NVC, TRC, DOGE, MEC, XRP, DGC, WDC, IXC, VTC, NET, BC, HBN, DRK, VRC, NXT, RDD, VIA, NBT, NSR)
+  * Cryptocurrencies (BTC, LTC, NMC, PPC, FTC, XPM, NVC, TRC, DOGE, MEC, XRP, DGC, WDC, IXC, VTC, NET, BLK, HBN, DRK, VRC, NXT, RDD, VIA, NBT, NSR, SJCX)
   * Fiat currencies (USD, GBP, EUR, CAD, AUD, NZD, CNY, PLN, ILS, KRW, SGD, DKK, INR)
   * Commodity currencies (GHS)
 * Support for exchange wallets
@@ -51,7 +51,7 @@ List of features that are also running at https://cryptfolio.com:
   * BitNZ
   * Bitstamp
   * Bittrex
-  * BTC China
+  * BTCChina
   * BTC-e
   * BTER
   * CEX.io
@@ -59,12 +59,10 @@ List of features that are also running at https://cryptfolio.com:
   * Coins-E
   * Crypto-Trade
   * Cryptsy
-  * Justcoin
-  * Kraken
   * itBit
+  * Kraken
   * Poloniex
   * TheMoneyConverter
-  * Vault of Satoshi
   * Vircurex
   * VirtEx
   * Market averages

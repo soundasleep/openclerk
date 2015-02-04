@@ -7,8 +7,15 @@ define('BATCH_SCRIPT', true);
 
 function require_batch_key() {
   global $argv;
-  if (!(isset($argv) && $argv[1] == get_site_config("automated_key")) && require_get("key") != get_site_config("automated_key"))
-    throw new Exception("Invalid key");
+  if (isset($argv)) {
+    if ($argv[1] !== get_site_config("automated_key")) {
+      throw new Exception("Invalid key");
+    }
+  } else {
+    if (require_get("key") != get_site_config("automated_key")) {
+      throw new Exception("Invalid key");
+    }
+  }
 }
 
 function batch_header($page_name, $page_id) {

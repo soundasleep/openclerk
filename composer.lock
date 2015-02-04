@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8375c06e28747549c6656598da701cd3",
+    "hash": "90a938b550cb1c8724a01426bd6b9134",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/apis.git",
-                "reference": "4f8573f9a75db509956bc31017acb877fefa02a4"
+                "reference": "c79431e01be0a45857aaeb061e310425fda07e85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/apis/zipball/4f8573f9a75db509956bc31017acb877fefa02a4",
-                "reference": "4f8573f9a75db509956bc31017acb877fefa02a4",
+                "url": "https://api.github.com/repos/openclerk/apis/zipball/c79431e01be0a45857aaeb061e310425fda07e85",
+                "reference": "c79431e01be0a45857aaeb061e310425fda07e85",
                 "shasum": ""
             },
             "require": {
@@ -175,7 +175,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for defining and using APIs",
-            "time": "2015-01-14 03:52:41"
+            "time": "2015-02-03 21:12:56"
         },
         {
             "name": "openclerk/commodities",
@@ -215,12 +215,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/config.git",
-                "reference": "c86c7dc7567efbf406fd9ceb4252c80560e60bec"
+                "reference": "0c5c0335718c479050e9eba0df727447297927f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/config/zipball/c86c7dc7567efbf406fd9ceb4252c80560e60bec",
-                "reference": "c86c7dc7567efbf406fd9ceb4252c80560e60bec",
+                "url": "https://api.github.com/repos/openclerk/config/zipball/0c5c0335718c479050e9eba0df727447297927f1",
+                "reference": "0c5c0335718c479050e9eba0df727447297927f1",
                 "shasum": ""
             },
             "type": "library",
@@ -230,7 +230,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-08 02:13:51"
+            "time": "2015-01-21 01:56:33"
         },
         {
             "name": "openclerk/cryptocurrencies",
@@ -238,12 +238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "e3408564faa42c4366c74c49a4a963193bd5739a"
+                "reference": "a6eda778b2176605210e3ae700c48510579b4200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/e3408564faa42c4366c74c49a4a963193bd5739a",
-                "reference": "e3408564faa42c4366c74c49a4a963193bd5739a",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/a6eda778b2176605210e3ae700c48510579b4200",
+                "reference": "a6eda778b2176605210e3ae700c48510579b4200",
                 "shasum": ""
             },
             "require": {
@@ -265,7 +265,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-01-09 04:51:31"
+            "time": "2015-02-04 02:29:32"
         },
         {
             "name": "openclerk/currencies",
@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/currencies.git",
-                "reference": "fb82e241b96ccb7d4b7e114244646d606df83a2f"
+                "reference": "7fa73ee8f9c4da48158bff1e91c18adc84c650c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/currencies/zipball/fb82e241b96ccb7d4b7e114244646d606df83a2f",
-                "reference": "fb82e241b96ccb7d4b7e114244646d606df83a2f",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/7fa73ee8f9c4da48158bff1e91c18adc84c650c8",
+                "reference": "7fa73ee8f9c4da48158bff1e91c18adc84c650c8",
                 "shasum": ""
             },
             "require": {
@@ -291,7 +291,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-01-16 03:23:18"
+            "time": "2015-01-22 02:36:33"
         },
         {
             "name": "openclerk/db",
@@ -299,12 +299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "d1b6edb7315879bdfcccea2f4ae8ed7e9c9fde56"
+                "reference": "72bbe476bf2da3197b76dc6401ac6cfc4b668f64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/d1b6edb7315879bdfcccea2f4ae8ed7e9c9fde56",
-                "reference": "d1b6edb7315879bdfcccea2f4ae8ed7e9c9fde56",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/72bbe476bf2da3197b76dc6401ac6cfc4b668f64",
+                "reference": "72bbe476bf2da3197b76dc6401ac6cfc4b668f64",
                 "shasum": ""
             },
             "require": {
@@ -323,7 +323,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2015-01-14 03:33:57"
+            "time": "2015-01-29 23:45:38"
         },
         {
             "name": "openclerk/emails",
@@ -385,17 +385,52 @@
             "time": "2014-12-16 07:34:34"
         },
         {
+            "name": "openclerk/exchanges",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/exchanges.git",
+                "reference": "63780332a02ba393c38b552d1ed8addd91bd76a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/63780332a02ba393c38b552d1ed8addd91bd76a3",
+                "reference": "63780332a02ba393c38b552d1ed8addd91bd76a3",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "~1.11",
+                "openclerk/apis": "dev-master",
+                "openclerk/config": "dev-master",
+                "openclerk/currencies": "dev-master",
+                "php": ">=5.4.6"
+            },
+            "require-dev": {
+                "soundasleep/component-tests": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Exchange\\": "src",
+                    "Exchange\\Tests\\": "test"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Definitions and implementations of exchanges in Openclerk",
+            "time": "2015-02-04 02:27:33"
+        },
+        {
             "name": "openclerk/fiat",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/fiat.git",
-                "reference": "6065de9644b941f74fc8bdfbf74e04896f907076"
+                "reference": "48b4e163e35336e38ef334ace274d9940c41b5bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/fiat/zipball/6065de9644b941f74fc8bdfbf74e04896f907076",
-                "reference": "6065de9644b941f74fc8bdfbf74e04896f907076",
+                "url": "https://api.github.com/repos/openclerk/fiat/zipball/48b4e163e35336e38ef334ace274d9940c41b5bb",
+                "reference": "48b4e163e35336e38ef334ace274d9940c41b5bb",
                 "shasum": ""
             },
             "require": {
@@ -414,7 +449,41 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of fiat currencies in Openclerk",
-            "time": "2015-01-16 03:21:56"
+            "time": "2015-02-04 02:51:23"
+        },
+        {
+            "name": "openclerk/jobs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/jobs.git",
+                "reference": "8d64571d67a6f4da53450104fa0a9aceebf656b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/jobs/zipball/8d64571d67a6f4da53450104fa0a9aceebf656b2",
+                "reference": "8d64571d67a6f4da53450104fa0a9aceebf656b2",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "~1.11",
+                "openclerk/config": "dev-master",
+                "openclerk/db": "dev-master",
+                "openclerk/events": "dev-master"
+            },
+            "require-dev": {
+                "soundasleep/component-tests": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Openclerk\\Jobs\\": "src",
+                    "Openclerk\\Jobs\\Tests\\": "test"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Simple PHP job queueing, execution and management",
+            "time": "2015-02-03 22:37:57"
         },
         {
             "name": "openclerk/metrics",
@@ -450,12 +519,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/routing.git",
-                "reference": "3777f3fef6cede4ff787851abd01f2a04acdbfc2"
+                "reference": "caccd7e859daff7cd0857e3d4246365fc675515b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/routing/zipball/3777f3fef6cede4ff787851abd01f2a04acdbfc2",
-                "reference": "3777f3fef6cede4ff787851abd01f2a04acdbfc2",
+                "url": "https://api.github.com/repos/openclerk/routing/zipball/caccd7e859daff7cd0857e3d4246365fc675515b",
+                "reference": "caccd7e859daff7cd0857e3d4246365fc675515b",
                 "shasum": ""
             },
             "require": {
@@ -474,7 +543,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-27 07:04:20"
+            "time": "2015-01-26 23:14:35"
         },
         {
             "name": "openclerk/templates",
@@ -674,12 +743,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "4e127bac9dd301c6877c46f31780bd7297b50c8e"
+                "reference": "e36c1073fb58c9422c96df6e2039aa61c8f6800d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/4e127bac9dd301c6877c46f31780bd7297b50c8e",
-                "reference": "4e127bac9dd301c6877c46f31780bd7297b50c8e",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/e36c1073fb58c9422c96df6e2039aa61c8f6800d",
+                "reference": "e36c1073fb58c9422c96df6e2039aa61c8f6800d",
                 "shasum": ""
             },
             "require-dev": {
@@ -694,7 +763,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2015-01-04 00:52:34"
+            "time": "2015-01-26 03:35:55"
         },
         {
             "name": "soundasleep/html2text",
@@ -907,16 +976,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.14",
+            "version": "2.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "ca158276c1200cc27f5409a5e338486bc0b4fc94"
+                "reference": "34cc484af1ca149188d0d9e91412191e398e0b67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ca158276c1200cc27f5409a5e338486bc0b4fc94",
-                "reference": "ca158276c1200cc27f5409a5e338486bc0b4fc94",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/34cc484af1ca149188d0d9e91412191e398e0b67",
+                "reference": "34cc484af1ca149188d0d9e91412191e398e0b67",
                 "shasum": ""
             },
             "require": {
@@ -929,7 +998,7 @@
             },
             "require-dev": {
                 "ext-xdebug": ">=2.1.4",
-                "phpunit/phpunit": "~4.1"
+                "phpunit/phpunit": "~4"
             },
             "suggest": {
                 "ext-dom": "*",
@@ -948,9 +1017,6 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -968,7 +1034,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-12-26 13:28:33"
+            "time": "2015-01-24 10:06:35"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1105,16 +1171,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876"
+                "reference": "db32c18eba00b121c145575fcbcd4d4d24e6db74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/f8d5d08c56de5cfd592b3340424a81733259a876",
-                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/db32c18eba00b121c145575fcbcd4d4d24e6db74",
+                "reference": "db32c18eba00b121c145575fcbcd4d4d24e6db74",
                 "shasum": ""
             },
             "require": {
@@ -1127,7 +1193,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -1150,7 +1216,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2014-08-31 06:12:13"
+            "time": "2015-01-17 09:51:32"
         },
         {
             "name": "phpunit/phpunit",
@@ -1510,26 +1576,23 @@
                     "ComponentTests\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "description": "Common Composer and PHP component lint and validation tests",
-            "support": {
-                "source": "https://github.com/soundasleep/component-tests/tree/master",
-                "issues": "https://github.com/soundasleep/component-tests/issues"
-            },
             "time": "2014-12-29 13:10:48"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018"
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/82462a90848a52c2533aa6b598b107d68076b018",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/60ed7751671113cf1ee7d7778e691642c2e9acd8",
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8",
                 "shasum": ""
             },
             "require": {
@@ -1562,7 +1625,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-03 15:33:07"
+            "time": "2015-01-25 04:39:26"
         }
     ],
     "aliases": [],
@@ -1576,7 +1639,9 @@
         "openclerk/db": 20,
         "openclerk/emails": 20,
         "openclerk/events": 20,
+        "openclerk/exchanges": 20,
         "openclerk/fiat": 20,
+        "openclerk/jobs": 20,
         "openclerk/config": 20,
         "openclerk/metrics": 20,
         "openclerk/routing": 20,

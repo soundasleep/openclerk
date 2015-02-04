@@ -7,6 +7,7 @@
 
 use \Openclerk\Currencies\Currency;
 use \DiscoveredComponents\Currencies;
+use \DiscoveredComponents\Exchanges;
 
 /**
  * Allow us to define our own sort order for currency lists.
@@ -41,10 +42,15 @@ function get_all_hashrate_currencies() {
   return array("btc", "ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn");
 }
 
+$_cached_get_all_currencies = null;
 function get_all_currencies() {
-  $currencies = Currencies::getKeys();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_all_currencies;
+  if ($_cached_get_all_currencies === null) {
+    $currencies = Currencies::getKeys();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_all_currencies = $currencies;
+  }
+  return $_cached_get_all_currencies;
 }
 
 // return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
@@ -57,37 +63,60 @@ function is_hashrate_mhash($cur) {
   return $cur == 'btc' || $cur == 'nmc' || $cur == 'ppc' || $cur == 'trc';
 }
 
+// TODO we should be able to get this from the database somehow
 function get_new_supported_currencies() {
-  return array("nbt", "nsr");
+  return array("sj1");
 }
 
+$_cached_get_all_cryptocurrencies = null;
 function get_all_cryptocurrencies() {
-  $currencies = Currencies::getCryptocurrencies();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_all_cryptocurrencies;
+  if ($_cached_get_all_cryptocurrencies === null) {
+    $currencies = Currencies::getCryptocurrencies();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_all_cryptocurrencies = $currencies;
+  }
+  return $_cached_get_all_cryptocurrencies;
 }
 
+$_cached_get_all_commodity_currencies = null;
 function get_all_commodity_currencies() {
-  $currencies = Currencies::getCommodityCurrencies();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_all_commodity_currencies;
+  if ($_cached_get_all_commodity_currencies === null) {
+    $currencies = Currencies::getCommodityCurrencies();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_all_commodity_currencies = $currencies;
+  }
+  return $_cached_get_all_commodity_currencies;
 }
 
+$_cached_get_all_fiat_currencies = null;
 function get_all_fiat_currencies() {
-  $currencies = Currencies::getFiatCurrencies();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_all_fiat_currencies;
+  if ($_cached_get_all_fiat_currencies === null) {
+    $currencies = Currencies::getFiatCurrencies();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_all_fiat_currencies = $currencies;
+  }
+  return $_cached_get_all_fiat_currencies;
 }
 
 function is_fiat_currency($cur) {
   return in_array($cur, get_all_fiat_currencies());
 }
 
-// currencies which we can download balances using explorers etc
+$_cached_get_address_currencies = null;
+/**
+ * Currencies which we can download balances using explorers etc
+ */
 function get_address_currencies() {
-  $currencies = Currencies::getAddressCurrencies();
-  usort($currencies, 'sort_currency_list');
-  return $currencies;
+  global $_cached_get_address_currencies;
+  if ($_cached_get_address_currencies === null) {
+    $currencies = Currencies::getAddressCurrencies();
+    usort($currencies, 'sort_currency_list');
+    $_cached_get_address_currencies = $currencies;
+  }
+  return $_cached_get_address_currencies;
 }
 
 function get_currency_name($cur) {
@@ -134,10 +163,7 @@ function get_blockchain_currencies() {
 }
 
 function get_all_exchanges() {
-  return array(
-    "bit2c" =>      "Bit2c",
-    "bitnz" =>      "BitNZ",
-    "btce" =>       "BTC-e",
+  $exchanges = array(
     "mtgox" =>      "Mt.Gox",
     "bips" =>       "BIPS",   // this is now disabled
     "litecoinglobal" =>  "Litecoin Global",
@@ -166,7 +192,6 @@ function get_all_exchanges() {
     "wemineltc" =>    "WeMineLTC",
     "wemineftc" =>    "WeMineFTC",
     "givemecoins" =>  "Give Me Coins",
-    "vircurex" =>     "Vircurex",
     "slush" =>      "Slush's pool",
     "btcguild" =>     "BTC Guild",
     "50btc" =>      "50BTC",
@@ -175,31 +200,23 @@ function get_all_exchanges() {
     "miningforeman" =>  "Mining Foreman", // LTC default
     "miningforeman_ftc" => "Mining Foreman",
     "khore" =>      "nvc.khore.org",
-    "cexio" =>      "CEX.io",
     "ghashio" =>    "GHash.io",
-    "crypto-trade" => "Crypto-Trade",
     "crypto-trade_securities" => "Crypto-Trade (Securities)",
     "havelock" =>     "Havelock Investments",
     "havelock_wallet" => "Havelock Investments (Wallet)",
     "havelock_securities" => "Havelock Investments (Securities)",
     "bitminter" =>    "BitMinter",
     "liteguardian" =>   "LiteGuardian",
-    "themoneyconverter" => "TheMoneyConverter",
-    "virtex" =>     "VirtEx",
-    "bitstamp" =>     "Bitstamp",
     "796" =>      "796 Xchange",
     "796_wallet" =>   "796 Xchange (Wallet)",
     "796_securities" => "796 Xchange (Securities)",
     "kattare" =>    "ltc.kattare.com",
-    "btcchina" =>   "BTC China",
-    "cryptsy" =>    "Cryptsy",
     "litepooleu" =>   "Litepool",
     "coinhuntr" =>    "CoinHuntr",
     "eligius" =>    "Eligius",
     "lite_coinpool" =>  "lite.coin-pool.com",
     "beeeeer" =>    "b(e^5)r.org",
     "litecoinpool" => "litecoinpool.org",
-    "coins-e" =>    "Coins-E",
     "dogepoolpw" =>   "dogepool.pw",
     "elitistjerks" => "Elitist Jerks",
     "dogechainpool" =>  "Dogechain Pool",
@@ -212,14 +229,11 @@ function get_all_exchanges() {
     "ozcoin_ltc" =>   "Ozcoin",
     "ozcoin_btc" =>   "Ozcoin",
     "scryptpools" =>  "scryptpools.com",
-    "bitcurex" =>   "Bitcurex", // both exchanges for tickers
     "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
     "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
     "justcoin" =>   "Justcoin",
     "multipool" =>    "Multipool",
     "ypool" =>      "ypool.net",
-    "cryptsy" =>    "Cryptsy",
-    "coinbase" =>   "Coinbase",
     "litecoininvest" => "Litecoininvest",
     "litecoininvest_wallet" => "Litecoininvest (Wallet)",
     "litecoininvest_securities" => "Litecoininvest (Securities)",
@@ -245,38 +259,46 @@ function get_all_exchanges() {
     "d2" => "d2",
     "d2_wdc" => "d2",
     "scryptguild" => "ScryptGuild",
-    "kraken" => "Kraken",
     "average" => "Market Average",
     "rapidhash" => "RapidHash",
     "rapidhash_doge" => "RapidHash",
     "rapidhash_vtc" => "RapidHash",
     "cryptotroll" => "Cryptotroll",
     "cryptotroll_doge" => "Cryptotroll",
-    "bitmarket_pl" => "BitMarket.pl",
-    "poloniex" => "Poloniex",
     "mintpal" => "MintPal",
     "mupool" => "MuPool",
-    "anxpro" => "ANXPRO",
-    "itbit" => "itBit",
-    "bittrex" => "Bittrex",
     "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
     "nicehash" => "NiceHash",
     "westhash" => "WestHash",
     "eobot" => "Eobot",
     "hashtocoins" => "Hash-to-Coins",
     "btclevels" => "BTClevels",
-    "bter" => "BTER",
 
     // for failing server jobs
     "securities_havelock" => "Havelock Investments security",
+    "securities_796" => "796 Xchange security",
+    "securities_litecoininvest" => "Litecoininvest security",
   );
+
+  // add discovered exchanges
+  foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    $exchanges[$key] = $exchange->getName();
+  }
+
+  return $exchanges;
 }
 
 function get_exchange_name($n) {
+  if (in_array($n, Exchanges::getKeys())) {
+    $exchange = Exchanges::getInstance($n);
+    return $exchange->getName();
+  }
+
   $exchanges = get_all_exchanges();
   if (isset($exchanges[$n])) {
     return $exchanges[$n];
   }
+
   return "Unknown (" . htmlspecialchars($n) . "]";
 }
 
@@ -285,102 +307,27 @@ function get_new_exchanges() {
   return array("bittrex", "bter");
 }
 
+/**
+ * Get all exchange codes and their currently supported pairs.
+ * Does not return the exchange codes in alphabetical order.
+ */
 function get_exchange_pairs() {
-  return array(
-    // should be in alphabetical order
-    "anxpro" => array(
-      array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('gbp', 'btc'), array('nzd', 'btc'), array('sgd', 'btc'), array('cad', 'btc'),
-      array('usd', 'ltc'), array('eur', 'ltc'), array('aud', 'ltc'), array('gbp', 'ltc'), array('nzd', 'ltc'), array('sgd', 'ltc'), array('cad', 'ltc'),
-      // array('usd', 'ppc'), array('eur', 'ppc'), array('aud', 'ppc'), array('gbp', 'ppc'), array('nzd', 'ppc'), array('sgd', 'ppc'),
-      array('usd', 'nmc'), array('eur', 'nmc'), array('aud', 'nmc'), array('gbp', 'nmc'), array('nzd', 'nmc'), array('sgd', 'nmc'), array('cad', 'nmc'),
-      array('usd', 'dog'), array('eur', 'dog'), array('aud', 'dog'), array('gbp', 'dog'), array('nzd', 'dog'), array('sgd', 'dog'), array('cad', 'dog'),
-      // also hkd, jpy, chf
-      array('btc', 'ltc'),
-      // array('btc', 'ppc'), array('ltc', 'ppc'),
-      array('btc', 'nmc'), array('ltc', 'nmc'),
-      array('btc', 'dog'),
-    ),
-    "bit2c" => array(array('ils', 'btc'), array('ils', 'ltc'), array('btc', 'ltc')),
-    "bitcurex" => array(array('pln', 'btc'), array('eur', 'btc'), array('usd', 'btc')),
-    "bitmarket_pl" => array(array('pln', 'btc'), array('pln', 'ltc'), array('pln', 'dog'), array('pln', 'ppc')),
-    "bitnz" => array(array('nzd', 'btc')),
-    "bitstamp" => array(array('usd', 'btc')),
-    "bittrex" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'vtc'),
-      array('btc', 'bc1'), array('btc', 'drk'), array('btc', 'vrc'), array('btc', 'nxt'),
-      array('btc', 'rdd'), array('btc', 'via'), array('btc', 'dgc'), array('btc', 'ftc'),
-    ),  // and others
-    "btcchina" => array(array('cny', 'btc')),
-    "btce" => array(array('btc', 'ltc'), array('usd', 'btc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
-        array('btc', 'ftc'), array('eur', 'btc'), array('usd', 'eur'), array('usd', 'nmc'), array('btc', 'nvc'),
-        array('btc', 'xpm'), array('btc', 'trc'), array('gbp', 'btc'), array('gbp', 'ltc'), array('cny', 'btc'),
-        array('cny', 'ltc'), array('usd', 'cny'), array('usd', 'gbp'), array('usd', 'nvc')),
-    "bter" => array(array('btc', 'ltc'), array('btc', 'dog'), array('btc', 'nxt'), array('btc', 'nsr'),
-        array('btc', 'nbt'), array('btc', 'net'), array('btc', 'xpm'), array('btc', 'bc1'),
-        array('btc', 'dgc'), array('btc', 'drk'), array('btc', 'ftc'), array('btc', 'mec'),
-        array('btc', 'nmc'), array('btc', 'ppc'), array('btc', 'via'), array('btc', 'vrc'),
-        array('btc', 'vtc'), array('btc', 'wdc'),
-        array('usd', 'btc'), array('usd', 'dog'), array('usd', 'ltc'), array('usd', 'nxt'),
-        array('cny', 'btc'), array('cny', 'dog'), array('cny', 'ltc'), array('cny', 'nxt'),
-        array('cny', 'nmc'), array('cny', 'ppc'), array('cny', 'xpm'), array('cny', 'nxt'),
-      ),
-    "cexio" => array(array('btc', 'ghs'), array('btc', 'ltc'), array('btc', 'nmc'), array('ltc', 'ghs'),
-        array('usd', 'btc'), array('usd', 'ghs'), array('usd', 'ltc'), array('btc', 'dog'),
-        array('btc', 'drk'), array('btc', 'mec'), array('btc', 'wdc'), array('btc', 'ftc'),
-        array('ltc', 'dog'), array('ltc', 'drk'), array('ltc', 'mec'), array('btc', 'ixc'),
-      ),
-    "coinbase" => array(array('usd', 'btc'), array('eur', 'btc'), array('gbp', 'btc'), array('cad', 'btc'), array('aud', 'btc'),
-        array('pln', 'btc'), array('nzd', 'btc'), array('ils', 'btc'), array('krw', 'btc'), array('sgd', 'btc'),
-        array('dkk', 'btc'), array('inr', 'btc'), array('cny', 'btc'),
-      ),
-    "coins-e" => array(array('btc', 'ftc'), array('btc', 'ltc'), array('btc', 'ppc'),
-        array('xpm', 'ppc'), array('btc', 'dog'), array('btc', 'mec'), array('btc', 'vrc'),
-        array('btc', 'nvc'), array('btc', 'dgc'), array('btc', 'bc1'), array('btc', 'drk'),
-      ),
-    "crypto-trade" => array(array('usd', 'btc'), array('eur', 'btc'), array('usd', 'ltc'), array('eur', 'ltc'), array('btc', 'ltc'),
-        array('usd', 'nmc'), array('btc', 'nmc'), array('usd', 'ppc'), array('btc', 'ppc'), array('usd', 'ftc'), array('btc', 'ftc'),
-        array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dgc'), array('btc', 'wdc'), array('btc', 'bc1'),
-        array('btc', 'dog'), array('usd', 'dog'), array('btc', 'drk'), array('usd', 'drk'), array('btc', 'nxt'),
-        array('usd', 'nxt'), array('btc', 'via'),
-    ),
-    "cryptsy" => array(array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'ftc'), array('btc', 'nvc'), array('btc', 'xpm'),
-        array('btc', 'trc'), array('btc', 'dog'), array('btc', 'mec'), array('ltc', 'mec'), array('btc', 'dgc'),
-        array('ltc', 'dgc'), array('btc', 'wdc'), array('btc', 'nmc'), array('btc', 'ixc'), array('btc', 'vtc'),
-        array('btc', 'net'), array('ltc', 'net'), array('btc', 'hbn'), array('btc', 'bc1'), array('btc', 'drk'),
-        array('btc', 'vrc'), array('btc', 'nxt'), array('btc', 'rdd'), array('ltc', 'rdd'), array('usd', 'rdd'),
-        array('ltc', 'nxt'), array('btc', 'via'), array('btc', 'xrp'), array('usd', 'xrp'),
-    ),
-    "justcoin" => array(array('usd', 'btc'), array('eur', 'btc'), array('btc', 'ltc'), array('btc', 'xrp')),  // also (nok, btc)
-    "kraken" => array(array('btc', 'ltc'), array('btc', 'nmc'), array('btc', 'dog'), array('btc', 'xrp'),
-        array('eur', 'btc'), array('usd', 'btc'), array('eur', 'ltc'), array('usd', 'ltc'),
-        array('gbp', 'btc'),
-    ),
-    "itbit" => array(array('usd', 'btc'), array('eur', 'btc'), array('sgd', 'btc')),
-    "poloniex" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'xpm'), array('btc', 'nmc'),
-        array('btc', 'wdc'), array('btc', 'ppc'), array('btc', 'drk'),
-        array('btc', 'vrc'), array('btc', 'nxt'), array('btc', 'rdd'), array('btc', 'via'),
-        array('btc', 'nbt'), array('btc', 'xrp'), array('btc', 'drk'),
-    ),    // also pts, mmc, ...
-    "themoneyconverter" => array(array('usd', 'eur'), array('usd', 'aud'), array('usd', 'nzd'), array('usd', 'cad'),
-        array('usd', 'cny'), array('usd', 'pln'), array('usd', 'gbp'), array('usd', 'ils'), array('usd', 'sgd'),
-        array('usd', 'dkk'), array('usd', 'inr'),
-    ),
-    "vaultofsatoshi" => array(
-        array('usd', 'btc'), array('usd', 'ltc'), array('usd', 'ppc'), array('usd', 'dog'), array('usd', 'ftc'), array('usd', 'xpm'),
-        array('usd', 'drk'),
-        array('cad', 'btc'), array('cad', 'ltc'), array('cad', 'ppc'), array('cad', 'dog'), array('cad', 'ftc'), array('cad', 'xpm'),
-        array('cad', 'drk'),
-        array('btc', 'ltc'), array('btc', 'ppc'), array('btc', 'dog'), array('btc', 'vtc'),
-        array('btc', 'drk'),
-        array('ltc', 'ppc'), array('ltc', 'dog'), array('ltc', 'xpm'),
-        array('ltc', 'drk'),
-        // also qrk
-    ),
-    "vircurex" => array(array('usd', 'btc'), array('btc', 'ltc'), array('usd', 'ltc'), array('btc', 'nmc'), array('btc', 'ppc'),
-        array('btc', 'ftc'), array('usd', 'nmc'), array('ltc', 'nmc'), array('eur', 'btc'),
-        array('btc', 'xpm'), array('btc', 'trc'), array('btc', 'dog'), array('btc', 'dgc'), array('btc', 'wdc'),
-        array('btc', 'ixc'), array('btc', 'vtc')),
-    "virtex" => array(array('cad', 'btc'), array('cad', 'ltc'), array('btc', 'ltc')),
-  );
+  $pairs = array();
+
+  // add all discovered pairs
+  foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    $persistent = new \Core\PersistentExchange($exchange, db());
+    $result = array();
+    foreach ($persistent->getMarkets() as $pair) {
+      if (in_array($pair[0], get_all_currencies()) && in_array($pair[1], get_all_currencies())) {
+        $result[] = $pair;
+      }
+    }
+
+    $pairs[$key] = $result;
+  }
+
+  return $pairs;
 }
 
 function get_disabled_exchange_pairs() {
@@ -392,34 +339,22 @@ function get_disabled_exchange_pairs() {
   );
 }
 
+$_cached_get_new_exchange_pairs = null;
+/**
+ * Get all exchange pairs that can be considered 'new'
+ */
 function get_new_exchange_pairs() {
-  return array(
-    // All BTER pairs are new
-    "poloniex_btcnbt",
-    "poloniex_btcxrp",
-    "vaultofsatoshi_btcltc",
-    "vaultofsatoshi_btcppc",
-    "vaultofsatoshi_btcdog",
-    "vaultofsatoshi_btcvtc",
-    "vaultofsatoshi_btcdrk",
-    "vaultofsatoshi_ltcppc",
-    "vaultofsatoshi_ltcdog",
-    "vaultofsatoshi_ltcxpm",
-    "vaultofsatoshi_ltcdrk",
-    "anxpro_cadbtc",
-    "anxpro_cadltc",
-    "anxpro_cadnmc",
-    "anxpro_caddog",
-    "bittrex_btcdgc",
-    "bittrex_btcftc",
-    "cexio_btcixc",
-    "crypto-trade_btcvia",
-    "crypto-trade_usdvia",
-    "cryptsy_btcxrp",
-    "cryptsy_usdxrp",
-    "poloniex_btcdrk",
-    "kraken_gbpbtc",
-  );
+  global $_cached_get_new_exchange_pairs;
+  if ($_cached_get_new_exchange_pairs === null) {
+    $result = array();
+    $q = db()->prepare("SELECT * FROM exchange_pairs WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)");
+    $q->execute();
+    while ($pair = $q->fetch()) {
+      $result[] = $pair['exchange'] . "_" . $pair['currency1'] . $pair['currency2'];
+    }
+    $_cached_get_new_exchange_pairs = $result;
+  }
+  return $_cached_get_new_exchange_pairs;
 }
 
 /**
@@ -634,6 +569,7 @@ function get_default_currency_exchange($c) {
     case "via": return "cryptsy";
     case "nbt": return "bter";
     case "nsr": return "bter";
+    case "sj1": return "poloniex";
     // fiats
     case "usd": return "bitstamp";
     case "nzd": return "bitnz";
@@ -962,6 +898,12 @@ function get_external_apis() {
     $external_apis_blockcounts["blockcount_" . $key] = $link;
   }
 
+  $exchange_tickers = array();
+  foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    $link = link_to($exchange->getURL(), $exchange->getName());
+    $exchange_tickers["ticker_" . $key] = $link;
+  }
+
   $external_apis = array(
     "Address balances" => $external_apis_addresses,
 
@@ -1032,26 +974,7 @@ function get_external_apis() {
       'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
     ),
 
-    "Exchange tickers" => array(
-      'ticker_anxpro' => '<a href="https://anxpro.com/">ANXPRO</a>',
-      'ticker_bitnz' => '<a href="https://bitnz.com">BitNZ</a>',
-      'ticker_bitcurex' => '<a href="https://bitcurex.com/">Bitcurex</a>',
-      'ticker_bitmarket_pl' => '<a href="https://www.bitmarket.pl/">BitMarket.pl</a>',
-      'ticker_bitstamp' => '<a href="https://www.bitstamp.net/">Bitstamp</a>',
-      'ticker_bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
-      'ticker_btcchina' => '<a href="https://btcchina.com">BTC China</a>',
-      'ticker_btce' => '<a href="http://btc-e.com">BTC-e</a>',
-      'ticker_cexio' => '<a href="https://cex.io">CEX.io</a>',
-      'ticker_coins-e' => '<a href="https://www.coins-e.com">Coins-E</a>',
-      'ticker_cryptsy' => '<a href="https://www.cryptsy.com/">Cryptsy</a>',
-      'ticker_justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
-      'ticker_kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
-      'ticker_itbit' => '<a href="https://www.itbit.com/">itBit</a>',
-      'ticker_poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
-      'ticker_themoneyconverter' => '<a href="http://themoneyconverter.com">TheMoneyConverter</a>',
-      'ticker_vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
-      'ticker_virtex' => '<a href="https://www.cavirtex.com/">VirtEx</a>',
-    ),
+    "Exchange tickers" => $exchange_tickers,
 
     "Security exchanges" => array(
       'securities_796' => '<a href="https://796.com">796 Xchange</a>',
@@ -2099,6 +2022,7 @@ function get_wizard_account_type($wizard) {
         'add_help' => 'add_service',
         'a' => 'an',
         'transaction_creation' => true,
+        'can_test' => true,
       );
       break;
 
@@ -2112,6 +2036,7 @@ function get_wizard_account_type($wizard) {
         'url' => 'wizard_accounts_pools',
         'add_help' => 'add_service',
         'transaction_creation' => true,
+        'can_test' => true,
       );
       break;
 
@@ -2124,6 +2049,7 @@ function get_wizard_account_type($wizard) {
         'has_balances' => true,
         'url' => 'wizard_accounts_securities',
         'add_help' => 'add_service',
+        'can_test' => true,
       );
       break;
 
@@ -2141,6 +2067,7 @@ function get_wizard_account_type($wizard) {
         'display_callback' => 'get_individual_security_config',
         'add_help' => 'add_service',
         'a' => 'an',
+        'can_test' => true,
       );
       break;
 
@@ -2174,6 +2101,7 @@ function get_wizard_account_type($wizard) {
         'display_headings' => array('multiplier' => t('Multiplier')),
         'display_editable' => array('multiplier' => 'number_format_autoprecision'),
         'transaction_creation' => true,
+        'can_test' => true,
       );
       break;
 

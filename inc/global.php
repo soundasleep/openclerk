@@ -463,63 +463,6 @@ function calculate_relative_path() {
   return $global_calculate_relative_path;
 }
 
-/**
- * Generate the url for a particular module (i.e. script) and particular arguments (i.e. query string elements).
- * Handles relative paths back to the root, but /clerk/foo/bar to /clerk/bar/foo is untested.
- * Also handles #hash arguments.
- * Should handle absolute arguments OK.
- */
-function old_url_for($module, $arguments = array()) {
-  $is_absolute = (strpos($module, "://") !== false);
-  $hash = false;
-  if (strpos($module, "#") !== false) {
-    $hash = substr($module, strpos($module, "#") + 1);
-    $module = substr($module, 0, strpos($module, "#"));
-  }
-  // rewrite e.g. help?kb=foo to help/foo
-  switch ($module) {
-    case "kb":
-      if (isset($arguments['q'])) {
-        $module = 'help/' . urlencode($arguments['q']);
-        unset($arguments['q']);
-      }
-      break;
-    case "index":
-      $module = ".";
-      break;
-  }
-  $query = array();
-  if (count($arguments) > 0) {
-    foreach ($arguments as $key => $value) {
-      $query[] = urlencode($key) . "=" . urlencode($value);
-    }
-  }
-  return ($is_absolute ? "" : calculate_relative_path()) . $module . /* ".php" . */ (count($query) ? "?" . implode("&", $query) : "") . ($hash ? "#" . $hash : "");
-}
-
-/**
- * Add GET arguments onto a particular URL. Does not replace any existing arguments.
- * Also handles #hash arguments.
- */
-function url_add($url, $arguments) {
-  $hash = false;
-  if (strpos($url, "#") !== false) {
-    $hash = substr($url, strpos($url, "#") + 1);
-    $url = substr($url, 0, strpos($url, "#"));
-  }
-  foreach ($arguments as $key => $value) {
-    if (strpos($url, "?") !== false) {
-      $url .= "&" . urlencode($key) . "=" . urlencode($value);
-    } else {
-      $url .= "?" . urlencode($key) . "=" . urlencode($value);
-    }
-  }
-  if ($hash) {
-    $url .= "#" . $hash;
-  }
-  return $url;
-}
-
 function link_to($url, $text = false) {
   if ($text === false) {
     return link_to($url, $url);

@@ -17,6 +17,15 @@ class MyLogger extends \Monolog\Handler\AbstractHandler {
         $message = "[Warning] " . $message;
       }
     }
-    echo "<li class=\"$class\">" . htmlspecialchars($message) . "</li>\n";
+    echo "<li class=\"$class\">";
+    // if it's ONLY a link_to(), then render it as a link
+    if (preg_match("#^(.*?)(<a href=\"[^\"<]+\">[^<]+</a>)$#s", $message, $matches)) {
+      echo htmlspecialchars($matches[1]) . $matches[2];
+    } else if (is_valid_url($message)) {
+      echo link_to($message, $message);
+    } else {
+      echo htmlspecialchars($message);
+    }
+    echo "</li>\n";
   }
 }
