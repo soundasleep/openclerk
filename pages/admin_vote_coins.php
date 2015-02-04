@@ -99,10 +99,15 @@ page_header("Admin Vote Coins", "page_admin_vote_coins");
 </thead>
 <tbody>
 	<?php
+  $abbrs = array();
+  foreach (get_all_currencies() as $cur) {
+    $abbrs[] = get_currency_abbr($cur);
+  }
+
 	$q = db()->prepare("SELECT * FROM vote_coins WHERE total_votes > 0 ORDER BY code ASC");
 	$q->execute();
 	while ($vote = $q->fetch()) {
-		if (in_array(strtolower($vote['code']), get_all_currencies())) {
+		if (in_array(strtolower($vote['code']), get_all_currencies()) || in_array($vote['code'], $abbrs)) {
 			?>
 			<tr>
 				<td><?php echo htmlspecialchars($vote['code']); ?></td>
