@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "90a938b550cb1c8724a01426bd6b9134",
+    "hash": "552933f548087d8735a3c942def5b9fc",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -238,12 +238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "a6eda778b2176605210e3ae700c48510579b4200"
+                "reference": "65defa42948a7957cdc37f51f79cf743e9c4d865"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/a6eda778b2176605210e3ae700c48510579b4200",
-                "reference": "a6eda778b2176605210e3ae700c48510579b4200",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/65defa42948a7957cdc37f51f79cf743e9c4d865",
+                "reference": "65defa42948a7957cdc37f51f79cf743e9c4d865",
                 "shasum": ""
             },
             "require": {
@@ -265,7 +265,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-02-04 02:29:32"
+            "time": "2015-02-04 03:23:31"
         },
         {
             "name": "openclerk/currencies",
