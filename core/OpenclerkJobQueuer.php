@@ -116,7 +116,7 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_btclevels', 'type' => 'btclevels', 'failure' => true),
       array('table' => 'accounts_bitnz', 'type' => 'bitnz', 'failure' => true),
 
-      array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1 AND is_disabled=0', 'user_id' => get_site_config('system_user_id')),
+      array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1 AND is_disabled=0 AND name="average"', 'user_id' => get_site_config('system_user_id')),
 
       array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),
       array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
