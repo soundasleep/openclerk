@@ -198,58 +198,73 @@ class OpenclerkJobQueuer extends JobQueuer {
       $disabled[$d['id']] = $d;
     }
 
-    foreach ($standard_jobs as $standard) {
-      $always = isset($standard['always']) && $standard['always'];
-      $field = isset($standard['user_id_field']) ? $standard['user_id_field'] : 'user_id';
+    foreach (array(true, false) as $is_premium_only) {
+      $job_count = 0;
 
-      $query_extra = isset($standard['query']) ? $standard['query'] : "";
-      $args_extra = isset($standard['args']) ? $standard['args'] : array();
+      foreach ($standard_jobs as $standard) {
+        $always = isset($standard['always']) && $standard['always'];
+        $field = isset($standard['user_id_field']) ? $standard['user_id_field'] : 'user_id';
 
-      if (isset($standard['failure']) && $standard['failure']) {
-        $query_extra .= " AND is_disabled=0";
-      }
+        $query_extra = isset($standard['query']) ? $standard['query'] : "";
+        $args_extra = isset($standard['args']) ? $standard['args'] : array();
 
-      $args = array();
-
-      if (!$always) {
-        // we want to run system jobs at least every 0.1 hours = 6 minutes
-        $args[] = isset($standard['hours']) ? $standard['hours'] : ((isset($standard['user_id']) && $standard['user_id'] == get_site_config('system_user_id')) ? get_site_config('refresh_queue_hours_system') : get_site_config('refresh_queue_hours'));
-      }
-
-      $queue_field = isset($standard['queue_field']) ? $standard['queue_field'] : 'last_queue';
-
-      // multiply queue_hours by 0.8 to ensure that user jobs are always executed within the specified timeframe
-      $q = $db->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "($queue_field <= DATE_SUB(NOW(), INTERVAL (? * 0.8) HOUR) OR ISNULL($queue_field))") . " $query_extra");
-      $q->execute(array_join($args, $args_extra));
-      $disabled_count = 0;
-      while ($address = $q->fetch()) {
-        $job = array(
-          "job_type" => $standard['type'],
-          "user_id" => isset($standard['user_id']) ? $standard['user_id'] : $address[$field], /* $field so we can select users.id as user_id */
-          "arg_id" => $address['id'],
-
-          // TODO eventually these should not be passed along; these are just passed
-          // along for jobQueued() and debug printing
-          "queue_field" => $queue_field,
-          "object" => $address,
-          "table" => $standard['table'],
-        );
-
-        // check that this user is not disabled
-        if (isset($disabled[$job['user_id']])) {
-          if ($disabled_count == 0) {
-            $logger->info("Skipping job '" . $standard['type'] . "' for user " . $job['user_id'] . ": user is disabled");
-          }
-          $disabled_count++;
-          continue;
+        if (isset($standard['failure']) && $standard['failure']) {
+          $query_extra .= " AND is_disabled=0";
         }
 
-        $result[] = $job;
+        $args = array();
+
+        if (!$always) {
+          // we want to run system jobs at least every 0.1 hours = 6 minutes
+          $args[] = isset($standard['hours']) ? $standard['hours'] : ((isset($standard['user_id']) && $standard['user_id'] == get_site_config('system_user_id')) ? get_site_config('refresh_queue_hours_system') : ($is_premium_only ? get_site_config('refresh_queue_hours_premium') : get_site_config('refresh_queue_hours')));
+        }
+
+        $queue_field = isset($standard['queue_field']) ? $standard['queue_field'] : 'last_queue';
+
+        if ($is_premium_only && (!isset($standard['user_id']) || $standard['user_id'] != get_site_config('system_user_id'))) {
+          $query_extra .= " AND $field IN (SELECT id FROM users WHERE is_premium=1)";
+        }
+
+        // multiply queue_hours by 0.8 to ensure that user jobs are always executed within the specified timeframe
+        try {
+          $q = $db->prepare("SELECT * FROM " . $standard['table'] . " WHERE " . ($always ? "1" : "($queue_field <= DATE_SUB(NOW(), INTERVAL (? * 0.8) HOUR) OR ISNULL($queue_field))") . " $query_extra");
+          $q->execute(array_join($args, $args_extra));
+        } catch (\PdoException $e) {
+          throw new \Exception("Could not find jobs for table '" . $standard['table'] . "': " . $e->getMessage(), $e->getCode(), $e);
+        }
+        $disabled_count = 0;
+        while ($address = $q->fetch()) {
+          $job = array(
+            "job_type" => $standard['type'],
+            "user_id" => isset($standard['user_id']) ? $standard['user_id'] : $address[$field], /* $field so we can select users.id as user_id */
+            "arg_id" => $address['id'],
+
+            // TODO eventually these should not be passed along; these are just passed
+            // along for jobQueued() and debug printing
+            "queue_field" => $queue_field,
+            "object" => $address,
+            "table" => $standard['table'],
+          );
+
+          // check that this user is not disabled
+          if (isset($disabled[$job['user_id']])) {
+            if ($disabled_count == 0) {
+              $logger->info("Skipping job '" . $standard['type'] . "' for user " . $job['user_id'] . ": user is disabled");
+            }
+            $disabled_count++;
+            continue;
+          }
+
+          $result[] = $job;
+          $job_count++;
+        }
+
+        if ($disabled_count > 1) {
+          $logger->info("Also skipped another " . number_format($disabled_count) . " " . $standard['type'] . " jobs due to disabled users");
+        }
       }
 
-      if ($disabled_count > 1) {
-        $logger->info("Also skipped another " . number_format($disabled_count) . " " . $standard['type'] . " jobs due to disabled users");
-      }
+      $logger->info($is_premium_only ? "Found $job_count premium jobs" : "Found $job_count general user jobs");
     }
 
     $block_jobs = array('version_check', 'vote_coins');
