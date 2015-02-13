@@ -1,8 +1,12 @@
+<?php
+use \Openclerk\I18n;
+?>
+
 <form action="<?php echo htmlspecialchars(url_for('set_locale')); ?>" method="post" id="locale_selector">
-	<select class="language-list locale locale-<?php echo htmlspecialchars(get_current_locale()); ?>" name="locale">
-	<?php foreach (get_all_locales() as $locale) {
-		$selected = get_current_locale() == $locale;
-		echo "<option value=\"" . htmlspecialchars($locale) . "\" class=\"locale locale-" . htmlspecialchars($locale) . "\"" . ($selected ? " selected" : "") . ">" . htmlspecialchars(get_locale_label($locale)) . "</option>\n";
+	<select class="language-list locale locale-<?php echo htmlspecialchars(I18n::getCurrentLocale()); ?>" name="locale">
+	<?php foreach (I18n::getAvailableLocales() as $locale) {
+		$selected = I18n::getCurrentLocale() == $locale->getKey();
+		echo "<option value=\"" . htmlspecialchars($locale->getKey()) . "\" class=\"locale locale-" . htmlspecialchars($locale->getKey()) . "\"" . ($selected ? " selected" : "") . ">" . htmlspecialchars($locale->getTitle()) . "</option>\n";
 	}
 	?>
 	</select>
