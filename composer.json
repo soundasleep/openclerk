@@ -11,7 +11,7 @@
   "require": {
     "soundasleep/html5lib-php": "~0.1.3",
     "lightopenid/lightopenid": "dev-master",
-    "soundasleep/spritify": "0.3.0",
+    "soundasleep/spritify": "dev-master",
     "kwipi/famfamfam-flags": "0.1.1",
     "openclerk/apis": "dev-master",
     "openclerk/commodities": "dev-master",
