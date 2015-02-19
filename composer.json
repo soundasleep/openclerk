@@ -30,6 +30,7 @@
     "openclerk/templates": "dev-master",
     "soundasleep/component-discovery": "dev-master",
     "soundasleep/asset-discovery": "dev-master",
+    "soundasleep/translation-discovery": "dev-master",
     "monolog/monolog": "~1.11"
   },
   "require-dev": {

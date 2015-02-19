@@ -1,0 +1,28 @@
+{
+  "src": [
+    "vendor/*/*",
+    "pages"
+  ],
+  "locales": {
+    "de": "locale/de.json",
+    "fr": "locale/fr.json",
+    "jp": "locale/jp.json",
+    "ru": "locale/ru.json",
+    "zh": "locale/zh.json"
+  },
+  "generate_php": true,
+  "templates": [
+    "vendor/openclerk",
+    "vendor/soundasleep",
+    "site",
+    "pages",
+    "templates",
+    "inc",
+    "graphs",
+    "layout",
+    "config"
+  ],
+  "template": "locale/template.json",
+  "template_text": "locale/template.txt",
+  "translation_functions": ["ct"]
+}
