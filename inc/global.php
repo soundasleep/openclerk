@@ -28,13 +28,6 @@ require(__DIR__ . "/kb.php");
 require(__DIR__ . "/routes.php");
 
 // issue #152: support i18n
-
-\Openclerk\Events::on('i18n_missing_string', function($data) {
-  $locale = $data['locale'];
-  $key = $data['key'];
-  log_uncaught_exception(new LocaleException("Locale '$locale': Missing key '$key'"));
-});
-
 require(__DIR__ . "/i18n.php");
 
 $db_instance = null;

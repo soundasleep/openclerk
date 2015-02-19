@@ -58,3 +58,9 @@ I18n::addDefaultKeys(array(
 if (isset($_COOKIE["locale"]) && in_array($_COOKIE["locale"], array_keys(I18n::getAvailableLocales()))) {
   I18n::setLocale($_COOKIE["locale"]);
 }
+
+\Openclerk\Events::on('i18n_missing_string', function($data) {
+  $locale = $data['locale'];
+  $key = $data['key'];
+  log_uncaught_exception(new LocaleException("Locale '$locale': Missing key '$key'"));
+});

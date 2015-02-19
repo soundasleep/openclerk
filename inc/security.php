@@ -104,7 +104,7 @@ function handle_post_login() {
 
   // update locale
   if ($user['locale']) {
-    set_locale($user['locale']);
+    I18n::setLocale($user['locale']);
   }
 
   // update login time
