@@ -24,6 +24,7 @@ require(__DIR__ . "/crypto.php");
 require(__DIR__ . "/premium.php");
 require(__DIR__ . "/heavy.php");
 require(__DIR__ . "/kb.php");
+require(__DIR__ . "/countries.php");
 
 require(__DIR__ . "/routes.php");
 
