@@ -10,6 +10,7 @@ class AllMigrations extends \Db\Migration {
     // the order is important
     return array_merge(
         array(new \Db\BaseMigration()),                         // track migrations
+        array(new \Core\Migrations\InstallBootstrapGenerator()),           // bootstrap up the core tables
         array(
           // migrate the old DB to the new DB for all components
           new \Migrations\UseDbMigration(),
