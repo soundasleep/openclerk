@@ -24,5 +24,5 @@
   ],
   "template": "locale/template.json",
   "template_text": "locale/template.txt",
-  "translation_functions": ["ct"]
+  "translation_functions": ["t", "ht", "ct"]
 }

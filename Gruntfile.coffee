@@ -109,6 +109,11 @@ module.exports = (grunt) ->
         cmd: 'php -f vendor/soundasleep/translation-discovery/find.php -- .'
         fail: true
 
+      # TODO add a grunt npm task to wrap this
+      i18nClientStringDiscovery:
+        cmd: 'php -f vendor/soundasleep/translation-discovery/find.php -- . translation-discovery-client.json'
+        fail: true
+
     useminPrepare:
       html: 'site/head-compiled.html'
       options:
@@ -157,6 +162,7 @@ module.exports = (grunt) ->
     'bgShell:componentDiscovery',
     'bgShell:assetDiscovery',
     'bgShell:i18nStringDiscovery',
+    'bgShell:i18nClientStringDiscovery',
     'copy:sourceFavicon',
     'copy:configImages',
     'copy:head',
@@ -176,6 +182,7 @@ module.exports = (grunt) ->
     'bgShell:componentDiscovery',
     'bgShell:assetDiscovery',
     'bgShell:i18nStringDiscovery',
+    'bgShell:i18nClientStringDiscovery',
     'copy:sourceFavicon',
     'copy:configImages',
     # 'copy:head',
