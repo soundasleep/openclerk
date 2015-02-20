@@ -12,13 +12,12 @@ class AllMigrations extends \Db\Migration {
         array(new \Db\BaseMigration()),                         // track migrations
         array(new InstallBootstrapGenerator()),           // bootstrap up the core tables
         array(
-          // migrate the old DB to the new DB for all components
-          new UseDbMigration(),
+          // migrate away from the bootstrap DB to the new DB for all components
           new ExternalAPIsMigration(),
           new ExternalAPIsMigrationBlocks(),
           new RenameBlockTables(),
         ),
-        \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered ones
+        \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered Migrations
       );
   }
 
