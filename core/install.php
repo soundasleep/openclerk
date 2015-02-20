@@ -9,7 +9,7 @@ require(__DIR__ . "/../inc/global.php");
 $logger = new \Monolog\Logger("install");
 $logger->pushHandler(new \Core\CliLogger());
 
-$migrations = new \Migrations\AllMigrations(db());
+$migrations = new \Core\Migrations\AllMigrations(db());
 
 $db = db()->getMaster();    // force master connection
 

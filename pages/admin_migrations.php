@@ -11,7 +11,7 @@ require(__DIR__ . "/../layout/templates.php");
 $logger = new \Monolog\Logger("admin_migrations");
 $logger->pushHandler(new \Core\MyLogger());
 
-$migrations = new \Migrations\AllMigrations(db());
+$migrations = new \Core\Migrations\AllMigrations(db());
 
 page_header("Migrations", "page_migrations", array('jsapi' => true));
 

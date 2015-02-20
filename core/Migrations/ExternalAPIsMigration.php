@@ -1,6 +1,6 @@
 <?php
 
-namespace Migrations;
+namespace Core\Migrations;
 
 /**
  * This renames 'blockchain' external API status to 'address_btc' etc,

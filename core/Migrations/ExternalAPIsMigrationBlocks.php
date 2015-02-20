@@ -1,6 +1,6 @@
 <?php
 
-namespace Migrations;
+namespace Core\Migrations;
 
 /**
  * This renames 'litecoin_blocks' external API status to 'blockcount_ltc' etc,

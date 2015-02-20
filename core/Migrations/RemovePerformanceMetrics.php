@@ -1,6 +1,6 @@
 <?php
 
-namespace Migrations;
+namespace Core\Migrations;
 
 /**
  * We need to remove the old tables;

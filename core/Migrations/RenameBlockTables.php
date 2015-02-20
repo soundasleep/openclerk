@@ -1,6 +1,6 @@
 <?php
 
-namespace Migrations;
+namespace Core\Migrations;
 
 /**
  * This renames 'litecoin_blocks' table to 'blockcount_ltc'

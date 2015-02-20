@@ -1,6 +1,6 @@
 <?php
 
-namespace Migrations;
+namespace Core\Migrations;
 
 /**
  * This wraps up all the migrations used to migrate the old database

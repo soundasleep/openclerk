@@ -1,6 +1,6 @@
 <?php
 
-namespace Migrations;
+namespace Core\Migrations;
 
 /**
  * Represents all migrations that need to be applied to Openclerk.
@@ -10,13 +10,13 @@ class AllMigrations extends \Db\Migration {
     // the order is important
     return array_merge(
         array(new \Db\BaseMigration()),                         // track migrations
-        array(new \Core\Migrations\InstallBootstrapGenerator()),           // bootstrap up the core tables
+        array(new InstallBootstrapGenerator()),           // bootstrap up the core tables
         array(
           // migrate the old DB to the new DB for all components
-          new \Migrations\UseDbMigration(),
-          new \Migrations\ExternalAPIsMigration(),
-          new \Migrations\ExternalAPIsMigrationBlocks(),
-          new \Migrations\RenameBlockTables(),
+          new UseDbMigration(),
+          new ExternalAPIsMigration(),
+          new ExternalAPIsMigrationBlocks(),
+          new RenameBlockTables(),
         ),
         \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered ones
       );
