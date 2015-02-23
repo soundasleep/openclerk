@@ -1,5 +1,7 @@
 <?php
 
+use \Openclerk\I18n;
+
 if (!defined('NO_SESSION')) {
   // do not start a session if we've already started one
   if (!session_id()) {

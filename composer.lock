@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f3a2bdca0dafb28cda7d59426018d5ef",
+    "hash": "effc5fe58386fdf271b5039c6dad388f",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -405,6 +405,42 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2014-12-16 07:34:34"
+        },
+        {
+            "name": "openclerk/exceptions",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/exceptions.git",
+                "reference": "3a47f2f4d9c0c713cc05d39388a4ebe060d54b11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/exceptions/zipball/3a47f2f4d9c0c713cc05d39388a4ebe060d54b11",
+                "reference": "3a47f2f4d9c0c713cc05d39388a4ebe060d54b11",
+                "shasum": ""
+            },
+            "require": {
+                "openclerk/config": "dev-master",
+                "openclerk/db": "dev-master",
+                "openclerk/events": "dev-master"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "soundasleep/component-tests": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "functions.php"
+                ],
+                "psr-4": {
+                    "Openclerk\\Exceptions\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "A library for logging and managing uncaught exceptions",
+            "time": "2015-01-27 02:13:38"
         },
         {
             "name": "openclerk/exchanges",
@@ -1716,6 +1752,7 @@
         "openclerk/db": 20,
         "openclerk/emails": 20,
         "openclerk/events": 20,
+        "openclerk/exceptions": 20,
         "openclerk/exchanges": 20,
         "openclerk/fiat": 20,
         "openclerk/jobs": 20,
