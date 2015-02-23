@@ -30,12 +30,6 @@ require(__DIR__ . "/routes.php");
 
 // issue #152: support i18n
 require(__DIR__ . "/i18n.php");
-function missing_locale_string($key, $locale) {
-  log_uncaught_exception(new LocaleException("Locale '$locale': Missing key '$key'"));
-}
-if (isset($_COOKIE["locale"]) && !isset($_SESSION["locale"]) && in_array($_COOKIE["locale"], get_all_locales())) {
-  set_locale($_COOKIE["locale"]);
-}
 
 $db_instance = null;
 

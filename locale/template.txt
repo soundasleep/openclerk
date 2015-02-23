@@ -96,6 +96,7 @@ A table displaying the equivalent value of all cryptocurrencies and fiat currenc
 A table displaying the market data used to generate the average market price for <pair>.
 A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.
 A wide variety of account types are supported, with more being added regularly. All account types are completely optional.
+API key
 About
 Account
 Account ID
@@ -478,7 +479,6 @@ Invalid repeated password parameter
 Invalid username or password.
 Is it safe to provide <site_name> a Bitcoin-Qt CSV file?
 Is it safe to provide <site_name> a Litecoin-Qt CSV file?
-Italian
 Japanese
 Job frequency (graph)
 Job frequency (jobs/hour)
@@ -508,7 +508,6 @@ Log in automatically
 Login
 Login with:
 Logout
-Lolcat
 Looking for your <preferences>?
 MH/s
 Mailing List
@@ -601,7 +600,6 @@ Please try again.
 Please type in '<text>'.
 Portfolio summary
 Portfolio summary (detailed)
-Portugese
 Preferences Wizard
 Premium
 Premium Accounts
@@ -671,7 +669,6 @@ Screenshots on reports and graphs
 Securities
 Securities Exchange
 Securities Exchanges
-Securities and investments
 Security
 Security exchanges
 Security values
@@ -710,7 +707,6 @@ Small
 Sort ascending
 Sort descending
 Source
-Spanish
 Subscribe
 Subscribe to <announcements>
 Subscribe to <site_name> Announcements
@@ -1025,10 +1021,12 @@ one fiat currency
 other user
 other users
 outstanding premium payments
+pages
 password login
 powered by <openclerk>
 premium account
 premium accounts
+premium user
 premium users
 purchase a premium account
 report pages
@@ -1045,6 +1043,7 @@ the last month
 the last week
 these reports
 ticker
+underlying software
 undo
 unknown
 untitled

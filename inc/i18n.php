@@ -8,185 +8,59 @@
  * Also see the methods for getting the list of available locales.
  */
 
+use \Openclerk\I18n;
+use \Openclerk\Locale;
+
 class LocaleException extends Exception { }
 
-/**
- * Set the current session locale.
- * Assumes the session has started.
- * @throws LocaleException if the specified locale is not a vaild locale, maybe catch and reset to 'en'
- */
-function set_locale($locale) {
-	if (!in_array($locale, get_all_locales())) {
-		throw new LocaleException("Locale '$locale' does not exist");
-	}
-	$_SESSION['locale'] = $locale;
+class GenericLocale implements Locale {
+
+  var $key;
+  var $title;
+
+  function __construct($key, $title) {
+    $this->key = $key;
+    $this->title = $title;
+  }
+
+  function getKey() {
+    return $this->key;
+  }
+
+  function getTitle() {
+    return $this->title;
+  }
+
+  function load() {
+    require(__DIR__ . "/../locale/" . $this->key . ".php");
+    return $result;
+  }
+
 }
 
-/**
- * Get all available locales as a list of locale keys.
- */
-function get_all_locales() {
-	return array(
-		'de',
-		'en',
-		//'es',
-		'fr',
-		'jp',
-		'ru',
-		//'pt',
-		'zh',
-		//'lolcat',
-	);
+$locales = array(
+  'de' => 'German' /* i18n */,
+  // 'en' is automatic
+  'fr' => 'French' /* i18n */,
+  'jp' => 'Japanese' /* i18n */,
+  'ru' => 'Russian' /* i18n */,
+  'zh' => 'Chinese' /* i18n */,
+);
+foreach ($locales as $locale => $title) {
+  I18n::addAvailableLocale(new GenericLocale($locale, $title));
 }
 
-function get_locale_label($locale) {
-	switch ($locale) {
-		case "de": return t("German");
-		case "en": return t("English");
-		case "es": return t("Spanish");
-		case "fr": return t("French");
-		case "jp": return t("Japanese");
-		case "it": return t("Italian");
-		case "ru": return t("Russian");
-		case "pt": return t("Portugese");
-		case "zh": return t("Chinese");
-		//case "lolcat": return t("Lolcat");
+I18n::addDefaultKeys(array(
+  ':site_name' => get_site_config('site_name'),
+));
 
-		default:
-			throw new LocaleException("Unknown locale for label '$locale'");
-	}
+// set locale as necessary
+if (isset($_COOKIE["locale"]) && in_array($_COOKIE["locale"], array_keys(I18n::getAvailableLocales()))) {
+  I18n::setLocale($_COOKIE["locale"]);
 }
 
-/**
- * Get the current locale, or 'en' if none is defined.
- */
-function get_current_locale() {
-	$locale = require_session('locale', false);
-	return $locale ? $locale : 'en';
-}
-
-$global_loaded_locales = array();
-
-/**
- * Translate a given 'en' string into the current locale. Loads locale data
- * from {@code __DIR__ . "/../locale/" . $locale . ".php"}.
- *
- * If the given string does not exist in the locale then
- * call {@code missing_locale_string($key, $locale)} (if the function exists)
- * and return the default translation (in 'en').
- *
- * @see set_locale($locale)
- * @see missing_locale_string($key, $locale)
- */
-function t($category, $key = false, $args = array()) {
-	if (is_string($category) && is_string($key)) {
-		return t_without_category($key, $args);
-	} else {
-		if ($key === false) {
-			return t_without_category($category);
-		} else {
-			return t_without_category($category, $key);
-		}
-	}
-}
-
-function strip_i18n_key($key) {
-	$key = preg_replace("/[\r\n]+/im", " ", $key);
-	$key = preg_replace("/[\\s]{2,}/im", " ", $key);
-	return trim($key);
-}
-
-function t_without_category($key = false, $args = array()) {
-	$locale = get_current_locale();
-
-	// remove any unnecessary whitespace in the key that won't be displayed
-	$key = strip_i18n_key($key);
-
-	global $global_loaded_locales;
-	if ($locale != 'en' && !isset($global_loaded_locales[$locale])) {
-		$result = false;
-		if (!file_exists(__DIR__ . "/../locale/" . $locale . ".php")) {
-			if (!in_array($locale, get_all_locales()) && $locale != 'en') {
-				// reset back to 'en'
-				set_locale('en');
-				return t_without_category($key, $args);
-			}
-
-			set_locale('en');
-			throw new LocaleException("Could not load locale '$locale' data");
-		}
-		require(__DIR__ . "/../locale/" . $locale . ".php");
-		if (!$result) {
-			set_locale('en');
-			throw new LocaleException("Locale '$locale' did not load any data");
-		}
-		$global_loaded_locales[$locale] = $result;
-	}
-
-	if (!is_array($args)) {
-		throw new LocaleException("Expected array argument");
-	}
-	foreach ($args as $k => $value) {
-		if (is_numeric($k)) {
-			throw new LocaleException("Did not expect numeric key '$k'");
-		}
-		if (substr($k, 0, 1) !== ":") {
-			throw new LocaleException("Did not expect non-parameterised key '$k'");
-		}
-	}
-
-	// add default arguments
-	if (!isset($args[':site_name'])) {
-		$args[':site_name'] = get_site_config('site_name');
-	}
-
-	if (!isset($global_loaded_locales[$locale][$key])) {
-		if ($locale != 'en' && function_exists('missing_locale_string') && get_site_config("log_missing_i18n")) {
-			missing_locale_string($key, $locale);
-		}
-		if (is_admin() && get_site_config('show_i18n')) {
-			return "[" . strtr($key, $args) . "]";
-		} else {
-			return strtr($key, $args);
-		}
-	}
-	if (is_admin() && get_site_config('show_i18n')) {
-		return "[" . strtr($global_loaded_locales[$locale][$key], $args) . "]";
-	} else {
-		return strtr($global_loaded_locales[$locale][$key], $args);
-	}
-}
-
-/**
- * Helper function for {@code htmlspecialchars(t(...))}.
- * @see t()
- */
-function ht($category, $key = false, $args = array()) {
-	return htmlspecialchars(t($category, $key, $args));
-}
-
-/**
- * Return the plural of something.
- * e.g. plural('book', 1), plural('book', 'books', 1), plural('book', 1000)
- */
-function plural($string, $strings, $number = false, $decimals = 0) {
-	// old format
-	if (is_numeric($string)) {
-		if ($number === false) {
-			return plural($strings, $strings . "s", $string, $decimals);
-		} else {
-			return plural($strings, $number, $string, $decimals);
-		}
-	}
-
-	// no second parameter provided
-	if ($number === false) {
-		return plural($string, $string . "s", $strings, $decimals);
-	}
-
-	if (floor($number) == 1) {
-		return sprintf("%s %s", number_format(floor($number), $decimals), t($string));
-	} else {
-		return sprintf("%s %s", number_format(floor($number), $decimals), t($strings));
-	}
-}
+\Openclerk\Events::on('i18n_missing_string', function($data) {
+  $locale = $data['locale'];
+  $key = $data['key'];
+  log_uncaught_exception(new LocaleException("Locale '$locale': Missing key '$key'"));
+});

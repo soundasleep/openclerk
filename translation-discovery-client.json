@@ -1,0 +1,14 @@
+{
+  "templates": [
+    "site",
+    "pages",
+    "templates",
+    "inc",
+    "graphs",
+    "layout",
+    "config"
+  ],
+  "template": "locale/client.json",
+  "translation_functions": ["ct"],
+  "include_plural": false
+}
