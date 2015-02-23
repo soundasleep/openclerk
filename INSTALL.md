@@ -45,8 +45,8 @@ To install Openclerk:
         npm install
         composer install
         mysql -u root --password=password < config/reset_clerk_database.sql
-        mysql -u clerk --password=password clerk < inc/database.sql
-        grunt test # JUnit output is in tests/report.xml
+        php -f core/install.php
+        grunt test                  # JUnit output is in tests/report.xml
 
 4. Configure Apache to serve openclerk through the parent directory:
 
@@ -66,7 +66,7 @@ To install Openclerk:
 
 6. Initialise the database:
 
-        mysql -u openclerk -p < inc/database.sql
+        php -f core/install.php
 
 7. Edit `inc/config.php` as necessary, or create a `config/config.php` to overwrite
    these default configuration options.

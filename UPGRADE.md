@@ -9,15 +9,15 @@ straightforward once you have done it a couple of times. The basic format is:
 
 1. Update `config.php` and set `jobs_enabled` to false
 
-1. Execute `svn update` to update to the latest version
+1. Execute `git pull` to update to the latest version
 
 1. Run `composer update` to update any composer dependencies
 
 1. Run `npm update` to update any NPM dependencies
 
-1. Execute `grunt build` to rebuild static assets
+1. Execute `grunt deploy` to rebuild static assets
 
-1. Execute the new database commands in `inc\database.sql` on the database server
+1. Execute `php -f core/install.php`, or visit the Admin page _Install latest migrations_, to upgrade the database
 
 1. Re-enable `jobs_enabled` to true
 
