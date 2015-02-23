@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "552933f548087d8735a3c942def5b9fc",
+    "hash": "f3a2bdca0dafb28cda7d59426018d5ef",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -233,6 +233,28 @@
             "time": "2015-01-21 01:56:33"
         },
         {
+            "name": "openclerk/country-list",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/country-list.git",
+                "reference": "3e0c1714c2d90a27f88dd9128af2ac72232d83ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/country-list/zipball/3e0c1714c2d90a27f88dd9128af2ac72232d83ee",
+                "reference": "3e0c1714c2d90a27f88dd9128af2ac72232d83ee",
+                "shasum": ""
+            },
+            "require-dev": {
+                "umpirsky/country-list": "dev-master"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "List of all countries with names and ISO 3166-1 codes in many languages and data formats",
+            "time": "2015-02-20 02:09:35"
+        },
+        {
             "name": "openclerk/cryptocurrencies",
             "version": "dev-master",
             "source": {
@@ -299,12 +321,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "72bbe476bf2da3197b76dc6401ac6cfc4b668f64"
+                "reference": "bf48be0e1dfa8079fd99ca8bf14408dfe07dce9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/72bbe476bf2da3197b76dc6401ac6cfc4b668f64",
-                "reference": "72bbe476bf2da3197b76dc6401ac6cfc4b668f64",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/bf48be0e1dfa8079fd99ca8bf14408dfe07dce9d",
+                "reference": "bf48be0e1dfa8079fd99ca8bf14408dfe07dce9d",
                 "shasum": ""
             },
             "require": {
@@ -323,7 +345,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2015-01-29 23:45:38"
+            "time": "2015-02-04 08:25:34"
         },
         {
             "name": "openclerk/emails",
@@ -452,17 +474,49 @@
             "time": "2015-02-04 02:51:23"
         },
         {
+            "name": "openclerk/i18n",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/i18n.git",
+                "reference": "84c8aba5da4ea5c8e1566f7c9b0d3aba8c52a3d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/i18n/zipball/84c8aba5da4ea5c8e1566f7c9b0d3aba8c52a3d0",
+                "reference": "84c8aba5da4ea5c8e1566f7c9b0d3aba8c52a3d0",
+                "shasum": ""
+            },
+            "require": {
+                "openclerk/events": "dev-master"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "functions.php"
+                ],
+                "psr-4": {
+                    "Openclerk\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2015-02-19 22:17:36"
+        },
+        {
             "name": "openclerk/jobs",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/jobs.git",
-                "reference": "8d64571d67a6f4da53450104fa0a9aceebf656b2"
+                "reference": "415c37fc0deb8c977e3ecfe663271a1d631c4b4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/jobs/zipball/8d64571d67a6f4da53450104fa0a9aceebf656b2",
-                "reference": "8d64571d67a6f4da53450104fa0a9aceebf656b2",
+                "url": "https://api.github.com/repos/openclerk/jobs/zipball/415c37fc0deb8c977e3ecfe663271a1d631c4b4d",
+                "reference": "415c37fc0deb8c977e3ecfe663271a1d631c4b4d",
                 "shasum": ""
             },
             "require": {
@@ -483,7 +537,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP job queueing, execution and management",
-            "time": "2015-02-03 22:37:57"
+            "time": "2015-02-13 02:34:28"
         },
         {
             "name": "openclerk/metrics",
@@ -867,27 +921,32 @@
         },
         {
             "name": "soundasleep/spritify",
-            "version": "0.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/spritify.git",
-                "reference": "5504b97017a76df23334c346984ae856665f52ea"
+                "reference": "53a817613e0927d2e68e6f9cba210252a706e164"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/5504b97017a76df23334c346984ae856665f52ea",
-                "reference": "5504b97017a76df23334c346984ae856665f52ea",
+                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/53a817613e0927d2e68e6f9cba210252a706e164",
+                "reference": "53a817613e0927d2e68e6f9cba210252a706e164",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.3"
             },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "soundasleep/component-tests": "dev-master"
+            },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "./"
-                ]
+                "psr-4": {
+                    "Spritify\\": "src"
+                }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0"
             ],
@@ -900,11 +959,28 @@
                 "sprites",
                 "spritesheet"
             ],
-            "support": {
-                "source": "https://github.com/soundasleep/spritify/tree/0.3.0",
-                "issues": "https://github.com/soundasleep/spritify/issues"
+            "time": "2015-01-05 03:32:02"
+        },
+        {
+            "name": "soundasleep/translation-discovery",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soundasleep/translation-discovery.git",
+                "reference": "160bd2c1e69a352f34bb063f4544af197294b7fd"
             },
-            "time": "2014-06-25 04:20:41"
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soundasleep/translation-discovery/zipball/160bd2c1e69a352f34bb063f4544af197294b7fd",
+                "reference": "160bd2c1e69a352f34bb063f4544af197294b7fd",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2015-02-20 02:07:36"
         }
     ],
     "packages-dev": [
@@ -1632,6 +1708,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "lightopenid/lightopenid": 20,
+        "soundasleep/spritify": 20,
         "openclerk/apis": 20,
         "openclerk/commodities": 20,
         "openclerk/currencies": 20,
@@ -1642,12 +1719,14 @@
         "openclerk/exchanges": 20,
         "openclerk/fiat": 20,
         "openclerk/jobs": 20,
+        "openclerk/i18n": 20,
         "openclerk/config": 20,
         "openclerk/metrics": 20,
         "openclerk/routing": 20,
         "openclerk/templates": 20,
         "soundasleep/component-discovery": 20,
         "soundasleep/asset-discovery": 20,
+        "soundasleep/translation-discovery": 20,
         "soundasleep/component-tests": 20
     },
     "prefer-stable": false,
