@@ -3,7 +3,8 @@
 namespace Core\Apis;
 
 /**
- * API to get a list of currencies and their properties.
+ * API to get a list of live rates for all supported currencies.
+ * Used by Currency Converter Android app.
  */
 class Rates extends \Apis\CachedApi {
 

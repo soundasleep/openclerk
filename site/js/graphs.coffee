@@ -68,22 +68,28 @@
           dataType: 'json'
           success: (data, text, xhr) =>
             try
-              if not data.success? or !data.success
+              if not data.success?
                 throw new Error("Could not load graph data: Invalid response")
+              if !data.success
+                throw new Error("Could not load graph data: Not successful: " + data.error)
+              if not data.result? or !data.result
+                throw new Error("Could not load graph data: No result")
 
-              switch data.type
+              result = data.result
+
+              switch result.type
                 when "linechart"
-                  Graphs.linechart graph.element, graph, data, false
+                  Graphs.linechart graph.element, graph, result, false
                 when "stacked"
-                  Graphs.linechart graph.element, graph, data, true
+                  Graphs.linechart graph.element, graph, result, true
                 when "vertical"
-                  Graphs.vertical graph.element, graph, data
+                  Graphs.vertical graph.element, graph, result
                 when "piechart"
-                  Graphs.piechart graph.element, graph, data
+                  Graphs.piechart graph.element, graph, result
                 when "nodata"
-                  Graphs.noData graph.element, graph, data
+                  Graphs.noData graph.element, graph, result
                 else
-                  throw new Error("Could not render graph type " + data.type)
+                  throw new Error("Could not render graph type " + result.type)
 
               ga('send', 'event', 'graphs', 'render', graph.graph_type) if ga?
             catch error

@@ -64,3 +64,11 @@ if (isset($_COOKIE["locale"]) && in_array($_COOKIE["locale"], array_keys(I18n::g
   $key = $data['key'];
   log_uncaught_exception(new LocaleException("Locale '$locale': Missing key '$key'"));
 });
+
+/**
+ * Helper function to mark strings that need to be translated on the client-side.
+ */
+function ct($s) {
+  // do not do any translation here - we have to do it on the client side!
+  return $s;
+}
