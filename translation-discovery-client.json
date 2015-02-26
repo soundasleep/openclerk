@@ -6,7 +6,8 @@
     "inc",
     "graphs",
     "layout",
-    "config"
+    "config",
+    "core"
   ],
   "template": "locale/client.json",
   "translation_functions": ["ct"],

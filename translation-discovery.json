@@ -20,7 +20,8 @@
     "inc",
     "graphs",
     "layout",
-    "config"
+    "config",
+    "core"
   ],
   "template": "locale/template.json",
   "template_text": "locale/template.txt",
