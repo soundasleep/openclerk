@@ -60,4 +60,11 @@ class ApisTest extends PHPUnit_Framework_TestCase {
     }
   }
 
+  function testCurrencies() {
+    $json = $this->getJSON("api/v1/currencies.json");
+    $this->assertTrue($json['success']);
+    $this->assertTrue(is_array($json['result']));
+    $this->assertTrue(isset($json['time']));
+  }
+
 }

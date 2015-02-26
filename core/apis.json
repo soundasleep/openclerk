@@ -1,4 +1,5 @@
 [
   "\\Core\\Apis\\Graph",
+  "\\Core\\Apis\\Currencies",
   "\\Core\\Apis\\Rates"
 ]
