@@ -1,0 +1,69 @@
+:php
+  $random = "?" . get_site_config("openclerk_version");
+  $locale_js = "js/locale/" . \Openclerk\I18n::getCurrentLocale() . ".js";
+
+  $user = user_logged_in() ? get_user(user_id()) : false;
+  if ($user) {
+    if ($user['disable_graph_refresh'] || (isset($graph_type['no_refresh']) && $graph_type['no_refresh'])) {
+      $timeout = 0; // disable refresh
+    } else {
+      $timeout = get_premium_value(get_user(user_id()), 'graph_refresh');
+    }
+  } else {
+    $timeout = get_site_config("graph_refresh_public");
+  }
+
+  // generate list of javascripts
+  $additional_js = array();
+  if (isset($js)) {
+    if (!is_array($js)) {
+      $js = array($js);
+    }
+
+    foreach ($js as $script) {
+      if (strpos($script, "?") === false) {
+        $additional_js[] = url_for("js/" . $script . ".js" . $random);
+      } else {
+        $additional_js[] = url_for("js/" . str_replace("?", ".js?", $script) . $random);
+      }
+    }
+  }
+
+!!!
+!= "<html>"
+%head
+  %title
+    = $title
+    - if (has_required_admin())
+      [admin]
+
+  %link{:rel => "stylesheet", :type => "text/css", :href => url_for('styles/generated.css' . $random) }
+  %link{:rel => "stylesheet", :type => "text/css", :href => url_for(get_site_config('default_css') . $random) }
+
+  - if (get_site_config('custom_css'))
+    %link{:rel => "stylesheet", :type => "text/css", :href => url_for(get_site_config('custom_css') . $random) }
+
+  - if (has_required_admin())
+    %link{:rel => "stylesheet", :type => "text/css", :href => url_for('admin.css' . $random) }
+
+  %script{:type => "text/javascript", :src => url_for("js/jquery-1.9.1.min.js") }
+  %script{:type => "text/javascript", :src => url_for("js/common.js" . $random) }
+  %script{:type => "text/javascript", :src => url_for($locale_js . $random) }
+  %script{:type => "text/javascript", :src => url_for("https://www.google.com/jsapi") }
+
+  :javascript
+    window.UserGraphRefresh = #{$timeout * 1000 * 60}; // ms
+
+  - foreach ($additional_js as $script)
+    %script{:type => "text/javascript", :src => $script}
+
+  != require_template("templates_head");
+
+  != include_head_compiled();
+
+!= "<body>"
+
+!= require_template("templates_header");
+!= require_template("navigation");
+
+!= "<div class=\"content\">"

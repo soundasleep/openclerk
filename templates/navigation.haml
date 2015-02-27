@@ -1,0 +1,42 @@
+#navigation
+  %ul
+    %li.home
+      != link_to(url_for("index"), get_site_config("site_name"), array("title" => get_site_config("site_name")))
+
+    - if (user_logged_in())
+      %li.profile
+        != link_to(url_for("profile"), t("Your Reports"), array("title" => t("Your Reports")))
+      %li.finance
+        != link_to(url_for("your_transactions"), t("Finance"), array("title" => t(":site_name Finance")))
+      %li.accounts
+        != link_to(url_for("wizard_currencies"), t("Configure Accounts"), array("title" => t("Configure Accounts")))
+        %span.responsive-text
+          = t("Configure")
+      %li.user
+        != link_to(url_for("user"), t("User Profile"), array("title" => t("User Profile")))
+      %li.logout
+        != link_to(url_for("login", array('logout' => true)), t("Logout"), array("title" => t("Logout")))
+
+      - if (is_admin())
+        %li.admin
+          != link_to(url_for("admin"), t("Admin"), array("title" => t("Administration")))
+
+    - else
+      %li.signup
+        != link_to(url_for("signup"), t("Signup"), array("title" => t("Signup")))
+      %li.login
+        != link_to(url_for("login"), t("Login"), array("title" => t("Login")))
+
+    %li.premium
+      != link_to(url_for("premium"), t("Premium"), array("title" => t("Premium Accounts")))
+    %li.help
+      != link_to(url_for("help"), t("Help"), array("title" => t("Help Centre")))
+
+
+- if (did_autologin())
+  #autologin
+    != t("Automatically logged in. Hi, :user!", array(':user' => link_to(url_for('user'), require_session('user_name', 'anonymous'), array('class' => 'disabled'))))
+
+    != "(" . link_to(url_for("login", array('logout' => true)), t("this isn't me"), array("title" => t("Logout"))) . ")"
+
+- display_messages()

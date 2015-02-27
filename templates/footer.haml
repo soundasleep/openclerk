@@ -1,0 +1,96 @@
+!= "</div>"
+
+#footer_nav
+  %ul.footer_nav_list
+    %li
+      %span.title
+        = get_site_config("site_name")
+
+      %ul
+        %li
+          != link_to(url_for("index"), t("About"))
+        %li
+          != link_to(url_for("premium"), t("Get Premium"))
+        %li
+          != link_to(url_for(get_site_config('version_history_link')), t("Release History"))
+        %li
+          != link_to(url_for("http://openclerk.org"), "Openclerk.org", array('_target' => "blank"))
+
+    %li
+      %span.title
+        = t("Your Account")
+
+      %ul
+        - if (user_logged_in())
+          %li
+            != link_to(url_for("user"), t("User Profile"))
+          %li
+            != link_to(url_for("wizard_currencies"), t("Currency Preferences"))
+          %li
+            != link_to(url_for("wizard_accounts"), t("Configure Accounts"))
+          %li
+            != link_to(url_for("profile"), t("Your Reports"))
+
+        - else
+          %li
+            != link_to(url_for("signup"), t("Signup"))
+          %li
+            != link_to(url_for("login"), t("Login"))
+
+    %li
+      %span.title
+        = t("Tools")
+
+      %ul
+        %li
+          != link_to(url_for("historical"), t("Historical Data"))
+        %li
+          != link_to(url_for("average"), t("Market Averages"))
+        %li
+          != link_to(url_for("your_transactions"), t(":site_name Finance"))
+        %li
+          != link_to(url_for("calculator"), t("Calculator"))
+
+    %li
+      %span.title
+        = t("Support")
+
+      %ul
+        %li
+          != link_to(url_for("help"), t("Help Centre"))
+        %li
+          != link_to(url_for(get_site_config('blog_link')), t("Blog"))
+          %span.new = t("new")
+        %li
+          != link_to(url_for("contact"), t("Contact Us"))
+        %li
+          != link_to(url_for("external"), t("External API Status"))
+
+  #copyright
+    != require_template("templates_copyright");
+
+- if (!(has_required_admin() || defined('BATCH_SCRIPT')))
+  :javascript
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '#{get_site_config('google_analytics_account')}', 'auto');
+    ga('send', 'pageview');
+
+!= "</body>"
+!= "</html>"
+
+:php
+  if (defined('PAGE_RENDER_START')) {
+    $end_time = microtime(true);
+    $time_diff = ($end_time - PAGE_RENDER_START) * 1000;
+    echo "<!-- rendered in " . number_format($time_diff, 2) . " ms -->";
+  }
+  performance_metrics_page_end();
+
+  if (is_admin()) {
+    echo "\n<!--\n" . print_r(Openclerk\MetricsHandler::getInstance()->printResults(), true) . "\n-->";
+    echo "\n<!-- " . print_r($_SESSION, true) . "\n-->";
+  }
