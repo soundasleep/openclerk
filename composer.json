@@ -14,6 +14,7 @@
     "soundasleep/spritify": "dev-master",
     "kwipi/famfamfam-flags": "0.1.1",
     "openclerk/apis": "dev-master",
+    "openclerk/api-list": "dev-master",
     "openclerk/cache": "dev-master",
     "openclerk/commodities": "dev-master",
     "openclerk/country-list": "~1.0",
