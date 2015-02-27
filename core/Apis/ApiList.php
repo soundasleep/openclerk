@@ -3,12 +3,18 @@
 namespace Core\Apis;
 
 /**
- * List all discovered APIs.
+ * List all discovered APIs, ordered by endpoint.
  */
 class ApiList extends \Apis\ApiList\ApiListApi {
 
   function getAPIs() {
-    return \DiscoveredComponents\Apis::getAllInstances();
+    $apis = \DiscoveredComponents\Apis::getAllInstances();
+    usort($apis, array($this, 'sortByEndpoint'));
+    return $apis;
+  }
+
+  function sortByEndpoint($a, $b) {
+    return strcmp($a->getEndpoint(), $b->getEndpoint());
   }
 
   function getEndpoint() {

@@ -7,7 +7,15 @@ use \NoDataGraphException_AddCurrencies;
 use \GraphException;
 
 /**
- * API to get Graph content (both public and user).
+ * API to get content rendered in graphs.
+ *
+ * @param type graph type, e.g. 'statistics_queue'
+ * @param days number of days of data to display
+ * @param delta if true, return delta values instead of absolute values
+ * @param arg0 optional graph argument
+ * @param arg0_resolved optional graph argument, resolved to an ID
+ * @param user_id for private graphs, the user ID
+ * @param user_hash for private graphs, the calculated user hash to secure the request
  */
 class Graph extends \Apis\CachedApi {
 

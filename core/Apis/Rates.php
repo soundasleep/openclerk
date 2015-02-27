@@ -4,11 +4,15 @@ namespace Core\Apis;
 
 /**
  * API to get a list of live rates for all supported currencies.
+ *
  * Used by Currency Converter Android app.
  */
 class Rates extends \Apis\CachedApi {
 
   function getJSON($arguments) {
+    // important for url_for() links
+    define('FORCE_NO_RELATIVE', true);
+
     $result = array();
     $result['currencies'] = array();
     foreach (get_all_currencies() as $cur) {
