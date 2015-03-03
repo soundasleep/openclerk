@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "effc5fe58386fdf271b5039c6dad388f",
+    "hash": "b8718e720cc176cb7d3d8599aaffb4b2",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -145,6 +145,112 @@
             "time": "2014-12-29 21:29:35"
         },
         {
+            "name": "mthaml/mthaml",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arnaud-lb/MtHaml.git",
+                "reference": "d90f6e2978109e7bf4ee3e58f03a807f3ac4a93c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arnaud-lb/MtHaml/zipball/d90f6e2978109e7bf4ee3e58f03a807f3ac4a93c",
+                "reference": "d90f6e2978109e7bf4ee3e58f03a807f3ac4a93c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "conflict": {
+                "mthaml/mthaml-bundle": "<1.1.0"
+            },
+            "require-dev": {
+                "cebe/markdown": "~1",
+                "coffeescript/coffeescript": "~1",
+                "erusev/parsedown": "*",
+                "fluxbb/commonmark": "~1@dev",
+                "gregwar/rst": "~1",
+                "kzykhys/ciconia": "~1",
+                "leafo/lessphp": "*",
+                "leafo/scssphp": "*",
+                "league/commonmark": ">=0.5",
+                "michelf/php-markdown": "~1.3",
+                "oyejorge/less.php": "*",
+                "twig/twig": "~1.11"
+            },
+            "suggest": {
+                "cebe/markdown": "If you want to use :markdown filter",
+                "coffeescript/coffeescript": "If you want to use :coffee or :coffeescript filter",
+                "erusev/parsedown": "If you want to use :markdown filter",
+                "fluxbb/commonmark": "If you want to use :markdown filter",
+                "gregwar/rst": "If you want to use :rest filter",
+                "kzykhys/ciconia": "If you want to use :markdown filter",
+                "leafo/lessphp": "If you want to use :less filter",
+                "leafo/scssphp": "If you want to use :scss filter",
+                "league/commonmark": "If you want to use :markdown filter",
+                "michelf/php-markdown": "If you want to use :markdown filter",
+                "oyejorge/less.php": "If you want to use :less filter",
+                "twig/twig": "If you want to use Twig templating engine"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MtHaml\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arnaud Le Blanc",
+                    "email": "arnaud.lb@gmail.com"
+                }
+            ],
+            "description": "HAML for PHP",
+            "homepage": "https://github.com/arnaud-lb/MtHaml",
+            "keywords": [
+                "HAML"
+            ],
+            "time": "2015-02-01 22:52:36"
+        },
+        {
+            "name": "openclerk/api-list",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/api-list.git",
+                "reference": "2620a31462a1b18417c3d54378c4687331ceb41b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/api-list/zipball/2620a31462a1b18417c3d54378c4687331ceb41b",
+                "reference": "2620a31462a1b18417c3d54378c4687331ceb41b",
+                "shasum": ""
+            },
+            "require": {
+                "openclerk/apis": "dev-master",
+                "openclerk/config": "dev-master"
+            },
+            "require-dev": {
+                "soundasleep/component-tests": "dev-master"
+            },
+            "suggest": {
+                "openclerk/cache": "For cacheable APIs"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Apis\\ApiList\\": "src",
+                    "Apis\\ApiList\\Tests\\": "test"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "A library for listing and discovering runtime properties of APIs",
+            "time": "2015-02-27 00:38:17"
+        },
+        {
             "name": "openclerk/apis",
             "version": "dev-master",
             "source": {
@@ -176,6 +282,36 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for defining and using APIs",
             "time": "2015-02-03 21:12:56"
+        },
+        {
+            "name": "openclerk/cache",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/cache.git",
+                "reference": "c026b78716a1162baa97fea0662ba1ee451334ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/cache/zipball/c026b78716a1162baa97fea0662ba1ee451334ae",
+                "reference": "c026b78716a1162baa97fea0662ba1ee451334ae",
+                "shasum": ""
+            },
+            "require": {
+                "openclerk/db": "dev-master"
+            },
+            "require-dev": {
+                "soundasleep/component-tests": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Openclerk\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "A library for defining cacheable resources",
+            "time": "2015-01-14 03:36:34"
         },
         {
             "name": "openclerk/commodities",
@@ -321,12 +457,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/db.git",
-                "reference": "bf48be0e1dfa8079fd99ca8bf14408dfe07dce9d"
+                "reference": "c61aece28789854b2b9a9fbdba47658f341650c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/db/zipball/bf48be0e1dfa8079fd99ca8bf14408dfe07dce9d",
-                "reference": "bf48be0e1dfa8079fd99ca8bf14408dfe07dce9d",
+                "url": "https://api.github.com/repos/openclerk/db/zipball/c61aece28789854b2b9a9fbdba47658f341650c5",
+                "reference": "c61aece28789854b2b9a9fbdba47658f341650c5",
                 "shasum": ""
             },
             "require": {
@@ -345,7 +481,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Simple PHP database management",
-            "time": "2015-02-04 08:25:34"
+            "time": "2015-03-03 22:13:20"
         },
         {
             "name": "openclerk/emails",
@@ -581,12 +717,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/metrics.git",
-                "reference": "25033f19ac58abd074d809be9c4763880b0ae13a"
+                "reference": "404550ebff0af9c2d176ffc5f2fb7079341d84e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/metrics/zipball/25033f19ac58abd074d809be9c4763880b0ae13a",
-                "reference": "25033f19ac58abd074d809be9c4763880b0ae13a",
+                "url": "https://api.github.com/repos/openclerk/metrics/zipball/404550ebff0af9c2d176ffc5f2fb7079341d84e1",
+                "reference": "404550ebff0af9c2d176ffc5f2fb7079341d84e1",
                 "shasum": ""
             },
             "require": {
@@ -601,7 +737,34 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-01-06 00:28:36"
+            "time": "2015-03-03 22:17:32"
+        },
+        {
+            "name": "openclerk/pages",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/pages.git",
+                "reference": "f4bc29ad60e5572b99adccd171f58542a6356586"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/pages/zipball/f4bc29ad60e5572b99adccd171f58542a6356586",
+                "reference": "f4bc29ad60e5572b99adccd171f58542a6356586",
+                "shasum": ""
+            },
+            "require": {
+                "mthaml/mthaml": "dev-master",
+                "openclerk/events": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pages\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2015-03-03 22:14:13"
         },
         {
             "name": "openclerk/routing",
@@ -609,12 +772,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/routing.git",
-                "reference": "caccd7e859daff7cd0857e3d4246365fc675515b"
+                "reference": "f11a47f83ed3f435f95d0f31a35f936e7e44bf04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/routing/zipball/caccd7e859daff7cd0857e3d4246365fc675515b",
-                "reference": "caccd7e859daff7cd0857e3d4246365fc675515b",
+                "url": "https://api.github.com/repos/openclerk/routing/zipball/f11a47f83ed3f435f95d0f31a35f936e7e44bf04",
+                "reference": "f11a47f83ed3f435f95d0f31a35f936e7e44bf04",
                 "shasum": ""
             },
             "require": {
@@ -633,7 +796,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-01-26 23:14:35"
+            "time": "2015-02-27 01:03:21"
         },
         {
             "name": "openclerk/templates",
@@ -1003,12 +1166,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/translation-discovery.git",
-                "reference": "160bd2c1e69a352f34bb063f4544af197294b7fd"
+                "reference": "67beb564a051f843bbf329df6b09d72d892bc842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/translation-discovery/zipball/160bd2c1e69a352f34bb063f4544af197294b7fd",
-                "reference": "160bd2c1e69a352f34bb063f4544af197294b7fd",
+                "url": "https://api.github.com/repos/soundasleep/translation-discovery/zipball/67beb564a051f843bbf329df6b09d72d892bc842",
+                "reference": "67beb564a051f843bbf329df6b09d72d892bc842",
                 "shasum": ""
             },
             "require-dev": {
@@ -1016,7 +1179,7 @@
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-02-20 02:07:36"
+            "time": "2015-03-03 22:52:18"
         }
     ],
     "packages-dev": [
@@ -1746,6 +1909,8 @@
         "lightopenid/lightopenid": 20,
         "soundasleep/spritify": 20,
         "openclerk/apis": 20,
+        "openclerk/api-list": 20,
+        "openclerk/cache": 20,
         "openclerk/commodities": 20,
         "openclerk/currencies": 20,
         "openclerk/cryptocurrencies": 20,
@@ -1760,10 +1925,12 @@
         "openclerk/config": 20,
         "openclerk/metrics": 20,
         "openclerk/routing": 20,
+        "openclerk/pages": 20,
         "openclerk/templates": 20,
         "soundasleep/component-discovery": 20,
         "soundasleep/asset-discovery": 20,
         "soundasleep/translation-discovery": 20,
+        "mthaml/mthaml": 20,
         "soundasleep/component-tests": 20
     },
     "prefer-stable": false,
