@@ -1,0 +1,9 @@
+[
+  "\\Core\\Apis\\Graph",
+  "\\Core\\Apis\\Currencies",
+  "\\Core\\Apis\\Currency",
+  "\\Core\\Apis\\ApiList",
+  "\\Core\\Apis\\Version",
+  "\\Core\\Apis\\Rates",
+  "\\Core\\Apis\\Rate"
+]

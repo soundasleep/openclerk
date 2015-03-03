@@ -23,12 +23,9 @@ RewriteBase /
 RewriteRule ^js/add_graph.js$              %{ENV:REWRITEBASE}js/add_graph.js.php          [L,QSA]
 RewriteRule ^js/locale/([0-9a-z_]+).js$    %{ENV:REWRITEBASE}js/locale.js.php?locale=$1   [L,QSA]
 
-RewriteRule ^api/([0-9a-z_]+)/([0-9a-z_]+).json$      %{ENV:REWRITEBASE}api/$1/$2.php     [L,QSA]
-
-RewriteRule ^api/([0-9a-z_]+)/graphs/([0-9a-z_\-]+)(|.json)$      %{ENV:REWRITEBASE}api/$1/graphs.php?graph_type=$2   [L,QSA]
-
 RewriteRule ^qr/([0-9a-zA-Z_]+)$     %{ENV:REWRITEBASE}img/qr/qr.php?code=$1              [L,QSA]
 
 # This rewrites /foo to /foo.php
 # To disable this rule, edit url_for() to return the normal .php extension for a given path.
 RewriteRule ^([0-9a-z_/]+)$           %{ENV:REWRITEBASE}index.php?path=$1     [L,QSA]
+RewriteRule ^([0-9a-z_/]+.json)$           %{ENV:REWRITEBASE}index.php?path=$1     [L,QSA]
