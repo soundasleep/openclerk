@@ -1,0 +1,55 @@
+%h2 = t("Supported mining pools")
+
+:php
+  $all_currencies = get_all_cryptocurrencies();
+
+%table.supported_wallets
+  %thead
+    %tr
+      %th =t("Source")
+      - foreach ($all_currencies as $p)
+        %th.currency
+          %span{:class => "currency_name_" . $p, :title => get_currency_name($p)}
+            = get_currency_abbr($p)
+
+            - if (in_array($p, get_new_supported_currencies()))
+              %span.new =t("new")
+
+      %th =t("Hashrate")
+
+  %tbody
+    - foreach ($all_mining_pools as $exchange => $currencies)
+      %tr
+        %td
+          = get_exchange_name($exchange)
+          - if (in_array($exchange, get_new_supported_wallets()))
+            %span.new =t("new")
+
+        - foreach ($all_currencies as $p)
+          - if (in_array($p, $currencies))
+            %td.yes{:title => get_currency_abbr($p)} Y
+          - else
+            %td.no
+
+        - if (in_array('hash', $currencies))
+          %td.yes{:title => t("Hashrate")} Y
+        - else
+          %td.no
+
+  %tfoot
+    %tr
+      %th =t("Source")
+      - foreach ($all_currencies as $p)
+        %th.currency
+          %span{:class => "currency_name_" . $p, :title => get_currency_name($p)}
+            = get_currency_abbr($p)
+
+            - if (in_array($p, get_new_supported_currencies()))
+              %span.new =t("new")
+
+      %th =t("Hashrate")
+
+.screenshots_group
+  %ul.screenshots
+    %li.add_service
+      != link_to(url_for('help/add_service'), t("Add another mining pool..."))

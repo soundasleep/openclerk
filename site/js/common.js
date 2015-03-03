@@ -3,6 +3,14 @@
  * Requires jQuery.
  */
 function initialise_tabs(tab_query) {
+  // remove any whitespace between inline-block elements, before
+  // setting up any event code
+  $(tab_query).find(".tab_list").each(function(i, e) {
+    var html = e.innerHTML;
+    html = html.replace(/<\/li>[\s]+<li/g, "</li><li");
+    e.innerHTML = html;
+  });
+
   $(tab_query).find(".tab_list > li").click(function(e) {
     var parent = e.target;
     if (!$(parent).attr('id')) {

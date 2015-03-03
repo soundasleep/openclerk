@@ -1,0 +1,53 @@
+%h2 =t("Supported exchanges")
+
+:php
+  $exchange_data = get_exchange_pairs();
+  $all_currencies = get_all_currencies();
+
+  // sort alphabetically
+  function sort_all_exchanges($a, $b) {
+    return strcmp(strtolower(get_exchange_name($a)), strtolower(get_exchange_name($b)));
+  }
+
+  uksort($exchange_data, 'sort_all_exchanges');
+
+%table.supported_exchanges
+  %thead
+    %tr
+      %th =t("Exchange")
+      - foreach ($all_currencies as $p)
+        %th.currency
+          %span{:class => "currency_name_" . $p, :title => get_currency_name($p)}
+            = get_currency_abbr($p)
+
+            - if (in_array($p, get_new_supported_currencies()))
+              %span.new =t("new")
+
+  %tbody
+    - foreach ($exchange_data as $exchange => $pairs)
+      %tr
+        %td
+          = get_exchange_name($exchange)
+          - if (in_array($exchange, get_new_exchanges()))
+            %span.new =t("new")
+
+        - foreach ($all_currencies as $currency)
+          :php
+            $exchange_support = array();
+            foreach ($pairs as $p) {
+              if ($p[0] == $currency || $p[1] == $currency) {
+                $p[0] = get_currency_abbr($p[0]);
+                $p[1] = get_currency_abbr($p[1]);
+                $exchange_support[] = implode("/", $p);
+              }
+            }
+
+          - if ($exchange_support)
+            %td.yes{:title => implode(", ", $exchange_support)} Y
+          - else
+            %td.no
+
+.screenshots_group
+  %ul.screenshots
+    %li.historical
+      != link_to(url_for('historical'), t("Historical Data"))

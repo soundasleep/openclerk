@@ -1,0 +1,68 @@
+:php
+  $balances_data = get_supported_wallets_safe();
+
+  // currencies are always sorted in the same order regardless of get_supported_wallets() order
+  // assumes there are no supported currencies that don't have a wallet
+  $account_data_grouped = account_data_grouped();
+
+  // issue #52: calculate 'mining pools' and 'other wallets'
+  $all_mining_pools = array();
+  $all_wallets = array();
+  foreach ($account_data_grouped['Mining pools'] as $exchange => $data) {
+    if ($data['disabled']) {
+      continue;
+    }
+    if (isset($balances_data[$exchange])) {
+      $all_mining_pools[$exchange] = $balances_data[$exchange];
+    } else if (isset($data['title_key']) && $data['title_key'] && isset($balances_data[$data['title_key']])) {
+      $all_mining_pools[$data['title_key']] = $balances_data[$data['title_key']];
+    } else {
+      $all_wallets[$exchange] = $balances_data[$exchange];
+    }
+  }
+  foreach (array_merge($account_data_grouped['Exchanges'], $account_data_grouped['Securities'], $account_data_grouped['Other']) as $exchange => $data) {
+    if (!isset($balances_data[$exchange])) {
+      continue;
+    }
+    if ($data['disabled']) {
+      continue;
+    }
+    $all_wallets[$exchange] = $balances_data[$exchange];
+  }
+
+  function sort_all_wallets($a, $b) {
+    if ($a == "generic") return 1;
+    if ($b == "generic") return -1;
+    return strcmp(strtolower(get_exchange_name($a)), strtolower(get_exchange_name($b)));
+  }
+
+  // sort alphabetically
+  uksort($all_wallets, 'sort_all_wallets');
+
+#tabs_home.tabs
+  %ul.tab_list
+    %li#tab_home_exchanges =t("Exchanges")
+    %li#tab_home_pools =t("Mining Pools")
+    %li#tab_home_wallets =t("Wallets")
+    %li#tab_home_securities =t("Securities")
+    %li#tab_home_addresses =t("Addresses")
+    %li#tab_home_updates =t("Updates")
+
+  %ul.tab_groups
+    %li#tab_home_exchanges_tab
+      != require_template("_supported/exchanges")
+
+    %li#tab_home_pools_tab
+      != require_template("_supported/pools", array('all_mining_pools' => $all_mining_pools))
+
+    %li#tab_home_wallets_tab
+      != require_template("_supported/wallets", array('all_wallets' => $all_wallets))
+
+    %li#tab_home_securities_tab
+      != require_template("_supported/securities")
+
+    %li#tab_home_addresses_tab
+      != require_template("_supported/addresses")
+
+    %li#tab_home_updates_tab
+      != require_template("_supported/updates")
