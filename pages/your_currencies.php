@@ -25,49 +25,49 @@ $balances = array();
 $last_updated = array();
 require(__DIR__ . "/../graphs/util.php");
 foreach (get_all_summary_currencies() as $cur => $summary) {
-	$balances[$cur] = array();
+  $balances[$cur] = array();
 }
 
 $q = db()->prepare("SELECT * FROM balances WHERE user_id=? AND is_recent=1");
 $q->execute(array(user_id()));
 while ($balance = $q->fetch()) {
-	if (isset($balances[$balance['currency']])) {
-		if (!isset($balances[$balance['currency']][$balance['exchange']])) {
-			$balances[$balance['currency']][$balance['exchange']] = 0;
-		}
-		$balances[$balance['currency']][$balance['exchange']] += demo_scale($balance['balance']);
-		$last_updated[$balance['exchange']] = $balance['created_at'];
-	}
+  if (isset($balances[$balance['currency']])) {
+    if (!isset($balances[$balance['currency']][$balance['exchange']])) {
+      $balances[$balance['currency']][$balance['exchange']] = 0;
+    }
+    $balances[$balance['currency']][$balance['exchange']] += demo_scale($balance['balance']);
+    $last_updated[$balance['exchange']] = $balance['created_at'];
+  }
 }
 
 // need to also get address balances
 $summary_balances = get_all_summary_instances();
 
 foreach ($balances as $currency => $data) {
-	if (isset($summary_balances['blockchain' . $currency]) && $summary_balances['blockchain' . $currency]['balance'] != 0) {
-		if (!isset($balances[$currency]['blockchain'])) {
-			$balances[$currency]['blockchain'] = 0;
-		}
-		$balances[$currency]['blockchain'] += demo_scale($summary_balances['blockchain' . $currency]['balance']);
-		$last_updated['blockchain'] = $summary_balances['blockchain' . $currency]['created_at'];
-	}
+  if (isset($summary_balances['blockchain' . $currency]) && $summary_balances['blockchain' . $currency]['balance'] != 0) {
+    if (!isset($balances[$currency]['blockchain'])) {
+      $balances[$currency]['blockchain'] = 0;
+    }
+    $balances[$currency]['blockchain'] += demo_scale($summary_balances['blockchain' . $currency]['balance']);
+    $last_updated['blockchain'] = $summary_balances['blockchain' . $currency]['created_at'];
+  }
 
-	if (isset($summary_balances['offsets' . $currency]) && $summary_balances['offsets' . $currency]['balance'] != 0) {
-		if (!isset($balances[$currency]['offsets'])) {
-			$balances[$currency]['offsets'] = 0;
-		}
-		$balances[$currency]['offsets'] += demo_scale($summary_balances['offsets' . $currency]['balance']);
-		$last_updated['offsets'] = $summary_balances['offsets' . $currency]['created_at'];
-	}
+  if (isset($summary_balances['offsets' . $currency]) && $summary_balances['offsets' . $currency]['balance'] != 0) {
+    if (!isset($balances[$currency]['offsets'])) {
+      $balances[$currency]['offsets'] = 0;
+    }
+    $balances[$currency]['offsets'] += demo_scale($summary_balances['offsets' . $currency]['balance']);
+    $last_updated['offsets'] = $summary_balances['offsets' . $currency]['created_at'];
+  }
 
 }
 
 // remove empty currencies
 $temp = array();
 foreach ($balances as $cur => $data) {
-	if ($data) {
-		$temp[$cur] = $data;
-	}
+  if ($data) {
+    $temp[$cur] = $data;
+  }
 }
 ksort($temp);
 $balances = $temp;
@@ -86,85 +86,79 @@ require(__DIR__ . "/_profile_pages.php");
 <?php require(__DIR__ . "/_sort_buttons.php"); ?>
 
 <div class="tabs" id="tabs_your_currencies">
-	<ul class="tab_list">
-		<?php
-		/* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */
-		foreach ($balances as $currency => $data) {
-			echo '<li id="tab_currencies_' . htmlspecialchars($currency) . '"><span class="currency_name_' . htmlspecialchars($currency) . '">' . htmlspecialchars(get_currency_abbr($currency)) . '</span></li>';
-		} ?>
-	</ul>
+  <ul class="tab_list">
+    <?php
+    /* each <li> must not have any whitespace between them otherwise whitespace will appear when rendered */
+    foreach ($balances as $currency => $data) {
+      echo '<li id="tab_currencies_' . htmlspecialchars($currency) . '"><span class="currency_name_' . htmlspecialchars($currency) . '">' . htmlspecialchars(get_currency_abbr($currency)) . '</span></li>';
+    } ?>
+  </ul>
 
-	<ul class="tab_groups">
-		<?php $first_tab = true;
-		foreach ($balances as $currency => $data) { ?>
-		<li id="tab_currencies_<?php echo htmlspecialchars($currency); ?>_tab"<?php echo $first_tab ? "" : " style=\"display:none;\""; ?>>
+  <ul class="tab_groups">
+    <?php $first_tab = true;
+    foreach ($balances as $currency => $data) { ?>
+    <li id="tab_currencies_<?php echo htmlspecialchars($currency); ?>_tab"<?php echo $first_tab ? "" : " style=\"display:none;\""; ?>>
 
 <table class="standard standard_account_list">
 <thead>
-	<tr>
-		<th class="source"><?php echo t("Source"); ?></th>
-		<th class="updated"><?php echo t("Last updated"); ?></th>
-		<th class="balance default_sort_down"><?php echo t("Balance"); ?></th>
-	</tr>
+  <tr>
+    <th class="source"><?php echo t("Source"); ?></th>
+    <th class="updated"><?php echo t("Last updated"); ?></th>
+    <th class="balance default_sort_down"><?php echo t("Balance"); ?></th>
+  </tr>
 </thead>
 <tbody>
 <?php
 $count = 0;
 $sum = 0;
 foreach ($data as $exchange => $balance) {
-	$sum += $balance; ?>
-	<tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
-		<td><?php
-			$link = false;
-			if ($exchange == 'blockchain') {
-				$link = url_for('wizard_accounts_addresses#wizard_' . $currency);
-			}
-			if ($exchange == 'offsets') {
-				$link = url_for('wizard_accounts_offsets');
-			}
-			if ($exchange == 'ripple') {
-				$link = url_for('wizard_accounts_addresses#wizard_xrp');
-			}
-			if (substr($exchange, 0, strlen('individual_')) === 'individual_') {
-				$link = url_for('wizard_accounts_individual_securities');
-			}
-			if ($link) echo "<a href=\"" . htmlspecialchars($link) . "\">";
-			echo htmlspecialchars(get_exchange_name($exchange));
-			if ($link) echo "</a>";
-		?></td>
-		<td><?php echo recent_format_html($last_updated[$exchange]); ?></td>
-		<td class="number"><?php echo currency_format($currency, $balance, 4); ?></td>
-	</tr>
+  $sum += $balance; ?>
+  <tr class="<?php echo $count % 2 == 0 ? "odd" : "even"; ?>">
+    <td><?php
+      $link = false;
+      if ($exchange == 'blockchain') {
+        $link = url_for('wizard_accounts_addresses#wizard_' . $currency);
+      }
+      if ($exchange == 'offsets') {
+        $link = url_for('wizard_accounts_offsets');
+      }
+      if ($exchange == 'ripple') {
+        $link = url_for('wizard_accounts_addresses#wizard_xrp');
+      }
+      if (substr($exchange, 0, strlen('individual_')) === 'individual_') {
+        $link = url_for('wizard_accounts_individual_securities');
+      }
+      if ($link) echo "<a href=\"" . htmlspecialchars($link) . "\">";
+      echo htmlspecialchars(get_exchange_name($exchange));
+      if ($link) echo "</a>";
+    ?></td>
+    <td><?php echo recent_format_html($last_updated[$exchange]); ?></td>
+    <td class="number"><?php echo currency_format($currency, $balance, 4); ?></td>
+  </tr>
 <?php } ?>
 </tbody>
 <tfoot>
-	<tr>
-		<th colspan="2"><?php echo t("Total :currency", array(':currency' => get_currency_name($currency))); ?></th>
-		<th class="number"><?php echo currency_format($currency, $sum, 4); ?></th>
-	</tr>
+  <tr>
+    <th colspan="2"><?php echo t("Total :currency", array(':currency' => get_currency_name($currency))); ?></th>
+    <th class="number"><?php echo currency_format($currency, $sum, 4); ?></th>
+  </tr>
 </tfoot>
 </table>
 
-		</li>
-		<?php
-		$first_tab = false;
-		} ?>
+    </li>
+    <?php
+    $first_tab = false;
+    } ?>
 
-		<?php if (!$balances) { ?>
-		<li>
-			<?php echo t("Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by :site_name."); ?>
-			<br>
-			<a class="add_accounts" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("Add accounts and addresses"); ?></a>
-		</li>
-		<?php } ?>
-	</ul>
+    <?php if (!$balances) { ?>
+    <li>
+      <?php echo t("Either you have not specified any accounts or addresses, or these addresses and accounts have not yet been updated by :site_name."); ?>
+      <br>
+      <a class="add_accounts" href="<?php echo htmlspecialchars(url_for('wizard_accounts')); ?>"><?php echo ht("Add accounts and addresses"); ?></a>
+    </li>
+    <?php } ?>
+  </ul>
 </div>
-
-<script type="text/javascript">
-$(document).ready(function() {
-	initialise_tabs('#tabs_your_currencies');
-});
-</script>
 
 <?php
 

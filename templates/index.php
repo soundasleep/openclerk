@@ -92,7 +92,7 @@ if (in_premium_promotion_leadup_period()) {
 <div class="home-block" id="home_block_support">
 <h2><?php echo ht("Supported Addresses and Accounts"); ?></h2>
 
-<?php require(__DIR__ . "/_supported.php"); ?>
+<?php require_template("_supported"); ?>
 </div>
 
 <div class="banner">

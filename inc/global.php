@@ -27,6 +27,7 @@ require(__DIR__ . "/kb.php");
 require(__DIR__ . "/countries.php");
 
 require(__DIR__ . "/routes.php");
+require(__DIR__ . "/templates.php");
 
 // issue #152: support i18n
 require(__DIR__ . "/i18n.php");
@@ -331,11 +332,15 @@ function calculate_relative_path() {
   return $global_calculate_relative_path;
 }
 
-function link_to($url, $text = false) {
+function link_to($url, $text = false, $options = array()) {
   if ($text === false) {
     return link_to($url, $url);
   }
-  return "<a href=\"" . htmlspecialchars($url) . "\">" . htmlspecialchars($text) . "</a>";
+  $html = "";
+  foreach ($options as $key => $value) {
+    $html .= " " . htmlspecialchars($key) . "=\"" . htmlspecialchars($value) . "\"";
+  }
+  return "<a href=\"" . htmlspecialchars($url) . "\"" . $html . ">" . htmlspecialchars($text) . "</a>";
 }
 
 /**

@@ -2,7 +2,17 @@
 
 use \Openclerk\I18n;
 
+use \Pages\PageRenderer;
+
 function page_header($page_title, $page_id = false, $options = array()) {
+  $options['title'] = $page_title;
+  if ($page_id) {
+    $options['id'] = $page_id;
+  }
+  PageRenderer::header($options);
+}
+
+function page_header_old($page_title, $page_id = false, $options = array()) {
 
   define('PAGE_RENDER_START', microtime(true));
   header('Content-type: text/html; charset=utf-8');
@@ -121,6 +131,10 @@ function page_header($page_title, $page_id = false, $options = array()) {
 }
 
 function page_footer() {
+  PageRenderer::footer();
+}
+
+function page_footer_old() {
 
 ?>
   </div>
@@ -203,71 +217,6 @@ function page_footer() {
 
 }
 
-/**
- * Display any errors or messages, including those passed through temporary_messages/errors.
- */
-function display_messages() {
-  global $messages;
-  global $errors;
-
-  if (!isset($messages)) $messages = array();
-  if (!isset($errors)) $errors = array();
-
-  if (get_temporary_messages()) {
-    $messages = array_join($messages, get_temporary_messages());
-  }
-  if (get_temporary_errors()) {
-    $errors = array_join($errors, get_temporary_errors());
-  }
-  // if admin, load any admin messages
-  if (is_admin()) {
-    $q = db()->prepare("SELECT * FROM admin_messages WHERE is_read=0 ORDER BY created_at ASC");
-    $q->execute();
-    while ($message = $q->fetch()) {
-      $messages[] = "Admin message: " . $message['message'] /* assumes encoded */ . " (<a href=\"" . htmlspecialchars(url_for('admin_message', array('id' => $message['id']))) . "\">hide</a>)";
-    }
-  }
-
-  if ($messages) { ?>
-<div class="message">
-<ul>
-  <?php foreach ($messages as $m) { echo "<li>" . $m . "</li>"; } /* do NOT accept user input for messages! */ ?>
-</ul>
-</div>
-<?php }
-  if ($errors) { ?>
-<div class="error">
-<ul>
-  <?php foreach ($errors as $m) { echo "<li>" . $m . "</li>"; } /* do NOT accept user input for messages! */ ?>
-</ul>
-</div>
-<?php }
-
-}
-
-function crypto_address($currency, $address) {
-  foreach (\DiscoveredComponents\Currencies::getAddressCurrencies() as $cur) {
-    if ($cur === $currency) {
-      $instance = \DiscoveredComponents\Currencies::getInstance($cur);
-      return "<span class=\"address " . $currency . "_address\"><code>" . htmlspecialchars($address) . "</code>
-        <a class=\"inspect\" href=\"" . htmlspecialchars($instance->getBalanceURL($address)) . "\" title=\"Inspect with " . htmlspecialchars($instance->getExplorerName()) . "\">?</a>
-      </span>";
-    }
-  }
-
-  foreach (get_blockchain_currencies() as $explorer => $currencies) {
-    foreach ($currencies as $cur) {
-      if ($cur == $currency) {
-        return "<span class=\"address " . $currency . "_address\"><code>" . htmlspecialchars($address) . "</code>
-          <a class=\"inspect\" href=\"" . htmlspecialchars(sprintf(get_site_config($currency . "_address_url"), $address)) . "\" title=\"Inspect with " . htmlspecialchars($explorer) . "\">?</a>
-        </span>";
-      }
-    }
-  }
-
-  return htmlspecialchars($address);
-}
-
 function currency_format($currency_code, $n, $precision = 8 /* must be 8 for issue #1 */) {
   $currency = get_currency_abbr($currency_code);
 
@@ -333,21 +282,4 @@ function default_chart_color($index) {
   }
   // unknown
   return "white";
-}
-
-function require_template($id) {
-  if (!$id) {
-    throw new Exception("Invalid template id '$id'");
-  }
-
-  // sanity checking for security
-  $id = str_replace(".", "", $id);
-  $id = str_replace("/", "", $id);
-  $id = str_replace("\\", "", $id);
-
-  if (file_exists(__DIR__ . "/../config/templates/" . $id . ".php")) {
-    require(__DIR__ . "/../config/templates/" . $id . ".php");
-  } else {
-    require(__DIR__ . "/../templates/" . $id . ".php");
-  }
 }

@@ -1,0 +1,33 @@
+%h2 = t("Supported addresses")
+
+:php
+  $addresses_data = get_blockchain_currencies();
+
+  // summarise
+  $all_currencies = array();
+  foreach ($addresses_data as $exchange => $currencies) {
+    $all_currencies[$exchange] = array();
+  }
+
+%table.supported_addresses
+  %thead
+    %tr
+      %th =t("Explorer")
+      %th =t("Currencies")
+
+  %tbody
+    - foreach ($addresses_data as $exchange => $currencies)
+      %tr
+        %td
+          = $exchange
+
+        %td.currency_list
+          - foreach ($currencies as $i => $p)
+            = ($i == 0 ? "" : ", ")
+            %span{:class => "currency_name_" . $p, :title => get_currency_name($p)}
+              = get_currency_abbr($p)
+
+.screenshots_group
+  %ul.screenshots
+    %li.add_service
+      != link_to(url_for('help/add_currency'), t("Add another cryptocurrency..."))

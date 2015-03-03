@@ -4,13 +4,10 @@
  * A simple calculator to calculate the value of one currency in another currency.
  */
 
-require(__DIR__ . "/../layout/templates.php");
-page_header(t("Cryptocurrency Calculator"), "page_calculator", array('js' => 'calculator'));
+use \Pages\PageRenderer;
 
-require_template("calculator");
+define('__TEMPLATE_DIR__', __DIR__);
 
-require(__DIR__ . "/_calculator.php");
-
-require_template("calculator_footer");
-
-page_footer();
+PageRenderer::header(array("title" => t("Cryptocurrency Calculator"), "id" => "page_calculator", "js" => "calculator"));
+PageRenderer::requireTemplate("calculator");
+PageRenderer::footer();

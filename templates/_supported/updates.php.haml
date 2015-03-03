@@ -1,0 +1,26 @@
+%h2 = t("Version History")
+
+%dl.version-list
+  = require_template("versions")
+
+  %dt
+    &nbsp;
+  %dd.last-version-item
+    != link_to(url_for('help/versions'), t("Full version history"))
+
+  %dt
+    &nbsp;
+  %dd.last-version-item.version-updates
+    :php
+      echo t("Visit the :blog, or subscribe to :twitter or :groups, for updates",
+      array(
+        ':blog' => link_to(get_site_config('blog_link'),
+          t(":site_name blog"),
+          array("target" => "_blank")),
+        ':twitter' => link_to("https://twitter.com/cryptfolio",
+          "@cryptfolio",
+          array("target" => "_blank", "class" => "twitter")),
+        ':groups' => link_to("http://groups.google.com/group/" . get_site_config('google_groups_announce'),
+          get_site_config('google_groups_announce'),
+          array("target" => "_blank")),
+      ));

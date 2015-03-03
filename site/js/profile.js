@@ -312,12 +312,3 @@ function hideGraphProperty(target, id) {
     already_editing = null;
   }
 }
-
-/**
- * Enable add graph/pages tabs.
- * We call this _before_ constructing the add graph dialog, so that there is less of a sudden
- * page relayout.
- */
-$(document).ready(function() {
-  initialise_tabs('#tabs_profile');
-});

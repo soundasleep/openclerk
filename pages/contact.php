@@ -1,8 +1,7 @@
 <?php
 
-require(__DIR__ . "/../layout/templates.php");
-page_header(t("Contact"), "page_contact");
+use \Pages\PageRenderer;
 
-require_template("contact");
-
-page_footer();
+PageRenderer::header(array("title" => t("Contact"), "id" => "page_contact"));
+PageRenderer::requireTemplate("contact");
+PageRenderer::footer();

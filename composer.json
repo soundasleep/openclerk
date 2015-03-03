@@ -31,11 +31,13 @@
     "openclerk/config": "dev-master",
     "openclerk/metrics": "dev-master",
     "openclerk/routing": "dev-master",
+    "openclerk/pages": "dev-master",
     "openclerk/templates": "dev-master",
     "soundasleep/component-discovery": "dev-master",
     "soundasleep/asset-discovery": "dev-master",
     "soundasleep/translation-discovery": "dev-master",
-    "monolog/monolog": "~1.11"
+    "monolog/monolog": "~1.11",
+    "mthaml/mthaml": "dev-master"
   },
   "require-dev": {
     "soundasleep/component-tests": "dev-master",
