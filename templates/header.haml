@@ -1,6 +1,7 @@
 :php
   $random = "?" . get_site_config("openclerk_version");
   $locale_js = "js/locale/" . \Openclerk\I18n::getCurrentLocale() . ".js";
+  $id = isset($id) ? $id : "";
 
   $user = user_logged_in() ? get_user(user_id()) : false;
   if ($user) {
@@ -61,9 +62,10 @@
 
   != include_head_compiled();
 
-!= "<body>"
+!= "<body id=\"$id\">"
+!= "<div class=\"body_wrapper\">"
 
 != require_template("templates_header");
 != require_template("navigation");
 
-!= "<div class=\"content\">"
+!= "<div id=\"page_content\">"
