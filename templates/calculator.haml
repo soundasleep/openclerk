@@ -1,0 +1,15 @@
+%h1 = t("Cryptocurrency Calculator")
+
+%p
+  :php
+    echo t("This is a simple calculator that you can use to convert one currency into another currency,
+      using the :recent_rates as tracked by :site_name.", array(
+        ":recent_rates" => link_to(url_for('historical'), t("most recent exchange rates")),
+      ));
+
+:php
+  require(__TEMPLATE_DIR__ . "/_calculator.php");
+
+.android_app
+  %a{:href => "https://play.google.com/store/apps/details?id=com.cryptfolio.calculator"}
+    %img{:alt => t("Android app on Google Play"), :title => t("Android app on Google Play"), :src => "https://developer.android.com/images/brand/en_app_rgb_wo_45.png"}
