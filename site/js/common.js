@@ -56,6 +56,16 @@ function initialise_tabs(tab_query) {
 }
 
 /**
+ * There's no need to forcibly make all pages with tabs also call
+ * {@link #initialise_tabs()}; we can just do it here.
+ */
+$(document).ready(function() {
+  $(".tabs").each(function (i, e) {
+    initialise_tabs(e);
+  });
+});
+
+/**
  * A basic implementation of collapsing content.
  */
 $(document).ready(function() {

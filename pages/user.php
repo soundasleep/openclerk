@@ -722,11 +722,5 @@ foreach ($identities as $identity) {
   </li>
 </ul>
 
-<script type="text/javascript">
-$(document).ready(function() {
-  initialise_tabs('#tabs_user');
-});
-</script>
-
 <?php
 page_footer();
