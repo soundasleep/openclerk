@@ -82,16 +82,3 @@
 
 != "</body>"
 != "</html>"
-
-:php
-  if (defined('PAGE_RENDER_START')) {
-    $end_time = microtime(true);
-    $time_diff = ($end_time - PAGE_RENDER_START) * 1000;
-    echo "<!-- rendered in " . number_format($time_diff, 2) . " ms -->";
-  }
-  performance_metrics_page_end();
-
-  if (is_admin()) {
-    echo "\n<!--\n" . print_r(Openclerk\MetricsHandler::getInstance()->printResults(), true) . "\n-->";
-    echo "\n<!-- " . print_r($_SESSION, true) . "\n-->";
-  }

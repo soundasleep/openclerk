@@ -82,3 +82,27 @@ function crypto_address($currency, $address) {
 
   return htmlspecialchars($address);
 }
+
+/**
+ * Set up page load events
+ */
+\Openclerk\Events::on('pages_header_start', function($data) {
+  define('PAGE_RENDER_START', microtime(true));
+});
+
+/**
+ * Set up page load events
+ */
+\Openclerk\Events::on('pages_footer_end', function($data) {
+  if (defined('PAGE_RENDER_START')) {
+    $end_time = microtime(true);
+    $time_diff = ($end_time - PAGE_RENDER_START) * 1000;
+    echo "<!-- rendered in " . number_format($time_diff, 2) . " ms -->";
+  }
+  performance_metrics_page_end();
+
+  echo "\n<!--\n" . print_r(Openclerk\MetricsHandler::getInstance()->printResults(), true) . "\n-->";
+  if (is_admin()) {
+    echo "\n<!-- " . print_r($_SESSION, true) . "\n-->";
+  }
+});

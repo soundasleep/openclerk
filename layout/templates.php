@@ -2,7 +2,17 @@
 
 use \Openclerk\I18n;
 
+use \Pages\PageRenderer;
+
 function page_header($page_title, $page_id = false, $options = array()) {
+  $options['title'] = $page_title;
+  if ($page_id) {
+    $options['id'] = $page_id;
+  }
+  PageRenderer::header($options);
+}
+
+function page_header_old($page_title, $page_id = false, $options = array()) {
 
   define('PAGE_RENDER_START', microtime(true));
   header('Content-type: text/html; charset=utf-8');
@@ -121,6 +131,10 @@ function page_header($page_title, $page_id = false, $options = array()) {
 }
 
 function page_footer() {
+  PageRenderer::footer();
+}
+
+function page_footer_old() {
 
 ?>
   </div>
