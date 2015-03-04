@@ -54,6 +54,7 @@ function poloniex_query($key, $secret, $method, array $req = array()) {
 
 // returns plns, btcs, address
 $info = poloniex_query($account['api_key'], $account['api_secret'], 'returnBalances');
+crypto_log(print_r($info, true));
 
 if (isset($info['error']) && $info['error']) {
 	throw new ExternalAPIException("API returned error: '" . htmlspecialchars($info['error']) . "'");

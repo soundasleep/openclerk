@@ -447,7 +447,7 @@ function get_supported_wallets() {
     "nicehash" => array('btc'),
     "nut2pools" => array('ftc', 'hash'),
     "ozcoin" => array('ltc', 'btc', 'hash'),
-    "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc'),    // and LOTS more; used in jobs/poloniex.php
+    "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
     "poolx" => array('ltc', 'hash'),
     "scryptpools" => array('dog', 'hash'),
     "slush" => array('btc', 'nmc', 'hash'),
