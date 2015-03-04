@@ -66,7 +66,7 @@ class Graph extends \Apis\CachedApi {
   function getHash($arguments) {
     $config = $this->getConfig();
 
-    $hash = substr($arguments['type'] . "," . implode(',', $config), 0, 32);
+    $hash = substr(md5($arguments['type'] . "," . implode(',', $config), 0, 32));
     return $hash;
   }
 
