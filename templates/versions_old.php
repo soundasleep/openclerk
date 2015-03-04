@@ -1,3 +1,8 @@
+<dt>21 May</dt>
+<dd>
+Added initial site translations into German, French, Japanese, Russian and Chinese (Simplified) languages;
+enabled <a href="https://code.google.com/p/openclerk/wiki/HelpTranslate">contributions for improving these translations</a>.
+</dd>
 
 <dt>12 May</dt>
 <dd>

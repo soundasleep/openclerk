@@ -256,12 +256,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/apis.git",
-                "reference": "c79431e01be0a45857aaeb061e310425fda07e85"
+                "reference": "6208709cc4bd79893bdb07e6f2e04b103e7bb184"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/apis/zipball/c79431e01be0a45857aaeb061e310425fda07e85",
-                "reference": "c79431e01be0a45857aaeb061e310425fda07e85",
+                "url": "https://api.github.com/repos/openclerk/apis/zipball/6208709cc4bd79893bdb07e6f2e04b103e7bb184",
+                "reference": "6208709cc4bd79893bdb07e6f2e04b103e7bb184",
                 "shasum": ""
             },
             "require": {
@@ -281,7 +281,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for defining and using APIs",
-            "time": "2015-02-03 21:12:56"
+            "time": "2015-03-04 01:22:43"
         },
         {
             "name": "openclerk/cache",
@@ -396,12 +396,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "65defa42948a7957cdc37f51f79cf743e9c4d865"
+                "reference": "5f869f684793e01ee4646ebc96493f0faa9c5055"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/65defa42948a7957cdc37f51f79cf743e9c4d865",
-                "reference": "65defa42948a7957cdc37f51f79cf743e9c4d865",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/5f869f684793e01ee4646ebc96493f0faa9c5055",
+                "reference": "5f869f684793e01ee4646ebc96493f0faa9c5055",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-02-04 03:23:31"
+            "time": "2015-03-04 01:25:04"
         },
         {
             "name": "openclerk/currencies",
@@ -431,12 +431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/currencies.git",
-                "reference": "7fa73ee8f9c4da48158bff1e91c18adc84c650c8"
+                "reference": "4dd3b05eb2f4466291bfd686521b4ef025e08e55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/currencies/zipball/7fa73ee8f9c4da48158bff1e91c18adc84c650c8",
-                "reference": "7fa73ee8f9c4da48158bff1e91c18adc84c650c8",
+                "url": "https://api.github.com/repos/openclerk/currencies/zipball/4dd3b05eb2f4466291bfd686521b4ef025e08e55",
+                "reference": "4dd3b05eb2f4466291bfd686521b4ef025e08e55",
                 "shasum": ""
             },
             "require": {
@@ -449,7 +449,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-01-22 02:36:33"
+            "time": "2015-03-04 01:45:38"
         },
         {
             "name": "openclerk/db",
@@ -584,12 +584,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/exchanges.git",
-                "reference": "63780332a02ba393c38b552d1ed8addd91bd76a3"
+                "reference": "cddce19ff15c80cef3317082a89cf04117ab8de0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/63780332a02ba393c38b552d1ed8addd91bd76a3",
-                "reference": "63780332a02ba393c38b552d1ed8addd91bd76a3",
+                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/cddce19ff15c80cef3317082a89cf04117ab8de0",
+                "reference": "cddce19ff15c80cef3317082a89cf04117ab8de0",
                 "shasum": ""
             },
             "require": {
@@ -611,7 +611,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of exchanges in Openclerk",
-            "time": "2015-02-04 02:27:33"
+            "time": "2015-03-04 01:48:36"
         },
         {
             "name": "openclerk/fiat",

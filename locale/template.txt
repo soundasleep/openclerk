@@ -45,6 +45,7 @@
 <pair> Bid
 <percent> requests successful
 <premium_user> job delay
+<site_name> API
 <site_name> Features
 <site_name> Finance
 <site_name> Finance can keep track of <your_transactions> and assign them to separate accounts, for tax or accounting purposes.
@@ -54,11 +55,13 @@
 <site_name> also supports the <currencies> fiat currencies.
 <site_name> automatically manages your reports based on your currency, address and reporting preferences.
 <site_name> automatically manages your reports based on your currency, address and reporting preferences. Alternatively, a simple interface lets you add new graph types, reconfigure them, and reorder them.
+<site_name> blog
 <site_name> can also optionally <notify_you> when your accounts change. (You can always change these options later, by selecting the "Configure Accounts" link above.)
 <site_name> can automatically personalise reports for you, or you can take full control and design your own report pages with custom graphs, layouts and technical indicators.
 <site_name> is a web application packed with features designed to help you track your cryptocurrencies, investments and mining hardware; understand and analyse markets; and make informed decisions about your portfolio.
 <site_name> keeps track of your cryptocurrencies, investments and equities by regularly downloading account details from accounts that you define. You can add five different types of accounts as illustrated below. (You can always change these accounts later, by selecting the "Configure Accounts" link above.)
 <site_name> lets you keep track of your cryptocurrencies, miners, investments and equities, and generates regular reports of your portfolio.
+<site_name> provides the following public API methods, for private or research purposes only.
 <site_name> relies on the output of many external APIs. This page lists the current status of each of these APIs, as collected over the last <time> (<samples> samples).
 <site_name> supports a wide range of cryptocurrency applications and is regularly updated with new services. For example <site_name> currently supports:
 <time> ago
@@ -96,6 +99,7 @@ A table displaying the equivalent value of all cryptocurrencies and fiat currenc
 A table displaying the market data used to generate the average market price for <pair>.
 A wide range of cryptocurrencies and fiat currencies can be selected; this ensures that you are only informed about currencies you are actually interested in.
 A wide variety of account types are supported, with more being added regularly. All account types are completely optional.
+API
 API key
 About
 Account
@@ -167,6 +171,7 @@ Address balances
 Addresses
 Addresses can be directly exported from your local BTC or LTC wallets into <site_name>.
 Admin
+Administration
 Administrator
 All <currency> balances
 All <currency> balances (graph)
@@ -262,6 +267,7 @@ Configured Notifications
 Contact
 Contact Details
 Contact Us
+Contact us
 Continue
 Converted <currency>
 Converted <currency> (<exchange>)
@@ -399,6 +405,7 @@ Free delay
 Free user job delay
 French
 Frequently Asked Questions
+Full version history
 Further instructions to change your password have been sent to your e-mail address <email>.
 GST
 GST number:
@@ -452,6 +459,7 @@ If you are using the default Bitcoin-Qt client, you can use the "export" feature
 If you are using the default Litecoin-Qt client, you can use the 'export' feature of the client to automatically populate your list of LTC addresses using your existing address labels. Any invalid or duplicated addresses will be skipped.
 If you have accidentally removed your e-mail from your account, you will need to login and <add_it_back>, in order to resume e-mail notifications.
 If you have any problems in getting set up, please send us <email> or tweet <twitter>.
+If you have higher usage or commercial requirements, please <contact>.
 If you would like to sponsor the implementation of a currency immediately, or to suggest a new currency, please <contact_us>.
 If your <site_name> account has been secured with an e-mail/password login, you may use this form to reset the password on your account.
 If your support question is not answered in the <help>, you can contact us via:
@@ -594,6 +602,7 @@ Password:
 Pending
 Period
 Period:
+Please do not request an API more than once every <time> seconds, or your IP address may be temporarily blocked.
 Please select a password between <min>-<max> characters long.
 Please send me an e-mail when
 Please try again.
@@ -723,6 +732,7 @@ Supported Addresses and Accounts
 Supported addresses
 Supported exchanges
 Supported mining pools
+Supported securities exchanges
 Supported wallets
 Supports <currencies>.
 System account
@@ -854,6 +864,7 @@ Using <exchange>
 Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete any historical summary data associated with this account.
 Using the button below, you can reset this page and add a collection of example graphs.
 Value
+Version History
 Very Large
 View
 View Reports
@@ -862,6 +873,7 @@ View historical transactions
 View market averages
 View screenshots on personalising your reports
 View your Reports
+Visit the <blog>, or subscribe to <twitter> or <groups>, for updates
 Visit this group
 Volume
 Votes
@@ -1042,6 +1054,7 @@ the last hour
 the last month
 the last week
 these reports
+this isn't me
 ticker
 underlying software
 undo

@@ -1,3 +1,16 @@
+<dt>4 March</dt>
+<dd>
+  Released <a href="<?php echo htmlspecialchars(url_for("api")); ?>">initial API</a>;
+
+  updated <a href="<?php echo htmlspecialchars(url_for("signup")); ?>">signup country list</a>;
+
+  fixed <span class="currency_name_dog">DOGE</span> and <span class="currency_name_blk">BLK</span> address balances;
+
+  fixed failing <a href="<?php echo htmlspecialchars(url_for("wizard_notifications")); ?>">notifications</a> sending invalid emails;
+
+  completed more work in componentising the underlying <a href="http://openclerk.org">openclerk.org</a> application architecture.
+</dd>
+
 <dt>4 February</dt>
 <dd>
   Added currency support for <a href="http://storj.io/" class="currency_name_sj1">StorjCoin</a>;
@@ -130,10 +143,5 @@ updated <a href="https://cex.io/">CEX.io</a> supported currencies;
 added <a href="https://mupool.com/">MuPool</a> mining pool.
 </dd>
 
-<dt>21 May</dt>
-<dd>
-Added initial site translations into German, French, Japanese, Russian and Chinese (Simplified) languages;
-enabled <a href="https://code.google.com/p/openclerk/wiki/HelpTranslate">contributions for improving these translations</a>.
-</dd>
 
 <!-- more are in versions_old -->

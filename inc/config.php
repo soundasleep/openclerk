@@ -12,7 +12,7 @@ Openclerk\Config::merge(array(
   "site_id" => "openclerk",
   "openid_host" => "localhost",
   "absolute_url" => "http://localhost/clerk/",
-  "openclerk_version" => "0.32",      // this is just a label displayed at the bottom of each page
+  "openclerk_version" => "0.33",      // this is just a label displayed at the bottom of each page
 
   // issue #188: if true, then non-write queries will go to this database by default
   "database_slave" => true,
