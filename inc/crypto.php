@@ -664,6 +664,9 @@ function get_crypto_conversion_summary_types() {
   return $result;
 }
 
+/**
+ * Return a grouped array of (job_type => (table, gruop, wizard, failure, ...))
+ */
 function account_data_grouped() {
   $addresses_data = array();
 

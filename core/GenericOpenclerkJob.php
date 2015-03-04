@@ -503,6 +503,9 @@ class GenericOpenclerkJob implements Job {
         }
       }
     }
+    if (!$account_data) {
+      $logger->warn("Could not find any account data for job type '" . $job['job_type'] . "'");
+    }
     $logger->info("Using account data " . print_r($account_data, true));
 
     // don't count CloudFlare as a failure
@@ -534,8 +537,12 @@ class GenericOpenclerkJob implements Job {
         $q = $db->prepare("UPDATE $failing_table SET is_disabled=1 WHERE id=?");
         $q->execute(array($job['arg_id']));
 
+        crypto_log(print_r($account_data, true));
+
         if ($user['email'] && !$account['is_disabled'] /* don't send the same email multiple times */) {
-          send_user_email($user, "failure", array(
+          $email_type = ($job['job_type'] == "notification") ? "failure_notification" : "failure";
+
+          send_user_email($user, $email_type, array(
             "name" => ($user['name'] ? $user['name'] : $user['email']),
             "exchange" => get_exchange_name($account_data['exchange']),
             "label" => $account_data['label'],
