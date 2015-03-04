@@ -1,4 +1,4 @@
-<h1><?php echo ht("API"); ?></h1>
+<h1><?php echo ht(":site_name API"); ?></h1>
 
 <p>
   <?php echo t(":site_name provides the following public API methods, for private or research purposes only."); ?>
