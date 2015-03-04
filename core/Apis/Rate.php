@@ -16,11 +16,11 @@ class Rate extends \Apis\CachedApi {
     define('FORCE_NO_RELATIVE', true);
 
     if (!in_array($arguments['currency1'], get_all_currencies())) {
-      throw new Exception("Invalid currency '" . $arguments['currency1'] . "'");
+      throw new \Exception("Invalid currency '" . $arguments['currency1'] . "'");
     }
 
     if (!in_array($arguments['currency2'], get_all_currencies())) {
-      throw new Exception("Invalid currency '" . $arguments['currency2'] . "'");
+      throw new \Exception("Invalid currency '" . $arguments['currency2'] . "'");
     }
 
     $q = db()->prepare("SELECT * FROM ticker_recent WHERE currency1=? AND currency2=? ORDER BY volume DESC");
@@ -40,7 +40,7 @@ class Rate extends \Apis\CachedApi {
     }
 
     if (!$result) {
-      throw new Exception("No rates found");
+      throw new \Exception("No rates found");
     }
 
     return $result;
