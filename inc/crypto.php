@@ -42,8 +42,7 @@ function sort_currency_list($a, $b) {
  * @return a list of currencies which can be hashed
  */
 function get_all_hashrate_currencies() {
-  return array_merge(Currencies::getHashableCurrencies(),
-    array("ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn"));
+  return Currencies::getHashableCurrencies();
 }
 
 $_cached_get_all_currencies = null;
@@ -68,7 +67,7 @@ function is_hashrate_mhash($cur) {
     return $algorithm_instance->getDivisor() >= 1e6;
   }
 
-  return $cur == 'nmc' || $cur == 'ppc' || $cur == 'trc';
+  return false;
 }
 
 // TODO we should be able to get this from the database somehow
