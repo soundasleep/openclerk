@@ -29,14 +29,14 @@ require(__DIR__ . "/_premium_features.php");
 ?>
 
 <p>
-	By purchasing a premium account, you will be able to track more addresses and accounts, and
-	access advanced technical indicators for all graph types. Your accounts will also be refreshed
-	much more frequently, and your jobs will have priority over free users, increasing the
-	accuracy and frequency of your reports and summaries.
+  By purchasing a premium account, you will be able to track more addresses and accounts, and
+  access advanced technical indicators for all graph types. Your accounts will also be refreshed
+  much more frequently, and your jobs will have priority over free users, increasing the
+  accuracy and frequency of your reports and summaries.
 </p>
 
 <p>
-	Your account details and premium purchases can be managed at any time by visiting your <a href="<?php echo htmlspecialchars(url_for('user')); ?>">user account</a>.
+  Your account details and premium purchases can be managed at any time by visiting your <a href="<?php echo htmlspecialchars(url_for('user')); ?>">user account</a>.
 </p>
 
 <?php

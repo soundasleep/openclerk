@@ -9,80 +9,80 @@
  */
 abstract class GraphRenderer_AbstractTicker extends GraphRenderer {
 
-	function __construct() {
-		if (!$this->isDaily() && $this->canHaveTechnicals()) {
-			// basically this is because all of the technicals assume data keys are in Y-m-d format
-			// so if we aren't providing daily data, technicals will fall apart
-			throw new GraphException("A graph that isn't daily cannot also have technicals applied");
-		}
-	}
+  function __construct() {
+    if (!$this->isDaily() && $this->canHaveTechnicals()) {
+      // basically this is because all of the technicals assume data keys are in Y-m-d format
+      // so if we aren't providing daily data, technicals will fall apart
+      throw new GraphException("A graph that isn't daily cannot also have technicals applied");
+    }
+  }
 
-	/**
-	 * @return an array of columns e.g. (type, title, args)
-	 */
-	abstract function getTickerColumns();
+  /**
+   * @return an array of columns e.g. (type, title, args)
+   */
+  abstract function getTickerColumns();
 
-	/**
-	 * The sources must return 'created_at' column as well, for last_updated
-	 * @return an array of queries e.g. (query, key = created_at/data_date)
-	 */
-	abstract function getTickerSources($days, $extra_days);
+  /**
+   * The sources must return 'created_at' column as well, for last_updated
+   * @return an array of queries e.g. (query, key = created_at/data_date)
+   */
+  abstract function getTickerSources($days, $extra_days);
 
-	/**
-	 * @return an array of arguments passed to each {@link #getTickerSources()}
-	 */
-	abstract function getTickerArgs();
+  /**
+   * @return an array of arguments passed to each {@link #getTickerSources()}
+   */
+  abstract function getTickerArgs();
 
-	/**
-	 * @return an array of 1..2 values of the values for the particular row,
-	 * 			maybe formatted with {@link #graph_number_format()}.
-	 */
-	abstract function getTickerData($row);
+  /**
+   * @return an array of 1..2 values of the values for the particular row,
+   *      maybe formatted with {@link #graph_number_format()}.
+   */
+  abstract function getTickerData($row);
 
-	/**
-	 * @return true if data should be limited to days, or false if it can have any resolution.
-	 *			defaults to true
-	 */
-	public function isDaily() {
-		return true;
-	}
+  /**
+   * @return true if data should be limited to days, or false if it can have any resolution.
+   *      defaults to true
+   */
+  public function isDaily() {
+    return true;
+  }
 
-	public function getData($days) {
-		$columns = array();
+  public function getData($days) {
+    $columns = array();
 
-		$key_column = array('type' => 'date', 'title' => ct("Date"));
+    $key_column = array('type' => 'date', 'title' => ct("Date"));
 
-		$columns = $this->getTickerColumns();
+    $columns = $this->getTickerColumns();
 
-		// TODO extra_days_necessary
-		$extra_days = 10;
+    // TODO extra_days_necessary
+    $extra_days = 10;
 
-		$sources = $this->getTickerSources($days, $extra_days);
+    $sources = $this->getTickerSources($days, $extra_days);
 
-		$args = $this->getTickerArgs();
+    $args = $this->getTickerArgs();
 
-		$data = array();
-		$last_updated = false;
-		foreach ($sources as $source) {
-			$q = db()->prepare($source['query']);
-			$q->execute($args);
-			while ($ticker = $q->fetch()) {
-				$data_key = date($this->isDaily() ? 'Y-m-d' : 'Y-m-d H:i:s', strtotime($ticker[$source['key']]));
-				$data[$data_key] = $this->getTickerData($ticker);
-				$last_updated = max($last_updated, strtotime($ticker['created_at']));
-			}
-		}
+    $data = array();
+    $last_updated = false;
+    foreach ($sources as $source) {
+      $q = db()->prepare($source['query']);
+      $q->execute($args);
+      while ($ticker = $q->fetch()) {
+        $data_key = date($this->isDaily() ? 'Y-m-d' : 'Y-m-d H:i:s', strtotime($ticker[$source['key']]));
+        $data[$data_key] = $this->getTickerData($ticker);
+        $last_updated = max($last_updated, strtotime($ticker['created_at']));
+      }
+    }
 
-		// sort by key, but we only want values
-		uksort($data, 'cmp_time_reverse');
+    // sort by key, but we only want values
+    uksort($data, 'cmp_time_reverse');
 
-		return array(
-			'key' => $key_column,
-			'columns' => $columns,
-			'data' => $data,
-			'last_updated' => $last_updated,
-		);
+    return array(
+      'key' => $key_column,
+      'columns' => $columns,
+      'data' => $data,
+      'last_updated' => $last_updated,
+    );
 
-	}
+  }
 
 }

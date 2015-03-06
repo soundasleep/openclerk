@@ -18,17 +18,17 @@ $max_count = 30;
 $args = array();
 $search_query = "";
 if (require_post("search", false)) {
-	$search_query = " WHERE name LIKE :search OR email LIKE :search";
-	$args['search'] = '%' . require_post("search") . '%';
+  $search_query = " WHERE name LIKE :search OR email LIKE :search";
+  $args['search'] = '%' . require_post("search") . '%';
 } else if (require_post("just_premium", false)) {
-	$search_query = " WHERE is_premium=1";
+  $search_query = " WHERE is_premium=1";
 }
 $q = db()->prepare("SELECT u.*, s.c AS currencies
-	FROM users AS u
-		LEFT JOIN (SELECT COUNT(*) AS c, user_id FROM summaries GROUP BY user_id) AS s ON s.user_id=u.id
-	$search_query
-	GROUP BY u.id
-	ORDER BY u.id DESC LIMIT " . ($max_count+1) . "");
+  FROM users AS u
+    LEFT JOIN (SELECT COUNT(*) AS c, user_id FROM summaries GROUP BY user_id) AS s ON s.user_id=u.id
+  $search_query
+  GROUP BY u.id
+  ORDER BY u.id DESC LIMIT " . ($max_count+1) . "");
 $q->execute($args);
 $users = $q->fetchAll();
 
@@ -59,74 +59,74 @@ $users = $q->fetchAll();
 
 <table class="standard standard_account_list">
 <thead>
-	<tr>
-		<th class="default_sort_down">ID</th>
-		<th>Email</th>
-		<th>Name</th>
-		<th>Added account</th>
-		<th>Premium</th>
-		<th>Premium expires</th>
-		<th>Signed up</th>
-		<th>Last login</th>
-		<th>Currencies</th>
-		<th></th>
-	</tr>
+  <tr>
+    <th class="default_sort_down">ID</th>
+    <th>Email</th>
+    <th>Name</th>
+    <th>Added account</th>
+    <th>Premium</th>
+    <th>Premium expires</th>
+    <th>Signed up</th>
+    <th>Last login</th>
+    <th>Currencies</th>
+    <th></th>
+  </tr>
 </thead>
 <tbody>
 <?php
-	$count = 0;
-	foreach ($users as $user) {
-		$count++;
-		if ($count > $max_count) {
-			echo "<tr><td colspan=\"9\"><i>(Additional results not shown here)</i></td></tr>\n";
-		} else {
-			$q = db()->prepare("SELECT COUNT(*) AS identity_count, url FROM openid_identities WHERE user_id=?");
-			$q->execute(array($user['id']));
-			$openid = $q->fetch();
-			echo "<tr>\n";
-			echo "<td class=\"number\">" . number_format($user['id']) . "</td>\n";
-			if ($openid && $openid['identity_count']) {
-				echo "<td><a href=\"" . htmlspecialchars($openid['url']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> " . $openid['identity_count'] . "</td>\n";
-			} else {
-				echo "<td>" . htmlspecialchars($user['email']) . "</a> (password)</td>\n";
-			}
-			echo "<td>" . htmlspecialchars($user['name']) . "</td>\n";
-			echo "<td class=\"" . ($user['has_added_account'] ? 'yes' : 'no') . "\">-</td>\n";
-			echo "<td class=\"" . ($user['is_premium'] ? 'yes' : 'no') . "\">-</td>\n";
-			echo "<td>" . recent_format_html($user['premium_expires'], "", "") . "</td>\n";
-			echo "<td>" . recent_format_html($user['created_at']) . "</td>\n";
-			echo "<td>" . recent_format_html($user['last_login']) . "</td>\n";
-			echo "<td class=\"number\">" . number_format($user['currencies']) . "</td>\n";
-			echo "<td>";
-			{
-				echo "<form action=\"" . htmlspecialchars(url_for('admin_login')) . "\" method=\"get\">";
-				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
-				echo "<input type=\"submit\" value=\"Login as\">";
-				echo "</form>";
-			}
-			{
-				echo "<form action=\"" . htmlspecialchars(url_for('admin_user_export')) . "\" method=\"post\">";
-				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
-				echo "<input type=\"submit\" value=\"Export\">";
-				echo "</form>";
-			}
-			{
-				echo "<form action=\"" . htmlspecialchars(url_for('admin_user_delete')) . "\" method=\"post\">";
-				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
-				echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
-				echo "<input type=\"submit\" value=\"Delete\" onclick=\"return confirm('Are you sure you want to delete this user?');\">";
-				echo "</form>";
-			}
-			{
-				echo "<form action=\"" . htmlspecialchars(url_for('admin_user_jobs')) . "\" method=\"get\">";
-				echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
-				echo "<input type=\"submit\" value=\"Recent Jobs\">";
-				echo "</form>";
-			}
-			echo "</td>\n";
-			echo "</tr>\n\n";
-		}
-	}
+  $count = 0;
+  foreach ($users as $user) {
+    $count++;
+    if ($count > $max_count) {
+      echo "<tr><td colspan=\"9\"><i>(Additional results not shown here)</i></td></tr>\n";
+    } else {
+      $q = db()->prepare("SELECT COUNT(*) AS identity_count, url FROM openid_identities WHERE user_id=?");
+      $q->execute(array($user['id']));
+      $openid = $q->fetch();
+      echo "<tr>\n";
+      echo "<td class=\"number\">" . number_format($user['id']) . "</td>\n";
+      if ($openid && $openid['identity_count']) {
+        echo "<td><a href=\"" . htmlspecialchars($openid['url']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> " . $openid['identity_count'] . "</td>\n";
+      } else {
+        echo "<td>" . htmlspecialchars($user['email']) . "</a> (password)</td>\n";
+      }
+      echo "<td>" . htmlspecialchars($user['name']) . "</td>\n";
+      echo "<td class=\"" . ($user['has_added_account'] ? 'yes' : 'no') . "\">-</td>\n";
+      echo "<td class=\"" . ($user['is_premium'] ? 'yes' : 'no') . "\">-</td>\n";
+      echo "<td>" . recent_format_html($user['premium_expires'], "", "") . "</td>\n";
+      echo "<td>" . recent_format_html($user['created_at']) . "</td>\n";
+      echo "<td>" . recent_format_html($user['last_login']) . "</td>\n";
+      echo "<td class=\"number\">" . number_format($user['currencies']) . "</td>\n";
+      echo "<td>";
+      {
+        echo "<form action=\"" . htmlspecialchars(url_for('admin_login')) . "\" method=\"get\">";
+        echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
+        echo "<input type=\"submit\" value=\"Login as\">";
+        echo "</form>";
+      }
+      {
+        echo "<form action=\"" . htmlspecialchars(url_for('admin_user_export')) . "\" method=\"post\">";
+        echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
+        echo "<input type=\"submit\" value=\"Export\">";
+        echo "</form>";
+      }
+      {
+        echo "<form action=\"" . htmlspecialchars(url_for('admin_user_delete')) . "\" method=\"post\">";
+        echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
+        echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
+        echo "<input type=\"submit\" value=\"Delete\" onclick=\"return confirm('Are you sure you want to delete this user?');\">";
+        echo "</form>";
+      }
+      {
+        echo "<form action=\"" . htmlspecialchars(url_for('admin_user_jobs')) . "\" method=\"get\">";
+        echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
+        echo "<input type=\"submit\" value=\"Recent Jobs\">";
+        echo "</form>";
+      }
+      echo "</td>\n";
+      echo "</tr>\n\n";
+    }
+  }
 ?>
 </tbody>
 </table>

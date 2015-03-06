@@ -30,7 +30,7 @@ $summaries = array();
 $q = db()->prepare("SELECT * FROM summaries WHERE user_id=?");
 $q->execute(array(user_id()));
 while ($s = $q->fetch()) {
-	$summaries[$s['summary_type']] = $s;
+  $summaries[$s['summary_type']] = $s;
 }
 
 ?>
@@ -44,10 +44,10 @@ while ($s = $q->fetch()) {
 
 <ul>
 <?php foreach ($cryptos as $c) { ?>
-	<li>
-		<input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo isset($summaries["summary_" . $c]) ? " checked" : ""; ?>>
-		<label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
-	</li>
+  <li>
+    <input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo isset($summaries["summary_" . $c]) ? " checked" : ""; ?>>
+    <label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
+  </li>
 <?php } ?>
 </ul>
 </div>
@@ -59,39 +59,39 @@ while ($s = $q->fetch()) {
 
 <ul>
 <?php foreach ($fiats as $c) {
-	$exchanges = array();
-	$selected = false;
-	foreach (get_summary_types() as $key => $summary) {
-		$prefix = "summary_" . $c;
-		if (substr($key, 0, strlen($prefix)) == $prefix) {
-			$exchanges[$summary['exchange']] = $key;
-			$selected = $selected || isset($summaries[$key]);
-		}
-	}
+  $exchanges = array();
+  $selected = false;
+  foreach (get_summary_types() as $key => $summary) {
+    $prefix = "summary_" . $c;
+    if (substr($key, 0, strlen($prefix)) == $prefix) {
+      $exchanges[$summary['exchange']] = $key;
+      $selected = $selected || isset($summaries[$key]);
+    }
+  }
 ?>
-	<li>
-		<input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo $selected ? " checked" : ""; ?> class="parent-currency">
-		<label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
+  <li>
+    <input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo $selected ? " checked" : ""; ?> class="parent-currency">
+    <label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
 
-		<div class="exchange"><span class="exchange-text"><?php echo ht("Exchange:"); ?> <?php echo htmlspecialchars(get_exchange_name(get_default_currency_exchange($c))); ?></span>
-			<a class="collapse-link collapsed">+</a>
+    <div class="exchange"><span class="exchange-text"><?php echo ht("Exchange:"); ?> <?php echo htmlspecialchars(get_exchange_name(get_default_currency_exchange($c))); ?></span>
+      <a class="collapse-link collapsed">+</a>
 
-			<div class="collapse-target">
-			<?php echo ht("Instead of the default exchange, use the following exchanges:"); ?>
-			<ul>
-			<?php foreach ($exchanges as $exchange => $key) {
-				?>
-				<li>
-					<input type="checkbox" name="exchanges[]" value="<?php echo htmlspecialchars($key); ?>" id="exchanges_<?php echo htmlspecialchars($key); ?>"<?php echo isset($summaries[$key]) ? " checked" : ""; ?>>
-					<label for="exchanges_<?php echo htmlspecialchars($key); ?>" class="<?php echo (get_default_currency_exchange($c) == $exchange) ? "default-exchange" : ""; ?>"><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></label>
-				</li>
-				<?php
-			}
-			?>
-			</ul>
-			</div>
-		</div>
-	</li>
+      <div class="collapse-target">
+      <?php echo ht("Instead of the default exchange, use the following exchanges:"); ?>
+      <ul>
+      <?php foreach ($exchanges as $exchange => $key) {
+        ?>
+        <li>
+          <input type="checkbox" name="exchanges[]" value="<?php echo htmlspecialchars($key); ?>" id="exchanges_<?php echo htmlspecialchars($key); ?>"<?php echo isset($summaries[$key]) ? " checked" : ""; ?>>
+          <label for="exchanges_<?php echo htmlspecialchars($key); ?>" class="<?php echo (get_default_currency_exchange($c) == $exchange) ? "default-exchange" : ""; ?>"><?php echo htmlspecialchars(get_exchange_name($exchange)); ?></label>
+        </li>
+        <?php
+      }
+      ?>
+      </ul>
+      </div>
+    </div>
+  </li>
 <?php } ?>
 </ul>
 </div>
@@ -103,10 +103,10 @@ while ($s = $q->fetch()) {
 
 <ul>
 <?php foreach ($commodities as $c) { ?>
-	<li>
-		<input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo isset($summaries["summary_" . $c]) ? " checked" : ""; ?>>
-		<label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
-	</li>
+  <li>
+    <input type="checkbox" name="currencies[]" value="<?php echo htmlspecialchars($c); ?>" id="currencies_<?php echo htmlspecialchars($c); ?>"<?php echo isset($summaries["summary_" . $c]) ? " checked" : ""; ?>>
+    <label for="currencies_<?php echo htmlspecialchars($c); ?>" class="currency_name_<?php echo htmlspecialchars($c); ?>"><?php echo htmlspecialchars(get_currency_name($c)); ?></label>
+  </li>
 <?php } ?>
 </ul>
 </div>

@@ -12,9 +12,9 @@ $messages = array();
 $errors = array();
 
 if (require_post("submit", false)) {
-	$q = db()->prepare("DELETE FROM pending_subscriptions");
-	$q->execute(array());
-	$messages[] = "Deleted all pending subscription and unsubscription requests.";
+  $q = db()->prepare("DELETE FROM pending_subscriptions");
+  $q->execute(array());
+  $messages[] = "Deleted all pending subscription and unsubscription requests.";
 }
 
 page_header("Admin: Pending Subscription Requests", "page_admin_subscribe");
@@ -31,7 +31,7 @@ page_header("Admin: Pending Subscription Requests", "page_admin_subscribe");
 $q = db()->prepare("SELECT users.email FROM pending_subscriptions JOIN users ON pending_subscriptions.user_id=users.id AND is_subscribe=1");
 $q->execute();
 while ($email = $q->fetch()) {
-	echo htmlspecialchars($email['email']) . ", ";
+  echo htmlspecialchars($email['email']) . ", ";
 }
 ?>
 </textarea>
@@ -42,7 +42,7 @@ while ($email = $q->fetch()) {
 $q = db()->prepare("SELECT users.email FROM pending_subscriptions JOIN users ON pending_subscriptions.user_id=users.id AND is_subscribe=0");
 $q->execute();
 while ($email = $q->fetch()) {
-	echo htmlspecialchars($email['email']) . "\n";
+  echo htmlspecialchars($email['email']) . "\n";
 }
 ?>
 </textarea>

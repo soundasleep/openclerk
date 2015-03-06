@@ -15,10 +15,10 @@ $q->execute(array(user_id()));
 $count = $q->fetch();
 
 if ($count['c'] <= 1) {
-	$errors[] = t("Cannot remove that OpenID identity; at least one identity must be defined.");
-	set_temporary_messages($messages);
-	set_temporary_errors($errors);
-	redirect(url_for('user#user_openid'));
+  $errors[] = t("Cannot remove that OpenID identity; at least one identity must be defined.");
+  set_temporary_messages($messages);
+  set_temporary_errors($errors);
+  redirect(url_for('user#user_openid'));
 }
 
 $q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? AND id=? LIMIT 1");

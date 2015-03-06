@@ -20,9 +20,9 @@ set_temporary_errors($errors);
 
 $args = array();
 if (is_array($page_args)) {
-	foreach ($page_args as $key => $value) {
-		$args[$key] = $value;
-	}
+  foreach ($page_args as $key => $value) {
+    $args[$key] = $value;
+  }
 }
 
 redirect(url_for('your_transactions', $args));
