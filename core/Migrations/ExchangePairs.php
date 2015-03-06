@@ -10,10 +10,6 @@ use \Db\Connection;
  */
 class ExchangePairs extends \Db\Migration {
 
-  function __construct($currency) {
-    $this->currency = $currency;
-  }
-
   /**
    * Apply only the current migration.
    * @return true on success or false on failure
