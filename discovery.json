@@ -26,6 +26,13 @@
       "file": "exchanges.json",
       "instanceof": "\\Openclerk\\Currencies\\Exchange"
     },
+    "accounts": {
+      "file": "accounts.json",
+      "instanceof": "\\Account\\AccountType",
+      "instances": {
+        "getMiners": "\\Account\\Miner"
+      }
+    },
     "apis": {
       "file": "apis.json",
       "instanceof": "\\Apis\\Api",

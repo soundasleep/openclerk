@@ -314,6 +314,26 @@ class OpenclerkJobQueuer extends JobQueuer {
       );
     }
 
+    // supported currencies jobs (using the new Accounts framework)
+    foreach (\DiscoveredComponents\Accounts::getKeys() as $key) {
+      $name = "currencies_" . $key;
+      $result[] = array(
+        'job_type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      );
+    }
+
+    // supported hashrates jobs (using the new Accounts framework)
+    foreach (\DiscoveredComponents\Accounts::getMiners() as $key) {
+      $name = "hashrates_" . $key;
+      $result[] = array(
+        'job_type' => $name,
+        'user_id' => get_site_config('system_user_id'),
+        'arg_id' => -1,
+      );
+    }
+
     return $result;
 
   }

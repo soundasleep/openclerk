@@ -438,6 +438,26 @@ class GenericOpenclerkJob implements Job {
           break;
         }
 
+        if (substr($job['job_type'], 0, strlen("currencies_")) === "currencies_") {
+          // address job
+          $exchange = substr($job['job_type'], strlen("currencies_"));
+          if (!in_array($exchange, \DiscoveredComponents\Accounts::getKeys())) {
+            throw new JobException("Account $exchange is not a valid account");
+          }
+          require(__DIR__ . "/../jobs/currencies/discovered.php");
+          break;
+        }
+
+        if (substr($job['job_type'], 0, strlen("hashrates_")) === "hashrates_") {
+          // address job
+          $exchange = substr($job['job_type'], strlen("hashrates_"));
+          if (!in_array($exchange, \DiscoveredComponents\Accounts::getMiners())) {
+            throw new JobException("Account $exchange is not a valid miner");
+          }
+          require(__DIR__ . "/../jobs/hashrates/discovered.php");
+          break;
+        }
+
         // issue #12: unsafe accounts
         if (get_site_config('allow_unsafe')) {
           switch ($job['job_type']) {

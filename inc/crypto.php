@@ -8,6 +8,7 @@
 use \Openclerk\Currencies\Currency;
 use \DiscoveredComponents\Currencies;
 use \DiscoveredComponents\Exchanges;
+use \DiscoveredComponents\Accounts;
 
 /**
  * Allow us to define our own sort order for currency lists.
@@ -162,136 +163,152 @@ function get_blockchain_currencies() {
   return $explorers;
 }
 
+$_get_all_exchanges = null;
 function get_all_exchanges() {
-  $exchanges = array(
-    "mtgox" =>      "Mt.Gox",
-    "bips" =>       "BIPS",   // this is now disabled
-    "litecoinglobal" =>  "Litecoin Global",
-    "litecoinglobal_wallet" => "Litecoin Global (Wallet)",
-    "litecoinglobal_securities" => "Litecoin Global (Securities)",
-    "btct" =>       "BTC Trading Co.",
-    "btct_wallet" =>    "BTC Trading Co. (Wallet)",
-    "btct_securities" => "BTC Trading Co. (Securities)",
-    "cryptostocks" =>   "Cryptostocks",
-    "cryptostocks_wallet" => "Cryptostocks (Wallet)",
-    "cryptostocks_securities" => "Cryptostocks (Securities)",
-    "bitfunder"     => "BitFunder",
-    "bitfunder_wallet"  => "BitFunder (Wallet)",
-    "bitfunder_securities" => "BitFunder (Securities)",
-    "individual_litecoinglobal" => "Litecoin Global (Individual Securities)",
-    "individual_btct" => "BTC Trading Co. (Individual Securities)",
-    "individual_bitfunder" => "BitFunder (Individual Securities)",
-    "individual_cryptostocks" => "Cryptostocks (Individual Securities)",
-    "individual_havelock" => "Havelock Investments (Individual Securities)",
-    "individual_crypto-trade" => "Crypto-Trade (Individual Securities)",
-    "individual_796" => "796 Xchange (Individual Securities)",
-    "generic" =>    "Generic API",
-    "offsets" =>    "Offsets",    // generic
-    "blockchain" =>   "Blockchain", // generic
-    "poolx" =>      "Pool-x.eu",
-    "wemineltc" =>    "WeMineLTC",
-    "wemineftc" =>    "WeMineFTC",
-    "givemecoins" =>  "Give Me Coins",
-    "slush" =>      "Slush's pool",
-    "btcguild" =>     "BTC Guild",
-    "50btc" =>      "50BTC",
-    "hypernova" =>    "Hypernova",
-    "ltcmineru" =>    "LTCMine.ru",
-    "miningforeman" =>  "Mining Foreman", // LTC default
-    "miningforeman_ftc" => "Mining Foreman",
-    "khore" =>      "nvc.khore.org",
-    "ghashio" =>    "GHash.io",
-    "crypto-trade_securities" => "Crypto-Trade (Securities)",
-    "havelock" =>     "Havelock Investments",
-    "havelock_wallet" => "Havelock Investments (Wallet)",
-    "havelock_securities" => "Havelock Investments (Securities)",
-    "bitminter" =>    "BitMinter",
-    "liteguardian" =>   "LiteGuardian",
-    "796" =>      "796 Xchange",
-    "796_wallet" =>   "796 Xchange (Wallet)",
-    "796_securities" => "796 Xchange (Securities)",
-    "kattare" =>    "ltc.kattare.com",
-    "litepooleu" =>   "Litepool",
-    "coinhuntr" =>    "CoinHuntr",
-    "eligius" =>    "Eligius",
-    "lite_coinpool" =>  "lite.coin-pool.com",
-    "beeeeer" =>    "b(e^5)r.org",
-    "litecoinpool" => "litecoinpool.org",
-    "dogepoolpw" =>   "dogepool.pw",
-    "elitistjerks" => "Elitist Jerks",
-    "dogechainpool" =>  "Dogechain Pool",
-    "hashfaster" =>   "HashFaster", // for labels, accounts actually use hashfaster_cur
-    "hashfaster_ltc" => "HashFaster",
-    "hashfaster_ftc" => "HashFaster",
-    "hashfaster_doge" => "HashFaster",
-    "triplemining" => "TripleMining",
-    "ozcoin" =>     "Ozcoin", // for labels, accounts actually use hashfaster_cur
-    "ozcoin_ltc" =>   "Ozcoin",
-    "ozcoin_btc" =>   "Ozcoin",
-    "scryptpools" =>  "scryptpools.com",
-    "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
-    "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
-    "justcoin" =>   "Justcoin",
-    "multipool" =>    "Multipool",
-    "ypool" =>      "ypool.net",
-    "litecoininvest" => "Litecoininvest",
-    "litecoininvest_wallet" => "Litecoininvest (Wallet)",
-    "litecoininvest_securities" => "Litecoininvest (Securities)",
-    "individual_litecoininvest" => "Litecoininvest (Individual Securities)",
-    "btcinve" => "BTCInve",
-    "btcinve_wallet" => "BTCInve (Wallet)",
-    "btcinve_securities" => "BTCInve (Securities)",
-    "individual_btcinve" => "BTCInve (Individual Securities)",
-    "miningpoolco" => "MiningPool.co",
-    "vaultofsatoshi" => "Vault of Satoshi",
-    "smalltimeminer" => "Small Time Miner",
-    "smalltimeminer_mec" => "Small Time Miner",
-    "ecoining" => "Ecoining",
-    "ecoining_ppc" => "Ecoining",
-    "teamdoge" => "TeamDoge",
-    "dedicatedpool" => "dedicatedpool.com",
-    "dedicatedpool_doge" => "dedicatedpool.com",
-    "nut2pools" => "Nut2Pools",
-    "nut2pools_ftc" => "Nut2Pools",
-    "shibepool" => "Shibe Pool",
-    "cryptopools" => "CryptoPools",
-    "cryptopools_dgc" => "CryptoPools",
-    "d2" => "d2",
-    "d2_wdc" => "d2",
-    "scryptguild" => "ScryptGuild",
-    "average" => "Market Average",
-    "rapidhash" => "RapidHash",
-    "rapidhash_doge" => "RapidHash",
-    "rapidhash_vtc" => "RapidHash",
-    "cryptotroll" => "Cryptotroll",
-    "cryptotroll_doge" => "Cryptotroll",
-    "mintpal" => "MintPal",
-    "mupool" => "MuPool",
-    "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
-    "nicehash" => "NiceHash",
-    "westhash" => "WestHash",
-    "eobot" => "Eobot",
-    "hashtocoins" => "Hash-to-Coins",
-    "btclevels" => "BTClevels",
+  global $_get_all_exchanges;
+  if ($_get_all_exchanges === null) {
 
-    // for failing server jobs
-    "securities_havelock" => "Havelock Investments security",
-    "securities_796" => "796 Xchange security",
-    "securities_litecoininvest" => "Litecoininvest security",
-  );
+    $exchanges = array(
+      "mtgox" =>      "Mt.Gox",
+      "bips" =>       "BIPS",   // this is now disabled
+      "litecoinglobal" =>  "Litecoin Global",
+      "litecoinglobal_wallet" => "Litecoin Global (Wallet)",
+      "litecoinglobal_securities" => "Litecoin Global (Securities)",
+      "btct" =>       "BTC Trading Co.",
+      "btct_wallet" =>    "BTC Trading Co. (Wallet)",
+      "btct_securities" => "BTC Trading Co. (Securities)",
+      "cryptostocks" =>   "Cryptostocks",
+      "cryptostocks_wallet" => "Cryptostocks (Wallet)",
+      "cryptostocks_securities" => "Cryptostocks (Securities)",
+      "bitfunder"     => "BitFunder",
+      "bitfunder_wallet"  => "BitFunder (Wallet)",
+      "bitfunder_securities" => "BitFunder (Securities)",
+      "individual_litecoinglobal" => "Litecoin Global (Individual Securities)",
+      "individual_btct" => "BTC Trading Co. (Individual Securities)",
+      "individual_bitfunder" => "BitFunder (Individual Securities)",
+      "individual_cryptostocks" => "Cryptostocks (Individual Securities)",
+      "individual_havelock" => "Havelock Investments (Individual Securities)",
+      "individual_crypto-trade" => "Crypto-Trade (Individual Securities)",
+      "individual_796" => "796 Xchange (Individual Securities)",
+      "generic" =>    "Generic API",
+      "offsets" =>    "Offsets",    // generic
+      "blockchain" =>   "Blockchain", // generic
+      "poolx" =>      "Pool-x.eu",
+      "wemineltc" =>    "WeMineLTC",
+      "wemineftc" =>    "WeMineFTC",
+      "givemecoins" =>  "Give Me Coins",
+      "btcguild" =>     "BTC Guild",
+      "50btc" =>      "50BTC",
+      "hypernova" =>    "Hypernova",
+      "ltcmineru" =>    "LTCMine.ru",
+      "miningforeman" =>  "Mining Foreman", // LTC default
+      "miningforeman_ftc" => "Mining Foreman",
+      "khore" =>      "nvc.khore.org",
+      "ghashio" =>    "GHash.io",
+      "crypto-trade_securities" => "Crypto-Trade (Securities)",
+      "havelock" =>     "Havelock Investments",
+      "havelock_wallet" => "Havelock Investments (Wallet)",
+      "havelock_securities" => "Havelock Investments (Securities)",
+      "bitminter" =>    "BitMinter",
+      "liteguardian" =>   "LiteGuardian",
+      "796" =>      "796 Xchange",
+      "796_wallet" =>   "796 Xchange (Wallet)",
+      "796_securities" => "796 Xchange (Securities)",
+      "kattare" =>    "ltc.kattare.com",
+      "litepooleu" =>   "Litepool",
+      "coinhuntr" =>    "CoinHuntr",
+      "eligius" =>    "Eligius",
+      "lite_coinpool" =>  "lite.coin-pool.com",
+      "beeeeer" =>    "b(e^5)r.org",
+      "litecoinpool" => "litecoinpool.org",
+      "dogepoolpw" =>   "dogepool.pw",
+      "elitistjerks" => "Elitist Jerks",
+      "dogechainpool" =>  "Dogechain Pool",
+      "hashfaster" =>   "HashFaster", // for labels, accounts actually use hashfaster_cur
+      "hashfaster_ltc" => "HashFaster",
+      "hashfaster_ftc" => "HashFaster",
+      "hashfaster_doge" => "HashFaster",
+      "triplemining" => "TripleMining",
+      "ozcoin" =>     "Ozcoin", // for labels, accounts actually use hashfaster_cur
+      "ozcoin_ltc" =>   "Ozcoin",
+      "ozcoin_btc" =>   "Ozcoin",
+      "scryptpools" =>  "scryptpools.com",
+      "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
+      "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
+      "justcoin" =>   "Justcoin",
+      "multipool" =>    "Multipool",
+      "ypool" =>      "ypool.net",
+      "litecoininvest" => "Litecoininvest",
+      "litecoininvest_wallet" => "Litecoininvest (Wallet)",
+      "litecoininvest_securities" => "Litecoininvest (Securities)",
+      "individual_litecoininvest" => "Litecoininvest (Individual Securities)",
+      "btcinve" => "BTCInve",
+      "btcinve_wallet" => "BTCInve (Wallet)",
+      "btcinve_securities" => "BTCInve (Securities)",
+      "individual_btcinve" => "BTCInve (Individual Securities)",
+      "miningpoolco" => "MiningPool.co",
+      "vaultofsatoshi" => "Vault of Satoshi",
+      "smalltimeminer" => "Small Time Miner",
+      "smalltimeminer_mec" => "Small Time Miner",
+      "ecoining" => "Ecoining",
+      "ecoining_ppc" => "Ecoining",
+      "teamdoge" => "TeamDoge",
+      "dedicatedpool" => "dedicatedpool.com",
+      "dedicatedpool_doge" => "dedicatedpool.com",
+      "nut2pools" => "Nut2Pools",
+      "nut2pools_ftc" => "Nut2Pools",
+      "shibepool" => "Shibe Pool",
+      "cryptopools" => "CryptoPools",
+      "cryptopools_dgc" => "CryptoPools",
+      "d2" => "d2",
+      "d2_wdc" => "d2",
+      "scryptguild" => "ScryptGuild",
+      "average" => "Market Average",
+      "rapidhash" => "RapidHash",
+      "rapidhash_doge" => "RapidHash",
+      "rapidhash_vtc" => "RapidHash",
+      "cryptotroll" => "Cryptotroll",
+      "cryptotroll_doge" => "Cryptotroll",
+      "mintpal" => "MintPal",
+      "mupool" => "MuPool",
+      "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
+      "nicehash" => "NiceHash",
+      "westhash" => "WestHash",
+      "eobot" => "Eobot",
+      "hashtocoins" => "Hash-to-Coins",
+      "btclevels" => "BTClevels",
 
-  // add discovered exchanges
-  foreach (Exchanges::getAllInstances() as $key => $exchange) {
-    $exchanges[$key] = $exchange->getName();
+      // for failing server jobs
+      "securities_havelock" => "Havelock Investments security",
+      "securities_796" => "796 Xchange security",
+      "securities_litecoininvest" => "Litecoininvest security",
+    );
+
+    // add discovered exchanges
+    foreach (Exchanges::getAllInstances() as $key => $exchange) {
+      $exchanges[$key] = $exchange->getName();
+    }
+
+    // add discovered accounts
+    foreach (Accounts::getAllInstances() as $key => $account) {
+      $exchanges[$key] = $account->getName();
+    }
+
+    $_get_all_exchanges = $exchanges;
   }
 
-  return $exchanges;
+  return $_get_all_exchanges;
 }
 
 function get_exchange_name($n) {
   if (in_array($n, Exchanges::getKeys())) {
     $exchange = Exchanges::getInstance($n);
     return $exchange->getName();
+  }
+
+  if (in_array($n, Accounts::getKeys())) {
+    $account = Accounts::getInstance($n);
+    return $account->getName();
   }
 
   $exchanges = get_all_exchanges();
@@ -400,7 +417,7 @@ function get_new_security_exchanges() {
  * Does not include disabled accounts or exchanges
  */
 function get_supported_wallets() {
-  return array(
+  $wallets = array(
     // alphabetically sorted, except for generic
     "50btc" => array('btc', 'hash'),
     "796" => array('btc', 'ltc', 'usd'),
@@ -450,7 +467,6 @@ function get_supported_wallets() {
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
     "poolx" => array('ltc', 'hash'),
     "scryptpools" => array('dog', 'hash'),
-    "slush" => array('btc', 'nmc', 'hash'),
     "teamdoge" => array('dog', 'hash'),
     "triplemining" => array('btc', 'hash'),
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
@@ -461,6 +477,26 @@ function get_supported_wallets() {
     "ypool" => array('ltc', 'xpm', 'dog'),  // also pts
     "generic" => get_all_currencies(),
   );
+
+  // add all discovered pairs
+  foreach (Accounts::getAllInstances() as $key => $exchange) {
+    $persistent = new \Core\PersistentAccountType($exchange, db());
+    $result = array();
+    foreach ($persistent->getSupportedCurrencies() as $currency) {
+      if (in_array($currency, get_all_currencies())) {
+        $result[] = $currency;
+      }
+    }
+
+    $wallets[$key] = $result;
+  }
+
+  // and add in hash currencies (temporary; eventually we want to remove 'hash' from this return result)
+  foreach (Accounts::getMiners() as $key) {
+    $wallets[$key][] = 'hash';
+  }
+
+  return $wallets;
 }
 
 // get all supported wallets that are safe w.r.t. allow_unsafe
