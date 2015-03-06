@@ -705,6 +705,7 @@ function get_crypto_conversion_summary_types() {
  */
 function account_data_grouped() {
   $addresses_data = array();
+  $mining_pools_data = array();
 
   // we can generate this automatically
   foreach (get_address_currencies() as $cur) {
@@ -720,9 +721,18 @@ function account_data_grouped() {
     );
   }
 
+  foreach (Accounts::getMiners() as $exchange) {
+    $mining_pools_data[$exchange] = array(
+      'table' => 'accounts_' . $exchange,
+      'group' => 'accounts',
+      'wizard' => 'pools',
+      'failure' => true,
+    );
+  }
+
   $data = array(
     'Addresses' => $addresses_data,
-    'Mining pools' => array(
+    'Mining pools' => array_merge($mining_pools_data, array(
       '50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -767,7 +777,6 @@ function account_data_grouped() {
       'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
       'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -775,7 +784,7 @@ function account_data_grouped() {
       'wemineltc' => array('table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'westhash' => array('table' => 'accounts_westhash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-    ),
+    )),
     'Exchanges' => array(
       'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
@@ -943,12 +952,18 @@ function get_external_apis() {
     $exchange_tickers["ticker_" . $key] = $link;
   }
 
+  $mining_pools = array();
+  foreach (Account::getMiners() as $key) {
+    $instance = Account::getInstance($key);
+    $mining_pools[$key] = link_to($instance->getURL(), $instance->getName());
+  }
+
   $external_apis = array(
     "Address balances" => $external_apis_addresses,
 
     "Block counts" => $external_apis_blockcounts,
 
-    "Mining pool wallets" => array(
+    "Mining pool wallets" => array_merge($mining_pools, array(
       '50btc' => '<a href="https://50btc.com/">50BTC</a>',
       'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
       'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
@@ -981,14 +996,13 @@ function get_external_apis() {
       'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
       'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
       'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
-      'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
       'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
       'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
       'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
       'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
       'westhash' => '<a href="https://www.westhash.com/">WestHash</a>',
       'ypool' => '<a href="http://ypool.net">ypool.net</a>',
-    ),
+    )),
 
     "Exchange wallets" => array(
       'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
@@ -1170,14 +1184,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_poolx',
         'khash' => true,
-      );
-
-    case "slush":
-      return array(
-        'inputs' => array(
-          'api_token' => array('title' => 'API current token', 'callback' => 'is_valid_slush_apitoken'),
-        ),
-        'table' => 'accounts_slush',
       );
 
     case "wemineltc":
@@ -2008,6 +2014,24 @@ function get_accounts_wizard_config_basic($exchange) {
       );
 
     default:
+      // --- discovered accounts ---
+      if (Accounts::hasKey($exchange)) {
+        $account = Accounts::getInstance($exchange);
+
+        $inputs = array();
+        foreach ($account->getFields() as $key => $field) {
+          $inputs[$key] = array(
+            'title' => $field['title'],
+            'callback' => array(new AccountFieldCheck($field), 'check'),
+          );
+        }
+
+        return array(
+          'inputs' => $inputs,
+          'table' => 'accounts_' . $exchange,
+        );
+      }
+
       // --- offsets ---
       if (substr($exchange, 0, strlen("offset_")) === "offset_") {
         $cur = substr($exchange, strlen("offset_"));
@@ -2024,6 +2048,24 @@ function get_accounts_wizard_config_basic($exchange) {
       }
 
       throw new Exception("Unknown accounts type '$exchange'");
+  }
+}
+
+/**
+ * Helper class to implement field checks for account field types.
+ */
+class AccountFieldCheck {
+  function __construct($field) {
+    $this->field = $field;
+  }
+
+  function check($value) {
+    if (isset($this->field['regexp'])) {
+      if (!preg_match($this->field['regexp'], $value)) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 
@@ -2522,11 +2564,6 @@ function is_valid_vircurex_apiusername($key) {
 function is_valid_vircurex_apisecret($key) {
   // this could probably be in any format but should be at least one character
   return strlen($key) >= 1 && strlen($key) <= 255;
-}
-
-function is_valid_slush_apitoken($key) {
-  // not sure what the format is, but it looks to be [user-id]-[random 32 hex characters]
-  return preg_match("#^[0-9]+-[0-9a-f]{32}$#", $key);
 }
 
 function is_valid_havelock_apikey($key) {
