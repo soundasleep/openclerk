@@ -80,7 +80,7 @@ Openclerk\Config::merge(array(
   "performance_metrics_slow_curl" => 2000,    // keep track of curl URLs that take on average longer than this many ms
   "performance_metrics_repeated_curl" => 2,   // keep track of curl URLs that occur more than this many times in a page/request
   // job control
-  "jobs_enabled" => true,     // disable when performing upgrades
+  "jobs_enabled" => !file_exists(__DIR__ . "/../deploy.lock"),     // disable when performing upgrades
   "maximum_jobs_running" => 20,       // issue #128: don't run more than this many jobs at once (except for forced jobs)
   "sleep_btce_ticker" => 5,   // how many seconds to wait between repeated btc-e ticker queries
   "sleep_bit2c_ticker" => 5,
