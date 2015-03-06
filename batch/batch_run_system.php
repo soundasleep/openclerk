@@ -31,6 +31,10 @@ class OpenclerkJobRunnerSystem extends \Core\OpenclerkJobRunner {
    * Find a job that belongs to the system user.
    */
   function findJob(Connection $db, Logger $logger) {
+    if ($this->isJobsDisabled($logger)) {
+      return false;
+    }
+
     $q = $db->prepare("SELECT * FROM jobs WHERE user_id = ? AND " . $this->defaultFindJobQuery() . " LIMIT 1");
     $q->execute(array(get_site_config('system_user_id')));
     return $q->fetch();

@@ -24,6 +24,10 @@ class OpenclerkJobRunner extends JobRunner {
    * If we have a ?job_id parameter, then select only this job
    */
   function findJob(Connection $db, Logger $logger) {
+    if ($this->isJobsDisabled($logger)) {
+      return false;
+    }
+
     if (require_get("job_id", false)) {
       $q = $db->prepare("SELECT * FROM jobs WHERE id=? LIMIT 1");
       $q->execute(array(require_get("job_id")));
@@ -32,6 +36,14 @@ class OpenclerkJobRunner extends JobRunner {
     } else {
       return parent::findJob($db, $logger);
     }
+  }
+
+  function isJobsDisabled(Logger $logger) {
+    if (!get_site_config('jobs_enabled')) {
+      $logger->info("Running jobs is disabled");
+      return true;
+    }
+    return false;
   }
 
 }
