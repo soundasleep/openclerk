@@ -7,6 +7,9 @@ use \Openclerk\Jobs\Job;
 use \Db\Connection;
 use \Monolog\Logger;
 use \Core\MyLogger;
+use \DiscoveredComponents\Accounts;
+use \DiscoveredComponents\Currencies;
+use \DiscoveredComponents\Exchanges;
 
 class OpenclerkJobQueuer extends JobQueuer {
 
@@ -45,10 +48,20 @@ class OpenclerkJobQueuer extends JobQueuer {
       );
     }
 
+    // account jobs are now named in common patterns
+    $account_jobs = array();
+    foreach (Accounts::getKeys() as $exchange) {
+      $account_jobs[] = array(
+        'table' => 'accounts_' . $exchange,
+        'type' => 'account_' . $exchange,
+        'failure' => true,
+      );
+    }
+
     // standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
     // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
     // if no 'user_id' is specified, then the user will also be checked for disable status
-    $standard_jobs = array_merge($ticker_jobs, $address_jobs, array(
+    $standard_jobs = array_merge($ticker_jobs, $address_jobs, $account_jobs, array(
       array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
       array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
       array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
@@ -57,7 +70,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_wemineltc', 'type' => 'wemineltc', 'failure' => true),
       array('table' => 'accounts_wemineftc', 'type' => 'wemineftc', 'failure' => true),
       array('table' => 'accounts_givemecoins', 'type' => 'givemecoins', 'failure' => true),
-      array('table' => 'accounts_slush', 'type' => 'slush', 'failure' => true),
       array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks', 'failure' => true),
       array('table' => 'securities_cryptostocks', 'type' => 'securities_cryptostocks', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
       array('table' => 'accounts_btcguild', 'type' => 'btcguild', 'failure' => true),

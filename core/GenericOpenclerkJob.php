@@ -458,6 +458,16 @@ class GenericOpenclerkJob implements Job {
           break;
         }
 
+        if (substr($job['job_type'], 0, strlen("account_")) === "account_") {
+          // address job
+          $exchange = substr($job['job_type'], strlen("account_"));
+          if (!in_array($exchange, \DiscoveredComponents\Accounts::getKeys())) {
+            throw new JobException("Account $exchange is not a valid account");
+          }
+          require(__DIR__ . "/../jobs/account/discovered.php");
+          break;
+        }
+
         // issue #12: unsafe accounts
         if (get_site_config('allow_unsafe')) {
           switch ($job['job_type']) {
