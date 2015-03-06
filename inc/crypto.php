@@ -953,8 +953,8 @@ function get_external_apis() {
   }
 
   $mining_pools = array();
-  foreach (Account::getMiners() as $key) {
-    $instance = Account::getInstance($key);
+  foreach (Accounts::getMiners() as $key) {
+    $instance = Accounts::getInstance($key);
     $mining_pools[$key] = link_to($instance->getURL(), $instance->getName());
   }
 
