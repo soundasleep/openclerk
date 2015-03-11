@@ -208,7 +208,6 @@ function get_all_exchanges() {
       "havelock" =>     "Havelock Investments",
       "havelock_wallet" => "Havelock Investments (Wallet)",
       "havelock_securities" => "Havelock Investments (Securities)",
-      "bitminter" =>    "BitMinter",
       "liteguardian" =>   "LiteGuardian",
       "796" =>      "796 Xchange",
       "796_wallet" =>   "796 Xchange (Wallet)",
@@ -218,7 +217,6 @@ function get_all_exchanges() {
       "coinhuntr" =>    "CoinHuntr",
       "eligius" =>    "Eligius",
       "lite_coinpool" =>  "lite.coin-pool.com",
-      "beeeeer" =>    "b(e^5)r.org",
       "litecoinpool" => "litecoinpool.org",
       "dogepoolpw" =>   "dogepool.pw",
       "elitistjerks" => "Elitist Jerks",
@@ -422,7 +420,6 @@ function get_supported_wallets() {
     "anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),   // also hkd, sgd, jpy, chf
     "bit2c" => array('btc', 'ltc', 'ils'),
     "bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
-    "bitminter" => array('btc', 'nmc', 'hash'),
     "bitnz" => array('btc', 'nzd'),
     "bitstamp" => array('btc', 'usd'),
     "bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd', 'via'),  // and others, used in jobs/bittrex.php
@@ -736,8 +733,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'cryptopools_dgc' => array('table' => 'accounts_cryptopools_dgc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptopools', 'suffix' => ' DGC'),
@@ -970,7 +965,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
       'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
       'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
       'cryptopools_dgc' => '<a href="http://dgc.cryptopools.com/">CryptoPools</a> (DGC)',
@@ -1265,14 +1259,6 @@ function get_accounts_wizard_config_basic($exchange) {
         'title_key' => 'miningforeman',
       );
 
-    case "bitminter":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitminter_apikey'),
-        ),
-        'table' => 'accounts_bitminter',
-      );
-
     case "liteguardian":
       return array(
         'inputs' => array(
@@ -1333,14 +1319,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_lite_coinpool',
         'khash' => true,
-      );
-
-    case "beeeeer":
-      return array(
-        'inputs' => array(
-          'xpm_address' => array('title' => 'XPM Address', 'callback' => 'is_valid_xpm_address'),
-        ),
-        'table' => 'accounts_beeeeer',
       );
 
     case "litecoinpool":
@@ -2591,11 +2569,6 @@ function is_valid_ltcmineru_apikey($key) {
 function is_valid_generic_key($key) {
   // this could probably be in any format but should be at least one character
   return strlen($key) >= 1 && strlen($key) <= 255;
-}
-
-function is_valid_bitminter_apikey($key) {
-  // looks like a 32 character alphanumeric uppercase string
-  return strlen($key) == 32 && preg_match("#^[A-Z0-9]+$#", $key);
 }
 
 function is_valid_liteguardian_apikey($key) {
