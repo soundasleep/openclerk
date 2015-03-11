@@ -20,15 +20,19 @@ if (!$account) {
 	throw new JobException("Cannot find an account " . $job['arg_id'] . " for user " . $job['user_id']);
 }
 
+$factory = new \Core\DiscoveredCurrencyFactory();
 $instance = \DiscoveredComponents\Accounts::getInstance($exchange);
 
 // normal balances
-$balances = $instance->fetchBalances($account, $logger);
+$balances = $instance->fetchBalances($account, $factory, $logger);
 foreach ($balances as $currency => $balance) {
-  insert_new_balance($job, $account, $exchange, $currency, $balance['confirmed']);
+  // only store currencies we are actually interested in
+  if (in_array($currency, \DiscoveredComponents\Currencies::getKeys())) {
+    insert_new_balance($job, $account, $exchange, $currency, $balance['confirmed']);
 
-  // hashrate balances
-  if (isset($balance['hashrate'])) {
-    insert_new_hashrate($job, $account, $exchange, $currency, $balance['hashrate']);
+    // hashrate balances
+    if (isset($balance['hashrate'])) {
+      insert_new_hashrate($job, $account, $exchange, $currency, $balance['hashrate']);
+    }
   }
 }

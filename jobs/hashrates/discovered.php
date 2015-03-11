@@ -8,8 +8,9 @@ if (!$exchange) {
   throw new JobException("No exchange defined");
 }
 
+$factory = new \Core\DiscoveredCurrencyFactory();
 $instance = \DiscoveredComponents\Accounts::getInstance($exchange);
-$currencies = $instance->fetchSupportedHashrateCurrencies($logger);
+$currencies = $instance->fetchSupportedHashrateCurrencies($factory, $logger);
 
 $logger->info("Found " . count($currencies) . " hashrate currencies: " . implode(", ", $currencies));
 

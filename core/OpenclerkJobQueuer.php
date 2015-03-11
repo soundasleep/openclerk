@@ -51,11 +51,13 @@ class OpenclerkJobQueuer extends JobQueuer {
     // account jobs are now named in common patterns
     $account_jobs = array();
     foreach (Accounts::getKeys() as $exchange) {
-      $account_jobs[] = array(
-        'table' => 'accounts_' . $exchange,
-        'type' => 'account_' . $exchange,
-        'failure' => true,
-      );
+      if (!in_array($exchange, \DiscoveredComponents\Accounts::getDisabled())) {
+        $account_jobs[] = array(
+          'table' => 'accounts_' . $exchange,
+          'type' => 'account_' . $exchange,
+          'failure' => true,
+        );
+      }
     }
 
     // standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
@@ -317,22 +319,26 @@ class OpenclerkJobQueuer extends JobQueuer {
 
     // supported currencies jobs (using the new Accounts framework)
     foreach (\DiscoveredComponents\Accounts::getKeys() as $key) {
-      $name = "currencies_" . $key;
-      $result[] = array(
-        'job_type' => $name,
-        'user_id' => get_site_config('system_user_id'),
-        'arg_id' => -1,
-      );
+      if (!in_array($key, \DiscoveredComponents\Accounts::getDisabled())) {
+        $name = "currencies_" . $key;
+        $result[] = array(
+          'job_type' => $name,
+          'user_id' => get_site_config('system_user_id'),
+          'arg_id' => -1,
+        );
+      }
     }
 
     // supported hashrates jobs (using the new Accounts framework)
     foreach (\DiscoveredComponents\Accounts::getMiners() as $key) {
-      $name = "hashrates_" . $key;
-      $result[] = array(
-        'job_type' => $name,
-        'user_id' => get_site_config('system_user_id'),
-        'arg_id' => -1,
-      );
+      if (!in_array($key, \DiscoveredComponents\Accounts::getDisabled())) {
+        $name = "hashrates_" . $key;
+        $result[] = array(
+          'job_type' => $name,
+          'user_id' => get_site_config('system_user_id'),
+          'arg_id' => -1,
+        );
+      }
     }
 
     return $result;
