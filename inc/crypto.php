@@ -218,7 +218,6 @@ function get_all_exchanges() {
       "litecoinpool" => "litecoinpool.org",
       "dogepoolpw" =>   "dogepool.pw",
       "elitistjerks" => "Elitist Jerks",
-      "dogechainpool" =>  "Dogechain Pool",
       "hashfaster" =>   "HashFaster", // for labels, accounts actually use hashfaster_cur
       "hashfaster_ltc" => "HashFaster",
       "hashfaster_ftc" => "HashFaster",
@@ -718,7 +717,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'ecoining_ppc' => array('table' => 'accounts_ecoining_ppc', 'group' => 'accounts', 'suffix' => ' Peercoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ecoining'),
       'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -1301,15 +1299,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_elitistjerks_apikey'),
         ),
         'table' => 'accounts_elitistjerks',
-        'khash' => true,
-      );
-
-    case "dogechainpool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_dogechainpool_apikey'),
-        ),
-        'table' => 'accounts_dogechainpool',
         'khash' => true,
       );
 
@@ -2562,11 +2551,6 @@ function is_valid_dogepoolpw_apikey($key) {
 }
 
 function is_valid_elitistjerks_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_dogechainpool_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
