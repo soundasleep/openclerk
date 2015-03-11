@@ -248,8 +248,6 @@ function get_all_exchanges() {
       "ecoining" => "Ecoining",
       "ecoining_ppc" => "Ecoining",
       "teamdoge" => "TeamDoge",
-      "dedicatedpool" => "dedicatedpool.com",
-      "dedicatedpool_doge" => "dedicatedpool.com",
       "nut2pools" => "Nut2Pools",
       "nut2pools_ftc" => "Nut2Pools",
       "shibepool" => "Shibe Pool",
@@ -423,7 +421,6 @@ function get_supported_wallets() {
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
-    "dedicatedpool" => array('dog', 'hash'),    // other coins available
     "ecoining" => array('ppc', 'hash'),
     "eligius" => array('btc', 'hash'),    // BTC is paid directly to BTC address but also stored temporarily
     "elitistjerks" => array('ltc', 'hash'),
@@ -721,7 +718,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
       'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'ecoining_ppc' => array('table' => 'accounts_ecoining_ppc', 'group' => 'accounts', 'suffix' => ' Peercoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ecoining'),
@@ -948,7 +944,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
       'ecoining_ppc' => '<a href="https://peercoin.ecoining.com/">Ecoining Peercoin</a>',
       'eligius' => '<a href="http://eligius.st/">Eligius</a>',
       'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
@@ -1444,16 +1439,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_teamdoge',
         'khash' => true,
-      );
-
-    case "dedicatedpool_doge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_dedicatedpool_doge',
-        'title' => 'dedicatedpool.com DOGE account',
-        'title_key' => 'dedicatedpool',
       );
 
     case "nut2pools_ftc":

@@ -105,7 +105,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_vaultofsatoshi', 'type' => 'vaultofsatoshi', 'failure' => true),
       array('table' => 'accounts_ecoining_ppc', 'type' => 'ecoining_ppc', 'failure' => true),
       array('table' => 'accounts_teamdoge', 'type' => 'teamdoge', 'failure' => true),
-      array('table' => 'accounts_dedicatedpool_doge', 'type' => 'dedicatedpool_doge', 'failure' => true),
       array('table' => 'accounts_nut2pools_ftc', 'type' => 'nut2pools_ftc', 'failure' => true),
       array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
       array('table' => 'accounts_kraken', 'type' => 'kraken', 'failure' => true),

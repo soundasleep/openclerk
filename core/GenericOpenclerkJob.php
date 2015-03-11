@@ -201,10 +201,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/teamdoge.php");
         break;
 
-      case "dedicatedpool_doge":
-        require(__DIR__ . "/../jobs/dedicatedpool_doge.php");
-        break;
-
       case "nut2pools_ftc":
         require(__DIR__ . "/../jobs/nut2pools_ftc.php");
         break;
