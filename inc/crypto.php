@@ -198,7 +198,6 @@ function get_all_exchanges() {
       "wemineftc" =>    "WeMineFTC",
       "givemecoins" =>  "Give Me Coins",
       "btcguild" =>     "BTC Guild",
-      "50btc" =>      "50BTC",
       "hypernova" =>    "Hypernova",
       "ltcmineru" =>    "LTCMine.ru",
       "miningforeman" =>  "Mining Foreman", // LTC default
@@ -419,7 +418,6 @@ function get_new_security_exchanges() {
 function get_supported_wallets() {
   $wallets = array(
     // alphabetically sorted, except for generic
-    "50btc" => array('btc', 'hash'),
     "796" => array('btc', 'ltc', 'usd'),
     "anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),   // also hkd, sgd, jpy, chf
     "bit2c" => array('btc', 'ltc', 'ils'),
@@ -480,6 +478,10 @@ function get_supported_wallets() {
 
   // add all discovered pairs
   foreach (Accounts::getAllInstances() as $key => $exchange) {
+    if (in_array($key, Accounts::getDisabled())) {
+      // do not list disabled accounts
+      continue;
+    }
     $persistent = new \Core\PersistentAccountType($exchange, db());
     $result = array();
     foreach ($persistent->getSupportedCurrencies() as $currency) {
@@ -727,13 +729,13 @@ function account_data_grouped() {
       'group' => 'accounts',
       'wizard' => 'pools',
       'failure' => true,
+      'disabled' => in_array($exchange, Accounts::getDisabled()),
     );
   }
 
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      '50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -954,6 +956,10 @@ function get_external_apis() {
 
   $mining_pools = array();
   foreach (Accounts::getMiners() as $key) {
+    if (in_array($key, Accounts::getDisabled())) {
+      // do not list disabled accounts
+      continue;
+    }
     $instance = Accounts::getInstance($key);
     $mining_pools[$key] = link_to($instance->getURL(), $instance->getName());
   }
@@ -964,7 +970,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      '50btc' => '<a href="https://50btc.com/">50BTC</a>',
       'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
       'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
       'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
@@ -1219,14 +1224,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_btcguild_apikey'),
         ),
         'table' => 'accounts_btcguild',
-      );
-
-    case "50btc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_50btc_apikey'),
-        ),
-        'table' => 'accounts_50btc',
       );
 
     case "hypernova":
@@ -2579,11 +2576,6 @@ function is_valid_bips_apikey($key) {
 function is_valid_btcguild_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_50btc_apikey($key) {
-  // looks like a number followed by a 32 character hex string
-  return strlen($key) >= 33 && preg_match("#^[0-9]+\-[a-f0-9]+$#", $key);
 }
 
 function is_valid_hypernova_apikey($key) {

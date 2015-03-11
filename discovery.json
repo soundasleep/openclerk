@@ -30,7 +30,8 @@
       "file": "accounts.json",
       "instanceof": "\\Account\\AccountType",
       "instances": {
-        "getMiners": "\\Account\\Miner"
+        "getMiners": "\\Account\\Miner",
+        "getDisabled": "\\Account\\DisabledAccount"
       }
     },
     "apis": {
