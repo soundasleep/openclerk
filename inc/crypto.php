@@ -260,8 +260,6 @@ function get_all_exchanges() {
       "rapidhash" => "RapidHash",
       "rapidhash_doge" => "RapidHash",
       "rapidhash_vtc" => "RapidHash",
-      "cryptotroll" => "Cryptotroll",
-      "cryptotroll_doge" => "Cryptotroll",
       "mintpal" => "MintPal",
       "mupool" => "MuPool",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
@@ -424,7 +422,6 @@ function get_supported_wallets() {
     "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
     "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
-    "cryptotroll" => array('dog', 'hash'),
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
@@ -726,7 +723,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'cryptotroll_doge' => array('table' => 'accounts_cryptotroll_doge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptotroll', 'suffix' => ' DOGE'),
       'd2_wdc' => array('table' => 'accounts_d2_wdc', 'group' => 'accounts', 'suffix' => ' WDC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'd2'),
       'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
       'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
@@ -955,7 +951,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'cryptotroll_doge' => '<a href="http://doge.cryptotroll.com">Cryptotroll</a> (DOGE)',
       'd2_wdc' => '<a href="https://wdc.d2.cc/">d2</a> (WDC)',
       'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
       'ecoining_ppc' => '<a href="https://peercoin.ecoining.com/">Ecoining Peercoin</a>',
@@ -1522,16 +1517,6 @@ function get_accounts_wizard_config_basic($exchange) {
         'table' => 'accounts_rapidhash_vtc',
         'title' => 'RapidHash VTC account',
         'title_key' => 'rapidhash',
-      );
-
-    case "cryptotroll_doge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_cryptotroll_doge',
-        'title' => 'Cryptotroll DOGE account',
-        'title_key' => 'cryptotroll',
       );
 
     case "mupool":
