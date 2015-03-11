@@ -4,5 +4,6 @@
   "\\Core\\Migrations\\DifficultyMigrationGenerator": "\\Core\\Migrations\\DifficultyMigrationGenerator",
   "\\Core\\Migrations\\ExchangePairs": "\\Core\\Migrations\\ExchangePairs",
   "\\Core\\Migrations\\AccountCurrencies": "\\Core\\Migrations\\AccountCurrencies",
-  "\\Core\\Migrations\\AccountHashCurrencies": "\\Core\\Migrations\\AccountHashCurrencies"
+  "\\Core\\Migrations\\AccountHashCurrencies": "\\Core\\Migrations\\AccountHashCurrencies",
+  "\\Core\\Migrations\\RemoveSecuritesUpdateEligius": "\\Core\\Migrations\\RemoveSecuritesUpdateEligius"
 }

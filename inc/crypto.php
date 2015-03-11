@@ -213,7 +213,6 @@ function get_all_exchanges() {
       "796_securities" => "796 Xchange (Securities)",
       "kattare" =>    "ltc.kattare.com",
       "litepooleu" =>   "Litepool",
-      "eligius" =>    "Eligius",
       "lite_coinpool" =>  "lite.coin-pool.com",
       "litecoinpool" => "litecoinpool.org",
       "elitistjerks" => "Elitist Jerks",
@@ -417,7 +416,6 @@ function get_supported_wallets() {
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
-    "eligius" => array('btc', 'hash'),    // BTC is paid directly to BTC address but also stored temporarily
     "elitistjerks" => array('ltc', 'hash'),
     "eobot" => array('btc', 'ltc', 'nmc', 'dog', 'drk', 'ppc', 'nxt', 'hash'),   //  also naut, cure, charity, ghs, scrypt, btsx, sys, ppd
     "ghashio" => array('hash'),   // we only use ghash.io for hashrates
@@ -713,7 +711,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'eobot' => array('table' => 'accounts_eobot', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ghashio' => array('table' => 'accounts_ghashio', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -936,7 +933,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'eligius' => '<a href="http://eligius.st/">Eligius</a>',
       'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
       'eobot' => '<a href="https://www.eobot.com/">Eobot</a>',
       'ghashio' => '<a href="https://ghash.io">GHash.io</a>',
@@ -958,7 +954,6 @@ function get_external_apis() {
       'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
       'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
       'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
-      'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
       'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
       'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
       'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
@@ -1249,14 +1244,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_litepooleu',
         'khash' => true,
-      );
-
-    case "eligius":
-      return array(
-        'inputs' => array(
-          'btc_address' => array('title' => 'BTC Address', 'callback' => array(Currencies::getInstance('btc'), 'isValid')),
-        ),
-        'table' => 'accounts_eligius',
       );
 
     case "lite_coinpool":
