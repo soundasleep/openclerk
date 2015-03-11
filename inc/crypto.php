@@ -253,8 +253,6 @@ function get_all_exchanges() {
       "nut2pools" => "Nut2Pools",
       "nut2pools_ftc" => "Nut2Pools",
       "shibepool" => "Shibe Pool",
-      "d2" => "d2",
-      "d2_wdc" => "d2",
       "scryptguild" => "ScryptGuild",
       "average" => "Market Average",
       "rapidhash" => "RapidHash",
@@ -723,7 +721,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'd2_wdc' => array('table' => 'accounts_d2_wdc', 'group' => 'accounts', 'suffix' => ' WDC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'd2'),
       'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
       'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
@@ -951,7 +948,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'd2_wdc' => '<a href="https://wdc.d2.cc/">d2</a> (WDC)',
       'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
       'ecoining_ppc' => '<a href="https://peercoin.ecoining.com/">Ecoining Peercoin</a>',
       'eligius' => '<a href="http://eligius.st/">Eligius</a>',
@@ -1477,17 +1473,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_shibepool',
         'khash' => true,
-      );
-
-    case "d2_wdc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_d2_wdc',
-        'title' => 'd2 DOGE account',
-        'khash' => true,
-        'title_key' => 'd2',
       );
 
     case "scryptguild":
