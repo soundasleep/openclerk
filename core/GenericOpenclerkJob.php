@@ -233,10 +233,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/westhash.php");
         break;
 
-      case "eobot":
-        require(__DIR__ . "/../jobs/eobot.php");
-        break;
-
       case "hashtocoins":
         require(__DIR__ . "/../jobs/hashtocoins.php");
         break;

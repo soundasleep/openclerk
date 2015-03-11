@@ -255,7 +255,6 @@ function get_all_exchanges() {
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
       "nicehash" => "NiceHash",
       "westhash" => "WestHash",
-      "eobot" => "Eobot",
       "hashtocoins" => "Hash-to-Coins",
       "btclevels" => "BTClevels",
 
@@ -415,7 +414,6 @@ function get_supported_wallets() {
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
-    "eobot" => array('btc', 'ltc', 'nmc', 'dog', 'drk', 'ppc', 'nxt', 'hash'),   //  also naut, cure, charity, ghs, scrypt, btsx, sys, ppd
     "ghashio" => array('hash'),   // we only use ghash.io for hashrates
     "givemecoins" => array('ltc', 'vtc', 'ftc', 'ppc', 'dog', 'hash'),
     "havelock" => array('btc'),
@@ -709,7 +707,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'eobot' => array('table' => 'accounts_eobot', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ghashio' => array('table' => 'accounts_ghashio', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
@@ -930,7 +927,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'eobot' => '<a href="https://www.eobot.com/">Eobot</a>',
       'ghashio' => '<a href="https://ghash.io">GHash.io</a>',
       'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
       'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
@@ -1453,15 +1449,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_westhash',
         'khash' => true,
-      );
-
-    case "eobot":
-      return array(
-        'inputs' => array(
-          'api_id' => array('title' => 'Account ID', 'callback' => 'is_numeric', 'length' => 16),
-        ),
-        'table' => 'accounts_eobot',
-        'khash' => true,    // actually both
       );
 
     case "hashtocoins":
