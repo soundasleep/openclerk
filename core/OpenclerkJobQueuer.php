@@ -86,7 +86,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_kattare', 'type' => 'kattare', 'failure' => true),
       array('table' => 'accounts_litepooleu', 'type' => 'litepooleu', 'failure' => true),
       array('table' => 'accounts_litecoinpool', 'type' => 'litecoinpool', 'failure' => true),
-      array('table' => 'accounts_elitistjerks', 'type' => 'elitistjerks', 'failure' => true),
       array('table' => 'accounts_hashfaster_doge', 'type' => 'hashfaster_doge', 'failure' => true),
       array('table' => 'accounts_hashfaster_ltc', 'type' => 'hashfaster_ltc', 'failure' => true),
       array('table' => 'accounts_hashfaster_ftc', 'type' => 'hashfaster_ftc', 'failure' => true),

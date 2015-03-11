@@ -215,7 +215,6 @@ function get_all_exchanges() {
       "litepooleu" =>   "Litepool",
       "lite_coinpool" =>  "lite.coin-pool.com",
       "litecoinpool" => "litecoinpool.org",
-      "elitistjerks" => "Elitist Jerks",
       "hashfaster" =>   "HashFaster", // for labels, accounts actually use hashfaster_cur
       "hashfaster_ltc" => "HashFaster",
       "hashfaster_ftc" => "HashFaster",
@@ -416,7 +415,6 @@ function get_supported_wallets() {
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
-    "elitistjerks" => array('ltc', 'hash'),
     "eobot" => array('btc', 'ltc', 'nmc', 'dog', 'drk', 'ppc', 'nxt', 'hash'),   //  also naut, cure, charity, ghs, scrypt, btsx, sys, ppd
     "ghashio" => array('hash'),   // we only use ghash.io for hashrates
     "givemecoins" => array('ltc', 'vtc', 'ftc', 'ppc', 'dog', 'hash'),
@@ -711,7 +709,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'eobot' => array('table' => 'accounts_eobot', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ghashio' => array('table' => 'accounts_ghashio', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -933,7 +930,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
       'eobot' => '<a href="https://www.eobot.com/">Eobot</a>',
       'ghashio' => '<a href="https://ghash.io">GHash.io</a>',
       'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
@@ -1261,15 +1257,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litecoinpool_apikey'),
         ),
         'table' => 'accounts_litecoinpool',
-        'khash' => true,
-      );
-
-    case "elitistjerks":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_elitistjerks_apikey'),
-        ),
-        'table' => 'accounts_elitistjerks',
         'khash' => true,
       );
 
@@ -2504,11 +2491,6 @@ function is_valid_lite_coinpool_apikey($key) {
 function is_valid_litecoinpool_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_elitistjerks_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_triplemining_apikey($key) {
