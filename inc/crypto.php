@@ -213,7 +213,6 @@ function get_all_exchanges() {
       "796_securities" => "796 Xchange (Securities)",
       "kattare" =>    "ltc.kattare.com",
       "litepooleu" =>   "Litepool",
-      "coinhuntr" =>    "CoinHuntr",
       "eligius" =>    "Eligius",
       "lite_coinpool" =>  "lite.coin-pool.com",
       "litecoinpool" => "litecoinpool.org",
@@ -425,7 +424,6 @@ function get_supported_wallets() {
     "btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),    // used in jobs/btce.php
     "btclevels" => array('btc'),
     "coinbase" => array('btc'),
-    "coinhuntr" => array('ltc', 'hash'),
     "cryptopools" => array('dgc', 'hash'),    // other coins available
     "cryptostocks" => array('btc', 'ltc'),
     "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
@@ -731,7 +729,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'cryptopools_dgc' => array('table' => 'accounts_cryptopools_dgc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptopools', 'suffix' => ' DGC'),
       'cryptotroll_doge' => array('table' => 'accounts_cryptotroll_doge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptotroll', 'suffix' => ' DOGE'),
       'd2_wdc' => array('table' => 'accounts_d2_wdc', 'group' => 'accounts', 'suffix' => ' WDC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'd2'),
@@ -962,7 +959,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
       'cryptopools_dgc' => '<a href="http://dgc.cryptopools.com/">CryptoPools</a> (DGC)',
       'cryptotroll_doge' => '<a href="http://doge.cryptotroll.com">Cryptotroll</a> (DOGE)',
       'd2_wdc' => '<a href="https://wdc.d2.cc/">d2</a> (WDC)',
@@ -1280,15 +1276,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litepooleu_apikey'),
         ),
         'table' => 'accounts_litepooleu',
-        'khash' => true,
-      );
-
-    case "coinhuntr":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_coinhuntr_apikey'),
-        ),
-        'table' => 'accounts_coinhuntr',
         'khash' => true,
       );
 
@@ -2615,11 +2602,6 @@ function is_valid_796_apisecret($key) {
 }
 
 function is_valid_litepooleu_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_coinhuntr_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }

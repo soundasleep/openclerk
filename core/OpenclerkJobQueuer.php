@@ -85,7 +85,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'securities_796', 'type' => 'securities_796', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
       array('table' => 'accounts_kattare', 'type' => 'kattare', 'failure' => true),
       array('table' => 'accounts_litepooleu', 'type' => 'litepooleu', 'failure' => true),
-      array('table' => 'accounts_coinhuntr', 'type' => 'coinhuntr', 'failure' => true),
       array('table' => 'accounts_eligius', 'type' => 'eligius', 'failure' => true),   // for hashrates; balance is handled by securities_update[eligius]
       array('table' => 'accounts_litecoinpool', 'type' => 'litecoinpool', 'failure' => true),
       array('table' => 'accounts_elitistjerks', 'type' => 'elitistjerks', 'failure' => true),
