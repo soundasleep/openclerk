@@ -197,7 +197,6 @@ function get_all_exchanges() {
       "wemineltc" =>    "WeMineLTC",
       "wemineftc" =>    "WeMineFTC",
       "givemecoins" =>  "Give Me Coins",
-      "btcguild" =>     "BTC Guild",
       "hypernova" =>    "Hypernova",
       "ltcmineru" =>    "LTCMine.ru",
       "miningforeman" =>  "Mining Foreman", // LTC default
@@ -424,7 +423,6 @@ function get_supported_wallets() {
     "bitstamp" => array('btc', 'usd'),
     "bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd', 'via'),  // and others, used in jobs/bittrex.php
     "btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),    // used in jobs/btce.php
-    "btcguild" => array('btc', 'nmc', 'hash'),
     "btclevels" => array('btc'),
     "coinbase" => array('btc'),
     "coinhuntr" => array('ltc', 'hash'),
@@ -733,7 +731,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'cryptopools_dgc' => array('table' => 'accounts_cryptopools_dgc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptopools', 'suffix' => ' DGC'),
       'cryptotroll_doge' => array('table' => 'accounts_cryptotroll_doge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptotroll', 'suffix' => ' DOGE'),
@@ -965,7 +962,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
       'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
       'cryptopools_dgc' => '<a href="http://dgc.cryptopools.com/">CryptoPools</a> (DGC)',
       'cryptotroll_doge' => '<a href="http://doge.cryptotroll.com">Cryptotroll</a> (DOGE)',
@@ -1210,14 +1206,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_givemecoins',
         'khash' => true,
-      );
-
-    case "btcguild":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_btcguild_apikey'),
-        ),
-        'table' => 'accounts_btcguild',
       );
 
     case "hypernova":
@@ -2547,11 +2535,6 @@ function is_valid_havelock_apikey($key) {
 }
 
 function is_valid_bips_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_btcguild_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
