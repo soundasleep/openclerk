@@ -108,7 +108,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_dedicatedpool_doge', 'type' => 'dedicatedpool_doge', 'failure' => true),
       array('table' => 'accounts_nut2pools_ftc', 'type' => 'nut2pools_ftc', 'failure' => true),
       array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
-      array('table' => 'accounts_cryptopools_dgc', 'type' => 'cryptopools_dgc', 'failure' => true),
       array('table' => 'accounts_d2_wdc', 'type' => 'd2_wdc', 'failure' => true),
       array('table' => 'accounts_kraken', 'type' => 'kraken', 'failure' => true),
       array('table' => 'accounts_cryptotroll_doge', 'type' => 'cryptotroll_doge', 'failure' => true),

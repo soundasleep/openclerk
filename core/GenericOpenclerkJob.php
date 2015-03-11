@@ -213,10 +213,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/cryptsy.php");
         break;
 
-      case "cryptopools_dgc":
-        require(__DIR__ . "/../jobs/cryptopools_dgc.php");
-        break;
-
       case "d2_wdc":
         require(__DIR__ . "/../jobs/d2_wdc.php");
         break;

@@ -253,8 +253,6 @@ function get_all_exchanges() {
       "nut2pools" => "Nut2Pools",
       "nut2pools_ftc" => "Nut2Pools",
       "shibepool" => "Shibe Pool",
-      "cryptopools" => "CryptoPools",
-      "cryptopools_dgc" => "CryptoPools",
       "d2" => "d2",
       "d2_wdc" => "d2",
       "scryptguild" => "ScryptGuild",
@@ -424,7 +422,6 @@ function get_supported_wallets() {
     "btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),    // used in jobs/btce.php
     "btclevels" => array('btc'),
     "coinbase" => array('btc'),
-    "cryptopools" => array('dgc', 'hash'),    // other coins available
     "cryptostocks" => array('btc', 'ltc'),
     "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
     "cryptotroll" => array('dog', 'hash'),
@@ -729,7 +726,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'cryptopools_dgc' => array('table' => 'accounts_cryptopools_dgc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptopools', 'suffix' => ' DGC'),
       'cryptotroll_doge' => array('table' => 'accounts_cryptotroll_doge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptotroll', 'suffix' => ' DOGE'),
       'd2_wdc' => array('table' => 'accounts_d2_wdc', 'group' => 'accounts', 'suffix' => ' WDC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'd2'),
       'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
@@ -959,7 +955,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'cryptopools_dgc' => '<a href="http://dgc.cryptopools.com/">CryptoPools</a> (DGC)',
       'cryptotroll_doge' => '<a href="http://doge.cryptotroll.com">Cryptotroll</a> (DOGE)',
       'd2_wdc' => '<a href="https://wdc.d2.cc/">d2</a> (WDC)',
       'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
@@ -1486,16 +1481,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
         ),
         'table' => 'accounts_shibepool',
-        'khash' => true,
-      );
-
-    case "cryptopools_dgc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_cryptopools_dgc',
-        'title' => 'CryptoPools DGC account',
         'khash' => true,
       );
 
