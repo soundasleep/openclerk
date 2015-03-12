@@ -196,7 +196,6 @@ function get_all_exchanges() {
       "poolx" =>      "Pool-x.eu",
       "wemineltc" =>    "WeMineLTC",
       "wemineftc" =>    "WeMineFTC",
-      "ltcmineru" =>    "LTCMine.ru",
       "miningforeman" =>  "Mining Foreman", // LTC default
       "miningforeman_ftc" => "Mining Foreman",
       "crypto-trade_securities" => "Crypto-Trade (Securities)",
@@ -684,7 +683,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'miningforeman' => array('table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
       'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
       'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -1105,15 +1103,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
         ),
         'table' => 'accounts_wemineftc',
-        'khash' => true,
-      );
-
-    case "ltcmineru":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ltcmineru_apikey'),
-        ),
-        'table' => 'accounts_ltcmineru',
         'khash' => true,
       );
 
@@ -2218,11 +2207,6 @@ function is_valid_havelock_apikey($key) {
 function is_valid_bips_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_ltcmineru_apikey($key) {
-  // looks like a username, followed by 32 character hex string
-  return preg_match("#^.+_[a-f0-9]{32}$#", $key);
 }
 
 function is_valid_generic_key($key) {
