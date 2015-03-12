@@ -206,7 +206,6 @@ function get_all_exchanges() {
       "796" =>      "796 Xchange",
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
-      "litepooleu" =>   "Litepool",
       "triplemining" => "TripleMining",
       "ozcoin" =>     "Ozcoin",
       "ozcoin_ltc" =>   "Ozcoin",
@@ -405,7 +404,6 @@ function get_supported_wallets() {
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
-    "litepooleu" => array('ltc', 'hash'),
     "miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),   // and LOTS more; used in jobs/miningpoolco.php
     "multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),    // and LOTS more; used in jobs/multipool.php
     "mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
@@ -686,7 +684,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'litepooleu' => array('table' => 'accounts_litepooleu', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'miningforeman' => array('table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
       'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
@@ -894,7 +891,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
       'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
       'multipool' => '<a href="https://multipool.us/">Multipool</a>',
       'mupool' => '<a href="https://mupool.com/">MuPool</a>',
@@ -1140,15 +1136,6 @@ function get_accounts_wizard_config_basic($exchange) {
         'title' => 'Mining Foreman FTC account',
         'khash' => true,
         'title_key' => 'miningforeman',
-      );
-
-    case "litepooleu":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litepooleu_apikey'),
-        ),
-        'table' => 'accounts_litepooleu',
-        'khash' => true,
       );
 
     case "triplemining":
@@ -2286,11 +2273,6 @@ function is_valid_796_apikey($key) {
 function is_valid_796_apisecret($key) {
   // looks like a 60 character crazy string
   return strlen($key) == 60 && preg_match("#^[A-Za-z0-9\\+\\/]+$#", $key);
-}
-
-function is_valid_litepooleu_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_triplemining_apikey($key) {
