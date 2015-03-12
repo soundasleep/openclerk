@@ -208,7 +208,6 @@ function get_all_exchanges() {
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
       "litepooleu" =>   "Litepool",
-      "litecoinpool" => "litecoinpool.org",
       "triplemining" => "TripleMining",
       "ozcoin" =>     "Ozcoin",
       "ozcoin_ltc" =>   "Ozcoin",
@@ -406,7 +405,6 @@ function get_supported_wallets() {
     "havelock" => array('btc'),
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
-    "litecoinpool" => array('ltc', 'hash'),
     "litecoininvest" => array('ltc'),
     "liteguardian" => array('ltc'),
     "litepooleu" => array('ltc', 'hash'),
@@ -690,7 +688,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'litecoinpool' => array('table' => 'accounts_litecoinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'liteguardian' => array('table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'litepooleu' => array('table' => 'accounts_litepooleu', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
@@ -1164,15 +1161,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litepooleu_apikey'),
         ),
         'table' => 'accounts_litepooleu',
-        'khash' => true,
-      );
-
-    case "litecoinpool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litecoinpool_apikey'),
-        ),
-        'table' => 'accounts_litecoinpool',
         'khash' => true,
       );
 
@@ -2321,11 +2309,6 @@ function is_valid_796_apisecret($key) {
 function is_valid_litepooleu_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_litecoinpool_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_triplemining_apikey($key) {
