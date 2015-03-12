@@ -211,7 +211,6 @@ function get_all_exchanges() {
       "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
       "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
       "justcoin" =>   "Justcoin",
-      "multipool" =>    "Multipool",
       "ypool" =>      "ypool.net",
       "litecoininvest" => "Litecoininvest",
       "litecoininvest_wallet" => "Litecoininvest (Wallet)",
@@ -400,7 +399,6 @@ function get_supported_wallets() {
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
-    "multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),    // and LOTS more; used in jobs/multipool.php
     "mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
     "nicehash" => array('btc'),
     "nut2pools" => array('ftc', 'hash'),
@@ -679,7 +677,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'mupool' => array('table' => 'accounts_mupool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'nicehash' => array('table' => 'accounts_nicehash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'nut2pools_ftc' => array('table' => 'accounts_nut2pools_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'nut2pools'),
@@ -882,7 +879,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'multipool' => '<a href="https://multipool.us/">Multipool</a>',
       'mupool' => '<a href="https://mupool.com/">MuPool</a>',
       'nicehash' => '<a href="https://www.nicehash.com/">NiceHash</a>',
       'nut2pools_ftc' => '<a href="https://ftc.nut2pools.com/">Nut2Pools</a> (FTC)',
@@ -1134,15 +1130,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_scryptpools',
         'khash' => true,
-      );
-
-    case "multipool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_multipool_apikey'),
-        ),
-        'table' => 'accounts_multipool',
-        'khash' => true,    // it's actually both MH/s (BTC) and KH/s (LTC) but we will assume KH/s is more common
       );
 
     case "ypool":
@@ -2255,11 +2242,6 @@ function is_valid_bitcurex_eur_apisecret($key) {
 }
 
 function is_valid_justcoin_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_multipool_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
