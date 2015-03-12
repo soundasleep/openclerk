@@ -234,7 +234,6 @@ function get_all_exchanges() {
       "rapidhash_vtc" => "RapidHash",
       "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
-      "nicehash" => "NiceHash",
       "westhash" => "WestHash",
       "btclevels" => "BTClevels",
 
@@ -398,7 +397,6 @@ function get_supported_wallets() {
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
-    "nicehash" => array('btc'),
     "nut2pools" => array('ftc', 'hash'),
     "ozcoin" => array('ltc', 'btc', 'hash'),
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
@@ -675,7 +673,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'nicehash' => array('table' => 'accounts_nicehash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'nut2pools_ftc' => array('table' => 'accounts_nut2pools_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'nut2pools'),
       'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
       'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
@@ -876,7 +873,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'nicehash' => '<a href="https://www.nicehash.com/">NiceHash</a>',
       'nut2pools_ftc' => '<a href="https://ftc.nut2pools.com/">Nut2Pools</a> (FTC)',
       'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
       'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
@@ -1205,21 +1201,11 @@ function get_accounts_wizard_config_basic($exchange) {
         'title_key' => 'rapidhash',
       );
 
-    case "nicehash":
-      return array(
-        'inputs' => array(
-          'api_id' => array('title' => 'API ID', 'callback' => 'is_numeric', 'length' => 16),
-          'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_nicehash_apikey'),
-        ),
-        'table' => 'accounts_nicehash',
-        'khash' => true,
-      );
-
     case "westhash":
       return array(
         'inputs' => array(
           'api_id' => array('title' => 'API ID', 'callback' => 'is_numeric', 'length' => 16),
-          'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_nicehash_apikey'),
+          'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_westhash_apikey'),
         ),
         'table' => 'accounts_westhash',
         'khash' => true,
@@ -2321,7 +2307,7 @@ function is_valid_bittrex_apikey($key) {
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
-function is_valid_nicehash_apikey($key) {
+function is_valid_westhash_apikey($key) {
   return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
 }
 
