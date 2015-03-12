@@ -196,7 +196,6 @@ function get_all_exchanges() {
       "poolx" =>      "Pool-x.eu",
       "wemineltc" =>    "WeMineLTC",
       "wemineftc" =>    "WeMineFTC",
-      "hypernova" =>    "Hypernova",
       "ltcmineru" =>    "LTCMine.ru",
       "miningforeman" =>  "Mining Foreman", // LTC default
       "miningforeman_ftc" => "Mining Foreman",
@@ -696,7 +695,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'hypernova' => array('table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'lite_coinpool' => array('table' => 'accounts_lite_coinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
@@ -1128,15 +1126,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
         ),
         'table' => 'accounts_wemineftc',
-        'khash' => true,
-      );
-
-    case "hypernova":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_hypernova_apikey'),
-        ),
-        'table' => 'accounts_hypernova',
         'khash' => true,
       );
 
@@ -2304,11 +2293,6 @@ function is_valid_havelock_apikey($key) {
 function is_valid_bips_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_hypernova_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_ltcmineru_apikey($key) {
