@@ -196,8 +196,6 @@ function get_all_exchanges() {
       "poolx" =>      "Pool-x.eu",
       "wemineltc" =>    "WeMineLTC",
       "wemineftc" =>    "WeMineFTC",
-      "miningforeman" =>  "Mining Foreman", // LTC default
-      "miningforeman_ftc" => "Mining Foreman",
       "crypto-trade_securities" => "Crypto-Trade (Securities)",
       "havelock" =>     "Havelock Investments",
       "havelock_wallet" => "Havelock Investments (Wallet)",
@@ -683,8 +681,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'miningforeman' => array('table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
-      'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
       'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'mupool' => array('table' => 'accounts_mupool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -1104,27 +1100,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_wemineftc',
         'khash' => true,
-      );
-
-    case "miningforeman":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_miningforeman',
-        'title' => 'Mining Foreman LTC account',
-        'khash' => true,
-      );
-
-    case "miningforeman_ftc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_miningforeman_ftc',
-        'title' => 'Mining Foreman FTC account',
-        'khash' => true,
-        'title_key' => 'miningforeman',
       );
 
     case "triplemining":
