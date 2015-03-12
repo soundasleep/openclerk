@@ -92,7 +92,6 @@ Openclerk\Config::merge(array(
   "sleep_vaultofsatoshi_ticker" => 5,
   "sleep_kraken_ticker" => 1,
   "sleep_bitmarket_pl_ticker" => 5,
-  "sleep_mupool_balance" => 5,
   "sleep_anxpro_ticker" => 1,
   "sleep_itbit_ticker" => 1,
   "max_job_executions" => 5,  // if a job fails to run more than this number of times, then explicitly mark it as failed

@@ -165,10 +165,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/poloniex.php");
         break;
 
-      case "mupool":
-        require(__DIR__ . "/../jobs/mupool.php");
-        break;
-
       case "anxpro":
         require(__DIR__ . "/../jobs/anxpro.php");
         break;

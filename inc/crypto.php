@@ -233,7 +233,6 @@ function get_all_exchanges() {
       "rapidhash_doge" => "RapidHash",
       "rapidhash_vtc" => "RapidHash",
       "mintpal" => "MintPal",
-      "mupool" => "MuPool",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
       "nicehash" => "NiceHash",
       "westhash" => "WestHash",
@@ -399,7 +398,6 @@ function get_supported_wallets() {
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
-    "mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
     "nicehash" => array('btc'),
     "nut2pools" => array('ftc', 'hash'),
     "ozcoin" => array('ltc', 'btc', 'hash'),
@@ -677,7 +675,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'mupool' => array('table' => 'accounts_mupool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'nicehash' => array('table' => 'accounts_nicehash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'nut2pools_ftc' => array('table' => 'accounts_nut2pools_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'nut2pools'),
       'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
@@ -879,7 +876,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'mupool' => '<a href="https://mupool.com/">MuPool</a>',
       'nicehash' => '<a href="https://www.nicehash.com/">NiceHash</a>',
       'nut2pools_ftc' => '<a href="https://ftc.nut2pools.com/">Nut2Pools</a> (FTC)',
       'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
@@ -1207,15 +1203,6 @@ function get_accounts_wizard_config_basic($exchange) {
         'table' => 'accounts_rapidhash_vtc',
         'title' => 'RapidHash VTC account',
         'title_key' => 'rapidhash',
-      );
-
-    case "mupool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_mupool',
-        'khash' => true,
       );
 
     case "nicehash":
