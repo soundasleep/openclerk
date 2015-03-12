@@ -224,8 +224,6 @@ function get_all_exchanges() {
       "smalltimeminer" => "Small Time Miner",
       "smalltimeminer_mec" => "Small Time Miner",
       "teamdoge" => "TeamDoge",
-      "nut2pools" => "Nut2Pools",
-      "nut2pools_ftc" => "Nut2Pools",
       "shibepool" => "Shibe Pool",
       "scryptguild" => "ScryptGuild",
       "average" => "Market Average",
@@ -397,7 +395,6 @@ function get_supported_wallets() {
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
-    "nut2pools" => array('ftc', 'hash'),
     "ozcoin" => array('ltc', 'btc', 'hash'),
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
     "poolx" => array('ltc', 'hash'),
@@ -673,7 +670,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'nut2pools_ftc' => array('table' => 'accounts_nut2pools_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'nut2pools'),
       'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
       'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
       'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -873,7 +869,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'nut2pools_ftc' => '<a href="https://ftc.nut2pools.com/">Nut2Pools</a> (FTC)',
       'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
       'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
       'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
@@ -1151,16 +1146,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_teamdoge',
         'khash' => true,
-      );
-
-    case "nut2pools_ftc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_nut2pools_ftc',
-        'title' => 'Nut2Pools FTC account',
-        'title_key' => 'nut2pools',
       );
 
     case "shibepool":
