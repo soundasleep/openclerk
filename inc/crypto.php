@@ -213,12 +213,8 @@ function get_all_exchanges() {
       "litepooleu" =>   "Litepool",
       "lite_coinpool" =>  "lite.coin-pool.com",
       "litecoinpool" => "litecoinpool.org",
-      "hashfaster" =>   "HashFaster", // for labels, accounts actually use hashfaster_cur
-      "hashfaster_ltc" => "HashFaster",
-      "hashfaster_ftc" => "HashFaster",
-      "hashfaster_doge" => "HashFaster",
       "triplemining" => "TripleMining",
-      "ozcoin" =>     "Ozcoin", // for labels, accounts actually use hashfaster_cur
+      "ozcoin" =>     "Ozcoin",
       "ozcoin_ltc" =>   "Ozcoin",
       "ozcoin_btc" =>   "Ozcoin",
       "scryptpools" =>  "scryptpools.com",
@@ -413,7 +409,6 @@ function get_supported_wallets() {
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
-    "hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
     "hashtocoins" => array('dog', 'ltc', 'net', 'nvc', 'wdc', 'hash'),
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "khore" => array('nvc', 'hash'),
@@ -703,9 +698,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
-      'hashfaster_ftc' => array('table' => 'accounts_hashfaster_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
-      'hashfaster_ltc' => array('table' => 'accounts_hashfaster_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
       'hashtocoins' => array('table' => 'accounts_hashtocoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'hypernova' => array('table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -921,9 +913,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
-      'hashfaster_ftc' => '<a href="http://ftc.hashfaster.com">HashFaster</a> (FTC)',
-      'hashfaster_ltc' => '<a href="http://ltc.hashfaster.com">HashFaster</a> (LTC)',
       'hashtocoins' => '<a href="https://hash-to-coins.com/">Hash-to-Coins</a>',
       'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
       'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
@@ -1237,39 +1226,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_litecoinpool',
         'khash' => true,
-      );
-
-    case "hashfaster_ltc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_hashfaster_ltc',
-        'title' => 'HashFaster LTC account',
-        'khash' => true,
-        'title_key' => 'hashfaster',
-      );
-
-    case "hashfaster_ftc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_hashfaster_ftc',
-        'title' => 'HashFaster FTC account',
-        'khash' => true,
-        'title_key' => 'hashfaster',
-      );
-
-    case "hashfaster_doge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_hashfaster_doge',
-        'title' => 'HashFaster DOGE account',
-        'khash' => true,
-        'title_key' => 'hashfaster',
       );
 
     case "triplemining":

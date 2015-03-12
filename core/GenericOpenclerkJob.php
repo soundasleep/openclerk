@@ -121,18 +121,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/litecoinpool.php");
         break;
 
-      case "hashfaster_ltc":
-        require(__DIR__ . "/../jobs/hashfaster_ltc.php");
-        break;
-
-      case "hashfaster_ftc":
-        require(__DIR__ . "/../jobs/hashfaster_ftc.php");
-        break;
-
-      case "hashfaster_doge":
-        require(__DIR__ . "/../jobs/hashfaster_doge.php");
-        break;
-
       case "triplemining":
         require(__DIR__ . "/../jobs/triplemining.php");
         break;
