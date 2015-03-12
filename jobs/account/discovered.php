@@ -32,7 +32,7 @@ foreach ($balances as $currency => $balance) {
 
     // hashrate balances
     if (isset($balance['hashrate'])) {
-      insert_new_hashrate($job, $account, $exchange, $currency, $balance['hashrate']);
+      insert_new_hashrate($job, $account, $exchange, $currency, $balance['hashrate'] / 1e6 /* H/s into MH/s */);
     }
   }
 }
