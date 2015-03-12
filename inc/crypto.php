@@ -196,7 +196,6 @@ function get_all_exchanges() {
       "poolx" =>      "Pool-x.eu",
       "wemineltc" =>    "WeMineLTC",
       "wemineftc" =>    "WeMineFTC",
-      "givemecoins" =>  "Give Me Coins",
       "hypernova" =>    "Hypernova",
       "ltcmineru" =>    "LTCMine.ru",
       "miningforeman" =>  "Mining Foreman", // LTC default
@@ -413,7 +412,6 @@ function get_supported_wallets() {
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
-    "givemecoins" => array('ltc', 'vtc', 'ftc', 'ppc', 'dog', 'hash'),
     "havelock" => array('btc'),
     "hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
     "hashtocoins" => array('dog', 'ltc', 'net', 'nvc', 'wdc', 'hash'),
@@ -705,7 +703,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
       'hashfaster_ftc' => array('table' => 'accounts_hashfaster_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
       'hashfaster_ltc' => array('table' => 'accounts_hashfaster_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
@@ -924,7 +921,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
       'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
       'hashfaster_ftc' => '<a href="http://ftc.hashfaster.com">HashFaster</a> (FTC)',
       'hashfaster_ltc' => '<a href="http://ltc.hashfaster.com">HashFaster</a> (LTC)',
@@ -1147,15 +1143,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
         ),
         'table' => 'accounts_wemineftc',
-        'khash' => true,
-      );
-
-    case "givemecoins":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_givemecoins',
         'khash' => true,
       );
 
