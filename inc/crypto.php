@@ -208,7 +208,6 @@ function get_all_exchanges() {
       "796" =>      "796 Xchange",
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
-      "kattare" =>    "ltc.kattare.com",
       "litepooleu" =>   "Litepool",
       "lite_coinpool" =>  "lite.coin-pool.com",
       "litecoinpool" => "litecoinpool.org",
@@ -414,7 +413,6 @@ function get_supported_wallets() {
     "litecoininvest" => array('ltc'),
     "liteguardian" => array('ltc'),
     "litepooleu" => array('ltc', 'hash'),
-    "kattare" => array('ltc', 'hash'),
     "miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),   // and LOTS more; used in jobs/miningpoolco.php
     "multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),    // and LOTS more; used in jobs/multipool.php
     "mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
@@ -695,7 +693,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'lite_coinpool' => array('table' => 'accounts_lite_coinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'litecoinpool' => array('table' => 'accounts_litecoinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -908,7 +905,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
       'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
       'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
       'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
@@ -1174,15 +1170,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_khore_apikey'),
         ),
         'table' => 'accounts_khore',
-        'khash' => true,
-      );
-
-    case "kattare":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_kattare_apikey'),
-        ),
-        'table' => 'accounts_kattare',
         'khash' => true,
       );
 
@@ -2311,11 +2298,6 @@ function is_valid_liteguardian_apikey($key) {
 }
 
 function is_valid_khore_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_kattare_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }

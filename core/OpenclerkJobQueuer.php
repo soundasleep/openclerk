@@ -84,7 +84,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_bitstamp', 'type' => 'bitstamp', 'failure' => true),
       array('table' => 'accounts_796', 'type' => '796', 'failure' => true),
       array('table' => 'securities_796', 'type' => 'securities_796', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
-      array('table' => 'accounts_kattare', 'type' => 'kattare', 'failure' => true),
       array('table' => 'accounts_litepooleu', 'type' => 'litepooleu', 'failure' => true),
       array('table' => 'accounts_litecoinpool', 'type' => 'litecoinpool', 'failure' => true),
       array('table' => 'accounts_triplemining', 'type' => 'triplemining', 'failure' => true),

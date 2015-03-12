@@ -109,10 +109,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/securities_796.php");
         break;
 
-      case "kattare":
-        require(__DIR__ . "/../jobs/kattare.php");
-        break;
-
       case "litepooleu":
         require(__DIR__ . "/../jobs/litepooleu.php");
         break;
