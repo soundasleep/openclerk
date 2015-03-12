@@ -208,7 +208,6 @@ function get_all_exchanges() {
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
       "litepooleu" =>   "Litepool",
-      "lite_coinpool" =>  "lite.coin-pool.com",
       "litecoinpool" => "litecoinpool.org",
       "triplemining" => "TripleMining",
       "ozcoin" =>     "Ozcoin",
@@ -691,7 +690,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'lite_coinpool' => array('table' => 'accounts_lite_coinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'litecoinpool' => array('table' => 'accounts_litecoinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'liteguardian' => array('table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'litepooleu' => array('table' => 'accounts_litepooleu', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -1166,15 +1164,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litepooleu_apikey'),
         ),
         'table' => 'accounts_litepooleu',
-        'khash' => true,
-      );
-
-    case "lite_coinpool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_lite_coinpool_apikey'),
-        ),
-        'table' => 'accounts_lite_coinpool',
         'khash' => true,
       );
 
@@ -2330,11 +2319,6 @@ function is_valid_796_apisecret($key) {
 }
 
 function is_valid_litepooleu_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_lite_coinpool_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
