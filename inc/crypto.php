@@ -249,7 +249,6 @@ function get_all_exchanges() {
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
       "nicehash" => "NiceHash",
       "westhash" => "WestHash",
-      "hashtocoins" => "Hash-to-Coins",
       "btclevels" => "BTClevels",
 
       // for failing server jobs
@@ -409,7 +408,6 @@ function get_supported_wallets() {
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
-    "hashtocoins" => array('dog', 'ltc', 'net', 'nvc', 'wdc', 'hash'),
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "khore" => array('nvc', 'hash'),
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
@@ -698,7 +696,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'hashtocoins' => array('table' => 'accounts_hashtocoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'hypernova' => array('table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -913,7 +910,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'hashtocoins' => '<a href="https://hash-to-coins.com/">Hash-to-Coins</a>',
       'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
       'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
       'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
@@ -1387,15 +1383,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_nicehash_apikey'),
         ),
         'table' => 'accounts_westhash',
-        'khash' => true,
-      );
-
-    case "hashtocoins":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API Key', 'callback' => 'is_valid_hashtocoins_apikey'),
-        ),
-        'table' => 'accounts_hashtocoins',
         'khash' => true,
       );
 
@@ -2547,11 +2534,6 @@ function is_valid_bittrex_apikey($key) {
 
 function is_valid_nicehash_apikey($key) {
   return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
-}
-
-function is_valid_hashtocoins_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_btclevels_apisecret($key) {

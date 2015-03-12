@@ -110,8 +110,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_bittrex', 'type' => 'bittrex', 'failure' => true),
       array('table' => 'accounts_nicehash', 'type' => 'nicehash', 'failure' => true),
       array('table' => 'accounts_westhash', 'type' => 'westhash', 'failure' => true),
-      array('table' => 'accounts_eobot', 'type' => 'eobot', 'failure' => true),
-      array('table' => 'accounts_hashtocoins', 'type' => 'hashtocoins', 'failure' => true),
       array('table' => 'accounts_btclevels', 'type' => 'btclevels', 'failure' => true),
       array('table' => 'accounts_bitnz', 'type' => 'bitnz', 'failure' => true),
 
