@@ -77,10 +77,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/securities_havelock.php");
         break;
 
-      case "liteguardian":
-        require(__DIR__ . "/../jobs/liteguardian.php");
-        break;
-
       case "cexio":
         require(__DIR__ . "/../jobs/cexio.php");
         break;
