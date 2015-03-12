@@ -202,7 +202,6 @@ function get_all_exchanges() {
       "miningforeman" =>  "Mining Foreman", // LTC default
       "miningforeman_ftc" => "Mining Foreman",
       "khore" =>      "nvc.khore.org",
-      "ghashio" =>    "GHash.io",
       "crypto-trade_securities" => "Crypto-Trade (Securities)",
       "havelock" =>     "Havelock Investments",
       "havelock_wallet" => "Havelock Investments (Wallet)",
@@ -414,7 +413,6 @@ function get_supported_wallets() {
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
-    "ghashio" => array('hash'),   // we only use ghash.io for hashrates
     "givemecoins" => array('ltc', 'vtc', 'ftc', 'ppc', 'dog', 'hash'),
     "havelock" => array('btc'),
     "hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
@@ -707,7 +705,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'ghashio' => array('table' => 'accounts_ghashio', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
       'hashfaster_ftc' => array('table' => 'accounts_hashfaster_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
@@ -927,7 +924,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'ghashio' => '<a href="https://ghash.io">GHash.io</a>',
       'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
       'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
       'hashfaster_ftc' => '<a href="http://ftc.hashfaster.com">HashFaster</a> (FTC)',
@@ -1533,16 +1529,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
         ),
         'table' => 'accounts_cexio',
-      );
-
-    case "ghashio":
-      return array(
-        'inputs' => array(
-          'api_username' => array('title' => 'Username', 'callback' => 'is_valid_cexio_apiusername'),
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cexio_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
-        ),
-        'table' => 'accounts_ghashio',
       );
 
     case "crypto-trade":
