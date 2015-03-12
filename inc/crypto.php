@@ -221,7 +221,6 @@ function get_all_exchanges() {
       "btcinve_wallet" => "BTCInve (Wallet)",
       "btcinve_securities" => "BTCInve (Securities)",
       "individual_btcinve" => "BTCInve (Individual Securities)",
-      "miningpoolco" => "MiningPool.co",
       "vaultofsatoshi" => "Vault of Satoshi",
       "smalltimeminer" => "Small Time Miner",
       "smalltimeminer_mec" => "Small Time Miner",
@@ -401,7 +400,6 @@ function get_supported_wallets() {
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
-    "miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),   // and LOTS more; used in jobs/miningpoolco.php
     "multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),    // and LOTS more; used in jobs/multipool.php
     "mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
     "nicehash" => array('btc'),
@@ -681,7 +679,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'mupool' => array('table' => 'accounts_mupool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'nicehash' => array('table' => 'accounts_nicehash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -885,7 +882,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
       'multipool' => '<a href="https://multipool.us/">Multipool</a>',
       'mupool' => '<a href="https://mupool.com/">MuPool</a>',
       'nicehash' => '<a href="https://www.nicehash.com/">NiceHash</a>',
@@ -1155,15 +1151,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ypool_apikey'),
         ),
         'table' => 'accounts_ypool',
-        'khash' => true,
-      );
-
-    case "miningpoolco":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_miningpoolco_apikey'),
-        ),
-        'table' => 'accounts_miningpoolco',
         'khash' => true,
       );
 
@@ -2295,11 +2282,6 @@ function is_valid_cryptsy_private_key($key) {
 function is_valid_litecoininvest_apikey($key) {
   // looks to be lowercase hex
   return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
-}
-
-function is_valid_miningpoolco_apikey($key) {
-  // looks like a 40 character hex string
-  return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_vaultofsatoshi_apikey($key) {

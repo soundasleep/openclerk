@@ -92,7 +92,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_coinbase', 'type' => 'coinbase', 'failure' => true),
       array('table' => 'accounts_litecoininvest', 'type' => 'litecoininvest', 'failure' => true),
       // securities_litecoininvest - we let securities_update handle this
-      array('table' => 'accounts_miningpoolco', 'type' => 'miningpoolco', 'failure' => true),
       array('table' => 'accounts_vaultofsatoshi', 'type' => 'vaultofsatoshi', 'failure' => true),
       array('table' => 'accounts_teamdoge', 'type' => 'teamdoge', 'failure' => true),
       array('table' => 'accounts_nut2pools_ftc', 'type' => 'nut2pools_ftc', 'failure' => true),
