@@ -85,10 +85,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/securities_796.php");
         break;
 
-      case "triplemining":
-        require(__DIR__ . "/../jobs/triplemining.php");
-        break;
-
       case "justcoin":
         require(__DIR__ . "/../jobs/justcoin.php");
         break;

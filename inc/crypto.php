@@ -200,7 +200,6 @@ function get_all_exchanges() {
       "796" =>      "796 Xchange",
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
-      "triplemining" => "TripleMining",
       "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
       "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
       "justcoin" =>   "Justcoin",
@@ -381,7 +380,6 @@ function get_supported_wallets() {
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
-    "triplemining" => array('btc', 'hash'),
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
     "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
     "westhash" => array('btc'),
@@ -649,7 +647,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'westhash' => array('table' => 'accounts_westhash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
     )),
@@ -836,7 +833,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
       'westhash' => '<a href="https://www.westhash.com/">WestHash</a>',
       'ypool' => '<a href="http://ypool.net">ypool.net</a>',
     )),
@@ -1014,14 +1010,6 @@ function get_accounts_wizard_config($exchange) {
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
     // --- mining pools ---
-    case "triplemining":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_triplemining_apikey'),
-        ),
-        'table' => 'accounts_triplemining',
-      );
-
     case "ypool":
       return array(
         'inputs' => array(
@@ -2004,11 +1992,6 @@ function is_valid_796_apikey($key) {
 function is_valid_796_apisecret($key) {
   // looks like a 60 character crazy string
   return strlen($key) == 60 && preg_match("#^[A-Za-z0-9\\+\\/]+$#", $key);
-}
-
-function is_valid_triplemining_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_bitcurex_pln_apikey($key) {
