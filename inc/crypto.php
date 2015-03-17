@@ -204,9 +204,6 @@ function get_all_exchanges() {
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
       "triplemining" => "TripleMining",
-      "ozcoin" =>     "Ozcoin",
-      "ozcoin_ltc" =>   "Ozcoin",
-      "ozcoin_btc" =>   "Ozcoin",
       "scryptpools" =>  "scryptpools.com",
       "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
       "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
@@ -395,7 +392,6 @@ function get_supported_wallets() {
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
-    "ozcoin" => array('ltc', 'btc', 'hash'),
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
     "poolx" => array('ltc', 'hash'),
     "scryptpools" => array('dog', 'hash'),
@@ -670,8 +666,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
-      'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
       'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'rapidhash_doge' => array('table' => 'accounts_rapidhash_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash', 'disabled' => true),
       'rapidhash_vtc' => array('table' => 'accounts_rapidhash_vtc', 'group' => 'accounts', 'suffix' => ' VTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash', 'disabled' => true),
@@ -869,8 +863,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
-      'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
       'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
       'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
       'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
@@ -1087,27 +1079,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_triplemining_apikey'),
         ),
         'table' => 'accounts_triplemining',
-      );
-
-    case "ozcoin_ltc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ozcoin_ltc_apikey'),
-        ),
-        'table' => 'accounts_ozcoin_ltc',
-        'title' => 'Ozcoin LTC account',
-        'khash' => true,
-        'title_key' => 'ozcoin',
-      );
-
-    case "ozcoin_btc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ozcoin_btc_apikey'),
-        ),
-        'table' => 'accounts_ozcoin_btc',
-        'title' => 'Ozcoin BTC account',
-        'title_key' => 'ozcoin',
       );
 
     case "scryptpools":
@@ -2169,16 +2140,6 @@ function is_valid_796_apisecret($key) {
 function is_valid_triplemining_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_ozcoin_ltc_apikey($key) {
-  // guessing the format
-  return preg_match("#^[0-9]+_[a-zA-Z]+$#", $key);
-}
-
-function is_valid_ozcoin_btc_apikey($key) {
-  // guessing the format
-  return preg_match("#^[0-9]+_[a-zA-Z]+$#", $key);
 }
 
 function is_valid_bitcurex_pln_apikey($key) {
