@@ -214,7 +214,6 @@ function get_all_exchanges() {
       "btcinve_securities" => "BTCInve (Securities)",
       "individual_btcinve" => "BTCInve (Individual Securities)",
       "vaultofsatoshi" => "Vault of Satoshi",
-      "teamdoge" => "TeamDoge",
       "average" => "Market Average",
       "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
@@ -382,7 +381,6 @@ function get_supported_wallets() {
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
-    "teamdoge" => array('dog', 'hash'),
     "triplemining" => array('btc', 'hash'),
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
     "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
@@ -651,7 +649,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'westhash' => array('table' => 'accounts_westhash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -839,7 +836,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
       'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
       'westhash' => '<a href="https://www.westhash.com/">WestHash</a>',
       'ypool' => '<a href="http://ypool.net">ypool.net</a>',
@@ -1032,15 +1028,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ypool_apikey'),
         ),
         'table' => 'accounts_ypool',
-        'khash' => true,
-      );
-
-    case "teamdoge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_teamdoge',
         'khash' => true,
       );
 
@@ -2074,11 +2061,6 @@ function is_valid_vaultofsatoshi_apikey($key) {
 
 function is_valid_vaultofsatoshi_apisecret($key) {
   // looks like a 64 character alphanumeric string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_mpos_apikey($key) {
-  // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
