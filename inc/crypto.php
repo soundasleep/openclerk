@@ -221,9 +221,6 @@ function get_all_exchanges() {
       "shibepool" => "Shibe Pool",
       "scryptguild" => "ScryptGuild",
       "average" => "Market Average",
-      "rapidhash" => "RapidHash",
-      "rapidhash_doge" => "RapidHash",
-      "rapidhash_vtc" => "RapidHash",
       "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
       "westhash" => "WestHash",
@@ -660,8 +657,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'rapidhash_doge' => array('table' => 'accounts_rapidhash_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash', 'disabled' => true),
-      'rapidhash_vtc' => array('table' => 'accounts_rapidhash_vtc', 'group' => 'accounts', 'suffix' => ' VTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash', 'disabled' => true),
       'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
@@ -1096,26 +1091,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_scryptguild',
         'khash' => true,
-      );
-
-    case "rapidhash_doge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_rapidhash_doge',
-        'title' => 'RapidHash DOGE account',
-        'title_key' => 'rapidhash',
-      );
-
-    case "rapidhash_vtc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_rapidhash_vtc',
-        'title' => 'RapidHash VTC account',
-        'title_key' => 'rapidhash',
       );
 
     case "westhash":
