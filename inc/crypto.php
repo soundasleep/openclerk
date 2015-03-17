@@ -219,7 +219,6 @@ function get_all_exchanges() {
       "smalltimeminer_mec" => "Small Time Miner",
       "teamdoge" => "TeamDoge",
       "shibepool" => "Shibe Pool",
-      "scryptguild" => "ScryptGuild",
       "average" => "Market Average",
       "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
@@ -657,7 +656,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
@@ -1081,15 +1079,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
         ),
         'table' => 'accounts_shibepool',
-        'khash' => true,
-      );
-
-    case "scryptguild":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_scryptguild_apikey'),
-        ),
-        'table' => 'accounts_scryptguild',
         'khash' => true,
       );
 
@@ -2129,11 +2118,6 @@ function is_valid_vaultofsatoshi_apisecret($key) {
 function is_valid_mpos_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_scryptguild_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_kraken_apikey($key) {
