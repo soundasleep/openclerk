@@ -216,7 +216,6 @@ function get_all_exchanges() {
       "average" => "Market Average",
       "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
-      "westhash" => "WestHash",
       "btclevels" => "BTClevels",
 
       // for failing server jobs
@@ -382,7 +381,6 @@ function get_supported_wallets() {
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
     "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
-    "westhash" => array('btc'),
     "ypool" => array('ltc', 'xpm', 'dog'),  // also pts
     "generic" => get_all_currencies(),
   );
@@ -647,7 +645,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'westhash' => array('table' => 'accounts_westhash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
     )),
     'Exchanges' => array(
@@ -833,7 +830,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'westhash' => '<a href="https://www.westhash.com/">WestHash</a>',
       'ypool' => '<a href="http://ypool.net">ypool.net</a>',
     )),
 
@@ -1016,16 +1012,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ypool_apikey'),
         ),
         'table' => 'accounts_ypool',
-        'khash' => true,
-      );
-
-    case "westhash":
-      return array(
-        'inputs' => array(
-          'api_id' => array('title' => 'API ID', 'callback' => 'is_numeric', 'length' => 16),
-          'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_westhash_apikey'),
-        ),
-        'table' => 'accounts_westhash',
         'khash' => true,
       );
 
@@ -2093,10 +2079,6 @@ function is_valid_bittrex_apisecret($key) {
 function is_valid_bittrex_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_westhash_apikey($key) {
-  return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
 }
 
 function is_valid_btclevels_apisecret($key) {
