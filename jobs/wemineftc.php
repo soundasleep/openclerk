@@ -4,7 +4,7 @@
  * WeMineFTC balance job.
  */
 
-$exchange = "wemineltc";
+$exchange = "wemineftc";
 $url = "http://www.wemineftc.com/api?api_key=";
 $currency = 'ftc';
 $table = "accounts_wemineftc";
