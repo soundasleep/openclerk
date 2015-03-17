@@ -217,7 +217,6 @@ function get_all_exchanges() {
       "smalltimeminer" => "Small Time Miner",
       "smalltimeminer_mec" => "Small Time Miner",
       "teamdoge" => "TeamDoge",
-      "shibepool" => "Shibe Pool",
       "average" => "Market Average",
       "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
@@ -654,7 +653,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
       'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
       'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -1057,15 +1055,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
         ),
         'table' => 'accounts_teamdoge',
-        'khash' => true,
-      );
-
-    case "shibepool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_shibepool',
         'khash' => true,
       );
 
