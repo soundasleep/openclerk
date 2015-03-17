@@ -68,7 +68,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
       array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
       array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'failure' => true),
-      array('table' => 'accounts_poolx', 'type' => 'poolx', 'failure' => true),
       array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks', 'failure' => true),
       array('table' => 'securities_cryptostocks', 'type' => 'securities_cryptostocks', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
       array('table' => 'accounts_havelock', 'type' => 'havelock', 'failure' => true),

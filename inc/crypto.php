@@ -193,7 +193,6 @@ function get_all_exchanges() {
       "generic" =>    "Generic API",
       "offsets" =>    "Offsets",    // generic
       "blockchain" =>   "Blockchain", // generic
-      "poolx" =>      "Pool-x.eu",
       "crypto-trade_securities" => "Crypto-Trade (Securities)",
       "havelock" =>     "Havelock Investments",
       "havelock_wallet" => "Havelock Investments (Wallet)",
@@ -391,7 +390,6 @@ function get_supported_wallets() {
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
-    "poolx" => array('ltc', 'hash'),
     "scryptpools" => array('dog', 'hash'),
     "teamdoge" => array('dog', 'hash'),
     "triplemining" => array('btc', 'hash'),
@@ -662,7 +660,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'rapidhash_doge' => array('table' => 'accounts_rapidhash_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash', 'disabled' => true),
       'rapidhash_vtc' => array('table' => 'accounts_rapidhash_vtc', 'group' => 'accounts', 'suffix' => ' VTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash', 'disabled' => true),
       'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
@@ -857,7 +854,6 @@ function get_external_apis() {
     "Block counts" => $external_apis_blockcounts,
 
     "Mining pool wallets" => array_merge($mining_pools, array(
-      'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
       'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
       'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
       'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
@@ -1038,15 +1034,6 @@ function get_accounts_wizard_config($exchange) {
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
     // --- mining pools ---
-    case "poolx":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_poolx',
-        'khash' => true,
-      );
-
     case "triplemining":
       return array(
         'inputs' => array(
@@ -1994,11 +1981,6 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
     }
   }
   return $dropdown_get_all_securities[$table];
-}
-
-function is_valid_mmcfe_apikey($key) {
-  // not sure what the format should be, seems to be 64 character hexadecmial
-  return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
 }
 
 function is_valid_bit2c_apikey($key) {
