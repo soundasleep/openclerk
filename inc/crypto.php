@@ -194,7 +194,6 @@ function get_all_exchanges() {
       "offsets" =>    "Offsets",    // generic
       "blockchain" =>   "Blockchain", // generic
       "poolx" =>      "Pool-x.eu",
-      "wemineftc" =>    "WeMineFTC",
       "crypto-trade_securities" => "Crypto-Trade (Securities)",
       "havelock" =>     "Havelock Investments",
       "havelock_wallet" => "Havelock Investments (Wallet)",
@@ -398,7 +397,6 @@ function get_supported_wallets() {
     "triplemining" => array('btc', 'hash'),
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
     "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
-    "wemineftc" => array('ftc', 'hash'),
     "westhash" => array('btc'),
     "ypool" => array('ltc', 'xpm', 'dog'),  // also pts
     "generic" => get_all_currencies(),
@@ -673,7 +671,6 @@ function account_data_grouped() {
       'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
       'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'wemineftc' => array('table' => 'accounts_wemineftc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'westhash' => array('table' => 'accounts_westhash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
     )),
@@ -864,7 +861,6 @@ function get_external_apis() {
       'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
       'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
       'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
-      'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
       'westhash' => '<a href="https://www.westhash.com/">WestHash</a>',
       'ypool' => '<a href="http://ypool.net">ypool.net</a>',
     )),
@@ -1048,15 +1044,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
         ),
         'table' => 'accounts_poolx',
-        'khash' => true,
-      );
-
-    case "wemineftc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_wemineftc',
         'khash' => true,
       );
 
