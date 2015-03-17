@@ -203,7 +203,6 @@ function get_all_exchanges() {
       "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
       "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
       "justcoin" =>   "Justcoin",
-      "ypool" =>      "ypool.net",
       "litecoininvest" => "Litecoininvest",
       "litecoininvest_wallet" => "Litecoininvest (Wallet)",
       "litecoininvest_securities" => "Litecoininvest (Securities)",
@@ -381,7 +380,6 @@ function get_supported_wallets() {
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
     "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
-    "ypool" => array('ltc', 'xpm', 'dog'),  // also pts
     "generic" => get_all_currencies(),
   );
 
@@ -644,9 +642,7 @@ function account_data_grouped() {
 
   $data = array(
     'Addresses' => $addresses_data,
-    'Mining pools' => array_merge($mining_pools_data, array(
-      'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-    )),
+    'Mining pools' => $mining_pools_data,
     'Exchanges' => array(
       'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
@@ -829,9 +825,7 @@ function get_external_apis() {
 
     "Block counts" => $external_apis_blockcounts,
 
-    "Mining pool wallets" => array_merge($mining_pools, array(
-      'ypool' => '<a href="http://ypool.net">ypool.net</a>',
-    )),
+    "Mining pool wallets" => $mining_pools,
 
     "Exchange wallets" => array(
       'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
@@ -1005,16 +999,6 @@ function get_accounts_wizard_config($exchange) {
 
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
-    // --- mining pools ---
-    case "ypool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ypool_apikey'),
-        ),
-        'table' => 'accounts_ypool',
-        'khash' => true,
-      );
-
     // --- exchanges ---
     case "mtgox":
       return array(
@@ -2001,11 +1985,6 @@ function is_valid_bitcurex_eur_apisecret($key) {
 function is_valid_justcoin_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_ypool_apikey($key) {
-  // looks like a 20 character string of almost any characters
-  return strlen(trim($key)) == 20;
 }
 
 function is_valid_cryptsy_public_key($key) {
