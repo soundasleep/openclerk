@@ -214,8 +214,6 @@ function get_all_exchanges() {
       "btcinve_securities" => "BTCInve (Securities)",
       "individual_btcinve" => "BTCInve (Individual Securities)",
       "vaultofsatoshi" => "Vault of Satoshi",
-      "smalltimeminer" => "Small Time Miner",
-      "smalltimeminer_mec" => "Small Time Miner",
       "teamdoge" => "TeamDoge",
       "average" => "Market Average",
       "mintpal" => "MintPal",
@@ -653,7 +651,6 @@ function account_data_grouped() {
   $data = array(
     'Addresses' => $addresses_data,
     'Mining pools' => array_merge($mining_pools_data, array(
-      'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
       'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
       'westhash' => array('table' => 'accounts_westhash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
@@ -1036,17 +1033,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_ypool',
         'khash' => true,
-      );
-
-    case "smalltimeminer_mec":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_smalltimeminer_mec',
-        'title' => 'Small Time Miner Megacoin account',
-        'khash' => true,
-        'title_key' => 'smalltimeminer',
       );
 
     case "teamdoge":
