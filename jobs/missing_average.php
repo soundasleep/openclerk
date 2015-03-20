@@ -10,6 +10,8 @@ $q = db()->prepare("SELECT * FROM ticker WHERE created_at_day=? AND is_daily_dat
 $q->execute(array($job['arg_id']));
 $recents = $q->fetchAll();
 
+crypto_log("Found " . number_Format($recents) . " ticker instances to recreate average data");
+
 $q = db()->prepare("SELECT * FROM exchanges WHERE name=? AND is_disabled=0");
 $q->execute(array('average'));
 $exchange = $q->fetch();
