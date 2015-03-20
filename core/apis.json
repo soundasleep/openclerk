@@ -5,5 +5,7 @@
   "\\Core\\Apis\\ApiList",
   "\\Core\\Apis\\Version",
   "\\Core\\Apis\\Rates",
-  "\\Core\\Apis\\Rate"
+  "\\Core\\Apis\\Rate",
+  "\\Core\\Apis\\Tickers",
+  "\\Core\\Apis\\Ticker"
 ]
