@@ -190,6 +190,8 @@ Openclerk\Config::merge(array(
   "bitmarket_pl_example_api_secret" => '...',
   "anxpro_example_api_key" => '...',
   "anxpro_example_api_secret" => '...',
+  "exchange_cryptsy_key" => "...",      // for fetching ticker markets
+  "exchange_cryptsy_secret" => "...",
 
   // premium properties
   "premium_currencies" => array('btc', 'ltc'),
