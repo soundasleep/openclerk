@@ -8,6 +8,7 @@
 use \Openclerk\Currencies\Currency;
 use \DiscoveredComponents\Currencies;
 use \DiscoveredComponents\Exchanges;
+use \DiscoveredComponents\Accounts;
 
 /**
  * Allow us to define our own sort order for currency lists.
@@ -169,136 +170,91 @@ function get_blockchain_currencies() {
   return $explorers;
 }
 
+$_get_all_exchanges = null;
 function get_all_exchanges() {
-  $exchanges = array(
-    "mtgox" =>      "Mt.Gox",
-    "bips" =>       "BIPS",   // this is now disabled
-    "litecoinglobal" =>  "Litecoin Global",
-    "litecoinglobal_wallet" => "Litecoin Global (Wallet)",
-    "litecoinglobal_securities" => "Litecoin Global (Securities)",
-    "btct" =>       "BTC Trading Co.",
-    "btct_wallet" =>    "BTC Trading Co. (Wallet)",
-    "btct_securities" => "BTC Trading Co. (Securities)",
-    "cryptostocks" =>   "Cryptostocks",
-    "cryptostocks_wallet" => "Cryptostocks (Wallet)",
-    "cryptostocks_securities" => "Cryptostocks (Securities)",
-    "bitfunder"     => "BitFunder",
-    "bitfunder_wallet"  => "BitFunder (Wallet)",
-    "bitfunder_securities" => "BitFunder (Securities)",
-    "individual_litecoinglobal" => "Litecoin Global (Individual Securities)",
-    "individual_btct" => "BTC Trading Co. (Individual Securities)",
-    "individual_bitfunder" => "BitFunder (Individual Securities)",
-    "individual_cryptostocks" => "Cryptostocks (Individual Securities)",
-    "individual_havelock" => "Havelock Investments (Individual Securities)",
-    "individual_crypto-trade" => "Crypto-Trade (Individual Securities)",
-    "individual_796" => "796 Xchange (Individual Securities)",
-    "generic" =>    "Generic API",
-    "offsets" =>    "Offsets",    // generic
-    "blockchain" =>   "Blockchain", // generic
-    "poolx" =>      "Pool-x.eu",
-    "wemineltc" =>    "WeMineLTC",
-    "wemineftc" =>    "WeMineFTC",
-    "givemecoins" =>  "Give Me Coins",
-    "slush" =>      "Slush's pool",
-    "btcguild" =>     "BTC Guild",
-    "50btc" =>      "50BTC",
-    "hypernova" =>    "Hypernova",
-    "ltcmineru" =>    "LTCMine.ru",
-    "miningforeman" =>  "Mining Foreman", // LTC default
-    "miningforeman_ftc" => "Mining Foreman",
-    "khore" =>      "nvc.khore.org",
-    "ghashio" =>    "GHash.io",
-    "crypto-trade_securities" => "Crypto-Trade (Securities)",
-    "havelock" =>     "Havelock Investments",
-    "havelock_wallet" => "Havelock Investments (Wallet)",
-    "havelock_securities" => "Havelock Investments (Securities)",
-    "bitminter" =>    "BitMinter",
-    "liteguardian" =>   "LiteGuardian",
-    "796" =>      "796 Xchange",
-    "796_wallet" =>   "796 Xchange (Wallet)",
-    "796_securities" => "796 Xchange (Securities)",
-    "kattare" =>    "ltc.kattare.com",
-    "litepooleu" =>   "Litepool",
-    "coinhuntr" =>    "CoinHuntr",
-    "eligius" =>    "Eligius",
-    "lite_coinpool" =>  "lite.coin-pool.com",
-    "beeeeer" =>    "b(e^5)r.org",
-    "litecoinpool" => "litecoinpool.org",
-    "dogepoolpw" =>   "dogepool.pw",
-    "elitistjerks" => "Elitist Jerks",
-    "dogechainpool" =>  "Dogechain Pool",
-    "hashfaster" =>   "HashFaster", // for labels, accounts actually use hashfaster_cur
-    "hashfaster_ltc" => "HashFaster",
-    "hashfaster_ftc" => "HashFaster",
-    "hashfaster_doge" => "HashFaster",
-    "triplemining" => "TripleMining",
-    "ozcoin" =>     "Ozcoin", // for labels, accounts actually use hashfaster_cur
-    "ozcoin_ltc" =>   "Ozcoin",
-    "ozcoin_btc" =>   "Ozcoin",
-    "scryptpools" =>  "scryptpools.com",
-    "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
-    "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
-    "justcoin" =>   "Justcoin",
-    "multipool" =>    "Multipool",
-    "ypool" =>      "ypool.net",
-    "litecoininvest" => "Litecoininvest",
-    "litecoininvest_wallet" => "Litecoininvest (Wallet)",
-    "litecoininvest_securities" => "Litecoininvest (Securities)",
-    "individual_litecoininvest" => "Litecoininvest (Individual Securities)",
-    "btcinve" => "BTCInve",
-    "btcinve_wallet" => "BTCInve (Wallet)",
-    "btcinve_securities" => "BTCInve (Securities)",
-    "individual_btcinve" => "BTCInve (Individual Securities)",
-    "miningpoolco" => "MiningPool.co",
-    "vaultofsatoshi" => "Vault of Satoshi",
-    "smalltimeminer" => "Small Time Miner",
-    "smalltimeminer_mec" => "Small Time Miner",
-    "ecoining" => "Ecoining",
-    "ecoining_ppc" => "Ecoining",
-    "teamdoge" => "TeamDoge",
-    "dedicatedpool" => "dedicatedpool.com",
-    "dedicatedpool_doge" => "dedicatedpool.com",
-    "nut2pools" => "Nut2Pools",
-    "nut2pools_ftc" => "Nut2Pools",
-    "shibepool" => "Shibe Pool",
-    "cryptopools" => "CryptoPools",
-    "cryptopools_dgc" => "CryptoPools",
-    "d2" => "d2",
-    "d2_wdc" => "d2",
-    "scryptguild" => "ScryptGuild",
-    "average" => "Market Average",
-    "rapidhash" => "RapidHash",
-    "rapidhash_doge" => "RapidHash",
-    "rapidhash_vtc" => "RapidHash",
-    "cryptotroll" => "Cryptotroll",
-    "cryptotroll_doge" => "Cryptotroll",
-    "mintpal" => "MintPal",
-    "mupool" => "MuPool",
-    "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
-    "nicehash" => "NiceHash",
-    "westhash" => "WestHash",
-    "eobot" => "Eobot",
-    "hashtocoins" => "Hash-to-Coins",
-    "btclevels" => "BTClevels",
+  global $_get_all_exchanges;
+  if ($_get_all_exchanges === null) {
 
-    // for failing server jobs
-    "securities_havelock" => "Havelock Investments security",
-    "securities_796" => "796 Xchange security",
-    "securities_litecoininvest" => "Litecoininvest security",
-  );
+    $exchanges = array(
+      "mtgox" =>      "Mt.Gox",
+      "bips" =>       "BIPS",   // this is now disabled
+      "litecoinglobal" =>  "Litecoin Global",
+      "litecoinglobal_wallet" => "Litecoin Global (Wallet)",
+      "litecoinglobal_securities" => "Litecoin Global (Securities)",
+      "btct" =>       "BTC Trading Co.",
+      "btct_wallet" =>    "BTC Trading Co. (Wallet)",
+      "btct_securities" => "BTC Trading Co. (Securities)",
+      "cryptostocks" =>   "Cryptostocks",
+      "cryptostocks_wallet" => "Cryptostocks (Wallet)",
+      "cryptostocks_securities" => "Cryptostocks (Securities)",
+      "bitfunder"     => "BitFunder",
+      "bitfunder_wallet"  => "BitFunder (Wallet)",
+      "bitfunder_securities" => "BitFunder (Securities)",
+      "individual_litecoinglobal" => "Litecoin Global (Individual Securities)",
+      "individual_btct" => "BTC Trading Co. (Individual Securities)",
+      "individual_bitfunder" => "BitFunder (Individual Securities)",
+      "individual_cryptostocks" => "Cryptostocks (Individual Securities)",
+      "individual_havelock" => "Havelock Investments (Individual Securities)",
+      "individual_crypto-trade" => "Crypto-Trade (Individual Securities)",
+      "individual_796" => "796 Xchange (Individual Securities)",
+      "generic" =>    "Generic API",
+      "offsets" =>    "Offsets",    // generic
+      "blockchain" =>   "Blockchain", // generic
+      "crypto-trade_securities" => "Crypto-Trade (Securities)",
+      "havelock" =>     "Havelock Investments",
+      "havelock_wallet" => "Havelock Investments (Wallet)",
+      "havelock_securities" => "Havelock Investments (Securities)",
+      "796" =>      "796 Xchange",
+      "796_wallet" =>   "796 Xchange (Wallet)",
+      "796_securities" => "796 Xchange (Securities)",
+      "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
+      "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
+      "justcoin" =>   "Justcoin",
+      "litecoininvest" => "Litecoininvest",
+      "litecoininvest_wallet" => "Litecoininvest (Wallet)",
+      "litecoininvest_securities" => "Litecoininvest (Securities)",
+      "individual_litecoininvest" => "Litecoininvest (Individual Securities)",
+      "btcinve" => "BTCInve",
+      "btcinve_wallet" => "BTCInve (Wallet)",
+      "btcinve_securities" => "BTCInve (Securities)",
+      "individual_btcinve" => "BTCInve (Individual Securities)",
+      "vaultofsatoshi" => "Vault of Satoshi",
+      "average" => "Market Average",
+      "mintpal" => "MintPal",
+      "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
+      "btclevels" => "BTClevels",
 
-  // add discovered exchanges
-  foreach (Exchanges::getAllInstances() as $key => $exchange) {
-    $exchanges[$key] = $exchange->getName();
+      // for failing server jobs
+      "securities_havelock" => "Havelock Investments security",
+      "securities_796" => "796 Xchange security",
+      "securities_litecoininvest" => "Litecoininvest security",
+    );
+
+    // add discovered exchanges
+    foreach (Exchanges::getAllInstances() as $key => $exchange) {
+      $exchanges[$key] = $exchange->getName();
+    }
+
+    // add discovered accounts
+    foreach (Accounts::getAllInstances() as $key => $account) {
+      $exchanges[$key] = $account->getName();
+    }
+
+    $_get_all_exchanges = $exchanges;
   }
 
-  return $exchanges;
+  return $_get_all_exchanges;
 }
 
 function get_exchange_name($n) {
   if (in_array($n, Exchanges::getKeys())) {
     $exchange = Exchanges::getInstance($n);
     return $exchange->getName();
+  }
+
+  if (in_array($n, Accounts::getKeys())) {
+    $account = Accounts::getInstance($n);
+    return $account->getName();
   }
 
   $exchanges = get_all_exchanges();
@@ -407,67 +363,56 @@ function get_new_security_exchanges() {
  * Does not include disabled accounts or exchanges
  */
 function get_supported_wallets() {
-  return array(
+  $wallets = array(
     // alphabetically sorted, except for generic
-    "50btc" => array('btc', 'hash'),
     "796" => array('btc', 'ltc', 'usd'),
     "anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),   // also hkd, sgd, jpy, chf
     "bit2c" => array('btc', 'ltc', 'ils'),
     "bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
-    "bitminter" => array('btc', 'nmc', 'hash'),
     "bitnz" => array('btc', 'nzd'),
     "bitstamp" => array('btc', 'usd'),
     "bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd', 'via'),  // and others, used in jobs/bittrex.php
     "btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),    // used in jobs/btce.php
-    "btcguild" => array('btc', 'nmc', 'hash'),
     "btclevels" => array('btc'),
     "coinbase" => array('btc'),
-    "coinhuntr" => array('ltc', 'hash'),
-    "cryptopools" => array('dgc', 'hash'),    // other coins available
     "cryptostocks" => array('btc', 'ltc'),
     "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
-    "cryptotroll" => array('dog', 'hash'),
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
-    "dedicatedpool" => array('dog', 'hash'),    // other coins available
-    "ecoining" => array('ppc', 'hash'),
-    "eligius" => array('btc', 'hash'),    // BTC is paid directly to BTC address but also stored temporarily
-    "elitistjerks" => array('ltc', 'hash'),
-    "eobot" => array('btc', 'ltc', 'nmc', 'dog', 'drk', 'ppc', 'nxt', 'hash'),   //  also naut, cure, charity, ghs, scrypt, btsx, sys, ppd
-    "ghashio" => array('hash'),   // we only use ghash.io for hashrates
-    "givemecoins" => array('ltc', 'vtc', 'ftc', 'ppc', 'dog', 'hash'),
     "havelock" => array('btc'),
-    "hashfaster" => array('ltc', 'ftc', 'dog', 'hash'),
-    "hashtocoins" => array('dog', 'ltc', 'net', 'nvc', 'wdc', 'hash'),
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
-    "khore" => array('nvc', 'hash'),
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
-    "litecoinpool" => array('ltc', 'hash'),
     "litecoininvest" => array('ltc'),
-    "liteguardian" => array('ltc'),
-    "litepooleu" => array('ltc', 'hash'),
-    "kattare" => array('ltc', 'hash'),
-    "miningpoolco" => array('dog', 'ltc', 'mec', 'hash'),   // and LOTS more; used in jobs/miningpoolco.php
-    "multipool" => array('btc', 'ltc', 'dog', 'ftc', 'ltc', 'nvc', 'ppc', 'trc', 'mec', 'hash'),    // and LOTS more; used in jobs/multipool.php
-    "mupool" => array('btc', 'ppc', 'ltc', 'ftc', 'dog', 'vtc', 'hash'),
-    "nicehash" => array('btc'),
-    "nut2pools" => array('ftc', 'hash'),
-    "ozcoin" => array('ltc', 'btc', 'hash'),
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
-    "poolx" => array('ltc', 'hash'),
-    "scryptpools" => array('dog', 'hash'),
-    "slush" => array('btc', 'nmc', 'hash'),
-    "teamdoge" => array('dog', 'hash'),
-    "triplemining" => array('btc', 'hash'),
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
     "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
-    "wemineftc" => array('ftc', 'hash'),
-    "wemineltc" => array('ltc', 'hash'),
-    "westhash" => array('btc'),
-    "ypool" => array('ltc', 'xpm', 'dog'),  // also pts
     "generic" => get_all_currencies(),
   );
+
+  // add all discovered pairs
+  foreach (Accounts::getAllInstances() as $key => $exchange) {
+    if (in_array($key, Accounts::getDisabled())) {
+      // do not list disabled accounts
+      continue;
+    }
+    $persistent = new \Core\PersistentAccountType($exchange, db());
+    $result = array();
+    foreach ($persistent->getSupportedCurrencies() as $currency) {
+      if (in_array($currency, get_all_currencies())) {
+        $result[] = $currency;
+      }
+    }
+
+    $wallets[$key] = $result;
+  }
+
+  // and add in hash currencies (temporary; eventually we want to remove 'hash' from this return result)
+  foreach (Accounts::getMiners() as $key) {
+    $wallets[$key][] = 'hash';
+  }
+
+  return $wallets;
 }
 
 // get all supported wallets that are safe w.r.t. allow_unsafe
@@ -676,6 +621,7 @@ function get_crypto_conversion_summary_types() {
  */
 function account_data_grouped() {
   $addresses_data = array();
+  $mining_pools_data = array();
 
   // we can generate this automatically
   foreach (get_address_currencies() as $cur) {
@@ -691,62 +637,19 @@ function account_data_grouped() {
     );
   }
 
+  foreach (Accounts::getMiners() as $exchange) {
+    $mining_pools_data[$exchange] = array(
+      'table' => 'accounts_' . $exchange,
+      'group' => 'accounts',
+      'wizard' => 'pools',
+      'failure' => true,
+      'disabled' => in_array($exchange, Accounts::getDisabled()),
+    );
+  }
+
   $data = array(
     'Addresses' => $addresses_data,
-    'Mining pools' => array(
-      '50btc' => array('table' => 'accounts_50btc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'beeeeer' => array('table' => 'accounts_beeeeer', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'bitminter' => array('table' => 'accounts_bitminter', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'btcguild' => array('table' => 'accounts_btcguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'coinhuntr' => array('table' => 'accounts_coinhuntr', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'cryptopools_dgc' => array('table' => 'accounts_cryptopools_dgc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptopools', 'suffix' => ' DGC'),
-      'cryptotroll_doge' => array('table' => 'accounts_cryptotroll_doge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'cryptotroll', 'suffix' => ' DOGE'),
-      'd2_wdc' => array('table' => 'accounts_d2_wdc', 'group' => 'accounts', 'suffix' => ' WDC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'd2'),
-      'dedicatedpool_doge' => array('table' => 'accounts_dedicatedpool_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'dedicatedpool'),
-      'dogechainpool' => array('table' => 'accounts_dogechainpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'dogepoolpw' => array('table' => 'accounts_dogepoolpw', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'ecoining_ppc' => array('table' => 'accounts_ecoining_ppc', 'group' => 'accounts', 'suffix' => ' Peercoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ecoining'),
-      'eligius' => array('table' => 'accounts_eligius', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'elitistjerks' => array('table' => 'accounts_elitistjerks', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'eobot' => array('table' => 'accounts_eobot', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'ghashio' => array('table' => 'accounts_ghashio', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'givemecoins' => array('table' => 'accounts_givemecoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'hashfaster_doge' => array('table' => 'accounts_hashfaster_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
-      'hashfaster_ftc' => array('table' => 'accounts_hashfaster_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
-      'hashfaster_ltc' => array('table' => 'accounts_hashfaster_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'hashfaster'),
-      'hashtocoins' => array('table' => 'accounts_hashtocoins', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'hypernova' => array('table' => 'accounts_hypernova', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'kattare' => array('table' => 'accounts_kattare', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'khore' => array('table' => 'accounts_khore', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'lite_coinpool' => array('table' => 'accounts_lite_coinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'litecoinpool' => array('table' => 'accounts_litecoinpool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'liteguardian' => array('table' => 'accounts_liteguardian', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'litepooleu' => array('table' => 'accounts_litepooleu', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'ltcmineru' => array('table' => 'accounts_ltcmineru', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'miningforeman' => array('table' => 'accounts_miningforeman', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
-      'miningforeman_ftc' => array('table' => 'accounts_miningforeman_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'miningforeman', 'disabled' => true),
-      'miningpoolco' => array('table' => 'accounts_miningpoolco', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'multipool' => array('table' => 'accounts_multipool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'mupool' => array('table' => 'accounts_mupool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'nicehash' => array('table' => 'accounts_nicehash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'nut2pools_ftc' => array('table' => 'accounts_nut2pools_ftc', 'group' => 'accounts', 'suffix' => ' FTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'nut2pools'),
-      'ozcoin_btc' => array('table' => 'accounts_ozcoin_btc', 'group' => 'accounts', 'suffix' => ' BTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
-      'ozcoin_ltc' => array('table' => 'accounts_ozcoin_ltc', 'group' => 'accounts', 'suffix' => ' LTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'ozcoin'),
-      'poolx' => array('table' => 'accounts_poolx', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'rapidhash_doge' => array('table' => 'accounts_rapidhash_doge', 'group' => 'accounts', 'suffix' => ' DOGE', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash', 'disabled' => true),
-      'rapidhash_vtc' => array('table' => 'accounts_rapidhash_vtc', 'group' => 'accounts', 'suffix' => ' VTC', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'rapidhash', 'disabled' => true),
-      'scryptguild' => array('table' => 'accounts_scryptguild', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'scryptpools' => array('table' => 'accounts_scryptpools', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'shibepool' => array('table' => 'accounts_shibepool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true, 'disabled' => true),
-      'slush' => array('table' => 'accounts_slush', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'smalltimeminer_mec' => array('table' => 'accounts_smalltimeminer_mec', 'group' => 'accounts', 'suffix' => ' Megacoin', 'wizard' => 'pools', 'failure' => true, 'title_key' => 'smalltimeminer', 'disabled' => true),
-      'teamdoge' => array('table' => 'accounts_teamdoge', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'triplemining' => array('table' => 'accounts_triplemining', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'wemineftc' => array('table' => 'accounts_wemineftc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'wemineltc' => array('table' => 'accounts_wemineltc', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'westhash' => array('table' => 'accounts_westhash', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-      'ypool' => array('table' => 'accounts_ypool', 'group' => 'accounts', 'wizard' => 'pools', 'failure' => true),
-    ),
+    'Mining pools' => $mining_pools_data,
     'Exchanges' => array(
       'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
@@ -923,52 +826,22 @@ function get_external_apis() {
     );
   }
 
+  $mining_pools = array();
+  foreach (Accounts::getMiners() as $key) {
+    if (in_array($key, Accounts::getDisabled())) {
+      // do not list disabled accounts
+      continue;
+    }
+    $instance = Accounts::getInstance($key);
+    $mining_pools[$key] = link_to($instance->getURL(), $instance->getName());
+  }
+
   $external_apis = array(
     "Address balances" => $external_apis_addresses,
 
     "Block counts" => $external_apis_blockcounts,
 
-    "Mining pool wallets" => array(
-      '50btc' => '<a href="https://50btc.com/">50BTC</a>',
-      'bitminter' => '<a href="https://bitminter.com/">BitMinter</a>',
-      'btcguild' => '<a href="https://www.btcguild.com">BTC Guild</a>',
-      'coinhuntr' => '<a href="https://coinhuntr.com/">CoinHuntr</a>',
-      'cryptopools_dgc' => '<a href="http://dgc.cryptopools.com/">CryptoPools</a> (DGC)',
-      'cryptotroll_doge' => '<a href="http://doge.cryptotroll.com">Cryptotroll</a> (DOGE)',
-      'd2_wdc' => '<a href="https://wdc.d2.cc/">d2</a> (WDC)',
-      'dedicatedpool_doge' => '<a href="http://doge.dedicatedpool.com">dedicatedpool.com</a> (DOGE)',
-      'ecoining_ppc' => '<a href="https://peercoin.ecoining.com/">Ecoining Peercoin</a>',
-      'eligius' => '<a href="http://eligius.st/">Eligius</a>',
-      'elitistjerks' => '<a href="https://www.ejpool.info/">Elitist Jerks</a>',
-      'eobot' => '<a href="https://www.eobot.com/">Eobot</a>',
-      'ghashio' => '<a href="https://ghash.io">GHash.io</a>',
-      'givemecoins' => '<a href="https://www.give-me-coins.com">Give Me Coins</a>',
-      'hashfaster_doge' => '<a href="http://doge.hashfaster.com">HashFaster</a> (DOGE)',
-      'hashfaster_ftc' => '<a href="http://ftc.hashfaster.com">HashFaster</a> (FTC)',
-      'hashfaster_ltc' => '<a href="http://ltc.hashfaster.com">HashFaster</a> (LTC)',
-      'hashtocoins' => '<a href="https://hash-to-coins.com/">Hash-to-Coins</a>',
-      'kattare' => '<a href="http://ltc.kattare.com/">ltc.kattare.com</a>',
-      'khore' => '<a href="https://nvc.khore.org/">nvc.khore.org</a>',
-      'liteguardian' => '<a href="https://www.liteguardian.com/">LiteGuardian</a>',
-      'litepooleu' => '<a href="http://litepool.eu/">Litepool</a>',
-      'miningpoolco' => '<a href="https://www.miningpool.co/">MiningPool.co</a>',
-      'multipool' => '<a href="https://multipool.us/">Multipool</a>',
-      'mupool' => '<a href="https://mupool.com/">MuPool</a>',
-      'nicehash' => '<a href="https://www.nicehash.com/">NiceHash</a>',
-      'nut2pools_ftc' => '<a href="https://ftc.nut2pools.com/">Nut2Pools</a> (FTC)',
-      'ozcoin_btc' => '<a href="http://ozco.in/">Ozcoin</a> (BTC)',
-      'ozcoin_ltc' => '<a href="https://lc.ozcoin.net/">Ozcoin</a> (LTC)',
-      'poolx' => '<a href="http://pool-x.eu">Pool-x.eu</a>',
-      'scryptpools' => '<a href="http://doge.scryptpools.com">scryptpools.com</a>',
-      'securities_update_eligius' => '<a href="http://eligius.st/">Eligius</a> balances',
-      'slush' => '<a href="https://mining.bitcoin.cz">Slush\'s pool</a>',
-      'teamdoge' => '<a href="https://teamdoge.com/">TeamDoge</a>',
-      'triplemining' => '<a href="https://www.triplemining.com/">TripleMining</a>',
-      'wemineftc' => '<a href="https://www.wemineftc.com">WeMineFTC</a>',
-      'wemineltc' => '<a href="https://www.wemineltc.com">WeMineLTC</a>',
-      'westhash' => '<a href="https://www.westhash.com/">WestHash</a>',
-      'ypool' => '<a href="http://ypool.net">ypool.net</a>',
-    ),
+    "Mining pool wallets" => $mining_pools,
 
     "Exchange wallets" => array(
       'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
@@ -1152,484 +1025,6 @@ function get_accounts_wizard_config($exchange) {
 
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
-    // --- mining pools ---
-    case "poolx":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_poolx',
-        'khash' => true,
-      );
-
-    case "slush":
-      return array(
-        'inputs' => array(
-          'api_token' => array('title' => 'API current token', 'callback' => 'is_valid_slush_apitoken'),
-        ),
-        'table' => 'accounts_slush',
-      );
-
-    case "wemineltc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_wemineltc',
-        'khash' => true,
-      );
-
-    case "wemineftc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_wemineftc',
-        'khash' => true,
-      );
-
-    case "givemecoins":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_givemecoins',
-        'khash' => true,
-      );
-
-    case "btcguild":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_btcguild_apikey'),
-        ),
-        'table' => 'accounts_btcguild',
-      );
-
-    case "50btc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_50btc_apikey'),
-        ),
-        'table' => 'accounts_50btc',
-      );
-
-    case "hypernova":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_hypernova_apikey'),
-        ),
-        'table' => 'accounts_hypernova',
-        'khash' => true,
-      );
-
-    case "ltcmineru":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ltcmineru_apikey'),
-        ),
-        'table' => 'accounts_ltcmineru',
-        'khash' => true,
-      );
-
-    case "miningforeman":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_miningforeman',
-        'title' => 'Mining Foreman LTC account',
-        'khash' => true,
-      );
-
-    case "miningforeman_ftc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_miningforeman_ftc',
-        'title' => 'Mining Foreman FTC account',
-        'khash' => true,
-        'title_key' => 'miningforeman',
-      );
-
-    case "bitminter":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitminter_apikey'),
-        ),
-        'table' => 'accounts_bitminter',
-      );
-
-    case "liteguardian":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_liteguardian_apikey'),
-        ),
-        'table' => 'accounts_liteguardian',
-        'khash' => true,
-      );
-
-    case "khore":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_khore_apikey'),
-        ),
-        'table' => 'accounts_khore',
-        'khash' => true,
-      );
-
-    case "kattare":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_kattare_apikey'),
-        ),
-        'table' => 'accounts_kattare',
-        'khash' => true,
-      );
-
-    case "litepooleu":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litepooleu_apikey'),
-        ),
-        'table' => 'accounts_litepooleu',
-        'khash' => true,
-      );
-
-    case "coinhuntr":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_coinhuntr_apikey'),
-        ),
-        'table' => 'accounts_coinhuntr',
-        'khash' => true,
-      );
-
-    case "eligius":
-      return array(
-        'inputs' => array(
-          'btc_address' => array('title' => 'BTC Address', 'callback' => array(Currencies::getInstance('btc'), 'isValid')),
-        ),
-        'table' => 'accounts_eligius',
-      );
-
-    case "lite_coinpool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_lite_coinpool_apikey'),
-        ),
-        'table' => 'accounts_lite_coinpool',
-        'khash' => true,
-      );
-
-    case "beeeeer":
-      return array(
-        'inputs' => array(
-          'xpm_address' => array('title' => 'XPM Address', 'callback' => 'is_valid_xpm_address'),
-        ),
-        'table' => 'accounts_beeeeer',
-      );
-
-    case "litecoinpool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_litecoinpool_apikey'),
-        ),
-        'table' => 'accounts_litecoinpool',
-        'khash' => true,
-      );
-
-    case "dogepoolpw":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_dogepoolpw_apikey'),
-        ),
-        'table' => 'accounts_dogepoolpw',
-        'khash' => true,
-      );
-
-    case "elitistjerks":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_elitistjerks_apikey'),
-        ),
-        'table' => 'accounts_elitistjerks',
-        'khash' => true,
-      );
-
-    case "dogechainpool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_dogechainpool_apikey'),
-        ),
-        'table' => 'accounts_dogechainpool',
-        'khash' => true,
-      );
-
-    case "hashfaster_ltc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_hashfaster_ltc',
-        'title' => 'HashFaster LTC account',
-        'khash' => true,
-        'title_key' => 'hashfaster',
-      );
-
-    case "hashfaster_ftc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_hashfaster_ftc',
-        'title' => 'HashFaster FTC account',
-        'khash' => true,
-        'title_key' => 'hashfaster',
-      );
-
-    case "hashfaster_doge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_hashfaster_doge',
-        'title' => 'HashFaster DOGE account',
-        'khash' => true,
-        'title_key' => 'hashfaster',
-      );
-
-    case "triplemining":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_triplemining_apikey'),
-        ),
-        'table' => 'accounts_triplemining',
-      );
-
-    case "ozcoin_ltc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ozcoin_ltc_apikey'),
-        ),
-        'table' => 'accounts_ozcoin_ltc',
-        'title' => 'Ozcoin LTC account',
-        'khash' => true,
-        'title_key' => 'ozcoin',
-      );
-
-    case "ozcoin_btc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ozcoin_btc_apikey'),
-        ),
-        'table' => 'accounts_ozcoin_btc',
-        'title' => 'Ozcoin BTC account',
-        'title_key' => 'ozcoin',
-      );
-
-    case "scryptpools":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_scryptpools',
-        'khash' => true,
-      );
-
-    case "multipool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_multipool_apikey'),
-        ),
-        'table' => 'accounts_multipool',
-        'khash' => true,    // it's actually both MH/s (BTC) and KH/s (LTC) but we will assume KH/s is more common
-      );
-
-    case "ypool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_ypool_apikey'),
-        ),
-        'table' => 'accounts_ypool',
-        'khash' => true,
-      );
-
-    case "miningpoolco":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_miningpoolco_apikey'),
-        ),
-        'table' => 'accounts_miningpoolco',
-        'khash' => true,
-      );
-
-    case "smalltimeminer_mec":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_smalltimeminer_mec',
-        'title' => 'Small Time Miner Megacoin account',
-        'khash' => true,
-        'title_key' => 'smalltimeminer',
-      );
-
-    case "ecoining_ppc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_ecoining_ppc',
-        'title' => 'Ecoining Peercoin account',
-        'title_key' => 'ecoining',
-      );
-
-    case "teamdoge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_teamdoge',
-        'khash' => true,
-      );
-
-    case "dedicatedpool_doge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_dedicatedpool_doge',
-        'title' => 'dedicatedpool.com DOGE account',
-        'title_key' => 'dedicatedpool',
-      );
-
-    case "nut2pools_ftc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_nut2pools_ftc',
-        'title' => 'Nut2Pools FTC account',
-        'title_key' => 'nut2pools',
-      );
-
-    case "shibepool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_shibepool',
-        'khash' => true,
-      );
-
-    case "cryptopools_dgc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_cryptopools_dgc',
-        'title' => 'CryptoPools DGC account',
-        'khash' => true,
-      );
-
-    case "d2_wdc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mmcfe_apikey'),
-        ),
-        'table' => 'accounts_d2_wdc',
-        'title' => 'd2 DOGE account',
-        'khash' => true,
-        'title_key' => 'd2',
-      );
-
-    case "scryptguild":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_scryptguild_apikey'),
-        ),
-        'table' => 'accounts_scryptguild',
-        'khash' => true,
-      );
-
-    case "rapidhash_doge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_rapidhash_doge',
-        'title' => 'RapidHash DOGE account',
-        'title_key' => 'rapidhash',
-      );
-
-    case "rapidhash_vtc":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_rapidhash_vtc',
-        'title' => 'RapidHash VTC account',
-        'title_key' => 'rapidhash',
-      );
-
-    case "cryptotroll_doge":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_cryptotroll_doge',
-        'title' => 'Cryptotroll DOGE account',
-        'title_key' => 'cryptotroll',
-      );
-
-    case "mupool":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mpos_apikey'),
-        ),
-        'table' => 'accounts_mupool',
-        'khash' => true,
-      );
-
-    case "nicehash":
-      return array(
-        'inputs' => array(
-          'api_id' => array('title' => 'API ID', 'callback' => 'is_numeric', 'length' => 16),
-          'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_nicehash_apikey'),
-        ),
-        'table' => 'accounts_nicehash',
-        'khash' => true,
-      );
-
-    case "westhash":
-      return array(
-        'inputs' => array(
-          'api_id' => array('title' => 'API ID', 'callback' => 'is_numeric', 'length' => 16),
-          'api_key' => array('title' => 'ReadOnly API Key', 'callback' => 'is_valid_nicehash_apikey'),
-        ),
-        'table' => 'accounts_westhash',
-        'khash' => true,
-      );
-
-    case "eobot":
-      return array(
-        'inputs' => array(
-          'api_id' => array('title' => 'Account ID', 'callback' => 'is_numeric', 'length' => 16),
-        ),
-        'table' => 'accounts_eobot',
-        'khash' => true,    // actually both
-      );
-
-    case "hashtocoins":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API Key', 'callback' => 'is_valid_hashtocoins_apikey'),
-        ),
-        'table' => 'accounts_hashtocoins',
-        'khash' => true,
-      );
-
     // --- exchanges ---
     case "mtgox":
       return array(
@@ -1703,16 +1098,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
         ),
         'table' => 'accounts_cexio',
-      );
-
-    case "ghashio":
-      return array(
-        'inputs' => array(
-          'api_username' => array('title' => 'Username', 'callback' => 'is_valid_cexio_apiusername'),
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cexio_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
-        ),
-        'table' => 'accounts_ghashio',
       );
 
     case "crypto-trade":
@@ -1998,6 +1383,24 @@ function get_accounts_wizard_config_basic($exchange) {
       );
 
     default:
+      // --- discovered accounts ---
+      if (Accounts::hasKey($exchange)) {
+        $account = Accounts::getInstance($exchange);
+
+        $inputs = array();
+        foreach ($account->getFields() as $key => $field) {
+          $inputs[$key] = array(
+            'title' => $field['title'],
+            'callback' => array(new AccountFieldCheck($field), 'check'),
+          );
+        }
+
+        return array(
+          'inputs' => $inputs,
+          'table' => 'accounts_' . $exchange,
+        );
+      }
+
       // --- offsets ---
       if (substr($exchange, 0, strlen("offset_")) === "offset_") {
         $cur = substr($exchange, strlen("offset_"));
@@ -2014,6 +1417,24 @@ function get_accounts_wizard_config_basic($exchange) {
       }
 
       throw new Exception("Unknown accounts type '$exchange'");
+  }
+}
+
+/**
+ * Helper class to implement field checks for account field types.
+ */
+class AccountFieldCheck {
+  function __construct($field) {
+    $this->field = $field;
+  }
+
+  function check($value) {
+    if (isset($this->field['regexp'])) {
+      if (!preg_match($this->field['regexp'], $value)) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 
@@ -2459,11 +1880,6 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
   return $dropdown_get_all_securities[$table];
 }
 
-function is_valid_mmcfe_apikey($key) {
-  // not sure what the format should be, seems to be 64 character hexadecmial
-  return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
-}
-
 function is_valid_bit2c_apikey($key) {
   // not sure what the format should be
   return preg_match("#^[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+$#", $key);
@@ -2514,11 +1930,6 @@ function is_valid_vircurex_apisecret($key) {
   return strlen($key) >= 1 && strlen($key) <= 255;
 }
 
-function is_valid_slush_apitoken($key) {
-  // not sure what the format is, but it looks to be [user-id]-[random 32 hex characters]
-  return preg_match("#^[0-9]+-[0-9a-f]{32}$#", $key);
-}
-
 function is_valid_havelock_apikey($key) {
   // not sure what the format is, but it looks to be 64 characters of random alphanumeric
   return preg_match("#^[0-9A-Za-z]{64}$#", $key);
@@ -2529,49 +1940,9 @@ function is_valid_bips_apikey($key) {
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
-function is_valid_btcguild_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_50btc_apikey($key) {
-  // looks like a number followed by a 32 character hex string
-  return strlen($key) >= 33 && preg_match("#^[0-9]+\-[a-f0-9]+$#", $key);
-}
-
-function is_valid_hypernova_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_ltcmineru_apikey($key) {
-  // looks like a username, followed by 32 character hex string
-  return preg_match("#^.+_[a-f0-9]{32}$#", $key);
-}
-
 function is_valid_generic_key($key) {
   // this could probably be in any format but should be at least one character
   return strlen($key) >= 1 && strlen($key) <= 255;
-}
-
-function is_valid_bitminter_apikey($key) {
-  // looks like a 32 character alphanumeric uppercase string
-  return strlen($key) == 32 && preg_match("#^[A-Z0-9]+$#", $key);
-}
-
-function is_valid_liteguardian_apikey($key) {
-  // looks like 'api', followed by 32 character hex string
-  return preg_match("#^api[a-f0-9]{32}$#", $key);
-}
-
-function is_valid_khore_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_kattare_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_cexio_apikey($key) {
@@ -2619,56 +1990,6 @@ function is_valid_796_apisecret($key) {
   return strlen($key) == 60 && preg_match("#^[A-Za-z0-9\\+\\/]+$#", $key);
 }
 
-function is_valid_litepooleu_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_coinhuntr_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_lite_coinpool_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_litecoinpool_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_dogepoolpw_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_elitistjerks_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_dogechainpool_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_triplemining_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_ozcoin_ltc_apikey($key) {
-  // guessing the format
-  return preg_match("#^[0-9]+_[a-zA-Z]+$#", $key);
-}
-
-function is_valid_ozcoin_btc_apikey($key) {
-  // guessing the format
-  return preg_match("#^[0-9]+_[a-zA-Z]+$#", $key);
-}
-
 function is_valid_bitcurex_pln_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
@@ -2692,16 +2013,6 @@ function is_valid_justcoin_apikey($key) {
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
-function is_valid_multipool_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_ypool_apikey($key) {
-  // looks like a 20 character string of almost any characters
-  return strlen(trim($key)) == 20;
-}
-
 function is_valid_cryptsy_public_key($key) {
   // looks like a 40 character hex string (full trade) or 18-19 characters (application keys)
   return (strlen($key) >= 16 || strlen($key) <= 40) && preg_match("#^[a-f0-9]+$#", $key);
@@ -2717,11 +2028,6 @@ function is_valid_litecoininvest_apikey($key) {
   return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
 }
 
-function is_valid_miningpoolco_apikey($key) {
-  // looks like a 40 character hex string
-  return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
 function is_valid_vaultofsatoshi_apikey($key) {
   // looks like a 64 character alphanumeric string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
@@ -2730,16 +2036,6 @@ function is_valid_vaultofsatoshi_apikey($key) {
 function is_valid_vaultofsatoshi_apisecret($key) {
   // looks like a 64 character alphanumeric string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_mpos_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_scryptguild_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_kraken_apikey($key) {
@@ -2788,15 +2084,6 @@ function is_valid_bittrex_apisecret($key) {
 function is_valid_bittrex_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_nicehash_apikey($key) {
-  return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
-}
-
-function is_valid_hashtocoins_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_btclevels_apisecret($key) {

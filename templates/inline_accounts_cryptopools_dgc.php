@@ -1,5 +1,5 @@
 <?php
-$account_data = array('exchange_name' => get_exchange_name('cryptopools_dgc') . " DGC");
+$account_data = array('exchange_name' => get_exchange_name('cryptopools_dgc'));
 ?>
 
 <div class="instructions_add">

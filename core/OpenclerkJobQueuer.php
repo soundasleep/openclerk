@@ -7,6 +7,9 @@ use \Openclerk\Jobs\Job;
 use \Db\Connection;
 use \Monolog\Logger;
 use \Core\MyLogger;
+use \DiscoveredComponents\Accounts;
+use \DiscoveredComponents\Currencies;
+use \DiscoveredComponents\Exchanges;
 
 class OpenclerkJobQueuer extends JobQueuer {
 
@@ -45,27 +48,30 @@ class OpenclerkJobQueuer extends JobQueuer {
       );
     }
 
+    // account jobs are now named in common patterns
+    $account_jobs = array();
+    foreach (Accounts::getKeys() as $exchange) {
+      if (!in_array($exchange, \DiscoveredComponents\Accounts::getDisabled())) {
+        $account_jobs[] = array(
+          'table' => 'accounts_' . $exchange,
+          'type' => 'account_' . $exchange,
+          'failure' => true,
+        );
+      }
+    }
+
     // standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
     // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
     // if no 'user_id' is specified, then the user will also be checked for disable status
-    $standard_jobs = array_merge($ticker_jobs, $address_jobs, array(
+    $standard_jobs = array_merge($ticker_jobs, $address_jobs, $account_jobs, array(
       array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
       array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
       array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
       array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'failure' => true),
-      array('table' => 'accounts_poolx', 'type' => 'poolx', 'failure' => true),
-      array('table' => 'accounts_wemineltc', 'type' => 'wemineltc', 'failure' => true),
-      array('table' => 'accounts_wemineftc', 'type' => 'wemineftc', 'failure' => true),
-      array('table' => 'accounts_givemecoins', 'type' => 'givemecoins', 'failure' => true),
-      array('table' => 'accounts_slush', 'type' => 'slush', 'failure' => true),
       array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks', 'failure' => true),
       array('table' => 'securities_cryptostocks', 'type' => 'securities_cryptostocks', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
-      array('table' => 'accounts_btcguild', 'type' => 'btcguild', 'failure' => true),
       array('table' => 'accounts_havelock', 'type' => 'havelock', 'failure' => true),
       array('table' => 'securities_havelock', 'type' => 'securities_havelock', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
-      array('table' => 'accounts_bitminter', 'type' => 'bitminter', 'failure' => true),
-      array('table' => 'accounts_liteguardian', 'type' => 'liteguardian', 'failure' => true),
-      array('table' => 'accounts_khore', 'type' => 'khore', 'failure' => true),
       array('table' => 'accounts_cexio', 'type' => 'cexio', 'failure' => true),
       array('table' => 'accounts_ghashio', 'type' => 'ghashio', 'failure' => true),
       array('table' => 'accounts_cryptotrade', 'type' => 'crypto-trade', 'failure' => true),
@@ -73,46 +79,17 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_bitstamp', 'type' => 'bitstamp', 'failure' => true),
       array('table' => 'accounts_796', 'type' => '796', 'failure' => true),
       array('table' => 'securities_796', 'type' => 'securities_796', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
-      array('table' => 'accounts_kattare', 'type' => 'kattare', 'failure' => true),
-      array('table' => 'accounts_litepooleu', 'type' => 'litepooleu', 'failure' => true),
-      array('table' => 'accounts_coinhuntr', 'type' => 'coinhuntr', 'failure' => true),
-      array('table' => 'accounts_eligius', 'type' => 'eligius', 'failure' => true),   // for hashrates; balance is handled by securities_update[eligius]
-      array('table' => 'accounts_litecoinpool', 'type' => 'litecoinpool', 'failure' => true),
-      array('table' => 'accounts_elitistjerks', 'type' => 'elitistjerks', 'failure' => true),
-      array('table' => 'accounts_hashfaster_doge', 'type' => 'hashfaster_doge', 'failure' => true),
-      array('table' => 'accounts_hashfaster_ltc', 'type' => 'hashfaster_ltc', 'failure' => true),
-      array('table' => 'accounts_hashfaster_ftc', 'type' => 'hashfaster_ftc', 'failure' => true),
-      array('table' => 'accounts_triplemining', 'type' => 'triplemining', 'failure' => true),
-      array('table' => 'accounts_ozcoin_ltc', 'type' => 'ozcoin_ltc', 'failure' => true),
-      array('table' => 'accounts_ozcoin_btc', 'type' => 'ozcoin_btc', 'failure' => true),
-      array('table' => 'accounts_scryptpools', 'type' => 'scryptpools', 'failure' => true),
       array('table' => 'accounts_justcoin', 'type' => 'justcoin', 'failure' => true),
-      array('table' => 'accounts_multipool', 'type' => 'multipool', 'failure' => true),
-      array('table' => 'accounts_ypool', 'type' => 'ypool', 'failure' => true),
       array('table' => 'accounts_coinbase', 'type' => 'coinbase', 'failure' => true),
       array('table' => 'accounts_litecoininvest', 'type' => 'litecoininvest', 'failure' => true),
       // securities_litecoininvest - we let securities_update handle this
-      array('table' => 'accounts_miningpoolco', 'type' => 'miningpoolco', 'failure' => true),
       array('table' => 'accounts_vaultofsatoshi', 'type' => 'vaultofsatoshi', 'failure' => true),
-      array('table' => 'accounts_50btc', 'type' => '50btc', 'failure' => true),
-      array('table' => 'accounts_ecoining_ppc', 'type' => 'ecoining_ppc', 'failure' => true),
-      array('table' => 'accounts_teamdoge', 'type' => 'teamdoge', 'failure' => true),
-      array('table' => 'accounts_dedicatedpool_doge', 'type' => 'dedicatedpool_doge', 'failure' => true),
-      array('table' => 'accounts_nut2pools_ftc', 'type' => 'nut2pools_ftc', 'failure' => true),
       array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
-      array('table' => 'accounts_cryptopools_dgc', 'type' => 'cryptopools_dgc', 'failure' => true),
-      array('table' => 'accounts_d2_wdc', 'type' => 'd2_wdc', 'failure' => true),
       array('table' => 'accounts_kraken', 'type' => 'kraken', 'failure' => true),
-      array('table' => 'accounts_cryptotroll_doge', 'type' => 'cryptotroll_doge', 'failure' => true),
       array('table' => 'accounts_bitmarket_pl', 'type' => 'bitmarket_pl', 'failure' => true),
       array('table' => 'accounts_poloniex', 'type' => 'poloniex', 'failure' => true),
-      array('table' => 'accounts_mupool', 'type' => 'mupool', 'failure' => true),
       array('table' => 'accounts_anxpro', 'type' => 'anxpro', 'failure' => true),
       array('table' => 'accounts_bittrex', 'type' => 'bittrex', 'failure' => true),
-      array('table' => 'accounts_nicehash', 'type' => 'nicehash', 'failure' => true),
-      array('table' => 'accounts_westhash', 'type' => 'westhash', 'failure' => true),
-      array('table' => 'accounts_eobot', 'type' => 'eobot', 'failure' => true),
-      array('table' => 'accounts_hashtocoins', 'type' => 'hashtocoins', 'failure' => true),
       array('table' => 'accounts_btclevels', 'type' => 'btclevels', 'failure' => true),
       array('table' => 'accounts_bitnz', 'type' => 'bitnz', 'failure' => true),
 
@@ -312,6 +289,30 @@ class OpenclerkJobQueuer extends JobQueuer {
         'user_id' => get_site_config('system_user_id'),
         'arg_id' => -1,
       );
+    }
+
+    // supported currencies jobs (using the new Accounts framework)
+    foreach (\DiscoveredComponents\Accounts::getKeys() as $key) {
+      if (!in_array($key, \DiscoveredComponents\Accounts::getDisabled())) {
+        $name = "currencies_" . $key;
+        $result[] = array(
+          'job_type' => $name,
+          'user_id' => get_site_config('system_user_id'),
+          'arg_id' => -1,
+        );
+      }
+    }
+
+    // supported hashrates jobs (using the new Accounts framework)
+    foreach (\DiscoveredComponents\Accounts::getMiners() as $key) {
+      if (!in_array($key, \DiscoveredComponents\Accounts::getDisabled())) {
+        $name = "hashrates_" . $key;
+        $result[] = array(
+          'job_type' => $name,
+          'user_id' => get_site_config('system_user_id'),
+          'arg_id' => -1,
+        );
+      }
     }
 
     return $result;

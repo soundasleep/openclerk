@@ -2,5 +2,9 @@
   "\\Core\\Migrations\\InstallBootstrapGenerator": "\\Core\\Migrations\\InstallBootstrapGenerator",
   "\\Core\\Migrations\\BlockCountMigrationGenerator": "\\Core\\Migrations\\BlockCountMigrationGenerator",
   "\\Core\\Migrations\\DifficultyMigrationGenerator": "\\Core\\Migrations\\DifficultyMigrationGenerator",
-  "\\Core\\Migrations\\ExchangePairs": "\\Core\\Migrations\\ExchangePairs"
+  "\\Core\\Migrations\\ExchangePairs": "\\Core\\Migrations\\ExchangePairs",
+  "\\Core\\Migrations\\AccountCurrencies": "\\Core\\Migrations\\AccountCurrencies",
+  "\\Core\\Migrations\\AccountHashCurrencies": "\\Core\\Migrations\\AccountHashCurrencies",
+  "\\Core\\Migrations\\RemoveSecuritiesUpdateEligius": "\\Core\\Migrations\\RemoveSecuritiesUpdateEligius",
+  "\\Core\\Migrations\\AccountInstanceGenerator": "\\Core\\Migrations\\AccountInstanceGenerator"
 }

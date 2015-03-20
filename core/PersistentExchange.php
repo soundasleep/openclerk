@@ -29,8 +29,8 @@ class PersistentExchange {
     foreach ($existing as $pair) {
       if (array_search($pair, $markets) === false) {
         $logger->info("Removing pair " . implode("/", $pair));
-        $q = $this->db->prepare("DELETE FROM exchange_pairs WHERE currency1=? AND currency2=?");
-        $q->execute(array($pair[0], $pair[1]));
+        $q = $this->db->prepare("DELETE FROM exchange_pairs WHERE exchange=? AND currency1=? AND currency2=?");
+        $q->execute(array($this->exchange->getCode(), $pair[0], $pair[1]));
       }
     }
 

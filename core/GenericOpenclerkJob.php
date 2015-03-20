@@ -45,36 +45,12 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/vircurex.php");
         break;
 
-      case "poolx":
-        require(__DIR__ . "/../jobs/poolx.php");
-        break;
-
-      case "wemineltc":
-        require(__DIR__ . "/../jobs/wemineltc.php");
-        break;
-
-      case "wemineftc":
-        require(__DIR__ . "/../jobs/wemineftc.php");
-        break;
-
-      case "givemecoins":
-        require(__DIR__ . "/../jobs/givemecoins.php");
-        break;
-
-      case "slush":
-        require(__DIR__ . "/../jobs/slush.php");
-        break;
-
       case "cryptostocks":
         require(__DIR__ . "/../jobs/cryptostocks.php");
         break;
 
       case "securities_cryptostocks":
         require(__DIR__ . "/../jobs/securities_cryptostocks.php");
-        break;
-
-      case "btcguild":
-        require(__DIR__ . "/../jobs/btcguild.php");
         break;
 
       case "havelock":
@@ -85,24 +61,8 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/securities_havelock.php");
         break;
 
-      case "bitminter":
-        require(__DIR__ . "/../jobs/bitminter.php");
-        break;
-
-      case "liteguardian":
-        require(__DIR__ . "/../jobs/liteguardian.php");
-        break;
-
-      case "khore":
-        require(__DIR__ . "/../jobs/khore.php");
-        break;
-
       case "cexio":
         require(__DIR__ . "/../jobs/cexio.php");
-        break;
-
-      case "ghashio":
-        require(__DIR__ . "/../jobs/ghashio.php");
         break;
 
       case "crypto-trade":
@@ -125,68 +85,8 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/securities_796.php");
         break;
 
-      case "kattare":
-        require(__DIR__ . "/../jobs/kattare.php");
-        break;
-
-      case "litepooleu":
-        require(__DIR__ . "/../jobs/litepooleu.php");
-        break;
-
-      case "coinhuntr":
-        require(__DIR__ . "/../jobs/coinhuntr.php");
-        break;
-
-      case "eligius":
-        require(__DIR__ . "/../jobs/eligius.php");
-        break;
-
-      case "litecoinpool":
-        require(__DIR__ . "/../jobs/litecoinpool.php");
-        break;
-
-      case "elitistjerks":
-        require(__DIR__ . "/../jobs/elitistjerks.php");
-        break;
-
-      case "hashfaster_ltc":
-        require(__DIR__ . "/../jobs/hashfaster_ltc.php");
-        break;
-
-      case "hashfaster_ftc":
-        require(__DIR__ . "/../jobs/hashfaster_ftc.php");
-        break;
-
-      case "hashfaster_doge":
-        require(__DIR__ . "/../jobs/hashfaster_doge.php");
-        break;
-
-      case "triplemining":
-        require(__DIR__ . "/../jobs/triplemining.php");
-        break;
-
-      case "ozcoin_ltc":
-        require(__DIR__ . "/../jobs/ozcoin_ltc.php");
-        break;
-
-      case "ozcoin_btc":
-        require(__DIR__ . "/../jobs/ozcoin_btc.php");
-        break;
-
-      case "scryptpools":
-        require(__DIR__ . "/../jobs/scryptpools.php");
-        break;
-
       case "justcoin":
         require(__DIR__ . "/../jobs/justcoin.php");
-        break;
-
-      case "multipool":
-        require(__DIR__ . "/../jobs/multipool.php");
-        break;
-
-      case "ypool":
-        require(__DIR__ . "/../jobs/ypool.php");
         break;
 
       case "coinbase":
@@ -197,44 +97,12 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/litecoininvest.php");
         break;
 
-      case "miningpoolco":
-        require(__DIR__ . "/../jobs/miningpoolco.php");
-        break;
-
       case "vaultofsatoshi":
         require(__DIR__ . "/../jobs/vaultofsatoshi.php");
         break;
 
-      case "50btc":
-        require(__DIR__ . "/../jobs/50btc.php");
-        break;
-
-      case "ecoining_ppc":
-        require(__DIR__ . "/../jobs/ecoining_ppc.php");
-        break;
-
-      case "teamdoge":
-        require(__DIR__ . "/../jobs/teamdoge.php");
-        break;
-
-      case "dedicatedpool_doge":
-        require(__DIR__ . "/../jobs/dedicatedpool_doge.php");
-        break;
-
-      case "nut2pools_ftc":
-        require(__DIR__ . "/../jobs/nut2pools_ftc.php");
-        break;
-
       case "cryptsy":
         require(__DIR__ . "/../jobs/cryptsy.php");
-        break;
-
-      case "cryptopools_dgc":
-        require(__DIR__ . "/../jobs/cryptopools_dgc.php");
-        break;
-
-      case "d2_wdc":
-        require(__DIR__ . "/../jobs/d2_wdc.php");
         break;
 
       case "bit2c":
@@ -245,10 +113,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/kraken.php");
         break;
 
-      case "cryptotroll_doge":
-        require(__DIR__ . "/../jobs/cryptotroll_doge.php");
-        break;
-
       case "bitmarket_pl":
         require(__DIR__ . "/../jobs/bitmarket_pl.php");
         break;
@@ -257,32 +121,12 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/poloniex.php");
         break;
 
-      case "mupool":
-        require(__DIR__ . "/../jobs/mupool.php");
-        break;
-
       case "anxpro":
         require(__DIR__ . "/../jobs/anxpro.php");
         break;
 
       case "bittrex":
         require(__DIR__ . "/../jobs/bittrex.php");
-        break;
-
-      case "nicehash":
-        require(__DIR__ . "/../jobs/nicehash.php");
-        break;
-
-      case "westhash":
-        require(__DIR__ . "/../jobs/westhash.php");
-        break;
-
-      case "eobot":
-        require(__DIR__ . "/../jobs/eobot.php");
-        break;
-
-      case "hashtocoins":
-        require(__DIR__ . "/../jobs/hashtocoins.php");
         break;
 
       case "btclevels":
@@ -443,6 +287,36 @@ class GenericOpenclerkJob implements Job {
             throw new JobException("Exchange $exchange is not a valid exchange");
           }
           require(__DIR__ . "/../jobs/ticker/discovered.php");
+          break;
+        }
+
+        if (substr($job['job_type'], 0, strlen("currencies_")) === "currencies_") {
+          // address job
+          $exchange = substr($job['job_type'], strlen("currencies_"));
+          if (!in_array($exchange, \DiscoveredComponents\Accounts::getKeys())) {
+            throw new JobException("Account $exchange is not a valid account");
+          }
+          require(__DIR__ . "/../jobs/currencies/discovered.php");
+          break;
+        }
+
+        if (substr($job['job_type'], 0, strlen("hashrates_")) === "hashrates_") {
+          // address job
+          $exchange = substr($job['job_type'], strlen("hashrates_"));
+          if (!in_array($exchange, \DiscoveredComponents\Accounts::getMiners())) {
+            throw new JobException("Account $exchange is not a valid miner");
+          }
+          require(__DIR__ . "/../jobs/hashrates/discovered.php");
+          break;
+        }
+
+        if (substr($job['job_type'], 0, strlen("account_")) === "account_") {
+          // address job
+          $exchange = substr($job['job_type'], strlen("account_"));
+          if (!in_array($exchange, \DiscoveredComponents\Accounts::getKeys())) {
+            throw new JobException("Account $exchange is not a valid account");
+          }
+          require(__DIR__ . "/../jobs/account/discovered.php");
           break;
         }
 

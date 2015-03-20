@@ -15,6 +15,7 @@ if (!$q) {
 // of a security breach/injection
 $knowledge = get_knowledge_base();
 
+global $title;
 $title = false;
 foreach ($knowledge as $label => $a) {
   if (isset($a[$q])) {
