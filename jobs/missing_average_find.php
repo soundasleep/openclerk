@@ -21,7 +21,7 @@ class MissingAverageJobQueuer extends JobQueuer {
     $q = $db->prepare("SELECT created_at_day, min(created_at) as date, count(*) as c
         FROM ticker
         WHERE exchange <> 'average' AND exchange <> 'themoneyconverter' and is_daily_data=1 and created_at_day not in
-          (SELECT created_at_day FROM ticker WHERE exchange = 'average')
+          (SELECT created_at_day FROM ticker WHERE exchange = 'average' GROUP BY created_at_day)
         GROUP BY created_at_day");
     $q->execute();
     $missing = $q->fetchAll();
