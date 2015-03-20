@@ -273,12 +273,18 @@ function get_new_exchanges() {
 /**
  * Get all exchange codes and their currently supported pairs.
  * Does not return the exchange codes in alphabetical order.
+ * Does not return any exchange pairs for disabled exchanges.
  */
 function get_exchange_pairs() {
   $pairs = array();
 
   // add all discovered pairs
   foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    // ignore all disabled exchanges
+    if (in_array($key, Exchanges::getDisabled())) {
+      continue;
+    }
+
     $persistent = new \Core\PersistentExchange($exchange, db());
     $result = array();
     foreach ($persistent->getMarkets() as $pair) {
@@ -441,6 +447,11 @@ function get_summary_types() {
 
   // add fiat pairs automatically
   foreach (get_exchange_pairs() as $exchange => $pairs) {
+    if (in_array($exchange, Exchanges::getDisabled())) {
+      // ignore disabled exchanges
+      continue;
+    }
+
     foreach ($pairs as $pair) {
       if ($pair[1] == 'btc') {
         // fiat currency
@@ -804,6 +815,10 @@ function get_external_apis() {
 
   $exchange_tickers = array();
   foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    if (in_array($key, Exchanges::getDisabled())) {
+      // do not list disabled exchanges
+      continue;
+    }
     $link = link_to($exchange->getURL(), $exchange->getName());
     $exchange_tickers["ticker_" . $key] = array(
       'link' => $link,

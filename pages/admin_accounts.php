@@ -193,7 +193,7 @@ function get_error_class($n) {
 
     echo "<td>" . get_class($exchange) . "</td>";
 
-    if (false /* TODO implement disabled exchanges: issue #454 */ && $exchange->isDisabled()) {
+    if (in_array($exchange->getCode(), \DiscoveredComponents\Exchanges::getDisabled())) {
       echo "<td><i>disabled</i></td>";
     } else {
       echo "<td></td>";
