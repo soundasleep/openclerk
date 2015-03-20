@@ -19,8 +19,13 @@
         "getAddressCurrencies": "\\Openclerk\\Currencies\\AddressableCurrency",
         "getBalanceCurrencies": "\\Openclerk\\Currencies\\BalanceableCurrency",
         "getBlockCurrencies": "\\Openclerk\\Currencies\\BlockCurrency",
-        "getDifficultyCurrencies": "\\Openclerk\\Currencies\\DifficultyCurrency"
+        "getDifficultyCurrencies": "\\Openclerk\\Currencies\\DifficultyCurrency",
+        "getHashableCurrencies": "\\Openclerk\\Currencies\\HashableCurrency"
       }
+    },
+    "algorithms": {
+      "file": "algorithms.json",
+      "instanceof": "\\Openclerk\\Currencies\\HashAlgorithm"
     },
     "exchanges": {
       "file": "exchanges.json",
