@@ -11,7 +11,7 @@
  */
 
 if ($_GET['key'] !== "your_secret_key") {
-	throw new Exception("Invalid key.");
+  throw new Exception("Invalid key.");
 }
 
 // now you have to do the hard work: define how you calculate your balance to return.

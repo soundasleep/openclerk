@@ -8,8 +8,8 @@ require_once(__DIR__ . "/OpenclerkTest.php");
  */
 class OpenclerkTestTest extends OpenclerkTest {
 
-	function testAssertMatches() {
-		$this->assertMatches("#abc#", "abc");
-	}
+  function testAssertMatches() {
+    $this->assertMatches("#abc#", "abc");
+  }
 
 }

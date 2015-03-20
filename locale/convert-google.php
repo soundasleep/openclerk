@@ -22,73 +22,73 @@ $input = explode("\n", trim(str_replace("\r", "", file_get_contents(__DIR__ . "/
 
 $dir = __DIR__ . "/translated/";
 if ($dh = opendir($dir)) {
-	while (($file = readdir($dh)) !== false) {
-		$matches = false;
-		if (preg_match("/_([a-z@]+).txt$/i", $file, $matches)) {
-			$locale = $matches[1];
+  while (($file = readdir($dh)) !== false) {
+    $matches = false;
+    if (preg_match("/_([a-z@]+).txt$/i", $file, $matches)) {
+      $locale = $matches[1];
 
-			echo $dir . $file . " -> " . $locale . "\n";
+      echo $dir . $file . " -> " . $locale . "\n";
 
-			$f = file_get_contents($dir . $file);
-			$is_utf8 = false;
-			// strip out UTF-8 header...
-			if (substr($f, 0, strlen("\xEF\xBB\xBF")) == "\xEF\xBB\xBF") {
-				echo "[processing utf-8]\n";
-				$f = substr($f, strlen("\xEF\xBB\xBF"));
-				$is_utf8 = true;
-			}
-			$translated = explode("\n", trim(str_replace("\r", "", $f)));
+      $f = file_get_contents($dir . $file);
+      $is_utf8 = false;
+      // strip out UTF-8 header...
+      if (substr($f, 0, strlen("\xEF\xBB\xBF")) == "\xEF\xBB\xBF") {
+        echo "[processing utf-8]\n";
+        $f = substr($f, strlen("\xEF\xBB\xBF"));
+        $is_utf8 = true;
+      }
+      $translated = explode("\n", trim(str_replace("\r", "", $f)));
 
-			if (count($input) != count($translated)) {
-				echo $input[0] . "\n";
-				echo $input[1] . "\n";
-				echo $translated[0] . "\n";
-				echo $translated[1] . "\n";
-				throw new Exception("Could not translate $dir$file: expected " . count($input) . " lines, found " . count($translated) . " lines");
-			}
+      if (count($input) != count($translated)) {
+        echo $input[0] . "\n";
+        echo $input[1] . "\n";
+        echo $translated[0] . "\n";
+        echo $translated[1] . "\n";
+        throw new Exception("Could not translate $dir$file: expected " . count($input) . " lines, found " . count($translated) . " lines");
+      }
 
-			// check all placeholders are there
-			for ($i = 0; $i < count($input); $i++) {
-				if (preg_match_all("/<([a-z_]+)>/i", $input[$i], $placeholders, PREG_SET_ORDER)) {
-					foreach ($placeholders as $placeholder) {
-						if (strpos($translated[$i], "<" . $placeholder[1] . ">") === false) {
-							throw new Exception("Line " . ($i+1) . ": Expected <" . $placeholder[1] . "> in '" . trim($translated[$i]) . "' for '" . $input[$i] . "'");
-						}
-					}
-				}
-			}
+      // check all placeholders are there
+      for ($i = 0; $i < count($input); $i++) {
+        if (preg_match_all("/<([a-z_]+)>/i", $input[$i], $placeholders, PREG_SET_ORDER)) {
+          foreach ($placeholders as $placeholder) {
+            if (strpos($translated[$i], "<" . $placeholder[1] . ">") === false) {
+              throw new Exception("Line " . ($i+1) . ": Expected <" . $placeholder[1] . "> in '" . trim($translated[$i]) . "' for '" . $input[$i] . "'");
+            }
+          }
+        }
+      }
 
-			// now we can write locale.php
-			$fp = fopen(__DIR__ . "/" . $locale . ".php", "w");
-			if ($is_utf8) {
-				// put back UTF-8 header
-				fwrite($fp, "\xEF\xBB\xBF");
-			}
-			fwrite($fp, "<?php\n\n/**\n * $locale template file\n * Generated from '$file' at " . date('r') . "\n */\n\n");
-			fwrite($fp, '$' . "result = array(\n");
-			for ($i = 0; $i < count($input); $i++) {
-				$input_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $input[$i]);
-				$translation_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $translated[$i]);
-				$translation_replaced = trim($translation_replaced);
-				fwrite($fp, "\t\"" . phpescapestring($input_replaced) . "\" => \"" . phpescapestring($translation_replaced) . "\",\n");
-			}
-			fwrite($fp, ");\n");
-			fclose($fp);
+      // now we can write locale.php
+      $fp = fopen(__DIR__ . "/" . $locale . ".php", "w");
+      if ($is_utf8) {
+        // put back UTF-8 header
+        fwrite($fp, "\xEF\xBB\xBF");
+      }
+      fwrite($fp, "<?php\n\n/**\n * $locale template file\n * Generated from '$file' at " . date('r') . "\n */\n\n");
+      fwrite($fp, '$' . "result = array(\n");
+      for ($i = 0; $i < count($input); $i++) {
+        $input_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $input[$i]);
+        $translation_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $translated[$i]);
+        $translation_replaced = trim($translation_replaced);
+        fwrite($fp, "\t\"" . phpescapestring($input_replaced) . "\" => \"" . phpescapestring($translation_replaced) . "\",\n");
+      }
+      fwrite($fp, ");\n");
+      fclose($fp);
 
-			// also write a locale_locale.json for loading into Transifex
-			$fp = fopen(__DIR__ . "/translated/locale_" . $locale . ".json", "w");
-			// no UTF-8 header; json_encode will deal with UTF-8
-			fwrite($fp, "{");
-			for ($i = 0; $i < count($input); $i++) {
-				$input_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $input[$i]);
-				$translation_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $translated[$i]);
-				$translation_replaced = trim($translation_replaced);
-				fwrite($fp, ($i == 0 ? "" : ",") . "\n\t" . json_encode($input_replaced) . ": " . json_encode($translation_replaced));
-			}
-			fwrite($fp, "\n}");
-			fclose($fp);
+      // also write a locale_locale.json for loading into Transifex
+      $fp = fopen(__DIR__ . "/translated/locale_" . $locale . ".json", "w");
+      // no UTF-8 header; json_encode will deal with UTF-8
+      fwrite($fp, "{");
+      for ($i = 0; $i < count($input); $i++) {
+        $input_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $input[$i]);
+        $translation_replaced = preg_replace("/<([a-z0-9_]+)>/i", ":\\1", $translated[$i]);
+        $translation_replaced = trim($translation_replaced);
+        fwrite($fp, ($i == 0 ? "" : ",") . "\n\t" . json_encode($input_replaced) . ": " . json_encode($translation_replaced));
+      }
+      fwrite($fp, "\n}");
+      fclose($fp);
 
-		}
-	}
-	closedir($dh);
+    }
+  }
+  closedir($dh);
 }

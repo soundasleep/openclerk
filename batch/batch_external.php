@@ -7,7 +7,7 @@
  *   $key/1 required the automated key
  */
 
-define('USE_MASTER_DB', true);		// always use the master database for selects!
+define('USE_MASTER_DB', true);    // always use the master database for selects!
 
 require(__DIR__ . "/../inc/global.php");
 require(__DIR__ . "/_batch.php");
@@ -23,34 +23,34 @@ crypto_log("Current time: " . date('r'));
 $summary = array();
 $jobs = (int) get_site_config('external_sample_size');
 $queries = array(
-	"SELECT jobs.* FROM jobs
-		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type <> 'ticker' AND job_type <> 'securities_update'",
-	"SELECT jobs.*, exchanges.name AS exchange FROM jobs
-		JOIN exchanges ON jobs.arg_id=exchanges.id
-		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type = 'ticker'",
-	"SELECT jobs.*, securities_update.exchange AS exchange FROM jobs
-		JOIN securities_update ON jobs.arg_id=securities_update.id
-		WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type = 'securities_update'",
+  "SELECT jobs.* FROM jobs
+    WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type <> 'ticker' AND job_type <> 'securities_update'",
+  "SELECT jobs.*, exchanges.name AS exchange FROM jobs
+    JOIN exchanges ON jobs.arg_id=exchanges.id
+    WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type = 'ticker'",
+  "SELECT jobs.*, securities_update.exchange AS exchange FROM jobs
+    JOIN securities_update ON jobs.arg_id=securities_update.id
+    WHERE jobs.id > (SELECT MAX(jobs.id) FROM jobs WHERE is_executed=1) - $jobs AND is_executed=1 AND job_type = 'securities_update'",
 );
 $sample_size = 0;
 foreach ($queries as $query) {
-	$q = db()->prepare($query);
-	$q->execute();
-	while ($job = $q->fetch()) {
-		$job_type = $job['job_type'];
-		if (isset($job['exchange'])) {
-			$job_type .= "_" . $job['exchange'];
-		}
-		if (!isset($summary[$job_type])) {
-			$summary[$job_type] = array('count' => 0, 'errors' => 0, 'first' => $job['executed_at'], 'last' => $job['executed_at']);
-		}
-		$summary[$job_type]['count']++;
-		if ($job['is_error']) {
-			$summary[$job_type]['errors']++;
-		}
-		$summary[$job_type]['last'] = $job['executed_at'];
-		$sample_size++;
-	}
+  $q = db()->prepare($query);
+  $q->execute();
+  while ($job = $q->fetch()) {
+    $job_type = $job['job_type'];
+    if (isset($job['exchange'])) {
+      $job_type .= "_" . $job['exchange'];
+    }
+    if (!isset($summary[$job_type])) {
+      $summary[$job_type] = array('count' => 0, 'errors' => 0, 'first' => $job['executed_at'], 'last' => $job['executed_at']);
+    }
+    $summary[$job_type]['count']++;
+    if ($job['is_error']) {
+      $summary[$job_type]['errors']++;
+    }
+    $summary[$job_type]['last'] = $job['executed_at'];
+    $sample_size++;
+  }
 }
 
 crypto_log(print_r($summary, true));
@@ -66,26 +66,26 @@ $q = db()->prepare("UPDATE external_status SET is_recent=0");
 $q->execute();
 
 foreach ($summary as $key => $data) {
-	$q = db()->prepare("INSERT INTO external_status SET is_recent=1, job_type=:key, job_count=:count, job_errors=:errors, job_first=:first, job_last=:last, sample_size=:sample_size");
-	$q->execute(array(
-		"key" => $key,
-		"count" => $data['count'],
-		"errors" => $data['errors'],
-		"first" => db_date($data['first']),
-		"last" => db_date($data['last']),
-		"sample_size" => $sample_size,
-	));
+  $q = db()->prepare("INSERT INTO external_status SET is_recent=1, job_type=:key, job_count=:count, job_errors=:errors, job_first=:first, job_last=:last, sample_size=:sample_size");
+  $q->execute(array(
+    "key" => $key,
+    "count" => $data['count'],
+    "errors" => $data['errors'],
+    "first" => db_date($data['first']),
+    "last" => db_date($data['last']),
+    "sample_size" => $sample_size,
+  ));
 
-	// if there are no external_status_types for this job_type, insert one in
-	$q = db()->prepare("SELECT * FROM external_status_types WHERE job_type=? LIMIT 1");
-	$q->execute(array($key));
-	if (!$q->fetch()) {
-		crypto_log("No external_status_types found for job_type '" . htmlspecialchars($key) . "': inserting new mapping");
-		$q = db()->prepare("INSERT INTO external_status_types SET job_type=?");
-		$q->execute(array($key));
-	}
+  // if there are no external_status_types for this job_type, insert one in
+  $q = db()->prepare("SELECT * FROM external_status_types WHERE job_type=? LIMIT 1");
+  $q->execute(array($key));
+  if (!$q->fetch()) {
+    crypto_log("No external_status_types found for job_type '" . htmlspecialchars($key) . "': inserting new mapping");
+    $q = db()->prepare("INSERT INTO external_status_types SET job_type=?");
+    $q->execute(array($key));
+  }
 
-	// TODO add is_daily_data flag, summarise data through cleanup, etc
+  // TODO add is_daily_data flag, summarise data through cleanup, etc
 
 }
 

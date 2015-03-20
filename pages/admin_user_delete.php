@@ -16,7 +16,7 @@ page_header("Admin: Delete User", "page_admin_user_delete");
 $id = require_post("id");
 $confirm = require_post("confirm");
 if (!$confirm) {
-	throw new Exception("Need to confirm");
+  throw new Exception("Need to confirm");
 }
 
 ?>
@@ -29,7 +29,7 @@ if (!$confirm) {
 <?php
 
 function crypto_log($message) {
-	echo "<li>" . $message . "</li>\n";
+  echo "<li>" . $message . "</li>\n";
 }
 
 require(__DIR__ . "/../inc/delete_user.php");
