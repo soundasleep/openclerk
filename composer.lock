@@ -620,12 +620,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/exchanges.git",
-                "reference": "ef7bf903060bbca2a6575894a9e5a8df3e57efd6"
+                "reference": "5d68a117c34f096c28a714af20bc271a82f51044"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/ef7bf903060bbca2a6575894a9e5a8df3e57efd6",
-                "reference": "ef7bf903060bbca2a6575894a9e5a8df3e57efd6",
+                "url": "https://api.github.com/repos/openclerk/exchanges/zipball/5d68a117c34f096c28a714af20bc271a82f51044",
+                "reference": "5d68a117c34f096c28a714af20bc271a82f51044",
                 "shasum": ""
             },
             "require": {
@@ -647,7 +647,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of exchanges in Openclerk",
-            "time": "2015-03-20 00:13:03"
+            "time": "2015-03-20 03:35:57"
         },
         {
             "name": "openclerk/fiat",
@@ -1072,12 +1072,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "4b7b3f898c6b93462779aa487d0810ebf83595a3"
+                "reference": "1c3c04644b3d5d8e9f02d2f6dc2a3ccec50c5232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/4b7b3f898c6b93462779aa487d0810ebf83595a3",
-                "reference": "4b7b3f898c6b93462779aa487d0810ebf83595a3",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/1c3c04644b3d5d8e9f02d2f6dc2a3ccec50c5232",
+                "reference": "1c3c04644b3d5d8e9f02d2f6dc2a3ccec50c5232",
                 "shasum": ""
             },
             "require-dev": {
@@ -1092,7 +1092,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2015-03-09 02:37:56"
+            "time": "2015-03-20 03:03:49"
         },
         {
             "name": "soundasleep/html2text",
