@@ -893,7 +893,10 @@ function get_external_apis() {
       $link = htmlspecialchars($currency->getExplorerName());
     }
 
-    $external_apis_addresses["address_" . $key] = $link;
+    $external_apis_addresses["address_" . $key] = array(
+      'link' => $link,
+      'package' => Currencies::getDefiningPackage($key),
+    );
   }
 
   $external_apis_blockcounts = array();
@@ -905,13 +908,19 @@ function get_external_apis() {
       $link = htmlspecialchars($currency->getExplorerName());
     }
 
-    $external_apis_blockcounts["blockcount_" . $key] = $link;
+    $external_apis_blockcounts["blockcount_" . $key] = array(
+      'link' => $link,
+      'package' => Currencies::getDefiningPackage($key),
+    );
   }
 
   $exchange_tickers = array();
   foreach (Exchanges::getAllInstances() as $key => $exchange) {
     $link = link_to($exchange->getURL(), $exchange->getName());
-    $exchange_tickers["ticker_" . $key] = $link;
+    $exchange_tickers["ticker_" . $key] = array(
+      'link' => $link,
+      'package' => Exchanges::getDefiningPackage($key),
+    );
   }
 
   $external_apis = array(
@@ -1008,6 +1017,16 @@ function get_external_apis() {
       'outstanding' => '<a href="' . htmlspecialchars(url_for('premium')) . '">Premium account</a> processing',
     ),
   );
+
+  // convert to new format
+  foreach ($external_apis as $group => $data) {
+    foreach ($data as $key => $value) {
+      if (!is_array($value)) {
+        $external_apis[$group][$key] = array('link' => $value);
+      }
+    }
+  }
+
   return $external_apis;
 }
 
@@ -1021,7 +1040,7 @@ function get_external_apis_titles() {
   $result = array();
   foreach ($apis as $group => $data) {
     foreach ($data as $key => $title) {
-      $result[$key] = preg_replace('#<[^>]+?>#im', '', $title) . translate_external_api_group_to_suffix($group) . " API";
+      $result[$key] = preg_replace('#<[^>]+?>#im', '', $title['link']) . translate_external_api_group_to_suffix($group) . " API";
     }
   }
   // sort by title

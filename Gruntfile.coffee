@@ -3,12 +3,16 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON('package.json')
 
     clean:
-      tmp: ['.tmp']
-      configImages: ['site/img/config/']
-      compiledScripts: ['site/scripts']
-      compiledHead: ['site/head-compiled.html']
-      copiedNodeModulesJs: ['site/js/node_modules/']
-      generated: ['generated', 'site/images']
+      build: [
+        '.tmp',
+        'site/img/config/',
+        'site/scripts',
+        'site/head-compiled.html',
+        'site/js/node_modules/',
+        'generated',
+        'site/images'
+      ]
+      lock: ['deploy.lock']
 
     phpunit:
       unit:
@@ -144,6 +148,9 @@ module.exports = (grunt) ->
         files: ['**/*.json']
         tasks: ['bgShell:componentDiscovery']
 
+    touch:
+      lock: ['deploy.lock']
+
   grunt.loadNpmTasks 'grunt-bg-shell'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -153,12 +160,13 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-phpunit'
+  grunt.loadNpmTasks 'grunt-touch'
   grunt.loadNpmTasks 'grunt-usemin'
 
   grunt.registerTask 'test', "Run tests", ['build', 'phpunit']
 
   grunt.registerTask 'build', "Build the static site", [
-    'clean',
+    'clean:build',
     'bgShell:componentDiscovery',
     'bgShell:assetDiscovery',
     'bgShell:i18nStringDiscovery',
@@ -178,7 +186,7 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask 'serve', [
-    'clean',
+    'clean:build',
     'bgShell:componentDiscovery',
     'bgShell:assetDiscovery',
     'bgShell:i18nStringDiscovery',
@@ -204,9 +212,11 @@ module.exports = (grunt) ->
 
   # Issue #391
   grunt.registerTask 'deploy', "Enable maintenance page, build, and disable maintenance page when successful", [
+    'touch:lock'
     'copy:htaccessMaintenance',
     'build',
-    'copy:htaccess'
+    'copy:htaccess',
+    'clean:lock'
   ]
 
   grunt.registerTask 'default', ['test']

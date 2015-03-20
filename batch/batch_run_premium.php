@@ -31,6 +31,10 @@ class OpenclerkJobRunnerPremium extends \Core\OpenclerkJobRunner {
    * Find a job that belongs to a premium user.
    */
   function findJob(Connection $db, Logger $logger) {
+    if ($this->isJobsDisabled($logger)) {
+      return false;
+    }
+
     $q = $db->prepare("SELECT * FROM jobs WHERE user_id IN (SELECT id FROM users WHERE is_premium=1) AND " . $this->defaultFindJobQuery() . " LIMIT 1");
     $q->execute();
     return $q->fetch();

@@ -27,6 +27,7 @@ foreach ($grouped['Addresses'] as $key => $data) {
   echo "<li><span style=\"display: inline-block; min-width: 250px;\">";
   echo get_currency_abbr($data['currency']);
   echo " using " . $external['Address balances'][$key];
+  echo " using " . $external['Address balances'][$key]['link'];
   echo ":</span> ";
   echo crypto_address($data['currency'], 'example');
   echo "</li>";

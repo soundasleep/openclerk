@@ -31,6 +31,10 @@ class OpenclerkJobRunnerTest extends \Core\OpenclerkJobRunner {
    * Find a job that is a test job.
    */
   function findJob(Connection $db, Logger $logger) {
+    if ($this->isJobsDisabled($logger)) {
+      return false;
+    }
+
     $q = $db->prepare("SELECT * FROM jobs WHERE is_test_job=1 AND " . $this->defaultFindJobQuery() . " LIMIT 1");
     $q->execute();
     return $q->fetch();

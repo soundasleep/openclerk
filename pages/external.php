@@ -62,7 +62,7 @@ foreach ($external_apis as $group_name => $group) {
     if (!isset($external[$key]) && !is_admin()) {
       continue;
     }
-    echo "<li><span class=\"title\">" . $title . "</span> ";
+    echo "<li><span class=\"title\">" . $title['link'] . "</span> ";
     if (isset($external[$key])) {
       $percent = "<span class=\"status_percent " . get_error_class(($external[$key]['job_errors'] / $external[$key]['job_count']) * 100) . "\">" .
         number_format((1 - ($external[$key]['job_errors'] / $external[$key]['job_count'])) * 100, 0) . "%" .
@@ -72,6 +72,10 @@ foreach ($external_apis as $group_name => $group) {
       echo "<i class=\"no_data\">" . t("no data") . "</i>";
     }
     echo " (<a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $key))) . "\">" . ht("history") . "</a>)";
+    if (isset($title['package']) && $title['package']) {
+      echo " ";
+      echo link_to("https://github.com/" . $title['package'], "contribute", array('class' => 'github contribute'));
+    }
     echo "</li>\n";
   }
   if ($group_name == "Other") {
