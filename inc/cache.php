@@ -16,29 +16,29 @@ class CacheException extends Exception { }
  * @param $args the arguments to pass to the callback, if any
  */
 function compile_cached($key, $hash, $age, $callback, $args = array()) {
-	if (strlen($hash) > 255) {
-		throw new CacheException("Cannot cache with a key longer than 255 characters");
-	}
-	if (strlen($hash) > 32) {
-		throw new CacheException("Cannot cache with a hash longer than 32 characters");
-	}
+  if (strlen($hash) > 255) {
+    throw new CacheException("Cannot cache with a key longer than 255 characters");
+  }
+  if (strlen($hash) > 32) {
+    throw new CacheException("Cannot cache with a hash longer than 32 characters");
+  }
 
-	$q = db()->prepare("SELECT * FROM cached_strings WHERE cache_key=? AND cache_hash=? AND created_at >= DATE_SUB(NOW(), INTERVAL $age SECOND)");
-	$q->execute(array($key, $hash));
-	if ($cache = $q->fetch()) {
-		$result = $cache['content'];
-	} else {
-		$result = call_user_func_array($callback, $args);
-		$q = db()->prepare("DELETE FROM cached_strings WHERE cache_key=? AND cache_hash=?");
-		$q->execute(array($key, $hash));
+  $q = db()->prepare("SELECT * FROM cached_strings WHERE cache_key=? AND cache_hash=? AND created_at >= DATE_SUB(NOW(), INTERVAL $age SECOND)");
+  $q->execute(array($key, $hash));
+  if ($cache = $q->fetch()) {
+    $result = $cache['content'];
+  } else {
+    $result = call_user_func_array($callback, $args);
+    $q = db()->prepare("DELETE FROM cached_strings WHERE cache_key=? AND cache_hash=?");
+    $q->execute(array($key, $hash));
 
-		if (strlen($result) >= pow(2, 24)) {
-			throw new CacheException("Cache value is too large (> 16 MB)");
-		}
+    if (strlen($result) >= pow(2, 24)) {
+      throw new CacheException("Cache value is too large (> 16 MB)");
+    }
 
-		$q = db()->prepare("INSERT INTO cached_strings SET cache_key=?, cache_hash=?, content=?");
-		$q->execute(array($key, $hash, $result));
-	}
+    $q = db()->prepare("INSERT INTO cached_strings SET cache_key=?, cache_hash=?, content=?");
+    $q->execute(array($key, $hash, $result));
+  }
 
-	return $result;
+  return $result;
 }

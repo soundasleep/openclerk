@@ -9,7 +9,7 @@ require_login();
 // POST overrides GET
 $openid = require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
 if ($openid && !is_string($openid)) {
-	throw new Exception("Invalid openid parameter");
+  throw new Exception("Invalid openid parameter");
 }
 
 $messages = array();
@@ -17,78 +17,78 @@ $errors = array();
 
 // try logging in?
 try {
-	if ($openid) {
-		if (!is_valid_url($openid)) {
-			throw new EscapedException(t("That is not a valid OpenID identity."));
-		}
+  if ($openid) {
+    if (!is_valid_url($openid)) {
+      throw new EscapedException(t("That is not a valid OpenID identity."));
+    }
 
-		require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
-		$light = new LightOpenID(get_openid_host());
+    require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
+    $light = new LightOpenID(get_openid_host());
 
-		if (!$light->mode) {
-			// we still need to authenticate
+    if (!$light->mode) {
+      // we still need to authenticate
 
-			$light->identity = $openid;
-			// The following two lines request email, full name, and a nickname
-			// from the provider. Remove them if you dont need that data.
-			// $light->required = array('contact/email');
-			// $light->optional = array('namePerson', 'namePerson/friendly');
+      $light->identity = $openid;
+      // The following two lines request email, full name, and a nickname
+      // from the provider. Remove them if you dont need that data.
+      // $light->required = array('contact/email');
+      // $light->optional = array('namePerson', 'namePerson/friendly');
 
-			// we want to add the openid identity URL to the return address
-			// (the return URL is also verified in validate())
-			$args = array("openid" => $openid);
-			$light->returnUrl = absolute_url(url_for('openid_add', $args));
+      // we want to add the openid identity URL to the return address
+      // (the return URL is also verified in validate())
+      $args = array("openid" => $openid);
+      $light->returnUrl = absolute_url(url_for('openid_add', $args));
 
-			redirect($light->authUrl());
+      redirect($light->authUrl());
 
-		} else if ($light->mode == 'cancel') {
-			// user has cancelled
-			throw new EscapedException(t("User has cancelled authentication."));
+    } else if ($light->mode == 'cancel') {
+      // user has cancelled
+      throw new EscapedException(t("User has cancelled authentication."));
 
-		} else {
-			// throws a BlockedException if this IP has requested this too many times recently
-			check_heavy_request();
+    } else {
+      // throws a BlockedException if this IP has requested this too many times recently
+      check_heavy_request();
 
-			// authentication is complete
-			if ($light->validate()) {
+      // authentication is complete
+      if ($light->validate()) {
 
-				// check that we don't already have this identity
-				$query = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
-				$query->execute(array($light->identity));
-				if ($user = $query->fetch()) {
-					// a user already exists
-					throw new EscapedException(t("An account for the OpenID identity ':identity' already exists. Did you mean to :login?",
-						array(
-							':identity' => htmlspecialchars($light->identity),
-							':login' => link_to(url_for('login', array('openid' => $openid)), t("login instead")),
-						)));
-				}
+        // check that we don't already have this identity
+        $query = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
+        $query->execute(array($light->identity));
+        if ($user = $query->fetch()) {
+          // a user already exists
+          throw new EscapedException(t("An account for the OpenID identity ':identity' already exists. Did you mean to :login?",
+            array(
+              ':identity' => htmlspecialchars($light->identity),
+              ':login' => link_to(url_for('login', array('openid' => $openid)), t("login instead")),
+            )));
+        }
 
-				// we have successfully authenticated; add this as a new OpenID identity for this user
-				$q = db()->prepare("INSERT INTO openid_identities SET user_id=?,url=?");
-				$q->execute(array(user_id(), $light->identity));
+        // we have successfully authenticated; add this as a new OpenID identity for this user
+        $q = db()->prepare("INSERT INTO openid_identities SET user_id=?,url=?");
+        $q->execute(array(user_id(), $light->identity));
 
-				$messages[] = t("Added OpenID identity ':identity' to your account.", array(':identity' => htmlspecialchars($light->identity)));
+        $messages[] = t("Added OpenID identity ':identity' to your account.", array(':identity' => htmlspecialchars($light->identity)));
 
-				// redirect
-				$destination = url_for('user#user_openid');
+        // redirect
+        $destination = url_for('user#user_openid');
 
-				set_temporary_messages($messages);
-				set_temporary_errors($errors);
-				redirect($destination);
+        set_temporary_messages($messages);
+        set_temporary_errors($errors);
+        redirect($destination);
 
-			} else {
-				throw new EscapedException(t("OpenID validation was not successful: :cause", array(':cause' => $light->validate_error ? htmlspecialchars($light->validate_error) : t("Please try again."))));
-			}
+      } else {
+        throw new EscapedException(t("OpenID validation was not successful: :cause", array(':cause' => $light->validate_error ? htmlspecialchars($light->validate_error) : t("Please try again."))));
+      }
 
-		}
+    }
 
-	}
+  }
 } catch (Exception $e) {
-	if (!($e instanceof EscapedException)) {
-		$e = new EscapedException(htmlspecialchars($e->getMessage()), (int) $e->getCode() /* PDO getCode doesn't return an int */, $e);
-	}
-	$errors[] = $e->getMessage();
+  if (!($e instanceof EscapedException)) {
+    $e = new EscapedException(htmlspecialchars($e->getMessage()), (int) $e->getCode() /* PDO getCode doesn't return an int */, $e);
+  }
+  $errors[] = $e->getMessage();
 }
 
 require(__DIR__ . "/../layout/templates.php");
@@ -103,34 +103,34 @@ page_header(t("Add OpenID Identity"), "page_openid_add", array('js' => 'auth'));
 
 <form action="<?php echo htmlspecialchars(absolute_url(url_for('openid_add'))); ?>" method="post">
 <table class="login_form">
-	<tr class="signup-with">
-		<th><?php echo ht("Login with:"); ?></th>
-		<td>
-			<input type="hidden" name="submit" value="1">
+  <tr class="signup-with">
+    <th><?php echo ht("Login with:"); ?></th>
+    <td>
+      <input type="hidden" name="submit" value="1">
 
-			<?php
-			$openids = get_default_openid_providers();
-			foreach ($openids as $key => $data) { ?>
-				<button type="submit" name="openid" class="openid openid-submit" value="<?php echo htmlspecialchars($data[1]); ?>"><span class="openid <?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data[0]); ?></span></button>
-			<?php }
-			?>
+      <?php
+      $openids = get_default_openid_providers();
+      foreach ($openids as $key => $data) { ?>
+        <button type="submit" name="openid" class="openid openid-submit" value="<?php echo htmlspecialchars($data[1]); ?>"><span class="openid <?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data[0]); ?></span></button>
+      <?php }
+      ?>
 
-			<hr>
-			<button id="openid" class="openid"><span class="openid openid_manual"><?php echo ht("OpenID..."); ?></a></button>
+      <hr>
+      <button id="openid" class="openid"><span class="openid openid_manual"><?php echo ht("OpenID..."); ?></a></button>
 
-			<div id="openid_expand" style="<?php echo require_post("submit", "") == "Login" ? "" : "display:none;"; ?>">
-			<table>
-			<tr>
-				<th><?php echo ht("OpenID URL:"); ?></th>
-				<td>
-					<input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
-					<input type="submit" name="submit" value="<?php echo ht("Login"); ?>" id="openid_manual_submit">
-				</td>
-			</tr>
-			</table>
-			</div>
-		</td>
-	</tr>
+      <div id="openid_expand" style="<?php echo require_post("submit", "") == "Login" ? "" : "display:none;"; ?>">
+      <table>
+      <tr>
+        <th><?php echo ht("OpenID URL:"); ?></th>
+        <td>
+          <input type="text" name="openid_manual" class="openid" id="openid_manual" size="40" value="<?php echo htmlspecialchars($openid); ?>" maxlength="255">
+          <input type="submit" name="submit" value="<?php echo ht("Login"); ?>" id="openid_manual_submit">
+        </td>
+      </tr>
+      </table>
+      </div>
+    </td>
+  </tr>
 </table>
 </form>
 </div>

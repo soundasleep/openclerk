@@ -5,8 +5,8 @@
  */
 class GraphRenderer_SummaryGraphConvertedCrypto extends GraphRenderer_SummaryGraph {
 
-	function getTitle() {
-		return ct("Converted :currency");
-	}
+  function getTitle() {
+    return ct("Converted :currency");
+  }
 
 }

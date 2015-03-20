@@ -12,12 +12,12 @@ $messages = array();
 $errors = array();
 
 if (require_post("email", false)) {
-	$email = require_post("email");
+  $email = require_post("email");
   $result = send_email($email, "admin_test", array(
     "date" => date('r'),
     "email" => $email,
   ));
-	$messages[] = "Sent e-mail to " . htmlspecialchars($email) . ".";
+  $messages[] = "Sent e-mail to " . htmlspecialchars($email) . ".";
 }
 
 page_header("Admin: Send Test E-mail", "page_admin_email");

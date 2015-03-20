@@ -31,40 +31,40 @@ $jobs = $q->fetchAll();
 
 <table class="standard standard_account_list">
 <thead>
-	<tr>
-		<th class="default_sort_down">Job ID</th>
-		<th>Type</th>
-		<th>Argument</th>
-		<th>Created at</th>
-		<th>Executed at</th>
-		<th>Executed</th>
-		<th>Error</th>
-		<th></th>
-	</tr>
+  <tr>
+    <th class="default_sort_down">Job ID</th>
+    <th>Type</th>
+    <th>Argument</th>
+    <th>Created at</th>
+    <th>Executed at</th>
+    <th>Executed</th>
+    <th>Error</th>
+    <th></th>
+  </tr>
 </thead>
 <tbody>
 <?php
-	$count = 0;
-	foreach ($jobs as $job) {
-		echo "<tr>\n";
-		echo "<td class=\"number\">" . number_format($job['id']) . "</td>\n";
-		echo "<td>" . htmlspecialchars($job['job_type']) . "</td>\n";
-		echo "<td class=\"number\">" . number_format($job['arg_id']) . "</td>\n";
-		echo "<td>" . recent_format_html($job['created_at']) . "</td>\n";
-		echo "<td>" . recent_format_html($job['executed_at']) . "</td>\n";
-		echo "<td class=\"" . ($job['is_executed'] ? 'yes' : 'no') . "\">-</td>\n";
-		echo "<td class=\"" . ($job['is_error'] ? 'error' : 'no') . "\">-</td>\n";
-		echo "<td>";
-		{
-			echo "<form action=\"" . htmlspecialchars(url_for('admin_run_job')) . "\" method=\"get\">";
-			echo "<input type=\"hidden\" name=\"job_id\" value=\"" . htmlspecialchars($job['id']) . "\">";
-			echo "<input type=\"hidden\" name=\"force\" value=\"1\">";
-			echo "<input type=\"submit\" value=\"Run\">";
-			echo "</form>";
-		}
-		echo "</td>\n";
-		echo "</tr>\n\n";
-	}
+  $count = 0;
+  foreach ($jobs as $job) {
+    echo "<tr>\n";
+    echo "<td class=\"number\">" . number_format($job['id']) . "</td>\n";
+    echo "<td>" . htmlspecialchars($job['job_type']) . "</td>\n";
+    echo "<td class=\"number\">" . number_format($job['arg_id']) . "</td>\n";
+    echo "<td>" . recent_format_html($job['created_at']) . "</td>\n";
+    echo "<td>" . recent_format_html($job['executed_at']) . "</td>\n";
+    echo "<td class=\"" . ($job['is_executed'] ? 'yes' : 'no') . "\">-</td>\n";
+    echo "<td class=\"" . ($job['is_error'] ? 'error' : 'no') . "\">-</td>\n";
+    echo "<td>";
+    {
+      echo "<form action=\"" . htmlspecialchars(url_for('admin_run_job')) . "\" method=\"get\">";
+      echo "<input type=\"hidden\" name=\"job_id\" value=\"" . htmlspecialchars($job['id']) . "\">";
+      echo "<input type=\"hidden\" name=\"force\" value=\"1\">";
+      echo "<input type=\"submit\" value=\"Run\">";
+      echo "</form>";
+    }
+    echo "</td>\n";
+    echo "</tr>\n\n";
+  }
 ?>
 </tbody>
 </table>
