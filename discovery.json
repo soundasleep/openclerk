@@ -29,7 +29,10 @@
     },
     "exchanges": {
       "file": "exchanges.json",
-      "instanceof": "\\Openclerk\\Currencies\\Exchange"
+      "instanceof": "\\Openclerk\\Currencies\\Exchange",
+      "instances": {
+        "getDisabled": "\\Openclerk\\Currencies\\DisabledExchange"
+      }
     },
     "accounts": {
       "file": "accounts.json",

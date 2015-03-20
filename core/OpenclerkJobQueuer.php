@@ -262,19 +262,21 @@ class OpenclerkJobQueuer extends JobQueuer {
 
     // markets jobs (using the new Exchanges framework: #400)
     foreach (\DiscoveredComponents\Exchanges::getKeys() as $exchange) {
-      $name = "markets_" . $exchange;
-      $result[] = array(
-        'job_type' => $name,
-        'user_id' => get_site_config('system_user_id'),
-        'arg_id' => -1,
-      );
+      if (!in_array($exchange, \DiscoveredComponents\Exchanges::getDisabled())) {
+        $name = "markets_" . $exchange;
+        $result[] = array(
+          'job_type' => $name,
+          'user_id' => get_site_config('system_user_id'),
+          'arg_id' => -1,
+        );
 
-      $name = "ticker_" . $exchange;
-      $result[] = array(
-        'job_type' => $name,
-        'user_id' => get_site_config('system_user_id'),
-        'arg_id' => -1,
-      );
+        $name = "ticker_" . $exchange;
+        $result[] = array(
+          'job_type' => $name,
+          'user_id' => get_site_config('system_user_id'),
+          'arg_id' => -1,
+        );
+      }
     }
 
     // supported currencies jobs (using the new Accounts framework)
