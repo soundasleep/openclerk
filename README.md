@@ -57,50 +57,37 @@ List of features that are also running at https://cryptfolio.com:
   * CEX.io
   * Coinbase
   * Coins-E
-  * Crypto-Trade
   * Cryptsy
   * itBit
   * Kraken
   * Poloniex
   * TheMoneyConverter
   * Vircurex
-  * VirtEx
   * Market averages
 * Support for mining pools and miner hashrates
-  * 50BTC
   * BitMinter
   * BTC Guild
-  * CoinHuntr
-  * CryptoPools
-  * Cryptotroll
-  * d2
-  * dedicatedpool.com
-  * Ecoining
+  * CryptoPools DGC
+  * CryptoTroll DOGE
+  * D2 WDC
+  * Econining Peercoin
   * Eligius
-  * Elitist Jerks
   * Eobot
   * GHash.io
   * Give Me Coins
-  * HashFaster
+  * HashFaster DOGE
+  * HashFaster LTC
   * Hash-to-Coins
-  * ltc.kattare.com
   * nvc.khore.org
   * litecoinpool.org
   * LiteGuardian
-  * Litepool
-  * MiningPool.co
   * Multipool
-  * MuPool
   * NiceHash
-  * Nut2Pools
-  * Ozcoin
-  * Pool-x.eu
-  * scryptpools.com
-  * Slush's pool
-  * TeamDoge
-  * TripleMining
-  * WeMineFTC
+  * OzCoin BTC
+  * OzCoin LTC
   * WeMineLTC
+  * Slush's pool
+  * TripleMining
   * WestHash
   * ypool.net
 * Support for securities exchanges
