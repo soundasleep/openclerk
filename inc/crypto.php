@@ -644,9 +644,9 @@ function account_data_grouped() {
   }
 
   $data = array(
-    'Addresses' => $addresses_data,
-    'Mining pools' => $mining_pools_data,
-    'Exchanges' => array(
+    'Addresses' /* i18n */ => $addresses_data,
+    'Mining pools' /* i18n */ => $mining_pools_data,
+    'Exchanges' /* i18n */ => array(
       'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -669,7 +669,7 @@ function account_data_grouped() {
       'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
     ),
-    'Securities' => array(
+    'Securities' /* i18n */ => array(
       '796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
       'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
       'btcinve' => array('table' => 'accounts_btcinve', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
@@ -680,7 +680,7 @@ function account_data_grouped() {
       'litecoininvest' => array('table' => 'accounts_litecoininvest', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
       'litecoinglobal' => array('table' => 'accounts_litecoinglobal', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
     ),
-    'Individual Securities' => array(
+    'Individual Securities' /* i18n */ => array(
       'individual_796' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_796', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => '796', 'securities_table' => 'securities_796', 'failure' => true),
       'individual_bitfunder' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_bitfunder', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'bitfunder', 'securities_table' => 'securities_bitfunder', 'failure' => true, 'disabled' => true),
       'individual_btcinve' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_btcinve', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'btcinve', 'securities_table' => 'securities_btcinve', 'failure' => true, 'disabled' => true),
@@ -691,7 +691,7 @@ function account_data_grouped() {
       'individual_litecoininvest' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoininvest', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoininvest', 'securities_table' => 'securities_litecoininvest', 'failure' => true),
       'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal', 'securities_table' => 'securities_litecoinglobal', 'failure' => true, 'disabled' => true),
     ),
-    'Securities Tickers' => array(
+    'Securities Tickers' /* i18n */ => array(
       'securities_796' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_796', 'exchange' => '796', 'securities_table' => 'securities_796'),
       'securities_bitfunder' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_bitfunder', 'exchange' => 'bitfunder', 'securities_table' => 'securities_bitfunder', 'disabled' => true),
       'securities_btcinve' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_btcinve', 'exchange' => 'btcinve', 'securities_table' => 'securities_btcinve', 'disabled' => true),
@@ -702,20 +702,20 @@ function account_data_grouped() {
       'securities_litecoininvest' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_litecoininvest', 'exchange' => 'litecoininvest', 'securities_table' => 'securities_litecoininvest'),
       'securities_litecoinglobal' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_litecoinglobal', 'exchange' => 'litecoinglobal', 'securities_table' => 'securities_litecoinglobal', 'disabled' => true),
     ),
-    'Finance' => array(
+    'Finance' /* i18n */ => array(
       'finance_accounts' => array('title' => 'Finance account', 'label' => 'finance account', 'table' => 'finance_accounts', 'group' => 'finance_accounts', 'job' => false),
       'finance_categories' => array('title' => 'Finance category', 'label' => 'finance category', 'titles' => 'finance categories', 'table' => 'finance_categories', 'group' => 'finance_categories', 'job' => false),
     ),
-    'Other' => array(
+    'Other' /* i18n */ => array(
       'generic' => array('title' => 'Generic APIs', 'label' => 'API', 'table' => 'accounts_generic', 'group' => 'accounts', 'wizard' => 'other', 'failure' => true),
     ),
-    'Hidden' => array(
+    'Hidden' /* i18n */ => array(
       'graph' => array('title' => 'Graphs', 'table' => 'graphs', 'query' => ' AND is_removed=0', 'job' => false),
       'graph_pages' => array('title' => 'Graph page', 'table' => 'graph_pages', 'group' => 'graph_pages', 'query' => ' AND is_removed=0', 'job' => false),
       'summaries' => array('title' => 'Currency summaries', 'table' => 'summaries', 'group' => 'summaries', 'job' => false),
       'notifications' => array('title' => 'Notifications', 'table' => 'notifications', 'group' => 'notifications', 'wizard' => 'notifications'),
     ),
-    'Offsets' => array(
+    'Offsets' /* i18n */ => array(
     ),
   );
   // add all offset currencies
@@ -837,13 +837,13 @@ function get_external_apis() {
   }
 
   $external_apis = array(
-    "Address balances" => $external_apis_addresses,
+    "Address balances" /* i18n */ => $external_apis_addresses,
 
-    "Block counts" => $external_apis_blockcounts,
+    "Block counts" /* i18n */ => $external_apis_blockcounts,
 
-    "Mining pool wallets" => $mining_pools,
+    "Mining pool wallets" /* i18n */ => $mining_pools,
 
-    "Exchange wallets" => array(
+    "Exchange wallets" /* i18n */ => array(
       'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
       'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
       'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
@@ -866,9 +866,9 @@ function get_external_apis() {
       'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
     ),
 
-    "Exchange tickers" => $exchange_tickers,
+    "Exchange tickers" /* i18n */ => $exchange_tickers,
 
-    "Security exchanges" => array(
+    "Security exchanges" /* i18n */ => array(
       'securities_796' => '<a href="https://796.com">796 Xchange</a>',
       'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',   // securities for crypto-trade are handled by the ticker_crypto-trade
       'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
@@ -878,14 +878,14 @@ function get_external_apis() {
       'securities_update_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a> Securities list',
     ),
 
-    "Individual securities" => array(
+    "Individual securities" /* i18n */ => array(
       'individual_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
       'individual_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
       'individual_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
       'individual_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
     ),
 
-    "Other" => array(
+    "Other" /* i18n */ => array(
       // 'generic' => "Generic API balances",
       'outstanding' => '<a href="' . htmlspecialchars(url_for('premium')) . '">Premium account</a> processing',
     ),
