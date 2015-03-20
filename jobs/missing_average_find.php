@@ -18,13 +18,32 @@ class MissingAverageJobQueuer extends JobQueuer {
    * This could use e.g. {@link JobTypeFinder}
    */
   function findJobs(Connection $db, Logger $logger) {
+    $logger->info("Creating temporary table");
+
+    $q = $db->prepare("CREATE TABLE temp (
+        created_at_day INT NOT NULL,
+        INDEX(created_at_day)
+      )");
+    $q->execute();
+
+    $logger->info("Inserting into temporary table");
+
+    $q = $db->prepare("INSERT INTO temp (SELECT created_at_day FROM ticker WHERE exchange = 'average' GROUP BY created_at_day)");
+    $q->execute();
+
+    $logger->info("Querying");
+
     $q = $db->prepare("SELECT created_at_day, min(created_at) as date, count(*) as c
         FROM ticker
-        WHERE exchange <> 'average' AND exchange <> 'themoneyconverter' and is_daily_data=1 and created_at_day not in
-          (SELECT created_at_day FROM ticker WHERE exchange = 'average' GROUP BY created_at_day)
+        WHERE exchange <> 'average' AND exchange <> 'themoneyconverter' and is_daily_data=1 and created_at_day not in (SELECT created_at_day FROM temp)
         GROUP BY created_at_day");
     $q->execute();
     $missing = $q->fetchAll();
+
+    $logger->info("Dropping temporary table");
+
+    $q = $db->prepare("DROP TABLE temp");
+    $q->execute();
 
     $logger->info("Found " . number_format(count($missing)) . " days of missing average data");
 
