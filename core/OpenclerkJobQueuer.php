@@ -96,14 +96,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_individual_litecoininvest', 'type' => 'individual_litecoininvest', 'failure' => true),
     ));
 
-    if (get_site_config('allow_unsafe')) {
-      // run unsafe jobs only if the flag has been set
-      crypto_log("Running unsafe jobs.");
-      $standard_jobs = array_merge($standard_jobs, array(
-        // empty for now
-      ));
-    }
-
     $standard_jobs = array_merge($standard_jobs, array(
       array('table' => 'users', 'type' => 'delete_user', 'query' => ' AND is_deleted=1', 'always' => true, 'user_id_field' => 'id'),
       array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */

@@ -23,11 +23,6 @@ function delete_user($id) {
   $already_done = array();
   foreach (account_data_grouped() as $label => $accounts) {
     foreach ($accounts as $key => $account) {
-      // don't try to export unsafe exchanges
-      if ($account['unsafe'] && !get_site_config('allow_unsafe')) {
-        continue;
-      }
-
       if ($account['table'] != 'graphs' && !isset($already_done[$account['table']])) {
         delete_from($account['table']);
         $already_done[$account['table']] = 1;

@@ -143,11 +143,6 @@ $account_data_grouped['Instances'] = array(
 foreach ($account_data_grouped as $label => $group) {
   echo "<tr><td class=\"hr\" colspan=\"" . ($total_months+1) . "\">" . htmlspecialchars($label) . "</td></tr>\n";
   foreach ($group as $key => $data) {
-    // don't try to report unsafe exchanges
-    if ((isset($data['unsafe']) && $data['unsafe']) && !get_site_config('allow_unsafe')) {
-      continue;
-    }
-
     echo "<tr><th>" . htmlspecialchars($data['title']) . "</th>";
     foreach ($months as $m) {
       $q = db()->prepare("SELECT COUNT(*) AS c FROM " . $data['table'] . " WHERE (created_at >= :start AND created_at <= :end)" . (isset($data['query']) ? $data['query'] : ""));

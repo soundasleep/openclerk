@@ -56,10 +56,6 @@ function get_knowledge_base() {
         if ($data['disabled']) {
           continue;
         }
-        if ($data['unsafe'] && !get_site_config('allow_unsafe')) {
-          // don't display help pages for unsafe accounts
-          continue;
-        }
         if ($label == 'Individual Securities') {
           $title = 'How do I add individual ' . get_exchange_name($data['exchange']) . (isset($data['suffix']) ? $data['suffix'] : '') . ($wizards[$label] ? ' ' . $wizards[$label] : '') . '?';
         } else {

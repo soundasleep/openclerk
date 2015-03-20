@@ -99,11 +99,6 @@ function get_error_class($n) {
     <tr><th colspan="8"><?php echo htmlspecialchars($label); ?></th></tr>
   <?php
     foreach ($group as $exchange => $data) {
-      // don't display unsafe tables
-      if ($data['unsafe'] && !get_site_config('allow_unsafe')) {
-        continue;
-      }
-
       echo "<tr><td>" . htmlspecialchars(get_exchange_name($exchange) . $data['suffix']) . "</td>\n";
       echo "<td>-</td>";
       if ($data['failure']) {
