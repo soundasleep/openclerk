@@ -125,6 +125,12 @@ h1 { font-size: 120%; }
 h2 { font-size: 110%; }
 h3 { font-size: 90%; }
 
+a.github {
+  padding-left: (16px + 4px);
+  background: url('../img/GitHub-Mark-Light-32px.png') top left no-repeat;
+  background-size: 16px 16px;
+}
+
 #footer_nav, #copyright { clear: both; }
 #footer_nav .footer_nav_list { max-width: 860px; padding: 0; margin: 0; margin: 30px auto 10px auto; padding: 10px; border-top: 1px solid #333; border-bottom: 1px solid #333; }
 #footer_nav .footer_nav_list li { display: inline-block; width: 24%; padding: 0; margin: 0; line-height: 1.5em; vertical-align: top; }
@@ -163,6 +169,7 @@ span.beta { color: #666; font-size: 75%; text-shadow: 1px 1px 1px black; }
 #page_external .external_list .title { display: inline-block; width: 240px; padding: 5px; }
 .status_percent { display: inline-block; width: 75px; padding: 5px 0px 5px 20px; text-align: center; }
 #page_external .status_percent { margin-right: 5px; }
+#page_external .contribute { margin-left: 20px; font-style: italic; }
 
 .status_percent.perfect { background: #473 url('../img/nuvola/ok.png') 7px 7px no-repeat; }
 .status_percent.good { background: #363 url('../img/nuvola/ok.png') 7px 7px no-repeat; }

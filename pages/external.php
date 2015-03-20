@@ -74,7 +74,7 @@ foreach ($external_apis as $group_name => $group) {
     echo " (<a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $key))) . "\">" . ht("history") . "</a>)";
     if (isset($title['package']) && $title['package']) {
       echo " ";
-      echo link_to("https://github.com/" . $title['package'], "contribute", array('class' => 'github'));
+      echo link_to("https://github.com/" . $title['package'], "contribute", array('class' => 'github contribute'));
     }
     echo "</li>\n";
   }
