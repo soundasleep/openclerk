@@ -56,9 +56,6 @@ Openclerk\Config::merge(array(
   "default_cache_seconds" => 60 * 60 * 24 * 7,        // allow things to be cached for up to a week by default
   "vote_coins_multiplier" => 10,      // voting multiplier
 
-  // issue #12: allow unsafe accounts?
-  'allow_unsafe' => false,
-
   // debug control, metrics control
   "metrics_enabled" => true,
   "metrics_db_enabled" => true,

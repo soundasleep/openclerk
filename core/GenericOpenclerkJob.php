@@ -316,13 +316,6 @@ class GenericOpenclerkJob implements Job {
           break;
         }
 
-        // issue #12: unsafe accounts
-        if (get_site_config('allow_unsafe')) {
-          switch ($job['job_type']) {
-            // empty for now
-          }
-        }
-
         throw new JobException("Unknown job type '" . htmlspecialchars($job['job_type']) . "'");
 
     }

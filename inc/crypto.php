@@ -415,21 +415,6 @@ function get_supported_wallets() {
   return $wallets;
 }
 
-// get all supported wallets that are safe w.r.t. allow_unsafe
-function get_supported_wallets_safe() {
-  $wallets = get_supported_wallets();
-  if (!get_site_config('allow_unsafe')) {
-    foreach (account_data_grouped() as $label => $group) {
-      foreach ($group as $exchange => $value) {
-        if (isset($wallets[$exchange]) && $value['unsafe']) {
-          unset($wallets[$exchange]);
-        }
-      }
-    }
-  }
-  return $wallets;
-}
-
 function get_new_supported_wallets() {
   return array("bitnz");
 }
