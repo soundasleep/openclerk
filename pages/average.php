@@ -32,6 +32,8 @@ while ($ticker = $q->fetch()) {
 }
 
 // if none is selected, use defaults
+global $currency1;
+global $currency2;
 $currency1 = require_get("currency1", "usd");
 $currency2 = require_get("currency2", "btc");
 if (!in_array($currency1, get_all_currencies())) {
