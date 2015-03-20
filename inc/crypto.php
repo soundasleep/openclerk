@@ -300,6 +300,7 @@ function get_exchange_pairs() {
 }
 
 function get_disabled_exchange_pairs() {
+  // TODO consider moving this into openclerk/exchanges
   $pairs = array(
     "mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
         array('btc', 'vrc'),
@@ -435,6 +436,10 @@ function get_supported_wallets() {
 
   // and add in hash currencies (temporary; eventually we want to remove 'hash' from this return result)
   foreach (Accounts::getMiners() as $key) {
+    if (in_array($key, Accounts::getDisabled())) {
+      // do not list disabled accounts
+      continue;
+    }
     $wallets[$key][] = 'hash';
   }
 
