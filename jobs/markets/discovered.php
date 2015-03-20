@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Discovered markets job.
+ * Discovered markets within an exchange job.
  */
 
 if (!$exchange) {

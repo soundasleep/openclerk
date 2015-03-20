@@ -7,6 +7,10 @@
  * by balancing volume data (for markets that provide it).
  */
 
+$exchange = array(
+  'name' => 'average',
+);
+
 $q = db()->prepare("SELECT * FROM ticker_recent WHERE exchange <> ?");
 $q->execute(array('average'));
 $recents = $q->fetchAll();

@@ -26,22 +26,23 @@ page_header("Reported Currencies", "page_reported_currencies");
 <?php
 $matrix = array();
 
-// create a matrix of exchanges to currencies
-$q = db()->prepare("SELECT * FROM exchanges WHERE is_disabled=0 AND name <> ? ORDER BY name ASC");
-$q->execute(array('average'));
-$exchanges = $q->fetchAll();
-$all_currencies = array();
-foreach ($exchanges as $i => $exchange) {
+$exchanges = \DiscoveredComponents\Exchanges::getAllInstances();
+foreach ($exchanges as $exchange) {
+  $persistent = new \Core\PersistentExchange($exchange, db());
+  $markets = $persistent->getMarkets();
 
-  $matrix[$exchange['name']] = array();
+  $matrix[$exchange->getCode()] = array();
 
-  $q = db()->prepare("SELECT * FROM reported_currencies WHERE exchange=?");
-  $q->execute(array($exchange['name']));
-  while ($cur = $q->fetch()) {
-    $c = get_currency_key($cur['currency']);
-    $matrix[$exchange['name']][$c] = 1;
+  foreach ($markets as $pair) {
+    $c = get_currency_key($pair[0]);
+    $matrix[$exchange->getCode()][$c] = 1;
     $all_currencies[$c] = 1;
-    $exchanges[$i]['reported_currencies_created_at'] = $cur['created_at'];
+  }
+
+  foreach ($markets as $pair) {
+    $c = get_currency_key($pair[1]);
+    $matrix[$exchange->getCode()][$c] = 1;
+    $all_currencies[$c] = 1;
   }
 
 }
@@ -55,7 +56,6 @@ ksort($all_currencies);
 echo "<table class=\"fancy reported-currencies\">";
 echo "<tr>";
 echo "<th>Exchange</th>";
-echo "<th>Reported</th>";
 foreach ($all_currencies as $cur => $ignored) {
   $class = in_array($cur, get_all_currencies()) ? "supported" : "";
 
@@ -71,23 +71,22 @@ $get_supported_wallets = get_supported_wallets();
 
 foreach ($exchanges as $exchange) {
   echo "<tr>";
-  echo "<th>" . get_exchange_name($exchange['name']) . "</th>";
-  echo $exchange['track_reported_currencies'] ? "<td>" . recent_format_html($exchange['reported_currencies_created_at']) . "</td>" : "<td>-</td>";
+  echo "<th>" . htmlspecialchars($exchange->getName()) . "</th>";
   foreach ($all_currencies as $cur => $ignored) {
     if (require_get("only_supported", false) && !in_array($cur, get_all_currencies()))
       continue;
 
-    $class = isset($matrix[$exchange['name']][$cur]) ? "reported" : "";
+    $class = isset($matrix[$exchange->getCode()][$cur]) ? "reported" : "";
 
     // do we have at least one exchange pair for this defined?
     $pair_supported = false;
-    foreach ($exchange_pairs[$exchange['name']] as $pair) {
+    foreach ($exchange_pairs[$exchange->getCode()] as $pair) {
       if ($pair[0] == $cur || $pair[1] == $cur) {
         $pair_supported = true;
       }
     }
 
-    if (isset($get_supported_wallets[$exchange['name']]) && in_array($cur, $get_supported_wallets[$exchange['name']])) {
+    if (isset($get_supported_wallets[$exchange->getCode()]) && in_array($cur, $get_supported_wallets[$exchange->getCode()])) {
       $class .= " wallet";
     }
 
