@@ -1,3 +1,10 @@
+<dt>28 May</dt>
+<dd>
+Added <a href="https://anxpro.com/">ANXPRO</a>, <a href="https://www.bitmarket.pl/">BitMarket.pl</a>, <a href="https://www.poloniex.com/">Poloniex</a> exchanges;
+updated <a href="https://cex.io/">CEX.io</a> supported currencies;
+added <a href="https://mupool.com/">MuPool</a> mining pool.
+</dd>
+
 <dt>21 May</dt>
 <dd>
 Added initial site translations into German, French, Japanese, Russian and Chinese (Simplified) languages;

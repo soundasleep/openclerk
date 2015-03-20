@@ -219,6 +219,7 @@ Automatically select the best reports for me.
 Balance
 Balances
 Beta
+Block counts
 Blog
 Bollinger Bands
 CSV File:
@@ -678,6 +679,7 @@ Screenshots on reports and graphs
 Securities
 Securities Exchange
 Securities Exchanges
+Securities Tickers
 Security
 Security exchanges
 Security values

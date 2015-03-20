@@ -1,3 +1,30 @@
+<dt>20 March</dt>
+<dd>
+  Moved mining pools into <a href="http://openclerk.org">openclerk.org</a> projects;
+
+  added <a href="<?php echo htmlspecialchars(url_for("api")); ?>">ticker APIs</a>;
+
+  disabled the 50BTC, CoinHuntr, DedicatedPool, ElitistJerks, HashFaster FTC,
+  ltc.kattare.com, litepool.eu, MiningForeman, MiningPool.co,
+  MuPool, Nut2Pools, Poolx.eu, scryptpools.com, Team Doge and WeMineFTC <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_pools')); ?>">mining pools</a>;
+
+  disabled the Crypto-Trade and VirtEx <a href="<?php echo htmlspecialchars(url_for('historical')); ?>">exchange tickers</a>;
+
+  fixed <a href="https://www.kraken.com/">Kraken</a> exchange ticker not updating and displaying incorrect values;
+
+  fixed missing <a href="https://www.cryptsy.com">Cryptsy</a> exchange ticker historical graphs;
+
+  <a href="<?php echo htmlspecialchars(url_for('historical', array('id' => 'cryptsy_btcltc_daily'))); ?>">Cryptsy historical graphs</a> now display last trade, rather than bid/ask, due to API limitations;
+
+  fixed issue with some users' summary graphs not updating;
+
+  refreshed <a href="<?php echo htmlspecialchars(url_for('average')); ?>">historical market averages</a>;
+
+  <a href="<?php echo htmlspecialchars(url_for('external')); ?>">external projects</a> now include a link to help contribute;
+
+  the status of <a href="http://openclerk.org/statgit/composer.html">openclerk dependencies</a> is now available.
+</dd>
+
 <dt>4 March</dt>
 <dd>
   Released <a href="<?php echo htmlspecialchars(url_for("api")); ?>">initial API</a>;
@@ -135,13 +162,5 @@ site design is now slightly more responsive;
 user accounts can now be <a href="<?php echo htmlspecialchars(url_for('user#user_delete')); ?>">deleted</a>;
 created the <a href="http://blog.cryptfolio.com">CryptFolio blog</a>.
 </dd>
-
-<dt>28 May</dt>
-<dd>
-Added <a href="https://anxpro.com/">ANXPRO</a>, <a href="https://www.bitmarket.pl/">BitMarket.pl</a>, <a href="https://www.poloniex.com/">Poloniex</a> exchanges;
-updated <a href="https://cex.io/">CEX.io</a> supported currencies;
-added <a href="https://mupool.com/">MuPool</a> mining pool.
-</dd>
-
 
 <!-- more are in versions_old -->
