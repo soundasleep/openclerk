@@ -23,10 +23,6 @@ class OpenclerkJobQueuer extends JobQueuer {
 
     $result = array();
 
-    $ticker_jobs = array(
-      array('table' => 'exchanges', 'type' => 'ticker', 'user_id' => get_site_config('system_user_id'), 'hours' => get_site_config('refresh_queue_hours_ticker'), 'query' => ' AND is_disabled=0'),
-    );
-
     // address jobs are now named in common patterns
     // make sure to add the _block job below too if necessary
     $address_jobs = array();
@@ -63,7 +59,7 @@ class OpenclerkJobQueuer extends JobQueuer {
     // standard jobs involve an 'id' from a table and a 'user_id' from the same table (unless 'user_id' is set)
     // the table needs 'last_queue' unless 'always' is specified (in which case, it will always happen)
     // if no 'user_id' is specified, then the user will also be checked for disable status
-    $standard_jobs = array_merge($ticker_jobs, $address_jobs, $account_jobs, array(
+    $standard_jobs = array_merge($address_jobs, $account_jobs, array(
       array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
       array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
       array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
@@ -92,8 +88,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_bittrex', 'type' => 'bittrex', 'failure' => true),
       array('table' => 'accounts_btclevels', 'type' => 'btclevels', 'failure' => true),
       array('table' => 'accounts_bitnz', 'type' => 'bitnz', 'failure' => true),
-
-      array('table' => 'exchanges', 'type' => 'reported_currencies', 'query' => ' AND track_reported_currencies=1 AND is_disabled=0 AND name="average"', 'user_id' => get_site_config('system_user_id')),
 
       array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),
       array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
@@ -244,7 +238,7 @@ class OpenclerkJobQueuer extends JobQueuer {
       $logger->info($is_premium_only ? "Found $job_count premium jobs" : "Found $job_count general user jobs");
     }
 
-    $block_jobs = array('version_check', 'vote_coins', 'missing_average_find');
+    $block_jobs = array('version_check', 'vote_coins', 'average', 'missing_average_find');
     foreach ($block_jobs as $name) {
       // as often as we can (or on request), run litecoin_block jobs
       $result[] = array(

@@ -10,16 +10,13 @@ $q = db()->prepare("SELECT * FROM ticker WHERE created_at_day=? AND is_daily_dat
 $q->execute(array($job['arg_id']));
 $recents = $q->fetchAll();
 
-crypto_log("Found " . number_Format($recents) . " ticker instances to recreate average data");
+crypto_log("Found " . number_format(count($recents)) . " ticker instances to recreate average data");
 
-$q = db()->prepare("SELECT * FROM exchanges WHERE name=? AND is_disabled=0");
-$q->execute(array('average'));
-$exchange = $q->fetch();
-if (!$exchange) {
-  throw new JobException("Cannot find an exchange " . $job['arg_id']);
-}
+$exchange = array(
+  'name' => 'average',
+);
 
-require(__DIR__ . "/ticker/_average.php");
+require(__DIR__ . "/_average.php");
 
 // we can now create ticker values as necessary
 foreach ($pairs as $pair) {

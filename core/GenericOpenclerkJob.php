@@ -19,13 +19,9 @@ class GenericOpenclerkJob implements Job {
     $job = $this->job;
 
     switch ($job['job_type']) {
-      // ticker jobs
-      case "ticker":
-        require(__DIR__ . "/../jobs/ticker.php");
-        break;
-
-      case "reported_currencies":
-        require(__DIR__ . "/../jobs/reported_currencies.php");
+      // average jobs
+      case "average":
+        require(__DIR__ . "/../jobs/average.php");
         break;
 
       // account jobs

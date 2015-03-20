@@ -82,6 +82,7 @@ function get_error_class($n) {
 <thead>
   <tr>
     <th class="default_sort_down">Account Type</th>
+    <th>Class</th>
     <th>Active Accounts</th>
     <th>Failed</th>
     <th>Manually disabled</th>
@@ -95,7 +96,7 @@ function get_error_class($n) {
 <?php
   foreach (account_data_grouped() as $label => $group) {
   ?>
-    <tr><th colspan="7"><?php echo htmlspecialchars($label); ?></th></tr>
+    <tr><th colspan="8"><?php echo htmlspecialchars($label); ?></th></tr>
   <?php
     foreach ($group as $exchange => $data) {
       // don't display unsafe tables
@@ -104,6 +105,7 @@ function get_error_class($n) {
       }
 
       echo "<tr><td>" . htmlspecialchars(get_exchange_name($exchange) . $data['suffix']) . "</td>\n";
+      echo "<td>-</td>";
       if ($data['failure']) {
         $q = db()->prepare("SELECT COUNT(*) AS s, SUM(t.is_disabled) AS disabled, SUM(t.is_disabled_manually) AS manually_disabled, MAX(t.last_queue) AS lq FROM " . $data['table'] . " AS t
           LEFT JOIN users ON t.user_id=users.id
@@ -176,27 +178,27 @@ function get_error_class($n) {
     }
   }
 ?>
-  <tr><th colspan="7">Tickers</th></tr>
+  <tr><th colspan="8">Tickers</th></tr>
 <?php
-  $q = db()->prepare("SELECT * FROM exchanges ORDER BY name ASC");
-  $q->execute();
-  $tickers = $q->fetchAll();
-  foreach ($tickers as $ticker) {
-    echo "<tr><td>" . htmlspecialchars(get_exchange_name($ticker['name'])) . "</td>\n";
+  $exchanges = \DiscoveredComponents\Exchanges::getAllInstances();
+  foreach ($exchanges as $exchange) {
+    echo "<tr><td>" . htmlspecialchars($exchange->getName()) . "</td>\n";
     // no accounts use this
 
     // executing this in two queries is faster than going ORDER BY is_error DESC
-    $q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 AND is_error=1 AND arg_id=? LIMIT 1");
-    $q->execute(array('ticker', $ticker['id']));
+    $q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 AND is_error=1 LIMIT 1");
+    $q->execute(array('ticker_' . $exchange->getCode()));
     $job = $q->fetch();
     if (!$job) {
       // if there are no failing jobs, just select any one
-      $q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 AND arg_id=? LIMIT 1");
-      $q->execute(array('ticker', $ticker['id']));
+      $q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 LIMIT 1");
+      $q->execute(array('ticker_' . $exchange->getCode()));
       $job = $q->fetch();
     }
 
-    if ($ticker['is_disabled']) {
+    echo "<td>" . get_class($exchange) . "</td>";
+
+    if (false /* TODO implement disabled exchanges: issue #454 */ && $exchange->isDisabled()) {
       echo "<td><i>disabled</i></td>";
     } else {
       echo "<td></td>";
@@ -212,22 +214,24 @@ function get_error_class($n) {
       <?php } ?>
     </td>
     <?php
-    echo "<td><a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $exchange))) . "\">Graph</a></td>";
+    echo "<td><a href=\"" . htmlspecialchars(url_for('external_historical', array('type' => $exchange->getCode()))) . "\">Graph</a></td>";
     echo "<td class=\"buttons\">";
     if ($data['failure'] && $summary['disabled'] > 0) {
       echo "<form action=\"" . htmlspecialchars(url_for('admin_accounts')) . "\" method=\"post\">";
-      echo "<input type=\"hidden\" name=\"enable\" value=\"" . htmlspecialchars($exchange) . "\">";
+      echo "<input type=\"hidden\" name=\"enable\" value=\"" . htmlspecialchars($exchange->getCode()) . "\">";
       echo "<input type=\"submit\" value=\"Enable all\" onclick=\"return confirm('Are you sure you want to re-enable all failed accounts?');\">";
       echo "</form>";
 
       echo "<form action=\"" . htmlspecialchars(url_for('admin_accounts_message')) . "\" method=\"post\">";
-      echo "<input type=\"hidden\" name=\"exchange\" value=\"" . htmlspecialchars($exchange) . "\">";
+      echo "<input type=\"hidden\" name=\"exchange\" value=\"" . htmlspecialchars($exchange->getCode()) . "\">";
       echo "<input type=\"submit\" value=\"Message failed\">";
       echo "</form>";
     }
     echo "</td>\n";
     echo "</tr>";
   }
+
+  // TODO the market average row is missing; maybe create a new Exchange type, or emulate it somehow
 ?>
 </tbody>
 </table>
