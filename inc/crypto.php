@@ -300,12 +300,32 @@ function get_exchange_pairs() {
 }
 
 function get_disabled_exchange_pairs() {
-  return array(
+  $pairs = array(
     "mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
         array('btc', 'vrc'),
     ),
     "mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
   );
+
+  // add all discovered pairs
+  foreach (Exchanges::getAllInstances() as $key => $exchange) {
+    // only disabled exchanges
+    if (!in_array($key, Exchanges::getDisabled())) {
+      continue;
+    }
+
+    $persistent = new \Core\PersistentExchange($exchange, db());
+    $result = array();
+    foreach ($persistent->getMarkets() as $pair) {
+      if (in_array($pair[0], get_all_currencies()) && in_array($pair[1], get_all_currencies())) {
+        $result[] = $pair;
+      }
+    }
+
+    $pairs[$key] = $result;
+  }
+
+  return $pairs;
 }
 
 $_cached_get_new_exchange_pairs = null;
