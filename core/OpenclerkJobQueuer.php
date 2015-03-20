@@ -244,7 +244,7 @@ class OpenclerkJobQueuer extends JobQueuer {
       $logger->info($is_premium_only ? "Found $job_count premium jobs" : "Found $job_count general user jobs");
     }
 
-    $block_jobs = array('version_check', 'vote_coins');
+    $block_jobs = array('version_check', 'vote_coins', 'missing_average_find');
     foreach ($block_jobs as $name) {
       // as often as we can (or on request), run litecoin_block jobs
       $result[] = array(

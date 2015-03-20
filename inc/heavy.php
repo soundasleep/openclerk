@@ -12,28 +12,28 @@ class BlockedException extends Exception { }
  */
 function check_heavy_request() {
 
-	if (get_site_config("heavy_requests_seconds") >= 0) {
+  if (get_site_config("heavy_requests_seconds") >= 0) {
 
-		$q = db()->prepare("SELECT * FROM heavy_requests WHERE user_ip=?");
-		$q->execute(array(user_ip()));
-		if ($heavy = $q->fetch()) {
-			// too many requests?
-			// assumes the database and server times are in sync
-			if (strtotime($heavy['last_request']) > strtotime("-" . get_site_config("heavy_requests_seconds") . " seconds")) {
-				throw new BlockedException(t("You are making too many requests at once: please wait at least :seconds.", array(':seconds' => plural("second", get_site_config("heavy_requests_seconds")))));
-			} else {
-				// update database
-				$q = db()->prepare("UPDATE heavy_requests SET last_request=NOW() WHERE user_ip=?");
-				$q->execute(array(user_ip()));
-			}
+    $q = db()->prepare("SELECT * FROM heavy_requests WHERE user_ip=?");
+    $q->execute(array(user_ip()));
+    if ($heavy = $q->fetch()) {
+      // too many requests?
+      // assumes the database and server times are in sync
+      if (strtotime($heavy['last_request']) > strtotime("-" . get_site_config("heavy_requests_seconds") . " seconds")) {
+        throw new BlockedException(t("You are making too many requests at once: please wait at least :seconds.", array(':seconds' => plural("second", get_site_config("heavy_requests_seconds")))));
+      } else {
+        // update database
+        $q = db()->prepare("UPDATE heavy_requests SET last_request=NOW() WHERE user_ip=?");
+        $q->execute(array(user_ip()));
+      }
 
-		} else {
-			// insert into database
-			$q = db()->prepare("INSERT INTO heavy_requests SET last_request=NOW(), user_ip=?");
-			$q->execute(array(user_ip()));
+    } else {
+      // insert into database
+      $q = db()->prepare("INSERT INTO heavy_requests SET last_request=NOW(), user_ip=?");
+      $q->execute(array(user_ip()));
 
-		}
+    }
 
-	}
+  }
 
 }

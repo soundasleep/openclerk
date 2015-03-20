@@ -38,9 +38,12 @@ function sort_currency_list($a, $b) {
   return $as < $bs ? -1 : 1;
 }
 
+/**
+ * Return order does not matter.
+ * @return a list of currencies which can be hashed
+ */
 function get_all_hashrate_currencies() {
-  // TODO actually implement HashableCurrencies
-  return array("btc", "ltc", "nmc", "nvc", "dog", "ftc", "mec", "dgc", "wdc", "ixc", "vtc", "net", "hbn");
+  return Currencies::getHashableCurrencies();
 }
 
 $_cached_get_all_currencies = null;
@@ -54,14 +57,18 @@ function get_all_currencies() {
   return $_cached_get_all_currencies;
 }
 
-// return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
+/**
+ * @return true if this currency is a SHA256 currency and measured in MH/s rather than KH/s
+ */
 function is_hashrate_mhash($cur) {
-  // TODO actually implement HashableCurrencies
-  // if (in_array($cur, Currencies::getKeys())) {
-  //   $currency = Currencies::getInstance($cur);
-  //   return $currency->isMHash();
-  // }
-  return $cur == 'btc' || $cur == 'nmc' || $cur == 'ppc' || $cur == 'trc';
+  if (in_array($cur, Currencies::getHashableCurrencies())) {
+    $instance = Currencies::getInstance($cur);
+    $algorithm = $instance->getAlgorithm();
+    $algorithm_instance = Algorithms::getInstance($algorithm);
+    return $algorithm_instance->getDivisor() >= 1e6;
+  }
+
+  return false;
 }
 
 // TODO we should be able to get this from the database somehow

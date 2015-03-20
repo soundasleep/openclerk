@@ -8,7 +8,7 @@
  *   $key/1 required the automated key
  */
 
-define('USE_MASTER_DB', true);		// always use the master database for selects!
+define('USE_MASTER_DB', true);    // always use the master database for selects!
 
 require(__DIR__ . "/../inc/global.php");
 require(__DIR__ . "/_batch.php");
@@ -40,50 +40,50 @@ $stored = array();
 
 $count = 0;
 while ($ticker = $q->fetch()) {
-	$count++;
-	if ($count % 100 == 0) {
-		crypto_log("Processed " . number_format($count) . "...");
-	}
+  $count++;
+  if ($count % 100 == 0) {
+    crypto_log("Processed " . number_format($count) . "...");
+  }
 
-	$date = date('Y-m-d', strtotime($ticker['created_at'])) . $summary_date_prefix;
-	$exchange = $ticker['exchange'];
-	$cur1 = $ticker['currency1'];
-	$cur2 = $ticker['currency2'];
+  $date = date('Y-m-d', strtotime($ticker['created_at'])) . $summary_date_prefix;
+  $exchange = $ticker['exchange'];
+  $cur1 = $ticker['currency1'];
+  $cur2 = $ticker['currency2'];
 
-	if (!isset($stored[$date])) {
-		$stored[$date] = array();
-	}
-	if (!isset($stored[$date][$exchange])) {
-		$stored[$date][$exchange] = array();
-	}
-	if (!isset($stored[$date][$exchange][$cur1])) {
-		$stored[$date][$exchange][$cur1] = array();
-	}
-	if (!isset($stored[$date][$exchange][$cur1][$cur2])) {
-		$stored[$date][$exchange][$cur1][$cur2] = array();
-	}
+  if (!isset($stored[$date])) {
+    $stored[$date] = array();
+  }
+  if (!isset($stored[$date][$exchange])) {
+    $stored[$date][$exchange] = array();
+  }
+  if (!isset($stored[$date][$exchange][$cur1])) {
+    $stored[$date][$exchange][$cur1] = array();
+  }
+  if (!isset($stored[$date][$exchange][$cur1][$cur2])) {
+    $stored[$date][$exchange][$cur1][$cur2] = array();
+  }
 
-	if (!isset($stored[$date][$exchange][$cur1][$cur2]['open'])) {
-		$stored[$date][$exchange][$cur1][$cur2] = array(
-			'min' => $ticker['last_trade'],
-			'max' => $ticker['last_trade'],
-			'open' => $ticker['last_trade'],
-			'close' => $ticker['last_trade'],
-			'volume' => $ticker['volume'],
-			'samples' => 0,
-			'values' => array(),
-		);
-	}
+  if (!isset($stored[$date][$exchange][$cur1][$cur2]['open'])) {
+    $stored[$date][$exchange][$cur1][$cur2] = array(
+      'min' => $ticker['last_trade'],
+      'max' => $ticker['last_trade'],
+      'open' => $ticker['last_trade'],
+      'close' => $ticker['last_trade'],
+      'volume' => $ticker['volume'],
+      'samples' => 0,
+      'values' => array(),
+    );
+  }
 
-	// update as necessary
-	$stored[$date][$exchange][$cur1][$cur2]['min'] = min($ticker['last_trade'], $stored[$date][$exchange][$cur1][$cur2]['min']);
-	$stored[$date][$exchange][$cur1][$cur2]['max'] = max($ticker['last_trade'], $stored[$date][$exchange][$cur1][$cur2]['max']);
-	$stored[$date][$exchange][$cur1][$cur2]['volume'] = max($ticker['volume'], $stored[$date][$exchange][$cur1][$cur2]['volume']);
-	$stored[$date][$exchange][$cur1][$cur2]['close'] = $ticker['last_trade'];
-	$stored[$date][$exchange][$cur1][$cur2]['samples']++;
-	$stored[$date][$exchange][$cur1][$cur2]['bid'] = $ticker['bid']; // bid, ask are the last values for the day
-	$stored[$date][$exchange][$cur1][$cur2]['ask'] = $ticker['ask'];
-	$stored[$date][$exchange][$cur1][$cur2]['values'][] = $ticker['last_trade'];
+  // update as necessary
+  $stored[$date][$exchange][$cur1][$cur2]['min'] = min($ticker['last_trade'], $stored[$date][$exchange][$cur1][$cur2]['min']);
+  $stored[$date][$exchange][$cur1][$cur2]['max'] = max($ticker['last_trade'], $stored[$date][$exchange][$cur1][$cur2]['max']);
+  $stored[$date][$exchange][$cur1][$cur2]['volume'] = max($ticker['volume'], $stored[$date][$exchange][$cur1][$cur2]['volume']);
+  $stored[$date][$exchange][$cur1][$cur2]['close'] = $ticker['last_trade'];
+  $stored[$date][$exchange][$cur1][$cur2]['samples']++;
+  $stored[$date][$exchange][$cur1][$cur2]['bid'] = $ticker['bid']; // bid, ask are the last values for the day
+  $stored[$date][$exchange][$cur1][$cur2]['ask'] = $ticker['ask'];
+  $stored[$date][$exchange][$cur1][$cur2]['values'][] = $ticker['last_trade'];
 
 }
 
@@ -92,31 +92,31 @@ crypto_log("Processed " . number_format($count) . " ticker entries");
 // we now have lots of data; insert it
 $insert_count = 0;
 foreach ($stored as $date => $a) {
-	foreach ($a as $exchange => $b) {
-		foreach ($b as $cur1 => $c) {
-			foreach ($c as $cur2 => $summary) {
-				$q = db_master()->prepare("INSERT INTO graph_data_ticker SET
-						exchange=:exchange, currency1=:currency1, currency2=:currency2, data_date=:data_date, samples=:samples, data_date_day=TO_DAYS(:data_date),
-						volume=:volume, last_trade_min=:min, last_trade_opening=:open, last_trade_closing=:close, last_trade_max=:max, bid=:bid, ask=:ask, last_trade_stdev=:stdev");
-				$q->execute(array(
-					'exchange' => $exchange,
-					'currency1' => $cur1,
-					'currency2' => $cur2,
-					'data_date' => $date,
-					'samples' => $summary['samples'],
-					'volume' => $summary['volume'],
-					'min' => $summary['min'],
-					'open' => $summary['open'],
-					'close' => $summary['close'],
-					'max' => $summary['max'],
-					'bid' => $summary['bid'],
-					'ask' => $summary['ask'],
-					'stdev' => stdev($summary['values']),
-				));
-				$insert_count++;
-			}
-		}
-	}
+  foreach ($a as $exchange => $b) {
+    foreach ($b as $cur1 => $c) {
+      foreach ($c as $cur2 => $summary) {
+        $q = db_master()->prepare("INSERT INTO graph_data_ticker SET
+            exchange=:exchange, currency1=:currency1, currency2=:currency2, data_date=:data_date, samples=:samples, data_date_day=TO_DAYS(:data_date),
+            volume=:volume, last_trade_min=:min, last_trade_opening=:open, last_trade_closing=:close, last_trade_max=:max, bid=:bid, ask=:ask, last_trade_stdev=:stdev");
+        $q->execute(array(
+          'exchange' => $exchange,
+          'currency1' => $cur1,
+          'currency2' => $cur2,
+          'data_date' => $date,
+          'samples' => $summary['samples'],
+          'volume' => $summary['volume'],
+          'min' => $summary['min'],
+          'open' => $summary['open'],
+          'close' => $summary['close'],
+          'max' => $summary['max'],
+          'bid' => $summary['bid'],
+          'ask' => $summary['ask'],
+          'stdev' => stdev($summary['values']),
+        ));
+        $insert_count++;
+      }
+    }
+  }
 }
 crypto_log("Inserted " . number_format($insert_count) . " summarised entries into graph_data_ticker");
 

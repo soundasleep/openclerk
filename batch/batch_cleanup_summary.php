@@ -8,7 +8,7 @@
  *   $key/1 required the automated key
  */
 
-define('USE_MASTER_DB', true);		// always use the master database for selects!
+define('USE_MASTER_DB', true);    // always use the master database for selects!
 
 require(__DIR__ . "/../inc/global.php");
 require(__DIR__ . "/_batch.php");
@@ -34,42 +34,42 @@ $stored = array();
 
 $count = 0;
 while ($ticker = $q->fetch()) {
-	$count++;
-	if ($count % 100 == 0) {
-		crypto_log("Processed " . number_format($count) . "...");
-	}
+  $count++;
+  if ($count % 100 == 0) {
+    crypto_log("Processed " . number_format($count) . "...");
+  }
 
-	$date = date('Y-m-d', strtotime($ticker['created_at'])) . $summary_date_prefix;
-	$user_id = $ticker['user_id'];
-	$type = $ticker['summary_type'];
+  $date = date('Y-m-d', strtotime($ticker['created_at'])) . $summary_date_prefix;
+  $user_id = $ticker['user_id'];
+  $type = $ticker['summary_type'];
 
-	if (!isset($stored[$date])) {
-		$stored[$date] = array();
-	}
-	if (!isset($stored[$date][$user_id])) {
-		$stored[$date][$user_id] = array();
-	}
-	if (!isset($stored[$date][$user_id][$type])) {
-		$stored[$date][$user_id][$type] = array();
-	}
+  if (!isset($stored[$date])) {
+    $stored[$date] = array();
+  }
+  if (!isset($stored[$date][$user_id])) {
+    $stored[$date][$user_id] = array();
+  }
+  if (!isset($stored[$date][$user_id][$type])) {
+    $stored[$date][$user_id][$type] = array();
+  }
 
-	if (!isset($stored[$date][$user_id][$type]['open'])) {
-		$stored[$date][$user_id][$type] = array(
-			'min' => $ticker['balance'],
-			'max' => $ticker['balance'],
-			'open' => $ticker['balance'],
-			'close' => $ticker['balance'],
-			'samples' => 0,
-			'values' => array(),
-		);
-	}
+  if (!isset($stored[$date][$user_id][$type]['open'])) {
+    $stored[$date][$user_id][$type] = array(
+      'min' => $ticker['balance'],
+      'max' => $ticker['balance'],
+      'open' => $ticker['balance'],
+      'close' => $ticker['balance'],
+      'samples' => 0,
+      'values' => array(),
+    );
+  }
 
-	// update as necessary
-	$stored[$date][$user_id][$type]['min'] = min($ticker['balance'], $stored[$date][$user_id][$type]['min']);
-	$stored[$date][$user_id][$type]['max'] = max($ticker['balance'], $stored[$date][$user_id][$type]['max']);
-	$stored[$date][$user_id][$type]['close'] = $ticker['balance'];
-	$stored[$date][$user_id][$type]['samples']++;
-	$stored[$date][$user_id][$type]['values'][] = $ticker['balance'];
+  // update as necessary
+  $stored[$date][$user_id][$type]['min'] = min($ticker['balance'], $stored[$date][$user_id][$type]['min']);
+  $stored[$date][$user_id][$type]['max'] = max($ticker['balance'], $stored[$date][$user_id][$type]['max']);
+  $stored[$date][$user_id][$type]['close'] = $ticker['balance'];
+  $stored[$date][$user_id][$type]['samples']++;
+  $stored[$date][$user_id][$type]['values'][] = $ticker['balance'];
 
 }
 
@@ -78,25 +78,25 @@ crypto_log("Processed " . number_format($count) . " summary entries");
 // we now have lots of data; insert it
 $insert_count = 0;
 foreach ($stored as $date => $a) {
-	foreach ($a as $user_id => $b) {
-		foreach ($b as $type => $summary) {
-			$q = db_master()->prepare("INSERT INTO graph_data_summary SET
-					user_id=:user_id, summary_type=:summary_type, data_date=:data_date, samples=:samples,
-					balance_min=:min, balance_opening=:open, balance_closing=:close, balance_max=:max, balance_stdev=:stdev");
-			$q->execute(array(
-				'user_id' => $user_id,
-				'summary_type' => $type,
-				'data_date' => $date,
-				'samples' => $summary['samples'],
-				'min' => $summary['min'],
-				'open' => $summary['open'],
-				'close' => $summary['close'],
-				'max' => $summary['max'],
-				'stdev' => stdev($summary['values']),
-			));
-			$insert_count++;
-		}
-	}
+  foreach ($a as $user_id => $b) {
+    foreach ($b as $type => $summary) {
+      $q = db_master()->prepare("INSERT INTO graph_data_summary SET
+          user_id=:user_id, summary_type=:summary_type, data_date=:data_date, samples=:samples,
+          balance_min=:min, balance_opening=:open, balance_closing=:close, balance_max=:max, balance_stdev=:stdev");
+      $q->execute(array(
+        'user_id' => $user_id,
+        'summary_type' => $type,
+        'data_date' => $date,
+        'samples' => $summary['samples'],
+        'min' => $summary['min'],
+        'open' => $summary['open'],
+        'close' => $summary['close'],
+        'max' => $summary['max'],
+        'stdev' => stdev($summary['values']),
+      ));
+      $insert_count++;
+    }
+  }
 }
 crypto_log("Inserted " . number_format($insert_count) . " summary entries into graph_data_summary");
 

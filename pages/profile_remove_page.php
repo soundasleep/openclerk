@@ -8,15 +8,15 @@ $page_id = require_post("page");
 $confirm = require_post("confirm", false);
 
 if (!$confirm) {
-	// we're not deleting anything
-	redirect(url_for('profile', array('page' => $page_id)));
+  // we're not deleting anything
+  redirect(url_for('profile', array('page' => $page_id)));
 }
 
 // make sure it's our page
 $q = db()->prepare("SELECT * FROM graph_pages WHERE user_id=? AND id=?");
 $q->execute(array(user_id(), $page_id));
 if (!$q->fetch()) {
-	throw new Exception(t("Cannot find page :id", array(':id' => htmlspecialchars($page_id))));
+  throw new Exception(t("Cannot find page :id", array(':id' => htmlspecialchars($page_id))));
 }
 
 // delete it by hiding it

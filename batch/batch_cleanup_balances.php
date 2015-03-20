@@ -8,7 +8,7 @@
  *   $key/1 required the automated key
  */
 
-define('USE_MASTER_DB', true);		// always use the master database for selects!
+define('USE_MASTER_DB', true);    // always use the master database for selects!
 
 require(__DIR__ . "/../inc/global.php");
 require(__DIR__ . "/_batch.php");
@@ -34,47 +34,47 @@ $stored = array();
 
 $count = 0;
 while ($balance = $q->fetch()) {
-	$count++;
-	if ($count % 100 == 0) {
-		crypto_log("Processed " . number_format($count) . "...");
-	}
+  $count++;
+  if ($count % 100 == 0) {
+    crypto_log("Processed " . number_format($count) . "...");
+  }
 
-	$date = date('Y-m-d', strtotime($balance['created_at'])) . $summary_date_prefix;
-	$user_id = $balance['user_id'];
-	$exchange = $balance['exchange'];
-	$account_id = $balance['account_id'];
-	$currency = $balance['currency'];
+  $date = date('Y-m-d', strtotime($balance['created_at'])) . $summary_date_prefix;
+  $user_id = $balance['user_id'];
+  $exchange = $balance['exchange'];
+  $account_id = $balance['account_id'];
+  $currency = $balance['currency'];
 
-	if (!isset($stored[$date])) {
-		$stored[$date] = array();
-	}
-	if (!isset($stored[$date][$user_id])) {
-		$stored[$date][$user_id] = array();
-	}
-	if (!isset($stored[$date][$user_id][$exchange])) {
-		$stored[$date][$user_id][$exchange] = array();
-	}
-	if (!isset($stored[$date][$user_id][$exchange][$account_id])) {
-		$stored[$date][$user_id][$exchange][$account_id] = array();
-	}
+  if (!isset($stored[$date])) {
+    $stored[$date] = array();
+  }
+  if (!isset($stored[$date][$user_id])) {
+    $stored[$date][$user_id] = array();
+  }
+  if (!isset($stored[$date][$user_id][$exchange])) {
+    $stored[$date][$user_id][$exchange] = array();
+  }
+  if (!isset($stored[$date][$user_id][$exchange][$account_id])) {
+    $stored[$date][$user_id][$exchange][$account_id] = array();
+  }
 
-	if (!isset($stored[$date][$user_id][$exchange][$account_id][$currency]['open'])) {
-		$stored[$date][$user_id][$exchange][$account_id][$currency] = array(
-			'min' => $balance['balance'],
-			'max' => $balance['balance'],
-			'open' => $balance['balance'],
-			'close' => $balance['balance'],
-			'samples' => 0,
-			'values' => array(),
-		);
-	}
+  if (!isset($stored[$date][$user_id][$exchange][$account_id][$currency]['open'])) {
+    $stored[$date][$user_id][$exchange][$account_id][$currency] = array(
+      'min' => $balance['balance'],
+      'max' => $balance['balance'],
+      'open' => $balance['balance'],
+      'close' => $balance['balance'],
+      'samples' => 0,
+      'values' => array(),
+    );
+  }
 
-	// update as necessary
-	$stored[$date][$user_id][$exchange][$account_id][$currency]['min'] = min($balance['balance'], $stored[$date][$user_id][$exchange][$account_id][$currency]['min']);
-	$stored[$date][$user_id][$exchange][$account_id][$currency]['max'] = max($balance['balance'], $stored[$date][$user_id][$exchange][$account_id][$currency]['max']);
-	$stored[$date][$user_id][$exchange][$account_id][$currency]['close'] = $balance['balance'];
-	$stored[$date][$user_id][$exchange][$account_id][$currency]['samples']++;
-	$stored[$date][$user_id][$exchange][$account_id][$currency]['values'][] = $balance['balance'];
+  // update as necessary
+  $stored[$date][$user_id][$exchange][$account_id][$currency]['min'] = min($balance['balance'], $stored[$date][$user_id][$exchange][$account_id][$currency]['min']);
+  $stored[$date][$user_id][$exchange][$account_id][$currency]['max'] = max($balance['balance'], $stored[$date][$user_id][$exchange][$account_id][$currency]['max']);
+  $stored[$date][$user_id][$exchange][$account_id][$currency]['close'] = $balance['balance'];
+  $stored[$date][$user_id][$exchange][$account_id][$currency]['samples']++;
+  $stored[$date][$user_id][$exchange][$account_id][$currency]['values'][] = $balance['balance'];
 
 }
 
@@ -84,31 +84,31 @@ crypto_log("Processed " . number_format($count) . " balances entries");
 // danger! danger! five nested loops!
 $insert_count = 0;
 foreach ($stored as $date => $a) {
-	foreach ($a as $user_id => $b) {
-		foreach ($b as $exchange => $c) {
-			foreach ($c as $account_id => $d) {
-				foreach ($d as $currency => $summary) {
-					$q = db_master()->prepare("INSERT INTO graph_data_balances SET
-							user_id=:user_id, exchange=:exchange, account_id=:account_id, currency=:currency, data_date=:data_date, samples=:samples,
-							balance_min=:min, balance_opening=:open, balance_closing=:close, balance_max=:max, balance_stdev=:stdev");
-					$q->execute(array(
-						'user_id' => $user_id,
-						'exchange' => $exchange,
-						'account_id' => $account_id,
-						'currency' => $currency,
-						'data_date' => $date,
-						'samples' => $summary['samples'],
-						'min' => $summary['min'],
-						'open' => $summary['open'],
-						'close' => $summary['close'],
-						'max' => $summary['max'],
-						'stdev' => stdev($summary['values']),
-					));
-					$insert_count++;
-				}
-			}
-		}
-	}
+  foreach ($a as $user_id => $b) {
+    foreach ($b as $exchange => $c) {
+      foreach ($c as $account_id => $d) {
+        foreach ($d as $currency => $summary) {
+          $q = db_master()->prepare("INSERT INTO graph_data_balances SET
+              user_id=:user_id, exchange=:exchange, account_id=:account_id, currency=:currency, data_date=:data_date, samples=:samples,
+              balance_min=:min, balance_opening=:open, balance_closing=:close, balance_max=:max, balance_stdev=:stdev");
+          $q->execute(array(
+            'user_id' => $user_id,
+            'exchange' => $exchange,
+            'account_id' => $account_id,
+            'currency' => $currency,
+            'data_date' => $date,
+            'samples' => $summary['samples'],
+            'min' => $summary['min'],
+            'open' => $summary['open'],
+            'close' => $summary['close'],
+            'max' => $summary['max'],
+            'stdev' => stdev($summary['values']),
+          ));
+          $insert_count++;
+        }
+      }
+    }
+  }
 }
 crypto_log("Inserted " . number_format($insert_count) . " balances entries into graph_data_balances");
 

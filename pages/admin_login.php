@@ -10,18 +10,18 @@
 require_admin();
 
 if (!get_site_config('allow_fake_login')) {
-	throw new Exception("Fake login must be enabled through 'allow_fake_login' first.");
+  throw new Exception("Fake login must be enabled through 'allow_fake_login' first.");
 }
 
 // login as a new user
 $query = db()->prepare("SELECT * FROM users WHERE id=? LIMIT 1");
 $query->execute(array(require_get("id")));
 if (!($user = $query->fetch())) {
-	throw new Exception("No user account found: " . require_get("id"));
+  throw new Exception("No user account found: " . require_get("id"));
 }
 
 if ($user['is_admin']) {
-	throw new Exception("Cannot login as an administrator");
+  throw new Exception("Cannot login as an administrator");
 }
 
 // create a log message

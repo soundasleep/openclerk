@@ -185,6 +185,14 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/vote_coins.php");
         break;
 
+      case "missing_average_find":
+        require(__DIR__ . "/../jobs/missing_average_find.php");
+        break;
+
+      case "missing_average":
+        require(__DIR__ . "/../jobs/missing_average.php");
+        break;
+
       // transaction jobs
       case "transaction_creator":
         require(__DIR__ . "/../jobs/transaction_creator.php");

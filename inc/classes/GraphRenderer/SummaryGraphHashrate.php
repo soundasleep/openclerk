@@ -5,16 +5,16 @@
  */
 class GraphRenderer_SummaryGraphHashrate extends GraphRenderer_SummaryGraph {
 
-	function getTitle() {
-		return ct(":currency MHash/s");
-	}
+  function getTitle() {
+    return ct(":currency MHash/s");
+  }
 
-	function getData($days) {
-		$original = parent::getData($days);
+  function getData($days) {
+    $original = parent::getData($days);
 
-		$original['columns'][0]['title'] = ct("MH/s");
+    $original['columns'][0]['title'] = ct("MH/s");
 
-		return $original;
-	}
+    return $original;
+  }
 
 }

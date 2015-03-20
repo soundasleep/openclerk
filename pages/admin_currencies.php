@@ -19,19 +19,20 @@ page_header("Admin: Currencies", "page_admin_currencies", array('js' => array('a
 
 <table class="standard standard_account_list">
 <thead>
-	<tr>
-		<th class="default_sort_down">Code</th>
+  <tr>
+    <th class="default_sort_down">Code</th>
     <th>Name</th>
     <th>Class</th>
     <th>Abbr</th>
-		<th>Type</th>
+    <th>Type</th>
     <th>Explorer</th>
     <th>Block</th>
     <th>Difficulty</th>
     <th>Confirmable</th>
     <th>BlockBalance</th>
     <th>Receivable</th>
-	</tr>
+    <th>Hashable</th>
+  </tr>
 </thead>
 <tbody>
 <?php
@@ -64,6 +65,12 @@ page_header("Admin: Currencies", "page_admin_currencies", array('js' => array('a
     echo "<td>" . ($currency instanceof \Openclerk\Currencies\ConfirmableCurrency ? "yes" : "") . "</td>";
     echo "<td>" . ($currency instanceof \Openclerk\Currencies\BlockBalanceableCurrency ? "yes" : "") . "</td>";
     echo "<td>" . ($currency instanceof \Openclerk\Currencies\ReceivedCurrency ? "yes" : "") . "</td>";
+    echo "<td>";
+    if ($currency instanceof \Openclerk\Currencies\HashableCurrency) {
+      $algorithm = \DiscoveredComponents\Algorithms::getInstance($currency->getAlgorithm());
+      echo $algorithm->getName() . " (" . $algorithm->getDivisorText() . ")";
+    }
+    echo "</td>";
     echo "</tr>\n";
   }
 ?>
