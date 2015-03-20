@@ -42,7 +42,7 @@ class GraphRenderer_Ticker extends GraphRenderer_AbstractTicker {
 
     $args = array(':pair' => get_currency_abbr($this->currency1) . "/" . get_currency_abbr($this->currency2));
     $columns = array();
-    if ($this->exchange == 'themoneyconverter' || $this->exchange == "coinbase") {
+    if ($this->onlyhasLastTrade()) {
       // hack fix because TheMoneyConverter and Coinbase only have last_trade
       $columns[] = array('type' => 'number', 'title' => ct(":pair"), 'args' => $args);
     } else {
@@ -79,12 +79,16 @@ class GraphRenderer_Ticker extends GraphRenderer_AbstractTicker {
     );
   }
 
+  function onlyHasLastTrade() {
+    return $this->exchange == 'themoneyconverter' || $this->exchange == "coinbase" || $this->exchange == "cryptsy";
+  }
+
   /**
    * @return an array of 1..2 values of the values for the particular row,
    *      maybe formatted with {@link #graph_number_format()}.
    */
   function getTickerData($row) {
-    if ($this->exchange == 'themoneyconverter' || $this->exchange == "coinbase") {
+    if ($this->onlyHasLastTrade()) {
       // last_trade is in ticker; last_trade_closing is in graph_data_ticker
       if (isset($row['last_trade'])) {
         return array(graph_number_format($row['last_trade']));
