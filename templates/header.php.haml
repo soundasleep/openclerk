@@ -3,6 +3,7 @@
   $locale_js = "js/locale/" . \Openclerk\I18n::getCurrentLocale() . ".js";
   $id = isset($id) ? $id : "";
   $class = isset($class) ? $class : "";
+  $refresh = require_get("refresh", false);
 
   $user = user_logged_in() ? get_user(user_id()) : false;
   if ($user) {
@@ -47,6 +48,9 @@
 
   - if (has_required_admin())
     %link{:rel => "stylesheet", :type => "text/css", :href => url_for('admin.css' . $random) }
+
+  - if ($refresh)
+    %meta{"http-equiv" => "refresh", :content => $refresh }
 
   %script{:type => "text/javascript", :src => url_for("js/jquery-1.9.1.min.js") }
   %script{:type => "text/javascript", :src => url_for("js/common.js" . $random) }
