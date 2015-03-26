@@ -35,11 +35,14 @@ foreach ($accounts as $a) {
     }
   }
 
+  // get the account type data
+  $account_type_data = get_account_data($a['exchange']);
+
   // was the last request successful?
   $q = db()->prepare("SELECT * FROM jobs
       WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=1 AND is_recent=1
       ORDER BY jobs.id DESC LIMIT 1");
-  $q->execute(array(user_id(), $a['id'], $a['exchange']));
+  $q->execute(array(user_id(), $a['id'], $account_type_data['job_type']));
   $job = $q->fetch();
   if (!$last_updated && $job) {
     $last_updated = $job['executed_at'];
@@ -55,7 +58,7 @@ foreach ($accounts as $a) {
 
   // are we currently awaiting for a test callback?
   $q = db()->prepare("SELECT * FROM jobs WHERE user_id=? AND arg_id=? AND job_type=? AND is_executed=0 AND is_test_job=1 LIMIT 1");
-  $q->execute(array(user_id(), $a['id'], $a['exchange']));
+  $q->execute(array(user_id(), $a['id'], $account_type_data['job_type']));
   $is_test_job = $q->fetch();
 
   $extra_display = array();
@@ -63,9 +66,6 @@ foreach ($accounts as $a) {
     $c = $account_type['display_callback'];
     $extra_display = $c($a);
   }
-
-  // get the account type data
-  $account_type_data = get_account_data($a['exchange']);
 
   $row_element_id = "row_" . $a['exchange'] . "_" . $a['id'];
   $is_disabled = isset($a['is_disabled']) && $a['is_disabled'];

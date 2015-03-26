@@ -119,15 +119,18 @@ function get_error_class($n) {
       $q->execute();
       $summary = $q->fetch();
 
-      // executing this in two queries is faster than going ORDER BY is_error DESC
-      $q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 AND is_error=1 LIMIT 1");
-      $q->execute(array($exchange));
-      $job = $q->fetch();
-      if (!$job) {
-        // if there are no failing jobs, just select any one
-        $q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 LIMIT 1");
-        $q->execute(array($exchange));
+      $job = false;
+      if (isset($data['job_type'])) {
+        // executing this in two queries is faster than going ORDER BY is_error DESC
+        $q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 AND is_error=1 LIMIT 1");
+        $q->execute(array($data['job_type']));
         $job = $q->fetch();
+        if (!$job) {
+          // if there are no failing jobs, just select any one
+          $q = db()->prepare("SELECT * FROM jobs WHERE job_type=? AND is_test_job=0 LIMIT 1");
+          $q->execute(array($data['job_type']));
+          $job = $q->fetch();
+        }
       }
 
       echo "<td class=\"number\">" . number_format($summary['s']) . "</td>\n";

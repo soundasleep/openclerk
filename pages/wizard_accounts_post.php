@@ -19,6 +19,7 @@ foreach (account_data_grouped() as $label => $data) {
       // we've found a valid account type
       $account_data = get_accounts_wizard_config($key);
       $account_data['disabled'] = $value['disabled'];
+      $account_data['job_type'] = $value['job_type'];
     }
   }
 }
@@ -201,7 +202,7 @@ if (require_post("add", false)) {
           priority=:priority,
           is_test_job=1");
     $q->execute(array(
-      'job_type' => $account_data['exchange'],
+      'job_type' => $account_data['job_type'],
       'job_prefix' => \Openclerk\Jobs\JobQueuer::getJobPrefix($account_data['exchange']),
       'user_id' => user_id(),
       'arg_id' => $id,
@@ -294,7 +295,7 @@ if (require_post('test', false) && require_post('id', false)) {
       priority=:priority,
       is_test_job=1");
     $q->execute(array(
-      'job_type' => $account_data['exchange'],
+      'job_type' => $account_data['job_type'],
       'job_prefix' => \Openclerk\Jobs\JobQueuer::getJobPrefix($account_data['exchange']),
       'user_id' => user_id(),
       'arg_id' => require_post('id'),

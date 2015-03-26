@@ -655,6 +655,7 @@ function account_data_grouped() {
       'query' => " AND currency='$cur'",
       'wizard' => 'addresses',
       'currency' => $cur,
+      'job_type' => 'addresses_' . $cur,
     );
   }
 
@@ -665,6 +666,7 @@ function account_data_grouped() {
       'wizard' => 'pools',
       'failure' => true,
       'disabled' => in_array($exchange, Accounts::getDisabled()),
+      'job_type' => 'account_' . $exchange,
     );
   }
 
@@ -781,6 +783,9 @@ function account_data_grouped() {
       }
       if (!isset($data[$key0][$key]['query'])) {
         $data[$key0][$key]['query'] = '';
+      }
+      if (!isset($data[$key0][$key]['job_type']) && isset($data[$key0][$key]['exchange'])) {
+        $data[$key0][$key]['job_type'] = $data[$key0][$key]['exchange'];
       }
     }
   }

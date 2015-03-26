@@ -367,7 +367,7 @@ class GenericOpenclerkJob implements Job {
     $account_data = false;
     foreach (account_data_grouped() as $label => $group) {
       foreach ($group as $exchange => $data) {
-        if ($job['job_type'] == $exchange) {
+        if (isset($data['job_type']) && $job['job_type'] == $data['job_type']) {
           $account_data = $data;
           $account_data['exchange'] = $exchange;
           break;
