@@ -863,7 +863,7 @@ function get_external_apis() {
       continue;
     }
     $instance = Accounts::getInstance($key);
-    $mining_pools[$key] = link_to($instance->getURL(), $instance->getName());
+    $mining_pools["account_" . $key] = link_to($instance->getURL(), $instance->getName());
   }
 
   $external_apis = array(
