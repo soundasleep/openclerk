@@ -28,7 +28,10 @@ $balances = $instance->fetchBalances($account, $factory, $logger);
 foreach ($balances as $currency => $balance) {
   // only store currencies we are actually interested in
   if (in_array($currency, \DiscoveredComponents\Currencies::getKeys())) {
-    insert_new_balance($job, $account, $exchange, $currency, $balance['confirmed']);
+    // some accounts, e.g. ghash, don't return a balance
+    if (isset($balance['confirmed'])) {
+      insert_new_balance($job, $account, $exchange, $currency, $balance['confirmed']);
+    }
 
     // hashrate balances
     if (isset($balance['hashrate'])) {
