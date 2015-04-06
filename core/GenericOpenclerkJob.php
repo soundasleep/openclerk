@@ -29,10 +29,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/generic.php");
         break;
 
-      case "bit2c":
-        require(__DIR__ . "/../jobs/bit2c.php");
-        break;
-
       case "btce":
         require(__DIR__ . "/../jobs/btce.php");
         break;
@@ -99,10 +95,6 @@ class GenericOpenclerkJob implements Job {
 
       case "cryptsy":
         require(__DIR__ . "/../jobs/cryptsy.php");
-        break;
-
-      case "bit2c":
-        require(__DIR__ . "/../jobs/bit2c.php");
         break;
 
       case "kraken":

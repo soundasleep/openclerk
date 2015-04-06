@@ -61,7 +61,6 @@ class OpenclerkJobQueuer extends JobQueuer {
     // if no 'user_id' is specified, then the user will also be checked for disable status
     $standard_jobs = array_merge($address_jobs, $account_jobs, array(
       array('table' => 'accounts_generic', 'type' => 'generic', 'failure' => true),
-      array('table' => 'accounts_bit2c', 'type' => 'bit2c', 'failure' => true),
       array('table' => 'accounts_btce', 'type' => 'btce', 'failure' => true),
       array('table' => 'accounts_vircurex', 'type' => 'vircurex', 'failure' => true),
       array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks', 'failure' => true),

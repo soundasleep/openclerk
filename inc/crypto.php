@@ -393,7 +393,6 @@ function get_supported_wallets() {
   $wallets = array(
     // alphabetically sorted, except for generic
     "796" => array('btc', 'ltc', 'usd'),
-    "bit2c" => array('btc', 'ltc', 'ils'),
     "bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
     "bitstamp" => array('btc', 'usd'),
     "bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd', 'via'),  // and others, used in jobs/bittrex.php
@@ -705,7 +704,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
-      'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'btclevels' => array('table' => 'accounts_btclevels', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -918,7 +916,6 @@ function get_external_apis() {
     "Mining pool wallets" /* i18n */ => $mining_pools,
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
-      'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
       'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
       'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
       'bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
@@ -1114,16 +1111,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bips_apikey'),
         ),
         'table' => 'accounts_bips',
-      );
-
-    case "bit2c":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bit2c_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bit2c_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_bit2c',
-        'title' => 'Bit2c account',
       );
 
     case "bitcurex_pln":
@@ -1931,16 +1918,6 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
     }
   }
   return $dropdown_get_all_securities[$table];
-}
-
-function is_valid_bit2c_apikey($key) {
-  // not sure what the format should be
-  return preg_match("#^[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+$#", $key);
-}
-
-function is_valid_bit2c_apisecret($key) {
-  // not sure what the format should be
-  return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
 }
 
 function is_valid_btce_apikey($key) {
