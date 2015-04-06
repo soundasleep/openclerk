@@ -206,8 +206,6 @@ function get_all_exchanges() {
       "796" =>      "796 Xchange",
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
-      "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
-      "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
       "justcoin" =>   "Justcoin",
       "litecoininvest" => "Litecoininvest",
       "litecoininvest_wallet" => "Litecoininvest (Wallet)",
@@ -702,8 +700,6 @@ function account_data_grouped() {
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
-      'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
-      'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'btclevels' => array('table' => 'accounts_btclevels', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bitmarket_pl' => array('table' => 'accounts_bitmarket_pl', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -1101,24 +1097,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_mtgox',
         'title' => 'Mt.Gox account',
-      );
-
-    case "bitcurex_pln":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitcurex_pln_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitcurex_pln_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_bitcurex_pln',
-      );
-
-    case "bitcurex_eur":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitcurex_eur_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitcurex_eur_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_bitcurex_eur',
       );
 
     case "btce":
@@ -2003,24 +1981,6 @@ function is_valid_796_apikey($key) {
 function is_valid_796_apisecret($key) {
   // looks like a 60 character crazy string
   return strlen($key) == 60 && preg_match("#^[A-Za-z0-9\\+\\/]+$#", $key);
-}
-
-function is_valid_bitcurex_pln_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_bitcurex_pln_apisecret($key) {
-  // looks like a long base64 encoded string
-  return strlen($key) > 60 && strlen($key) < 100 && preg_match("#^[a-zA-Z0-9/\\+=]+$#", $key);
-}
-
-function is_valid_bitcurex_eur_apikey($key) {
-  return is_valid_bitcurex_pln_apikey($key);
-}
-
-function is_valid_bitcurex_eur_apisecret($key) {
-  return is_valid_bitcurex_pln_apisecret($key);
 }
 
 function is_valid_justcoin_apikey($key) {
