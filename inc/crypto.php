@@ -393,7 +393,6 @@ function get_supported_wallets() {
   $wallets = array(
     // alphabetically sorted, except for generic
     "796" => array('btc', 'ltc', 'usd'),
-    "anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),   // also hkd, sgd, jpy, chf
     "bit2c" => array('btc', 'ltc', 'ils'),
     "bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
     "bitstamp" => array('btc', 'usd'),
@@ -705,7 +704,6 @@ function account_data_grouped() {
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
-      'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
@@ -920,7 +918,6 @@ function get_external_apis() {
     "Mining pool wallets" /* i18n */ => $mining_pools,
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
-      'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
       'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
       'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
       'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
@@ -1255,15 +1252,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'unsafe' => "A Poloniex API key allows trading, but does not allow withdrawl.",
         'table' => 'accounts_poloniex',
-      );
-
-    case "anxpro":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'Key', 'callback' => 'is_valid_anxpro_apikey'),
-          'api_secret' => array('title' => 'Secret', 'callback' => 'is_valid_anxpro_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_anxpro',
       );
 
     case "bittrex":
@@ -2129,16 +2117,6 @@ function is_valid_poloniex_apikey($key) {
 function is_valid_poloniex_apisecret($key) {
   // looks like a 128 character hex string
   return strlen($key) == 128 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_anxpro_apikey($key) {
-  // not sure what the format should be
-  return strlen($key) == 36 && preg_match("#^[a-z0-9\-]+$#", $key);
-}
-
-function is_valid_anxpro_apisecret($key) {
-  // not sure what the format should be, looks to be similar to base64 encoding
-  return strlen($key) > 36 && preg_match('#^[A-Za-z0-9/\\+=]+$#', $key);
 }
 
 function is_valid_bittrex_apisecret($key) {
