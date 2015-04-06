@@ -60,6 +60,7 @@ foreach ($external_apis as $group_name => $group) {
   echo "<li><b>" . ht($group_name) . "</b><ul>\n";
   foreach ($group as $key => $title) {
     if (!isset($external[$key]) && !is_admin()) {
+      // skip any external APIs that have no recent data, unless we're admin
       continue;
     }
     echo "<li><span class=\"title\">" . $title['link'] . "</span> ";
