@@ -394,7 +394,6 @@ function get_supported_wallets() {
     "cryptostocks" => array('btc', 'ltc'),
     "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
-    "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
     "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
@@ -696,7 +695,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -902,7 +900,6 @@ function get_external_apis() {
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
-      'cexio' => '<a href="https://cex.io">CEX.io</a>',
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
       'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
       'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
@@ -1093,16 +1090,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_vircurex_apisecret', 'length' => 128),
         ),
         'table' => 'accounts_vircurex',
-      );
-
-    case "cexio":
-      return array(
-        'inputs' => array(
-          'api_username' => array('title' => 'Username', 'callback' => 'is_valid_cexio_apiusername'),
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cexio_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
-        ),
-        'table' => 'accounts_cexio',
       );
 
     case "crypto-trade":
@@ -1875,21 +1862,6 @@ function is_valid_havelock_apikey($key) {
 }
 
 function is_valid_generic_key($key) {
-  // this could probably be in any format but should be at least one character
-  return strlen($key) >= 1 && strlen($key) <= 255;
-}
-
-function is_valid_cexio_apikey($key) {
-  // looks like a 20-32 character alphanumeric mixed case string
-  return strlen($key) >= 20 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
-}
-
-function is_valid_cexio_apisecret($key) {
-  // looks like a 20-32 character alphanumeric mixed case string
-  return strlen($key) >= 20 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
-}
-
-function is_valid_cexio_apiusername($key) {
   // this could probably be in any format but should be at least one character
   return strlen($key) >= 1 && strlen($key) <= 255;
 }
