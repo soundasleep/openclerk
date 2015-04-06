@@ -174,8 +174,6 @@ Openclerk\Config::merge(array(
   "vaultofsatoshi_info_currency_api_key" => '...',
   "vaultofsatoshi_info_currency_api_secret" => '...',
   "blockchain_api_key" => false,      // if you have one, optional
-  "bitmarket_pl_example_api_key" => '...',
-  "bitmarket_pl_example_api_secret" => '...',
   "anxpro_example_api_key" => '...',
   "anxpro_example_api_secret" => '...',
   "exchange_cryptsy_key" => "...",      // for fetching ticker markets
