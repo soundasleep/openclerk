@@ -177,7 +177,6 @@ function get_all_exchanges() {
 
     $exchanges = array(
       "mtgox" =>      "Mt.Gox",
-      "bips" =>       "BIPS",   // this is now disabled
       "litecoinglobal" =>  "Litecoin Global",
       "litecoinglobal_wallet" => "Litecoin Global (Wallet)",
       "litecoinglobal_securities" => "Litecoin Global (Securities)",
@@ -703,7 +702,6 @@ function account_data_grouped() {
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
-      'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'btclevels' => array('table' => 'accounts_btclevels', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -1103,14 +1101,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_mtgox',
         'title' => 'Mt.Gox account',
-      );
-
-    case "bips":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bips_apikey'),
-        ),
-        'table' => 'accounts_bips',
       );
 
     case "bitcurex_pln":
@@ -1963,11 +1953,6 @@ function is_valid_vircurex_apisecret($key) {
 function is_valid_havelock_apikey($key) {
   // not sure what the format is, but it looks to be 64 characters of random alphanumeric
   return preg_match("#^[0-9A-Za-z]{64}$#", $key);
-}
-
-function is_valid_bips_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_generic_key($key) {
