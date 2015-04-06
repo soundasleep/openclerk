@@ -35,6 +35,7 @@
     "openclerk/routing": "dev-master",
     "openclerk/pages": "dev-master",
     "openclerk/templates": "dev-master",
+    "openclerk/wallets": "dev-master",
     "soundasleep/component-discovery": "dev-master",
     "soundasleep/asset-discovery": "dev-master",
     "soundasleep/translation-discovery": "dev-master",

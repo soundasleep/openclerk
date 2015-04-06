@@ -396,7 +396,6 @@ function get_supported_wallets() {
     "anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),   // also hkd, sgd, jpy, chf
     "bit2c" => array('btc', 'ltc', 'ils'),
     "bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
-    "bitnz" => array('btc', 'nzd'),
     "bitstamp" => array('btc', 'usd'),
     "bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd', 'via'),  // and others, used in jobs/bittrex.php
     "btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),    // used in jobs/btce.php
@@ -446,8 +445,23 @@ function get_supported_wallets() {
   return $wallets;
 }
 
+
+$_cached_get_new_supported_wallets = null;
+/**
+ * Get all wallets that can be considered 'new'
+ */
 function get_new_supported_wallets() {
-  return array("bitnz");
+  global $_cached_get_new_supported_wallets;
+  if ($_cached_get_new_supported_wallets === null) {
+    $result = array();
+    $q = db()->prepare("SELECT * FROM account_currencies WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)");
+    $q->execute();
+    while ($pair = $q->fetch()) {
+      $result[] = $pair['exchange'];
+    }
+    $_cached_get_new_supported_wallets = $result;
+  }
+  return $_cached_get_new_supported_wallets;
 }
 
 function get_summary_types() {
@@ -643,6 +657,7 @@ function get_crypto_conversion_summary_types() {
 function account_data_grouped() {
   $addresses_data = array();
   $mining_pools_data = array();
+  $exchange_wallets_data = array();
 
   // we can generate this automatically
   foreach (get_address_currencies() as $cur) {
@@ -660,20 +675,36 @@ function account_data_grouped() {
   }
 
   foreach (Accounts::getMiners() as $exchange) {
-    $mining_pools_data[$exchange] = array(
-      'table' => 'accounts_' . $exchange,
-      'group' => 'accounts',
-      'wizard' => 'pools',
-      'failure' => true,
-      'disabled' => in_array($exchange, Accounts::getDisabled()),
-      'job_type' => 'account_' . $exchange,
-    );
+  }
+
+  foreach (Accounts::getKeys() as $exchange) {
+    if (in_array($exchange, Accounts::getMiners())) {
+      // a miner
+      $mining_pools_data[$exchange] = array(
+        'table' => 'accounts_' . $exchange,
+        'group' => 'accounts',
+        'wizard' => 'pools',
+        'failure' => true,
+        'disabled' => in_array($exchange, Accounts::getDisabled()),
+        'job_type' => 'account_' . $exchange,
+      );
+    } else {
+      // otherwise, assume an exchange wallet
+      $exchange_wallets_data[$exchange] = array(
+        'table' => 'accounts_' . $exchange,
+        'group' => 'accounts',
+        'wizard' => 'exchanges',
+        'failure' => true,
+        'disabled' => in_array($exchange, Accounts::getDisabled()),
+        'job_type' => 'account_' . $exchange,
+      );
+    }
   }
 
   $data = array(
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
-    'Exchanges' /* i18n */ => array(
+    'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -681,7 +712,6 @@ function account_data_grouped() {
       'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'btclevels' => array('table' => 'accounts_btclevels', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bitmarket_pl' => array('table' => 'accounts_bitmarket_pl', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'bitnz' => array('table' => 'accounts_bitnz', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bittrex' => array('table' => 'accounts_bittrex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -695,7 +725,7 @@ function account_data_grouped() {
       'poloniex' => array('table' => 'accounts_poloniex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-    ),
+    )),
     'Securities' /* i18n */ => array(
       '796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
       'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
@@ -787,6 +817,9 @@ function account_data_grouped() {
       if (!isset($data[$key0][$key]['job_type']) && isset($data[$key0][$key]['exchange'])) {
         $data[$key0][$key]['job_type'] = $data[$key0][$key]['exchange'];
       }
+      if (!isset($data[$key0][$key]['job_type']) && $key0 == "Exchanges") {
+        $data[$key0][$key]['job_type'] = $key;
+      }
     }
   }
   return $data;
@@ -857,16 +890,26 @@ function get_external_apis() {
   }
 
   $mining_pools = array();
-  foreach (Accounts::getMiners() as $key) {
+  $exchange_wallets = array();
+  foreach (Accounts::getKeys() as $key) {
     if (in_array($key, Accounts::getDisabled())) {
       // do not list disabled accounts
       continue;
     }
     $instance = Accounts::getInstance($key);
-    $mining_pools["account_" . $key] = array(
-      'link' => link_to($instance->getURL(), $instance->getName()),
-      'package' => Accounts::getDefiningPackage($key),
-    );
+    if (in_array($key, Accounts::getMiners())) {
+      // a miner
+      $mining_pools["account_" . $key] = array(
+        'link' => link_to($instance->getURL(), $instance->getName()),
+        'package' => Accounts::getDefiningPackage($key),
+      );
+    } else {
+      // otherwise, assume exchange wallet
+      $exchange_wallets["account_" . $key] = array(
+        'link' => link_to($instance->getURL(), $instance->getName()),
+        'package' => Accounts::getDefiningPackage($key),
+      );
+    }
   }
 
   $external_apis = array(
@@ -876,11 +919,10 @@ function get_external_apis() {
 
     "Mining pool wallets" /* i18n */ => $mining_pools,
 
-    "Exchange wallets" /* i18n */ => array(
+    "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
       'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
       'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
-      'bitnz' => '<a href="https://bitnz.com">BitNZ</a>',
       'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
       'bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
       'btce' => '<a href="http://btc-e.com">BTC-e</a>',
@@ -897,7 +939,7 @@ function get_external_apis() {
       'poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
       'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
       'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
-    ),
+    )),
 
     "Exchange tickers" /* i18n */ => $exchange_tickers,
 
@@ -1240,16 +1282,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btclevels_apisecret', 'length' => 128),
         ),
         'table' => 'accounts_btclevels',
-      );
-
-    case "bitnz":
-      return array(
-        'inputs' => array(
-          'api_username' => array('title' => 'Username', 'callback' => 'is_string'),
-          'api_key' => array('title' => 'API Key', 'callback' => 'is_valid_bitnz_apikey'),
-          'api_secret' => array('title' => 'API Secret', 'callback' => 'is_valid_bitnz_apisecret', 'length' => 32),
-        ),
-        'table' => 'accounts_bitnz',
       );
 
     // --- securities ---
@@ -2121,16 +2153,6 @@ function is_valid_bittrex_apikey($key) {
 
 function is_valid_btclevels_apisecret($key) {
   return preg_match("#^[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}$#", $key);
-}
-
-function is_valid_bitnz_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_bitnz_apisecret($key) {
-  // looks like a random string
-  return strlen($key) > 8 && strlen($key) < 12 && preg_match("#^[a-zA-Z0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

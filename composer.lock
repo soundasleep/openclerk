@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ba9c21c1f1359f60641961938ef75bca",
+    "hash": "1850d0f5c2a283ab3f6a39b891d2f4ec",
     "packages": [
         {
             "name": "kwipi/famfamfam-flags",
@@ -222,12 +222,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/accounts.git",
-                "reference": "c09d2c248be1de0cbaa24c2f097ee865d8b2b889"
+                "reference": "ca6cc4eb513cacd65c78f70815688cdd1cef39d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/accounts/zipball/c09d2c248be1de0cbaa24c2f097ee865d8b2b889",
-                "reference": "c09d2c248be1de0cbaa24c2f097ee865d8b2b889",
+                "url": "https://api.github.com/repos/openclerk/accounts/zipball/ca6cc4eb513cacd65c78f70815688cdd1cef39d3",
+                "reference": "ca6cc4eb513cacd65c78f70815688cdd1cef39d3",
                 "shasum": ""
             },
             "require": {
@@ -246,7 +246,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of accounts in Openclerk",
-            "time": "2015-03-12 04:01:01"
+            "time": "2015-04-02 00:30:02"
         },
         {
             "name": "openclerk/api-list",
@@ -254,12 +254,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/api-list.git",
-                "reference": "2620a31462a1b18417c3d54378c4687331ceb41b"
+                "reference": "8713f8b6ea2577440d279d37e56b5fe230215739"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/api-list/zipball/2620a31462a1b18417c3d54378c4687331ceb41b",
-                "reference": "2620a31462a1b18417c3d54378c4687331ceb41b",
+                "url": "https://api.github.com/repos/openclerk/api-list/zipball/8713f8b6ea2577440d279d37e56b5fe230215739",
+                "reference": "8713f8b6ea2577440d279d37e56b5fe230215739",
                 "shasum": ""
             },
             "require": {
@@ -281,7 +281,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "A library for listing and discovering runtime properties of APIs",
-            "time": "2015-02-27 00:38:17"
+            "time": "2015-04-02 00:30:41"
         },
         {
             "name": "openclerk/apis",
@@ -429,12 +429,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/cryptocurrencies.git",
-                "reference": "ab34a6ae5aa985ee63429e378274105fb403221e"
+                "reference": "aedd78e5d334fa2597be30a6e50ebcd0bef60606"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/ab34a6ae5aa985ee63429e378274105fb403221e",
-                "reference": "ab34a6ae5aa985ee63429e378274105fb403221e",
+                "url": "https://api.github.com/repos/openclerk/cryptocurrencies/zipball/aedd78e5d334fa2597be30a6e50ebcd0bef60606",
+                "reference": "aedd78e5d334fa2597be30a6e50ebcd0bef60606",
                 "shasum": ""
             },
             "require": {
@@ -456,7 +456,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of cryptocurrencies in Openclerk",
-            "time": "2015-03-25 04:05:12"
+            "time": "2015-03-26 22:27:53"
         },
         {
             "name": "openclerk/currencies",
@@ -561,22 +561,27 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/events.git",
-                "reference": "70e93ef6bc69a830030f79061a2c53e8f544a70a"
+                "reference": "18dd9664c9aa68a82605b6550d103ec554eeffff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/events/zipball/70e93ef6bc69a830030f79061a2c53e8f544a70a",
-                "reference": "70e93ef6bc69a830030f79061a2c53e8f544a70a",
+                "url": "https://api.github.com/repos/openclerk/events/zipball/18dd9664c9aa68a82605b6550d103ec554eeffff",
+                "reference": "18dd9664c9aa68a82605b6550d103ec554eeffff",
                 "shasum": ""
+            },
+            "require-dev": {
+                "soundasleep/component-tests": "dev-master"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Openclerk\\": "src"
+                    "Openclerk\\": "src",
+                    "Openclerk\\Test\\": "test"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-16 07:34:34"
+            "description": "Simple PHP events",
+            "time": "2015-04-01 04:19:55"
         },
         {
             "name": "openclerk/exceptions",
@@ -655,12 +660,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/fiat.git",
-                "reference": "48b4e163e35336e38ef334ace274d9940c41b5bb"
+                "reference": "69c1fa357e0a438486f25fb4741ed850a75f1dc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/fiat/zipball/48b4e163e35336e38ef334ace274d9940c41b5bb",
-                "reference": "48b4e163e35336e38ef334ace274d9940c41b5bb",
+                "url": "https://api.github.com/repos/openclerk/fiat/zipball/69c1fa357e0a438486f25fb4741ed850a75f1dc4",
+                "reference": "69c1fa357e0a438486f25fb4741ed850a75f1dc4",
                 "shasum": ""
             },
             "require": {
@@ -679,7 +684,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Definitions and implementations of fiat currencies in Openclerk",
-            "time": "2015-02-04 02:51:23"
+            "time": "2015-04-02 00:31:04"
         },
         {
             "name": "openclerk/i18n",
@@ -898,6 +903,42 @@
             "time": "2014-12-08 03:48:54"
         },
         {
+            "name": "openclerk/wallets",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openclerk/wallets.git",
+                "reference": "910e309a738e78557f13a8789a88dd60a7558a65"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openclerk/wallets/zipball/910e309a738e78557f13a8789a88dd60a7558a65",
+                "reference": "910e309a738e78557f13a8789a88dd60a7558a65",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "~1.11",
+                "openclerk/accounts": "dev-master",
+                "openclerk/apis": "dev-master",
+                "openclerk/config": "dev-master",
+                "openclerk/currencies": "dev-master"
+            },
+            "require-dev": {
+                "openclerk/cryptocurrencies": "dev-master",
+                "soundasleep/component-tests": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Account\\Wallet\\": "src",
+                    "Account\\Wallet\\Tests\\": "test"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Definitions and implementations of cryptocurrency wallets in Openclerk",
+            "time": "2015-04-06 03:57:29"
+        },
+        {
             "name": "pelago/emogrifier",
             "version": "v0.1",
             "source": {
@@ -1072,27 +1113,27 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/component-discovery.git",
-                "reference": "1c3c04644b3d5d8e9f02d2f6dc2a3ccec50c5232"
+                "reference": "fd8ad79d2d417d71c72f128a46e43fc54288fcd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/1c3c04644b3d5d8e9f02d2f6dc2a3ccec50c5232",
-                "reference": "1c3c04644b3d5d8e9f02d2f6dc2a3ccec50c5232",
+                "url": "https://api.github.com/repos/soundasleep/component-discovery/zipball/fd8ad79d2d417d71c72f128a46e43fc54288fcd0",
+                "reference": "fd8ad79d2d417d71c72f128a46e43fc54288fcd0",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.4",
-                "soundasleep/component-tests": "~0.1"
+                "soundasleep/component-tests": "dev-master"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "ComponentDiscovery\\": "src"
+                    "ComponentDiscovery\\": "src",
+                    "ComponentDiscovery\\Test\\": "test"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "PHP Component Discovery for Composer",
-            "time": "2015-03-20 03:03:49"
+            "time": "2015-04-01 03:57:36"
         },
         {
             "name": "soundasleep/html2text",
@@ -1200,19 +1241,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soundasleep/spritify.git",
-                "reference": "53a817613e0927d2e68e6f9cba210252a706e164"
+                "reference": "8a96b29c300b2a5e72a94c8199cb1cd10795c3e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/53a817613e0927d2e68e6f9cba210252a706e164",
-                "reference": "53a817613e0927d2e68e6f9cba210252a706e164",
+                "url": "https://api.github.com/repos/soundasleep/spritify/zipball/8a96b29c300b2a5e72a94c8199cb1cd10795c3e1",
+                "reference": "8a96b29c300b2a5e72a94c8199cb1cd10795c3e1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0",
                 "soundasleep/component-tests": "dev-master"
             },
             "type": "library",
@@ -1234,7 +1274,7 @@
                 "sprites",
                 "spritesheet"
             ],
-            "time": "2015-01-05 03:32:02"
+            "time": "2015-04-01 04:04:57"
         },
         {
             "name": "soundasleep/translation-discovery",
@@ -1261,16 +1301,16 @@
     "packages-dev": [
         {
             "name": "justinrainbow/json-schema",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinrainbow/json-schema.git",
-                "reference": "680d026082c3aa234b2d8617c50e9c73999913ba"
+                "reference": "2465fe486c864e30badaa4d005ebdf89dbc503f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/680d026082c3aa234b2d8617c50e9c73999913ba",
-                "reference": "680d026082c3aa234b2d8617c50e9c73999913ba",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/2465fe486c864e30badaa4d005ebdf89dbc503f3",
+                "reference": "2465fe486c864e30badaa4d005ebdf89dbc503f3",
                 "shasum": ""
             },
             "require": {
@@ -1323,7 +1363,7 @@
                 "json",
                 "schema"
             ],
-            "time": "2015-03-23 20:38:38"
+            "time": "2015-03-27 16:41:39"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1703,16 +1743,16 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "5843509fed39dee4b356a306401e9dd1a931fec7"
+                "reference": "863df9687835c62aa423a22412d26fa2ebde3fd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/5843509fed39dee4b356a306401e9dd1a931fec7",
-                "reference": "5843509fed39dee4b356a306401e9dd1a931fec7",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/863df9687835c62aa423a22412d26fa2ebde3fd3",
+                "reference": "863df9687835c62aa423a22412d26fa2ebde3fd3",
                 "shasum": ""
             },
             "require": {
@@ -1724,7 +1764,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -1751,32 +1791,32 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2014-08-15 10:29:00"
+            "time": "2015-02-22 15:13:53"
         },
         {
             "name": "sebastian/environment",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "6e6c71d918088c251b181ba8b3088af4ac336dd7"
+                "reference": "5a8c7d31914337b69923db26c4221b81ff5a196e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6e6c71d918088c251b181ba8b3088af4ac336dd7",
-                "reference": "6e6c71d918088c251b181ba8b3088af4ac336dd7",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/5a8c7d31914337b69923db26c4221b81ff5a196e",
+                "reference": "5a8c7d31914337b69923db26c4221b81ff5a196e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.3"
+                "phpunit/phpunit": "~4.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -1801,7 +1841,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2014-10-25 08:00:45"
+            "time": "2015-01-01 10:01:08"
         },
         {
             "name": "sebastian/exporter",
@@ -1870,16 +1910,16 @@
         },
         {
             "name": "sebastian/version",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/version.git",
-                "reference": "a77d9123f8e809db3fbdea15038c27a95da4058b"
+                "reference": "ab931d46cd0d3204a91e1b9a40c4bc13032b58e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/a77d9123f8e809db3fbdea15038c27a95da4058b",
-                "reference": "a77d9123f8e809db3fbdea15038c27a95da4058b",
+                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/ab931d46cd0d3204a91e1b9a40c4bc13032b58e4",
+                "reference": "ab931d46cd0d3204a91e1b9a40c4bc13032b58e4",
                 "shasum": ""
             },
             "type": "library",
@@ -1901,7 +1941,7 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2014-12-15 14:25:24"
+            "time": "2015-02-24 06:35:25"
         },
         {
             "name": "soundasleep/component-tests",
@@ -1933,17 +1973,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.5",
+            "version": "v2.6.6",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "0cd8e72071e46e15fc072270ae39ea1b66b10a9d"
+                "reference": "174f009ed36379a801109955fc5a71a49fe62dd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/0cd8e72071e46e15fc072270ae39ea1b66b10a9d",
-                "reference": "0cd8e72071e46e15fc072270ae39ea1b66b10a9d",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/174f009ed36379a801109955fc5a71a49fe62dd4",
+                "reference": "174f009ed36379a801109955fc5a71a49fe62dd4",
                 "shasum": ""
             },
             "require": {
@@ -1979,7 +2019,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2015-03-12 10:28:44"
+            "time": "2015-03-30 15:54:10"
         }
     ],
     "aliases": [],
@@ -2008,6 +2048,7 @@
         "openclerk/routing": 20,
         "openclerk/pages": 20,
         "openclerk/templates": 20,
+        "openclerk/wallets": 20,
         "soundasleep/component-discovery": 20,
         "soundasleep/asset-discovery": 20,
         "soundasleep/translation-discovery": 20,
