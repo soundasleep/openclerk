@@ -390,7 +390,6 @@ function get_supported_wallets() {
     // alphabetically sorted, except for generic
     "796" => array('btc', 'ltc', 'usd'),
     "bitstamp" => array('btc', 'usd'),
-    "btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),    // used in jobs/btce.php
     "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
     "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
@@ -528,8 +527,8 @@ function get_default_currency_exchange($c) {
     case "ppc": return "btce";
     case "nmc": return "btce";
     case "nvc": return "btce";
-    case "xpm": return "btce";
-    case "trc": return "btce";
+    case "xpm": return "cryptsy";
+    case "trc": return "cryptsy";
     case "dog": return "coins-e";
     case "mec": return "cryptsy";
     case "xrp": return "justcoin";
@@ -697,7 +696,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -904,7 +902,6 @@ function get_external_apis() {
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
-      'btce' => '<a href="http://btc-e.com">BTC-e</a>',
       'cexio' => '<a href="https://cex.io">CEX.io</a>',
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
       'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
@@ -1087,15 +1084,6 @@ function get_accounts_wizard_config_basic($exchange) {
         ),
         'table' => 'accounts_mtgox',
         'title' => 'Mt.Gox account',
-      );
-
-    case "btce":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_btce_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btce_apisecret'),
-        ),
-        'table' => 'accounts_btce',
       );
 
     case "vircurex":
@@ -1849,16 +1837,6 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
     }
   }
   return $dropdown_get_all_securities[$table];
-}
-
-function is_valid_btce_apikey($key) {
-  // not sure what the format should be
-  return strlen($key) == 44 && preg_match("#^[A-Z0-9\-]+$#", $key);
-}
-
-function is_valid_btce_apisecret($key) {
-  // not sure what the format should be
-  return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
 }
 
 function is_valid_mtgox_apikey($key) {
