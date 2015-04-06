@@ -219,7 +219,6 @@ function get_all_exchanges() {
       "average" => "Market Average",
       "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
-      "btclevels" => "BTClevels",
 
       // for failing server jobs
       "securities_havelock" => "Havelock Investments security",
@@ -394,7 +393,6 @@ function get_supported_wallets() {
     "bitstamp" => array('btc', 'usd'),
     "bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd', 'via'),  // and others, used in jobs/bittrex.php
     "btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),    // used in jobs/btce.php
-    "btclevels" => array('btc'),
     "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
     "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
@@ -700,7 +698,6 @@ function account_data_grouped() {
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
-      'btclevels' => array('table' => 'accounts_btclevels', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bitmarket_pl' => array('table' => 'accounts_bitmarket_pl', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'bittrex' => array('table' => 'accounts_bittrex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -914,7 +911,6 @@ function get_external_apis() {
       'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
       'bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
       'btce' => '<a href="http://btc-e.com">BTC-e</a>',
-      'btclevels' => '<a href="https://btclevels.com/">BTClevels</a>',
       'cexio' => '<a href="https://cex.io">CEX.io</a>',
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
       'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
@@ -1216,15 +1212,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bittrex_apisecret', 'length' => 128),
         ),
         'table' => 'accounts_bittrex',
-      );
-
-    case "btclevels":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_string'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btclevels_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_btclevels',
       );
 
     // --- securities ---
@@ -2049,10 +2036,6 @@ function is_valid_bittrex_apisecret($key) {
 function is_valid_bittrex_apikey($key) {
   // looks like a 32 character hex string
   return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_btclevels_apisecret($key) {
-  return preg_match("#^[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}$#", $key);
 }
 
 function is_valid_currency($c) {
