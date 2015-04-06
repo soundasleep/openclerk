@@ -81,7 +81,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
       array('table' => 'accounts_kraken', 'type' => 'kraken', 'failure' => true),
       array('table' => 'accounts_poloniex', 'type' => 'poloniex', 'failure' => true),
-      array('table' => 'accounts_bittrex', 'type' => 'bittrex', 'failure' => true),
 
       array('table' => 'accounts_individual_cryptostocks', 'type' => 'individual_cryptostocks', 'failure' => true),
       array('table' => 'accounts_individual_havelock', 'type' => 'individual_havelock', 'failure' => true),
