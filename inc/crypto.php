@@ -389,7 +389,6 @@ function get_supported_wallets() {
   $wallets = array(
     // alphabetically sorted, except for generic
     "796" => array('btc', 'ltc', 'usd'),
-    "bitstamp" => array('btc', 'usd'),
     "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
     "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
@@ -663,9 +662,6 @@ function account_data_grouped() {
     );
   }
 
-  foreach (Accounts::getMiners() as $exchange) {
-  }
-
   foreach (Accounts::getKeys() as $exchange) {
     if (in_array($exchange, Accounts::getMiners())) {
       // a miner
@@ -694,7 +690,6 @@ function account_data_grouped() {
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
-      'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -899,7 +894,6 @@ function get_external_apis() {
     "Mining pool wallets" /* i18n */ => $mining_pools,
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
-      'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
       'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
       'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
@@ -1099,16 +1093,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cryptotrade_apisecret'),
         ),
         'table' => 'accounts_cryptotrade',
-      );
-
-    case "bitstamp":
-      return array(
-        'inputs' => array(
-          'api_client_id' => array('title' => 'Customer ID', 'callback' => 'is_numeric'),
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitstamp_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitstamp_apisecret', 'length' => 32),
-        ),
-        'table' => 'accounts_bitstamp',
       );
 
     case "justcoin":
@@ -1874,16 +1858,6 @@ function is_valid_cryptotrade_apikey($key) {
 function is_valid_cryptotrade_apisecret($key) {
   // looks like a 40 character hex string
   return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_bitstamp_apikey($key) {
-  // looks like a 32 character alphanumeric string
-  return strlen($key) == 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
-}
-
-function is_valid_bitstamp_apisecret($key) {
-  // looks like a 32 character alphanumeric string
-  return strlen($key) == 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
 }
 
 function is_valid_796_apikey($key) {
