@@ -123,6 +123,25 @@ if (require_post("key", false) !== false && require_post("id", false)) {
 if (require_post("add", false)) {
   $query = "";
   $args = array();
+
+  // is this a user interaction account?
+  // if so, we can get some more field values by completing the interaction
+  if (isset($account_data['interaction']) && $account_data['interaction']) {
+    $logger = new \Monolog\Logger("wizard_accounts_post");
+
+    // save title information for coinbase.php callback
+    $title = htmlspecialchars(require_post("title", ""));
+    $_SESSION["interaction_title"] = $title;
+
+    // may redirect away
+    $result = call_user_func($account_data['interaction'], $logger);
+    if ($result === null) {
+      // leave here
+      die;
+    }
+    $_POST = array_merge($_POST, $result);
+  }
+
   foreach ($account_data['inputs'] as $key => $data) {
     $callback = $data['callback'];
     $value = (isset($data['checkbox']) && $data['checkbox']) ? require_post($key, false) : require_post($key);
@@ -162,24 +181,6 @@ if (require_post("add", false)) {
   }
   if (!$errors) {
     $title = htmlspecialchars(require_post("title", ""));
-
-    // do we need to handle coinbase OAuth2?
-    if ($account_data['exchange'] == "coinbase") {
-      if (require_get("code", false)) {
-        $query .= ", api_code=?";
-        $args[] = require_get("code");
-        $title = $_SESSION["coinbase_title"];
-      } else {
-        // need to get a code
-        $_SESSION["coinbase_title"] = $title;   // we can't pass title to the redirect_uri, or we'll have to use this uri forever
-        redirect(url_add("https://coinbase.com/oauth/authorize", array(
-          "response_type" => "code",
-          "client_id" => get_site_config('coinbase_client_id'),
-          "redirect_uri" => absolute_url(url_for('coinbase')),
-          "scope" => "balance",
-        )));
-      }
-    }
 
     // we don't care if the address already exists
     $q = db()->prepare("INSERT INTO " . $account_data['table'] . " SET user_id=?, title=? $query");

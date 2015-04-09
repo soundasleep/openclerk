@@ -17,6 +17,8 @@
     "openclerk/apis": "dev-master",
     "openclerk/api-list": "dev-master",
     "openclerk/cache": "dev-master",
+    "openclerk/coinbase": "dev-master",
+    "openclerk/coinbase-oauth2": "dev-master",
     "openclerk/commodities": "dev-master",
     "openclerk/country-list": "~1.0",
     "openclerk/currencies": "dev-master",
@@ -49,5 +51,11 @@
   "repositories": [{
     "type": "vcs",
     "url": "https://github.com/soundasleep/lightopenid"
+  }, {
+    "type": "vcs",
+    "url": "https://github.com/openclerk/coinbase"
+  }, {
+    "type": "vcs",
+    "url": "https://github.com/openclerk/coinbase-oauth2"
   }]
 }

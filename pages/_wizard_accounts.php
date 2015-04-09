@@ -166,6 +166,11 @@ function available_exchanges() {
   echo "{ 'exchange' : " . json_encode($exchange) . ", \n";
   echo " 'inputs' : [";
   foreach ($config['inputs'] as $key => $input) {
+    if (isset($input['interaction']) && $input['interaction']) {
+      // we can fill this field in with user interaction; ignore
+      continue;
+    }
+
     echo "{ 'key': " . json_encode($key) . ", 'title' : " . json_encode($input['title']);
     if (isset($input['dropdown']) && $input['dropdown']) {
       $callback = $input['dropdown'];

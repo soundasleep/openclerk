@@ -165,8 +165,8 @@ Openclerk\Config::merge(array(
   "drk_confirmations" => 6,
 
   // register Coinbase Applications through https://coinbase.com/oauth/applications
-  "coinbase_client_id" => 'xxx',
-  "coinbase_client_secret" => 'xxx',
+  // "coinbase_client_id" => 'xxx',
+  // "coinbase_client_secret" => 'xxx',
 
   // application data for APIs
   "blockchain_api_key" => false,      // if you have one, optional
@@ -208,6 +208,11 @@ Openclerk\Config::merge(array(
   "blog_link" => "http://blog.cryptfolio.com/",
   "google_groups_announce" => "openclerk-announce",
   "version_history_link" => "https://groups.google.com/forum/#!forum/cryptfolio-announce",
+));
+
+// absolute URLs as necessary
+Openclerk\Config::merge(array(
+  'coinbase_redirect_uri' => absolute_url(url_for('coinbase')),
 ));
 
 $global_get_site_config = null;

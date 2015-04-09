@@ -379,7 +379,6 @@ function get_supported_wallets() {
   $wallets = array(
     // alphabetically sorted, except for generic
     "796" => array('btc', 'ltc', 'usd'),
-    "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
     "havelock" => array('btc'),
     "litecoininvest" => array('ltc'),
@@ -675,9 +674,7 @@ function account_data_grouped() {
   $data = array(
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
-    'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
-      'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-    )),
+    'Exchanges' /* i18n */ => $exchange_wallets_data,
     'Securities' /* i18n */ => array(
       '796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
       'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
@@ -868,9 +865,7 @@ function get_external_apis() {
 
     "Mining pool wallets" /* i18n */ => $mining_pools,
 
-    "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
-      'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
-    )),
+    "Exchange wallets" /* i18n */ => $exchange_wallets,
 
     "Exchange tickers" /* i18n */ => $exchange_tickers,
 
@@ -1014,6 +1009,9 @@ function get_accounts_wizard_config($exchange) {
   if (!isset($result['khash'])) {
     $result['khash'] = false;
   }
+  if (!isset($result['interaction'])) {
+    $result['interaction'] = false;
+  }
   if (!isset($result['fixed_inputs'])) {
     $result['fixed_inputs'] = array();
   }
@@ -1036,15 +1034,6 @@ function get_accounts_wizard_config($exchange) {
 
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
-    // --- exchanges ---
-    case "coinbase":
-      return array(
-        'inputs' => array(
-          // we don't expose api_code here; this is obtained through the OAuth2 callback
-        ),
-        'table' => 'accounts_coinbase',
-      );
-
     // --- securities ---
     case "btct":
       return array(
@@ -1227,11 +1216,16 @@ function get_accounts_wizard_config_basic($exchange) {
           if (isset($field['note']) && $field['note']) {
             $inputs[$key]['note'] = t($field['note'][0], $field['note'][1]);
           }
+
+          if (isset($field['interaction']) && $field['interaction']) {
+            $inputs[$key]['interaction'] = $field['interaction'];
+          }
         }
 
         return array(
           'inputs' => $inputs,
           'table' => 'accounts_' . safe_table_name($exchange),
+          'interaction' => ($account instanceof \Account\UserInteractionAccount) ? array($account, 'interaction') : false,
         );
       }
 

@@ -23,8 +23,41 @@ if (!$account) {
 $factory = new \Core\DiscoveredCurrencyFactory();
 $instance = \DiscoveredComponents\Accounts::getInstance($exchange);
 
+/**
+ * Handle {@link SelfUpdatingAccount} callbacks.
+ */
+class SelfUpdatingAccountCallback {
+  function __construct($account, $table) {
+    $this->account = $account;
+    $this->table = $table;
+  }
+
+  function callback($data) {
+    $table = $this->table;
+
+    $query = array();
+    $args = array();
+    foreach ($data as $key => $value) {
+      $query[] = $key . " = :" . $key;
+      $args[$key] = $value;
+    }
+    $args["id"] = $this->account['id'];
+
+    crypto_log("Self-updating table '$table'");
+
+    $q = db()->prepare("UPDATE $table SET " . implode(", ", $query) . " WHERE id=:id");
+    $q->execute($args);
+  }
+}
+
+if ($instance instanceof \Account\SelfUpdatingAccount) {
+  $callback = new SelfUpdatingAccountCallback($account, $table);
+  $instance->registerAccountUpdateCallback(array($callback, 'callback'));
+}
+
 // normal balances
 $balances = $instance->fetchBalances($account, $factory, $logger);
+
 foreach ($balances as $currency => $balance) {
   // only store currencies we are actually interested in
   if (in_array($currency, \DiscoveredComponents\Currencies::getKeys())) {
@@ -39,3 +72,4 @@ foreach ($balances as $currency => $balance) {
     }
   }
 }
+
