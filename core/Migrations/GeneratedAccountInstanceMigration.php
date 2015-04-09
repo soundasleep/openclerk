@@ -43,7 +43,7 @@ class GeneratedAccountInstanceMigration extends \Db\Migration {
 
       is_disabled tinyint not null default 0,
       failures tinyint not null default 0,
-      first_failure tinyint not null default 0,
+      first_failure timestamp null,
       is_disabled_manually tinyint not null default 0,
 
       INDEX(user_id),

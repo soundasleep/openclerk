@@ -41,9 +41,12 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/havelock.php");
         break;
 
+      /*
+       // TODO remove
       case "securities_havelock":
         require(__DIR__ . "/../jobs/securities_havelock.php");
         break;
+      */
 
       case "securities_crypto-trade":
         require(__DIR__ . "/../jobs/securities_cryptotrade.php");
@@ -241,6 +244,16 @@ class GenericOpenclerkJob implements Job {
             throw new JobException("Account $exchange is not a valid account");
           }
           require(__DIR__ . "/../jobs/account/discovered.php");
+          break;
+        }
+
+        if (substr($job['job_type'], 0, strlen("securities_")) === "securities_") {
+          // address job
+          $exchange = substr($job['job_type'], strlen("securities_"));
+          if (!in_array($exchange, \DiscoveredComponents\SecurityExchanges::getKeys())) {
+            throw new JobException("Security Exchange $exchange is not a valid security exchange");
+          }
+          require(__DIR__ . "/../jobs/securities/discovered.php");
           break;
         }
 
