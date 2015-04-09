@@ -206,7 +206,6 @@ function get_all_exchanges() {
       "796" =>      "796 Xchange",
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
-      "justcoin" =>   "Justcoin",
       "litecoininvest" => "Litecoininvest",
       "litecoininvest_wallet" => "Litecoininvest (Wallet)",
       "litecoininvest_securities" => "Litecoininvest (Securities)",
@@ -393,7 +392,6 @@ function get_supported_wallets() {
     "cryptostocks" => array('btc', 'ltc'),
     "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
-    "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
     "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
     "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
@@ -527,7 +525,7 @@ function get_default_currency_exchange($c) {
     case "trc": return "cryptsy";
     case "dog": return "coins-e";
     case "mec": return "cryptsy";
-    case "xrp": return "justcoin";
+    case "xrp": return "justcoin_anx";
     case "dgc": return "cryptsy";
     case "wdc": return "cryptsy";
     case "ixc": return "cryptsy";
@@ -689,7 +687,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'kraken' => array('table' => 'accounts_kraken', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'poloniex' => array('table' => 'accounts_poloniex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -891,7 +888,6 @@ function get_external_apis() {
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
-      'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
       'kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
       'poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
       'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
@@ -1080,14 +1076,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_vircurex_apisecret', 'length' => 128),
         ),
         'table' => 'accounts_vircurex',
-      );
-
-    case "justcoin":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_justcoin_apikey'),
-        ),
-        'table' => 'accounts_justcoin',
       );
 
     case "coinbase":
@@ -1846,11 +1834,6 @@ function is_valid_796_apikey($key) {
 function is_valid_796_apisecret($key) {
   // looks like a 60 character crazy string
   return strlen($key) == 60 && preg_match("#^[A-Za-z0-9\\+\\/]+$#", $key);
-}
-
-function is_valid_justcoin_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_litecoininvest_apikey($key) {
