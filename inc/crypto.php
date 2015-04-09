@@ -214,7 +214,6 @@ function get_all_exchanges() {
       "btcinve_securities" => "BTCInve (Securities)",
       "individual_btcinve" => "BTCInve (Individual Securities)",
       "average" => "Market Average",
-      "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
 
       // for failing server jobs
@@ -293,12 +292,7 @@ function get_exchange_pairs() {
 }
 
 function get_disabled_exchange_pairs() {
-  // TODO consider moving this into openclerk/exchanges
-  $pairs = array(
-    "mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
-        array('btc', 'vrc'),
-    ),
-  );
+  $pairs = array();
 
   // add all discovered pairs
   foreach (Exchanges::getAllInstances() as $key => $exchange) {

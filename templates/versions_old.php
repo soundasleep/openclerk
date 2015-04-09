@@ -127,6 +127,7 @@ enabled <a href="https://cryptfolio.com">site-wide SSL</a> by default.</dd>
 added <a href="https://796.com/">796 Xchange</a> securities exchange and individual securities;
 added <a href="http://ltc.kattare.com/">ltc.kattare.com</a> mining pool;
 disabled <a href="https://mtgox.com/">Mt.Gox</a> exchange;
+disabled <a href="https://www.mintpal.com/">MintPal</a> exchange;
 migrated to two new servers.</dd>
 
 <dt>25 October</dt>
