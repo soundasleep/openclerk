@@ -139,7 +139,7 @@ require(__DIR__ . "/_wizard_accounts_rows.php");
       <label for="ignored">Parameter</label>
     </td>
   </tr>
-  <tr id="add_account_unsafe_template" style="display:none;" class="unsafe-text">
+  <tr id="add_account_note_template" style="display:none;" class="note-text">
     <th></th>
     <td><strong><?php echo t("NOTE:"); ?></strong> <label>Warning</label></td>
   </tr>
@@ -180,12 +180,12 @@ function available_exchanges() {
     if (isset($input['default']) && $input['default']) {
       echo ", 'default' : " . json_encode($input['default']);
     }
+    if (isset($input['note']) && $input['note']) {
+      echo ", 'note' : " . json_encode($input['note']);
+    }
     echo ", 'length' : " . json_encode(isset($input['length']) ? $input['length'] : 64) . "},";
   }
   echo "]";
-  if (isset($config['unsafe']) && $config['unsafe']) {
-    echo ", 'unsafe': " . json_encode($config['unsafe']);
-  }
   echo "},\n";
 } ?>
   ];

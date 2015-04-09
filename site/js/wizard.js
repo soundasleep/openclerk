@@ -48,6 +48,7 @@ $(document).ready(function() {
           // dropdown or normal input?
           var dropdown = (typeof inputs[j]['dropdown'] != 'undefined') ? inputs[j]['dropdown'] : false;
           var checkbox = (typeof inputs[j]['checkbox'] != 'undefined') ? inputs[j]['checkbox'] : false;
+          var note = (typeof inputs[j]['note'] != 'undefined') ? inputs[j]['note'] : false;
           var temp = $(dropdown ? "#add_account_template_dropdown" : checkbox ? "#add_account_template_checkbox" : "#add_account_template").clone();
           temp.addClass("added-field");
 
@@ -106,17 +107,17 @@ $(document).ready(function() {
 
           temp.insertBefore($("#wizard_account_table tr.buttons"));
           temp.show();
-        }
 
-        // display unsafe warning text
-        if (typeof exchanges[i]['unsafe'] != 'undefined' && exchanges[i]['unsafe']) {
-          var temp = $("#add_account_unsafe_template").clone();
-          temp.addClass("added-field");
+          // display any notes
+          if (note) {
+            var temp = $("#add_account_note_template").clone();
+            temp.addClass("added-field");
 
-          temp.find("label").html(exchanges[i]['unsafe']);
+            temp.find("label").html(note);
 
-          temp.insertBefore($("#wizard_account_table tr.buttons"));
-          temp.show();
+            temp.insertBefore($("#wizard_account_table tr.buttons"));
+            temp.show();
+          }
         }
 
         // display associated help, stored in accounts_help div

@@ -768,9 +768,6 @@ function account_data_grouped() {
       if (!isset($data[$key0][$key]['disabled'])) {
         $data[$key0][$key]['disabled'] = false;
       }
-      if (!isset($data[$key0][$key]['unsafe'])) {
-        $data[$key0][$key]['unsafe'] = false;
-      }
       if (!isset($data[$key0][$key]['suffix'])) {
         $data[$key0][$key]['suffix'] = false;
       }
@@ -1268,6 +1265,14 @@ function get_accounts_wizard_config_basic($exchange) {
             'title' => $field['title'],
             'callback' => array(new AccountFieldCheck($field), 'check'),
           );
+
+          if (isset($field['type']) && $field['type'] == "confirm") {
+            $inputs[$key]['checkbox'] = true;
+          }
+
+          if (isset($field['note']) && $field['note']) {
+            $inputs[$key]['note'] = t($field['note'][0], $field['note'][1]);
+          }
         }
 
         return array(
