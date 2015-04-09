@@ -213,7 +213,6 @@ function get_all_exchanges() {
       "btcinve_wallet" => "BTCInve (Wallet)",
       "btcinve_securities" => "BTCInve (Securities)",
       "individual_btcinve" => "BTCInve (Individual Securities)",
-      "vaultofsatoshi" => "Vault of Satoshi",
       "average" => "Market Average",
       "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
@@ -391,7 +390,6 @@ function get_supported_wallets() {
     "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
     "litecoininvest" => array('ltc'),
-    "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
     "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
     "generic" => get_all_currencies(),
   );
@@ -687,7 +685,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
     )),
     'Securities' /* i18n */ => array(
@@ -882,7 +879,6 @@ function get_external_apis() {
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
-      'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
       'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
     )),
 
@@ -1066,15 +1062,6 @@ function get_accounts_wizard_config_basic($exchange) {
           // we don't expose api_code here; this is obtained through the OAuth2 callback
         ),
         'table' => 'accounts_coinbase',
-      );
-
-    case "vaultofsatoshi":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_vaultofsatoshi_apikey'),
-          'api_secret' => array('title' => 'API secret key', 'callback' => 'is_valid_vaultofsatoshi_apisecret'),
-        ),
-        'table' => 'accounts_vaultofsatoshi',
       );
 
     // --- securities ---
@@ -1799,16 +1786,6 @@ function is_valid_796_apisecret($key) {
 function is_valid_litecoininvest_apikey($key) {
   // looks to be lowercase hex
   return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
-}
-
-function is_valid_vaultofsatoshi_apikey($key) {
-  // looks like a 64 character alphanumeric string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_vaultofsatoshi_apisecret($key) {
-  // looks like a 64 character alphanumeric string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

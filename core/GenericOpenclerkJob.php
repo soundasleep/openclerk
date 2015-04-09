@@ -69,10 +69,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/litecoininvest.php");
         break;
 
-      case "vaultofsatoshi":
-        require(__DIR__ . "/../jobs/vaultofsatoshi.php");
-        break;
-
       // individual securities jobs
       case "individual_cryptostocks":
         require(__DIR__ . "/../jobs/individual_cryptostocks.php");
