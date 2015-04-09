@@ -381,10 +381,8 @@ function get_supported_wallets() {
     "796" => array('btc', 'ltc', 'usd'),
     "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
-    "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
     "litecoininvest" => array('ltc'),
-    "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
     "generic" => get_all_currencies(),
   );
 
@@ -679,7 +677,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
     )),
     'Securities' /* i18n */ => array(
       '796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
@@ -873,7 +870,6 @@ function get_external_apis() {
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
-      'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
     )),
 
     "Exchange tickers" /* i18n */ => $exchange_tickers,
@@ -1041,15 +1037,6 @@ function get_accounts_wizard_config($exchange) {
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
     // --- exchanges ---
-    case "vircurex":
-      return array(
-        'inputs' => array(
-          'api_username' => array('title' => 'Username', 'callback' => 'is_valid_vircurex_apiusername'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_vircurex_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_vircurex',
-      );
-
     case "coinbase":
       return array(
         'inputs' => array(
@@ -1735,16 +1722,6 @@ function is_valid_litecoinglobal_apikey($key) {
 function is_valid_btct_apikey($key) {
   // not sure what the format should be, seems to be 64 character hex
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_vircurex_apiusername($key) {
-  // this could probably be in any format but should be at least one character
-  return strlen($key) >= 1 && strlen($key) <= 255;
-}
-
-function is_valid_vircurex_apisecret($key) {
-  // this could probably be in any format but should be at least one character
-  return strlen($key) >= 1 && strlen($key) <= 255;
 }
 
 function is_valid_havelock_apikey($key) {
