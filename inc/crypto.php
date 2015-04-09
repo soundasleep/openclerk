@@ -391,7 +391,6 @@ function get_supported_wallets() {
     "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
     "litecoininvest" => array('ltc'),
-    "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
     "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
     "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
     "generic" => get_all_currencies(),
@@ -688,7 +687,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'poloniex' => array('table' => 'accounts_poloniex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
     )),
@@ -884,7 +882,6 @@ function get_external_apis() {
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
-      'poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
       'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
       'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
     )),
@@ -1078,17 +1075,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret key', 'callback' => 'is_valid_vaultofsatoshi_apisecret'),
         ),
         'table' => 'accounts_vaultofsatoshi',
-      );
-
-    case "poloniex":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_poloniex_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_poloniex_apisecret', 'length' => 128),
-          'accept' => array('title' => 'I accept that this API is unsafe', 'checkbox' => true, 'callback' => 'number_format'),
-        ),
-        'unsafe' => "A Poloniex API key allows trading, but does not allow withdrawl.",
-        'table' => 'accounts_poloniex',
       );
 
     // --- securities ---
@@ -1823,16 +1809,6 @@ function is_valid_vaultofsatoshi_apikey($key) {
 function is_valid_vaultofsatoshi_apisecret($key) {
   // looks like a 64 character alphanumeric string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_poloniex_apikey($key) {
-  // looks like 4 sets of 8 characters
-  return preg_match("#^[A-Z0-9]{8}-[A-Z0-9]{8}-[A-Z0-9]{8}-[A-Z0-9]{8}+$#", $key);
-}
-
-function is_valid_poloniex_apisecret($key) {
-  // looks like a 128 character hex string
-  return strlen($key) == 128 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {
