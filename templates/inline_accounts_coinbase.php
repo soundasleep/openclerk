@@ -22,7 +22,7 @@ $account_data = array('exchange_name' => get_exchange_name('coinbase'));
 		perform transactions or change user details with this permission.</li>
 
 	<li>Through the <?php echo $account_data['exchange_name']; ?> interface you can revoke access for an application to your account at any time,
-		by going to your <i>Third Party Applications</i> section of your <a href="https://coinbase.com/account/api" target="_blank">Account Settings</a>
+		by going to your <i>Applications</i> section of your <a href="https://www.coinbase.com/applications" target="_blank">Account Settings</a>
 		and clicking on the <i>Revoke Access</i> link.<br>
 		<img src="<?php echo htmlspecialchars(url_for('img/accounts/coinbase_delete.png')); ?>"></li>
 </ul>
