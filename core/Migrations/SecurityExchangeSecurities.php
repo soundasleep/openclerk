@@ -6,7 +6,7 @@ use \Db\Connection;
 
 /**
  * Store supported securities for each security exchange.
- * Issue #400
+ * Issue #469
  */
 class SecurityExchangeSecurities extends \Db\Migration {
 

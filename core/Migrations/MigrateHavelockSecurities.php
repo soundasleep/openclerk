@@ -9,6 +9,7 @@ class MigrateHavelockSecurities extends \Db\Migration {
 
   function getParents() {
     return array_merge(parent::getParents(),
+      array(new MigrateHavelockSecuritiesTicker()),
       array(new SecurityExchangeSecurities()));
   }
 
