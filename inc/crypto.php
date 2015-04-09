@@ -391,7 +391,6 @@ function get_supported_wallets() {
     "796" => array('btc', 'ltc', 'usd'),
     "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
-    "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
     "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
@@ -691,7 +690,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'kraken' => array('table' => 'accounts_kraken', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -895,7 +893,6 @@ function get_external_apis() {
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
-      'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
       'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
       'cryptsy' => '<a href="https://www.cryptsy.com/">Crypsty</a>',
       'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
@@ -1084,15 +1081,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_vircurex_apisecret', 'length' => 128),
         ),
         'table' => 'accounts_vircurex',
-      );
-
-    case "crypto-trade":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cryptotrade_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cryptotrade_apisecret'),
-        ),
-        'table' => 'accounts_cryptotrade',
       );
 
     case "justcoin":
