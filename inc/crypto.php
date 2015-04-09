@@ -176,7 +176,6 @@ function get_all_exchanges() {
   if ($_get_all_exchanges === null) {
 
     $exchanges = array(
-      "mtgox" =>      "Mt.Gox",
       "litecoinglobal" =>  "Litecoin Global",
       "litecoinglobal_wallet" => "Litecoin Global (Wallet)",
       "litecoinglobal_securities" => "Litecoin Global (Securities)",
@@ -300,7 +299,6 @@ function get_disabled_exchange_pairs() {
     "mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
         array('btc', 'vrc'),
     ),
-    "mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
   );
 
   // add all discovered pairs
@@ -686,7 +684,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
       'poloniex' => array('table' => 'accounts_poloniex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
@@ -1056,16 +1053,6 @@ function get_accounts_wizard_config($exchange) {
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
     // --- exchanges ---
-    case "mtgox":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mtgox_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_mtgox_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_mtgox',
-        'title' => 'Mt.Gox account',
-      );
-
     case "vircurex":
       return array(
         'inputs' => array(
@@ -1762,16 +1749,6 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
     }
   }
   return $dropdown_get_all_securities[$table];
-}
-
-function is_valid_mtgox_apikey($key) {
-  // not sure what the format should be
-  return strlen($key) == 36 && preg_match("#^[a-z0-9\-]+$#", $key);
-}
-
-function is_valid_mtgox_apisecret($key) {
-  // not sure what the format should be, looks to be similar to base64 encoding
-  return strlen($key) > 36 && preg_match('#^[A-Za-z0-9/\\+=]+$#', $key);
 }
 
 function is_valid_litecoinglobal_apikey($key) {
