@@ -632,6 +632,10 @@ function get_crypto_conversion_summary_types() {
   return $result;
 }
 
+function safe_table_name($s) {
+  return str_replace("-", "", $s);
+}
+
 /**
  * Return a grouped array of (job_type => (table, gruop, wizard, failure, ...))
  */
@@ -659,7 +663,7 @@ function account_data_grouped() {
     if (in_array($exchange, Accounts::getMiners())) {
       // a miner
       $mining_pools_data[$exchange] = array(
-        'table' => 'accounts_' . $exchange,
+        'table' => 'accounts_' . safe_table_name($exchange),
         'group' => 'accounts',
         'wizard' => 'pools',
         'failure' => true,
@@ -669,7 +673,7 @@ function account_data_grouped() {
     } else {
       // otherwise, assume an exchange wallet
       $exchange_wallets_data[$exchange] = array(
-        'table' => 'accounts_' . $exchange,
+        'table' => 'accounts_' . safe_table_name($exchange),
         'group' => 'accounts',
         'wizard' => 'exchanges',
         'failure' => true,
@@ -1268,7 +1272,7 @@ function get_accounts_wizard_config_basic($exchange) {
 
         return array(
           'inputs' => $inputs,
-          'table' => 'accounts_' . $exchange,
+          'table' => 'accounts_' . safe_table_name($exchange),
         );
       }
 
