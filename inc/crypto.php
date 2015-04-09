@@ -391,7 +391,6 @@ function get_supported_wallets() {
     "796" => array('btc', 'ltc', 'usd'),
     "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
-    "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
     "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
     "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
@@ -690,7 +689,6 @@ function account_data_grouped() {
     'Mining pools' /* i18n */ => $mining_pools_data,
     'Exchanges' /* i18n */ => array_merge($exchange_wallets_data, array(
       'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'kraken' => array('table' => 'accounts_kraken', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
       'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
@@ -893,12 +891,8 @@ function get_external_apis() {
 
     "Exchange wallets" /* i18n */ => array_merge($exchange_wallets, array(
       'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
-      'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
-      'cryptsy' => '<a href="https://www.cryptsy.com/">Crypsty</a>',
       'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
       'kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
-      'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
-      'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
       'poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
       'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
       'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
@@ -914,6 +908,11 @@ function get_external_apis() {
       'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
       'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
       'securities_update_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a> Securities list',
+
+      // moved from Exchange Wallets, because this is now generated automatically
+      'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+      'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
+      'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
     ),
 
     "Individual securities" /* i18n */ => array(
@@ -1089,15 +1088,6 @@ function get_accounts_wizard_config_basic($exchange) {
           'api_key' => array('title' => 'API key', 'callback' => 'is_valid_justcoin_apikey'),
         ),
         'table' => 'accounts_justcoin',
-      );
-
-    case "cryptsy":
-      return array(
-        'inputs' => array(
-          'api_public_key' => array('title' => 'Application key', 'callback' => 'is_valid_cryptsy_public_key', 'length' => 40),
-          'api_private_key' => array('title' => 'App ID', 'callback' => 'is_valid_cryptsy_private_key', 'length' => 80),
-        ),
-        'table' => 'accounts_cryptsy',
       );
 
     case "coinbase":
@@ -1861,16 +1851,6 @@ function is_valid_796_apisecret($key) {
 function is_valid_justcoin_apikey($key) {
   // looks like a 64 character hex string
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_cryptsy_public_key($key) {
-  // looks like a 40 character hex string (full trade) or 18-19 characters (application keys)
-  return (strlen($key) >= 16 || strlen($key) <= 40) && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_cryptsy_private_key($key) {
-  // can be anything
-  return strlen($key) > 0;
 }
 
 function is_valid_litecoininvest_apikey($key) {

@@ -74,7 +74,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_litecoininvest', 'type' => 'litecoininvest', 'failure' => true),
       // securities_litecoininvest - we let securities_update handle this
       array('table' => 'accounts_vaultofsatoshi', 'type' => 'vaultofsatoshi', 'failure' => true),
-      array('table' => 'accounts_cryptsy', 'type' => 'cryptsy', 'failure' => true),
       array('table' => 'accounts_kraken', 'type' => 'kraken', 'failure' => true),
       array('table' => 'accounts_poloniex', 'type' => 'poloniex', 'failure' => true),
 
