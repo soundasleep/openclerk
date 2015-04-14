@@ -26,6 +26,16 @@ class MigrateBtctSecurities extends \Db\Migration {
       throw new \Exception("Could not migrate from securities_btct to security_exchange_securities");
     }
 
+    // then update users securities
+    $q = $db->prepare("INSERT INTO user_securities (user_id, exchange, security, quantity, is_recent, account_id)
+      (SELECT s.user_id, s.exchange, x.name AS security, s.quantity, s.is_recent, s.account_id
+        FROM securities AS s
+        JOIN securities_btct AS x
+        ON s.security_id = x.id AND s.exchange = 'btct')");
+    if (!$q->execute()) {
+      throw new \Exception("Could not migrate securities to user_securities");
+    }
+
     // then delete the old table
     $q = $db->prepare("DROP TABLE securities_btct");
     if (!$q->execute()) {
