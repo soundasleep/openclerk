@@ -101,6 +101,9 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'users', 'type' => 'transaction_creator', 'query' => ' AND is_disabled=0 AND is_system=0', 'queue_field' => 'last_tx_creator_queue', 'user_id_field' => 'id'),
       array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id')),
 
+      // security instance updates
+      array('table' => 'security_exchange_securities', 'type' => 'security', 'user_id' => get_site_config('system_user_id')),
+
       // transaction creators
       array('table' => 'transaction_creators', 'type' => 'transactions', 'failure' => true),
 

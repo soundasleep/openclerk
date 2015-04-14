@@ -27,6 +27,7 @@ class SecurityTickerRecent extends \Db\Migration {
       bid decimal(24,8) null,
       volume decimal(24,8) null,
       units int null,
+      job_id int null,
 
       INDEX(exchange, security)
     );");

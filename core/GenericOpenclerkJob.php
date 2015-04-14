@@ -48,6 +48,10 @@ class GenericOpenclerkJob implements Job {
         break;
       */
 
+      case "security":
+        require(__DIR__ . "/../jobs/security.php");
+        break;
+
       case "securities_crypto-trade":
         require(__DIR__ . "/../jobs/securities_cryptotrade.php");
         break;
