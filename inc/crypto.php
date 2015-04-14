@@ -180,9 +180,6 @@ function get_all_exchanges() {
       "litecoinglobal" =>  "Litecoin Global",
       "litecoinglobal_wallet" => "Litecoin Global (Wallet)",
       "litecoinglobal_securities" => "Litecoin Global (Securities)",
-      "btct" =>       "BTC Trading Co.",
-      "btct_wallet" =>    "BTC Trading Co. (Wallet)",
-      "btct_securities" => "BTC Trading Co. (Securities)",
       "cryptostocks" =>   "Cryptostocks",
       "cryptostocks_wallet" => "Cryptostocks (Wallet)",
       "cryptostocks_securities" => "Cryptostocks (Securities)",
@@ -190,19 +187,14 @@ function get_all_exchanges() {
       "bitfunder_wallet"  => "BitFunder (Wallet)",
       "bitfunder_securities" => "BitFunder (Securities)",
       "individual_litecoinglobal" => "Litecoin Global (Individual Securities)",
-      "individual_btct" => "BTC Trading Co. (Individual Securities)",
       "individual_bitfunder" => "BitFunder (Individual Securities)",
       "individual_cryptostocks" => "Cryptostocks (Individual Securities)",
-      "individual_havelock" => "Havelock Investments (Individual Securities)",
       "individual_crypto-trade" => "Crypto-Trade (Individual Securities)",
       "individual_796" => "796 Xchange (Individual Securities)",
       "generic" =>    "Generic API",
       "offsets" =>    "Offsets",    // generic
       "blockchain" =>   "Blockchain", // generic
       "crypto-trade_securities" => "Crypto-Trade (Securities)",
-      "havelock" =>     "Havelock Investments",
-      "havelock_wallet" => "Havelock Investments (Wallet)",
-      "havelock_securities" => "Havelock Investments (Securities)",
       "796" =>      "796 Xchange",
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
@@ -231,6 +223,14 @@ function get_all_exchanges() {
     // add discovered accounts
     foreach (Accounts::getAllInstances() as $key => $account) {
       $exchanges[$key] = $account->getName();
+    }
+
+    // add discovered accounts
+    foreach (SecurityExchanges::getAllInstances() as $key => $account) {
+      $exchanges[$key] = $account->getName();
+      $exchanges[$key . "_wallet"] = $account->getName() . " (" . t("Wallet") . ")";
+      $exchanges[$key . "_securities"] = $account->getName() . " (" . t("Securities") . ")";
+      $exchanges["individual_" . $key . "_wallet"] = $account->getName() . " (" . t("Individual Securities") . ")";
     }
 
     $_get_all_exchanges = $exchanges;
@@ -318,7 +318,8 @@ function get_disabled_exchange_pairs() {
 
 $_cached_get_new_exchange_pairs = null;
 /**
- * Get all exchange pairs that can be considered 'new'
+ * Get all exchange pairs that can be considered 'new'.
+ * May be cached.
  */
 function get_new_exchange_pairs() {
   global $_cached_get_new_exchange_pairs;
@@ -334,22 +335,26 @@ function get_new_exchange_pairs() {
   return $_cached_get_new_exchange_pairs;
 }
 
+$_cached_get_security_exchange_pairs = null;
 /**
  * Includes disabled exchanges
+ * May be cached.
  */
 function get_security_exchange_pairs() {
-  return array(
-    // should be in alphabetical order
-    "796" => array('btc'),
-    "bitfunder" => array('btc'),    // this is now disabled
-    "btcinve" => array('btc'),
-    "btct" => array('btc'),       // issue #93: this is now disabled
-    "crypto-trade" => array('btc', 'ltc'),
-    "cryptostocks" => array('btc', 'ltc'),
-    "litecoinglobal" => array('ltc'),   // issue #93: this is now disabled
-    "litecoininvest" => array('ltc'),
-    "havelock" => array('btc'),
-  );
+  global $_cached_get_new_exchange_pairs;
+  if ($_cached_get_new_exchange_pairs === null) {
+    $result = array();
+    $q = db()->prepare("SELECT exchange, currency FROM security_exchange_securities GROUP BY exchange, currency");
+    $q->execute();
+    while ($currency = $q->fetch()) {
+      if (!isset($result[$currency['exchange']])) {
+        $result[$currency['exchange']] = array();
+      }
+      $result[$currency['exchange']][] = $currency['currency'];
+    }
+    $_cached_get_new_exchange_pairs = $result;
+  }
+  return $_cached_get_new_exchange_pairs;
 }
 
 /**
@@ -704,7 +709,6 @@ function account_data_grouped() {
       '796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
       'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
       'btcinve' => array('table' => 'accounts_btcinve', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
-      'btct' => array('table' => 'accounts_btct', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
       'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
       'cryptostocks' => array('table' => 'accounts_cryptostocks', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
       'litecoininvest' => array('table' => 'accounts_litecoininvest', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
@@ -1083,14 +1087,6 @@ function get_accounts_wizard_config($exchange) {
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
     // --- securities ---
-    case "btct":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'Read-Only API key', 'callback' => 'is_valid_btct_apikey'),
-        ),
-        'table' => 'accounts_btct',
-      );
-
     case "litecoinglobal":
       return array(
         'inputs' => array(
@@ -1749,11 +1745,6 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
 }
 
 function is_valid_litecoinglobal_apikey($key) {
-  // not sure what the format should be, seems to be 64 character hex
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_btct_apikey($key) {
   // not sure what the format should be, seems to be 64 character hex
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }

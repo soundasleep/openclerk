@@ -38,4 +38,8 @@ class SecurityTicker extends \Db\Migration {
     return $q->execute();
   }
 
+  function isApplied(\Db\Connection $db) {
+    return $this->tableExists($db, "security_ticker");
+  }
+
 }
