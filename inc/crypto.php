@@ -1691,39 +1691,39 @@ function dropdown_currency_list() {
 }
 
 function dropdown_get_litecoinglobal_securities() {
-  return dropdown_get_all_securities('securities_litecoinglobal');
+  return dropdown_get_all_securities('litecoinglobal');
 }
 
 function dropdown_get_btct_securities() {
-  return dropdown_get_all_securities('securities_btct');
+  return dropdown_get_all_securities('btct');
 }
 
 function dropdown_get_bitfunder_securities() {
-  return dropdown_get_all_securities('securities_bitfunder');
+  return dropdown_get_all_securities('bitfunder');
 }
 
 function dropdown_get_cryptostocks_securities() {
-  return dropdown_get_all_securities('securities_cryptostocks');
+  return dropdown_get_all_securities('cryptostocks');
 }
 
 function dropdown_get_havelock_securities() {
-  return dropdown_get_all_securities('securities_havelock');
+  return dropdown_get_all_securities('havelock');
 }
 
 function dropdown_get_cryptotrade_securities() {
-  return dropdown_get_all_securities('securities_cryptotrade' /* table */);
+  return dropdown_get_all_securities('cryptotrade');
 }
 
 function dropdown_get_796_securities() {
-  return dropdown_get_all_securities('securities_796', 'title');
+  return dropdown_get_all_securities('796');
 }
 
 function dropdown_get_litecoininvest_securities() {
-  return dropdown_get_all_securities('securities_litecoininvest');
+  return dropdown_get_all_securities('litecoininvest');
 }
 
 function dropdown_get_btcinve_securities() {
-  return dropdown_get_all_securities('securities_btcinve');
+  return dropdown_get_all_securities('btcinve');
 }
 
 /**
@@ -1731,17 +1731,17 @@ function dropdown_get_btcinve_securities() {
  * Cached across calls.
  */
 $dropdown_get_all_securities = array();
-function dropdown_get_all_securities($table, $title_key = 'name') {
+function dropdown_get_all_securities($exchange) {
   global $dropdown_get_all_securities;
-  if (!isset($dropdown_get_all_securities[$table])) {
-    $dropdown_get_all_securities[$table] = array();
-    $q = db()->prepare("SELECT id, $title_key AS name FROM " . $table);
-    $q->execute();
+  if (!isset($dropdown_get_all_securities[$exchange])) {
+    $dropdown_get_all_securities[$exchange] = array();
+    $q = db()->prepare("SELECT * FROM security_exchange_securities WHERE exchange=?");
+    $q->execute(array($exchange));
     while ($sec = $q->fetch()) {
-      $dropdown_get_all_securities[$table][$sec['id']] = $sec['name'];
+      $dropdown_get_all_securities[$exchange][$sec['security']] = $sec['security'];
     }
   }
-  return $dropdown_get_all_securities[$table];
+  return $dropdown_get_all_securities[$exchange];
 }
 
 function is_valid_litecoinglobal_apikey($key) {

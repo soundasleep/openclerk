@@ -127,26 +127,20 @@ function graph_types_public($summaries = array()) {
 
   // get all securities
   foreach (get_security_exchange_pairs() as $key => $currencies) {
-
-    foreach ($currencies as $c) {
-      $data['securities_' . $key . '_' . $c] = array(
-        'title' => t(':exchange :currency security value (graph)', array(':exchange' => get_exchange_name($key), ':currency' => get_currency_abbr($c))),
-        'heading' => t(":exchange security", array(':exchange' => get_exchange_name($key))),
-        'description' => t('A line graph displaying the historical value of a particular :exchange security.', array(':exchange' => get_exchange_name($key))),
-        'hide' => !isset($summaries[$c]), // only show securities in currencies we're interested in
-        'days' => true,
-        'delta' => true,  /* allow deltas */
-        'arg0' => 'get_security_instances_keys',
-        'arg0_title' => t('Security:'),
-        'param0' => $key,
-        'param1' => $c,
-        'technical' => true,
-        'historical' => 'get_security_instances_historical',
-        'historical_param0' => $key,
-        'historical_param1' => $c,
-        'title_callback' => 'get_security_instance_title',
-      );
-    }
+    $data['securities_' . $key] = array(
+      'title' => t(':exchange security value (graph)', array(':exchange' => get_exchange_name($key))),
+      'heading' => t(":exchange security", array(':exchange' => get_exchange_name($key))),
+      'description' => t('A line graph displaying the historical value of a particular :exchange security.', array(':exchange' => get_exchange_name($key))),
+      'days' => true,
+      'delta' => true,  /* allow deltas */
+      'arg0' => 'get_security_instances',
+      'arg0_title' => t('Security:'),
+      'param0' => $key,
+      'technical' => true,
+      'historical' => 'get_security_instances_historical',
+      'historical_param0' => $key,
+      'title_callback' => 'get_security_instance_title',
+    );
   }
 
   $data['category_tools'] = array(

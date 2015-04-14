@@ -246,11 +246,6 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
       return new GraphRenderer_SummaryGraphHashrate('totalmh_' . $bits[1], $bits[1]);
     }
 
-    if ($bits[0] == "securities" && in_array($bits[2], get_all_currencies())) {
-      $renderer = new GraphRenderer_BalancesGraphSecurities('securities_'. $bits[1], $arg0, $bits[2], $arg0_resolved);
-      return $renderer;
-    }
-
     if ($bits[0] == "pair" && isset($all_exchanges[$bits[1]]) && $cur1 && $cur2) {
       return new GraphRenderer_ExchangePair($bits[1], $cur1, $cur2);
     }
@@ -290,6 +285,10 @@ function construct_graph_renderer($graph_type, $arg0, $arg0_resolved) {
       }
     }
 
+    if ($bits[0] == "securities") {
+      $renderer = new GraphRenderer_BalancesGraphSecurities($bits[1], $arg0);
+      return $renderer;
+    }
   }
 
   if (count($bits) >= 2 && $bits[0] == "metrics") {
