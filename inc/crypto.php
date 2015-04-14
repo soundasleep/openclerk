@@ -9,6 +9,7 @@ use \Openclerk\Currencies\Currency;
 use \DiscoveredComponents\Currencies;
 use \DiscoveredComponents\Exchanges;
 use \DiscoveredComponents\Accounts;
+use \DiscoveredComponents\SecurityExchanges;
 
 /**
  * Allow us to define our own sort order for currency lists.
@@ -631,6 +632,7 @@ function account_data_grouped() {
   $addresses_data = array();
   $mining_pools_data = array();
   $exchange_wallets_data = array();
+  $security_exchange_ticker_data = array();
 
   // we can generate this automatically
   foreach (get_address_currencies() as $cur) {
@@ -671,6 +673,19 @@ function account_data_grouped() {
     }
   }
 
+  // not sure what this used for, if anything
+  foreach (SecurityExchanges::getKeys() as $cur) {
+    $security_exchange_ticker_data['securities_' . $cur] = array(
+      'title' => get_currency_abbr($cur) . ' securities',
+      'label' => 'security',
+      'labels' => 'securities',
+      'table' => 'security_exchange_securities',
+      'query' => " AND exchange='$cur'",
+      'exchange' => $cur,
+      'job_type' => 'securities_' . $cur,
+    );
+  }
+
   $data = array(
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
@@ -697,17 +712,16 @@ function account_data_grouped() {
       'individual_litecoininvest' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoininvest', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoininvest', 'securities_table' => 'securities_litecoininvest', 'failure' => true),
       'individual_litecoinglobal' => array('label' => 'security', 'labels' => 'securities', 'table' => 'accounts_individual_litecoinglobal', 'group' => 'accounts', 'wizard' => 'individual', 'exchange' => 'litecoinglobal', 'securities_table' => 'securities_litecoinglobal', 'failure' => true, 'disabled' => true),
     ),
-    'Securities Tickers' /* i18n */ => array(
+    'Securities Tickers' /* i18n */ => array_merge($security_exchange_ticker_data, array(
       'securities_796' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_796', 'exchange' => '796', 'securities_table' => 'securities_796'),
       'securities_bitfunder' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_bitfunder', 'exchange' => 'bitfunder', 'securities_table' => 'securities_bitfunder', 'disabled' => true),
       'securities_btcinve' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_btcinve', 'exchange' => 'btcinve', 'securities_table' => 'securities_btcinve', 'disabled' => true),
       'securities_btct' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_btct', 'exchange' => 'btct', 'securities_table' => 'securities_btct', 'disabled' => true),
       'securities_crypto-trade' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_cryptotrade', 'exchange' => 'crypto-trade', 'securities_table' => 'securities_cryptotrade', 'disabled' => true),
       'securities_cryptostocks' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_cryptostocks', 'exchange' => 'cryptostocks', 'securities_table' => 'securities_cryptostocks', 'disabled' => true),
-      'securities_havelock' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_havelock', 'exchange' => 'havelock', 'securities_table' => 'securities_havelock', 'failure' => true),
       'securities_litecoininvest' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_litecoininvest', 'exchange' => 'litecoininvest', 'securities_table' => 'securities_litecoininvest'),
       'securities_litecoinglobal' => array('label' => 'security ticker', 'labels' => 'securities', 'table' => 'securities_litecoinglobal', 'exchange' => 'litecoinglobal', 'securities_table' => 'securities_litecoinglobal', 'disabled' => true),
-    ),
+    )),
     'Finance' /* i18n */ => array(
       'finance_accounts' => array('title' => 'Finance account', 'label' => 'finance account', 'table' => 'finance_accounts', 'group' => 'finance_accounts', 'job' => false),
       'finance_categories' => array('title' => 'Finance category', 'label' => 'finance category', 'titles' => 'finance categories', 'table' => 'finance_categories', 'group' => 'finance_categories', 'job' => false),
@@ -858,6 +872,19 @@ function get_external_apis() {
     }
   }
 
+  $security_exchanges = array();
+  foreach (SecurityExchanges::getAllInstances() as $key => $exchange) {
+    if (in_array($key, Exchanges::getDisabled())) {
+      // do not list disabled exchanges
+      continue;
+    }
+    $link = link_to($exchange->getURL(), $exchange->getName() . " " . t("securities list"));
+    $security_exchanges["securities_" . $key] = array(
+      'link' => $link,
+      'package' => Exchanges::getDefiningPackage($key),
+    );
+  }
+
   $external_apis = array(
     "Address balances" /* i18n */ => $external_apis_addresses,
 
@@ -869,11 +896,10 @@ function get_external_apis() {
 
     "Exchange tickers" /* i18n */ => $exchange_tickers,
 
-    "Security exchanges" /* i18n */ => array(
+    "Security exchanges" /* i18n */ => array_merge($security_exchanges, array(
       'securities_796' => '<a href="https://796.com">796 Xchange</a>',
       'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',   // securities for crypto-trade are handled by the ticker_crypto-trade
       'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
-      'securities_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
       'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
       'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
       'securities_update_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a> Securities list',
@@ -882,7 +908,7 @@ function get_external_apis() {
       'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
       'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
       'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
-    ),
+    )),
 
     "Individual securities" /* i18n */ => array(
       'individual_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
