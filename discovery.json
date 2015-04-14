@@ -46,6 +46,7 @@
       "instanceof": "\\Account\\AccountType",
       "instances": {
         "getMiners": "\\Account\\Miner",
+        "getSecurityExchanges": "\\Account\\SecurityExchangeAccountType",
         "getDisabled": "\\Account\\DisabledAccount"
       }
     },
