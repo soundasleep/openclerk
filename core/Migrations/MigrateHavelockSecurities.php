@@ -10,6 +10,7 @@ class MigrateHavelockSecurities extends \Db\Migration {
   function getParents() {
     return array_merge(parent::getParents(),
       array(new MigrateHavelockSecuritiesTicker()),
+      array(new MigrateHavelockIndividual()),
       array(new SecurityExchangeSecurities()));
   }
 
@@ -40,6 +41,5 @@ class MigrateHavelockSecurities extends \Db\Migration {
   function isApplied(\Db\Connection $db) {
     return !$this->tableExists($db, "securities_havelock");
   }
-
 
 }

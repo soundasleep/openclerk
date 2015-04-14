@@ -1109,14 +1109,6 @@ function get_accounts_wizard_config_basic($exchange) {
         'table' => 'accounts_cryptostocks',
       );
 
-    case "havelock":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_havelock_apikey'),
-        ),
-        'table' => 'accounts_havelock',
-      );
-
     case "bitfunder":
       return array(
         'inputs' => array(
@@ -1764,11 +1756,6 @@ function is_valid_litecoinglobal_apikey($key) {
 function is_valid_btct_apikey($key) {
   // not sure what the format should be, seems to be 64 character hex
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_havelock_apikey($key) {
-  // not sure what the format is, but it looks to be 64 characters of random alphanumeric
-  return preg_match("#^[0-9A-Za-z]{64}$#", $key);
 }
 
 function is_valid_generic_key($key) {
