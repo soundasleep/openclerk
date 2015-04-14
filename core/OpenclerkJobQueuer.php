@@ -10,6 +10,7 @@ use \Core\MyLogger;
 use \DiscoveredComponents\Accounts;
 use \DiscoveredComponents\Currencies;
 use \DiscoveredComponents\Exchanges;
+use \DiscoveredComponents\SecurityExchanges;
 
 class OpenclerkJobQueuer extends JobQueuer {
 
@@ -47,11 +48,26 @@ class OpenclerkJobQueuer extends JobQueuer {
     // account jobs are now named in common patterns
     $account_jobs = array();
     foreach (Accounts::getKeys() as $exchange) {
-      if (!in_array($exchange, \DiscoveredComponents\Accounts::getDisabled())) {
+      if (!in_array($exchange, Accounts::getDisabled())) {
         $account_jobs[] = array(
           'table' => 'accounts_' . $exchange,
           'type' => 'account_' . $exchange,
           'failure' => true,
+        );
+      }
+    }
+
+    // generate seprate security_XXX jobs for each security exchange,
+    // so we can track external API status etc
+    $security_exchange_ticker_jobs = array();
+    foreach (SecurityExchanges::getKeys() as $exchange) {
+      if (!in_array($exchange, SecurityExchanges::getDisabled())) {
+        $security_exchange_ticker_jobs[] = array(
+          'table' => 'security_exchange_securities',
+          'type' => 'security_' . $exchange,
+          'failure' => true,
+          'user_id' => get_site_config('system_user_id'),
+          'query' => " AND exchange='$exchange'"
         );
       }
     }
@@ -77,7 +93,7 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_individual_litecoininvest', 'type' => 'individual_litecoininvest', 'failure' => true),
     ));
 
-    $standard_jobs = array_merge($standard_jobs, array(
+    $standard_jobs = array_merge($standard_jobs, $security_exchange_ticker_jobs, array(
       array('table' => 'users', 'type' => 'delete_user', 'query' => ' AND is_deleted=1', 'always' => true, 'user_id_field' => 'id'),
       array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */
       array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
@@ -100,9 +116,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'users', 'type' => 'securities_count', 'query' => ' AND is_disabled=0 AND is_system=0', 'queue_field' => 'securities_last_count_queue', 'user_id_field' => 'id'),
       array('table' => 'users', 'type' => 'transaction_creator', 'query' => ' AND is_disabled=0 AND is_system=0', 'queue_field' => 'last_tx_creator_queue', 'user_id_field' => 'id'),
       array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id')),
-
-      // security instance updates
-      array('table' => 'security_exchange_securities', 'type' => 'security', 'user_id' => get_site_config('system_user_id')),
 
       // transaction creators
       array('table' => 'transaction_creators', 'type' => 'transactions', 'failure' => true),

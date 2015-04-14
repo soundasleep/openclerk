@@ -872,14 +872,22 @@ function get_external_apis() {
     }
   }
 
-  $security_exchanges = array();
+  $security_exchanges_list = array();
+  $security_tickers_list = array();
   foreach (SecurityExchanges::getAllInstances() as $key => $exchange) {
     if (in_array($key, Exchanges::getDisabled())) {
       // do not list disabled exchanges
       continue;
     }
-    $link = link_to($exchange->getURL(), $exchange->getName() . " " . t("securities list"));
-    $security_exchanges["securities_" . $key] = array(
+
+    $link = link_to($exchange->getURL(), $exchange->getName());
+    $security_exchanges_list["securities_" . $key] = array(
+      'link' => $link,
+      'package' => Exchanges::getDefiningPackage($key),
+    );
+
+    $link = link_to($exchange->getURL(), $exchange->getName());
+    $security_tickers_list["security_" . $key] = array(
       'link' => $link,
       'package' => Exchanges::getDefiningPackage($key),
     );
@@ -896,7 +904,12 @@ function get_external_apis() {
 
     "Exchange tickers" /* i18n */ => $exchange_tickers,
 
-    "Security exchanges" /* i18n */ => array_merge($security_exchanges, array(
+    "Security exchange securities" /* i18n */ => $security_exchanges_list,
+
+    "Security exchange tickers" /* i18n */ => $security_tickers_list,
+
+    // TODO eventually remove these
+    "Security exchanges" /* i18n */ => array(
       'securities_796' => '<a href="https://796.com">796 Xchange</a>',
       'ticker_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',   // securities for crypto-trade are handled by the ticker_crypto-trade
       'securities_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
@@ -908,7 +921,7 @@ function get_external_apis() {
       'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
       'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
       'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
-    )),
+    ),
 
     "Individual securities" /* i18n */ => array(
       'individual_crypto-trade' => '<a href="https://crypto-trade.com">Crypto-Trade</a>',
