@@ -215,10 +215,11 @@ module.exports = (grunt) ->
     grunt.task.run(['copy:configFavicon']) if grunt.file.exists('config/site/img/favicon.ico')
 
   # Issue #391
-  grunt.registerTask 'deploy', "Enable maintenance page, build, and disable maintenance page when successful", [
+  grunt.registerTask 'deploy', "Enable maintenance page, build, install new migrations, and disable maintenance page when successful", [
     'touch:lock'
     'copy:htaccessMaintenance',
     'build',
+    'install',
     'copy:htaccess',
     'clean:lock'
   ]
