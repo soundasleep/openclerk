@@ -80,27 +80,29 @@ try {
 
   } elseif ($email && $password && !require_get("pause", false)) {
 
-    $password_hash = md5(get_site_config('password_salt') . $password);
-    $q = db()->prepare("SELECT * FROM users WHERE email=? AND password_hash=? LIMIT 1");
-    $q->execute(array($email, $password_hash));
-
-    $user = $q->fetch();
-    if (!$user) {
-      throw new EscapedException(t("Invalid username or password."));
+    $user = false;
+    try {
+      $user = Users\UserPassword::tryLogin(db(), $email, $password);
+    } catch (UserAuthenticationException $e) {
+      $errors[] = $e->getMessage();
     }
 
-    complete_login($user, $autologin);
+    if ($user && !$errors) {
+      $user->persist(db());
 
-    // redirect
-    if (!$destination) {
-      $destination = url_for(get_site_config('default_login'));
+      complete_login($user, $autologin);
+
+      // redirect
+      if (!$destination) {
+        $destination = url_for(get_site_config('default_login'));
+      }
+
+      set_temporary_messages($messages);
+      set_temporary_errors($errors);
+      // possible injection here... strip all protocol information to prevent redirection to external site
+      $destination = str_replace('#[a-z]+://#im', '', $destination);
+      redirect($destination);
     }
-
-    set_temporary_messages($messages);
-    set_temporary_errors($errors);
-    // possible injection here... strip all protocol information to prevent redirection to external site
-    $destination = str_replace('#[a-z]+://#im', '', $destination);
-    redirect($destination);
 
   }
 

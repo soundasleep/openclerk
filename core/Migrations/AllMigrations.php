@@ -19,6 +19,7 @@ class AllMigrations extends \Db\Migration {
           new RenameUsersTable(),
           new CopyUsers(),
           new CopyOpenIDIdentities(),
+          new CopyPasswords(),
         ),
         \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered Migrations
       );
