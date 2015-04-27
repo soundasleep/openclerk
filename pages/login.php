@@ -38,27 +38,35 @@ try {
 
     $messages[] = t("Successfully logged out. You may login again here.");
 
-  } elseif ($openid && !require_get("pause", false)) {
-    // throws a BlockedException if this IP has requested this too many times recently
-    // check_heavy_request();
-
-    // we want to add the openid identity URL to the return address
-    // (the return URL is also verified in validate())
-    $args = array("openid" => $openid);
-    if ($autologin)
-      $args["autologin"] = $autologin;
-    if ($destination)
-      $args["destination"] = $destination;
-
+  } else if (!require_get("pause", false)) {
     $user = false;
+
     try {
-      $user = Users\UserOpenID::tryLogin(db(), $openid, absolute_url(url_for('login', $args)));
+      if ($openid) {
+        // throws a BlockedException if this IP has requested this too many times recently
+        // check_heavy_request();
+
+        // we want to add the openid identity URL to the return address
+        // (the return URL is also verified in validate())
+        $args = array("openid" => $openid);
+        if ($autologin)
+          $args["autologin"] = $autologin;
+        if ($destination)
+          $args["destination"] = $destination;
+
+        $user = Users\UserOpenID::tryLogin(db(), $openid, absolute_url(url_for('login', $args)));
+
+      } else if ($email && $password) {
+        // email/password login
+        $user = Users\UserPassword::tryLogin(db(), $email, $password);
+      }
+
     } catch (UserAuthenticationMissingAccountException $e) {
       $errors[] = $e->getMessage() . " " . t("You may need to :signup.", array(
-          ':signup' => link_to(url_for('signup', array('openid' => $openid)), t("signup first")),
+          ':signup' => link_to(url_for('signup', array('openid' => $openid, 'email' => $email)), t("signup first")),
         ));
     } catch (UserAuthenticationException $e) {
-      $errors[] = $e->getMessage();
+      $errors[] = $e->getMessage();;
     }
 
     if ($user && !$errors) {
@@ -77,33 +85,6 @@ try {
       $destination = str_replace('#[a-z]+://#im', '', $destination);
       redirect($destination);
     }
-
-  } elseif ($email && $password && !require_get("pause", false)) {
-
-    $user = false;
-    try {
-      $user = Users\UserPassword::tryLogin(db(), $email, $password);
-    } catch (UserAuthenticationException $e) {
-      $errors[] = $e->getMessage();
-    }
-
-    if ($user && !$errors) {
-      $user->persist(db());
-
-      complete_login($user, $autologin);
-
-      // redirect
-      if (!$destination) {
-        $destination = url_for(get_site_config('default_login'));
-      }
-
-      set_temporary_messages($messages);
-      set_temporary_errors($errors);
-      // possible injection here... strip all protocol information to prevent redirection to external site
-      $destination = str_replace('#[a-z]+://#im', '', $destination);
-      redirect($destination);
-    }
-
   }
 
 } catch (Exception $e) {
