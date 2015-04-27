@@ -1,5 +1,7 @@
 <?php
 
+throw new Exception("This functionality is currently unavailable.");
+
 $email = trim(require_post("email", require_get("email", false)));
 $hash = require_post("hash", require_get("hash", false));
 
