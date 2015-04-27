@@ -405,8 +405,12 @@ function graph_types() {
     ),
   );
 
-  $summaries = get_all_summary_currencies();
-  $conversions = get_all_conversion_currencies();
+  $summaries = array();
+  $conversions = array();
+  if (user_logged_in()) {
+    $summaries = get_all_summary_currencies();
+    $conversions = get_all_conversion_currencies();
+  }
 
   $data['category_summaries'] = array(
     'title' => t('Your summaries'),

@@ -132,7 +132,11 @@ function require_login() {
   if (!user_logged_in()) {
     // only supports GET relogins; TODO support POST relogins
     // TODO only allow destinations that are local (to prevent XSS)
-    redirect(url_for('login', array('destination' => $_SERVER['REQUEST_URI'])));
+    if (isset($_SERVER['REQUEST_URI'])) {
+      redirect(url_for('login', array('destination' => $_SERVER['REQUEST_URI'])));
+    } else {
+      redirect(url_for('login'));
+    }
   }
 }
 

@@ -19,7 +19,6 @@
       <directory>vendor/openclerk/users/test</directory>
       <directory>vendor/soundasleep/php-helpers/test</directory>
       <directory>vendor/soundasleep/asset-discovery/test</directory>
-      <directory>vendor/soundasleep/component-discovery/test</directory>
       <directory>vendor/soundasleep/component-tests/test</directory>
       <directory>vendor/soundasleep/html2text/tests</directory>
 		</testsuite>
