@@ -107,12 +107,12 @@ foreach ($exchanges as $type) {
 
 // if we've changed our summary types, then we should update our managed graphs if necessary
 if (!array_equals($existing, $exchanges) && ($user['graph_managed_type'] == 'auto' || $user['graph_managed_type'] == 'managed')) {
-  $q = db()->prepare("UPDATE users SET needs_managed_update=1 WHERE id=?");
+  $q = db()->prepare("UPDATE user_properties SET needs_managed_update=1 WHERE id=?");
   $q->execute(array(user_id()));
 }
 
 // issue #58: keep track of when summary currencies are updated so we can refresh add_graph.js
-$q = db()->prepare("UPDATE users SET last_summaries_update=NOW() WHERE id=?");
+$q = db()->prepare("UPDATE user_properties SET last_summaries_update=NOW() WHERE id=?");
 $q->execute(array(user_id()));
 
 // $messages[] =

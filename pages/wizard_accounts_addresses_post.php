@@ -68,7 +68,7 @@ if (require_post("add", false) && require_post("address", false)) {
       ));
 
     // update has_added_account
-    $q = db()->prepare("UPDATE users SET has_added_account=1,last_account_change=NOW() WHERE id=?");
+    $q = db()->prepare("UPDATE user_properties SET has_added_account=1,last_account_change=NOW() WHERE id=?");
     $q->execute(array(user_id()));
 
     // redirect to GET

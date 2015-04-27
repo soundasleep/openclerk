@@ -106,7 +106,7 @@ $total_reset_needed = false;
 // save
 if (!$errors) {
   // save preferences
-  $q = db()->prepare("UPDATE users SET preferred_crypto=:crypto, preferred_fiat=:fiat, graph_managed_type=:type WHERE id=:id");
+  $q = db()->prepare("UPDATE user_properties SET preferred_crypto=:crypto, preferred_fiat=:fiat, graph_managed_type=:type WHERE id=:id");
   $q->execute(array(
     'crypto' => $preferred_crypto,
     'fiat' => $preferred_fiat,
@@ -196,7 +196,7 @@ if (!$errors) {
     if ($update_needed || $total_reset_needed) {
       // we let the next page load handle updating graphs, so we can also
       // update graphs without forcing users to use the wizard
-      $q = db()->prepare("UPDATE users SET needs_managed_update=1 WHERE id=?");
+      $q = db()->prepare("UPDATE user_properties SET needs_managed_update=1 WHERE id=?");
       $q->execute(array(user_id()));
     }
 
