@@ -22,6 +22,7 @@ class AllMigrations extends \Db\Migration {
           new CopyPasswords(),
           new RemoveUserPropertiesFields(),
           new RemoveOpenIDIdentitiesTable(),
+          new RemoveEmailFromUserProperties(),
         ),
         \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered Migrations
       );

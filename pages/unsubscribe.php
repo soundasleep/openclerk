@@ -19,9 +19,13 @@ foreach ($users as $user) {
   if ($user['password_hash']) {
     $q = db()->prepare("SELECT * FROM user_openid_identities WHERE user_id=? LIMIT 1");
     $q->execute(array($user['id']));
-
     $has_identity = $q->fetch();
-    if (!$has_identity) {
+
+    $q = db()->prepare("SELECT * FROM user_oauth2_identities WHERE user_id=? LIMIT 1");
+    $q->execute(array($user['id']));
+    $has_oauth2 = $q->fetch();
+
+    if (!$has_identity || !$has_oauth2) {
 
       require(__DIR__ . "/../layout/templates.php");
       page_header(t("Unsubscribe unsuccessful"), "page_unsubscribe");

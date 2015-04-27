@@ -29,7 +29,9 @@ function get_user($id) {
   if (!$id) {
     throw new Exception("No ID specified.");
   }
-  $q = db()->prepare("SELECT * FROM user_properties WHERE id=?");
+  $q = db()->prepare("SELECT user_properties.*, users.email FROM user_properties
+    JOIN users ON user_properties.id=users.id
+    WHERE users.id=?");
   $q->execute(array($id));
   return $q->fetch();
 }
