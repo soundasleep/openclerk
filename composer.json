@@ -10,7 +10,6 @@
   },
   "require": {
     "soundasleep/html5lib-php": "~0.1.3",
-    "lightopenid/lightopenid": "dev-master",
     "soundasleep/spritify": "dev-master",
     "kwipi/famfamfam-flags": "0.1.1",
     "openclerk/accounts": "dev-master",
@@ -19,6 +18,7 @@
     "openclerk/cache": "dev-master",
     "openclerk/coinbase": "dev-master",
     "openclerk/commodities": "dev-master",
+    "openclerk/config": "dev-master",
     "openclerk/country-list": "~1.0",
     "openclerk/currencies": "dev-master",
     "openclerk/cryptocurrencies": "dev-master",
@@ -30,25 +30,23 @@
     "openclerk/fiat": "dev-master",
     "openclerk/jobs": "dev-master",
     "openclerk/i18n": "dev-master",
-    "openclerk/config": "dev-master",
     "openclerk/metrics": "dev-master",
     "openclerk/mining-pools": "dev-master",
     "openclerk/routing": "dev-master",
     "openclerk/pages": "dev-master",
     "openclerk/templates": "dev-master",
+    "openclerk/users": "dev-master",
     "openclerk/wallets": "dev-master",
-    "soundasleep/component-discovery": "dev-master",
     "soundasleep/asset-discovery": "dev-master",
+    "soundasleep/component-discovery": "dev-master",
+    "soundasleep/lightopenid": "dev-master",
     "soundasleep/translation-discovery": "dev-master",
+    "soundasleep/php-helpers": "dev-master",
     "monolog/monolog": "~1.11",
-    "mthaml/mthaml": "dev-master"
+    "mthaml/mthaml": "^1.7.0"
   },
   "require-dev": {
     "soundasleep/component-tests": "dev-master",
     "phpunit/phpunit": "4.0"
-  },
-  "repositories": [{
-    "type": "vcs",
-    "url": "https://github.com/soundasleep/lightopenid"
-  }]
+  }
 }
