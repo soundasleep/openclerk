@@ -17,6 +17,10 @@ class OpenclerkJobRunner extends JobRunner {
     $logger->info(link_to(url_for('admin_run_job', array('job_id' => $job['id'], 'force' => 1)), "Run again"));
     $logger->info(link_to(url_for('admin_run_job'), "Next job"));
 
+    // mark execution_started
+    $q = $db->prepare("UPDATE jobs SET execution_started=NOW() WHERE id=?");
+    $q->execute(array($job['id']));
+
     return new GenericOpenclerkJob($job, $db, $logger);
   }
 
@@ -33,10 +37,22 @@ class OpenclerkJobRunner extends JobRunner {
     $q->execute(array(1));
     if ($failed = $q->fetchAll()) {
       $logger->info("Found " . number_format(count($failed)) . " test jobs that have failed once");
-      foreach ($failed as $f) {
+      foreach ($failed as $job) {
         $q = $db->prepare("UPDATE jobs SET is_executed=1,is_error=1 WHERE id=?");
-        $q->execute(array($f['id']));
-        $logger->info("Marked test job " . $f['id'] . " as failed");
+        $q->execute(array($job['id']));
+        $logger->info("Marked test job " . $job['id'] . " as failed");
+      }
+    }
+
+    // mark all jobs that have been executing for far too long as failed
+    $q = $db->prepare("SELECT * FROM jobs WHERE is_executing=1 AND execution_started <= DATE_SUB(NOW(), INTERVAL 30 MINUTE)");
+    $q->execute(array());
+    if ($timeout = $q->fetchAll()) {
+      $logger->info("Found " . number_format(count($timeout)) . " jobs that have timed out");
+      foreach ($timeout as $job) {
+        $q = $db->prepare("UPDATE jobs SET is_timeout=1, is_executing=0 WHERE id=?");
+        $q->execute(array($job['id']));
+        $logger->info("Marked job " . $job['id'] . " as timed out");
       }
     }
 
