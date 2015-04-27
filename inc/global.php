@@ -453,8 +453,9 @@ class WebException extends Exception { }
 class IllegalArgumentException extends Exception { }
 
 function is_localhost() {
-  return $_SERVER['SERVER_NAME'] === "localhost" ||
-    $_SERVER['SERVER_NAME'] === "localhost.openclerk.org";
+  return isset($_SERVER['SERVER_NAME']) &&
+    ($_SERVER['SERVER_NAME'] === "localhost" ||
+    $_SERVER['SERVER_NAME'] === "localhost.openclerk.org");
 }
 
 function set_temporary_messages($m) {
