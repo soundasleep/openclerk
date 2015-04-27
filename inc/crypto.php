@@ -1513,6 +1513,7 @@ function get_default_openid_providers() {
 function get_default_oauth2_providers() {
   return array(
     'google' => 'Google Accounts',
+    'facebook' => 'Facebook',
   );
 }
 

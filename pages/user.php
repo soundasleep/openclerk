@@ -417,10 +417,10 @@ $count = 0;
 foreach ($oauth2 as $identity) {
   // try and guess the provider
   $provider = $identity['provider'];
-  $provider_titles = get_default_openid_providers();
+  $provider_titles = get_default_oauth2_providers();
   ?>
   <tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
-    <td><span class="openid <?php echo htmlspecialchars($provider); ?>"><?php echo isset($provider_titles[$provider]) ? htmlspecialchars($provider_titles[$provider][0]) : 'OpenID'; ?></span></td>
+    <td><span class="openid <?php echo htmlspecialchars($provider); ?>"><?php echo isset($provider_titles[$provider]) ? htmlspecialchars($provider_titles[$provider]) : 'Unknown'; ?></span></td>
     <td><?php echo htmlspecialchars(url_for($identity['uid'])); ?></td>
     <td><?php echo recent_format_html($identity['created_at']); ?></td>
     <td>
