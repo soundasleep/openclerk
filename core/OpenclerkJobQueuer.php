@@ -84,7 +84,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
       array('table' => 'user_properties', 'type' => 'expiring', 'query' => ' AND is_premium=1
         AND is_reminder_sent=0
-        AND NOT ISNULL(email) AND LENGTH(email) > 0
         AND NOW() > DATE_SUB(premium_expires, INTERVAL ' . get_site_config('premium_reminder_days') . ' DAY)', 'user_id' => get_site_config('system_user_id'), 'always' => true),
       array('table' => 'user_properties', 'type' => 'expire', 'query' => ' AND is_premium=1
         AND NOW() > premium_expires', 'user_id' => get_site_config('system_user_id'), 'always' => true),
