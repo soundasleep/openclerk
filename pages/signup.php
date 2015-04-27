@@ -113,6 +113,7 @@ if ($openid || $oauth2 || $password) {
       }
 
       if ($user && !$errors) {
+        $user_instance = $user;
 
         $q = db()->prepare("INSERT INTO user_properties SET
           id=:id,
@@ -137,8 +138,8 @@ if ($openid || $oauth2 || $password) {
         }
 
         // try sending email
-        if ($email) {
-          send_user_email($user, "signup", array(
+        if ($user_instance->getEmail()) {
+          send_user_email($user_instance, "signup", array(
             "email" => $email,
             "name" => $name ? $name : $email,
             "announcements" => "http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')),
