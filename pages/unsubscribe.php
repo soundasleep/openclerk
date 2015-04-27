@@ -16,7 +16,11 @@ $users = $q->fetchAll();
 $has_identity = false;
 
 foreach ($users as $user) {
-  if ($user['password_hash']) {
+  $q = db()->prepare("SELECT * FROM user_passwords WHERE user_id=?");
+  $q->execute(array($user['id']));
+  $password_hash = $q->fetch();
+
+  if ($password_hash) {
     $q = db()->prepare("SELECT * FROM user_openid_identities WHERE user_id=? LIMIT 1");
     $q->execute(array($user['id']));
     $has_identity = $q->fetch();

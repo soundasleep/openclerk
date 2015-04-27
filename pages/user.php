@@ -47,8 +47,12 @@ if ($name !== false && $email !== false) {
     $disable_graph_refresh = require_post("disable_graph_refresh", false) ? 1 : 0;
 
     // we can have any name
-    $q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=?,subscribe_announcements=?,disable_graph_refresh=? WHERE id=? LIMIT 1");
-    $q->execute(array($name, $email, $subscribe, $disable_graph_refresh, user_id()));
+    $q = db()->prepare("UPDATE user_properties SET updated_at=NOW(),name=?,subscribe_announcements=?,disable_graph_refresh=? WHERE id=? LIMIT 1");
+    $q->execute(array($name, $subscribe, $disable_graph_refresh, user_id()));
+
+    // and update emails
+    $q = db()->prepare("UPDATE users SET email=?, updated_at=NOW() WHERE id=? LIMIT 1");
+    $q->execute(array($email, user_id()));
     $messages[] = t("Updated account details.");
 
     $user['email'] = $email;
