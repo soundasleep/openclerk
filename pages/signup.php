@@ -139,11 +139,13 @@ if ($openid || $oauth2 || $password) {
 
         // try sending email
         if ($user_instance->getEmail()) {
-          send_user_email($user_instance, "signup", array(
-            "email" => $email,
-            "name" => $name ? $name : $email,
+          $user['email'] = $user_instance->getEmail();
+
+          send_user_email($user, "signup", array(
+            "email" => $user['email'],
+            "name" => $name ? $name : $user['email'],
             "announcements" => "http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')),
-            "url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),
+            "url" => absolute_url(url_for("unsubscribe", array('email' => $user['email'], 'hash' => md5(get_site_config('unsubscribe_salt') . $user['email'])))),
             "wizard_currencies" => absolute_url(url_for("wizard_currencies")),
             "wizard_addresses" => absolute_url(url_for("wizard_accounts_addresses")),
             "wizard_accounts" => absolute_url(url_for("wizard_accounts")),

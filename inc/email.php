@@ -26,7 +26,7 @@ class MockEmailUser {
  * @throws MailerException if the mail could not be immediately sent (e.g. technical error, invalid e-mail address...)
  */
 function send_email($to, $template_id, $args = array()) {
-  // additionam
+  // additional properties
   $args['site_name'] = config('site_name');
   $args['site_url'] = config('absolute_url');
   $args['site_email'] = config('phpmailer_from');
@@ -45,7 +45,7 @@ function send_email($to, $template_id, $args = array()) {
  * - keep track of emails sent
  * - set locales eventually
  */
-function send_user_email($user, $template_id, $args = array()) {
+function send_user_email(array $user, $template_id, $args = array()) {
   $args["name"] = $user["name"] ? $user["name"] : $user["email"];
 
   send_email($user, $template_id, $args);
