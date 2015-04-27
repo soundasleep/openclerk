@@ -21,7 +21,7 @@ if (!$errors) {
 
   // remove any OpenID connections for this user account, so that users can sign up
   // again immediately with the same OpenID details
-  $q = db()->prepare("DELETE FROM openid_identities WHERE user_id=?");
+  $q = db()->prepare("DELETE FROM user_openid_identities WHERE user_id=?");
   $q->execute(array(user_id()));
 
   // send email to user

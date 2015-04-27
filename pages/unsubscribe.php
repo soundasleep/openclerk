@@ -17,7 +17,7 @@ $has_identity = false;
 
 foreach ($users as $user) {
   if ($user['password_hash']) {
-    $q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? LIMIT 1");
+    $q = db()->prepare("SELECT * FROM user_openid_identities WHERE user_id=? LIMIT 1");
     $q->execute(array($user['id']));
 
     $has_identity = $q->fetch();
@@ -56,7 +56,7 @@ foreach ($users as $user) {
   }
 }
 
-$query = db()->prepare("UPDATE users SET email=NULL,updated_at=NOW() where email=? AND ISNULL(password_hash)=1");
+$query = db()->prepare("UPDATE users SET email=NULL,updated_at=NOW() where email=?");
 $query->execute(array($email));
 
 require(__DIR__ . "/../layout/templates.php");
