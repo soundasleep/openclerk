@@ -118,6 +118,10 @@ module.exports = (grunt) ->
         cmd: 'php -f vendor/soundasleep/translation-discovery/find.php -- . translation-discovery-client.json'
         fail: true
 
+      install:
+        cmd: 'php -f core/install.php'
+        fail: true
+
     useminPrepare:
       html: 'site/head-compiled.html'
       options:
@@ -217,6 +221,10 @@ module.exports = (grunt) ->
     'build',
     'copy:htaccess',
     'clean:lock'
+  ]
+
+  grunt.registerTask 'install', "Install latest database migrations", [
+    'bgShell:install'
   ]
 
   grunt.registerTask 'default', ['test']
