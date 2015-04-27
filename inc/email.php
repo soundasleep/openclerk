@@ -51,7 +51,7 @@ function send_user_email($user, $template_id, $args = array()) {
   send_email($user, $template_id, $args);
 
   if (isset($user['id'])) {
-    $q = db()->prepare("UPDATE users SET emails_sent=emails_sent+1 WHERE id=?");
+    $q = db()->prepare("UPDATE user_properties SET emails_sent=emails_sent+1 WHERE id=?");
     $q->execute(array($user['id']));
   }
 }

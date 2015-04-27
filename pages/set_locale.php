@@ -22,7 +22,7 @@ setcookie('locale', $locale, time() + (60 * 60 * 24 * 365 * 10) /* 10 years in t
 if (user_logged_in()) {
   $user = get_user(user_id());
 
-  $q = db()->prepare("UPDATE users SET locale=? WHERE id=?");
+  $q = db()->prepare("UPDATE user_properties SET locale=? WHERE id=?");
   $q->execute(array($locale, user_id()));
 }
 

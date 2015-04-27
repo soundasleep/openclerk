@@ -195,7 +195,7 @@ if ($should_notify) {
     crypto_log("Sent notification e-mail to " . htmlspecialchars($user['email']) . ".");
 
     // update user stats
-    $q = db()->prepare("UPDATE users SET notifications_sent=notifications_sent+1 WHERE id=?");
+    $q = db()->prepare("UPDATE user_properties SET notifications_sent=notifications_sent+1 WHERE id=?");
     $q->execute(array($user['id']));
   }
 

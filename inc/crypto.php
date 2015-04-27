@@ -1620,7 +1620,7 @@ function reset_user_settings($user_id) {
   $q = db()->prepare("INSERT INTO summaries SET user_id=?,summary_type=?");
   $q->execute(array($user_id, 'summary_usd_bitstamp'));
 
-  $q = db()->prepare("UPDATE users SET preferred_crypto=?, preferred_fiat=? WHERE id=?");
+  $q = db()->prepare("UPDATE user_properties SET preferred_crypto=?, preferred_fiat=? WHERE id=?");
   $q->execute(array('btc', 'usd', $user_id));
 
   reset_user_graphs($user_id);
@@ -1638,7 +1638,7 @@ function reset_user_graphs($user_id) {
 
   // set the user preferences to 'auto'
   // and request graph updating
-  $q = db()->prepare("UPDATE users SET needs_managed_update=1, graph_managed_type=? WHERE id=?");
+  $q = db()->prepare("UPDATE user_properties SET needs_managed_update=1, graph_managed_type=? WHERE id=?");
   $q->execute(array('auto', $user_id));
 
 }
