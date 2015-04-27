@@ -24,4 +24,11 @@ class CopyOpenIDIdentities extends \Db\Migration {
     return $q->execute();
   }
 
+  /**
+   * Override the default function to check that a table doesn't exist.
+   */
+  function isApplied(\Db\Connection $db) {
+    return !$this->tableExists($db, 'openid_identities');
+  }
+
 }
