@@ -27,5 +27,5 @@ RewriteRule ^qr/([0-9a-zA-Z_]+)$     %{ENV:REWRITEBASE}img/qr/qr.php?code=$1    
 
 # This rewrites /foo to /foo.php
 # To disable this rule, edit url_for() to return the normal .php extension for a given path.
-RewriteRule ^([0-9a-z_/]+)$           %{ENV:REWRITEBASE}index.php?path=$1     [L,QSA]
-RewriteRule ^([0-9a-z_/]+.json)$           %{ENV:REWRITEBASE}index.php?path=$1     [L,QSA]
+RewriteRule ^([0-9a-z_/\-]+)$           %{ENV:REWRITEBASE}index.php?path=$1     [L,QSA]
+RewriteRule ^([0-9a-z_/\-]+.json)$           %{ENV:REWRITEBASE}index.php?path=$1     [L,QSA]

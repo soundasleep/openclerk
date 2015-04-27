@@ -29,18 +29,6 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/generic.php");
         break;
 
-      case "bit2c":
-        require(__DIR__ . "/../jobs/bit2c.php");
-        break;
-
-      case "btce":
-        require(__DIR__ . "/../jobs/btce.php");
-        break;
-
-      case "vircurex":
-        require(__DIR__ . "/../jobs/vircurex.php");
-        break;
-
       case "cryptostocks":
         require(__DIR__ . "/../jobs/cryptostocks.php");
         break;
@@ -57,20 +45,8 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/securities_havelock.php");
         break;
 
-      case "cexio":
-        require(__DIR__ . "/../jobs/cexio.php");
-        break;
-
-      case "crypto-trade":
-        require(__DIR__ . "/../jobs/crypto-trade.php");
-        break;
-
       case "securities_crypto-trade":
         require(__DIR__ . "/../jobs/securities_cryptotrade.php");
-        break;
-
-      case "bitstamp":
-        require(__DIR__ . "/../jobs/bitstamp.php");
         break;
 
       case "796":
@@ -81,56 +57,8 @@ class GenericOpenclerkJob implements Job {
         require(__DIR__ . "/../jobs/securities_796.php");
         break;
 
-      case "justcoin":
-        require(__DIR__ . "/../jobs/justcoin.php");
-        break;
-
-      case "coinbase":
-        require(__DIR__ . "/../jobs/coinbase.php");
-        break;
-
       case "litecoininvest":
         require(__DIR__ . "/../jobs/litecoininvest.php");
-        break;
-
-      case "vaultofsatoshi":
-        require(__DIR__ . "/../jobs/vaultofsatoshi.php");
-        break;
-
-      case "cryptsy":
-        require(__DIR__ . "/../jobs/cryptsy.php");
-        break;
-
-      case "bit2c":
-        require(__DIR__ . "/../jobs/bit2c.php");
-        break;
-
-      case "kraken":
-        require(__DIR__ . "/../jobs/kraken.php");
-        break;
-
-      case "bitmarket_pl":
-        require(__DIR__ . "/../jobs/bitmarket_pl.php");
-        break;
-
-      case "poloniex":
-        require(__DIR__ . "/../jobs/poloniex.php");
-        break;
-
-      case "anxpro":
-        require(__DIR__ . "/../jobs/anxpro.php");
-        break;
-
-      case "bittrex":
-        require(__DIR__ . "/../jobs/bittrex.php");
-        break;
-
-      case "btclevels":
-        require(__DIR__ . "/../jobs/btclevels.php");
-        break;
-
-      case "bitnz":
-        require(__DIR__ . "/../jobs/bitnz.php");
         break;
 
       // individual securities jobs

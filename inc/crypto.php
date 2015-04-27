@@ -176,8 +176,6 @@ function get_all_exchanges() {
   if ($_get_all_exchanges === null) {
 
     $exchanges = array(
-      "mtgox" =>      "Mt.Gox",
-      "bips" =>       "BIPS",   // this is now disabled
       "litecoinglobal" =>  "Litecoin Global",
       "litecoinglobal_wallet" => "Litecoin Global (Wallet)",
       "litecoinglobal_securities" => "Litecoin Global (Securities)",
@@ -207,9 +205,6 @@ function get_all_exchanges() {
       "796" =>      "796 Xchange",
       "796_wallet" =>   "796 Xchange (Wallet)",
       "796_securities" => "796 Xchange (Securities)",
-      "bitcurex_pln" => "Bitcurex PLN", // the exchange wallet
-      "bitcurex_eur" => "Bitcurex EUR", // the exchange wallet
-      "justcoin" =>   "Justcoin",
       "litecoininvest" => "Litecoininvest",
       "litecoininvest_wallet" => "Litecoininvest (Wallet)",
       "litecoininvest_securities" => "Litecoininvest (Securities)",
@@ -218,11 +213,8 @@ function get_all_exchanges() {
       "btcinve_wallet" => "BTCInve (Wallet)",
       "btcinve_securities" => "BTCInve (Securities)",
       "individual_btcinve" => "BTCInve (Individual Securities)",
-      "vaultofsatoshi" => "Vault of Satoshi",
       "average" => "Market Average",
-      "mintpal" => "MintPal",
       "ripple" => "Ripple",   // other ledger balances in Ripple accounts are stored as account balances
-      "btclevels" => "BTClevels",
 
       // for failing server jobs
       "securities_havelock" => "Havelock Investments security",
@@ -300,13 +292,7 @@ function get_exchange_pairs() {
 }
 
 function get_disabled_exchange_pairs() {
-  // TODO consider moving this into openclerk/exchanges
-  $pairs = array(
-    "mintpal" => array(array('btc', 'dog'), array('btc', 'ltc'), array('btc', 'vtc'), array('btc', 'bc1'), array('btc', 'drk'),
-        array('btc', 'vrc'),
-    ),
-    "mtgox" => array(array('usd', 'btc'), array('eur', 'btc'), array('aud', 'btc'), array('cad', 'btc'), array('cny', 'btc'), array('gbp', 'btc'), array('pln', 'btc')),
-  );
+  $pairs = array();
 
   // add all discovered pairs
   foreach (Exchanges::getAllInstances() as $key => $exchange) {
@@ -393,27 +379,9 @@ function get_supported_wallets() {
   $wallets = array(
     // alphabetically sorted, except for generic
     "796" => array('btc', 'ltc', 'usd'),
-    "anxpro" => array('btc', 'ltc', 'ppc', 'nmc', 'dog', 'usd', 'eur', 'cad', 'aud', 'gbp', 'nzd'),   // also hkd, sgd, jpy, chf
-    "bit2c" => array('btc', 'ltc', 'ils'),
-    "bitmarket_pl" => array('btc', 'ltc', 'dog', 'ppc', 'pln'),
-    "bitnz" => array('btc', 'nzd'),
-    "bitstamp" => array('btc', 'usd'),
-    "bittrex" => array('btc', 'ltc', 'dog', 'vtc', 'ppc', 'bc1', 'drk', 'vrc', 'nxt', 'rdd', 'via'),  // and others, used in jobs/bittrex.php
-    "btce" => array('btc', 'ltc', 'nmc', 'usd', 'ftc', 'eur', 'ppc', 'nvc', 'xpm', 'trc'),    // used in jobs/btce.php
-    "btclevels" => array('btc'),
-    "coinbase" => array('btc'),
     "cryptostocks" => array('btc', 'ltc'),
-    "crypto-trade" => array('usd', 'eur', 'btc', 'ltc', 'nmc', 'ftc', 'ppc', 'xpm', 'trc', 'dgc', 'wdc', 'bc1', 'dog', 'drk', 'nxt'),
-    "cryptsy" => array('btc', 'ltc', 'ppc', 'ftc', 'xpm', 'nvc', 'trc', 'dog', 'mec', 'ixc', 'nmc', 'wdc', 'dgc', 'vtc', 'net', 'hbn', 'bc1', 'drk', 'nxt', 'rdd', 'via', 'usd', 'vrc', 'xrp'),
-    "cexio" => array('btc', 'ghs', 'nmc', 'ixc', 'ltc', 'dog', 'ftc', 'drk', 'mec', 'wdc'),   // also available: dvc
-    "d2" => array('wdc', 'hash'),       // other coins available
     "havelock" => array('btc'),
-    "justcoin" => array('btc', 'ltc', 'usd', 'eur', 'xrp'),  // supports btc, usd, eur, nok, ltc
-    "kraken" => array('btc', 'eur', 'ltc', 'nmc', 'usd', 'dog', 'xrp', 'krw', 'gbp'),   // also 'asset-based Ven/XVN'
     "litecoininvest" => array('ltc'),
-    "poloniex" => array('btc', 'ltc', 'dog', 'vtc', 'wdc', 'nmc', 'ppc', 'xpm', 'ixc', 'nxt', 'rdd', 'via', 'nbt', 'xrp', 'ixc', 'mec', 'vrc', 'sj1'),    // and LOTS more; used in jobs/poloniex.php
-    "vaultofsatoshi" => array('cad', 'usd', 'btc', 'ltc', 'ppc', 'dog', 'ftc', 'xpm', 'vtc', 'bc1', 'drk'),   // used in jobs/vaultofsatoshi.php (also supports qrk)
-    "vircurex" => array('btc', 'ltc', 'nmc', 'ftc', 'usd', 'eur', 'ppc', 'nvc', 'xpm', 'trc', 'dog', 'ixc', 'vtc', 'nxt'),   // used in jobs/vircurex.php
     "generic" => get_all_currencies(),
   );
 
@@ -446,8 +414,23 @@ function get_supported_wallets() {
   return $wallets;
 }
 
+
+$_cached_get_new_supported_wallets = null;
+/**
+ * Get all wallets that can be considered 'new'
+ */
 function get_new_supported_wallets() {
-  return array("bitnz");
+  global $_cached_get_new_supported_wallets;
+  if ($_cached_get_new_supported_wallets === null) {
+    $result = array();
+    $q = db()->prepare("SELECT * FROM account_currencies WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)");
+    $q->execute();
+    while ($pair = $q->fetch()) {
+      $result[] = $pair['exchange'];
+    }
+    $_cached_get_new_supported_wallets = $result;
+  }
+  return $_cached_get_new_supported_wallets;
 }
 
 function get_summary_types() {
@@ -523,11 +506,11 @@ function get_default_currency_exchange($c) {
     case "ppc": return "btce";
     case "nmc": return "btce";
     case "nvc": return "btce";
-    case "xpm": return "btce";
-    case "trc": return "btce";
+    case "xpm": return "cryptsy";
+    case "trc": return "cryptsy";
     case "dog": return "coins-e";
     case "mec": return "cryptsy";
-    case "xrp": return "justcoin";
+    case "xrp": return "justcoin_anx";
     case "dgc": return "cryptsy";
     case "wdc": return "cryptsy";
     case "ixc": return "cryptsy";
@@ -637,12 +620,17 @@ function get_crypto_conversion_summary_types() {
   return $result;
 }
 
+function safe_table_name($s) {
+  return str_replace("-", "", $s);
+}
+
 /**
  * Return a grouped array of (job_type => (table, gruop, wizard, failure, ...))
  */
 function account_data_grouped() {
   $addresses_data = array();
   $mining_pools_data = array();
+  $exchange_wallets_data = array();
 
   // we can generate this automatically
   foreach (get_address_currencies() as $cur) {
@@ -659,43 +647,34 @@ function account_data_grouped() {
     );
   }
 
-  foreach (Accounts::getMiners() as $exchange) {
-    $mining_pools_data[$exchange] = array(
-      'table' => 'accounts_' . $exchange,
-      'group' => 'accounts',
-      'wizard' => 'pools',
-      'failure' => true,
-      'disabled' => in_array($exchange, Accounts::getDisabled()),
-      'job_type' => 'account_' . $exchange,
-    );
+  foreach (Accounts::getKeys() as $exchange) {
+    if (in_array($exchange, Accounts::getMiners())) {
+      // a miner
+      $mining_pools_data[$exchange] = array(
+        'table' => 'accounts_' . safe_table_name($exchange),
+        'group' => 'accounts',
+        'wizard' => 'pools',
+        'failure' => true,
+        'disabled' => in_array($exchange, Accounts::getDisabled()),
+        'job_type' => 'account_' . $exchange,
+      );
+    } else {
+      // otherwise, assume an exchange wallet
+      $exchange_wallets_data[$exchange] = array(
+        'table' => 'accounts_' . safe_table_name($exchange),
+        'group' => 'accounts',
+        'wizard' => 'exchanges',
+        'failure' => true,
+        'disabled' => in_array($exchange, Accounts::getDisabled()),
+        'job_type' => 'account_' . $exchange,
+      );
+    }
   }
 
   $data = array(
     'Addresses' /* i18n */ => $addresses_data,
     'Mining pools' /* i18n */ => $mining_pools_data,
-    'Exchanges' /* i18n */ => array(
-      'anxpro' => array('table' => 'accounts_anxpro', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'bips' => array('table' => 'accounts_bips', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
-      'bit2c' => array('table' => 'accounts_bit2c', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'bitcurex_eur' => array('table' => 'accounts_bitcurex_eur', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
-      'bitcurex_pln' => array('table' => 'accounts_bitcurex_pln', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
-      'btclevels' => array('table' => 'accounts_btclevels', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'bitmarket_pl' => array('table' => 'accounts_bitmarket_pl', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'bitnz' => array('table' => 'accounts_bitnz', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'bitstamp' => array('table' => 'accounts_bitstamp', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'bittrex' => array('table' => 'accounts_bittrex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'btce' => array('table' => 'accounts_btce', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'cexio' => array('table' => 'accounts_cexio', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'coinbase' => array('table' => 'accounts_coinbase', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'crypto-trade' => array('table' => 'accounts_cryptotrade', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'cryptsy' => array('table' => 'accounts_cryptsy', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'justcoin' => array('table' => 'accounts_justcoin', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'kraken' => array('table' => 'accounts_kraken', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'mtgox' => array('table' => 'accounts_mtgox', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true, 'disabled' => true),
-      'poloniex' => array('table' => 'accounts_poloniex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'vaultofsatoshi' => array('table' => 'accounts_vaultofsatoshi', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-      'vircurex' => array('table' => 'accounts_vircurex', 'group' => 'accounts', 'wizard' => 'exchanges', 'failure' => true),
-    ),
+    'Exchanges' /* i18n */ => $exchange_wallets_data,
     'Securities' /* i18n */ => array(
       '796' => array('table' => 'accounts_796', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true),
       'bitfunder' => array('table' => 'accounts_bitfunder', 'group' => 'accounts', 'wizard' => 'securities', 'failure' => true, 'disabled' => true),
@@ -772,9 +751,6 @@ function account_data_grouped() {
       if (!isset($data[$key0][$key]['disabled'])) {
         $data[$key0][$key]['disabled'] = false;
       }
-      if (!isset($data[$key0][$key]['unsafe'])) {
-        $data[$key0][$key]['unsafe'] = false;
-      }
       if (!isset($data[$key0][$key]['suffix'])) {
         $data[$key0][$key]['suffix'] = false;
       }
@@ -786,6 +762,9 @@ function account_data_grouped() {
       }
       if (!isset($data[$key0][$key]['job_type']) && isset($data[$key0][$key]['exchange'])) {
         $data[$key0][$key]['job_type'] = $data[$key0][$key]['exchange'];
+      }
+      if (!isset($data[$key0][$key]['job_type']) && $key0 == "Exchanges") {
+        $data[$key0][$key]['job_type'] = $key;
       }
     }
   }
@@ -857,16 +836,26 @@ function get_external_apis() {
   }
 
   $mining_pools = array();
-  foreach (Accounts::getMiners() as $key) {
+  $exchange_wallets = array();
+  foreach (Accounts::getKeys() as $key) {
     if (in_array($key, Accounts::getDisabled())) {
       // do not list disabled accounts
       continue;
     }
     $instance = Accounts::getInstance($key);
-    $mining_pools["account_" . $key] = array(
-      'link' => link_to($instance->getURL(), $instance->getName()),
-      'package' => Accounts::getDefiningPackage($key),
-    );
+    if (in_array($key, Accounts::getMiners())) {
+      // a miner
+      $mining_pools["account_" . $key] = array(
+        'link' => link_to($instance->getURL(), $instance->getName()),
+        'package' => Accounts::getDefiningPackage($key),
+      );
+    } else {
+      // otherwise, assume exchange wallet
+      $exchange_wallets["account_" . $key] = array(
+        'link' => link_to($instance->getURL(), $instance->getName()),
+        'package' => Accounts::getDefiningPackage($key),
+      );
+    }
   }
 
   $external_apis = array(
@@ -876,28 +865,7 @@ function get_external_apis() {
 
     "Mining pool wallets" /* i18n */ => $mining_pools,
 
-    "Exchange wallets" /* i18n */ => array(
-      'anxpro' => '<a href="https://anxpro.com.">ANXPRO</a>',
-      'bit2c' => '<a href="https://www.bit2c.co.il">Bit2c</a>',
-      'bitmarket_pl' => '<a href="https://www.bitmarket.pl">BitMarket.pl</a>',
-      'bitnz' => '<a href="https://bitnz.com">BitNZ</a>',
-      'bitstamp' => '<a href="https://www.bitstamp.net">Bitstamp</a>',
-      'bittrex' => '<a href="https://bittrex.com/">Bittrex</a>',
-      'btce' => '<a href="http://btc-e.com">BTC-e</a>',
-      'btclevels' => '<a href="https://btclevels.com/">BTClevels</a>',
-      'cexio' => '<a href="https://cex.io">CEX.io</a>',
-      'coinbase' => '<a href="https://coinbase.com">Coinbase</a>',
-      'crypto-trade' => '<a href="https://www.crypto-trade.com">Crypto-Trade</a>',
-      'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
-      'cryptsy' => '<a href="https://www.cryptsy.com/">Crypsty</a>',
-      'justcoin' => '<a href="https://justcoin.com/">Justcoin</a>',
-      'kraken' => '<a href="https://www.kraken.com/">Kraken</a>',
-      'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
-      'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
-      'poloniex' => '<a href="https://www.poloniex.com">Poloniex</a>',
-      'vaultofsatoshi' => '<a href="https://www.vaultofsatoshi.com">Vault of Satoshi</a>',
-      'vircurex' => '<a href="https://vircurex.com">Vircurex</a>',
-    ),
+    "Exchange wallets" /* i18n */ => $exchange_wallets,
 
     "Exchange tickers" /* i18n */ => $exchange_tickers,
 
@@ -909,6 +877,11 @@ function get_external_apis() {
       'securities_update_cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a> Securities list',
       'securities_update_havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a> Securities list',
       'securities_update_litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a> Securities list',
+
+      // moved from Exchange Wallets, because this is now generated automatically
+      'cryptostocks' => '<a href="http://cryptostocks.com">Cryptostocks</a>',
+      'havelock' => '<a href="https://www.havelockinvestments.com">Havelock Investments</a>',
+      'litecoininvest' => '<a href="https://litecoininvest.com">Litecoininvest</a>',
     ),
 
     "Individual securities" /* i18n */ => array(
@@ -1036,6 +1009,9 @@ function get_accounts_wizard_config($exchange) {
   if (!isset($result['khash'])) {
     $result['khash'] = false;
   }
+  if (!isset($result['interaction'])) {
+    $result['interaction'] = false;
+  }
   if (!isset($result['fixed_inputs'])) {
     $result['fixed_inputs'] = array();
   }
@@ -1058,200 +1034,6 @@ function get_accounts_wizard_config($exchange) {
 
 function get_accounts_wizard_config_basic($exchange) {
   switch ($exchange) {
-    // --- exchanges ---
-    case "mtgox":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_mtgox_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_mtgox_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_mtgox',
-        'title' => 'Mt.Gox account',
-      );
-
-    case "bips":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bips_apikey'),
-        ),
-        'table' => 'accounts_bips',
-      );
-
-    case "bit2c":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bit2c_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bit2c_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_bit2c',
-        'title' => 'Bit2c account',
-      );
-
-    case "bitcurex_pln":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitcurex_pln_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitcurex_pln_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_bitcurex_pln',
-      );
-
-    case "bitcurex_eur":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitcurex_eur_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitcurex_eur_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_bitcurex_eur',
-      );
-
-    case "btce":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_btce_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btce_apisecret'),
-        ),
-        'table' => 'accounts_btce',
-      );
-
-    case "vircurex":
-      return array(
-        'inputs' => array(
-          'api_username' => array('title' => 'Username', 'callback' => 'is_valid_vircurex_apiusername'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_vircurex_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_vircurex',
-      );
-
-    case "cexio":
-      return array(
-        'inputs' => array(
-          'api_username' => array('title' => 'Username', 'callback' => 'is_valid_cexio_apiusername'),
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cexio_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cexio_apisecret', 'length' => 32),
-        ),
-        'table' => 'accounts_cexio',
-      );
-
-    case "crypto-trade":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_cryptotrade_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_cryptotrade_apisecret'),
-        ),
-        'table' => 'accounts_cryptotrade',
-      );
-
-    case "bitstamp":
-      return array(
-        'inputs' => array(
-          'api_client_id' => array('title' => 'Customer ID', 'callback' => 'is_numeric'),
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitstamp_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitstamp_apisecret', 'length' => 32),
-        ),
-        'table' => 'accounts_bitstamp',
-      );
-
-    case "justcoin":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_justcoin_apikey'),
-        ),
-        'table' => 'accounts_justcoin',
-      );
-
-    case "cryptsy":
-      return array(
-        'inputs' => array(
-          'api_public_key' => array('title' => 'Application key', 'callback' => 'is_valid_cryptsy_public_key', 'length' => 40),
-          'api_private_key' => array('title' => 'App ID', 'callback' => 'is_valid_cryptsy_private_key', 'length' => 80),
-        ),
-        'table' => 'accounts_cryptsy',
-      );
-
-    case "coinbase":
-      return array(
-        'inputs' => array(
-          // we don't expose api_code here; this is obtained through the OAuth2 callback
-        ),
-        'table' => 'accounts_coinbase',
-      );
-
-    case "vaultofsatoshi":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_vaultofsatoshi_apikey'),
-          'api_secret' => array('title' => 'API secret key', 'callback' => 'is_valid_vaultofsatoshi_apisecret'),
-        ),
-        'table' => 'accounts_vaultofsatoshi',
-      );
-
-    case "kraken":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_kraken_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_kraken_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_kraken',
-      );
-
-    case "bitmarket_pl":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bitmarket_pl_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bitmarket_pl_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_bitmarket_pl',
-      );
-
-    case "poloniex":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_poloniex_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_poloniex_apisecret', 'length' => 128),
-          'accept' => array('title' => 'I accept that this API is unsafe', 'checkbox' => true, 'callback' => 'number_format'),
-        ),
-        'unsafe' => "A Poloniex API key allows trading, but does not allow withdrawl.",
-        'table' => 'accounts_poloniex',
-      );
-
-    case "anxpro":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'Key', 'callback' => 'is_valid_anxpro_apikey'),
-          'api_secret' => array('title' => 'Secret', 'callback' => 'is_valid_anxpro_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_anxpro',
-      );
-
-    case "bittrex":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_valid_bittrex_apikey'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_bittrex_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_bittrex',
-      );
-
-    case "btclevels":
-      return array(
-        'inputs' => array(
-          'api_key' => array('title' => 'API key', 'callback' => 'is_string'),
-          'api_secret' => array('title' => 'API secret', 'callback' => 'is_valid_btclevels_apisecret', 'length' => 128),
-        ),
-        'table' => 'accounts_btclevels',
-      );
-
-    case "bitnz":
-      return array(
-        'inputs' => array(
-          'api_username' => array('title' => 'Username', 'callback' => 'is_string'),
-          'api_key' => array('title' => 'API Key', 'callback' => 'is_valid_bitnz_apikey'),
-          'api_secret' => array('title' => 'API Secret', 'callback' => 'is_valid_bitnz_apisecret', 'length' => 32),
-        ),
-        'table' => 'accounts_bitnz',
-      );
-
     // --- securities ---
     case "btct":
       return array(
@@ -1426,11 +1208,24 @@ function get_accounts_wizard_config_basic($exchange) {
             'title' => $field['title'],
             'callback' => array(new AccountFieldCheck($field), 'check'),
           );
+
+          if (isset($field['type']) && $field['type'] == "confirm") {
+            $inputs[$key]['checkbox'] = true;
+          }
+
+          if (isset($field['note']) && $field['note']) {
+            $inputs[$key]['note'] = t($field['note'][0], $field['note'][1]);
+          }
+
+          if (isset($field['interaction']) && $field['interaction']) {
+            $inputs[$key]['interaction'] = $field['interaction'];
+          }
         }
 
         return array(
           'inputs' => $inputs,
-          'table' => 'accounts_' . $exchange,
+          'table' => 'accounts_' . safe_table_name($exchange),
+          'interaction' => ($account instanceof \Account\UserInteractionAccount) ? array($account, 'interaction') : false,
         );
       }
 
@@ -1913,36 +1708,6 @@ function dropdown_get_all_securities($table, $title_key = 'name') {
   return $dropdown_get_all_securities[$table];
 }
 
-function is_valid_bit2c_apikey($key) {
-  // not sure what the format should be
-  return preg_match("#^[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+$#", $key);
-}
-
-function is_valid_bit2c_apisecret($key) {
-  // not sure what the format should be
-  return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
-}
-
-function is_valid_btce_apikey($key) {
-  // not sure what the format should be
-  return strlen($key) == 44 && preg_match("#^[A-Z0-9\-]+$#", $key);
-}
-
-function is_valid_btce_apisecret($key) {
-  // not sure what the format should be
-  return strlen($key) == 64 && preg_match("#^[a-z0-9]+$#", $key);
-}
-
-function is_valid_mtgox_apikey($key) {
-  // not sure what the format should be
-  return strlen($key) == 36 && preg_match("#^[a-z0-9\-]+$#", $key);
-}
-
-function is_valid_mtgox_apisecret($key) {
-  // not sure what the format should be, looks to be similar to base64 encoding
-  return strlen($key) > 36 && preg_match('#^[A-Za-z0-9/\\+=]+$#', $key);
-}
-
 function is_valid_litecoinglobal_apikey($key) {
   // not sure what the format should be, seems to be 64 character hex
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
@@ -1953,42 +1718,12 @@ function is_valid_btct_apikey($key) {
   return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
-function is_valid_vircurex_apiusername($key) {
-  // this could probably be in any format but should be at least one character
-  return strlen($key) >= 1 && strlen($key) <= 255;
-}
-
-function is_valid_vircurex_apisecret($key) {
-  // this could probably be in any format but should be at least one character
-  return strlen($key) >= 1 && strlen($key) <= 255;
-}
-
 function is_valid_havelock_apikey($key) {
   // not sure what the format is, but it looks to be 64 characters of random alphanumeric
   return preg_match("#^[0-9A-Za-z]{64}$#", $key);
 }
 
-function is_valid_bips_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
 function is_valid_generic_key($key) {
-  // this could probably be in any format but should be at least one character
-  return strlen($key) >= 1 && strlen($key) <= 255;
-}
-
-function is_valid_cexio_apikey($key) {
-  // looks like a 20-32 character alphanumeric mixed case string
-  return strlen($key) >= 20 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
-}
-
-function is_valid_cexio_apisecret($key) {
-  // looks like a 20-32 character alphanumeric mixed case string
-  return strlen($key) >= 20 && strlen($key) <= 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
-}
-
-function is_valid_cexio_apiusername($key) {
   // this could probably be in any format but should be at least one character
   return strlen($key) >= 1 && strlen($key) <= 255;
 }
@@ -2003,16 +1738,6 @@ function is_valid_cryptotrade_apisecret($key) {
   return strlen($key) == 40 && preg_match("#^[a-f0-9]+$#", $key);
 }
 
-function is_valid_bitstamp_apikey($key) {
-  // looks like a 32 character alphanumeric string
-  return strlen($key) == 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
-}
-
-function is_valid_bitstamp_apisecret($key) {
-  // looks like a 32 character alphanumeric string
-  return strlen($key) == 32 && preg_match("#^[A-Za-z0-9]+$#", $key);
-}
-
 function is_valid_796_apikey($key) {
   // guessing the format
   return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{8}$#", $key);
@@ -2023,114 +1748,9 @@ function is_valid_796_apisecret($key) {
   return strlen($key) == 60 && preg_match("#^[A-Za-z0-9\\+\\/]+$#", $key);
 }
 
-function is_valid_bitcurex_pln_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_bitcurex_pln_apisecret($key) {
-  // looks like a long base64 encoded string
-  return strlen($key) > 60 && strlen($key) < 100 && preg_match("#^[a-zA-Z0-9/\\+=]+$#", $key);
-}
-
-function is_valid_bitcurex_eur_apikey($key) {
-  return is_valid_bitcurex_pln_apikey($key);
-}
-
-function is_valid_bitcurex_eur_apisecret($key) {
-  return is_valid_bitcurex_pln_apisecret($key);
-}
-
-function is_valid_justcoin_apikey($key) {
-  // looks like a 64 character hex string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_cryptsy_public_key($key) {
-  // looks like a 40 character hex string (full trade) or 18-19 characters (application keys)
-  return (strlen($key) >= 16 || strlen($key) <= 40) && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_cryptsy_private_key($key) {
-  // can be anything
-  return strlen($key) > 0;
-}
-
 function is_valid_litecoininvest_apikey($key) {
   // looks to be lowercase hex
   return preg_match("#^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$#", $key);
-}
-
-function is_valid_vaultofsatoshi_apikey($key) {
-  // looks like a 64 character alphanumeric string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_vaultofsatoshi_apisecret($key) {
-  // looks like a 64 character alphanumeric string
-  return strlen($key) == 64 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_kraken_apikey($key) {
-  return strlen($key) == 56 && preg_match("#^[a-zA-Z0-9=/+]+$#", $key);
-}
-
-function is_valid_kraken_apisecret($key) {
-  return strlen($key) > 64 && strlen($key) < 128 && preg_match("#^[a-zA-Z0-9=/+]+$#", $key);
-}
-
-function is_valid_bitmarket_pl_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_bitmarket_pl_apisecret($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_poloniex_apikey($key) {
-  // looks like 4 sets of 8 characters
-  return preg_match("#^[A-Z0-9]{8}-[A-Z0-9]{8}-[A-Z0-9]{8}-[A-Z0-9]{8}+$#", $key);
-}
-
-function is_valid_poloniex_apisecret($key) {
-  // looks like a 128 character hex string
-  return strlen($key) == 128 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_anxpro_apikey($key) {
-  // not sure what the format should be
-  return strlen($key) == 36 && preg_match("#^[a-z0-9\-]+$#", $key);
-}
-
-function is_valid_anxpro_apisecret($key) {
-  // not sure what the format should be, looks to be similar to base64 encoding
-  return strlen($key) > 36 && preg_match('#^[A-Za-z0-9/\\+=]+$#', $key);
-}
-
-function is_valid_bittrex_apisecret($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_bittrex_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_btclevels_apisecret($key) {
-  return preg_match("#^[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}-[a-z0-9]{16}$#", $key);
-}
-
-function is_valid_bitnz_apikey($key) {
-  // looks like a 32 character hex string
-  return strlen($key) == 32 && preg_match("#^[a-f0-9]+$#", $key);
-}
-
-function is_valid_bitnz_apisecret($key) {
-  // looks like a random string
-  return strlen($key) > 8 && strlen($key) < 12 && preg_match("#^[a-zA-Z0-9]+$#", $key);
 }
 
 function is_valid_currency($c) {

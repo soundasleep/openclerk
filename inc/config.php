@@ -79,18 +79,6 @@ Openclerk\Config::merge(array(
   // job control
   "jobs_enabled" => !file_exists(__DIR__ . "/../deploy.lock"),     // disable when performing upgrades
   "maximum_jobs_running" => 20,       // issue #128: don't run more than this many jobs at once (except for forced jobs)
-  "sleep_btce_ticker" => 5,   // how many seconds to wait between repeated btc-e ticker queries
-  "sleep_bit2c_ticker" => 5,
-  "sleep_cexio_ticker" => 5,
-  "sleep_virtex_ticker" => 5,
-  "sleep_vircurex_balance" => 5,
-  "sleep_cryptostocks_balance" => 5,
-  "sleep_themoneyconverter_ticker" => 5,
-  "sleep_vaultofsatoshi_ticker" => 5,
-  "sleep_kraken_ticker" => 1,
-  "sleep_bitmarket_pl_ticker" => 5,
-  "sleep_anxpro_ticker" => 1,
-  "sleep_itbit_ticker" => 1,
   "max_job_executions" => 5,  // if a job fails to run more than this number of times, then explicitly mark it as failed
   "throttle_btcguild" => 30,  // only execute this job once every X seconds
   "throttle_blockchain" => 5,
@@ -177,17 +165,11 @@ Openclerk\Config::merge(array(
   "drk_confirmations" => 6,
 
   // register Coinbase Applications through https://coinbase.com/oauth/applications
-  "coinbase_client_id" => 'xxx',
-  "coinbase_client_secret" => 'xxx',
+  // "coinbase_client_id" => 'xxx',
+  // "coinbase_client_secret" => 'xxx',
 
   // application data for APIs
-  "btce_example_api_key" => '...',
-  "btce_example_api_secret" => '...',
-  "vaultofsatoshi_info_currency_api_key" => '...',
-  "vaultofsatoshi_info_currency_api_secret" => '...',
   "blockchain_api_key" => false,      // if you have one, optional
-  "bitmarket_pl_example_api_key" => '...',
-  "bitmarket_pl_example_api_secret" => '...',
   "anxpro_example_api_key" => '...',
   "anxpro_example_api_secret" => '...',
   "exchange_cryptsy_key" => "...",      // for fetching ticker markets
@@ -226,6 +208,11 @@ Openclerk\Config::merge(array(
   "blog_link" => "http://blog.cryptfolio.com/",
   "google_groups_announce" => "openclerk-announce",
   "version_history_link" => "https://groups.google.com/forum/#!forum/cryptfolio-announce",
+));
+
+// absolute URLs as necessary
+Openclerk\Config::merge(array(
+  'coinbase_redirect_uri' => absolute_url(url_for('coinbase')),
 ));
 
 $global_get_site_config = null;

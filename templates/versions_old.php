@@ -89,6 +89,8 @@ reduced <a href="<?php echo htmlspecialchars(url_for('premium')); ?>">premium</a
 <dd>Added <a href="<?php echo htmlspecialchars(url_for('help/notifications')); ?>">e-mail notifications</a>;
 improved site performance; fixes for managed graphs; disabled <a href="https://50btc.com/">50BTC</a> mining pool.</dd>
 
+<!-- 2014 -->
+
 <dt>23 December</dt>
 <dd>Added <a href="<?php echo htmlspecialchars(url_for('help/graph_refresh')); ?>">live graph updates</a>;
 accounts can now have <a href="<?php echo htmlspecialchars(url_for('user#user_openid')); ?>">multiple OpenID identities</a>;
@@ -124,6 +126,8 @@ enabled <a href="https://cryptfolio.com">site-wide SSL</a> by default.</dd>
 <dd>Added <a href="https://www.bitstamp.net">Bitstamp</a> wallet balances;
 added <a href="https://796.com/">796 Xchange</a> securities exchange and individual securities;
 added <a href="http://ltc.kattare.com/">ltc.kattare.com</a> mining pool;
+disabled <a href="https://mtgox.com/">Mt.Gox</a> exchange;
+disabled <a href="https://www.mintpal.com/">MintPal</a> exchange;
 migrated to two new servers.</dd>
 
 <dt>25 October</dt>

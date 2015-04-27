@@ -61,7 +61,15 @@ class GeneratedAccountInstanceMigration extends \Db\Migration {
   function generateApiFields() {
     $result = "";
     foreach ($this->account->getFields() as $key => $field) {
-      $result .= " $key varchar(255) not null,\n";
+      $type = "varchar(255)";
+      if (isset($field['type'])) {
+        switch ($field['type']) {
+          case "datetime":
+            $type = "timestamp";
+            break;
+        }
+      }
+      $result .= " $key $type not null,\n";
     }
     return $result;
   }
