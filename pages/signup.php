@@ -116,11 +116,10 @@ if ($openid || $oauth2 || $password) {
 
         $q = db()->prepare("INSERT INTO user_properties SET
           id=:id,
-          name=:name, email=:email, country=:country, user_ip=:ip, referer=:referer, subscribe_announcements=:subscribe, created_at=NOW(), updated_at=NOW()");
+          name=:name, country=:country, user_ip=:ip, referer=:referer, subscribe_announcements=:subscribe, created_at=NOW(), updated_at=NOW()");
         $user = array(
           "id" => $user->getId(),
           "name" => $name,
-          "email" => $email,
           "country" => $country,
           "ip" => user_ip(),
           "referer" => isset($_SESSION['referer']) ? substr($_SESSION['referer'], 0, 250) : NULL,

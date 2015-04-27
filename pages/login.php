@@ -51,9 +51,6 @@ try {
         $user = Users\UserOAuth2::tryLogin(db(), $provider, $url);
 
       } else if ($openid) {
-        // throws a BlockedException if this IP has requested this too many times recently
-        // check_heavy_request();
-
         // we want to add the openid identity URL to the return address
         // (the return URL is also verified in validate())
         $args = array("openid" => $openid);

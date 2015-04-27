@@ -202,3 +202,12 @@ function require_user($user) {
     redirect(url_for('login'));
   }
 }
+
+// set up heavy request checks
+\Openclerk\Events::on('openid_validate', function($lightopenid) {
+  check_heavy_request();
+});
+
+\Openclerk\Events::on('oauth2_auth', function($oauth2) {
+  check_heavy_request();
+});

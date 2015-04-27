@@ -7,35 +7,26 @@ $messages = array();
 $errors = array();
 
 if ($email && $confirm) {
-  try {
-    // throws a BlockedException if this IP has requested this too many times recently
-    check_heavy_request();
-  } catch (Exception $e) {
-    $errors[] = $e->getMessage();
-  }
+  $q = db()->prepare("SELECT * FROM user_properties WHERE email=? AND ISNULL(password_hash) = 0");
+  $q->execute(array($email));
 
-  if (!$errors) {
-    $q = db()->prepare("SELECT * FROM user_properties WHERE email=? AND ISNULL(password_hash) = 0");
-    $q->execute(array($email));
+  if ($user = $q->fetch()) {
+    $q = db()->prepare("UPDATE user_properties SET last_password_reset=NOW() WHERE id=?");
+    $q->execute(array($user['id']));
 
-    if ($user = $q->fetch()) {
-      $q = db()->prepare("UPDATE user_properties SET last_password_reset=NOW() WHERE id=?");
-      $q->execute(array($user['id']));
+    $user = get_user($user['id']);
+    $hash = md5(get_site_config('password_reset_salt') . $email . ":" . strtotime($user['last_password_reset']));
 
-      $user = get_user($user['id']);
-      $hash = md5(get_site_config('password_reset_salt') . $email . ":" . strtotime($user['last_password_reset']));
+    send_user_email($user, "password_reset", array(
+      "email" => $email,
+      "name" => $user['name'] ? $user['name'] : $email,
+      "ip" => user_ip(),
+      "url" => absolute_url(url_for("password_reset", array('email' => $email, 'hash' => $hash))),
+    ));
 
-      send_user_email($user, "password_reset", array(
-        "email" => $email,
-        "name" => $user['name'] ? $user['name'] : $email,
-        "ip" => user_ip(),
-        "url" => absolute_url(url_for("password_reset", array('email' => $email, 'hash' => $hash))),
-      ));
-
-      $messages[] = t("Further instructions to change your password have been sent to your e-mail address :email.", array(':email' => htmlspecialchars($email)));
-    } else {
-      $errors[] = t("No such user account exists.");
-    }
+    $messages[] = t("Further instructions to change your password have been sent to your e-mail address :email.", array(':email' => htmlspecialchars($email)));
+  } else {
+    $errors[] = t("No such user account exists.");
   }
 }
 
