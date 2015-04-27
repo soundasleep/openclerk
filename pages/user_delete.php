@@ -16,7 +16,7 @@ if ($confirm != "confirm") {
 
 if (!$errors) {
   // mark the account as due to be deleted
-  $q = db()->prepare("UPDATE users SET is_deleted=1, requested_delete_at=NOW() WHERE id=?");
+  $q = db()->prepare("UPDATE user_properties SET is_deleted=1, requested_delete_at=NOW() WHERE id=?");
   $q->execute(array(user_id()));
 
   // remove any OpenID connections for this user account, so that users can sign up
