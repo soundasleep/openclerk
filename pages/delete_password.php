@@ -14,7 +14,7 @@ if ($password && (strlen($password) < 6 || strlen($password) > 255)) {
 }
 
 if (!$errors) {
-  $q = db()->prepare("UPDATE users SET password_hash=NULL, password_last_changed=NOW() WHERE id=?");
+  $q = db()->prepare("UPDATE user_properties SET password_hash=NULL, password_last_changed=NOW() WHERE id=?");
   $q->execute(array(user_id()));
 
   $messages[] = t("Removed password.");

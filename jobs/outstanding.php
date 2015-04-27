@@ -21,7 +21,7 @@ $cancelled = recent_format(strtotime("+" . get_site_config('outstanding_abandon_
 crypto_log("Reminders are sent every '$reminder'; cancelled after '$cancelled'.");
 
 // get current user
-$q = db()->prepare("SELECT * FROM users WHERE id=?");
+$q = db()->prepare("SELECT * FROM user_properties WHERE id=?");
 $q->execute(array($address['user_id']));
 $user = $q->fetch();
 if (!$user) {
@@ -57,7 +57,7 @@ if (!$balance) {
     crypto_log("New premium expiry date: " . db_date($expires));
 
     // apply premium data to user account
-    $q = db()->prepare("UPDATE users SET updated_at=NOW(),is_premium=1, premium_expires=?, is_reminder_sent=0 WHERE id=? LIMIT 1");
+    $q = db()->prepare("UPDATE user_properties SET updated_at=NOW(),is_premium=1, premium_expires=?, is_reminder_sent=0 WHERE id=? LIMIT 1");
     $q->execute(array(db_date($expires), $address['user_id']));
 
     // update outstanding premium as paid
@@ -128,7 +128,7 @@ if (!$balance) {
           crypto_log("New premium expiry date: " . db_date($expires));
 
           // apply premium data to user account
-          $q = db()->prepare("UPDATE users SET updated_at=NOW(),is_premium=1, premium_expires=?, is_reminder_sent=0 WHERE id=? LIMIT 1");
+          $q = db()->prepare("UPDATE user_properties SET updated_at=NOW(),is_premium=1, premium_expires=?, is_reminder_sent=0 WHERE id=? LIMIT 1");
           $q->execute(array(db_date($expires), $address['user_id']));
 
           // update outstanding premium as paid

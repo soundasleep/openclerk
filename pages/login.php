@@ -1,5 +1,9 @@
 <?php
 
+use Users\User;
+use Users\UserAuthenticationException;
+use Users\UserAuthenticationMissingAccountException;
+
 define('USE_MASTER_DB', true);
 
 // POST overrides GET
@@ -15,6 +19,7 @@ if ($password && !is_string($password)) {
 $error = "";
 $logout = require_post("logout", require_get("logout", false));
 $openid = $use_password ? false : require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+$oauth2 = require_post("oauth2", require_get("oauth2", false));
 if ($openid && !is_string($openid)) {
   throw new Exception(t("Invalid openid parameter"));
 }
@@ -30,110 +35,64 @@ try {
   }
 
   if ($logout) {
-    user_logout();
+    User::logout(db());
 
     $messages[] = t("Successfully logged out. You may login again here.");
 
-  } elseif ($openid && !require_get("pause", false)) {
-    if (!is_valid_url($openid)) {
-      throw new EscapedException(t("That is not a valid OpenID identity."));
-    }
+  } else if (!require_get("pause", false)) {
+    $user = false;
 
-    require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
-    $light = new LightOpenID(get_openid_host());
+    try {
+      if ($oauth2) {
+        $args = array('oauth2' => $oauth2);
+        $url = absolute_url(url_for('login', $args));
 
-    if (!$light->mode) {
-      // we still need to authenticate
+        $provider = Users\OAuth2Providers::createProvider($oauth2, $url);
+        $user = Users\UserOAuth2::tryLogin(db(), $provider, $url);
 
-      $light->identity = $openid;
-      // The following two lines request email, full name, and a nickname
-      // from the provider. Remove them if you dont need that data.
-      // $light->required = array('contact/email');
-      // $light->optional = array('namePerson', 'namePerson/friendly');
+      } else if ($openid) {
+        // throws a BlockedException if this IP has requested this too many times recently
+        // check_heavy_request();
 
-      // we want to add the openid identity URL to the return address
-      // (the return URL is also verified in validate())
-      $args = array("openid" => $openid);
-      if ($autologin)
-        $args["autologin"] = $autologin;
-      if ($destination)
-        $args["destination"] = $destination;
-      $light->returnUrl = absolute_url(url_for('login', $args));
+        // we want to add the openid identity URL to the return address
+        // (the return URL is also verified in validate())
+        $args = array("openid" => $openid);
+        if ($autologin)
+          $args["autologin"] = $autologin;
+        if ($destination)
+          $args["destination"] = $destination;
 
-      redirect($light->authUrl());
+        $user = Users\UserOpenID::tryLogin(db(), $openid, absolute_url(url_for('login', $args)));
 
-    } else if ($light->mode == 'cancel') {
-      // user has cancelled
-      throw new EscapedException(t("User has cancelled authentication."));
-
-    } else {
-      // throws a BlockedException if this IP has requested this too many times recently
-      check_heavy_request();
-
-      // authentication is complete
-      if ($light->validate()) {
-        // we authenticate everything against a particular identity, not what is provided by the user
-        // e.g. OpenID authenticating against http://foo.livejournal.com/?param=two#hash will return
-        // an identity of http://foo.livejournal.com/.
-
-        $q = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
-        $q->execute(array($light->identity));
-        if (!($identity = $q->fetch())) {
-          throw new EscapedException(t("No account for the OpenID identity ':identity' were found. You may need to :signup.",
-              array(
-                ':identity' => htmlspecialchars($light->identity),
-                ':signup' => link_to(url_for('signup', array('openid' => $openid)), t("signup first")),
-              )));
-        }
-
-        $user = get_user($identity['user_id']);
-        if (!$user) {
-          throw new EscapedException(t("No user ID :id exists.", array(':id' => htmlspecialchars($identity['user_id']))));
-        }
-
-      } else {
-        throw new EscapedException(t("OpenID validation was not successful: :cause", array(':cause' => $light->validate_error ? htmlspecialchars($light->validate_error) : t("Please try again."))));
+      } else if ($email && $password) {
+        // email/password login
+        $user = Users\UserPassword::tryLogin(db(), $email, $password);
       }
 
+    } catch (UserAuthenticationMissingAccountException $e) {
+      $errors[] = $e->getMessage() . " " . t("You may need to :signup.", array(
+          ':signup' => link_to(url_for('signup', array('openid' => $openid, 'email' => $email)), t("signup first")),
+        ));
+    } catch (UserAuthenticationException $e) {
+      $errors[] = $e->getMessage();;
     }
 
-    complete_login($user, $autologin);
+    if ($user && !$errors) {
+      $user->persist(db());
 
-    // redirect
-    if (!$destination) {
-      $destination = url_for(get_site_config('default_login'));
+      complete_login($user, $autologin);
+
+      // redirect
+      if (!$destination) {
+        $destination = url_for(get_site_config('default_login'));
+      }
+
+      set_temporary_messages($messages);
+      set_temporary_errors($errors);
+      // possible injection here... strip all protocol information to prevent redirection to external site
+      $destination = str_replace('#[a-z]+://#im', '', $destination);
+      redirect($destination);
     }
-
-    set_temporary_messages($messages);
-    set_temporary_errors($errors);
-    // possible injection here... strip all protocol information to prevent redirection to external site
-    $destination = str_replace('#[a-z]+://#im', '', $destination);
-    redirect($destination);
-
-  } elseif ($email && $password && !require_get("pause", false)) {
-
-    $password_hash = md5(get_site_config('password_salt') . $password);
-    $q = db()->prepare("SELECT * FROM users WHERE email=? AND password_hash=? LIMIT 1");
-    $q->execute(array($email, $password_hash));
-
-    $user = $q->fetch();
-    if (!$user) {
-      throw new EscapedException(t("Invalid username or password."));
-    }
-
-    complete_login($user, $autologin);
-
-    // redirect
-    if (!$destination) {
-      $destination = url_for(get_site_config('default_login'));
-    }
-
-    set_temporary_messages($messages);
-    set_temporary_errors($errors);
-    // possible injection here... strip all protocol information to prevent redirection to external site
-    $destination = str_replace('#[a-z]+://#im', '', $destination);
-    redirect($destination);
-
   }
 
 } catch (Exception $e) {
@@ -166,6 +125,15 @@ page_header(t("Login"), "page_login", array('js' => 'auth'));
     <th><?php echo ht("Login with:"); ?></th>
     <td>
       <input type="hidden" name="submit" value="1">
+
+      <?php
+      $openids = get_default_oauth2_providers();
+      foreach ($openids as $key => $data) { ?>
+        <button type="submit" name="oauth2" class="oauth2 oauth2-submit" value="<?php echo htmlspecialchars($key); ?>"><span class="oauth2 <?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data); ?></span></button>
+      <?php }
+      ?>
+
+      <hr>
 
       <?php
       $openids = get_default_openid_providers();

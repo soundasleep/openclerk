@@ -5,7 +5,7 @@ define('USE_MASTER_DB', true);
 // only permit POST for some variables
 $autologin = require_post("autologin", require_get("autologin", true));
 $use_password = require_post("use_password", require_get("use_password", false));
-$email = trim(require_post("email", require_get("email", false)));
+$email = trim(require_post("email", require_get("email", require_session("signup_email", false))));
 
 $password = $use_password ? require_post("password", require_get("password", false)) : false;
 if ($password && !is_string($password)) {
@@ -15,19 +15,26 @@ $password2 = $use_password ? require_post("password2", require_get("password2", 
 if ($password2 && !is_string($password2)) {
   throw new Exception(t("Invalid repeated password parameter"));
 }
-$name = require_post("name", require_get("name", false));
-$agree = require_post("agree", require_get("agree", false));
-$openid = $use_password ? false : require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+$name = require_post("name", require_get("name", require_session("signup_name", false)));
+$agree = require_post("agree", require_get("agree", require_session("signup_agree", false)));
+$openid = require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+$oauth2 = require_post("oauth2", require_get("oauth2", false));
 if ($openid && !is_string($openid)) {
   throw new Exception(t("Invalid OpenID parameter"));
 }
-$subscribe = require_post("subscribe", require_get("subscribe", $openid ? false : true));
-$country = require_post("country", require_get("country", false));
+$subscribe = require_post("subscribe", require_get("subscribe", require_session("signup_subscribe", $openid || $oauth2 ? false : true)));
+$country = require_post("country", require_get("country", require_session("signup_country", false)));
 
 $messages = array();
 $errors = array();
 
-if ($openid || $password) {
+unset($_SESSION['signup_name']);
+unset($_SESSION['signup_email']);
+unset($_SESSION['signup_country']);
+unset($_SESSION['signup_agree']);
+unset($_SESSION['signup_subscribe']);
+
+if ($openid || $oauth2 || $password) {
   if (!$country || strlen($country) != 2) {
     $errors[] = t("You need to select your country.");
   }
@@ -56,37 +63,27 @@ if ($openid || $password) {
 
   if (!$errors) {
     try {
-      if ($password) {
-        // check there is no existing user using this e-mail address
-        // (a user can have multiple OpenID accounts for an e-mail address, but not multiple passwords,
-        // since this would confuse 'forgotten password')
-        // remember that e-mail addresses (without the domain) are case-sensitive
-        $q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash)=0 LIMIT 1");
-        $q->execute(array($email));
+      $user = false;
 
-        if ($q->fetch()) {
-          throw new EscapedException(t("That e-mail address is already in use by another account using password login. Did you mean to :login?",
-              array(':login' => link_to(url_for('login', array('use_password' => true, 'email' => $email)), t("login instead")),
-            )));
-        }
+      try {
+        if ($oauth2) {
+          // try OAuth2 signup
 
-      } else {
-        if (!is_valid_url($openid)) {
-          throw new EscapedException(t("That is not a valid OpenID identity."));
-        }
+          // save parameters for callback later
+          $_SESSION['signup_name'] = $name;
+          $_SESSION['signup_email'] = $email;
+          $_SESSION['signup_country'] = $country;
+          $_SESSION['signup_agree'] = $agree;
+          $_SESSION['signup_subscribe'] = $subscribe;
 
-        // to sign up with OpenID, we must first authenticate to see if the identity already exists
-        require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
-        $light = new LightOpenID(get_openid_host());
+          $args = array('oauth2' => $oauth2);
+          $url = absolute_url(url_for('signup', $args));
 
-        if (!$light->mode) {
-          // we still need to authenticate
+          $provider = Users\OAuth2Providers::createProvider($oauth2, $url);
+          $user = Users\UserOAuth2::trySignup(db(), $provider, $url);
 
-          $light->identity = $openid;
-          // The following two lines request email, full name, and a nickname
-          // from the provider. Remove them if you dont need that data.
-          // $light->required = array('contact/email');
-          // $light->optional = array('namePerson', 'namePerson/friendly');
+        } else if ($openid) {
+          // try OpenID signup
 
           // we want to add the openid identity URL to the return address
           // (the return URL is also verified in validate())
@@ -95,102 +92,82 @@ if ($openid || $password) {
           if (session_name()) {
             $args[session_name()] = session_id();
           }
-          $light->returnUrl = absolute_url(url_for('signup', $args));
+          $url = absolute_url(url_for('signup', $args));
 
-          redirect($light->authUrl());
+          $user = Users\UserOpenID::trySignup(db(), $email /* may be null */, $openid, $url);
 
-        } else if ($light->mode == 'cancel') {
-          // user has cancelled
-          throw new EscapedException(t("User has cancelled authentication."));
+        } else if ($email && $password) {
+          // try email/password signup
 
-        } else {
-          // throws a BlockedException if this IP has requested this too many times recently
-          check_heavy_request();
-
-          // authentication is complete
-          if ($light->validate()) {
-            // we authenticate everything against a particular identity, not what is provided by the user
-            // e.g. OpenID authenticating against http://foo.livejournal.com/?param=two#hash will return
-            // an identity of http://foo.livejournal.com/.
-            // print_r($light->getAttributes());
-
-            $q = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
-            $q->execute(array($light->identity));
-            if ($identity = $q->fetch()) {
-              throw new EscapedException(t("An account for the OpenID identity ':identity' already exists. Did you mean to :login?",
-                array(
-                  ':identity' => htmlspecialchars($light->identity),
-                  ':login' => link_to(url_for('login', array('openid' => $openid)), t("login instead")),
-                )));
-            }
-
-          } else {
-            throw new EscapedException(t("OpenID validation was not successful: :cause", array(':cause' => $light->validate_error ? htmlspecialchars($light->validate_error) : t("Please try again."))));
-          }
+          $user = Users\UserPassword::trySignup(db(), $email, $password);
 
         }
-      }
-
-      // we can now proceed with creating a new user account
-      $query = db()->prepare("INSERT INTO users SET
-        name=:name, email=:email, country=:country, user_ip=:ip, referer=:referer, subscribe_announcements=:subscribe, created_at=NOW(), updated_at=NOW()");
-      $user = array(
-        "name" => $name,
-        "email" => $email,
-        "country" => $country,
-        "ip" => user_ip(),
-        "referer" => isset($_SESSION['referer']) ? substr($_SESSION['referer'], 0, 250) : NULL,
-        "subscribe" => $subscribe ? 1 : 0,
-      );
-      $query->execute($user);
-      $user['id'] = db()->lastInsertId();
-
-      if ($openid) {
-        $q = db()->prepare("INSERT INTO openid_identities SET user_id=?, url=?");
-        $q->execute(array($user['id'], $light->identity));
-      } else {
-        $q = db()->prepare("UPDATE users SET password_hash=?, password_last_changed=NOW() WHERE id=?");
-        $password_hash = md5(get_site_config('password_salt') . $password);
-        $q->execute(array($password_hash, $user['id']));
-      }
-
-      if ($subscribe) {
-        $q = db()->prepare("INSERT INTO pending_subscriptions SET user_id=?,created_at=NOW(),is_subscribe=1");
-        $q->execute(array($user['id']));
-        $messages[] = t("You will be added manually to the :mailing_list soon.",
-          array(
-            ':mailing_list' => "<a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">" . t("Announcements Mailing List") . "</a>",
+      } catch (\Users\UserAlreadyExistsException $e) {
+        $errors[] = $e->getMessage() . " " . t("Did you mean to :login?",
+            array(':login' => link_to(url_for('login', array('use_password' => true, 'email' => $email, 'openid' => $openid)), t("login instead")),
           ));
+      } catch (\Users\UserSignupException $e) {
+        $errors[] = $e->getMessage();
+      } catch (\Users\UserAuthenticationException $e) {
+        $errors[] = $e->getMessage();
       }
 
-      // try sending email
-      if ($email) {
-        send_user_email($user, "signup", array(
+      if ($user && !$errors) {
+
+        $q = db()->prepare("INSERT INTO user_properties SET
+          id=:id,
+          name=:name, email=:email, country=:country, user_ip=:ip, referer=:referer, subscribe_announcements=:subscribe, created_at=NOW(), updated_at=NOW()");
+        $user = array(
+          "id" => $user->getId(),
+          "name" => $name,
           "email" => $email,
-          "name" => $name ? $name : $email,
-          "announcements" => "http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')),
-          "url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),
-          "wizard_currencies" => absolute_url(url_for("wizard_currencies")),
-          "wizard_addresses" => absolute_url(url_for("wizard_accounts_addresses")),
-          "wizard_accounts" => absolute_url(url_for("wizard_accounts")),
-          "wizard_notifications" =>  absolute_url(url_for("wizard_notifications")),
-          "reports" => absolute_url(url_for("profile")),
-          "premium" =>  absolute_url(url_for("premium")),
-        ));
+          "country" => $country,
+          "ip" => user_ip(),
+          "referer" => isset($_SESSION['referer']) ? substr($_SESSION['referer'], 0, 250) : NULL,
+          "subscribe" => $subscribe ? 1 : 0,
+        );
+        $q->execute($user);
+
+        if ($subscribe) {
+          $q = db()->prepare("INSERT INTO pending_subscriptions SET user_id=?,created_at=NOW(),is_subscribe=1");
+          $q->execute(array($user['id']));
+          $messages[] = t("You will be added manually to the :mailing_list soon.",
+            array(
+              ':mailing_list' => "<a href=\"http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')) . "\" target=\"_blank\">" . t("Announcements Mailing List") . "</a>",
+            ));
+        }
+
+        // try sending email
+        if ($email) {
+          send_user_email($user, "signup", array(
+            "email" => $email,
+            "name" => $name ? $name : $email,
+            "announcements" => "http://groups.google.com/group/" . htmlspecialchars(get_site_config('google_groups_announce')),
+            "url" => absolute_url(url_for("unsubscribe", array('email' => $email, 'hash' => md5(get_site_config('unsubscribe_salt') . $email)))),
+            "wizard_currencies" => absolute_url(url_for("wizard_currencies")),
+            "wizard_addresses" => absolute_url(url_for("wizard_accounts_addresses")),
+            "wizard_accounts" => absolute_url(url_for("wizard_accounts")),
+            "wizard_notifications" =>  absolute_url(url_for("wizard_notifications")),
+            "reports" => absolute_url(url_for("profile")),
+            "premium" =>  absolute_url(url_for("premium")),
+          ));
+        }
+
+        // create default summary pages and cryptocurrencies and graphs contents
+        reset_user_settings($user['id']);
+
+        // success!
+        // issue #62: rather than requiring another step to login, just log the user in now.
+        \Users\User::forceLogin(db(), $user['id']);
+
+        complete_login($user, $autologin);
+
+        $messages[] = t("New account creation successful.");
+
+        // redirect
+        set_temporary_messages($messages);
+        redirect(url_for(get_site_config('premium_welcome') ? "welcome" : get_site_config('signup_login'), array("pause" => true)));
       }
-
-      // create default summary pages and cryptocurrencies and graphs contents
-      reset_user_settings($user['id']);
-
-      // success!
-      // issue #62: rather than requiring another step to login, just log the user in now.
-      complete_login($user, $autologin);
-
-      $messages[] = t("New account creation successful.");
-
-      // redirect
-      set_temporary_messages($messages);
-      redirect(url_for(get_site_config('premium_welcome') ? "welcome" : get_site_config('signup_login'), array("pause" => true)));
 
     } catch (Exception $e) {
       if (!($e instanceof EscapedException)) {
@@ -251,6 +228,15 @@ page_header(t("Signup"), "page_signup", array('js' => 'auth'));
     <th><?php echo ht("Signup with:"); ?></th>
     <td>
       <input type="hidden" name="submit" value="1">
+
+      <?php
+      $openids = get_default_oauth2_providers();
+      foreach ($openids as $key => $data) { ?>
+        <button type="submit" name="oauth2" class="oauth2 oauth2-submit" value="<?php echo htmlspecialchars($key); ?>"><span class="oauth2 <?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data); ?></span></button>
+      <?php }
+      ?>
+
+      <hr>
 
       <?php
       $openids = get_default_openid_providers();

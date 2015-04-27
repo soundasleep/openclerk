@@ -416,6 +416,6 @@ function update_user_managed_graphs($user) {
   }
 
   // finally, update the needs_managed_update flag
-  $q = db()->prepare("UPDATE users SET needs_managed_update=0, last_managed_update=NOW() WHERE id=?");
+  $q = db()->prepare("UPDATE user_properties SET needs_managed_update=0, last_managed_update=NOW() WHERE id=?");
   $q->execute(array($user['id']));
 }

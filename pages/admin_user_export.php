@@ -70,8 +70,6 @@ $password = require_post("password", "clerk");
     echo "<li>" . htmlspecialchars("mysqldump --where=\"user_id=" . $id . "\" $common $table" . $suffix) . "</li>\n";
   }
 
-  export_from('valid_user_keys');
-
   // go through all accounts
   $already_done = array();
   foreach (account_data_grouped() as $label => $accounts) {
@@ -89,8 +87,6 @@ $password = require_post("password", "clerk");
   export_from('securities');
 
   export_from('offsets');
-
-  export_from('openid_identities');
 
   export_from('summary_instances');
   export_from('summaries');

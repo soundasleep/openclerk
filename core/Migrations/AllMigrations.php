@@ -16,6 +16,13 @@ class AllMigrations extends \Db\Migration {
           new ExternalAPIsMigration(),
           new ExternalAPIsMigrationBlocks(),
           new RenameBlockTables(),
+          new RenameUsersTable(),
+          new CopyUsers(),
+          new CopyOpenIDIdentities(),
+          new CopyPasswords(),
+          new RemoveUserPropertiesFields(),
+          new RemoveOpenIDIdentitiesTable(),
+          new RemoveEmailFromUserProperties(),
         ),
         \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered Migrations
       );

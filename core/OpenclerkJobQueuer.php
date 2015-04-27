@@ -79,27 +79,27 @@ class OpenclerkJobQueuer extends JobQueuer {
     ));
 
     $standard_jobs = array_merge($standard_jobs, array(
-      array('table' => 'users', 'type' => 'delete_user', 'query' => ' AND is_deleted=1', 'always' => true, 'user_id_field' => 'id'),
-      array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */
+      array('table' => 'user_properties', 'type' => 'delete_user', 'query' => ' AND is_deleted=1', 'always' => true, 'user_id_field' => 'id'),
+      array('table' => 'user_properties', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */
       array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
-      array('table' => 'users', 'type' => 'expiring', 'query' => ' AND is_premium=1
+      array('table' => 'user_properties', 'type' => 'expiring', 'query' => ' AND is_premium=1
         AND is_reminder_sent=0
         AND NOT ISNULL(email) AND LENGTH(email) > 0
         AND NOW() > DATE_SUB(premium_expires, INTERVAL ' . get_site_config('premium_reminder_days') . ' DAY)', 'user_id' => get_site_config('system_user_id'), 'always' => true),
-      array('table' => 'users', 'type' => 'expire', 'query' => ' AND is_premium=1
+      array('table' => 'user_properties', 'type' => 'expire', 'query' => ' AND is_premium=1
         AND NOW() > premium_expires', 'user_id' => get_site_config('system_user_id'), 'always' => true),
-      array('table' => 'users', 'type' => 'disable_warning', 'query' => ' AND is_premium=0 AND is_disabled=0
+      array('table' => 'user_properties', 'type' => 'disable_warning', 'query' => ' AND is_premium=0 AND is_disabled=0
         AND is_disable_warned=0 AND is_system=0
         AND DATE_ADD(GREATEST(IFNULL(last_login, 0),
             IFNULL(DATE_ADD(premium_expires, INTERVAL ' . get_site_config('user_expiry_days') . ' DAY), 0),
             created_at), INTERVAL ' . (get_site_config('user_expiry_days') * 0.8) . ' DAY) < NOW()', 'user_id' => get_site_config('system_user_id'), 'always' => true),
-      array('table' => 'users', 'type' => 'disable', 'query' => ' AND is_premium=0 AND is_disabled=0
+      array('table' => 'user_properties', 'type' => 'disable', 'query' => ' AND is_premium=0 AND is_disabled=0
         AND is_disable_warned=1 AND is_system=0
         AND DATE_ADD(GREATEST(IFNULL(last_login, 0),
             IFNULL(DATE_ADD(premium_expires, INTERVAL ' . get_site_config('user_expiry_days') . ' DAY), 0),
             created_at), INTERVAL ' . (get_site_config('user_expiry_days')) . '+1 DAY) < NOW()', 'user_id' => get_site_config('system_user_id'), 'always' => true),
-      array('table' => 'users', 'type' => 'securities_count', 'query' => ' AND is_disabled=0 AND is_system=0', 'queue_field' => 'securities_last_count_queue', 'user_id_field' => 'id'),
-      array('table' => 'users', 'type' => 'transaction_creator', 'query' => ' AND is_disabled=0 AND is_system=0', 'queue_field' => 'last_tx_creator_queue', 'user_id_field' => 'id'),
+      array('table' => 'user_properties', 'type' => 'securities_count', 'query' => ' AND is_disabled=0 AND is_system=0', 'queue_field' => 'securities_last_count_queue', 'user_id_field' => 'id'),
+      array('table' => 'user_properties', 'type' => 'transaction_creator', 'query' => ' AND is_disabled=0 AND is_system=0', 'queue_field' => 'last_tx_creator_queue', 'user_id_field' => 'id'),
       array('table' => 'securities_update', 'type' => 'securities_update', 'user_id' => get_site_config('system_user_id')),
 
       // transaction creators
@@ -137,7 +137,7 @@ class OpenclerkJobQueuer extends JobQueuer {
 
     // get all disabled users
     $disabled = array();
-    $q = $db->prepare("SELECT * FROM users WHERE is_disabled=1");
+    $q = $db->prepare("SELECT * FROM user_properties WHERE is_disabled=1");
     $q->execute();
     while ($d = $q->fetch()) {
       $disabled[$d['id']] = $d;
@@ -167,7 +167,7 @@ class OpenclerkJobQueuer extends JobQueuer {
         $queue_field = isset($standard['queue_field']) ? $standard['queue_field'] : 'last_queue';
 
         if ($is_premium_only && (!isset($standard['user_id']) || $standard['user_id'] != get_site_config('system_user_id'))) {
-          $query_extra .= " AND $field IN (SELECT id FROM users WHERE is_premium=1)";
+          $query_extra .= " AND $field IN (SELECT id FROM user_properties WHERE is_premium=1)";
         }
 
         // multiply queue_hours by 0.8 to ensure that user jobs are always executed within the specified timeframe

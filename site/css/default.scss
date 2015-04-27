@@ -296,18 +296,35 @@ select.country { max-width: 240px; }
   }
 }
 
-.authentication-form button { margin-bottom: 5px; }
-.authentication-form button.openid { height: 32px; padding: 2px 5px 5px 5px; margin-right: 3px; }
-button .openid, .openid_list .openid { padding-left: 20px; line-height: 20px; }
-.openid_list td.buttons { text-align: center; padding-top: 10px; }
-.openid.openid_manual { background: url('../img/openid.png') 0 0 no-repeat; }
-.openid.google { background: url('../img/google2.png') 0 0 no-repeat; }
-.openid.stackexchange { background: url('../img/stackexchange.png') 0 0 no-repeat; }
-.openid.yahoo { background: url('../img/yahoo.png') 0 0 no-repeat; }
-.openid.blogspot { background: url('../img/blogspot.png') 0 0 no-repeat; }
-.openid.launchpad { background: url('../img/launchpad.png') 0 0 no-repeat; }
-.openid.aol { background: url('../img/aol.png') 0 0 no-repeat; }
-.openid.verisign { background: url('../img/verisign.png') 0 0 no-repeat; }
+.authentication-form button {
+  margin-bottom: 5px;
+
+  &.openid, &.oauth2 {
+    height: 32px; padding: 2px 5px 5px 5px; margin-right: 3px;
+  }
+}
+
+button, .openid_list, .oauth2_list {
+  .openid, .oauth2 {
+    padding-left: 20px; line-height: 20px;
+  }
+
+  td.buttons {
+    text-align: center; padding-top: 10px;
+  }
+}
+
+.openid, .oauth2 {
+  &.openid_manual { background: url('../img/openid.png') 0 0 no-repeat; }
+  &.google { background: url('../img/google2.png') 0 0 no-repeat; }
+  &.stackexchange { background: url('../img/stackexchange.png') 0 0 no-repeat; }
+  &.yahoo { background: url('../img/yahoo.png') 0 0 no-repeat; }
+  &.blogspot { background: url('../img/blogspot.png') 0 0 no-repeat; }
+  &.launchpad { background: url('../img/launchpad.png') 0 0 no-repeat; }
+  &.aol { background: url('../img/aol.png') 0 0 no-repeat; }
+  &.verisign { background: url('../img/verisign.png') 0 0 no-repeat; }
+  &.github { background: url('../img/GitHub-Mark-16px.png') 0 0 no-repeat; }
+}
 
 .email_notification { padding-left: 20px; background: url('../img/nuvola/mail_forward.png') 0 0 no-repeat; }
 

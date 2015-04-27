@@ -9,6 +9,9 @@
 
 require_admin();
 
+// TODO need to migrate to new openclerk/users framework
+throw new Exception("Not implemented (#266).");
+
 if (!get_site_config('allow_fake_login')) {
   throw new Exception("Fake login must be enabled through 'allow_fake_login' first.");
 }

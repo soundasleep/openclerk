@@ -16,12 +16,20 @@ $users = $q->fetchAll();
 $has_identity = false;
 
 foreach ($users as $user) {
-  if ($user['password_hash']) {
-    $q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? LIMIT 1");
-    $q->execute(array($user['id']));
+  $q = db()->prepare("SELECT * FROM user_passwords WHERE user_id=?");
+  $q->execute(array($user['id']));
+  $password_hash = $q->fetch();
 
+  if ($password_hash) {
+    $q = db()->prepare("SELECT * FROM user_openid_identities WHERE user_id=? LIMIT 1");
+    $q->execute(array($user['id']));
     $has_identity = $q->fetch();
-    if (!$has_identity) {
+
+    $q = db()->prepare("SELECT * FROM user_oauth2_identities WHERE user_id=? LIMIT 1");
+    $q->execute(array($user['id']));
+    $has_oauth2 = $q->fetch();
+
+    if (!$has_identity || !$has_oauth2) {
 
       require(__DIR__ . "/../layout/templates.php");
       page_header(t("Unsubscribe unsuccessful"), "page_unsubscribe");
@@ -56,7 +64,7 @@ foreach ($users as $user) {
   }
 }
 
-$query = db()->prepare("UPDATE users SET email=NULL,updated_at=NOW() where email=? AND ISNULL(password_hash)=1");
+$query = db()->prepare("UPDATE users SET email=NULL,updated_at=NOW() where email=?");
 $query->execute(array($email));
 
 require(__DIR__ . "/../layout/templates.php");

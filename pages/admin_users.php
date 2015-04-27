@@ -30,7 +30,7 @@ page_header("Admin: Users Report", "page_admin_users");
 <?php
 for ($i = 0; $i < 60; $i++) {
   $date = date('Y-m-d', strtotime("-$i days"));
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE created_at >= ? AND created_at < date_add(?, interval 1 day)");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE created_at >= ? AND created_at < date_add(?, interval 1 day)");
   $q->execute(array($date, $date));
   $c = $q->fetch();
   echo "<tr><th>" . htmlspecialchars($date) . "</th><td>" . number_format($c['c']) . "</td></tr>\n";

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Allows users to delete OpenID locations from their account.
+ * Allows users to delete OAuth2 locations from their account.
  */
 
 require_login();
@@ -9,10 +9,11 @@ require_login();
 $messages = array();
 $errors = array();
 
-$identity = require_post("identity");
+$uid = require_post("uid");
+$provider = require_post("provider");
 
 // make sure we aren't deleting our last identity
-$q = db()->prepare("SELECT COUNT(*) AS c FROM user_openid_identities WHERE user_id=?");
+$q = db()->prepare("SELECT COUNT(*) AS c FROM user_oauth2_identities WHERE user_id=?");
 $q->execute(array(user_id()));
 $count = $q->fetch();
 
@@ -22,15 +23,15 @@ $q->execute(array(user_id()));
 $password_hash = $q->fetch();
 
 if ($count['c'] <= 1 && !$password_hash) {
-  $errors[] = t("Cannot remove that OpenID identity; at least one identity must be defined.");
+  $errors[] = t("Cannot remove that OAuth2 identity; at least one identity must be defined.");
   set_temporary_messages($messages);
   set_temporary_errors($errors);
   redirect(url_for('user#user_openid'));
 }
 
 $user = \Users\User::getInstance(db());
-\Users\UserOpenID::removeIdentity(db(), $user, $identity);
-$messages[] = t("Removed OpenID identity ':identity'.", array(':identity' => $identity));
+\Users\UserOAuth2::removeIdentity(db(), $user, $provider, $uid);
+$messages[] = t("Removed OAuth2 identity ':identity'.", array(':identity' => $provider));
 
 set_temporary_messages($messages);
 set_temporary_errors($errors);

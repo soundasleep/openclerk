@@ -12,6 +12,10 @@ $user = get_user(user_id());
 require_user($user);
 $old_email = $user['email'];
 
+$q = db()->prepare("SELECT * FROM user_passwords WHERE user_id=?");
+$q->execute(array(user_id()));
+$password_hash = $q->fetch();
+
 $messages = array();
 $errors = array();
 $name = require_post("name", false);
@@ -22,14 +26,14 @@ if ($name !== false && $email !== false) {
     $errors[] = t("Invalid name.");
   } else if ($email !== "" && !is_valid_email($email)) {
     $errors[] = t("Invalid e-mail.");
-  } else if (!$email && $user['password_hash']) {
+  } else if (!$email && $password_hash) {
     $errors[] = t("You cannot remove your e-mail address until you have disabled :password_login on this account.",
         array(':password_login' => link_to(url_for('user#user_password'), t("password login"))));
   }
 
   // check that there are no existing users with this e-mail address
-  if ($email && $user['password_hash']) {
-    $q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0 AND id <> ?");
+  if ($email && $password_hash) {
+    $q = db()->prepare("SELECT * FROM users WHERE email=? AND id <> ?");
     $q->execute(array($email, $user['id']));
 
     if ($q->fetch()) {
@@ -43,8 +47,12 @@ if ($name !== false && $email !== false) {
     $disable_graph_refresh = require_post("disable_graph_refresh", false) ? 1 : 0;
 
     // we can have any name
-    $q = db()->prepare("UPDATE users SET updated_at=NOW(),name=?,email=?,subscribe_announcements=?,disable_graph_refresh=? WHERE id=? LIMIT 1");
-    $q->execute(array($name, $email, $subscribe, $disable_graph_refresh, user_id()));
+    $q = db()->prepare("UPDATE user_properties SET updated_at=NOW(),name=?,subscribe_announcements=?,disable_graph_refresh=? WHERE id=? LIMIT 1");
+    $q->execute(array($name, $subscribe, $disable_graph_refresh, user_id()));
+
+    // and update emails
+    $q = db()->prepare("UPDATE users SET email=?, updated_at=NOW() WHERE id=? LIMIT 1");
+    $q->execute(array($email, user_id()));
     $messages[] = t("Updated account details.");
 
     $user['email'] = $email;
@@ -127,9 +135,13 @@ if (require_get("new_purchase", false)) {
 // get all of our accounts limits
 $accounts = user_limits_summary(user_id());
 
-$q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? ORDER BY url ASC");
+$q = db()->prepare("SELECT * FROM user_openid_identities WHERE user_id=? ORDER BY identity ASC");
 $q->execute(array(user_id()));
 $identities = $q->fetchAll();
+
+$q = db()->prepare("SELECT * FROM user_oauth2_identities WHERE user_id=? ORDER BY provider ASC");
+$q->execute(array(user_id()));
+$oauth2 = $q->fetchAll();
 
 page_header(t("User Account"), "page_user", array('js' => 'user'));
 
@@ -230,7 +242,7 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
   ?>
 </div>
 
-<?php if (!$user['password_hash']) { ?>
+<?php if (!$password_hash) { ?>
 
 <h2><?php echo ht("Enable e-mail/password login"); ?></h2>
 
@@ -260,7 +272,7 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
 
 <?php
 // check there are no other accounts using a password hash on this e-mail address
-$q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0 AND id <> ?");
+$q = db()->prepare("SELECT * FROM users WHERE email=? AND id <> ?");
 $q->execute(array($user['email'], user_id()));
 if ($q->fetch()) {
 ?>
@@ -310,7 +322,7 @@ if ($q->fetch()) {
 <h2><?php echo ht("Change password"); ?></h2>
 
 <p>
-  <?php echo t("Your password was last changed :ago.", array(':ago' => recent_format_html($user['password_last_changed']))); ?>
+  <?php echo t("Your password was last changed :ago.", array(':ago' => recent_format_html($password_hash['created_at']))); ?>
 </p>
 
 <form action="<?php echo htmlspecialchars(url_for('set_password')); ?>" method="post">
@@ -388,6 +400,58 @@ if ($q->fetch()) {
   </li>
   <li id="tab_user_openid_tab" style="display:none;">
 
+<h2><?php echo ht("Your OAuth2 Identites"); ?></h2>
+
+<table class="standard fancy openid_list">
+<thead>
+  <tr>
+    <th><?php echo ht("Provider"); ?></th>
+    <th><?php echo ht("Identity"); ?></th>
+    <th><?php echo ht("Added"); ?></th>
+    <th><?php echo ht("Delete"); ?></th>
+  </tr>
+</thead>
+<tbody>
+<?php
+$count = 0;
+foreach ($oauth2 as $identity) {
+  // try and guess the provider
+  $provider = $identity['provider'];
+  $provider_titles = get_default_oauth2_providers();
+  ?>
+  <tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
+    <td><span class="openid <?php echo htmlspecialchars($provider); ?>"><?php echo isset($provider_titles[$provider]) ? htmlspecialchars($provider_titles[$provider]) : 'Unknown'; ?></span></td>
+    <td><?php echo htmlspecialchars(url_for($identity['uid'])); ?></td>
+    <td><?php echo recent_format_html($identity['created_at']); ?></td>
+    <td>
+      <?php
+      /* only allow one identity to be removed */
+      if ($password_hash || count($identities) >= 1 || count($oauth2) > 1) {
+      ?>
+      <form action="<?php echo htmlspecialchars(url_for('oauth2_delete')); ?>" method="post">
+        <input type="hidden" name="uid" value="<?php echo htmlspecialchars($identity['uid']); ?>">
+        <input type="hidden" name="provider" value="<?php echo htmlspecialchars($identity['provider']); ?>">
+        <input type="submit" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this identity"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this identity?"); ?>');">
+      </form>
+      <?php } ?>
+    </td>
+  </tr>
+<?php } ?>
+<?php if (!$oauth2) { ?>
+  <tr>
+    <td colspan="4"><i><?php echo ht("No OAuth2 identities defined."); ?></i></td>
+  </tr>
+<?php } ?>
+</tbody>
+<tfoot>
+  <tr>
+    <td colspan="<?php echo count($identities) > 1 ? 4 : 3; ?>" class="buttons">
+      <a href="<?php echo htmlspecialchars(url_for('oauth2_add')); ?>"><?php echo ht("Add another OAuth2 Identity"); ?></a>
+    </td>
+  </tr>
+</tfoot>
+</table>
+
 <h2><?php echo ht("Your OpenID Identites"); ?></h2>
 
 <table class="standard fancy openid_list">
@@ -396,12 +460,7 @@ if ($q->fetch()) {
     <th><?php echo ht("Provider"); ?></th>
     <th><?php echo ht("Identity"); ?></th>
     <th><?php echo ht("Added"); ?></th>
-    <?php
-    /* only allow one identity to be removed */
-    if (count($identities) > 1) {
-    ?>
     <th><?php echo ht("Delete"); ?></th>
-    <?php } ?>
   </tr>
 </thead>
 <tbody>
@@ -411,7 +470,7 @@ foreach ($identities as $identity) {
   // try and guess the provider
   $provider = "openid_manual";
   foreach (get_openid_provider_formats() as $format => $key) {
-    if (preg_match($format, $identity['url'])) {
+    if (preg_match($format, $identity['identity'])) {
       $provider = $key;
     }
   }
@@ -419,24 +478,24 @@ foreach ($identities as $identity) {
   ?>
   <tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
     <td><span class="openid <?php echo htmlspecialchars($provider); ?>"><?php echo isset($provider_titles[$provider]) ? htmlspecialchars($provider_titles[$provider][0]) : 'OpenID'; ?></span></td>
-    <td><a href="<?php echo htmlspecialchars(url_for($identity['url'])); ?>"><?php echo htmlspecialchars(url_for($identity['url'])); ?></a></td>
+    <td><a href="<?php echo htmlspecialchars(url_for($identity['identity'])); ?>"><?php echo htmlspecialchars(url_for($identity['identity'])); ?></a></td>
     <td><?php echo recent_format_html($identity['created_at']); ?></td>
-    <?php
-    /* only allow one identity to be removed */
-    if (count($identities) > 1) {
-    ?>
     <td>
+      <?php
+      /* only allow one identity to be removed */
+      if ($password_hash || count($identities) > 1 || count($oauth2) >= 1) {
+      ?>
       <form action="<?php echo htmlspecialchars(url_for('openid_delete')); ?>" method="post">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($identity['id']); ?>">
+        <input type="hidden" name="identity" value="<?php echo htmlspecialchars($identity['identity']); ?>">
         <input type="submit" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this identity"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this identity?"); ?>');">
       </form>
+      <?php } ?>
     </td>
-    <?php } ?>
   </tr>
 <?php } ?>
 <?php if (!$identities) { ?>
   <tr>
-    <td colspan="3"><i><?php echo ht("No OpenID identities defined."); ?></i></td>
+    <td colspan="4"><i><?php echo ht("No OpenID identities defined."); ?></i></td>
   </tr>
 <?php } ?>
 </tbody>

@@ -46,7 +46,7 @@ class GraphRenderer_AdminStatistics extends GraphRenderer {
     $last_updated = time();
 
     $summary = array(
-      'users' => array('title' => ct('Users'), 'extra' => array('is_disabled=1' => ct('Disabled'))),
+      'user_properties' => array('title' => ct('Users'), 'extra' => array('is_disabled=1' => ct('Disabled'))),
       'addresses' => array('title' => ct('Addresses')),
       'jobs' => array('title' => ct('Jobs'), 'extra' => array('is_executed=0' => ct('Pending'))),
       'outstanding_premiums' => array('title' => ct('Premiums'), 'extra' => array('is_paid=1' => ct('Paid'))),

@@ -42,14 +42,19 @@ abstract class AbstractEmulatedJobTest extends PHPUnit_Framework_TestCase {
   }
 
   function createNewUser() {
-    $q = db()->prepare("INSERT INTO users SET name=:name, email=:email, country=:country, user_ip=:ip, is_first_report_sent=1");
+    $q = db()->prepare("INSERT INTO users SET email=:email");
     $q->execute(array(
-      'name' => 'Test user ' . date('r'),
       'email' => 'test@openiaml.org',
+    ));
+    $user_id = db()->lastInsertId();
+
+    $q = db()->prepare("INSERT INTO user_properties SET id=:user_id, name=:name, country=:country, user_ip=:ip, is_first_report_sent=1");
+    $q->execute(array(
+      'user_id' => $user_id,
+      'name' => 'Test user ' . date('r'),
       'country' => 'NZ',
       'ip' => '',
     ));
-    $user_id = db()->lastInsertId();
 
     return get_user($user_id);
   }
@@ -111,7 +116,12 @@ abstract class AbstractEmulatedJobTest extends PHPUnit_Framework_TestCase {
   }
 
   function deleteUser($user) {
-    $q = db()->prepare("DELETE FROM users WHERE id=?");
+    $user_instance = Users\User::findUser(db(), $user['id']);
+    if ($user_instance) {
+      $user_instance->delete(db());
+    }
+
+    $q = db()->prepare("DELETE FROM user_properties WHERE id=?");
     $q->execute(array($user['id']));
 
     $q = db()->prepare("DELETE FROM notifications_ticker WHERE id IN (SELECT type_id FROM notifications WHERE user_id=? AND notification_type='ticker')");

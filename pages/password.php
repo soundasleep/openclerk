@@ -15,11 +15,11 @@ if ($email && $confirm) {
   }
 
   if (!$errors) {
-    $q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0");
+    $q = db()->prepare("SELECT * FROM user_properties WHERE email=? AND ISNULL(password_hash) = 0");
     $q->execute(array($email));
 
     if ($user = $q->fetch()) {
-      $q = db()->prepare("UPDATE users SET last_password_reset=NOW() WHERE id=?");
+      $q = db()->prepare("UPDATE user_properties SET last_password_reset=NOW() WHERE id=?");
       $q->execute(array($user['id']));
 
       $user = get_user($user['id']);

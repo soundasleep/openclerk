@@ -32,5 +32,5 @@ $q->execute($args);
 $security_count = $q->fetch();
 crypto_log("Securities found for user " . $job['user_id'] . ": " . number_format($security_count['c']));
 
-$q = db()->prepare("UPDATE users SET securities_count=? WHERE id=?");
+$q = db()->prepare("UPDATE user_properties SET securities_count=? WHERE id=?");
 $q->execute(array($security_count['c'], $job['user_id']));

@@ -17,7 +17,7 @@ if ($user['is_premium']) {
 }
 
 // update user (before sending email)
-$q = db()->prepare("UPDATE users SET is_disabled=1,disabled_at=NOW() WHERE id=? LIMIT 1");
+$q = db()->prepare("UPDATE user_properties SET is_disabled=1,disabled_at=NOW() WHERE id=? LIMIT 1");
 $q->execute(array($user['id']));
 
 // construct email
