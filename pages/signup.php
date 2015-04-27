@@ -5,7 +5,7 @@ define('USE_MASTER_DB', true);
 // only permit POST for some variables
 $autologin = require_post("autologin", require_get("autologin", true));
 $use_password = require_post("use_password", require_get("use_password", false));
-$email = trim(require_post("email", require_get("email", false)));
+$email = trim(require_post("email", require_get("email", require_session("signup_email", false))));
 
 $password = $use_password ? require_post("password", require_get("password", false)) : false;
 if ($password && !is_string($password)) {
@@ -15,19 +15,26 @@ $password2 = $use_password ? require_post("password2", require_get("password2", 
 if ($password2 && !is_string($password2)) {
   throw new Exception(t("Invalid repeated password parameter"));
 }
-$name = require_post("name", require_get("name", false));
-$agree = require_post("agree", require_get("agree", false));
-$openid = $use_password ? false : require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+$name = require_post("name", require_get("name", require_session("signup_name", false)));
+$agree = require_post("agree", require_get("agree", require_session("signup_agree", false)));
+$openid = require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+$oauth2 = require_post("oauth2", require_get("oauth2", false));
 if ($openid && !is_string($openid)) {
   throw new Exception(t("Invalid OpenID parameter"));
 }
-$subscribe = require_post("subscribe", require_get("subscribe", $openid ? false : true));
-$country = require_post("country", require_get("country", false));
+$subscribe = require_post("subscribe", require_get("subscribe", require_session("signup_subscribe", $openid || $oauth2 ? false : true)));
+$country = require_post("country", require_get("country", require_session("signup_country", false)));
 
 $messages = array();
 $errors = array();
 
-if ($openid || $password) {
+unset($_SESSION['signup_name']);
+unset($_SESSION['signup_email']);
+unset($_SESSION['signup_country']);
+unset($_SESSION['signup_agree']);
+unset($_SESSION['signup_subscribe']);
+
+if ($openid || $oauth2 || $password) {
   if (!$country || strlen($country) != 2) {
     $errors[] = t("You need to select your country.");
   }
@@ -59,7 +66,23 @@ if ($openid || $password) {
       $user = false;
 
       try {
-        if ($openid) {
+        if ($oauth2) {
+          // try OAuth2 signup
+
+          // save parameters for callback later
+          $_SESSION['signup_name'] = $name;
+          $_SESSION['signup_email'] = $email;
+          $_SESSION['signup_country'] = $country;
+          $_SESSION['signup_agree'] = $agree;
+          $_SESSION['signup_subscribe'] = $subscribe;
+
+          $args = array('oauth2' => $oauth2);
+          $url = absolute_url(url_for('signup', $args));
+
+          $provider = Users\OAuth2Providers::createProvider($oauth2, $url);
+          $user = Users\UserOAuth2::trySignup(db(), $provider, $url);
+
+        } else if ($openid) {
           // try OpenID signup
 
           // we want to add the openid identity URL to the return address
@@ -73,18 +96,10 @@ if ($openid || $password) {
 
           $user = Users\UserOpenID::trySignup(db(), $email /* may be null */, $openid, $url);
 
-          // and then login to get account ID
-          $user = Users\UserOpenID::tryLogin(db(), $openid, $url);
-          $user->persist(db());
-
         } else if ($email && $password) {
           // try email/password signup
 
           $user = Users\UserPassword::trySignup(db(), $email, $password);
-
-          // and then login to get account ID
-          $user = Users\UserPassword::tryLogin(db(), $email, $password);
-          $user->persist(db());
 
         }
       } catch (\Users\UserAlreadyExistsException $e) {
@@ -143,6 +158,8 @@ if ($openid || $password) {
 
         // success!
         // issue #62: rather than requiring another step to login, just log the user in now.
+        \Users\User::forceLogin(db(), $user['id']);
+
         complete_login($user, $autologin);
 
         $messages[] = t("New account creation successful.");
@@ -211,6 +228,15 @@ page_header(t("Signup"), "page_signup", array('js' => 'auth'));
     <th><?php echo ht("Signup with:"); ?></th>
     <td>
       <input type="hidden" name="submit" value="1">
+
+      <?php
+      $openids = get_default_oauth2_providers();
+      foreach ($openids as $key => $data) { ?>
+        <button type="submit" name="oauth2" class="oauth2 oauth2-submit" value="<?php echo htmlspecialchars($key); ?>"><span class="oauth2 <?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data); ?></span></button>
+      <?php }
+      ?>
+
+      <hr>
 
       <?php
       $openids = get_default_openid_providers();

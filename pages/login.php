@@ -19,6 +19,7 @@ if ($password && !is_string($password)) {
 $error = "";
 $logout = require_post("logout", require_get("logout", false));
 $openid = $use_password ? false : require_post("openid", require_get("openid", require_post("openid_manual", require_get("openid_manual", false))));
+$oauth2 = require_post("oauth2", require_get("oauth2", false));
 if ($openid && !is_string($openid)) {
   throw new Exception(t("Invalid openid parameter"));
 }
@@ -42,7 +43,14 @@ try {
     $user = false;
 
     try {
-      if ($openid) {
+      if ($oauth2) {
+        $args = array('oauth2' => $oauth2);
+        $url = absolute_url(url_for('login', $args));
+
+        $provider = Users\OAuth2Providers::createProvider($oauth2, $url);
+        $user = Users\UserOAuth2::tryLogin(db(), $provider, $url);
+
+      } else if ($openid) {
         // throws a BlockedException if this IP has requested this too many times recently
         // check_heavy_request();
 
@@ -117,6 +125,15 @@ page_header(t("Login"), "page_login", array('js' => 'auth'));
     <th><?php echo ht("Login with:"); ?></th>
     <td>
       <input type="hidden" name="submit" value="1">
+
+      <?php
+      $openids = get_default_oauth2_providers();
+      foreach ($openids as $key => $data) { ?>
+        <button type="submit" name="oauth2" class="oauth2 oauth2-submit" value="<?php echo htmlspecialchars($key); ?>"><span class="oauth2 <?php echo htmlspecialchars($key); ?>"><?php echo htmlspecialchars($data); ?></span></button>
+      <?php }
+      ?>
+
+      <hr>
 
       <?php
       $openids = get_default_openid_providers();

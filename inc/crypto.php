@@ -1511,6 +1511,12 @@ function get_default_openid_providers() {
   );
 }
 
+function get_default_oauth2_providers() {
+  return array(
+    'google' => 'Google Accounts',
+  );
+}
+
 /**
  * A helper function to match (OpenID URLs) to default OpenID providers.
  * Each URL is matched as a regexp.
