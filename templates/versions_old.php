@@ -1,3 +1,14 @@
+<dt>25 June</dt>
+<dd>
+Added currency support for <span class="currency_name_sgd" title="<?php echo htmlspecialchars(get_currency_name('sgd')); ?>">SGD</span>;
+added <a href="https://www.itbit.com/">itBit</a> exchange ticker;
+changed <span class="currency_name_ppc">PPC</span> and <span class="currency_name_dgc">DGC</span> addresses to use <a href="http://blockr.io/">Blockr.io</a>;
+changed <span class="currency_name_wdc">WDC</span> addresses to use <a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>;
+site design is now slightly more responsive;
+user accounts can now be <a href="<?php echo htmlspecialchars(url_for('user#user_delete')); ?>">deleted</a>;
+created the <a href="http://blog.cryptfolio.com">CryptFolio blog</a>.
+</dd>
+
 <dt>28 May</dt>
 <dd>
 Added <a href="https://anxpro.com/">ANXPRO</a>, <a href="https://www.bitmarket.pl/">BitMarket.pl</a>, <a href="https://www.poloniex.com/">Poloniex</a> exchanges;

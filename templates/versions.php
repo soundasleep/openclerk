@@ -1,3 +1,20 @@
+<dt>27 April</dt>
+<dd>
+  Moved exchange wallets into <a href="http://openclerk.org">openclerk.org</a> projects;
+
+  added OAuth2 login support with <a href="https://google.com/" class="google">Google Accounts</a>,
+  <a href="https://facebook.com/" class="facebook">Facebook</a> and
+  <a href="https://github.com/" class="github">GitHub</a>;
+
+  accounts can now have multiple <a href="<?php echo htmlspecialchars(url_for("user#user_openid")); ?>">OAuth2 identities</a>;
+
+  migrated OpenID login with Google to OAuth2;
+
+  disabled the Vault of Satoshi, Crypto-Trade and Justcoin <a href="<?php echo htmlspecialchars(url_for('wizard_accounts_exchanges')); ?>">exchanges</a>;
+
+  added new <a href="https://justcoin.com/">Justcoin</a> exchange wallet.
+</dd>
+
 <dt>20 March</dt>
 <dd>
   Moved mining pools into <a href="http://openclerk.org">openclerk.org</a> projects;
@@ -150,17 +167,6 @@
   disabled <a href="http://mining-foreman.org">Mining Foreman</a> mining pool;
   fixed <span class="currency_name_ixc">IXC</span> addresses not updating;
   updated icons in <a href="https://play.google.com/store/apps/details?id=com.cryptfolio.calculator">Crypto Converter</a> Android app.
-</dd>
-
-<dt>25 June</dt>
-<dd>
-Added currency support for <span class="currency_name_sgd" title="<?php echo htmlspecialchars(get_currency_name('sgd')); ?>">SGD</span>;
-added <a href="https://www.itbit.com/">itBit</a> exchange ticker;
-changed <span class="currency_name_ppc">PPC</span> and <span class="currency_name_dgc">DGC</span> addresses to use <a href="http://blockr.io/">Blockr.io</a>;
-changed <span class="currency_name_wdc">WDC</span> addresses to use <a href="http://www.worldcoinexplorer.com/">Worldcoin Explorer</a>;
-site design is now slightly more responsive;
-user accounts can now be <a href="<?php echo htmlspecialchars(url_for('user#user_delete')); ?>">deleted</a>;
-created the <a href="http://blog.cryptfolio.com">CryptFolio blog</a>.
 </dd>
 
 <!-- more are in versions_old -->

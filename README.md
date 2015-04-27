@@ -28,20 +28,18 @@ List of features that are also running at https://cryptfolio.com:
 * Support for exchange wallets
   * ANXPRO
   * Bit2c
-  * BTClevels
   * BitMarket.pl
   * BitNZ
   * Bitstamp
   * Bittrex
   * BTC-e
+  * BTCLevels
   * CEX.io
   * Coinbase
-  * Crypto-Trade
   * Cryptsy
   * Justcoin
   * Kraken
   * Poloniex
-  * Vault of Satoshi
   * Vircurex
 * Support for currency exchanges
   * ANXPRO
@@ -85,9 +83,9 @@ List of features that are also running at https://cryptfolio.com:
   * NiceHash
   * OzCoin BTC
   * OzCoin LTC
-  * WeMineLTC
   * Slush's pool
   * TripleMining
+  * WeMineLTC
   * WestHash
   * ypool.net
 * Support for securities exchanges

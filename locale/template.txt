@@ -3,6 +3,7 @@
 '<address>' is not a valid <title>.
 '<currency>' is not a valid currency
 '<date>' is not a valid date
+'<title>' needs to be provided.
 '<value>' is not a valid <title> <label>.
 '<value>' is not a valid <title> title.
 (No <accounts> defined.)
@@ -71,6 +72,7 @@
 < Back to Historical Data
 < Previous
 A <calculator> to convert any currency into any other currency, using the most recent exchange rates.
+A <title> API key allows trading, but does not allow withdrawl.
 A category with the title '<title>' already exists.
 A line graph displaying the historical average market bid/ask values for <pair>.
 A line graph displaying the historical bid/ask values for <pair> on <exchange>.
@@ -122,6 +124,7 @@ Add Graph
 Add Individual Securities
 Add Mining Pools
 Add New Notification
+Add OAuth2 Identity
 Add Offsets
 Add OpenID Identity
 Add Other Account
@@ -132,6 +135,7 @@ Add account
 Add accounts and addresses
 Add address
 Add addresses
+Add another OAuth2 Identity
 Add another OpenID Identity
 Add another cryptocurrency...
 Add another exchange...
@@ -155,6 +159,7 @@ Added
 Added <added> and removed <removed>.
 Added <added>.
 Added <new> and updated <existing>.
+Added OAuth2 identity '<identity>' to your account.
 Added OpenID identity '<identity>' to your account.
 Added new <heading> graph, with <technical>.
 Added new <heading> graph.
@@ -191,7 +196,6 @@ Alternatively, a simple interface lets you add new graph types, reconfigure them
 Amount
 Amount 1:
 Amount 2:
-An account for the OpenID identity '<identity>' already exists. Did you mean to <login>?
 An account with the title '<title>' already exists.
 Android app on Google Play
 Announcements
@@ -240,6 +244,7 @@ Cannot create a <title> test, because you already have a <type> test pending.
 Cannot enable <title>: too many existing accounts.
 Cannot enable that account; that account type is disabled.
 Cannot find page <id>
+Cannot remove that OAuth2 identity; at least one identity must be defined.
 Cannot remove that OpenID identity; at least one identity must be defined.
 Cannot test that job; that account type is disabled.
 Cannot update report preferences: this would add too many graph pages.
@@ -328,6 +333,7 @@ Delta:
 Description
 Description:
 Did not reset user graphs and pages: you need to select the confirmation checkbox.
+Did you mean to <login>?
 Disable
 Disable automatic graph refresh
 Disable e-mail/password login
@@ -485,7 +491,7 @@ Invalid period selection.
 Invalid preferred cryptocurrency.
 Invalid preferred fiat currency.
 Invalid repeated password parameter
-Invalid username or password.
+Invalid value for '<title>'.
 Is it safe to provide <site_name> a Bitcoin-Qt CSV file?
 Is it safe to provide <site_name> a Litecoin-Qt CSV file?
 Japanese
@@ -541,12 +547,13 @@ My total <currency>
 My total <currency> hashrate
 NOTE:
 Name:
+Need to confirm '<title>'.
 Never
 New account creation successful.
 New currency votes
 Next >
+No OAuth2 identities defined.
 No OpenID identities defined.
-No account for the OpenID identity '<identity>' were found. You may need to <signup>.
 No data to display.
 No finance accounts found.
 No finance categories found.
@@ -560,7 +567,6 @@ No such external API type '<type>'.
 No such knowledge base article '<key>'.
 No such user account exists.
 No transactions found.
-No user ID <id> exists.
 None
 Not Found
 Not necessary
@@ -588,7 +594,6 @@ OpenID URL:
 OpenID identities
 OpenID identity
 OpenID login
-OpenID validation was not successful: <cause>
 OpenID...
 Other
 Other Account
@@ -606,7 +611,6 @@ Period:
 Please do not request an API more than once every <time> seconds, or your IP address may be temporarily blocked.
 Please select a password between <min>-<max> characters long.
 Please send me an e-mail when
-Please try again.
 Please type in '<text>'.
 Portfolio summary
 Portfolio summary (detailed)
@@ -645,6 +649,7 @@ Remove password
 Remove password login
 Remove this page
 Removed <title>.
+Removed OAuth2 identity '<identity>'.
 Removed OpenID identity '<identity>'.
 Removed address <address>.
 Removed all transactions for <title>.
@@ -749,9 +754,7 @@ Thank you for supporting <site_name> with <premium>!
 Thank you for supporting <site_name>. Extend your existing <premium_account> here:
 That account has not requested a password reset.
 That e-mail address is already in use by another account using password login.
-That e-mail address is already in use by another account using password login. Did you mean to <login>?
 That is not a valid <title> <label>.
-That is not a valid OpenID identity.
 That is not a valid e-mail address.
 That is not a valid title.
 That resource could not be found.
@@ -860,7 +863,6 @@ Use a password instead
 User Account
 User Profile
 User graphs and pages successfully reset.
-User has cancelled authentication.
 Users
 Using <exchange>
 Using the button below, you can reset the layout of graphs and all graph pages to the site default. This action is permanent, but will not delete any historical summary data associated with this account.
@@ -907,6 +909,7 @@ You cannot use both OpenID and password at signup.
 You did not select the confirmation checkbox.
 You have not defined any report pages - you should add a new page, or reset your graphs and pages to the site default.
 You have not enabled e-mail/password login on your account. Adding a password will not increase security, and you should continue to login with your <identities>.
+You may need to <signup>.
 You may permanently delete your <site_name> account and associated data by submitting the form below. You will be logged out and all of your historical data will be removed.
 You may purchase or extend your premium account by logging into your <user_account>, or by selecting the appropriate payment option below.
 You must select the '<label>' checkbox to add a <title>.
@@ -934,6 +937,7 @@ Your Currencies
 Your Finance Accounts
 Your Finance Categories
 Your Hashrates
+Your OAuth2 Identites
 Your OpenID Identites
 Your Reports
 Your Reports:
@@ -1060,7 +1064,6 @@ this isn't me
 ticker
 underlying software
 undo
-unknown
 untitled
 user
 user account
@@ -1079,6 +1082,7 @@ your accounts
 your accounts wizard
 your cryptocurrency transactions
 your currencies
+your current OAuth2 identities
 your current OpenID identities
 your premium account
 your securities

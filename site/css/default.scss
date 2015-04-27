@@ -131,6 +131,12 @@ a.github {
   background-size: 16px 16px;
 }
 
+a.google {
+  padding-left: (16px + 4px);
+  background: url('../img/google2.png') top left no-repeat;
+  background-size: 16px 16px;
+}
+
 #footer_nav, #copyright { clear: both; }
 #footer_nav .footer_nav_list { max-width: 860px; padding: 0; margin: 0; margin: 30px auto 10px auto; padding: 10px; border-top: 1px solid #333; border-bottom: 1px solid #333; }
 #footer_nav .footer_nav_list li { display: inline-block; width: 24%; padding: 0; margin: 0; line-height: 1.5em; vertical-align: top; }
