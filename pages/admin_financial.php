@@ -54,11 +54,11 @@ for ($i = $total_months - 1; $i >= 0; $i--) {
 <?php
 $queries = array(
   "New users" => array(
-    'query' => "SELECT COUNT(*) AS c FROM users WHERE created_at >= :start AND created_at <= :end",
+    'query' => "SELECT COUNT(*) AS c FROM user_properties WHERE created_at >= :start AND created_at <= :end",
     'callback' => 'number_format',
   ),
   "Total users" => array(
-    'query' => "SELECT COUNT(*) AS c FROM users WHERE created_at <= :end AND :start = :start",
+    'query' => "SELECT COUNT(*) AS c FROM user_properties WHERE created_at <= :end AND :start = :start",
     'callback' => 'number_format',
   ),
   "Disabled users" => array(
@@ -66,7 +66,7 @@ $queries = array(
     'callback' => 'number_format',
   ),
   "Total disabled users" => array(
-    'query' => "SELECT COUNT(*) AS c FROM users WHERE disabled_at <= :end AND :start = :start AND is_disabled=1",
+    'query' => "SELECT COUNT(*) AS c FROM user_properties WHERE disabled_at <= :end AND :start = :start AND is_disabled=1",
     'callback' => 'number_format',
   ),
   "Premium users" => array(
@@ -74,7 +74,7 @@ $queries = array(
     'callback' => 'number_format',
   ),
   "Current Premium users" => array(
-    'query' => "SELECT COUNT(*) AS c FROM users WHERE created_at <= :end AND :start = :start AND is_premium=1",
+    'query' => "SELECT COUNT(*) AS c FROM user_properties WHERE created_at <= :end AND :start = :start AND is_premium=1",
     'callback' => 'number_format',
   ),
   "Completed premiums" => array(

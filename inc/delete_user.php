@@ -59,10 +59,14 @@ function delete_user($id) {
   delete_from('graph_pages');
   delete_from('managed_graphs');
 
-  // finally delete the user object
-  crypto_log("Deleting user...");
-  $q = db()->prepare("DELETE FROM users WHERE id=?");
+  crypto_log("Deleting user_properties...");
+  $q = db()->prepare("DELETE FROM user_properties WHERE id=?");
   $q->execute(array($user['id']));
   crypto_log("(" . number_format($q->rowCount()) . " rows deleted)");
+
+  // finally delete the user object
+  crypto_log("Deleting user...");
+  $user = Users\User::findUser(db(), $user['id']);
+  $user->delete(db());
 
 }

@@ -21,7 +21,7 @@ $cancelled = recent_format(strtotime("+" . get_site_config('outstanding_abandon_
 crypto_log("Reminders are sent every '$reminder'; cancelled after '$cancelled'.");
 
 // get current user
-$q = db()->prepare("SELECT * FROM users WHERE id=?");
+$q = db()->prepare("SELECT * FROM user_properties WHERE id=?");
 $q->execute(array($address['user_id']));
 $user = $q->fetch();
 if (!$user) {

@@ -111,7 +111,12 @@ abstract class AbstractEmulatedJobTest extends PHPUnit_Framework_TestCase {
   }
 
   function deleteUser($user) {
-    $q = db()->prepare("DELETE FROM users WHERE id=?");
+    $user = Users\User::findUser(db(), $user['id']);
+    if ($user) {
+      $user->delete(db());
+    }
+
+    $q = db()->prepare("DELETE FROM user_properties WHERE id=?");
     $q->execute(array($user['id']));
 
     $q = db()->prepare("DELETE FROM notifications_ticker WHERE id IN (SELECT type_id FROM notifications WHERE user_id=? AND notification_type='ticker')");

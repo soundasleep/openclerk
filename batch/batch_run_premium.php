@@ -35,7 +35,7 @@ class OpenclerkJobRunnerPremium extends \Core\OpenclerkJobRunner {
       return false;
     }
 
-    $q = $db->prepare("SELECT * FROM jobs WHERE user_id IN (SELECT id FROM users WHERE is_premium=1) AND " . $this->defaultFindJobQuery() . " LIMIT 1");
+    $q = $db->prepare("SELECT * FROM jobs WHERE user_id IN (SELECT id FROM user_properties WHERE is_premium=1) AND " . $this->defaultFindJobQuery() . " LIMIT 1");
     $q->execute();
     return $q->fetch();
   }

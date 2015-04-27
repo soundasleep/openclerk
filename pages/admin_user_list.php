@@ -24,7 +24,7 @@ if (require_post("search", false)) {
   $search_query = " WHERE is_premium=1";
 }
 $q = db()->prepare("SELECT u.*, s.c AS currencies
-  FROM users AS u
+  FROM user_properties AS u
     LEFT JOIN (SELECT COUNT(*) AS c, user_id FROM summaries GROUP BY user_id) AS s ON s.user_id=u.id
   $search_query
   GROUP BY u.id

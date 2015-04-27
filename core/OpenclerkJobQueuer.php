@@ -137,7 +137,7 @@ class OpenclerkJobQueuer extends JobQueuer {
 
     // get all disabled users
     $disabled = array();
-    $q = $db->prepare("SELECT * FROM users WHERE is_disabled=1");
+    $q = $db->prepare("SELECT * FROM user_properties WHERE is_disabled=1");
     $q->execute();
     while ($d = $q->fetch()) {
       $disabled[$d['id']] = $d;

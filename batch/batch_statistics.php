@@ -18,74 +18,74 @@ crypto_log("Current time: " . date('r'));
 // calculate statistics
 $data = array();
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c, SUM(emails_sent) AS e FROM users");
+  $q = db()->prepare("SELECT COUNT(*) AS c, SUM(emails_sent) AS e FROM user_properties");
   $q->execute();
   $c = $q->fetch();
   $data['total_users'] = $c['c'];
   $data['total_emails_sent'] = $c['e'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE is_disabled=1");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE is_disabled=1");
   $q->execute();
   $c = $q->fetch();
   $data['disabled_users'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE is_premium=1");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE is_premium=1");
   $q->execute();
   $c = $q->fetch();
   $data['premium_users'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE graph_managed_type=?");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE graph_managed_type=?");
   $q->execute(array('none'));
   $c = $q->fetch();
   $data['users_graphs_managed_none'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE graph_managed_type=?");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE graph_managed_type=?");
   $q->execute(array('managed'));
   $c = $q->fetch();
   $data['users_graphs_managed_managed'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE graph_managed_type=?");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE graph_managed_type=?");
   $q->execute(array('auto'));
   $c = $q->fetch();
   $data['users_graphs_managed_auto'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE needs_managed_update=1");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE needs_managed_update=1");
   $q->execute();
   $c = $q->fetch();
   $data['users_graphs_need_update'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE subscribe_announcements=1");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE subscribe_announcements=1");
   $q->execute();
   $c = $q->fetch();
   $data['users_subscribe_announcements'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT SUM(logins_after_disable_warned) AS c FROM users");
+  $q = db()->prepare("SELECT SUM(logins_after_disable_warned) AS c FROM user_properties");
   $q->execute();
   $c = $q->fetch();
   $data['user_logins_after_warned'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE logins_after_disable_warned <> 0");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE logins_after_disable_warned <> 0");
   $q->execute();
   $c = $q->fetch();
   $data['users_login_after_warned'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT SUM(logins_after_disabled) AS c FROM users");
+  $q = db()->prepare("SELECT SUM(logins_after_disabled) AS c FROM user_properties");
   $q->execute();
   $c = $q->fetch();
   $data['user_logins_after_disabled'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT COUNT(*) AS c FROM users WHERE logins_after_disabled <> 0");
+  $q = db()->prepare("SELECT COUNT(*) AS c FROM user_properties WHERE logins_after_disabled <> 0");
   $q->execute();
   $c = $q->fetch();
   $data['users_login_after_disabled'] = $c['c'];
@@ -143,7 +143,7 @@ $data = array();
   $data['jobs_timeout'] = $c['c'];
 }
 {
-  $q = db()->prepare("SELECT SUM(notifications_sent) AS c, MAX(notifications_sent) AS m FROM users");
+  $q = db()->prepare("SELECT SUM(notifications_sent) AS c, MAX(notifications_sent) AS m FROM user_properties");
   $q->execute();
   $c = $q->fetch();
   $data['notifications_sent'] = $c['c'];
