@@ -1501,7 +1501,6 @@ function get_individual_security_config($account) {
 
 function get_default_openid_providers() {
   return array(
-    'google' => array('Google Accounts', 'https://www.google.com/accounts/o8/id'),
     'stackexchange' => array('StackExchange', 'https://openid.stackexchange.com'),
     'yahoo' => array('Yahoo', 'https://me.yahoo.com'),
     'blogspot' => array('Blogspot', 'https://www.blogspot.com/'),
