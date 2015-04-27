@@ -21,16 +21,16 @@ if (!$user['email']) {
 }
 
 // check there are no other accounts using a password hash on this e-mail address
-$q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0 AND id <> ?");
+$q = db()->prepare("SELECT * FROM users WHERE email=? AND id <> ?");
 $q->execute(array($user['email'], user_id()));
 if ($q->fetch()) {
   $errors[] = t("This e-mail address is already being used by another account for password login.");
 }
 
 if (!$errors) {
-  $q = db()->prepare("UPDATE users SET password_hash=?, password_last_changed=NOW() WHERE id=?");
-  $password_hash = md5(get_site_config('password_salt') . $password);
-  $q->execute(array($password_hash, user_id()));
+  // change password
+  $user_instance = \Users\User::getInstance(db());
+  \Users\UserPassword::changePassword(db(), $user_instance, $password);
 
   $messages[] = t("Updated password.");
 

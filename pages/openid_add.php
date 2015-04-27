@@ -18,69 +18,25 @@ $errors = array();
 // try logging in?
 try {
   if ($openid) {
-    if (!is_valid_url($openid)) {
-      throw new EscapedException(t("That is not a valid OpenID identity."));
-    }
+    $user = \Users\User::getInstance(db());
 
-    require(__DIR__ . "/../vendor/lightopenid/lightopenid/openid.php");
-    $light = new LightOpenID(get_openid_host());
+    $args = array("openid" => $openid);
+    $redirect = absolute_url(url_for('openid_add', $args));
 
-    if (!$light->mode) {
-      // we still need to authenticate
+    try {
+      $identity = \Users\UserOpenID::addIdentity(db(), $user, $openid, $redirect);
 
-      $light->identity = $openid;
-      // The following two lines request email, full name, and a nickname
-      // from the provider. Remove them if you dont need that data.
-      // $light->required = array('contact/email');
-      // $light->optional = array('namePerson', 'namePerson/friendly');
+      $messages[] = t("Added OpenID identity ':identity' to your account.", array(':identity' => htmlspecialchars($identity)));
 
-      // we want to add the openid identity URL to the return address
-      // (the return URL is also verified in validate())
-      $args = array("openid" => $openid);
-      $light->returnUrl = absolute_url(url_for('openid_add', $args));
+      // redirect
+      $destination = url_for('user#user_openid');
 
-      redirect($light->authUrl());
+      set_temporary_messages($messages);
+      set_temporary_errors($errors);
+      redirect($destination);
 
-    } else if ($light->mode == 'cancel') {
-      // user has cancelled
-      throw new EscapedException(t("User has cancelled authentication."));
-
-    } else {
-      // throws a BlockedException if this IP has requested this too many times recently
-      check_heavy_request();
-
-      // authentication is complete
-      if ($light->validate()) {
-
-        // check that we don't already have this identity
-        $query = db()->prepare("SELECT * FROM openid_identities WHERE url=? LIMIT 1");
-        $query->execute(array($light->identity));
-        if ($user = $query->fetch()) {
-          // a user already exists
-          throw new EscapedException(t("An account for the OpenID identity ':identity' already exists. Did you mean to :login?",
-            array(
-              ':identity' => htmlspecialchars($light->identity),
-              ':login' => link_to(url_for('login', array('openid' => $openid)), t("login instead")),
-            )));
-        }
-
-        // we have successfully authenticated; add this as a new OpenID identity for this user
-        $q = db()->prepare("INSERT INTO openid_identities SET user_id=?,url=?");
-        $q->execute(array(user_id(), $light->identity));
-
-        $messages[] = t("Added OpenID identity ':identity' to your account.", array(':identity' => htmlspecialchars($light->identity)));
-
-        // redirect
-        $destination = url_for('user#user_openid');
-
-        set_temporary_messages($messages);
-        set_temporary_errors($errors);
-        redirect($destination);
-
-      } else {
-        throw new EscapedException(t("OpenID validation was not successful: :cause", array(':cause' => $light->validate_error ? htmlspecialchars($light->validate_error) : t("Please try again."))));
-      }
-
+    } catch (\Users\UserSignupException $e) {
+      $errors[] = $e->getMessage();
     }
 
   }

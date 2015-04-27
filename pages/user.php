@@ -400,12 +400,7 @@ if ($q->fetch()) {
     <th><?php echo ht("Provider"); ?></th>
     <th><?php echo ht("Identity"); ?></th>
     <th><?php echo ht("Added"); ?></th>
-    <?php
-    /* only allow one identity to be removed */
-    if (count($identities) > 1) {
-    ?>
     <th><?php echo ht("Delete"); ?></th>
-    <?php } ?>
   </tr>
 </thead>
 <tbody>
@@ -425,22 +420,22 @@ foreach ($identities as $identity) {
     <td><span class="openid <?php echo htmlspecialchars($provider); ?>"><?php echo isset($provider_titles[$provider]) ? htmlspecialchars($provider_titles[$provider][0]) : 'OpenID'; ?></span></td>
     <td><a href="<?php echo htmlspecialchars(url_for($identity['identity'])); ?>"><?php echo htmlspecialchars(url_for($identity['identity'])); ?></a></td>
     <td><?php echo recent_format_html($identity['created_at']); ?></td>
-    <?php
-    /* only allow one identity to be removed */
-    if (count($identities) > 1) {
-    ?>
     <td>
+      <?php
+      /* only allow one identity to be removed */
+      if ($password_hash || count($identities) > 1) {
+      ?>
       <form action="<?php echo htmlspecialchars(url_for('openid_delete')); ?>" method="post">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($identity['id']); ?>">
+        <input type="hidden" name="identity" value="<?php echo htmlspecialchars($identity['identity']); ?>">
         <input type="submit" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this identity"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this identity?"); ?>');">
       </form>
+      <?php } ?>
     </td>
-    <?php } ?>
   </tr>
 <?php } ?>
 <?php if (!$identities) { ?>
   <tr>
-    <td colspan="3"><i><?php echo ht("No OpenID identities defined."); ?></i></td>
+    <td colspan="4"><i><?php echo ht("No OpenID identities defined."); ?></i></td>
   </tr>
 <?php } ?>
 </tbody>
