@@ -422,7 +422,7 @@ foreach ($oauth2 as $identity) {
     <td>
       <?php
       /* only allow one identity to be removed */
-      if ($password_hash || count($oauth2) > 1) {
+      if ($password_hash || count($identities) >= 1 || count($oauth2) > 1) {
       ?>
       <form action="<?php echo htmlspecialchars(url_for('oauth2_delete')); ?>" method="post">
         <input type="hidden" name="uid" value="<?php echo htmlspecialchars($identity['uid']); ?>">
@@ -479,7 +479,7 @@ foreach ($identities as $identity) {
     <td>
       <?php
       /* only allow one identity to be removed */
-      if ($password_hash || count($identities) > 1) {
+      if ($password_hash || count($identities) > 1 || count($oauth2) >= 1) {
       ?>
       <form action="<?php echo htmlspecialchars(url_for('openid_delete')); ?>" method="post">
         <input type="hidden" name="identity" value="<?php echo htmlspecialchars($identity['identity']); ?>">
