@@ -174,7 +174,7 @@ function compute_user_graph_hash($user) {
 }
 
 function has_expected_user_graph_hash($hash, $user) {
-  $q = db()->prepare("SELECT * FROM valid_user_keys WHERE user_id=?");
+  $q = db()->prepare("SELECT * FROM user_valid_keys WHERE user_id=?");
   $q->execute(array($user['id']));
   while ($key = $q->fetch()) {
     if ($hash === md5(get_site_config('user_graph_hash_salt') . ":" . $user['id'] . ":" . $key['user_key'])) {

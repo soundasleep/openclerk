@@ -17,8 +17,6 @@ function delete_user($id) {
   }
   crypto_log("Deleting user " . ($user ? htmlspecialchars(print_r($user, true)) : "<i>(phantom)</i>"));
 
-  delete_from('valid_user_keys');
-
   // go through all accounts
   $already_done = array();
   foreach (account_data_grouped() as $label => $accounts) {

@@ -70,8 +70,6 @@ $password = require_post("password", "clerk");
     echo "<li>" . htmlspecialchars("mysqldump --where=\"user_id=" . $id . "\" $common $table" . $suffix) . "</li>\n";
   }
 
-  export_from('valid_user_keys');
-
   // go through all accounts
   $already_done = array();
   foreach (account_data_grouped() as $label => $accounts) {
