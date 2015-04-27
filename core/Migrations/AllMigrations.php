@@ -20,6 +20,8 @@ class AllMigrations extends \Db\Migration {
           new CopyUsers(),
           new CopyOpenIDIdentities(),
           new CopyPasswords(),
+          new RemoveUserPropertiesFields(),
+          new RemoveOpenIDIdentitiesTable(),
         ),
         \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered Migrations
       );

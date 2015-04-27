@@ -88,8 +88,6 @@ $password = require_post("password", "clerk");
 
   export_from('offsets');
 
-  export_from('openid_identities');
-
   export_from('summary_instances');
   export_from('summaries');
 

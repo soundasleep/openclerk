@@ -12,6 +12,10 @@ $user = get_user(user_id());
 require_user($user);
 $old_email = $user['email'];
 
+$q = db()->prepare("SELECT * FROM user_passwords WHERE user_id=?");
+$q->execute(array(user_id()));
+$password_hash = $q->fetch();
+
 $messages = array();
 $errors = array();
 $name = require_post("name", false);
@@ -22,14 +26,14 @@ if ($name !== false && $email !== false) {
     $errors[] = t("Invalid name.");
   } else if ($email !== "" && !is_valid_email($email)) {
     $errors[] = t("Invalid e-mail.");
-  } else if (!$email && $user['password_hash']) {
+  } else if (!$email && $password_hash) {
     $errors[] = t("You cannot remove your e-mail address until you have disabled :password_login on this account.",
         array(':password_login' => link_to(url_for('user#user_password'), t("password login"))));
   }
 
   // check that there are no existing users with this e-mail address
-  if ($email && $user['password_hash']) {
-    $q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0 AND id <> ?");
+  if ($email && $password_hash) {
+    $q = db()->prepare("SELECT * FROM users WHERE email=? AND id <> ?");
     $q->execute(array($email, $user['id']));
 
     if ($q->fetch()) {
@@ -127,7 +131,7 @@ if (require_get("new_purchase", false)) {
 // get all of our accounts limits
 $accounts = user_limits_summary(user_id());
 
-$q = db()->prepare("SELECT * FROM openid_identities WHERE user_id=? ORDER BY url ASC");
+$q = db()->prepare("SELECT * FROM user_openid_identities WHERE user_id=? ORDER BY identity ASC");
 $q->execute(array(user_id()));
 $identities = $q->fetchAll();
 
@@ -230,7 +234,7 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
   ?>
 </div>
 
-<?php if (!$user['password_hash']) { ?>
+<?php if (!$password_hash) { ?>
 
 <h2><?php echo ht("Enable e-mail/password login"); ?></h2>
 
@@ -260,7 +264,7 @@ page_header(t("User Account"), "page_user", array('js' => 'user'));
 
 <?php
 // check there are no other accounts using a password hash on this e-mail address
-$q = db()->prepare("SELECT * FROM users WHERE email=? AND ISNULL(password_hash) = 0 AND id <> ?");
+$q = db()->prepare("SELECT * FROM users WHERE email=? AND id <> ?");
 $q->execute(array($user['email'], user_id()));
 if ($q->fetch()) {
 ?>
@@ -310,7 +314,7 @@ if ($q->fetch()) {
 <h2><?php echo ht("Change password"); ?></h2>
 
 <p>
-  <?php echo t("Your password was last changed :ago.", array(':ago' => recent_format_html($user['password_last_changed']))); ?>
+  <?php echo t("Your password was last changed :ago.", array(':ago' => recent_format_html($password_hash['created_at']))); ?>
 </p>
 
 <form action="<?php echo htmlspecialchars(url_for('set_password')); ?>" method="post">
@@ -411,7 +415,7 @@ foreach ($identities as $identity) {
   // try and guess the provider
   $provider = "openid_manual";
   foreach (get_openid_provider_formats() as $format => $key) {
-    if (preg_match($format, $identity['url'])) {
+    if (preg_match($format, $identity['identity'])) {
       $provider = $key;
     }
   }
@@ -419,7 +423,7 @@ foreach ($identities as $identity) {
   ?>
   <tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
     <td><span class="openid <?php echo htmlspecialchars($provider); ?>"><?php echo isset($provider_titles[$provider]) ? htmlspecialchars($provider_titles[$provider][0]) : 'OpenID'; ?></span></td>
-    <td><a href="<?php echo htmlspecialchars(url_for($identity['url'])); ?>"><?php echo htmlspecialchars(url_for($identity['url'])); ?></a></td>
+    <td><a href="<?php echo htmlspecialchars(url_for($identity['identity'])); ?>"><?php echo htmlspecialchars(url_for($identity['identity'])); ?></a></td>
     <td><?php echo recent_format_html($identity['created_at']); ?></td>
     <?php
     /* only allow one identity to be removed */

@@ -80,13 +80,13 @@ $users = $q->fetchAll();
     if ($count > $max_count) {
       echo "<tr><td colspan=\"9\"><i>(Additional results not shown here)</i></td></tr>\n";
     } else {
-      $q = db()->prepare("SELECT COUNT(*) AS identity_count, url FROM openid_identities WHERE user_id=?");
+      $q = db()->prepare("SELECT COUNT(*) AS identity_count, identity FROM user_openid_identities WHERE user_id=?");
       $q->execute(array($user['id']));
       $openid = $q->fetch();
       echo "<tr>\n";
       echo "<td class=\"number\">" . number_format($user['id']) . "</td>\n";
       if ($openid && $openid['identity_count']) {
-        echo "<td><a href=\"" . htmlspecialchars($openid['url']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> " . $openid['identity_count'] . "</td>\n";
+        echo "<td><a href=\"" . htmlspecialchars($openid['identity']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> " . $openid['identity_count'] . "</td>\n";
       } else {
         echo "<td>" . htmlspecialchars($user['email']) . "</a> (password)</td>\n";
       }
