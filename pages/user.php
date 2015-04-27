@@ -135,6 +135,10 @@ $q = db()->prepare("SELECT * FROM user_openid_identities WHERE user_id=? ORDER B
 $q->execute(array(user_id()));
 $identities = $q->fetchAll();
 
+$q = db()->prepare("SELECT * FROM user_oauth2_identities WHERE user_id=? ORDER BY provider ASC");
+$q->execute(array(user_id()));
+$oauth2 = $q->fetchAll();
+
 page_header(t("User Account"), "page_user", array('js' => 'user'));
 
 ?>
@@ -391,6 +395,58 @@ if ($q->fetch()) {
 
   </li>
   <li id="tab_user_openid_tab" style="display:none;">
+
+<h2><?php echo ht("Your OAuth2 Identites"); ?></h2>
+
+<table class="standard fancy openid_list">
+<thead>
+  <tr>
+    <th><?php echo ht("Provider"); ?></th>
+    <th><?php echo ht("Identity"); ?></th>
+    <th><?php echo ht("Added"); ?></th>
+    <th><?php echo ht("Delete"); ?></th>
+  </tr>
+</thead>
+<tbody>
+<?php
+$count = 0;
+foreach ($oauth2 as $identity) {
+  // try and guess the provider
+  $provider = $identity['provider'];
+  $provider_titles = get_default_openid_providers();
+  ?>
+  <tr class="<?php echo ++$count % 2 == 0 ? "odd" : "even"; ?>">
+    <td><span class="openid <?php echo htmlspecialchars($provider); ?>"><?php echo isset($provider_titles[$provider]) ? htmlspecialchars($provider_titles[$provider][0]) : 'OpenID'; ?></span></td>
+    <td><?php echo htmlspecialchars(url_for($identity['uid'])); ?></td>
+    <td><?php echo recent_format_html($identity['created_at']); ?></td>
+    <td>
+      <?php
+      /* only allow one identity to be removed */
+      if ($password_hash || count($oauth2) > 1) {
+      ?>
+      <form action="<?php echo htmlspecialchars(url_for('oauth2_delete')); ?>" method="post">
+        <input type="hidden" name="uid" value="<?php echo htmlspecialchars($identity['uid']); ?>">
+        <input type="hidden" name="provider" value="<?php echo htmlspecialchars($identity['provider']); ?>">
+        <input type="submit" value="<?php echo ht("Delete"); ?>" class="delete" title="<?php echo ht("Delete this identity"); ?>" onclick="return confirm('<?php echo ht("Are you sure you want to remove this identity?"); ?>');">
+      </form>
+      <?php } ?>
+    </td>
+  </tr>
+<?php } ?>
+<?php if (!$oauth2) { ?>
+  <tr>
+    <td colspan="4"><i><?php echo ht("No OAuth2 identities defined."); ?></i></td>
+  </tr>
+<?php } ?>
+</tbody>
+<tfoot>
+  <tr>
+    <td colspan="<?php echo count($identities) > 1 ? 4 : 3; ?>" class="buttons">
+      <a href="<?php echo htmlspecialchars(url_for('oauth2_add')); ?>"><?php echo ht("Add another OAuth2 Identity"); ?></a>
+    </td>
+  </tr>
+</tfoot>
+</table>
 
 <h2><?php echo ht("Your OpenID Identites"); ?></h2>
 
