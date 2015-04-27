@@ -6,5 +6,9 @@
   "\\Core\\Migrations\\AccountCurrencies": "\\Core\\Migrations\\AccountCurrencies",
   "\\Core\\Migrations\\AccountHashCurrencies": "\\Core\\Migrations\\AccountHashCurrencies",
   "\\Core\\Migrations\\RemoveSecuritiesUpdateEligius": "\\Core\\Migrations\\RemoveSecuritiesUpdateEligius",
-  "\\Core\\Migrations\\AccountInstanceGenerator": "\\Core\\Migrations\\AccountInstanceGenerator"
+  "\\Core\\Migrations\\AccountInstanceGenerator": "\\Core\\Migrations\\AccountInstanceGenerator",
+  "\\Core\\Migrations\\SecurityExchangeSecurities": "\\Core\\Migrations\\SecurityExchangeSecurities",
+  "\\Core\\Migrations\\SecurityTicker": "\\Core\\Migrations\\SecurityTicker",
+  "\\Core\\Migrations\\SecurityTickerRecent": "\\Core\\Migrations\\SecurityTickerRecent",
+  "\\Core\\Migrations\\UserSecurities": "\\Core\\Migrations\\UserSecurities"
 }

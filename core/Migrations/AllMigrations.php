@@ -16,6 +16,10 @@ class AllMigrations extends \Db\Migration {
           new ExternalAPIsMigration(),
           new ExternalAPIsMigrationBlocks(),
           new RenameBlockTables(),
+          new MigrateHavelockSecuritiesTicker(),
+          new MigrateHavelockSecurities(),
+          new MigrateBtctSecuritiesTicker(),
+          new MigrateBtctSecurities(),
         ),
         \DiscoveredComponents\Migrations::getAllInstances()     // then apply any new discovered Migrations
       );

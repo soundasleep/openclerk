@@ -34,11 +34,19 @@
         "getDisabled": "\\Openclerk\\Currencies\\DisabledExchange"
       }
     },
+    "securityExchanges": {
+      "file": "security-exchanges.json",
+      "instanceof": "\\Openclerk\\Currencies\\SecurityExchange",
+      "instances": {
+        "getDisabled": "\\Openclerk\\Currencies\\DisabledExchange"
+      }
+    },
     "accounts": {
       "file": "accounts.json",
       "instanceof": "\\Account\\AccountType",
       "instances": {
         "getMiners": "\\Account\\Miner",
+        "getSecurityExchanges": "\\Account\\SecurityExchangeAccountType",
         "getDisabled": "\\Account\\DisabledAccount"
       }
     },

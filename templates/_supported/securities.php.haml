@@ -7,9 +7,11 @@
   $security_exchange_data = array();
   foreach ($security_exchange_data_temp as $exchange => $pairs) {
     foreach (account_data_grouped() as $label => $data) {
-      foreach ($data as $key => $value) {
-        if ($key == $exchange && !$value['disabled']) {
-          $security_exchange_data[$exchange] = $pairs;
+      if ($label === "Securities") {
+        foreach ($data as $key => $value) {
+          if ($key === $exchange && !$value['disabled']) {
+            $security_exchange_data[$exchange] = $pairs;
+          }
         }
       }
     }

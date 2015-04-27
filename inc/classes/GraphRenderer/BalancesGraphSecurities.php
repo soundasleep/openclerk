@@ -1,26 +1,14 @@
 <?php
 
-class GraphRenderer_BalancesGraphSecurities extends GraphRenderer_BalancesGraph {
+class GraphRenderer_BalancesGraphSecurities extends GraphRenderer_AbstractTicker {
 
-  public function __construct($exchange, $account_id, $currency, $arg0_resolved) {
-    parent::__construct($exchange, $account_id, $currency);
-    if (!$this->account_id) {
-      $bits = explode("_", $this->exchange, 2);
-      if ($bits[0] != "securities") {
-        throw new GraphException("Expected exchange of securities_exchange format");
-      }
+  var $exchange;
+  var $security_id;
 
-      $instances = get_security_instances($bits[1], $this->currency);
-      foreach ($instances as $instance) {
-        if ($instance['title'] == $arg0_resolved || $instance['name'] == $arg0_resolved) {
-          $this->account_id = $instance['id'];
-        }
-      }
-
-      if (!$this->account_id) {
-        throw new GraphException("Could not find security '" . $arg0_resolved . "'");
-      }
-    }
+  public function __construct($exchange, $security_id) {
+    parent::__construct();
+    $this->exchange = $exchange;
+    $this->security_id = $security_id;
   }
 
   public function requiresUser() {
@@ -31,26 +19,81 @@ class GraphRenderer_BalancesGraphSecurities extends GraphRenderer_BalancesGraph 
     return false;
   }
 
-  public function getUser() {
-    return get_site_config('system_user_id');
+  public function getTitle() {
+    return ct(":exchange");
+  }
+
+  var $_security = null;
+
+  /**
+   * Get the `security_exchange_securities` instance for this security.
+   * May be cached.
+   */
+  public function getSecurity() {
+    if ($this->_security === null) {
+      $q = db()->prepare("SELECT * FROM security_exchange_securities WHERE exchange=? AND id=?");
+      $q->execute(array($this->exchange, $this->security_id));
+      $security = $q->fetch();
+      if (!$security) {
+        throw new GraphException("Could not find security '" . $this->security_id . "' for exchange '" . $this->exchange . "'");
+      }
+      $this->_security = $security;
+    }
+    return $this->_security;
   }
 
   public function getTitleArgs() {
-    $bits = explode("_", $this->exchange, 2);
-    if ($bits[0] != "securities") {
-      throw new GraphException("Expected exchange of securities_exchange format");
-    }
+    $security = $this->getSecurity();
 
-    $instances = get_security_instances($bits[1], $this->currency);
-    foreach ($instances as $instance) {
-      if ($instance['id'] == $this->account_id) {
-        return array(
-          ':exchange' => $instance['title'],
-        );
-      }
-    }
+    return array(
+      ":exchange" => $security['security'],
+    );
+  }
 
-    return "(could not find security)";
+  /**
+   * @return an array of columns e.g. (type, title, args)
+   */
+  function getTickerColumns() {
+    $security = $this->getSecurity();
+
+    $columns = array();
+    $columns[] = array('type' => 'number', 'title' => get_currency_abbr($security['currency']));
+    return $columns;
+  }
+
+  /**
+   * The sources must return 'created_at' column as well, for last_updated
+   * @return an array of queries e.g. (query, key = created_at/data_date)
+   */
+  function getTickerSources($days, $extra_days) {
+    return array(
+      // TODO first get summarised data
+      // and then get more recent data
+      array('query' => "SELECT * FROM security_ticker WHERE is_daily_data=1 AND exchange=:exchange AND security=:security
+        ORDER BY created_at_day DESC LIMIT " . ($days + $extra_days), 'key' => 'created_at'),
+    );
+  }
+
+  /**
+   * @return an array of arguments passed to each {@link #getTickerSources()}
+   */
+  function getTickerArgs() {
+    $security = $this->getSecurity();
+
+    return array(
+      'exchange' => $this->exchange,
+      'security' => $security['security'],
+    );
+  }
+
+  /**
+   * @return an array of 1..2 values of the values for the particular row,
+   *      maybe formatted with {@link #graph_number_format()}.
+   */
+  function getTickerData($row) {
+    return array(
+      graph_number_format(demo_scale($row['last_trade'])),
+    );
   }
 
 }

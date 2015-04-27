@@ -267,6 +267,118 @@ function insert_new_ticker($job, $exchange, $cur1, $cur2, $values) {
 }
 
 /**
+ * @param $values array(last_trade, bid, ask, currency, volume (optional))
+ */
+function insert_new_security_ticker($job, $security, $values) {
+
+  // sanity and quality checks
+  if (!isset($security['exchange'])) {
+    throw new Exception("No exchange defined in security");
+  }
+  $exchange = $security['exchange'];
+  $security_name = $security['security'];
+  if (!$exchange) {
+    throw new Exception("No exchange defined");
+  }
+  if (!$security_name) {
+    throw new Exception("No security_name defined");
+  }
+  if (!isset($values['last_trade'])) {
+    throw new Exception("No last_trade specified for $security_name on $exchange");  // need at least this
+  }
+  if (!isset($values['last_trade'])) {
+    throw new Exception("No currency specified for $security_name on $exchange");  // and this
+  }
+  if (isset($values['sell'])) {
+    throw new Exception("Invalid parameter: sell (should be bid)");
+  }
+  if (isset($values['buy'])) {
+    throw new Exception("Invalid parameter: buy (should be ask)");
+  }
+  if (!isset($values['volume'])) {
+    $values['volume'] = null;
+  }
+  if (!isset($values['units'])) {
+    $values['units'] = null;
+  }
+  if (!isset($values['bid'])) {
+    $values['bid'] = null;
+  }
+  if (!isset($values['ask'])) {
+    $values['ask'] = null;
+  }
+
+  crypto_log("$exchange rate for $security_name: " . $values['last_trade'] . " (" . $values['bid'] . "/" . $values['ask'] . ") [" . $values['volume'] . ", " . $values['units'] . " units]");
+  if ($values['bid'] > $values['ask']) {
+    crypto_log("<strong>WARNING:</strong> bid > ask");
+  }
+
+  // insert in new ticker value
+  $q = db()->prepare("INSERT INTO security_ticker SET exchange=:exchange, security=:security, last_trade=:last_trade, bid=:bid, ask=:ask, volume=:volume, units=:units, job_id=:job_id, is_daily_data=1, created_at=NOW(), created_at_day=TO_DAYS(NOW())");
+  $q->execute(array(
+    "exchange" => $exchange,
+    "security" => $security_name,
+    "last_trade" => $values['last_trade'],
+    /*
+     * The 'bid' price is the highest price that a buyer is willing to pay (i.e. the 'sell');
+     * the 'ask' price is the lowest price that a seller is willing to sell (i.e. the 'buy').
+     * Therefore bid <= ask, buy <= sell.
+     */
+    "bid" => $values['bid'],
+    "ask" => $values['ask'],
+    "volume" => $values['volume'],
+    "units" => $values['units'],
+    "job_id" => $job['id'],
+  ));
+
+  $last_id = db()->lastInsertId();
+  crypto_log("Inserted new security_ticker id=" . $last_id);
+
+  // put into the most recent table
+  // TODO could also use a REPLACE statement
+  $q = db_master()->prepare("SELECT * FROM security_ticker_recent WHERE exchange=:exchange AND security=:security LIMIT 1");
+  $q->execute(array(
+    "exchange" => $exchange,
+    "security" => $security_name,
+  ));
+  if (!$q->fetch()) {
+    // insert in a new blank value (this will not occur very often)
+    $q = db_master()->prepare("INSERT INTO security_ticker_recent SET exchange=:exchange, security=:security");
+    $q->execute(array(
+      "exchange" => $exchange,
+      "security" => $security_name,
+    ));
+  }
+
+  // update the previously existing recent value
+  $q = db()->prepare("UPDATE security_ticker_recent SET created_at=NOW(), last_trade=:last_trade, bid=:bid, ask=:ask, volume=:volume, units=:units, job_id=:job_id
+      WHERE exchange=:exchange AND security=:security");
+  $q->execute(array(
+    "last_trade" => $values['last_trade'],
+    "bid" => $values['bid'],
+    "ask" => $values['ask'],
+    "volume" => $values['volume'],
+    "units" => $values['units'],
+    "job_id" => $job['id'],
+    "exchange" => $exchange,
+    "security" => $security_name,
+  ));
+
+  // all other data from today is now old
+  // NOTE if the system time changes between the next two commands, then we may erraneously
+  // specify that there is no valid daily data. one solution is to specify NOW() as $created_at rather than
+  // relying on MySQL
+  $q = db()->prepare("UPDATE security_ticker SET is_daily_data=0 WHERE is_daily_data=1 AND exchange=:exchange AND security=:security AND
+    created_at_day = TO_DAYS(NOW()) AND id <> :id");
+  $q->execute(array(
+    "exchange" => $exchange,
+    "security" => $security_name,
+    "id" => $last_id,
+  ));
+
+}
+
+/**
  * @param $currency
  * @param $value a number
  */

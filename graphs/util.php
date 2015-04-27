@@ -182,60 +182,19 @@ function get_average_exchange_historical($arg0, $graph_type, $graph) {
 }
 
 /**
- * Return a list of (id => title) for the given exchange and currency.
+ * Return a list of (security_name) for the given exchange and currency.
  * Could be cached.
  */
-function get_security_instances($exchange, $currency) {
+function get_security_instances($exchange) {
   $result = array();
-  $args = array();
 
-  switch ($exchange) {
-    case "litecoinglobal":
-      $q = db()->prepare("SELECT id, name, name as title FROM securities_litecoinglobal ORDER BY name ASC");
-      break;
+  $q = db()->prepare("SELECT * FROM security_exchange_securities WHERE exchange=? ORDER BY security ASC");
+  $q->execute(array($exchange));
 
-    case "btct":
-      $q = db()->prepare("SELECT id, name, name as title FROM securities_btct ORDER BY name ASC");
-      break;
-
-    case "cryptostocks":
-      $q = db()->prepare("SELECT id, name, name as title FROM securities_cryptostocks WHERE currency=? ORDER BY name ASC");
-      $args = array($currency);
-      break;
-
-    case "havelock":
-      $q = db()->prepare("SELECT id, name, name as title FROM securities_havelock ORDER BY name ASC");
-      break;
-
-    case "bitfunder":
-      $q = db()->prepare("SELECT id, name, name as title FROM securities_bitfunder ORDER BY name ASC");
-      break;
-
-    case "crypto-trade":
-      $q = db()->prepare("SELECT id, name, title FROM securities_cryptotrade WHERE currency=? ORDER BY name ASC");
-      $args = array($currency);
-      break;
-
-    case "796":
-      $q = db()->prepare("SELECT id, name, title FROM securities_796 ORDER BY title ASC");
-      break;
-
-    case "litecoininvest":
-      $q = db()->prepare("SELECT id, name, name as title FROM securities_litecoininvest ORDER BY title ASC");
-      break;
-
-    case "btcinve":
-      $q = db()->prepare("SELECT id, name, name as title FROM securities_btcinve ORDER BY title ASC");
-      break;
-
-    default:
-      throw new GraphException("Unknown security exchange '" . htmlspecialchars($exchange) . "' for currency '" . htmlspecialchars($currency) . "'");
+  while ($security = $q->fetch()) {
+    $result[$security['id']] = $security['security'];
   }
 
-  $q->execute($args);
-  while ($sec = $q->fetch()) {
-    $result[$sec['id']] = $sec; // keep the name and title
-  }
   return $result;
 
 }

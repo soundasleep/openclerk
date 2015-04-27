@@ -10,6 +10,7 @@ use \Core\MyLogger;
 use \DiscoveredComponents\Accounts;
 use \DiscoveredComponents\Currencies;
 use \DiscoveredComponents\Exchanges;
+use \DiscoveredComponents\SecurityExchanges;
 
 class OpenclerkJobQueuer extends JobQueuer {
 
@@ -47,11 +48,26 @@ class OpenclerkJobQueuer extends JobQueuer {
     // account jobs are now named in common patterns
     $account_jobs = array();
     foreach (Accounts::getKeys() as $exchange) {
-      if (!in_array($exchange, \DiscoveredComponents\Accounts::getDisabled())) {
+      if (!in_array($exchange, Accounts::getDisabled())) {
         $account_jobs[] = array(
           'table' => 'accounts_' . $exchange,
           'type' => 'account_' . $exchange,
           'failure' => true,
+        );
+      }
+    }
+
+    // generate seprate security_XXX jobs for each security exchange,
+    // so we can track external API status etc
+    $security_exchange_ticker_jobs = array();
+    foreach (SecurityExchanges::getKeys() as $exchange) {
+      if (!in_array($exchange, SecurityExchanges::getDisabled())) {
+        $security_exchange_ticker_jobs[] = array(
+          'table' => 'security_exchange_securities',
+          'type' => 'security_' . $exchange,
+          'failure' => true,
+          'user_id' => get_site_config('system_user_id'),
+          'query' => " AND exchange='$exchange'"
         );
       }
     }
@@ -64,7 +80,6 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_cryptostocks', 'type' => 'cryptostocks', 'failure' => true),
       array('table' => 'securities_cryptostocks', 'type' => 'securities_cryptostocks', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
       array('table' => 'accounts_havelock', 'type' => 'havelock', 'failure' => true),
-      array('table' => 'securities_havelock', 'type' => 'securities_havelock', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
       array('table' => 'securities_cryptotrade', 'type' => 'securities_crypto-trade', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
       array('table' => 'accounts_796', 'type' => '796', 'failure' => true),
       array('table' => 'securities_796', 'type' => 'securities_796', 'user_id' => get_site_config('system_user_id'), 'failure' => true),
@@ -78,7 +93,7 @@ class OpenclerkJobQueuer extends JobQueuer {
       array('table' => 'accounts_individual_litecoininvest', 'type' => 'individual_litecoininvest', 'failure' => true),
     ));
 
-    $standard_jobs = array_merge($standard_jobs, array(
+    $standard_jobs = array_merge($standard_jobs, $security_exchange_ticker_jobs, array(
       array('table' => 'users', 'type' => 'delete_user', 'query' => ' AND is_deleted=1', 'always' => true, 'user_id_field' => 'id'),
       array('table' => 'users', 'type' => 'sum', 'user_id_field' => 'id'), /* does both sum and summaries now */
       array('table' => 'outstanding_premiums', 'type' => 'outstanding', 'query' => ' AND is_paid=0 AND is_unpaid=0', 'user_id' => get_site_config('system_user_id')),
@@ -277,6 +292,18 @@ class OpenclerkJobQueuer extends JobQueuer {
     foreach (\DiscoveredComponents\Accounts::getMiners() as $key) {
       if (!in_array($key, \DiscoveredComponents\Accounts::getDisabled())) {
         $name = "hashrates_" . $key;
+        $result[] = array(
+          'job_type' => $name,
+          'user_id' => get_site_config('system_user_id'),
+          'arg_id' => -1,
+        );
+      }
+    }
+
+    // supported securities jobs (using the new SecurityExchanges framework)
+    foreach (\DiscoveredComponents\SecurityExchanges::getKeys() as $key) {
+      if (!in_array($key, \DiscoveredComponents\SecurityExchanges::getDisabled())) {
+        $name = "securities_" . $key;
         $result[] = array(
           'job_type' => $name,
           'user_id' => get_site_config('system_user_id'),
