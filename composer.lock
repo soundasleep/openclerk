@@ -1107,12 +1107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/users.git",
-                "reference": "99d45ca784a45afa980131c0a208a17b4dcd2244"
+                "reference": "1e1a49219a83a81cb857dde6042d0111ca559107"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/users/zipball/99d45ca784a45afa980131c0a208a17b4dcd2244",
-                "reference": "99d45ca784a45afa980131c0a208a17b4dcd2244",
+                "url": "https://api.github.com/repos/openclerk/users/zipball/1e1a49219a83a81cb857dde6042d0111ca559107",
+                "reference": "1e1a49219a83a81cb857dde6042d0111ca559107",
                 "shasum": ""
             },
             "require": {
@@ -1130,7 +1130,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-04-27 07:51:24"
+            "time": "2015-04-27 10:30:31"
         },
         {
             "name": "openclerk/wallets",
