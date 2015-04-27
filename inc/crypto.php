@@ -1514,6 +1514,7 @@ function get_default_oauth2_providers() {
   return array(
     'google' => 'Google Accounts',
     'facebook' => 'Facebook',
+    'github' => 'GitHub',
   );
 }
 
