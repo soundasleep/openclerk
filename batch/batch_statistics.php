@@ -92,13 +92,13 @@ $data = array();
 }
 
 {
-  $q = db()->prepare("SELECT jobs.* FROM jobs JOIN users ON jobs.user_id=users.id WHERE users.is_premium=0 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
+  $q = db()->prepare("SELECT jobs.* FROM jobs JOIN user_properties ON jobs.user_id=user_properties.id WHERE user_properties.is_premium=0 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
   $q->execute();
   $c = $q->fetch();
   $data["free_delay_minutes"] = $c ? (time() - strtotime($c['created_at'])) / 60 : 0;
 }
 {
-  $q = db()->prepare("SELECT jobs.* FROM jobs JOIN users ON jobs.user_id=users.id WHERE users.is_premium=1 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
+  $q = db()->prepare("SELECT jobs.* FROM jobs JOIN user_properties ON jobs.user_id=user_properties.id WHERE user_properties.is_premium=1 AND is_executed=0 ORDER BY jobs.created_at ASC LIMIT 1");
   $q->execute();
   $c = $q->fetch();
   $data["premium_delay_minutes"] = $c ? (time() - strtotime($c['created_at'])) / 60 : 0;
