@@ -20,8 +20,9 @@ if (require_post("enable", false)) {
 
   // we re-enable ALL accounts, not just accounts belonging to active users, so that when a disabled user
   // logs back in, they automatically get their disabled accounts disabled as well
-  $q = db()->prepare("SELECT t.*, users.email, users.name AS users_name, users.is_disabled AS user_is_disabled FROM " . $account_data['table'] . " t
+  $q = db()->prepare("SELECT t.*, users.email, user_properties.name AS users_name, user_properties.is_disabled AS user_is_disabled FROM " . $account_data['table'] . " t
     JOIN users ON t.user_id=users.id
+    JOIN user_properties ON users.id=user_properties.id
     WHERE t.is_disabled=1");
   $q->execute();
   $count = 0;
@@ -103,13 +104,13 @@ function get_error_class($n) {
       echo "<td>-</td>";
       if ($data['failure']) {
         $q = db()->prepare("SELECT COUNT(*) AS s, SUM(t.is_disabled) AS disabled, SUM(t.is_disabled_manually) AS manually_disabled, MAX(t.last_queue) AS lq FROM " . $data['table'] . " AS t
-          LEFT JOIN users ON t.user_id=users.id
-          WHERE users.is_disabled=0"
+          LEFT JOIN user_properties ON t.user_id=user_properties.id
+          WHERE user_properties.is_disabled=0"
           . ((isset($data['query']) && $data['query']) ? " " . $data['query'] : ""));
       } else if ($data['job']) {
         $q = db()->prepare("SELECT COUNT(*) AS s, 0 AS disabled, 0 AS manually_disabled, MAX(t.last_queue) AS lq FROM " . $data['table'] . " AS t
-          LEFT JOIN users ON t.user_id=users.id
-          WHERE users.is_disabled=0"
+          LEFT JOIN user_properties ON t.user_id=user_properties.id
+          WHERE user_properties.is_disabled=0"
           . ((isset($data['query']) && $data['query']) ? " " . $data['query'] : ""));
       } else {
         $q = db()->prepare("SELECT COUNT(*) AS s, 0 AS disabled, 0 AS manually_disabled, NULL AS lq FROM " . $data['table'] . " AS t
