@@ -1,5 +1,7 @@
 <?php
 
+throw new Exception("This functionality is currently unavailable.");
+
 require_login();
 
 $user = get_user(user_id());
