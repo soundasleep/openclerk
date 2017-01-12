@@ -83,6 +83,7 @@ Openclerk\Config::merge(array(
   "max_job_executions" => 5,  // if a job fails to run more than this number of times, then explicitly mark it as failed
   "throttle_btcguild" => 30,  // only execute this job once every X seconds
   "throttle_blockchain" => 5,
+  "sleep_cryptostocks_balance" => 10,
   "external_sample_size" => 10000,    // what is the max number of jobs to sample when updating the external API page?
 
   "default_job_priority" => 10,
