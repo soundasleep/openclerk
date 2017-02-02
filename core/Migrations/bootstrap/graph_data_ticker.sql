@@ -6,7 +6,7 @@ CREATE TABLE `graph_data_ticker` (
   `exchange` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `currency1` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
   `currency2` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `data_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `data_date` timestamp NULL,
   `samples` int(11) NOT NULL,
   `ask` decimal(24,8) DEFAULT NULL,
   `bid` decimal(24,8) DEFAULT NULL,

@@ -4,7 +4,7 @@ CREATE TABLE `transaction_creators` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_queue` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_queue` timestamp NULL,
   `exchange` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `account_id` int(11) NOT NULL,
   `transaction_cursor` mediumint(9) NOT NULL DEFAULT '0',
