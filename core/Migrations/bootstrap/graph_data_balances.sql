@@ -7,7 +7,7 @@ CREATE TABLE `graph_data_balances` (
   `exchange` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `account_id` int(11) NOT NULL,
   `currency` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
-  `data_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `data_date` timestamp NULL,
   `samples` int(11) NOT NULL,
   `balance_min` decimal(24,8) DEFAULT NULL,
   `balance_opening` decimal(24,8) DEFAULT NULL,

@@ -4,7 +4,7 @@ CREATE TABLE `accounts_litecoininvest` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_queue` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_queue` timestamp NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `api_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_disabled` tinyint(4) NOT NULL DEFAULT '0',

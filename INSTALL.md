@@ -38,7 +38,7 @@ To install Openclerk:
 
 1. Build through Grunt:
 
-        grunt build
+        grunt deploy
 
 1. Or, if you are building through Jenkins, use these commands:
 

@@ -6,7 +6,7 @@ CREATE TABLE `transactions` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `is_automatic` tinyint(4) NOT NULL DEFAULT '0',
-  `transaction_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `transaction_date` timestamp NULL,
   `transaction_date_day` mediumint(9) NOT NULL,
   `exchange` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `account_id` int(11) NOT NULL,

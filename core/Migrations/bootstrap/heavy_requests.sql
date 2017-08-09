@@ -4,7 +4,7 @@ CREATE TABLE `heavy_requests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_ip` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `last_request` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_request` timestamp NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_ip` (`user_ip`),
   KEY `user_ip_2` (`user_ip`)
