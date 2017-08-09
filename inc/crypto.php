@@ -501,14 +501,14 @@ function get_summary_types() {
 function get_default_currency_exchange($c) {
   switch ($c) {
     // cryptos
-    case "ltc": return "btce";
-    case "ftc": return "btce";
-    case "ppc": return "btce";
-    case "nmc": return "btce";
+    case "ltc": return "poloniex";
+    case "ftc": return "bittrex";
+    case "ppc": return "poloniex";
+    case "nmc": return "poloniex";
     case "nvc": return "btce";
     case "xpm": return "cryptsy";
     case "trc": return "cryptsy";
-    case "dog": return "coins-e";
+    case "dog": return "poloniex";
     case "mec": return "cryptsy";
     case "xrp": return "justcoin_anx";
     case "dgc": return "cryptsy";
