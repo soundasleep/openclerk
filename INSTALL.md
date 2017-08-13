@@ -36,6 +36,14 @@ To install Openclerk:
         sudo npm install -g grunt-cli
         composer install
 
+4. If you are building through Jenkins, use these commands and ignore the rest:
+
+        npm install
+        composer install
+        mysql -u root --password=password < config/reset_clerk_database.sql
+        php -f core/install.php
+        grunt test                  # JUnit output is in tests/report.xml
+
 4. Configure Apache to serve openclerk through the parent directory:
 
         Alias "/clerk" "/var/www/my.openclerk.org/site"
@@ -62,15 +70,6 @@ Change {password} to anything you want. Keep this for the next step.
 7. Build through Grunt:
 
         sudo grunt deploy
-
-7. Or, if you are building through Jenkins, use these commands:
-
-        npm install
-        composer install
-        mysql -u root --password=password < config/reset_clerk_database.sql
-        php -f core/install.php
-        grunt test                  # JUnit output is in tests/report.xml
-
 
 8. Set up cron jobs to execute the `batch/batch_*.php` scripts as necessary. Set
    'automated_key' to a secure value, and use this as the first parameter
