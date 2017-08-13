@@ -111,6 +111,13 @@ $users = $q->fetchAll();
         echo "<input type=\"submit\" value=\"Export\">";
         echo "</form>";
       }
+      if (!($openid && $openid['identity_count'])) {
+        echo "<form action=\"" . htmlspecialchars(url_for('admin_user_reset')) . "\" method=\"post\">";
+        echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
+        echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
+        echo "<input type=\"submit\" value=\"Reset password\" onclick=\"return confirm('Are you sure you want to reset this users password?');\">";
+        echo "</form>";
+      }
       {
         echo "<form action=\"" . htmlspecialchars(url_for('admin_user_delete')) . "\" method=\"post\">";
         echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
