@@ -20,27 +20,23 @@ To install Openclerk:
 3. Install all the build dependencies:
 
         # install Ruby
-        apt-get install rubygems python-software-properties git
+        sudo apt-get install rubygems python-software-properties git
 
         # install NodeJS, npm
-        add-apt-repository ppa:chris-lea/node.js
-        apt-get update
-        apt-get install nodejs        # also installs npm from latest
+        sudo add-apt-repository ppa:chris-lea/node.js
+        sudo apt-get update
+        sudo apt-get install nodejs        # also installs npm from latest
 
         # install Composer, globally
         curl -sS https://getcomposer.org/installer | php
-        mv composer.phar /usr/local/bin/composer
+        sudo mv composer.phar /usr/local/bin/composer
 
         gem install sass
         npm install
-        npm install -g grunt-cli
+        sudo npm install -g grunt-cli
         composer install
 
-1. Build through Grunt:
-
-        grunt deploy
-
-1. Or, if you are building through Jenkins, use these commands:
+4. If you are building through Jenkins, use these commands and ignore the rest:
 
         npm install
         composer install
@@ -56,20 +52,24 @@ To install Openclerk:
            DirectoryIndex index.html index.php default.html default.php
            AllowOverride All
            Allow from All
-           ErrorDocument /404.php
+           ErrorDocument 404 /404.php
         </Directory>
 
 5. Create a new MySQL database and new MySQL user:
 
         CREATE DATABASE openclerk;
-        GRANT ALL ON openclerk.* to 'openclerk'@'localhost' IDENTIFIED BY 'password';
+        GRANT ALL ON openclerk.* to 'openclerk'@'localhost' IDENTIFIED BY '{password}'; 
 
-6. Initialise the database:
+Change {password} to anything you want. Keep this for the next step.
 
-        php -f core/install.php
+        FLUSH PRIVILEGES
 
-7. Edit `inc/config.php` as necessary, or create a `config/config.php` to overwrite
-   these default configuration options.
+6. Edit `inc/config.php` as necessary, or create a `config/config.php` to overwrite
+   these default configuration options. Don't forget to set `database_password` in `./inc/config.php` to the same value you set it in the new MySQL database. 
+
+7. Build through Grunt:
+
+        sudo grunt deploy
 
 8. Set up cron jobs to execute the `batch/batch_*.php` scripts as necessary. Set
    'automated_key' to a secure value, and use this as the first parameter
