@@ -84,10 +84,15 @@ $users = $q->fetchAll();
       $q = db()->prepare("SELECT COUNT(*) AS identity_count, identity FROM user_openid_identities WHERE user_id=?");
       $q->execute(array($user['id']));
       $openid = $q->fetch();
+      $q = db()->prepare("SELECT COUNT(*) AS identity_count, uid FROM user_oauth2_identities WHERE user_id=?");
+      $q->execute(array($user['id']));
+      $oauth2 = $q->fetch();
       echo "<tr>\n";
       echo "<td class=\"number\">" . number_format($user['id']) . "</td>\n";
       if ($openid && $openid['identity_count']) {
-        echo "<td><a href=\"" . htmlspecialchars($openid['identity']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> " . $openid['identity_count'] . "</td>\n";
+        echo "<td><a href=\"" . htmlspecialchars($openid['identity']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> - " . $openid['identity_count'] . " OpenIDs</td>\n";
+      } elseif ($oauth2 && $oauth2['identity_count']) {
+        echo "<td>" . htmlspecialchars($user['email']) . "</a> - " . $oauth2['identity_count'] . " OAuth2s</td>\n";
       } else {
         echo "<td>" . htmlspecialchars($user['email']) . "</a> (password)</td>\n";
       }
@@ -111,7 +116,7 @@ $users = $q->fetchAll();
         echo "<input type=\"submit\" value=\"Export\">";
         echo "</form>";
       }
-      if (!($openid && $openid['identity_count'])) {
+      if (!($openid && $openid['identity_count']) && !($oauth2 && $oauth2['identity_count'])) {
         echo "<form action=\"" . htmlspecialchars(url_for('admin_user_reset')) . "\" method=\"post\">";
         echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
         echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
