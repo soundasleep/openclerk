@@ -36,18 +36,6 @@ To install Openclerk:
         sudo npm install -g grunt-cli
         composer install
 
-1. Build through Grunt:
-
-        grunt deploy
-
-1. Or, if you are building through Jenkins, use these commands:
-
-        npm install
-        composer install
-        mysql -u root --password=password < config/reset_clerk_database.sql
-        php -f core/install.php
-        grunt test                  # JUnit output is in tests/report.xml
-
 4. Configure Apache to serve openclerk through the parent directory:
 
         Alias "/clerk" "/var/www/my.openclerk.org/site"
@@ -56,20 +44,33 @@ To install Openclerk:
            DirectoryIndex index.html index.php default.html default.php
            AllowOverride All
            Allow from All
-           ErrorDocument /404.php
+           ErrorDocument 404 /404.php
         </Directory>
 
 5. Create a new MySQL database and new MySQL user:
 
         CREATE DATABASE openclerk;
-        GRANT ALL ON openclerk.* to 'openclerk'@'localhost' IDENTIFIED BY 'password';
+        GRANT ALL ON openclerk.* to 'openclerk'@'localhost' IDENTIFIED BY '{password}'; 
 
-6. Initialise the database:
+Change {password} to anything you want. Keep this for the next step.
 
+        FLUSH PRIVILEGES
+
+6. Edit `inc/config.php` as necessary, or create a `config/config.php` to overwrite
+   these default configuration options. Don't forget to set `database_password` in `./inc/config.php` to the same value you set it in the new MySQL database. 
+
+7. Build through Grunt:
+
+        sudo grunt deploy
+
+7. Or, if you are building through Jenkins, use these commands:
+
+        npm install
+        composer install
+        mysql -u root --password=password < config/reset_clerk_database.sql
         php -f core/install.php
+        grunt test                  # JUnit output is in tests/report.xml
 
-7. Edit `inc/config.php` as necessary, or create a `config/config.php` to overwrite
-   these default configuration options.
 
 8. Set up cron jobs to execute the `batch/batch_*.php` scripts as necessary. Set
    'automated_key' to a secure value, and use this as the first parameter
