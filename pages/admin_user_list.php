@@ -90,11 +90,11 @@ $users = $q->fetchAll();
       echo "<tr>\n";
       echo "<td class=\"number\">" . number_format($user['id']) . "</td>\n";
       if ($openid && $openid['identity_count']) {
-        echo "<td><a href=\"" . htmlspecialchars($openid['identity']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> - " . $openid['identity_count'] . " OpenIDs</td>\n";
+        echo "<td><a href=\"" . htmlspecialchars($openid['identity']) . "\">" . ($user['email'] ? htmlspecialchars($user['email']) : "<i>(no email)</i>") . "</a> - " . $openid['identity_count'] . " OpenID</td>\n";
       } elseif ($oauth2 && $oauth2['identity_count']) {
-        echo "<td>" . htmlspecialchars($user['email']) . "</a> - " . $oauth2['identity_count'] . " OAuth2s</td>\n";
+        echo "<td>" . htmlspecialchars($user['email']) . " - " . $oauth2['identity_count'] . " OAuth2</td>\n";
       } else {
-        echo "<td>" . htmlspecialchars($user['email']) . "</a> (password)</td>\n";
+        echo "<td>" . htmlspecialchars($user['email']) . " (password)</td>\n";
       }
       echo "<td>" . htmlspecialchars($user['name']) . "</td>\n";
       echo "<td class=\"" . ($user['has_added_account'] ? 'yes' : 'no') . "\">-</td>\n";
@@ -128,6 +128,13 @@ $users = $q->fetchAll();
         echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
         echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
         echo "<input type=\"submit\" value=\"Delete\" onclick=\"return confirm('Are you sure you want to delete this user?');\">";
+        echo "</form>";
+      }
+      {
+        echo "<form action=\"" . htmlspecialchars(url_for('admin_user_premium')) . "\" method=\"post\">";
+        echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
+        echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
+        echo "<input type=\"submit\" value=\"Add 1 month premium\" onclick=\"return confirm('Are you sure you want to add one month of premium to this user, and to send them an email?');\">";
         echo "</form>";
       }
       {
