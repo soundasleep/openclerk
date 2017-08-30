@@ -87,6 +87,9 @@ $users = $q->fetchAll();
       $q = db()->prepare("SELECT COUNT(*) AS identity_count, uid FROM user_oauth2_identities WHERE user_id=?");
       $q->execute(array($user['id']));
       $oauth2 = $q->fetch();
+      $q = db()->prepare("SELECT COUNT(*) AS password_count FROM user_passwords WHERE user_id=?");
+      $q->execute(array($user['id']));
+      $password = $q->fetch();
       echo "<tr>\n";
       echo "<td class=\"number\">" . number_format($user['id']) . "</td>\n";
       if ($openid && $openid['identity_count']) {
@@ -116,7 +119,7 @@ $users = $q->fetchAll();
         echo "<input type=\"submit\" value=\"Export\">";
         echo "</form>";
       }
-      if (!($openid && $openid['identity_count']) && !($oauth2 && $oauth2['identity_count'])) {
+      if ($password && $password['password_count']) {
         echo "<form action=\"" . htmlspecialchars(url_for('admin_user_reset')) . "\" method=\"post\">";
         echo "<input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($user['id']) . "\">";
         echo "<input type=\"hidden\" name=\"confirm\" value=\"1\">";
