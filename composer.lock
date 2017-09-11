@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "66bfe22e97c531f503fae73523e3db0c",
+    "content-hash": "23b90d00652149e6571f49b4e1173ff4",
     "packages": [
         {
             "name": "guzzle/guzzle",
@@ -586,16 +586,16 @@
         },
         {
             "name": "openclerk/config",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/config.git",
-                "reference": "c86c7dc7567efbf406fd9ceb4252c80560e60bec"
+                "reference": "ec9283bc80a96457585891d8ede6626e18a9ecfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/config/zipball/c86c7dc7567efbf406fd9ceb4252c80560e60bec",
-                "reference": "c86c7dc7567efbf406fd9ceb4252c80560e60bec",
+                "url": "https://api.github.com/repos/openclerk/config/zipball/ec9283bc80a96457585891d8ede6626e18a9ecfc",
+                "reference": "ec9283bc80a96457585891d8ede6626e18a9ecfc",
                 "shasum": ""
             },
             "type": "library",
@@ -605,7 +605,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-12-08T02:13:51+00:00"
+            "time": "2015-03-18T00:27:49+00:00"
         },
         {
             "name": "openclerk/country-list",
@@ -1027,21 +1027,21 @@
         },
         {
             "name": "openclerk/pages",
-            "version": "0.2.1",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openclerk/pages.git",
-                "reference": "2e11fc170478b4dfde2a02c6a7ceeecac2aa5458"
+                "reference": "d3f7538d3396f14267c09bdd079c43af1b273e4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openclerk/pages/zipball/2e11fc170478b4dfde2a02c6a7ceeecac2aa5458",
-                "reference": "2e11fc170478b4dfde2a02c6a7ceeecac2aa5458",
+                "url": "https://api.github.com/repos/openclerk/pages/zipball/d3f7538d3396f14267c09bdd079c43af1b273e4c",
+                "reference": "d3f7538d3396f14267c09bdd079c43af1b273e4c",
                 "shasum": ""
             },
             "require": {
                 "mthaml/mthaml": "^1.7.0",
-                "openclerk/events": "^0.2.0"
+                "openclerk/events": "^0.2"
             },
             "type": "library",
             "autoload": {
@@ -1050,7 +1050,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-05-01T02:40:33+00:00"
+            "time": "2017-09-11T07:48:19+00:00"
         },
         {
             "name": "openclerk/routing",
