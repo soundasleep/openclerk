@@ -20,6 +20,8 @@ function user_limits_summary($user_id) {
       foreach ($group as $key => $data) {
         if (!isset($data['group']))
           continue;
+        if (isset($data['disabled']) && $data['disabled'])
+          continue;
 
         $q = db()->prepare("SELECT COUNT(*) AS c FROM " .  $data['table'] . " WHERE user_id=?" . ($data['failure'] ? " AND is_disabled=0" : "") . (isset($data['query']) ? $data['query'] : ""));
         $q->execute(array($user_id));
