@@ -1,4 +1,4 @@
-<?php echo htmlspecialchars(get_site_config('site_name')); ?> &copy; 2013<?php if (date('Y') != 2013) echo "-" . date('Y'); ?>,
+<?php echo htmlspecialchars(get_site_config('site_name')); ?>&trade; &copy; 2013<?php if (date('Y') != 2013) echo "-" . date('Y'); ?>,
 <?php echo t("powered by :openclerk", array(':openclerk' => '<a href="http://openclerk.org" target="_blank">openclerk.org</a>')); ?> <?php echo htmlspecialchars(get_site_config('openclerk_version')); ?>
 <?php echo " - "; ?>
 <a href="<?php echo htmlspecialchars(url_for('terms')); ?>"><?php echo ht("Terms of Service"); ?></a>
