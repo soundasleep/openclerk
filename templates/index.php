@@ -1,7 +1,9 @@
+<?php require_template('inline_preview'); ?>
+
 <div class="home-block" id="home_block_top">
 <a href="<?php echo htmlspecialchars(url_for('screenshots#screenshots_profile_summary')); ?>" title="<?php echo ht("Screenshots"); ?>"><div class="splash"></div></a>
 
-<h1><?php echo ht("Welcome to :site_name"); ?> <small class="beta"><?php echo ht("Beta"); ?></small></h1>
+<h1><?php echo ht("Welcome to :site_name"); ?>&trade; <small class="beta"><?php echo ht("Beta"); ?></small></h1>
 
 <p>
   <?php echo ht(":site_name lets you keep track of your cryptocurrencies, miners, investments and equities, and generates regular reports of your portfolio."); ?>
