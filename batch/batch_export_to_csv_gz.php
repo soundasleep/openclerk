@@ -82,6 +82,17 @@ function exportUserIdTable($table, $user, $user_id_key = "user_id") {
   exportData($table, $user, $q);
 }
 
+$filename = "all-users.csv";
+echo "Writing $filename...\n";
+flush();
+$fp = fopen($filename, "w") or die("Could not open $filename");
+
+foreach ($users as $user) {
+  fwrite($fp, $user['email'] . "," . $user['id'] . "\n");
+}
+
+fclose($fp);
+
 foreach ($users as $user) {
   exportUserIdTable("users", $user, "id");
   exportUserIdTable("user_oauth2_identities", $user);
@@ -511,4 +522,14 @@ foreach ($users as $user) {
   echo "Compressing...\n";
   flush();
   `cd ${user['id']} && zip -r ${user['id']}.zip * && cd ..`;
+
+  // write alternative JSON
+  if (!file_exists("output/")) {
+    mkdir("output", 0777, true);
+  }
+
+  $filename = "output/${user['id']}.json";
+  echo "Writing $filename...\n";
+  flush();
+  file_put_contents($filename, json_encode($json, JSON_PRETTY_PRINT));
 }
