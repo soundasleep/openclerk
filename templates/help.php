@@ -1,3 +1,5 @@
+<?php require_template('inline_preview'); ?>
+
 <h1><?php echo ht("Help Centre"); ?></h1>
 
 <?php

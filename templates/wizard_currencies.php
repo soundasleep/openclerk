@@ -15,10 +15,14 @@ global $user;
 </ul>
 </div>
 
-<?php /* trafficvance conversion tracking pixel for Dennis */ ?>
-<script type="text/javascript" src="http://tracking.trafficvance.com/?id=1G18D7G6C0EG334F874F&amp;fetch=0&amp;value=0">
-</script>
-<noscript><div style="display: inline;"><img height="1" width="1" style="border-style: none;" alt="" src="http://tracking.trafficvance.com/?id=1G18D7G6C0EG334F874F&amp;fetch=1&amp;value=0" /></div></noscript>
+<div class="message">
+ <ul>
+  <li><b>Want to try CryptFolio Premium for free?</b></li>
+  <li>As a new user of CryptFolio, we would love to hear your thoughts
+  and feedback by filling out <a href="https://goo.gl/forms/gjLv2XpsM5BaLchz2" target="_blank">a short survey</a>.</li>
+  <li>To say thank you for your time, you'll automatically receive one month of <a href="https://cryptfolio.com/premium">CryptFolio Premium</a>*.</li>
+ </ul>
+</div>
 <?php } ?>
 
 <div class="wizard-steps">

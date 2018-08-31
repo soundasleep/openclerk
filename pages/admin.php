@@ -51,6 +51,7 @@ $graph = array(
   <li><a href="<?php echo htmlspecialchars(url_for("admin_show_explorers")); ?>">Show coin explorers</a></li>
   <li><a href="<?php echo htmlspecialchars(url_for("admin_migrations")); ?>">Install latest migrations</a></li>
   <li><a href="<?php echo htmlspecialchars(url_for("admin_currencies")); ?>">Discovered currencies</a></li>
+  <li><a href="<?php echo htmlspecialchars(url_for("admin_export")); ?>">CSV ticker export</a></li>
 </ul>
 
 <h2 style="clear: both;"><a href="<?php echo htmlspecialchars(url_for('admin_exceptions')); ?>">Recent Exceptions</a></h2>

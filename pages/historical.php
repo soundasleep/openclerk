@@ -52,6 +52,9 @@ if ($id && isset($historical_graphs[$id])) {
   $extra_args['delta'] = $delta;
 
   ?>
+
+  <?php require_template('inline_preview'); ?>
+
   <?php if (!($user && $user['is_premium'])) { ?>
   <div class="tip tip_float">
     <?php
@@ -110,6 +113,8 @@ if ($id && isset($historical_graphs[$id])) {
   page_header(t("Historical Data"), "page_historical");
 
   ?>
+
+  <?php require_template('inline_preview'); ?>
 
   <h1><?php echo ht("Historical Data"); ?></h1>
 

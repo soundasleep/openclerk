@@ -13,7 +13,7 @@ $errors = array();
 
 page_header("Admin: Financial Report", "page_admin_jobs");
 
-$total_months = 6;
+$total_months = 14;
 $months = array();
 $y = date('Y');
 $m = date('m');
