@@ -1,6 +1,8 @@
 openclerk
 =========
 
+#### **NOTE:** This project is no longer actively maintained. We are now working on [cryptfolio.com](https://cryptfolio.com); a modern, rebuilt cryptocurrency tracking platform, with mobile apps, [source code access](https://cryptfolio.com/pricing), and more. Check it out!
+
 An open source project to keep track of cryptocurrency finances, based on an internal prototype.
 
 Requires PHP 5.4+ and uses a number of awesome child components:
